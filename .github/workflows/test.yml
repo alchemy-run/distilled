@@ -75,6 +75,8 @@ jobs:
       - run: bun install
       - run: bun run build
         working-directory: packages/core
+      - run: bun run specs:fetch
+        working-directory: packages/aws
       - run: bun run check
         working-directory: packages/aws
       - run: bun run test
