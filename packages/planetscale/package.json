@@ -2,14 +2,59 @@
   "name": "@distilled.cloud/planetscale",
   "version": "0.2.0",
   "type": "module",
+  "sideEffects": false,
+  "module": "src/index.ts",
+  "files": ["lib", "src"],
   "exports": {
-    ".": "./src/index.ts",
-    "./category": "./src/category.ts",
-    "./traits": "./src/traits.ts",
-    "./retry": "./src/retry.ts"
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "default": "./lib/index.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Client": {
+      "types": "./lib/client.d.ts",
+      "bun": "./src/client.ts",
+      "default": "./lib/client.js"
+    },
+    "./Credentials": {
+      "types": "./lib/credentials.d.ts",
+      "bun": "./src/credentials.ts",
+      "default": "./lib/credentials.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Operations": {
+      "types": "./lib/operations/index.d.ts",
+      "bun": "./src/operations/index.ts",
+      "default": "./lib/operations/index.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    "./Sensitive": {
+      "types": "./lib/sensitive.d.ts",
+      "bun": "./src/sensitive.ts",
+      "default": "./lib/sensitive.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    }
   },
   "scripts": {
     "typecheck": "tsgo",
+    "build": "tsgo -b",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",

@@ -64,8 +64,6 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -75,8 +73,6 @@ jobs:
           role-to-assume: arn:aws:iam::391965393224:role/distilled-github-oidc-role
           aws-region: us-west-2
       - run: bun install
-      - run: bun run specs:fetch
-        working-directory: packages/aws
       - run: bun run check
         working-directory: packages/aws
       - run: bun run test
@@ -88,14 +84,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
-        working-directory: packages/cloudflare
       - run: bun run check
         working-directory: packages/cloudflare
       - run: bun run test
@@ -114,14 +106,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
-        working-directory: packages/gcp
       - run: bun run check
         working-directory: packages/gcp
 
@@ -131,14 +119,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
-        working-directory: packages/neon
       - run: bun run check
         working-directory: packages/neon
       - run: bun run test
@@ -152,14 +136,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
-        working-directory: packages/planetscale
       - run: bun run check
         working-directory: packages/planetscale
       - run: bun run test

@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "bun --filter '@distilled.cloud/sdk-core' build && bun --filter '*' build",
     "typecheck": "bun --filter '*' typecheck",
     "fmt": "bun --filter '*' fmt",
     "lint": "bun --filter '*' lint",

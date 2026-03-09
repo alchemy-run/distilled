@@ -1,16 +1,11 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "types": ["bun"],
-    "lib": ["ESNext"]
-  },
-  "include": [],
-  "exclude": ["**/node_modules", "**/specs"]
+  "files": [],
+  "references": [
+    { "path": "./packages/core" },
+    { "path": "./packages/aws" },
+    { "path": "./packages/cloudflare" },
+    { "path": "./packages/gcp" },
+    { "path": "./packages/neon" },
+    { "path": "./packages/planetscale" }
+  ]
 }

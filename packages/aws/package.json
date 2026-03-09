@@ -2,19 +2,59 @@
   "name": "@distilled.cloud/aws",
   "version": "0.2.0",
   "type": "module",
+  "sideEffects": false,
   "module": "src/index.ts",
+  "files": ["lib", "src"],
   "exports": {
     "./*": {
+      "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",
-      "default": "./src/services/*.ts"
+      "default": "./lib/services/*.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Credentials": {
+      "types": "./lib/credentials.d.ts",
+      "bun": "./src/credentials.ts",
+      "default": "./lib/credentials.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Region": {
+      "types": "./lib/region.d.ts",
+      "bun": "./src/region.ts",
+      "default": "./lib/region.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    "./Sensitive": {
+      "types": "./lib/sensitive.d.ts",
+      "bun": "./src/sensitive.ts",
+      "default": "./lib/sensitive.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
     },
     ".": {
+      "types": "./lib/index.d.ts",
       "bun": "./src/index.ts",
-      "default": "./src/index.ts"
+      "default": "./lib/index.js"
     }
   },
   "scripts": {
     "typecheck": "tsgo",
+    "build": "tsgo -b",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",

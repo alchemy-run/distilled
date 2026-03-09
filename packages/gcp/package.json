@@ -2,8 +2,43 @@
   "name": "@distilled.cloud/gcp",
   "version": "0.2.0",
   "type": "module",
+  "sideEffects": false,
+  "files": ["lib", "src"],
+  "exports": {
+    "./*": {
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "default": "./lib/services/*.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "default": "./lib/index.js"
+    }
+  },
   "scripts": {
     "typecheck": "tsgo",
+    "build": "tsgo -b",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",

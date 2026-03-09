@@ -44,6 +44,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
 
@@ -53,13 +55,13 @@ jobs:
     runs-on: ubuntu-22-large
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
         working-directory: packages/aws
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/aws
@@ -70,13 +72,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
         working-directory: packages/cloudflare
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
@@ -87,13 +89,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
         working-directory: packages/gcp
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/gcp
@@ -104,13 +106,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
         working-directory: packages/neon
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
@@ -121,13 +123,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: false
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run specs:fetch
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
         working-directory: packages/planetscale
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/planetscale
