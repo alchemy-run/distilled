@@ -51,14 +51,14 @@ export interface GetSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: "on" | "off";
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }
 
 export const GetSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -106,14 +106,14 @@ export interface PatchSmartRoutingResponse {
   /** Specifies the enablement value of Argo Smart Routing. */
   value: "on" | "off";
   /** Specifies the time when the setting was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }
 
 export const PatchSmartRoutingResponse = Schema.Struct({
   id: Schema.String,
   editable: Schema.Boolean,
   value: Schema.Literals(["on", "off"]),
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

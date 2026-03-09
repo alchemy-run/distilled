@@ -70,8 +70,8 @@ export type ListRulesResponse = {
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
@@ -80,8 +80,8 @@ export const ListRulesResponse = Schema.Array(
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -145,8 +145,8 @@ export type PutRuleResponse = {
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
 export const PutRuleResponse = Schema.Array(
@@ -155,8 +155,8 @@ export const PutRuleResponse = Schema.Array(
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -198,8 +198,8 @@ export type DeleteRuleResponse = {
   expression: string;
   lastUpdated: string;
   snippetName: string;
-  description?: string;
-  enabled?: boolean;
+  description?: string | null;
+  enabled?: boolean | null;
 }[];
 
 export const DeleteRuleResponse = Schema.Array(
@@ -208,8 +208,8 @@ export const DeleteRuleResponse = Schema.Array(
     expression: Schema.String,
     lastUpdated: Schema.String,
     snippetName: Schema.String,
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -258,13 +258,13 @@ export interface GetSnippetResponse {
   /** The identifying name of the snippet. */
   snippetName: string;
   /** The timestamp of when the snippet was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }
 
 export const GetSnippetResponse = Schema.Struct({
   createdOn: Schema.String,
   snippetName: Schema.String,
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     createdOn: "created_on",
@@ -300,14 +300,14 @@ export const ListSnippetsRequest = Schema.Struct({
 export type ListSnippetsResponse = {
   createdOn: string;
   snippetName: string;
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }[];
 
 export const ListSnippetsResponse = Schema.Array(
   Schema.Struct({
     createdOn: Schema.String,
     snippetName: Schema.String,
-    modifiedOn: Schema.optional(Schema.String),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       createdOn: "created_on",
@@ -358,13 +358,13 @@ export interface PutSnippetResponse {
   /** The identifying name of the snippet. */
   snippetName: string;
   /** The timestamp of when the snippet was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | null;
 }
 
 export const PutSnippetResponse = Schema.Struct({
   createdOn: Schema.String,
   snippetName: Schema.String,
-  modifiedOn: Schema.optional(Schema.String),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     createdOn: "created_on",

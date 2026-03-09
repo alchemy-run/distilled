@@ -66,56 +66,71 @@ export const GetConsumerRequest = Schema.Struct({
 
 export type GetConsumerResponse =
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
-      script?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
+      script?: string | null;
       settings?: {
-        batchSize?: number;
-        maxConcurrency?: number;
-        maxRetries?: number;
-        maxWaitTimeMs?: number;
-        retryDelay?: number;
-      };
-      type?: "worker";
+        batchSize?: number | null;
+        maxConcurrency?: number | null;
+        maxRetries?: number | null;
+        maxWaitTimeMs?: number | null;
+        retryDelay?: number | null;
+      } | null;
+      type?: "worker" | null;
     }
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
       settings?: {
-        batchSize?: number;
-        maxRetries?: number;
-        retryDelay?: number;
-        visibilityTimeoutMs?: number;
-      };
-      type?: "http_pull";
+        batchSize?: number | null;
+        maxRetries?: number | null;
+        retryDelay?: number | null;
+        visibilityTimeoutMs?: number | null;
+      } | null;
+      type?: "http_pull" | null;
     };
 
 export const GetConsumerResponse = Schema.Union([
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
-    script: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxConcurrency: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        maxWaitTimeMs: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxConcurrency: "max_concurrency",
-          maxRetries: "max_retries",
-          maxWaitTimeMs: "max_wait_time_ms",
-          retryDelay: "retry_delay",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxConcurrency: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxWaitTimeMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxConcurrency: "max_concurrency",
+            maxRetries: "max_retries",
+            maxWaitTimeMs: "max_wait_time_ms",
+            retryDelay: "retry_delay",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("worker")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("worker"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -127,25 +142,38 @@ export const GetConsumerResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-        visibilityTimeoutMs: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxRetries: "max_retries",
-          retryDelay: "retry_delay",
-          visibilityTimeoutMs: "visibility_timeout_ms",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          visibilityTimeoutMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxRetries: "max_retries",
+            retryDelay: "retry_delay",
+            visibilityTimeoutMs: "visibility_timeout_ms",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("http_pull")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("http_pull"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -188,58 +216,73 @@ export const ListConsumersRequest = Schema.Struct({
 
 export type ListConsumersResponse = (
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
-      script?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
+      script?: string | null;
       settings?: {
-        batchSize?: number;
-        maxConcurrency?: number;
-        maxRetries?: number;
-        maxWaitTimeMs?: number;
-        retryDelay?: number;
-      };
-      type?: "worker";
+        batchSize?: number | null;
+        maxConcurrency?: number | null;
+        maxRetries?: number | null;
+        maxWaitTimeMs?: number | null;
+        retryDelay?: number | null;
+      } | null;
+      type?: "worker" | null;
     }
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
       settings?: {
-        batchSize?: number;
-        maxRetries?: number;
-        retryDelay?: number;
-        visibilityTimeoutMs?: number;
-      };
-      type?: "http_pull";
+        batchSize?: number | null;
+        maxRetries?: number | null;
+        retryDelay?: number | null;
+        visibilityTimeoutMs?: number | null;
+      } | null;
+      type?: "http_pull" | null;
     }
 )[];
 
 export const ListConsumersResponse = Schema.Array(
   Schema.Union([
     Schema.Struct({
-      consumerId: Schema.optional(Schema.String),
-      createdOn: Schema.optional(Schema.String),
-      queueId: Schema.optional(Schema.String),
-      script: Schema.optional(Schema.String),
+      consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       settings: Schema.optional(
-        Schema.Struct({
-          batchSize: Schema.optional(Schema.Number),
-          maxConcurrency: Schema.optional(Schema.Number),
-          maxRetries: Schema.optional(Schema.Number),
-          maxWaitTimeMs: Schema.optional(Schema.Number),
-          retryDelay: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            batchSize: "batch_size",
-            maxConcurrency: "max_concurrency",
-            maxRetries: "max_retries",
-            maxWaitTimeMs: "max_wait_time_ms",
-            retryDelay: "retry_delay",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            batchSize: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            maxConcurrency: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            maxRetries: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            maxWaitTimeMs: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            retryDelay: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              batchSize: "batch_size",
+              maxConcurrency: "max_concurrency",
+              maxRetries: "max_retries",
+              maxWaitTimeMs: "max_wait_time_ms",
+              retryDelay: "retry_delay",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("worker")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("worker"), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         consumerId: "consumer_id",
@@ -251,25 +294,38 @@ export const ListConsumersResponse = Schema.Array(
       }),
     ),
     Schema.Struct({
-      consumerId: Schema.optional(Schema.String),
-      createdOn: Schema.optional(Schema.String),
-      queueId: Schema.optional(Schema.String),
+      consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       settings: Schema.optional(
-        Schema.Struct({
-          batchSize: Schema.optional(Schema.Number),
-          maxRetries: Schema.optional(Schema.Number),
-          retryDelay: Schema.optional(Schema.Number),
-          visibilityTimeoutMs: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            batchSize: "batch_size",
-            maxRetries: "max_retries",
-            retryDelay: "retry_delay",
-            visibilityTimeoutMs: "visibility_timeout_ms",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            batchSize: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            maxRetries: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            retryDelay: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            visibilityTimeoutMs: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              batchSize: "batch_size",
+              maxRetries: "max_retries",
+              retryDelay: "retry_delay",
+              visibilityTimeoutMs: "visibility_timeout_ms",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
-      type: Schema.optional(Schema.Literal("http_pull")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("http_pull"), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         consumerId: "consumer_id",
@@ -353,56 +409,71 @@ export const CreateConsumerRequest = Schema.Struct({
 
 export type CreateConsumerResponse =
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
-      script?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
+      script?: string | null;
       settings?: {
-        batchSize?: number;
-        maxConcurrency?: number;
-        maxRetries?: number;
-        maxWaitTimeMs?: number;
-        retryDelay?: number;
-      };
-      type?: "worker";
+        batchSize?: number | null;
+        maxConcurrency?: number | null;
+        maxRetries?: number | null;
+        maxWaitTimeMs?: number | null;
+        retryDelay?: number | null;
+      } | null;
+      type?: "worker" | null;
     }
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
       settings?: {
-        batchSize?: number;
-        maxRetries?: number;
-        retryDelay?: number;
-        visibilityTimeoutMs?: number;
-      };
-      type?: "http_pull";
+        batchSize?: number | null;
+        maxRetries?: number | null;
+        retryDelay?: number | null;
+        visibilityTimeoutMs?: number | null;
+      } | null;
+      type?: "http_pull" | null;
     };
 
 export const CreateConsumerResponse = Schema.Union([
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
-    script: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxConcurrency: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        maxWaitTimeMs: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxConcurrency: "max_concurrency",
-          maxRetries: "max_retries",
-          maxWaitTimeMs: "max_wait_time_ms",
-          retryDelay: "retry_delay",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxConcurrency: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxWaitTimeMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxConcurrency: "max_concurrency",
+            maxRetries: "max_retries",
+            maxWaitTimeMs: "max_wait_time_ms",
+            retryDelay: "retry_delay",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("worker")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("worker"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -414,25 +485,38 @@ export const CreateConsumerResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-        visibilityTimeoutMs: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxRetries: "max_retries",
-          retryDelay: "retry_delay",
-          visibilityTimeoutMs: "visibility_timeout_ms",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          visibilityTimeoutMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxRetries: "max_retries",
+            retryDelay: "retry_delay",
+            visibilityTimeoutMs: "visibility_timeout_ms",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("http_pull")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("http_pull"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -517,56 +601,71 @@ export const UpdateConsumerRequest = Schema.Struct({
 
 export type UpdateConsumerResponse =
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
-      script?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
+      script?: string | null;
       settings?: {
-        batchSize?: number;
-        maxConcurrency?: number;
-        maxRetries?: number;
-        maxWaitTimeMs?: number;
-        retryDelay?: number;
-      };
-      type?: "worker";
+        batchSize?: number | null;
+        maxConcurrency?: number | null;
+        maxRetries?: number | null;
+        maxWaitTimeMs?: number | null;
+        retryDelay?: number | null;
+      } | null;
+      type?: "worker" | null;
     }
   | {
-      consumerId?: string;
-      createdOn?: string;
-      queueId?: string;
+      consumerId?: string | null;
+      createdOn?: string | null;
+      queueId?: string | null;
       settings?: {
-        batchSize?: number;
-        maxRetries?: number;
-        retryDelay?: number;
-        visibilityTimeoutMs?: number;
-      };
-      type?: "http_pull";
+        batchSize?: number | null;
+        maxRetries?: number | null;
+        retryDelay?: number | null;
+        visibilityTimeoutMs?: number | null;
+      } | null;
+      type?: "http_pull" | null;
     };
 
 export const UpdateConsumerResponse = Schema.Union([
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
-    script: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxConcurrency: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        maxWaitTimeMs: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxConcurrency: "max_concurrency",
-          maxRetries: "max_retries",
-          maxWaitTimeMs: "max_wait_time_ms",
-          retryDelay: "retry_delay",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxConcurrency: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxWaitTimeMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxConcurrency: "max_concurrency",
+            maxRetries: "max_retries",
+            maxWaitTimeMs: "max_wait_time_ms",
+            retryDelay: "retry_delay",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("worker")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("worker"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -578,25 +677,38 @@ export const UpdateConsumerResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    consumerId: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    queueId: Schema.optional(Schema.String),
+    consumerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        batchSize: Schema.optional(Schema.Number),
-        maxRetries: Schema.optional(Schema.Number),
-        retryDelay: Schema.optional(Schema.Number),
-        visibilityTimeoutMs: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          batchSize: "batch_size",
-          maxRetries: "max_retries",
-          retryDelay: "retry_delay",
-          visibilityTimeoutMs: "visibility_timeout_ms",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          batchSize: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          maxRetries: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          retryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          visibilityTimeoutMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            batchSize: "batch_size",
+            maxRetries: "max_retries",
+            retryDelay: "retry_delay",
+            visibilityTimeoutMs: "visibility_timeout_ms",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    type: Schema.optional(Schema.Literal("http_pull")),
+    type: Schema.optional(
+      Schema.Union([Schema.Literal("http_pull"), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       consumerId: "consumer_id",
@@ -640,16 +752,20 @@ export const DeleteConsumerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteConsumerRequest>;
 
 export interface DeleteConsumerResponse {
-  errors?: unknown[];
-  messages?: string[];
+  errors?: unknown[] | null;
+  messages?: string[] | null;
   /** Indicates if the API call was successful or not. */
-  success?: true;
+  success?: true | null;
 }
 
 export const DeleteConsumerResponse = Schema.Struct({
-  errors: Schema.optional(Schema.Array(Schema.Unknown)),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  success: Schema.optional(Schema.Literal(true)),
+  errors: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Literal(true), Schema.Null])),
 }) as unknown as Schema.Schema<DeleteConsumerResponse>;
 
 export type DeleteConsumerError = DefaultErrors | InvalidRequestBody;
@@ -723,16 +839,20 @@ export const BulkPushMessagesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<BulkPushMessagesRequest>;
 
 export interface BulkPushMessagesResponse {
-  errors?: unknown[];
-  messages?: string[];
+  errors?: unknown[] | null;
+  messages?: string[] | null;
   /** Indicates if the API call was successful or not. */
-  success?: true;
+  success?: true | null;
 }
 
 export const BulkPushMessagesResponse = Schema.Struct({
-  errors: Schema.optional(Schema.Array(Schema.Unknown)),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  success: Schema.optional(Schema.Literal(true)),
+  errors: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Literal(true), Schema.Null])),
 }) as unknown as Schema.Schema<BulkPushMessagesResponse>;
 
 export type BulkPushMessagesError = DefaultErrors | InvalidMessageBody;
@@ -776,39 +896,50 @@ export const PullMessageRequest = Schema.Struct({
 
 export interface PullMessageResponse {
   /** The number of unacknowledged messages in the queue */
-  messageBacklogCount?: number;
-  messages?: {
-    id?: string;
-    attempts?: number;
-    body?: string;
-    leaseId?: string;
-    metadata?: unknown;
-    timestampMs?: number;
-  }[];
+  messageBacklogCount?: number | null;
+  messages?:
+    | {
+        id?: string | null;
+        attempts?: number | null;
+        body?: string | null;
+        leaseId?: string | null;
+        metadata?: unknown | null;
+        timestampMs?: number | null;
+      }[]
+    | null;
 }
 
 export const PullMessageResponse = Schema.Struct({
-  messageBacklogCount: Schema.optional(Schema.Number),
+  messageBacklogCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   messages: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        attempts: Schema.optional(Schema.Number),
-        body: Schema.optional(Schema.String),
-        leaseId: Schema.optional(Schema.String),
-        metadata: Schema.optional(Schema.Unknown),
-        timestampMs: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          attempts: "attempts",
-          body: "body",
-          leaseId: "lease_id",
-          metadata: "metadata",
-          timestampMs: "timestamp_ms",
-        }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          attempts: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          body: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          leaseId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          metadata: Schema.optional(
+            Schema.Union([Schema.Unknown, Schema.Null]),
+          ),
+          timestampMs: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            attempts: "attempts",
+            body: "body",
+            leaseId: "lease_id",
+            metadata: "metadata",
+            timestampMs: "timestamp_ms",
+          }),
+        ),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -860,16 +991,20 @@ export const PushMessageRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PushMessageRequest>;
 
 export interface PushMessageResponse {
-  errors?: unknown[];
-  messages?: string[];
+  errors?: unknown[] | null;
+  messages?: string[] | null;
   /** Indicates if the API call was successful or not. */
-  success?: true;
+  success?: true | null;
 }
 
 export const PushMessageResponse = Schema.Struct({
-  errors: Schema.optional(Schema.Array(Schema.Unknown)),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  success: Schema.optional(Schema.Literal(true)),
+  errors: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Literal(true), Schema.Null])),
 }) as unknown as Schema.Schema<PushMessageResponse>;
 
 export type PushMessageError = DefaultErrors | InvalidMessageBody;
@@ -927,16 +1062,18 @@ export const AckMessageRequest = Schema.Struct({
 
 export interface AckMessageResponse {
   /** The number of messages that were succesfully acknowledged. */
-  ackCount?: number;
+  ackCount?: number | null;
   /** The number of messages that were succesfully retried. */
-  retryCount?: number;
-  warnings?: string[];
+  retryCount?: number | null;
+  warnings?: string[] | null;
 }
 
 export const AckMessageResponse = Schema.Struct({
-  ackCount: Schema.optional(Schema.Number),
-  retryCount: Schema.optional(Schema.Number),
-  warnings: Schema.optional(Schema.Array(Schema.String)),
+  ackCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  retryCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  warnings: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<AckMessageResponse>;
 
 export type AckMessageError = DefaultErrors | InvalidRequestBody;
@@ -1014,14 +1151,14 @@ export const StatusPurgeRequest = Schema.Struct({
 
 export interface StatusPurgeResponse {
   /** Indicates if the last purge operation completed successfully. */
-  completed?: string;
+  completed?: string | null;
   /** Timestamp when the last purge operation started. */
-  startedAt?: string;
+  startedAt?: string | null;
 }
 
 export const StatusPurgeResponse = Schema.Struct({
-  completed: Schema.optional(Schema.String),
-  startedAt: Schema.optional(Schema.String),
+  completed: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  startedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ completed: "completed", startedAt: "started_at" }),
 ) as unknown as Schema.Schema<StatusPurgeResponse>;
@@ -1057,58 +1194,86 @@ export const GetQueueRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetQueueRequest>;
 
 export interface GetQueueResponse {
-  consumers?: unknown[];
-  consumersTotalCount?: number;
-  createdOn?: string;
-  modifiedOn?: string;
-  producers?: (
-    | { script?: string; type?: "worker" }
-    | { bucketName?: string; type?: "r2_bucket" }
-  )[];
-  producersTotalCount?: number;
-  queueId?: string;
-  queueName?: string;
+  consumers?: unknown[] | null;
+  consumersTotalCount?: number | null;
+  createdOn?: string | null;
+  modifiedOn?: string | null;
+  producers?:
+    | (
+        | { script?: string | null; type?: "worker" | null }
+        | { bucketName?: string | null; type?: "r2_bucket" | null }
+      )[]
+    | null;
+  producersTotalCount?: number | null;
+  queueId?: string | null;
+  queueName?: string | null;
   settings?: {
-    deliveryDelay?: number;
-    deliveryPaused?: boolean;
-    messageRetentionPeriod?: number;
-  };
+    deliveryDelay?: number | null;
+    deliveryPaused?: boolean | null;
+    messageRetentionPeriod?: number | null;
+  } | null;
 }
 
 export const GetQueueResponse = Schema.Struct({
-  consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  producers: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          script: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("worker")),
-        }),
-        Schema.Struct({
-          bucketName: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
-      ]),
-    ),
+  consumers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  producersTotalCount: Schema.optional(Schema.Number),
-  queueId: Schema.optional(Schema.String),
-  queueName: Schema.optional(Schema.String),
+  consumersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  producers: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("worker"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucketName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("r2_bucket"), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  producersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   settings: Schema.optional(
-    Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number),
-      deliveryPaused: Schema.optional(Schema.Boolean),
-      messageRetentionPeriod: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        deliveryDelay: "delivery_delay",
-        deliveryPaused: "delivery_paused",
-        messageRetentionPeriod: "message_retention_period",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        deliveryDelay: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        deliveryPaused: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        messageRetentionPeriod: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          deliveryDelay: "delivery_delay",
+          deliveryPaused: "delivery_paused",
+          messageRetentionPeriod: "message_retention_period",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1149,61 +1314,89 @@ export const ListQueuesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListQueuesRequest>;
 
 export type ListQueuesResponse = {
-  consumers?: unknown[];
-  consumersTotalCount?: number;
-  createdOn?: string;
-  modifiedOn?: string;
-  producers?: (
-    | { script?: string; type?: "worker" }
-    | { bucketName?: string; type?: "r2_bucket" }
-  )[];
-  producersTotalCount?: number;
-  queueId?: string;
-  queueName?: string;
+  consumers?: unknown[] | null;
+  consumersTotalCount?: number | null;
+  createdOn?: string | null;
+  modifiedOn?: string | null;
+  producers?:
+    | (
+        | { script?: string | null; type?: "worker" | null }
+        | { bucketName?: string | null; type?: "r2_bucket" | null }
+      )[]
+    | null;
+  producersTotalCount?: number | null;
+  queueId?: string | null;
+  queueName?: string | null;
   settings?: {
-    deliveryDelay?: number;
-    deliveryPaused?: boolean;
-    messageRetentionPeriod?: number;
-  };
+    deliveryDelay?: number | null;
+    deliveryPaused?: boolean | null;
+    messageRetentionPeriod?: number | null;
+  } | null;
 }[];
 
 export const ListQueuesResponse = Schema.Array(
   Schema.Struct({
-    consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-    consumersTotalCount: Schema.optional(Schema.Number),
-    createdOn: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    producers: Schema.optional(
-      Schema.Array(
-        Schema.Union([
-          Schema.Struct({
-            script: Schema.optional(Schema.String),
-            type: Schema.optional(Schema.Literal("worker")),
-          }),
-          Schema.Struct({
-            bucketName: Schema.optional(Schema.String),
-            type: Schema.optional(Schema.Literal("r2_bucket")),
-          }).pipe(
-            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
-          ),
-        ]),
-      ),
+    consumers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
     ),
-    producersTotalCount: Schema.optional(Schema.Number),
-    queueId: Schema.optional(Schema.String),
-    queueName: Schema.optional(Schema.String),
+    consumersTotalCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    producers: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Union([
+            Schema.Struct({
+              script: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              type: Schema.optional(
+                Schema.Union([Schema.Literal("worker"), Schema.Null]),
+              ),
+            }),
+            Schema.Struct({
+              bucketName: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              type: Schema.optional(
+                Schema.Union([Schema.Literal("r2_bucket"), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+            ),
+          ]),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    producersTotalCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     settings: Schema.optional(
-      Schema.Struct({
-        deliveryDelay: Schema.optional(Schema.Number),
-        deliveryPaused: Schema.optional(Schema.Boolean),
-        messageRetentionPeriod: Schema.optional(Schema.Number),
-      }).pipe(
-        Schema.encodeKeys({
-          deliveryDelay: "delivery_delay",
-          deliveryPaused: "delivery_paused",
-          messageRetentionPeriod: "message_retention_period",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          deliveryDelay: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          deliveryPaused: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          messageRetentionPeriod: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            deliveryDelay: "delivery_delay",
+            deliveryPaused: "delivery_paused",
+            messageRetentionPeriod: "message_retention_period",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -1249,58 +1442,86 @@ export const CreateQueueRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateQueueRequest>;
 
 export interface CreateQueueResponse {
-  consumers?: unknown[];
-  consumersTotalCount?: number;
-  createdOn?: string;
-  modifiedOn?: string;
-  producers?: (
-    | { script?: string; type?: "worker" }
-    | { bucketName?: string; type?: "r2_bucket" }
-  )[];
-  producersTotalCount?: number;
-  queueId?: string;
-  queueName?: string;
+  consumers?: unknown[] | null;
+  consumersTotalCount?: number | null;
+  createdOn?: string | null;
+  modifiedOn?: string | null;
+  producers?:
+    | (
+        | { script?: string | null; type?: "worker" | null }
+        | { bucketName?: string | null; type?: "r2_bucket" | null }
+      )[]
+    | null;
+  producersTotalCount?: number | null;
+  queueId?: string | null;
+  queueName?: string | null;
   settings?: {
-    deliveryDelay?: number;
-    deliveryPaused?: boolean;
-    messageRetentionPeriod?: number;
-  };
+    deliveryDelay?: number | null;
+    deliveryPaused?: boolean | null;
+    messageRetentionPeriod?: number | null;
+  } | null;
 }
 
 export const CreateQueueResponse = Schema.Struct({
-  consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  producers: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          script: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("worker")),
-        }),
-        Schema.Struct({
-          bucketName: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
-      ]),
-    ),
+  consumers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  producersTotalCount: Schema.optional(Schema.Number),
-  queueId: Schema.optional(Schema.String),
-  queueName: Schema.optional(Schema.String),
+  consumersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  producers: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("worker"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucketName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("r2_bucket"), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  producersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   settings: Schema.optional(
-    Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number),
-      deliveryPaused: Schema.optional(Schema.Boolean),
-      messageRetentionPeriod: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        deliveryDelay: "delivery_delay",
-        deliveryPaused: "delivery_paused",
-        messageRetentionPeriod: "message_retention_period",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        deliveryDelay: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        deliveryPaused: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        messageRetentionPeriod: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          deliveryDelay: "delivery_delay",
+          deliveryPaused: "delivery_paused",
+          messageRetentionPeriod: "message_retention_period",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1366,58 +1587,86 @@ export const UpdateQueueRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateQueueRequest>;
 
 export interface UpdateQueueResponse {
-  consumers?: unknown[];
-  consumersTotalCount?: number;
-  createdOn?: string;
-  modifiedOn?: string;
-  producers?: (
-    | { script?: string; type?: "worker" }
-    | { bucketName?: string; type?: "r2_bucket" }
-  )[];
-  producersTotalCount?: number;
-  queueId?: string;
-  queueName?: string;
+  consumers?: unknown[] | null;
+  consumersTotalCount?: number | null;
+  createdOn?: string | null;
+  modifiedOn?: string | null;
+  producers?:
+    | (
+        | { script?: string | null; type?: "worker" | null }
+        | { bucketName?: string | null; type?: "r2_bucket" | null }
+      )[]
+    | null;
+  producersTotalCount?: number | null;
+  queueId?: string | null;
+  queueName?: string | null;
   settings?: {
-    deliveryDelay?: number;
-    deliveryPaused?: boolean;
-    messageRetentionPeriod?: number;
-  };
+    deliveryDelay?: number | null;
+    deliveryPaused?: boolean | null;
+    messageRetentionPeriod?: number | null;
+  } | null;
 }
 
 export const UpdateQueueResponse = Schema.Struct({
-  consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  producers: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          script: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("worker")),
-        }),
-        Schema.Struct({
-          bucketName: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
-      ]),
-    ),
+  consumers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  producersTotalCount: Schema.optional(Schema.Number),
-  queueId: Schema.optional(Schema.String),
-  queueName: Schema.optional(Schema.String),
+  consumersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  producers: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("worker"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucketName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("r2_bucket"), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  producersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   settings: Schema.optional(
-    Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number),
-      deliveryPaused: Schema.optional(Schema.Boolean),
-      messageRetentionPeriod: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        deliveryDelay: "delivery_delay",
-        deliveryPaused: "delivery_paused",
-        messageRetentionPeriod: "message_retention_period",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        deliveryDelay: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        deliveryPaused: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        messageRetentionPeriod: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          deliveryDelay: "delivery_delay",
+          deliveryPaused: "delivery_paused",
+          messageRetentionPeriod: "message_retention_period",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1483,58 +1732,86 @@ export const PatchQueueRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchQueueRequest>;
 
 export interface PatchQueueResponse {
-  consumers?: unknown[];
-  consumersTotalCount?: number;
-  createdOn?: string;
-  modifiedOn?: string;
-  producers?: (
-    | { script?: string; type?: "worker" }
-    | { bucketName?: string; type?: "r2_bucket" }
-  )[];
-  producersTotalCount?: number;
-  queueId?: string;
-  queueName?: string;
+  consumers?: unknown[] | null;
+  consumersTotalCount?: number | null;
+  createdOn?: string | null;
+  modifiedOn?: string | null;
+  producers?:
+    | (
+        | { script?: string | null; type?: "worker" | null }
+        | { bucketName?: string | null; type?: "r2_bucket" | null }
+      )[]
+    | null;
+  producersTotalCount?: number | null;
+  queueId?: string | null;
+  queueName?: string | null;
   settings?: {
-    deliveryDelay?: number;
-    deliveryPaused?: boolean;
-    messageRetentionPeriod?: number;
-  };
+    deliveryDelay?: number | null;
+    deliveryPaused?: boolean | null;
+    messageRetentionPeriod?: number | null;
+  } | null;
 }
 
 export const PatchQueueResponse = Schema.Struct({
-  consumers: Schema.optional(Schema.Array(Schema.Unknown)),
-  consumersTotalCount: Schema.optional(Schema.Number),
-  createdOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  producers: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          script: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("worker")),
-        }),
-        Schema.Struct({
-          bucketName: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literal("r2_bucket")),
-        }).pipe(Schema.encodeKeys({ bucketName: "bucket_name", type: "type" })),
-      ]),
-    ),
+  consumers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  producersTotalCount: Schema.optional(Schema.Number),
-  queueId: Schema.optional(Schema.String),
-  queueName: Schema.optional(Schema.String),
+  consumersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  producers: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("worker"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucketName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([Schema.Literal("r2_bucket"), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({ bucketName: "bucket_name", type: "type" }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  producersTotalCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   settings: Schema.optional(
-    Schema.Struct({
-      deliveryDelay: Schema.optional(Schema.Number),
-      deliveryPaused: Schema.optional(Schema.Boolean),
-      messageRetentionPeriod: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        deliveryDelay: "delivery_delay",
-        deliveryPaused: "delivery_paused",
-        messageRetentionPeriod: "message_retention_period",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        deliveryDelay: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        deliveryPaused: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        messageRetentionPeriod: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          deliveryDelay: "delivery_delay",
+          deliveryPaused: "delivery_paused",
+          messageRetentionPeriod: "message_retention_period",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -1577,16 +1854,20 @@ export const DeleteQueueRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteQueueRequest>;
 
 export interface DeleteQueueResponse {
-  errors?: unknown[];
-  messages?: string[];
+  errors?: unknown[] | null;
+  messages?: string[] | null;
   /** Indicates if the API call was successful or not. */
-  success?: true;
+  success?: true | null;
 }
 
 export const DeleteQueueResponse = Schema.Struct({
-  errors: Schema.optional(Schema.Array(Schema.Unknown)),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  success: Schema.optional(Schema.Literal(true)),
+  errors: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Literal(true), Schema.Null])),
 }) as unknown as Schema.Schema<DeleteQueueResponse>;
 
 export type DeleteQueueError = DefaultErrors;
@@ -1639,14 +1920,14 @@ export interface GetSubscriptionResponse {
   name: string;
   /** Source configuration for the subscription */
   source:
-    | { type?: "images" }
-    | { type?: "kv" }
-    | { type?: "r2" }
-    | { type?: "superSlurper" }
-    | { type?: "vectorize" }
-    | { modelName?: string; type?: "workersAi.model" }
-    | { type?: "workersBuilds.worker"; workerName?: string }
-    | { type?: "workflows.workflow"; workflowName?: string };
+    | { type?: "images" | null }
+    | { type?: "kv" | null }
+    | { type?: "r2" | null }
+    | { type?: "superSlurper" | null }
+    | { type?: "vectorize" | null }
+    | { modelName?: string | null; type?: "workersAi.model" | null }
+    | { type?: "workersBuilds.worker" | null; workerName?: string | null }
+    | { type?: "workflows.workflow" | null; workflowName?: string | null };
 }
 
 export const GetSubscriptionResponse = Schema.Struct({
@@ -1662,31 +1943,43 @@ export const GetSubscriptionResponse = Schema.Struct({
   name: Schema.String,
   source: Schema.Union([
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("images")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("images"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("kv")),
+      type: Schema.optional(Schema.Union([Schema.Literal("kv"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("r2")),
+      type: Schema.optional(Schema.Union([Schema.Literal("r2"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("superSlurper")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("superSlurper"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("vectorize")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("vectorize"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      modelName: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.Literal("workersAi.model")),
+      modelName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersAi.model"), Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersBuilds.worker"), Schema.Null]),
+      ),
+      workerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workflows.workflow"), Schema.Null]),
+      ),
+      workflowName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
@@ -1748,14 +2041,14 @@ export type ListSubscriptionsResponse = {
   modifiedAt: string;
   name: string;
   source:
-    | { type?: "images" }
-    | { type?: "kv" }
-    | { type?: "r2" }
-    | { type?: "superSlurper" }
-    | { type?: "vectorize" }
-    | { modelName?: string; type?: "workersAi.model" }
-    | { type?: "workersBuilds.worker"; workerName?: string }
-    | { type?: "workflows.workflow"; workflowName?: string };
+    | { type?: "images" | null }
+    | { type?: "kv" | null }
+    | { type?: "r2" | null }
+    | { type?: "superSlurper" | null }
+    | { type?: "vectorize" | null }
+    | { modelName?: string | null; type?: "workersAi.model" | null }
+    | { type?: "workersBuilds.worker" | null; workerName?: string | null }
+    | { type?: "workflows.workflow" | null; workflowName?: string | null };
 }[];
 
 export const ListSubscriptionsResponse = Schema.Array(
@@ -1772,31 +2065,49 @@ export const ListSubscriptionsResponse = Schema.Array(
     name: Schema.String,
     source: Schema.Union([
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("images")),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("images"), Schema.Null]),
+        ),
       }),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("kv")),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("kv"), Schema.Null]),
+        ),
       }),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("r2")),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("r2"), Schema.Null]),
+        ),
       }),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("superSlurper")),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("superSlurper"), Schema.Null]),
+        ),
       }),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("vectorize")),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("vectorize"), Schema.Null]),
+        ),
       }),
       Schema.Struct({
-        modelName: Schema.optional(Schema.String),
-        type: Schema.optional(Schema.Literal("workersAi.model")),
+        modelName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("workersAi.model"), Schema.Null]),
+        ),
       }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-        workerName: Schema.optional(Schema.String),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("workersBuilds.worker"), Schema.Null]),
+        ),
+        workerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
       Schema.Struct({
-        type: Schema.optional(Schema.Literal("workflows.workflow")),
-        workflowName: Schema.optional(Schema.String),
+        type: Schema.optional(
+          Schema.Union([Schema.Literal("workflows.workflow"), Schema.Null]),
+        ),
+        workflowName: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({ type: "type", workflowName: "workflow_name" }),
       ),
@@ -1919,14 +2230,14 @@ export interface CreateSubscriptionResponse {
   name: string;
   /** Source configuration for the subscription */
   source:
-    | { type?: "images" }
-    | { type?: "kv" }
-    | { type?: "r2" }
-    | { type?: "superSlurper" }
-    | { type?: "vectorize" }
-    | { modelName?: string; type?: "workersAi.model" }
-    | { type?: "workersBuilds.worker"; workerName?: string }
-    | { type?: "workflows.workflow"; workflowName?: string };
+    | { type?: "images" | null }
+    | { type?: "kv" | null }
+    | { type?: "r2" | null }
+    | { type?: "superSlurper" | null }
+    | { type?: "vectorize" | null }
+    | { modelName?: string | null; type?: "workersAi.model" | null }
+    | { type?: "workersBuilds.worker" | null; workerName?: string | null }
+    | { type?: "workflows.workflow" | null; workflowName?: string | null };
 }
 
 export const CreateSubscriptionResponse = Schema.Struct({
@@ -1942,31 +2253,43 @@ export const CreateSubscriptionResponse = Schema.Struct({
   name: Schema.String,
   source: Schema.Union([
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("images")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("images"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("kv")),
+      type: Schema.optional(Schema.Union([Schema.Literal("kv"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("r2")),
+      type: Schema.optional(Schema.Union([Schema.Literal("r2"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("superSlurper")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("superSlurper"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("vectorize")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("vectorize"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      modelName: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.Literal("workersAi.model")),
+      modelName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersAi.model"), Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersBuilds.worker"), Schema.Null]),
+      ),
+      workerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workflows.workflow"), Schema.Null]),
+      ),
+      workflowName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
@@ -2045,14 +2368,14 @@ export interface PatchSubscriptionResponse {
   name: string;
   /** Source configuration for the subscription */
   source:
-    | { type?: "images" }
-    | { type?: "kv" }
-    | { type?: "r2" }
-    | { type?: "superSlurper" }
-    | { type?: "vectorize" }
-    | { modelName?: string; type?: "workersAi.model" }
-    | { type?: "workersBuilds.worker"; workerName?: string }
-    | { type?: "workflows.workflow"; workflowName?: string };
+    | { type?: "images" | null }
+    | { type?: "kv" | null }
+    | { type?: "r2" | null }
+    | { type?: "superSlurper" | null }
+    | { type?: "vectorize" | null }
+    | { modelName?: string | null; type?: "workersAi.model" | null }
+    | { type?: "workersBuilds.worker" | null; workerName?: string | null }
+    | { type?: "workflows.workflow" | null; workflowName?: string | null };
 }
 
 export const PatchSubscriptionResponse = Schema.Struct({
@@ -2068,31 +2391,43 @@ export const PatchSubscriptionResponse = Schema.Struct({
   name: Schema.String,
   source: Schema.Union([
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("images")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("images"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("kv")),
+      type: Schema.optional(Schema.Union([Schema.Literal("kv"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("r2")),
+      type: Schema.optional(Schema.Union([Schema.Literal("r2"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("superSlurper")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("superSlurper"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("vectorize")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("vectorize"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      modelName: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.Literal("workersAi.model")),
+      modelName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersAi.model"), Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersBuilds.worker"), Schema.Null]),
+      ),
+      workerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workflows.workflow"), Schema.Null]),
+      ),
+      workflowName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(
@@ -2154,14 +2489,14 @@ export interface DeleteSubscriptionResponse {
   name: string;
   /** Source configuration for the subscription */
   source:
-    | { type?: "images" }
-    | { type?: "kv" }
-    | { type?: "r2" }
-    | { type?: "superSlurper" }
-    | { type?: "vectorize" }
-    | { modelName?: string; type?: "workersAi.model" }
-    | { type?: "workersBuilds.worker"; workerName?: string }
-    | { type?: "workflows.workflow"; workflowName?: string };
+    | { type?: "images" | null }
+    | { type?: "kv" | null }
+    | { type?: "r2" | null }
+    | { type?: "superSlurper" | null }
+    | { type?: "vectorize" | null }
+    | { modelName?: string | null; type?: "workersAi.model" | null }
+    | { type?: "workersBuilds.worker" | null; workerName?: string | null }
+    | { type?: "workflows.workflow" | null; workflowName?: string | null };
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
@@ -2177,31 +2512,43 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   name: Schema.String,
   source: Schema.Union([
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("images")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("images"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("kv")),
+      type: Schema.optional(Schema.Union([Schema.Literal("kv"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("r2")),
+      type: Schema.optional(Schema.Union([Schema.Literal("r2"), Schema.Null])),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("superSlurper")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("superSlurper"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("vectorize")),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("vectorize"), Schema.Null]),
+      ),
     }),
     Schema.Struct({
-      modelName: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.Literal("workersAi.model")),
+      modelName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersAi.model"), Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ modelName: "model_name", type: "type" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workersBuilds.worker")),
-      workerName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workersBuilds.worker"), Schema.Null]),
+      ),
+      workerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workerName: "worker_name" })),
     Schema.Struct({
-      type: Schema.optional(Schema.Literal("workflows.workflow")),
-      workflowName: Schema.optional(Schema.String),
+      type: Schema.optional(
+        Schema.Union([Schema.Literal("workflows.workflow"), Schema.Null]),
+      ),
+      workflowName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ type: "type", workflowName: "workflow_name" })),
   ]),
 }).pipe(

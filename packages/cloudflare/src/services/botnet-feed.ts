@@ -31,11 +31,11 @@ export const GetConfigAsnRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetConfigAsnRequest>;
 
 export interface GetConfigAsnResponse {
-  asn?: number;
+  asn?: number | null;
 }
 
 export const GetConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
 export type GetConfigAsnError = DefaultErrors;
@@ -68,11 +68,11 @@ export const DeleteConfigAsnRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteConfigAsnRequest>;
 
 export interface DeleteConfigAsnResponse {
-  asn?: number;
+  asn?: number | null;
 }
 
 export const DeleteConfigAsnResponse = Schema.Struct({
-  asn: Schema.optional(Schema.Number),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
 export type DeleteConfigAsnError = DefaultErrors;
@@ -112,15 +112,15 @@ export const DayReportAsnRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DayReportAsnRequest>;
 
 export interface DayReportAsnResponse {
-  cidr?: string;
-  date?: string;
-  offenseCount?: number;
+  cidr?: string | null;
+  date?: string | null;
+  offenseCount?: number | null;
 }
 
 export const DayReportAsnResponse = Schema.Struct({
-  cidr: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     cidr: "cidr",
@@ -159,15 +159,15 @@ export const FullReportAsnRequest = Schema.Struct({
 ) as unknown as Schema.Schema<FullReportAsnRequest>;
 
 export interface FullReportAsnResponse {
-  cidr?: string;
-  date?: string;
-  offenseCount?: number;
+  cidr?: string | null;
+  date?: string | null;
+  offenseCount?: number | null;
 }
 
 export const FullReportAsnResponse = Schema.Struct({
-  cidr: Schema.optional(Schema.String),
-  date: Schema.optional(Schema.String),
-  offenseCount: Schema.optional(Schema.Number),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     cidr: "cidr",

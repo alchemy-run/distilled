@@ -48,7 +48,7 @@ export interface GetListResponse {
   /** The number of [filters](/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string;
+  description?: string | null;
 }
 
 export const GetListResponse = Schema.Struct({
@@ -59,7 +59,7 @@ export const GetListResponse = Schema.Struct({
   name: Schema.String,
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
-  description: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -105,7 +105,7 @@ export type ListListsResponse = {
   name: string;
   numItems: number;
   numReferencingFilters: number;
-  description?: string;
+  description?: string | null;
 }[];
 
 export const ListListsResponse = Schema.Array(
@@ -117,7 +117,7 @@ export const ListListsResponse = Schema.Array(
     name: Schema.String,
     numItems: Schema.Number,
     numReferencingFilters: Schema.Number,
-    description: Schema.optional(Schema.String),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -181,7 +181,7 @@ export interface CreateListResponse {
   /** The number of [filters](/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string;
+  description?: string | null;
 }
 
 export const CreateListResponse = Schema.Struct({
@@ -192,7 +192,7 @@ export const CreateListResponse = Schema.Struct({
   name: Schema.String,
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
-  description: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -254,7 +254,7 @@ export interface UpdateListResponse {
   /** The number of [filters](/api/resources/filters/) referencing the list. */
   numReferencingFilters: number;
   /** An informative summary of the list. */
-  description?: string;
+  description?: string | null;
 }
 
 export const UpdateListResponse = Schema.Struct({
@@ -265,7 +265,7 @@ export const UpdateListResponse = Schema.Struct({
   name: Schema.String,
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
-  description: Schema.optional(Schema.String),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -414,28 +414,28 @@ export type GetListItemResponse =
       createdOn: string;
       ip: string;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       createdOn: string;
       hostname: unknown;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       createdOn: string;
       modifiedOn: string;
       redirect: unknown;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       asn: number;
       createdOn: string;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     };
 
 export const GetListItemResponse = Schema.Union([
@@ -444,7 +444,7 @@ export const GetListItemResponse = Schema.Union([
     createdOn: Schema.String,
     ip: Schema.String,
     modifiedOn: Schema.String,
-    comment: Schema.optional(Schema.String),
+    comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -459,7 +459,7 @@ export const GetListItemResponse = Schema.Union([
     createdOn: Schema.String,
     hostname: Schema.Unknown,
     modifiedOn: Schema.String,
-    comment: Schema.optional(Schema.String),
+    comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -474,7 +474,7 @@ export const GetListItemResponse = Schema.Union([
     createdOn: Schema.String,
     modifiedOn: Schema.String,
     redirect: Schema.Unknown,
-    comment: Schema.optional(Schema.String),
+    comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -489,7 +489,7 @@ export const GetListItemResponse = Schema.Union([
     asn: Schema.Number,
     createdOn: Schema.String,
     modifiedOn: Schema.String,
-    comment: Schema.optional(Schema.String),
+    comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -542,28 +542,28 @@ export type ListListItemsResponse = (
       createdOn: string;
       ip: string;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       createdOn: string;
       hostname: unknown;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       createdOn: string;
       modifiedOn: string;
       redirect: unknown;
-      comment?: string;
+      comment?: string | null;
     }
   | {
       id: string;
       asn: number;
       createdOn: string;
       modifiedOn: string;
-      comment?: string;
+      comment?: string | null;
     }
 )[];
 
@@ -574,7 +574,7 @@ export const ListListItemsResponse = Schema.Array(
       createdOn: Schema.String,
       ip: Schema.String,
       modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.String),
+      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -589,7 +589,7 @@ export const ListListItemsResponse = Schema.Array(
       createdOn: Schema.String,
       hostname: Schema.Unknown,
       modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.String),
+      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -604,7 +604,7 @@ export const ListListItemsResponse = Schema.Array(
       createdOn: Schema.String,
       modifiedOn: Schema.String,
       redirect: Schema.Unknown,
-      comment: Schema.optional(Schema.String),
+      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -619,7 +619,7 @@ export const ListListItemsResponse = Schema.Array(
       asn: Schema.Number,
       createdOn: Schema.String,
       modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.String),
+      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",

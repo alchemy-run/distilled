@@ -36,18 +36,18 @@ export interface GetOrganizationResponse {
       accountMigration: string;
       accountMobility: string;
       subOrgCreation: string;
-    };
-    managedBy?: string;
+    } | null;
+    managedBy?: string | null;
   };
   name: string;
-  parent?: { id: string; name: string };
+  parent?: { id: string; name: string } | null;
   profile?: {
     businessAddress: string;
     businessEmail: string;
     businessName: string;
     businessPhone: string;
     externalMetadata: string;
-  };
+  } | null;
 }
 
 export const GetOrganizationResponse = Schema.Struct({
@@ -55,47 +55,56 @@ export const GetOrganizationResponse = Schema.Struct({
   createTime: Schema.String,
   meta: Schema.Struct({
     flags: Schema.optional(
-      Schema.Struct({
-        accountCreation: Schema.String,
-        accountDeletion: Schema.String,
-        accountMigration: Schema.String,
-        accountMobility: Schema.String,
-        subOrgCreation: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          accountCreation: "account_creation",
-          accountDeletion: "account_deletion",
-          accountMigration: "account_migration",
-          accountMobility: "account_mobility",
-          subOrgCreation: "sub_org_creation",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          accountCreation: Schema.String,
+          accountDeletion: Schema.String,
+          accountMigration: Schema.String,
+          accountMobility: Schema.String,
+          subOrgCreation: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            accountCreation: "account_creation",
+            accountDeletion: "account_deletion",
+            accountMigration: "account_migration",
+            accountMobility: "account_mobility",
+            subOrgCreation: "sub_org_creation",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    managedBy: Schema.optional(Schema.String),
+    managedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      name: Schema.String,
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+      }),
+      Schema.Null,
+    ]),
   ),
   profile: Schema.optional(
-    Schema.Struct({
-      businessAddress: Schema.String,
-      businessEmail: Schema.String,
-      businessName: Schema.String,
-      businessPhone: Schema.String,
-      externalMetadata: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        businessAddress: "business_address",
-        businessEmail: "business_email",
-        businessName: "business_name",
-        businessPhone: "business_phone",
-        externalMetadata: "external_metadata",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        businessAddress: Schema.String,
+        businessEmail: Schema.String,
+        businessName: Schema.String,
+        businessPhone: Schema.String,
+        externalMetadata: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          businessAddress: "business_address",
+          businessEmail: "business_email",
+          businessName: "business_name",
+          businessPhone: "business_phone",
+          externalMetadata: "external_metadata",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -137,18 +146,18 @@ export type ListOrganizationsResponse = {
       accountMigration: string;
       accountMobility: string;
       subOrgCreation: string;
-    };
-    managedBy?: string;
+    } | null;
+    managedBy?: string | null;
   };
   name: string;
-  parent?: { id: string; name: string };
+  parent?: { id: string; name: string } | null;
   profile?: {
     businessAddress: string;
     businessEmail: string;
     businessName: string;
     businessPhone: string;
     externalMetadata: string;
-  };
+  } | null;
 }[];
 
 export const ListOrganizationsResponse = Schema.Array(
@@ -157,47 +166,56 @@ export const ListOrganizationsResponse = Schema.Array(
     createTime: Schema.String,
     meta: Schema.Struct({
       flags: Schema.optional(
-        Schema.Struct({
-          accountCreation: Schema.String,
-          accountDeletion: Schema.String,
-          accountMigration: Schema.String,
-          accountMobility: Schema.String,
-          subOrgCreation: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            accountCreation: "account_creation",
-            accountDeletion: "account_deletion",
-            accountMigration: "account_migration",
-            accountMobility: "account_mobility",
-            subOrgCreation: "sub_org_creation",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            accountCreation: Schema.String,
+            accountDeletion: Schema.String,
+            accountMigration: Schema.String,
+            accountMobility: Schema.String,
+            subOrgCreation: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              accountCreation: "account_creation",
+              accountDeletion: "account_deletion",
+              accountMigration: "account_migration",
+              accountMobility: "account_mobility",
+              subOrgCreation: "sub_org_creation",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
-      managedBy: Schema.optional(Schema.String),
+      managedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
     name: Schema.String,
     parent: Schema.optional(
-      Schema.Struct({
-        id: Schema.String,
-        name: Schema.String,
-      }),
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.String,
+          name: Schema.String,
+        }),
+        Schema.Null,
+      ]),
     ),
     profile: Schema.optional(
-      Schema.Struct({
-        businessAddress: Schema.String,
-        businessEmail: Schema.String,
-        businessName: Schema.String,
-        businessPhone: Schema.String,
-        externalMetadata: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          businessAddress: "business_address",
-          businessEmail: "business_email",
-          businessName: "business_name",
-          businessPhone: "business_phone",
-          externalMetadata: "external_metadata",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          businessAddress: Schema.String,
+          businessEmail: Schema.String,
+          businessName: Schema.String,
+          businessPhone: Schema.String,
+          externalMetadata: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            businessAddress: "business_address",
+            businessEmail: "business_email",
+            businessName: "business_name",
+            businessPhone: "business_phone",
+            externalMetadata: "external_metadata",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -274,18 +292,18 @@ export interface CreateOrganizationResponse {
       accountMigration: string;
       accountMobility: string;
       subOrgCreation: string;
-    };
-    managedBy?: string;
+    } | null;
+    managedBy?: string | null;
   };
   name: string;
-  parent?: { id: string; name: string };
+  parent?: { id: string; name: string } | null;
   profile?: {
     businessAddress: string;
     businessEmail: string;
     businessName: string;
     businessPhone: string;
     externalMetadata: string;
-  };
+  } | null;
 }
 
 export const CreateOrganizationResponse = Schema.Struct({
@@ -293,47 +311,56 @@ export const CreateOrganizationResponse = Schema.Struct({
   createTime: Schema.String,
   meta: Schema.Struct({
     flags: Schema.optional(
-      Schema.Struct({
-        accountCreation: Schema.String,
-        accountDeletion: Schema.String,
-        accountMigration: Schema.String,
-        accountMobility: Schema.String,
-        subOrgCreation: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          accountCreation: "account_creation",
-          accountDeletion: "account_deletion",
-          accountMigration: "account_migration",
-          accountMobility: "account_mobility",
-          subOrgCreation: "sub_org_creation",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          accountCreation: Schema.String,
+          accountDeletion: Schema.String,
+          accountMigration: Schema.String,
+          accountMobility: Schema.String,
+          subOrgCreation: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            accountCreation: "account_creation",
+            accountDeletion: "account_deletion",
+            accountMigration: "account_migration",
+            accountMobility: "account_mobility",
+            subOrgCreation: "sub_org_creation",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    managedBy: Schema.optional(Schema.String),
+    managedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      name: Schema.String,
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+      }),
+      Schema.Null,
+    ]),
   ),
   profile: Schema.optional(
-    Schema.Struct({
-      businessAddress: Schema.String,
-      businessEmail: Schema.String,
-      businessName: Schema.String,
-      businessPhone: Schema.String,
-      externalMetadata: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        businessAddress: "business_address",
-        businessEmail: "business_email",
-        businessName: "business_name",
-        businessPhone: "business_phone",
-        externalMetadata: "external_metadata",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        businessAddress: Schema.String,
+        businessEmail: Schema.String,
+        businessName: Schema.String,
+        businessPhone: Schema.String,
+        externalMetadata: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          businessAddress: "business_address",
+          businessEmail: "business_email",
+          businessName: "business_name",
+          businessPhone: "business_phone",
+          externalMetadata: "external_metadata",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -411,18 +438,18 @@ export interface UpdateOrganizationResponse {
       accountMigration: string;
       accountMobility: string;
       subOrgCreation: string;
-    };
-    managedBy?: string;
+    } | null;
+    managedBy?: string | null;
   };
   name: string;
-  parent?: { id: string; name: string };
+  parent?: { id: string; name: string } | null;
   profile?: {
     businessAddress: string;
     businessEmail: string;
     businessName: string;
     businessPhone: string;
     externalMetadata: string;
-  };
+  } | null;
 }
 
 export const UpdateOrganizationResponse = Schema.Struct({
@@ -430,47 +457,56 @@ export const UpdateOrganizationResponse = Schema.Struct({
   createTime: Schema.String,
   meta: Schema.Struct({
     flags: Schema.optional(
-      Schema.Struct({
-        accountCreation: Schema.String,
-        accountDeletion: Schema.String,
-        accountMigration: Schema.String,
-        accountMobility: Schema.String,
-        subOrgCreation: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          accountCreation: "account_creation",
-          accountDeletion: "account_deletion",
-          accountMigration: "account_migration",
-          accountMobility: "account_mobility",
-          subOrgCreation: "sub_org_creation",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          accountCreation: Schema.String,
+          accountDeletion: Schema.String,
+          accountMigration: Schema.String,
+          accountMobility: Schema.String,
+          subOrgCreation: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            accountCreation: "account_creation",
+            accountDeletion: "account_deletion",
+            accountMigration: "account_migration",
+            accountMobility: "account_mobility",
+            subOrgCreation: "sub_org_creation",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    managedBy: Schema.optional(Schema.String),
+    managedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
   name: Schema.String,
   parent: Schema.optional(
-    Schema.Struct({
-      id: Schema.String,
-      name: Schema.String,
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+      }),
+      Schema.Null,
+    ]),
   ),
   profile: Schema.optional(
-    Schema.Struct({
-      businessAddress: Schema.String,
-      businessEmail: Schema.String,
-      businessName: Schema.String,
-      businessPhone: Schema.String,
-      externalMetadata: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({
-        businessAddress: "business_address",
-        businessEmail: "business_email",
-        businessName: "business_name",
-        businessPhone: "business_phone",
-        externalMetadata: "external_metadata",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        businessAddress: Schema.String,
+        businessEmail: Schema.String,
+        businessName: Schema.String,
+        businessPhone: Schema.String,
+        externalMetadata: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          businessAddress: "business_address",
+          businessEmail: "business_email",
+          businessName: "business_name",
+          businessPhone: "business_phone",
+          externalMetadata: "external_metadata",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({

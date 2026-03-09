@@ -32,14 +32,16 @@ export const GetControlCmbConfigRequest = Schema.Struct({
 
 export interface GetControlCmbConfigResponse {
   /** Allow out of region access */
-  allowOutOfRegionAccess?: boolean;
+  allowOutOfRegionAccess?: boolean | null;
   /** Name of the region. */
-  regions?: string;
+  regions?: string | null;
 }
 
 export const GetControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
-  regions: Schema.optional(Schema.String),
+  allowOutOfRegionAccess: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     allowOutOfRegionAccess: "allow_out_of_region_access",
@@ -86,14 +88,16 @@ export const CreateControlCmbConfigRequest = Schema.Struct({
 
 export interface CreateControlCmbConfigResponse {
   /** Allow out of region access */
-  allowOutOfRegionAccess?: boolean;
+  allowOutOfRegionAccess?: boolean | null;
   /** Name of the region. */
-  regions?: string;
+  regions?: string | null;
 }
 
 export const CreateControlCmbConfigResponse = Schema.Struct({
-  allowOutOfRegionAccess: Schema.optional(Schema.Boolean),
-  regions: Schema.optional(Schema.String),
+  allowOutOfRegionAccess: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     allowOutOfRegionAccess: "allow_out_of_region_access",
@@ -166,11 +170,11 @@ export const GetControlRetentionRequest = Schema.Struct({
 
 export interface GetControlRetentionResponse {
   /** The log retention flag for Logpull API. */
-  flag?: boolean;
+  flag?: boolean | null;
 }
 
 export const GetControlRetentionResponse = Schema.Struct({
-  flag: Schema.optional(Schema.Boolean),
+  flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
 export type GetControlRetentionError = DefaultErrors;
@@ -205,11 +209,11 @@ export const CreateControlRetentionRequest = Schema.Struct({
 
 export interface CreateControlRetentionResponse {
   /** The log retention flag for Logpull API. */
-  flag?: boolean;
+  flag?: boolean | null;
 }
 
 export const CreateControlRetentionResponse = Schema.Struct({
-  flag: Schema.optional(Schema.Boolean),
+  flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
 export type CreateControlRetentionError = DefaultErrors;
@@ -339,11 +343,11 @@ export const GetReceivedFieldRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetReceivedFieldRequest>;
 
 export interface GetReceivedFieldResponse {
-  key?: string;
+  key?: string | null;
 }
 
 export const GetReceivedFieldResponse = Schema.Struct({
-  key: Schema.optional(Schema.String),
+  key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetReceivedFieldResponse>;
 
 export type GetReceivedFieldError = DefaultErrors;

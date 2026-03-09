@@ -55,10 +55,10 @@ export interface GetCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
-  keylessServer?: unknown;
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
+  keylessServer?: unknown | null;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  policy?: string;
+  policy?: string | null;
 }
 
 export const GetCustomCertificateResponse = Schema.Struct({
@@ -80,12 +80,20 @@ export const GetCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -157,9 +165,9 @@ export type ListCustomCertificatesResponse = {
   status: "active" | "expired" | "deleted" | "pending" | "initializing";
   uploadedOn: string;
   zoneId: string;
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
-  keylessServer?: unknown;
-  policy?: string;
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
+  keylessServer?: unknown | null;
+  policy?: string | null;
 }[];
 
 export const ListCustomCertificatesResponse = Schema.Array(
@@ -182,14 +190,20 @@ export const ListCustomCertificatesResponse = Schema.Array(
     uploadedOn: Schema.String,
     zoneId: Schema.String,
     geoRestrictions: Schema.optional(
-      Schema.Struct({
-        label: Schema.optional(
-          Schema.Literals(["us", "eu", "highest_security"]),
-        ),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          label: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["us", "eu", "highest_security"]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
-    keylessServer: Schema.optional(Schema.Unknown),
-    policy: Schema.optional(Schema.String),
+    keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -289,10 +303,10 @@ export interface CreateCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
-  keylessServer?: unknown;
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
+  keylessServer?: unknown | null;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  policy?: string;
+  policy?: string | null;
 }
 
 export const CreateCustomCertificateResponse = Schema.Struct({
@@ -314,12 +328,20 @@ export const CreateCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -419,10 +441,10 @@ export interface PatchCustomCertificateResponse {
   /** Identifier. */
   zoneId: string;
   /** Specify the region where your private key can be held locally for optimal TLS performance. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" };
-  keylessServer?: unknown;
+  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
+  keylessServer?: unknown | null;
   /** Specify the policy that determines the region where your private key will be held locally. HTTPS connections to any excluded data center will still be fully encrypted, but will incur some latency whil */
-  policy?: string;
+  policy?: string | null;
 }
 
 export const PatchCustomCertificateResponse = Schema.Struct({
@@ -444,12 +466,20 @@ export const PatchCustomCertificateResponse = Schema.Struct({
   uploadedOn: Schema.String,
   zoneId: Schema.String,
   geoRestrictions: Schema.optional(
-    Schema.Struct({
-      label: Schema.optional(Schema.Literals(["us", "eu", "highest_security"])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        label: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["us", "eu", "highest_security"]),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  keylessServer: Schema.optional(Schema.Unknown),
-  policy: Schema.optional(Schema.String),
+  keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -500,11 +530,11 @@ export const DeleteCustomCertificateRequest = Schema.Struct({
 
 export interface DeleteCustomCertificateResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteCustomCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteCustomCertificateResponse>;
 
 export type DeleteCustomCertificateError = DefaultErrors;

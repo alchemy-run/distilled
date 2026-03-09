@@ -29,11 +29,11 @@ export const GetDCVDelegationRequest = Schema.Struct({
 
 export interface GetDCVDelegationResponse {
   /** The DCV Delegation unique identifier. */
-  uuid?: string;
+  uuid?: string | null;
 }
 
 export const GetDCVDelegationResponse = Schema.Struct({
-  uuid: Schema.optional(Schema.String),
+  uuid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetDCVDelegationResponse>;
 
 export type GetDCVDelegationError = DefaultErrors;

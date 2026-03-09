@@ -133,13 +133,13 @@ export const CreateTraceRequest = Schema.Struct({
 
 export interface CreateTraceResponse {
   /** HTTP Status code of zone response */
-  statusCode?: number;
-  trace?: unknown;
+  statusCode?: number | null;
+  trace?: unknown | null;
 }
 
 export const CreateTraceResponse = Schema.Struct({
-  statusCode: Schema.optional(Schema.Number),
-  trace: Schema.optional(Schema.Unknown),
+  statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  trace: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
 ) as unknown as Schema.Schema<CreateTraceResponse>;

@@ -31,20 +31,20 @@ export const GetSfuRequest = Schema.Struct({
 
 export interface GetSfuResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const GetSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetSfuResponse>;
 
 export type GetSfuError = DefaultErrors;
@@ -76,23 +76,23 @@ export const CreateSfuRequest = Schema.Struct({
 
 export interface CreateSfuResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** Bearer token */
-  secret?: string;
+  secret?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const CreateSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  secret: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secret: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateSfuResponse>;
 
 export type CreateSfuError = DefaultErrors;
@@ -126,20 +126,20 @@ export const UpdateSfuRequest = Schema.Struct({
 
 export interface UpdateSfuResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const UpdateSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateSfuResponse>;
 
 export type UpdateSfuError = DefaultErrors;
@@ -173,20 +173,20 @@ export const DeleteSfuRequest = Schema.Struct({
 
 export interface DeleteSfuResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const DeleteSfuResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteSfuResponse>;
 
 export type DeleteSfuError = DefaultErrors;
@@ -218,18 +218,18 @@ export const ListSfusRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSfusRequest>;
 
 export type ListSfusResponse = {
-  created?: string;
-  modified?: string;
-  name?: string;
-  uid?: string;
+  created?: string | null;
+  modified?: string | null;
+  name?: string | null;
+  uid?: string | null;
 }[];
 
 export const ListSfusResponse = Schema.Array(
   Schema.Struct({
-    created: Schema.optional(Schema.String),
-    modified: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListSfusResponse>;
 
@@ -268,20 +268,20 @@ export const GetTurnRequest = Schema.Struct({
 
 export interface GetTurnResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const GetTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetTurnResponse>;
 
 export type GetTurnError = DefaultErrors;
@@ -309,18 +309,18 @@ export const ListTurnsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListTurnsRequest>;
 
 export type ListTurnsResponse = {
-  created?: string;
-  modified?: string;
-  name?: string;
-  uid?: string;
+  created?: string | null;
+  modified?: string | null;
+  name?: string | null;
+  uid?: string | null;
 }[];
 
 export const ListTurnsResponse = Schema.Array(
   Schema.Struct({
-    created: Schema.optional(Schema.String),
-    modified: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uid: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListTurnsResponse>;
 
@@ -353,23 +353,23 @@ export const CreateTurnRequest = Schema.Struct({
 
 export interface CreateTurnResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** Bearer token */
-  key?: string;
+  key?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of a TURN key, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const CreateTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  key: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateTurnResponse>;
 
 export type CreateTurnError = DefaultErrors;
@@ -406,20 +406,20 @@ export const UpdateTurnRequest = Schema.Struct({
 
 export interface UpdateTurnResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const UpdateTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateTurnResponse>;
 
 export type UpdateTurnError = DefaultErrors;
@@ -453,20 +453,20 @@ export const DeleteTurnRequest = Schema.Struct({
 
 export interface DeleteTurnResponse {
   /** The date and time the item was created. */
-  created?: string;
+  created?: string | null;
   /** The date and time the item was last modified. */
-  modified?: string;
+  modified?: string | null;
   /** A short description of Calls app, not shown to end users. */
-  name?: string;
+  name?: string | null;
   /** A Cloudflare-generated unique identifier for a item. */
-  uid?: string;
+  uid?: string | null;
 }
 
 export const DeleteTurnResponse = Schema.Struct({
-  created: Schema.optional(Schema.String),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  uid: Schema.optional(Schema.String),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteTurnResponse>;
 
 export type DeleteTurnError = DefaultErrors;

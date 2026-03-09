@@ -31,23 +31,23 @@ export const GetFilterRequest = Schema.Struct({
 
 export interface GetFilterResponse {
   /** The unique identifier of the filter. */
-  id?: string;
+  id?: string | null;
   /** An informative summary of the filter. */
-  description?: string;
+  description?: string | null;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string;
+  expression?: string | null;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | null;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string;
+  ref?: string | null;
 }
 
 export const GetFilterResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetFilterResponse>;
 
 export type GetFilterError = DefaultErrors;
@@ -90,20 +90,20 @@ export const ListFiltersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListFiltersRequest>;
 
 export type ListFiltersResponse = {
-  id?: string;
-  description?: string;
-  expression?: string;
-  paused?: boolean;
-  ref?: string;
+  id?: string | null;
+  description?: string | null;
+  expression?: string | null;
+  paused?: boolean | null;
+  ref?: string | null;
 }[];
 
 export const ListFiltersResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-    paused: Schema.optional(Schema.Boolean),
-    ref: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListFiltersResponse>;
 
@@ -147,20 +147,20 @@ export const CreateFilterRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateFilterRequest>;
 
 export type CreateFilterResponse = {
-  id?: string;
-  description?: string;
-  expression?: string;
-  paused?: boolean;
-  ref?: string;
+  id?: string | null;
+  description?: string | null;
+  expression?: string | null;
+  paused?: boolean | null;
+  ref?: string | null;
 }[];
 
 export const CreateFilterResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-    paused: Schema.optional(Schema.Boolean),
-    ref: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<CreateFilterResponse>;
 
@@ -204,23 +204,23 @@ export const UpdateFilterRequest = Schema.Struct({
 
 export interface UpdateFilterResponse {
   /** The unique identifier of the filter. */
-  id?: string;
+  id?: string | null;
   /** An informative summary of the filter. */
-  description?: string;
+  description?: string | null;
   /** The filter expression. For more information, refer to [Expressions](https://developers.cloudflare.com/ruleset-engine/rules-language/expressions/). */
-  expression?: string;
+  expression?: string | null;
   /** When true, indicates that the filter is currently paused. */
-  paused?: boolean;
+  paused?: boolean | null;
   /** A short reference tag. Allows you to select related filters. */
-  ref?: string;
+  ref?: string | null;
 }
 
 export const UpdateFilterResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  expression: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  ref: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateFilterResponse>;
 
 export type UpdateFilterError = DefaultErrors;
@@ -285,11 +285,11 @@ export const BulkDeleteFiltersRequest = Schema.Struct({
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/filters" }),
 ) as unknown as Schema.Schema<BulkDeleteFiltersRequest>;
 
-export type BulkDeleteFiltersResponse = { id?: string }[];
+export type BulkDeleteFiltersResponse = { id?: string | null }[];
 
 export const BulkDeleteFiltersResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<BulkDeleteFiltersResponse>;
 
@@ -337,20 +337,20 @@ export const BulkPutFiltersRequest = Schema.Struct({
 ) as unknown as Schema.Schema<BulkPutFiltersRequest>;
 
 export type BulkPutFiltersResponse = {
-  id?: string;
-  description?: string;
-  expression?: string;
-  paused?: boolean;
-  ref?: string;
+  id?: string | null;
+  description?: string | null;
+  expression?: string | null;
+  paused?: boolean | null;
+  ref?: string | null;
 }[];
 
 export const BulkPutFiltersResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    expression: Schema.optional(Schema.String),
-    paused: Schema.optional(Schema.Boolean),
-    ref: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<BulkPutFiltersResponse>;
 

@@ -101,7 +101,7 @@ export interface GetInstanceResponse {
           retries: {
             delay: number;
             limit: number;
-            backoff?: "constant" | "linear" | "exponential";
+            backoff?: "constant" | "linear" | "exponential" | null;
           };
           timeout: number;
         };
@@ -181,7 +181,10 @@ export const GetInstanceResponse = Schema.Struct({
             delay: Schema.Number,
             limit: Schema.Number,
             backoff: Schema.optional(
-              Schema.Literals(["constant", "linear", "exponential"]),
+              Schema.Union([
+                Schema.Literals(["constant", "linear", "exponential"]),
+                Schema.Null,
+              ]),
             ),
           }),
           timeout: Schema.Number,
@@ -849,14 +852,14 @@ export interface GetWorkflowResponse {
   className: string;
   createdOn: string;
   instances: {
-    complete?: number;
-    errored?: number;
-    paused?: number;
-    queued?: number;
-    running?: number;
-    terminated?: number;
-    waiting?: number;
-    waitingForPause?: number;
+    complete?: number | null;
+    errored?: number | null;
+    paused?: number | null;
+    queued?: number | null;
+    running?: number | null;
+    terminated?: number | null;
+    waiting?: number | null;
+    waitingForPause?: number | null;
   };
   modifiedOn: string;
   name: string;
@@ -869,14 +872,16 @@ export const GetWorkflowResponse = Schema.Struct({
   className: Schema.String,
   createdOn: Schema.String,
   instances: Schema.Struct({
-    complete: Schema.optional(Schema.Number),
-    errored: Schema.optional(Schema.Number),
-    paused: Schema.optional(Schema.Number),
-    queued: Schema.optional(Schema.Number),
-    running: Schema.optional(Schema.Number),
-    terminated: Schema.optional(Schema.Number),
-    waiting: Schema.optional(Schema.Number),
-    waitingForPause: Schema.optional(Schema.Number),
+    complete: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    errored: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    queued: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    running: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    terminated: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    waiting: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    waitingForPause: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
   }),
   modifiedOn: Schema.String,
   name: Schema.String,
@@ -927,14 +932,14 @@ export type ListWorkflowsResponse = {
   className: string;
   createdOn: string;
   instances: {
-    complete?: number;
-    errored?: number;
-    paused?: number;
-    queued?: number;
-    running?: number;
-    terminated?: number;
-    waiting?: number;
-    waitingForPause?: number;
+    complete?: number | null;
+    errored?: number | null;
+    paused?: number | null;
+    queued?: number | null;
+    running?: number | null;
+    terminated?: number | null;
+    waiting?: number | null;
+    waitingForPause?: number | null;
   };
   modifiedOn: string;
   name: string;
@@ -948,14 +953,16 @@ export const ListWorkflowsResponse = Schema.Array(
     className: Schema.String,
     createdOn: Schema.String,
     instances: Schema.Struct({
-      complete: Schema.optional(Schema.Number),
-      errored: Schema.optional(Schema.Number),
-      paused: Schema.optional(Schema.Number),
-      queued: Schema.optional(Schema.Number),
-      running: Schema.optional(Schema.Number),
-      terminated: Schema.optional(Schema.Number),
-      waiting: Schema.optional(Schema.Number),
-      waitingForPause: Schema.optional(Schema.Number),
+      complete: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      errored: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      paused: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      queued: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      running: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      terminated: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      waiting: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      waitingForPause: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
     }),
     modifiedOn: Schema.String,
     name: Schema.String,
@@ -1015,11 +1022,11 @@ export interface PutWorkflowResponse {
   id: string;
   className: string;
   createdOn: string;
-  isDeleted?: number;
+  isDeleted?: number | null;
   modifiedOn: string;
   name: string;
   scriptName: string;
-  terminatorRunning?: number;
+  terminatorRunning?: number | null;
   triggeredOn?: string | null;
   versionId: string;
 }
@@ -1028,11 +1035,13 @@ export const PutWorkflowResponse = Schema.Struct({
   id: Schema.String,
   className: Schema.String,
   createdOn: Schema.String,
-  isDeleted: Schema.optional(Schema.Number),
+  isDeleted: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   modifiedOn: Schema.String,
   name: Schema.String,
   scriptName: Schema.String,
-  terminatorRunning: Schema.optional(Schema.Number),
+  terminatorRunning: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
   triggeredOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   versionId: Schema.String,
 }).pipe(

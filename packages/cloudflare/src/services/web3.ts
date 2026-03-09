@@ -34,33 +34,39 @@ export const GetHostnameRequest = Schema.Struct({
 
 export interface GetHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
-  createdOn?: string;
+  id?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the hostname. */
-  description?: string;
+  description?: string | null;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string;
-  modifiedOn?: string;
+  dnslink?: string | null;
+  modifiedOn?: string | null;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string;
+  name?: string | null;
   /** Specifies the status of the hostname's activation. */
-  status?: "active" | "pending" | "deleting" | "error";
+  status?: "active" | "pending" | "deleting" | "error" | null;
   /** Specify the target gateway of the hostname. */
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
 }
 
 export const GetHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -100,29 +106,35 @@ export const ListHostnamesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListHostnamesRequest>;
 
 export type ListHostnamesResponse = {
-  id?: string;
-  createdOn?: string;
-  description?: string;
-  dnslink?: string;
-  modifiedOn?: string;
-  name?: string;
-  status?: "active" | "pending" | "deleting" | "error";
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+  id?: string | null;
+  createdOn?: string | null;
+  description?: string | null;
+  dnslink?: string | null;
+  modifiedOn?: string | null;
+  name?: string | null;
+  status?: "active" | "pending" | "deleting" | "error" | null;
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
 }[];
 
 export const ListHostnamesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    dnslink: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     status: Schema.optional(
-      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Union([
+        Schema.Literals(["active", "pending", "deleting", "error"]),
+        Schema.Null,
+      ]),
     ),
     target: Schema.optional(
-      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Union([
+        Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -176,33 +188,39 @@ export const CreateHostnameRequest = Schema.Struct({
 
 export interface CreateHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
-  createdOn?: string;
+  id?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the hostname. */
-  description?: string;
+  description?: string | null;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string;
-  modifiedOn?: string;
+  dnslink?: string | null;
+  modifiedOn?: string | null;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string;
+  name?: string | null;
   /** Specifies the status of the hostname's activation. */
-  status?: "active" | "pending" | "deleting" | "error";
+  status?: "active" | "pending" | "deleting" | "error" | null;
   /** Specify the target gateway of the hostname. */
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
 }
 
 export const CreateHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -254,33 +272,39 @@ export const PatchHostnameRequest = Schema.Struct({
 
 export interface PatchHostnameResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
-  createdOn?: string;
+  id?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the hostname. */
-  description?: string;
+  description?: string | null;
   /** Specify the DNSLink value used if the target is ipfs. */
-  dnslink?: string;
-  modifiedOn?: string;
+  dnslink?: string | null;
+  modifiedOn?: string | null;
   /** Specify the hostname that points to the target gateway via CNAME. */
-  name?: string;
+  name?: string | null;
   /** Specifies the status of the hostname's activation. */
-  status?: "active" | "pending" | "deleting" | "error";
+  status?: "active" | "pending" | "deleting" | "error" | null;
   /** Specify the target gateway of the hostname. */
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path";
+  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
 }
 
 export const PatchHostnameResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  dnslink: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["active", "pending", "deleting", "error"]),
+    Schema.Union([
+      Schema.Literals(["active", "pending", "deleting", "error"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+    Schema.Union([
+      Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -368,11 +392,11 @@ export const GetHostnameIpfsUniversalPathContentListRequest = Schema.Struct({
 
 export interface GetHostnameIpfsUniversalPathContentListResponse {
   /** Behavior of the content list. */
-  action?: "block";
+  action?: "block" | null;
 }
 
 export const GetHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
-  action: Schema.optional(Schema.Literal("block")),
+  action: Schema.optional(Schema.Union([Schema.Literal("block"), Schema.Null])),
 }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
 
 export type GetHostnameIpfsUniversalPathContentListError = DefaultErrors;
@@ -422,11 +446,11 @@ export const PutHostnameIpfsUniversalPathContentListRequest = Schema.Struct({
 
 export interface PutHostnameIpfsUniversalPathContentListResponse {
   /** Behavior of the content list. */
-  action?: "block";
+  action?: "block" | null;
 }
 
 export const PutHostnameIpfsUniversalPathContentListResponse = Schema.Struct({
-  action: Schema.optional(Schema.Literal("block")),
+  action: Schema.optional(Schema.Union([Schema.Literal("block"), Schema.Null])),
 }) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
 
 export type PutHostnameIpfsUniversalPathContentListError = DefaultErrors;
@@ -469,25 +493,27 @@ export const GetHostnameIpfsUniversalPathContentListEntryRequest =
 
 export interface GetHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
+  id?: string | null;
   /** Specify the CID or content path of content to block. */
-  content?: string;
-  createdOn?: string;
+  content?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the content list entry. */
-  description?: string;
-  modifiedOn?: string;
+  description?: string | null;
+  modifiedOn?: string | null;
   /** Specify the type of content list entry to block. */
-  type?: "cid" | "content_path";
+  type?: "cid" | "content_path" | null;
 }
 
 export const GetHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -531,38 +557,56 @@ export const ListHostnameIpfsUniversalPathContentListEntriesRequest =
 
 export interface ListHostnameIpfsUniversalPathContentListEntriesResponse {
   /** Provides content list entries. */
-  entries?: {
-    id?: string;
-    content?: string;
-    createdOn?: string;
-    description?: string;
-    modifiedOn?: string;
-    type?: "cid" | "content_path";
-  }[];
+  entries?:
+    | {
+        id?: string | null;
+        content?: string | null;
+        createdOn?: string | null;
+        description?: string | null;
+        modifiedOn?: string | null;
+        type?: "cid" | "content_path" | null;
+      }[]
+    | null;
 }
 
 export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
   Schema.Struct({
     entries: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.optional(Schema.String),
-          content: Schema.optional(Schema.String),
-          createdOn: Schema.optional(Schema.String),
-          description: Schema.optional(Schema.String),
-          modifiedOn: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.Literals(["cid", "content_path"])),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            content: "content",
-            createdOn: "created_on",
-            description: "description",
-            modifiedOn: "modified_on",
-            type: "type",
-          }),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            content: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            createdOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            description: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            modifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["cid", "content_path"]),
+                Schema.Null,
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              content: "content",
+              createdOn: "created_on",
+              description: "description",
+              modifiedOn: "modified_on",
+              type: "type",
+            }),
+          ),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
   }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
@@ -608,25 +652,27 @@ export const CreateHostnameIpfsUniversalPathContentListEntryRequest =
 
 export interface CreateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
+  id?: string | null;
   /** Specify the CID or content path of content to block. */
-  content?: string;
-  createdOn?: string;
+  content?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the content list entry. */
-  description?: string;
-  modifiedOn?: string;
+  description?: string | null;
+  modifiedOn?: string | null;
   /** Specify the type of content list entry to block. */
-  type?: "cid" | "content_path";
+  type?: "cid" | "content_path" | null;
 }
 
 export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -684,25 +730,27 @@ export const UpdateHostnameIpfsUniversalPathContentListEntryRequest =
 
 export interface UpdateHostnameIpfsUniversalPathContentListEntryResponse {
   /** Specify the identifier of the hostname. */
-  id?: string;
+  id?: string | null;
   /** Specify the CID or content path of content to block. */
-  content?: string;
-  createdOn?: string;
+  content?: string | null;
+  createdOn?: string | null;
   /** Specify an optional description of the content list entry. */
-  description?: string;
-  modifiedOn?: string;
+  description?: string | null;
+  modifiedOn?: string | null;
   /** Specify the type of content list entry to block. */
-  type?: "cid" | "content_path";
+  type?: "cid" | "content_path" | null;
 }
 
 export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    content: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.Literals(["cid", "content_path"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    content: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(
+      Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

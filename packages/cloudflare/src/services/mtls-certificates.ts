@@ -32,12 +32,15 @@ export const GetAssociationRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAssociationRequest>;
 
-export type GetAssociationResponse = { service?: string; status?: string }[];
+export type GetAssociationResponse = {
+  service?: string | null;
+  status?: string | null;
+}[];
 
 export const GetAssociationResponse = Schema.Array(
   Schema.Struct({
-    service: Schema.optional(Schema.String),
-    status: Schema.optional(Schema.String),
+    service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetAssociationResponse>;
 
@@ -76,35 +79,35 @@ export const GetMtlsCertificateRequest = Schema.Struct({
 
 export interface GetMtlsCertificateResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean;
+  ca?: boolean | null;
   /** The uploaded root CA certificate. */
-  certificates?: string;
+  certificates?: string | null;
   /** When the certificate expires. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The certificate authority that issued the certificate. */
-  issuer?: string;
+  issuer?: string | null;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string;
+  name?: string | null;
   /** The certificate serial number. */
-  serialNumber?: string;
+  serialNumber?: string | null;
   /** The type of hash used for the certificate. */
-  signature?: string;
+  signature?: string | null;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string;
+  uploadedOn?: string | null;
 }
 
 export const GetMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -144,28 +147,28 @@ export const ListMtlsCertificatesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListMtlsCertificatesRequest>;
 
 export type ListMtlsCertificatesResponse = {
-  id?: string;
-  ca?: boolean;
-  certificates?: string;
-  expiresOn?: string;
-  issuer?: string;
-  name?: string;
-  serialNumber?: string;
-  signature?: string;
-  uploadedOn?: string;
+  id?: string | null;
+  ca?: boolean | null;
+  certificates?: string | null;
+  expiresOn?: string | null;
+  issuer?: string | null;
+  name?: string | null;
+  serialNumber?: string | null;
+  signature?: string | null;
+  uploadedOn?: string | null;
 }[];
 
 export const ListMtlsCertificatesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    ca: Schema.optional(Schema.Boolean),
-    certificates: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
-    issuer: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    serialNumber: Schema.optional(Schema.String),
-    signature: Schema.optional(Schema.String),
-    uploadedOn: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -225,38 +228,38 @@ export const CreateMtlsCertificateRequest = Schema.Struct({
 
 export interface CreateMtlsCertificateResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean;
+  ca?: boolean | null;
   /** The uploaded root CA certificate. */
-  certificates?: string;
+  certificates?: string | null;
   /** When the certificate expires. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The certificate authority that issued the certificate. */
-  issuer?: string;
+  issuer?: string | null;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string;
+  name?: string | null;
   /** The certificate serial number. */
-  serialNumber?: string;
+  serialNumber?: string | null;
   /** The type of hash used for the certificate. */
-  signature?: string;
+  signature?: string | null;
   /** This is the time the certificate was updated. */
-  updatedAt?: string;
+  updatedAt?: string | null;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string;
+  uploadedOn?: string | null;
 }
 
 export const CreateMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -303,35 +306,35 @@ export const DeleteMtlsCertificateRequest = Schema.Struct({
 
 export interface DeleteMtlsCertificateResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
   /** Indicates whether the certificate is a CA or leaf certificate. */
-  ca?: boolean;
+  ca?: boolean | null;
   /** The uploaded root CA certificate. */
-  certificates?: string;
+  certificates?: string | null;
   /** When the certificate expires. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The certificate authority that issued the certificate. */
-  issuer?: string;
+  issuer?: string | null;
   /** Optional unique name for the certificate. Only used for human readability. */
-  name?: string;
+  name?: string | null;
   /** The certificate serial number. */
-  serialNumber?: string;
+  serialNumber?: string | null;
   /** The type of hash used for the certificate. */
-  signature?: string;
+  signature?: string | null;
   /** This is the time the certificate was uploaded. */
-  uploadedOn?: string;
+  uploadedOn?: string | null;
 }
 
 export const DeleteMtlsCertificateResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  ca: Schema.optional(Schema.Boolean),
-  certificates: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  issuer: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  serialNumber: Schema.optional(Schema.String),
-  signature: Schema.optional(Schema.String),
-  uploadedOn: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ca: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  certificates: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  serialNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  signature: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

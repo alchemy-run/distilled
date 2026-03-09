@@ -2325,18 +2325,21 @@ export const CreateScreenshotRequest = Schema.Struct({
 export interface CreateScreenshotResponse {
   /** Response status */
   success: boolean;
-  errors?: { code: number; message: string }[];
+  errors?: { code: number; message: string }[] | null;
 }
 
 export const CreateScreenshotResponse = Schema.Struct({
   success: Schema.Boolean,
   errors: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        code: Schema.Number,
-        message: Schema.String,
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          code: Schema.Number,
+          message: Schema.String,
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<CreateScreenshotResponse>;
 

@@ -44,7 +44,7 @@ export interface GetCniResponse {
     customerAsn: number;
     extraPrefixes: string[];
     md5Key?: string | null;
-  };
+  } | null;
 }
 
 export const GetCniResponse = Schema.Struct({
@@ -65,17 +65,20 @@ export const GetCniResponse = Schema.Struct({
   ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
-    Schema.Struct({
-      customerAsn: Schema.Number,
-      extraPrefixes: Schema.Array(Schema.String),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        customerAsn: "customer_asn",
-        extraPrefixes: "extra_prefixes",
-        md5Key: "md5_key",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        customerAsn: Schema.Number,
+        extraPrefixes: Schema.Array(Schema.String),
+        md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          customerAsn: "customer_asn",
+          extraPrefixes: "extra_prefixes",
+          md5Key: "md5_key",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -145,7 +148,7 @@ export interface ListCnisResponse {
       customerAsn: number;
       extraPrefixes: string[];
       md5Key?: string | null;
-    };
+    } | null;
   }[];
   next?: number | null;
 }
@@ -170,17 +173,20 @@ export const ListCnisResponse = Schema.Struct({
       ),
       p2pIp: Schema.String,
       bgp: Schema.optional(
-        Schema.Struct({
-          customerAsn: Schema.Number,
-          extraPrefixes: Schema.Array(Schema.String),
-          md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            customerAsn: "customer_asn",
-            extraPrefixes: "extra_prefixes",
-            md5Key: "md5_key",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            customerAsn: Schema.Number,
+            extraPrefixes: Schema.Array(Schema.String),
+            md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }).pipe(
+            Schema.encodeKeys({
+              customerAsn: "customer_asn",
+              extraPrefixes: "extra_prefixes",
+              md5Key: "md5_key",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -274,7 +280,7 @@ export interface CreateCniResponse {
     customerAsn: number;
     extraPrefixes: string[];
     md5Key?: string | null;
-  };
+  } | null;
 }
 
 export const CreateCniResponse = Schema.Struct({
@@ -295,17 +301,20 @@ export const CreateCniResponse = Schema.Struct({
   ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
-    Schema.Struct({
-      customerAsn: Schema.Number,
-      extraPrefixes: Schema.Array(Schema.String),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        customerAsn: "customer_asn",
-        extraPrefixes: "extra_prefixes",
-        md5Key: "md5_key",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        customerAsn: Schema.Number,
+        extraPrefixes: Schema.Array(Schema.String),
+        md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          customerAsn: "customer_asn",
+          extraPrefixes: "extra_prefixes",
+          md5Key: "md5_key",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -416,7 +425,7 @@ export interface UpdateCniResponse {
     customerAsn: number;
     extraPrefixes: string[];
     md5Key?: string | null;
-  };
+  } | null;
 }
 
 export const UpdateCniResponse = Schema.Struct({
@@ -437,17 +446,20 @@ export const UpdateCniResponse = Schema.Struct({
   ),
   p2pIp: Schema.String,
   bgp: Schema.optional(
-    Schema.Struct({
-      customerAsn: Schema.Number,
-      extraPrefixes: Schema.Array(Schema.String),
-      md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        customerAsn: "customer_asn",
-        extraPrefixes: "extra_prefixes",
-        md5Key: "md5_key",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        customerAsn: Schema.Number,
+        extraPrefixes: Schema.Array(Schema.String),
+        md5Key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          customerAsn: "customer_asn",
+          extraPrefixes: "extra_prefixes",
+          md5Key: "md5_key",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -534,14 +546,14 @@ export type GetInterconnectResponse =
       slotId: string;
       speed: string;
       type: string;
-      owner?: string;
+      owner?: string | null;
     }
   | {
       account: string;
       name: string;
       region: string;
       type: string;
-      owner?: string;
+      owner?: string | null;
       speed?:
         | "50M"
         | "100M"
@@ -554,7 +566,8 @@ export type GetInterconnectResponse =
         | "5G"
         | "10G"
         | "20G"
-        | "50G";
+        | "50G"
+        | null;
     };
 
 export const GetInterconnectResponse = Schema.Union([
@@ -569,7 +582,7 @@ export const GetInterconnectResponse = Schema.Union([
     slotId: Schema.String,
     speed: Schema.String,
     type: Schema.String,
-    owner: Schema.optional(Schema.String),
+    owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       account: "account",
@@ -587,21 +600,24 @@ export const GetInterconnectResponse = Schema.Union([
     name: Schema.String,
     region: Schema.String,
     type: Schema.String,
-    owner: Schema.optional(Schema.String),
+    owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     speed: Schema.optional(
-      Schema.Literals([
-        "50M",
-        "100M",
-        "200M",
-        "300M",
-        "400M",
-        "500M",
-        "1G",
-        "2G",
-        "5G",
-        "10G",
-        "20G",
-        "50G",
+      Schema.Union([
+        Schema.Literals([
+          "50M",
+          "100M",
+          "200M",
+          "300M",
+          "400M",
+          "500M",
+          "1G",
+          "2G",
+          "5G",
+          "10G",
+          "20G",
+          "50G",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
@@ -661,14 +677,14 @@ export interface ListInterconnectsResponse {
         slotId: string;
         speed: string;
         type: string;
-        owner?: string;
+        owner?: string | null;
       }
     | {
         account: string;
         name: string;
         region: string;
         type: string;
-        owner?: string;
+        owner?: string | null;
         speed?:
           | "50M"
           | "100M"
@@ -681,7 +697,8 @@ export interface ListInterconnectsResponse {
           | "5G"
           | "10G"
           | "20G"
-          | "50G";
+          | "50G"
+          | null;
       }
   )[];
   next?: number | null;
@@ -701,7 +718,7 @@ export const ListInterconnectsResponse = Schema.Struct({
         slotId: Schema.String,
         speed: Schema.String,
         type: Schema.String,
-        owner: Schema.optional(Schema.String),
+        owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
           account: "account",
@@ -719,21 +736,24 @@ export const ListInterconnectsResponse = Schema.Struct({
         name: Schema.String,
         region: Schema.String,
         type: Schema.String,
-        owner: Schema.optional(Schema.String),
+        owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         speed: Schema.optional(
-          Schema.Literals([
-            "50M",
-            "100M",
-            "200M",
-            "300M",
-            "400M",
-            "500M",
-            "1G",
-            "2G",
-            "5G",
-            "10G",
-            "20G",
-            "50G",
+          Schema.Union([
+            Schema.Literals([
+              "50M",
+              "100M",
+              "200M",
+              "300M",
+              "400M",
+              "500M",
+              "1G",
+              "2G",
+              "5G",
+              "10G",
+              "20G",
+              "50G",
+            ]),
+            Schema.Null,
           ]),
         ),
       }),
@@ -793,14 +813,14 @@ export type CreateInterconnectResponse =
       slotId: string;
       speed: string;
       type: string;
-      owner?: string;
+      owner?: string | null;
     }
   | {
       account: string;
       name: string;
       region: string;
       type: string;
-      owner?: string;
+      owner?: string | null;
       speed?:
         | "50M"
         | "100M"
@@ -813,7 +833,8 @@ export type CreateInterconnectResponse =
         | "5G"
         | "10G"
         | "20G"
-        | "50G";
+        | "50G"
+        | null;
     };
 
 export const CreateInterconnectResponse = Schema.Union([
@@ -828,7 +849,7 @@ export const CreateInterconnectResponse = Schema.Union([
     slotId: Schema.String,
     speed: Schema.String,
     type: Schema.String,
-    owner: Schema.optional(Schema.String),
+    owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       account: "account",
@@ -846,21 +867,24 @@ export const CreateInterconnectResponse = Schema.Union([
     name: Schema.String,
     region: Schema.String,
     type: Schema.String,
-    owner: Schema.optional(Schema.String),
+    owner: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     speed: Schema.optional(
-      Schema.Literals([
-        "50M",
-        "100M",
-        "200M",
-        "300M",
-        "400M",
-        "500M",
-        "1G",
-        "2G",
-        "5G",
-        "10G",
-        "20G",
-        "50G",
+      Schema.Union([
+        Schema.Literals([
+          "50M",
+          "100M",
+          "200M",
+          "300M",
+          "400M",
+          "500M",
+          "1G",
+          "2G",
+          "5G",
+          "10G",
+          "20G",
+          "50G",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
@@ -1101,7 +1125,7 @@ export interface GetSlotResponse {
   site: string;
   speed: string;
   /** Customer account tag */
-  account?: string;
+  account?: string | null;
 }
 
 export const GetSlotResponse = Schema.Struct({
@@ -1113,7 +1137,7 @@ export const GetSlotResponse = Schema.Struct({
   occupied: Schema.Boolean,
   site: Schema.String,
   speed: Schema.String,
-  account: Schema.optional(Schema.String),
+  account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetSlotResponse>;
 
 export type GetSlotError = DefaultErrors;
@@ -1177,7 +1201,7 @@ export interface ListSlotsResponse {
     occupied: boolean;
     site: string;
     speed: string;
-    account?: string;
+    account?: string | null;
   }[];
   next?: number | null;
 }
@@ -1193,7 +1217,7 @@ export const ListSlotsResponse = Schema.Struct({
       occupied: Schema.Boolean,
       site: Schema.String,
       speed: Schema.String,
-      account: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
   next: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),

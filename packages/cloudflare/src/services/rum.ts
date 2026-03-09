@@ -34,61 +34,75 @@ export const ListRulesRequest = Schema.Struct({
 
 export interface ListRulesResponse {
   /** A list of rules. */
-  rules?: {
-    id?: string;
-    created?: string;
-    host?: string;
-    inclusive?: boolean;
-    isPaused?: boolean;
-    paths?: string[];
-    priority?: number;
-  }[];
+  rules?:
+    | {
+        id?: string | null;
+        created?: string | null;
+        host?: string | null;
+        inclusive?: boolean | null;
+        isPaused?: boolean | null;
+        paths?: string[] | null;
+        priority?: number | null;
+      }[]
+    | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
 }
 
 export const ListRulesResponse = Schema.Struct({
   rules: Schema.optional(
-    Schema.Array(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          inclusive: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          isPaused: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          paths: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            host: "host",
+            inclusive: "inclusive",
+            isPaused: "is_paused",
+            paths: "paths",
+            priority: "priority",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  ruleset: Schema.optional(
+    Schema.Union([
       Schema.Struct({
-        id: Schema.optional(Schema.String),
-        created: Schema.optional(Schema.String),
-        host: Schema.optional(Schema.String),
-        inclusive: Schema.optional(Schema.Boolean),
-        isPaused: Schema.optional(Schema.Boolean),
-        paths: Schema.optional(Schema.Array(Schema.String)),
-        priority: Schema.optional(Schema.Number),
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
           id: "id",
-          created: "created",
-          host: "host",
-          inclusive: "inclusive",
-          isPaused: "is_paused",
-          paths: "paths",
-          priority: "priority",
+          enabled: "enabled",
+          zoneName: "zone_name",
+          zoneTag: "zone_tag",
         }),
       ),
-    ),
-  ),
-  ruleset: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      zoneName: Schema.optional(Schema.String),
-      zoneTag: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        enabled: "enabled",
-        zoneName: "zone_name",
-        zoneTag: "zone_tag",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListRulesResponse>;
 
@@ -141,27 +155,29 @@ export const CreateRuleRequest = Schema.Struct({
 
 export interface CreateRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string;
-  created?: string;
+  id?: string | null;
+  created?: string | null;
   /** The hostname the rule will be applied to. */
-  host?: string;
+  host?: string | null;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean;
+  inclusive?: boolean | null;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean;
+  isPaused?: boolean | null;
   /** The paths the rule will be applied to. */
-  paths?: string[];
-  priority?: number;
+  paths?: string[] | null;
+  priority?: number | null;
 }
 
 export const CreateRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  host: Schema.optional(Schema.String),
-  inclusive: Schema.optional(Schema.Boolean),
-  isPaused: Schema.optional(Schema.Boolean),
-  paths: Schema.optional(Schema.Array(Schema.String)),
-  priority: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  inclusive: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isPaused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  paths: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -225,27 +241,29 @@ export const UpdateRuleRequest = Schema.Struct({
 
 export interface UpdateRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string;
-  created?: string;
+  id?: string | null;
+  created?: string | null;
   /** The hostname the rule will be applied to. */
-  host?: string;
+  host?: string | null;
   /** Whether the rule includes or excludes traffic from being measured. */
-  inclusive?: boolean;
+  inclusive?: boolean | null;
   /** Whether the rule is paused or not. */
-  isPaused?: boolean;
+  isPaused?: boolean | null;
   /** The paths the rule will be applied to. */
-  paths?: string[];
-  priority?: number;
+  paths?: string[] | null;
+  priority?: number | null;
 }
 
 export const UpdateRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  created: Schema.optional(Schema.String),
-  host: Schema.optional(Schema.String),
-  inclusive: Schema.optional(Schema.Boolean),
-  isPaused: Schema.optional(Schema.Boolean),
-  paths: Schema.optional(Schema.Array(Schema.String)),
-  priority: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  inclusive: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isPaused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  paths: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -291,11 +309,11 @@ export const DeleteRuleRequest = Schema.Struct({
 
 export interface DeleteRuleResponse {
   /** The Web Analytics rule identifier. */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteRuleResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = DefaultErrors;
@@ -360,61 +378,75 @@ export const BulkCreateRulesRequest = Schema.Struct({
 
 export interface BulkCreateRulesResponse {
   /** A list of rules. */
-  rules?: {
-    id?: string;
-    created?: string;
-    host?: string;
-    inclusive?: boolean;
-    isPaused?: boolean;
-    paths?: string[];
-    priority?: number;
-  }[];
+  rules?:
+    | {
+        id?: string | null;
+        created?: string | null;
+        host?: string | null;
+        inclusive?: boolean | null;
+        isPaused?: boolean | null;
+        paths?: string[] | null;
+        priority?: number | null;
+      }[]
+    | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
 }
 
 export const BulkCreateRulesResponse = Schema.Struct({
   rules: Schema.optional(
-    Schema.Array(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          inclusive: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          isPaused: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          paths: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            created: "created",
+            host: "host",
+            inclusive: "inclusive",
+            isPaused: "is_paused",
+            paths: "paths",
+            priority: "priority",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  ruleset: Schema.optional(
+    Schema.Union([
       Schema.Struct({
-        id: Schema.optional(Schema.String),
-        created: Schema.optional(Schema.String),
-        host: Schema.optional(Schema.String),
-        inclusive: Schema.optional(Schema.Boolean),
-        isPaused: Schema.optional(Schema.Boolean),
-        paths: Schema.optional(Schema.Array(Schema.String)),
-        priority: Schema.optional(Schema.Number),
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({
           id: "id",
-          created: "created",
-          host: "host",
-          inclusive: "inclusive",
-          isPaused: "is_paused",
-          paths: "paths",
-          priority: "priority",
+          enabled: "enabled",
+          zoneName: "zone_name",
+          zoneTag: "zone_tag",
         }),
       ),
-    ),
-  ),
-  ruleset: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      zoneName: Schema.optional(Schema.String),
-      zoneTag: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        enabled: "enabled",
-        zoneName: "zone_name",
-        zoneTag: "zone_tag",
-      }),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<BulkCreateRulesResponse>;
 
@@ -453,46 +485,51 @@ export const GetSiteInfoRequest = Schema.Struct({
 
 export interface GetSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean;
-  created?: string;
+  autoInstall?: boolean | null;
+  created?: string | null;
   /** A list of rules. */
-  rules?: unknown[];
+  rules?: unknown[] | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
   /** The Web Analytics site identifier. */
-  siteTag?: string;
+  siteTag?: string | null;
   /** The Web Analytics site token. */
-  siteToken?: string;
+  siteToken?: string | null;
   /** Encoded JavaScript snippet. */
-  snippet?: string;
+  snippet?: string | null;
 }
 
 export const GetSiteInfoResponse = Schema.Struct({
-  autoInstall: Schema.optional(Schema.Boolean),
-  created: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(Schema.Unknown)),
-  ruleset: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      zoneName: Schema.optional(Schema.String),
-      zoneTag: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        enabled: "enabled",
-        zoneName: "zone_name",
-        zoneTag: "zone_tag",
-      }),
-    ),
+  autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  rules: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  siteTag: Schema.optional(Schema.String),
-  siteToken: Schema.optional(Schema.String),
-  snippet: Schema.optional(Schema.String),
+  ruleset: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          enabled: "enabled",
+          zoneName: "zone_name",
+          zoneTag: "zone_tag",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     autoInstall: "auto_install",
@@ -535,43 +572,48 @@ export const ListSiteInfosRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSiteInfosRequest>;
 
 export type ListSiteInfosResponse = {
-  autoInstall?: boolean;
-  created?: string;
-  rules?: unknown[];
+  autoInstall?: boolean | null;
+  created?: string | null;
+  rules?: unknown[] | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
-  siteTag?: string;
-  siteToken?: string;
-  snippet?: string;
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
+  siteTag?: string | null;
+  siteToken?: string | null;
+  snippet?: string | null;
 }[];
 
 export const ListSiteInfosResponse = Schema.Array(
   Schema.Struct({
-    autoInstall: Schema.optional(Schema.Boolean),
-    created: Schema.optional(Schema.String),
-    rules: Schema.optional(Schema.Array(Schema.Unknown)),
-    ruleset: Schema.optional(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        enabled: Schema.optional(Schema.Boolean),
-        zoneName: Schema.optional(Schema.String),
-        zoneTag: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          enabled: "enabled",
-          zoneName: "zone_name",
-          zoneTag: "zone_tag",
-        }),
-      ),
+    autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    rules: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
     ),
-    siteTag: Schema.optional(Schema.String),
-    siteToken: Schema.optional(Schema.String),
-    snippet: Schema.optional(Schema.String),
+    ruleset: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            enabled: "enabled",
+            zoneName: "zone_name",
+            zoneTag: "zone_tag",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       autoInstall: "auto_install",
@@ -625,46 +667,51 @@ export const CreateSiteInfoRequest = Schema.Struct({
 
 export interface CreateSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean;
-  created?: string;
+  autoInstall?: boolean | null;
+  created?: string | null;
   /** A list of rules. */
-  rules?: unknown[];
+  rules?: unknown[] | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
   /** The Web Analytics site identifier. */
-  siteTag?: string;
+  siteTag?: string | null;
   /** The Web Analytics site token. */
-  siteToken?: string;
+  siteToken?: string | null;
   /** Encoded JavaScript snippet. */
-  snippet?: string;
+  snippet?: string | null;
 }
 
 export const CreateSiteInfoResponse = Schema.Struct({
-  autoInstall: Schema.optional(Schema.Boolean),
-  created: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(Schema.Unknown)),
-  ruleset: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      zoneName: Schema.optional(Schema.String),
-      zoneTag: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        enabled: "enabled",
-        zoneName: "zone_name",
-        zoneTag: "zone_tag",
-      }),
-    ),
+  autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  rules: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  siteTag: Schema.optional(Schema.String),
-  siteToken: Schema.optional(Schema.String),
-  snippet: Schema.optional(Schema.String),
+  ruleset: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          enabled: "enabled",
+          zoneName: "zone_name",
+          zoneTag: "zone_tag",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     autoInstall: "auto_install",
@@ -730,46 +777,51 @@ export const UpdateSiteInfoRequest = Schema.Struct({
 
 export interface UpdateSiteInfoResponse {
   /** If enabled, the JavaScript snippet is automatically injected for orange-clouded sites. */
-  autoInstall?: boolean;
-  created?: string;
+  autoInstall?: boolean | null;
+  created?: string | null;
   /** A list of rules. */
-  rules?: unknown[];
+  rules?: unknown[] | null;
   ruleset?: {
-    id?: string;
-    enabled?: boolean;
-    zoneName?: string;
-    zoneTag?: string;
-  };
+    id?: string | null;
+    enabled?: boolean | null;
+    zoneName?: string | null;
+    zoneTag?: string | null;
+  } | null;
   /** The Web Analytics site identifier. */
-  siteTag?: string;
+  siteTag?: string | null;
   /** The Web Analytics site token. */
-  siteToken?: string;
+  siteToken?: string | null;
   /** Encoded JavaScript snippet. */
-  snippet?: string;
+  snippet?: string | null;
 }
 
 export const UpdateSiteInfoResponse = Schema.Struct({
-  autoInstall: Schema.optional(Schema.Boolean),
-  created: Schema.optional(Schema.String),
-  rules: Schema.optional(Schema.Array(Schema.Unknown)),
-  ruleset: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      zoneName: Schema.optional(Schema.String),
-      zoneTag: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        enabled: "enabled",
-        zoneName: "zone_name",
-        zoneTag: "zone_tag",
-      }),
-    ),
+  autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  rules: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-  siteTag: Schema.optional(Schema.String),
-  siteToken: Schema.optional(Schema.String),
-  snippet: Schema.optional(Schema.String),
+  ruleset: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          enabled: "enabled",
+          zoneName: "zone_name",
+          zoneTag: "zone_tag",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     autoInstall: "auto_install",
@@ -813,11 +865,11 @@ export const DeleteSiteInfoRequest = Schema.Struct({
 
 export interface DeleteSiteInfoResponse {
   /** The Web Analytics site identifier. */
-  siteTag?: string;
+  siteTag?: string | null;
 }
 
 export const DeleteSiteInfoResponse = Schema.Struct({
-  siteTag: Schema.optional(Schema.String),
+  siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ siteTag: "site_tag" }),
 ) as unknown as Schema.Schema<DeleteSiteInfoResponse>;

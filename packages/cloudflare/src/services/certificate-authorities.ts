@@ -36,11 +36,13 @@ export const GetHostnameAssociationRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetHostnameAssociationRequest>;
 
 export interface GetHostnameAssociationResponse {
-  hostnames?: string[];
+  hostnames?: string[] | null;
 }
 
 export const GetHostnameAssociationResponse = Schema.Struct({
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
 
 export type GetHostnameAssociationError = DefaultErrors;
@@ -81,11 +83,13 @@ export const PutHostnameAssociationRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PutHostnameAssociationRequest>;
 
 export interface PutHostnameAssociationResponse {
-  hostnames?: string[];
+  hostnames?: string[] | null;
 }
 
 export const PutHostnameAssociationResponse = Schema.Struct({
-  hostnames: Schema.optional(Schema.Array(Schema.String)),
+  hostnames: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
 
 export type PutHostnameAssociationError = DefaultErrors;

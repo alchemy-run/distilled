@@ -170,12 +170,15 @@ export const GetDestinationPagerdutyRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDestinationPagerdutyRequest>;
 
-export type GetDestinationPagerdutyResponse = { id?: string; name?: string }[];
+export type GetDestinationPagerdutyResponse = {
+  id?: string | null;
+  name?: string | null;
+}[];
 
 export const GetDestinationPagerdutyResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetDestinationPagerdutyResponse>;
 
@@ -208,11 +211,11 @@ export const CreateDestinationPagerdutyRequest = Schema.Struct({
 
 export interface CreateDestinationPagerdutyResponse {
   /** token in form of UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const CreateDestinationPagerdutyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDestinationPagerdutyResponse>;
 
 export type CreateDestinationPagerdutyError = DefaultErrors | InvalidRoute;
@@ -243,8 +246,8 @@ export const DeleteDestinationPagerdutyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteDestinationPagerdutyRequest>;
 
 export interface DeleteDestinationPagerdutyResponse {
-  errors: { message: string; code?: number }[];
-  messages: { message: string; code?: number }[];
+  errors: { message: string; code?: number | null }[];
+  messages: { message: string; code?: number | null }[];
   /** Whether the API call was successful */
   success: true;
 }
@@ -253,13 +256,13 @@ export const DeleteDestinationPagerdutyResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   success: Schema.Literal(true),
@@ -296,11 +299,11 @@ export const LinkDestinationPagerdutyRequest = Schema.Struct({
 
 export interface LinkDestinationPagerdutyResponse {
   /** UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const LinkDestinationPagerdutyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<LinkDestinationPagerdutyResponse>;
 
 export type LinkDestinationPagerdutyError = DefaultErrors | InvalidRoute;
@@ -338,15 +341,15 @@ export const GetDestinationWebhookRequest = Schema.Struct({
 
 export interface GetDestinationWebhookResponse {
   /** The unique identifier of a webhook */
-  id?: string;
+  id?: string | null;
   /** Timestamp of when the webhook destination was created. */
-  createdAt?: string;
+  createdAt?: string | null;
   /** Timestamp of the last time an attempt to dispatch a notification to this webhook failed. */
-  lastFailure?: string;
+  lastFailure?: string | null;
   /** Timestamp of the last time Cloudflare was able to successfully dispatch a notification using this webhook. */
-  lastSuccess?: string;
+  lastSuccess?: string | null;
   /** The name of the webhook destination. This will be included in the request body when you receive a webhook notification. */
-  name?: string;
+  name?: string | null;
   /** Type of webhook endpoint. */
   type?:
     | "datadog"
@@ -356,30 +359,34 @@ export interface GetDestinationWebhookResponse {
     | "generic"
     | "opsgenie"
     | "slack"
-    | "splunk";
+    | "splunk"
+    | null;
   /** The POST endpoint to call when dispatching a notification. */
-  url?: string;
+  url?: string | null;
 }
 
 export const GetDestinationWebhookResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastFailure: Schema.optional(Schema.String),
-  lastSuccess: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastFailure: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastSuccess: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   type: Schema.optional(
-    Schema.Literals([
-      "datadog",
-      "discord",
-      "feishu",
-      "gchat",
-      "generic",
-      "opsgenie",
-      "slack",
-      "splunk",
+    Schema.Union([
+      Schema.Literals([
+        "datadog",
+        "discord",
+        "feishu",
+        "gchat",
+        "generic",
+        "opsgenie",
+        "slack",
+        "splunk",
+      ]),
+      Schema.Null,
     ]),
   ),
-  url: Schema.optional(Schema.String),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -423,11 +430,11 @@ export const ListDestinationWebhooksRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDestinationWebhooksRequest>;
 
 export type ListDestinationWebhooksResponse = {
-  id?: string;
-  createdAt?: string;
-  lastFailure?: string;
-  lastSuccess?: string;
-  name?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastFailure?: string | null;
+  lastSuccess?: string | null;
+  name?: string | null;
   type?:
     | "datadog"
     | "discord"
@@ -436,30 +443,34 @@ export type ListDestinationWebhooksResponse = {
     | "generic"
     | "opsgenie"
     | "slack"
-    | "splunk";
-  url?: string;
+    | "splunk"
+    | null;
+  url?: string | null;
 }[];
 
 export const ListDestinationWebhooksResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    lastFailure: Schema.optional(Schema.String),
-    lastSuccess: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastFailure: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastSuccess: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     type: Schema.optional(
-      Schema.Literals([
-        "datadog",
-        "discord",
-        "feishu",
-        "gchat",
-        "generic",
-        "opsgenie",
-        "slack",
-        "splunk",
+      Schema.Union([
+        Schema.Literals([
+          "datadog",
+          "discord",
+          "feishu",
+          "gchat",
+          "generic",
+          "opsgenie",
+          "slack",
+          "splunk",
+        ]),
+        Schema.Null,
       ]),
     ),
-    url: Schema.optional(Schema.String),
+    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -511,11 +522,11 @@ export const CreateDestinationWebhookRequest = Schema.Struct({
 
 export interface CreateDestinationWebhookResponse {
   /** UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const CreateDestinationWebhookResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDestinationWebhookResponse>;
 
 export type CreateDestinationWebhookError =
@@ -561,11 +572,11 @@ export const UpdateDestinationWebhookRequest = Schema.Struct({
 
 export interface UpdateDestinationWebhookResponse {
   /** UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const UpdateDestinationWebhookResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateDestinationWebhookResponse>;
 
 export type UpdateDestinationWebhookError =
@@ -601,8 +612,8 @@ export const DeleteDestinationWebhookRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteDestinationWebhookRequest>;
 
 export interface DeleteDestinationWebhookResponse {
-  errors: { message: string; code?: number }[];
-  messages: { message: string; code?: number }[];
+  errors: { message: string; code?: number | null }[];
+  messages: { message: string; code?: number | null }[];
   /** Whether the API call was successful */
   success: true;
 }
@@ -611,13 +622,13 @@ export const DeleteDestinationWebhookResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   success: Schema.Literal(true),
@@ -661,30 +672,33 @@ export const ListHistoriesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListHistoriesRequest>;
 
 export type ListHistoriesResponse = {
-  id?: string;
-  alertBody?: string;
-  alertType?: string;
-  description?: string;
-  mechanism?: string;
-  mechanismType?: "email" | "pagerduty" | "webhook";
-  name?: string;
-  policyId?: string;
-  sent?: string;
+  id?: string | null;
+  alertBody?: string | null;
+  alertType?: string | null;
+  description?: string | null;
+  mechanism?: string | null;
+  mechanismType?: "email" | "pagerduty" | "webhook" | null;
+  name?: string | null;
+  policyId?: string | null;
+  sent?: string | null;
 }[];
 
 export const ListHistoriesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    alertBody: Schema.optional(Schema.String),
-    alertType: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    mechanism: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    alertBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    alertType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    mechanism: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     mechanismType: Schema.optional(
-      Schema.Literals(["email", "pagerduty", "webhook"]),
+      Schema.Union([
+        Schema.Literals(["email", "pagerduty", "webhook"]),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
-    policyId: Schema.optional(Schema.String),
-    sent: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sent: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -735,9 +749,9 @@ export const GetPolicyRequest = Schema.Struct({
 
 export interface GetPolicyResponse {
   /** The unique identifier of a notification policy */
-  id?: string;
+  id?: string | null;
   /** Optional specification of how often to re-alert from the same incident, not support on all alert types. */
-  alertInterval?: string;
+  alertInterval?: string | null;
   /** Refers to which event will trigger a Notification dispatch. You can use the endpoint to get available alert types which then will give you a list of possible values. */
   alertType?:
     | "abuse_report_alert"
@@ -807,466 +821,82 @@ export interface GetPolicyResponse {
     | "tunnel_update_event"
     | "universal_ssl_event_type"
     | "web_analytics_metrics_update"
-    | "zone_aop_custom_certificate_expiration_type";
-  created?: string;
+    | "zone_aop_custom_certificate_expiration_type"
+    | null;
+  created?: string | null;
   /** Optional description for the Notification policy. */
-  description?: string;
+  description?: string | null;
   /** Whether or not the Notification policy is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** Optional filters that allow you to be alerted only on a subset of events for that alert type based on some criteria. This is only available for select alert types. See alert type documentation for mor */
   filters?: {
-    actions?: string[];
-    affectedAsns?: string[];
-    affectedComponents?: string[];
-    affectedLocations?: string[];
-    airportCode?: string[];
-    alertTriggerPreferences?: string[];
-    alertTriggerPreferencesValue?: string[];
-    enabled?: string[];
-    environment?: string[];
-    event?: string[];
-    eventSource?: string[];
-    eventType?: string[];
-    groupBy?: string[];
-    healthCheckId?: string[];
-    incidentImpact?: (
-      | "INCIDENT_IMPACT_NONE"
-      | "INCIDENT_IMPACT_MINOR"
-      | "INCIDENT_IMPACT_MAJOR"
-      | "INCIDENT_IMPACT_CRITICAL"
-    )[];
-    inputId?: string[];
-    insightClass?: string[];
-    limit?: string[];
-    logoTag?: string[];
-    megabitsPerSecond?: string[];
-    newHealth?: string[];
-    newStatus?: string[];
-    packetsPerSecond?: string[];
-    poolId?: string[];
-    popNames?: string[];
-    product?: string[];
-    projectId?: string[];
-    protocol?: string[];
-    queryTag?: string[];
-    requestsPerSecond?: string[];
-    selectors?: string[];
-    services?: string[];
-    slo?: string[];
-    status?: string[];
-    targetHostname?: string[];
-    targetIp?: string[];
-    targetZoneName?: string[];
-    trafficExclusions?: "security_events"[];
-    tunnelId?: string[];
-    tunnelName?: string[];
-    type?: string[];
-    where?: string[];
-    zones?: string[];
-  };
+    actions?: string[] | null;
+    affectedAsns?: string[] | null;
+    affectedComponents?: string[] | null;
+    affectedLocations?: string[] | null;
+    airportCode?: string[] | null;
+    alertTriggerPreferences?: string[] | null;
+    alertTriggerPreferencesValue?: string[] | null;
+    enabled?: string[] | null;
+    environment?: string[] | null;
+    event?: string[] | null;
+    eventSource?: string[] | null;
+    eventType?: string[] | null;
+    groupBy?: string[] | null;
+    healthCheckId?: string[] | null;
+    incidentImpact?:
+      | (
+          | "INCIDENT_IMPACT_NONE"
+          | "INCIDENT_IMPACT_MINOR"
+          | "INCIDENT_IMPACT_MAJOR"
+          | "INCIDENT_IMPACT_CRITICAL"
+        )[]
+      | null;
+    inputId?: string[] | null;
+    insightClass?: string[] | null;
+    limit?: string[] | null;
+    logoTag?: string[] | null;
+    megabitsPerSecond?: string[] | null;
+    newHealth?: string[] | null;
+    newStatus?: string[] | null;
+    packetsPerSecond?: string[] | null;
+    poolId?: string[] | null;
+    popNames?: string[] | null;
+    product?: string[] | null;
+    projectId?: string[] | null;
+    protocol?: string[] | null;
+    queryTag?: string[] | null;
+    requestsPerSecond?: string[] | null;
+    selectors?: string[] | null;
+    services?: string[] | null;
+    slo?: string[] | null;
+    status?: string[] | null;
+    targetHostname?: string[] | null;
+    targetIp?: string[] | null;
+    targetZoneName?: string[] | null;
+    trafficExclusions?: "security_events"[] | null;
+    tunnelId?: string[] | null;
+    tunnelName?: string[] | null;
+    type?: string[] | null;
+    where?: string[] | null;
+    zones?: string[] | null;
+  } | null;
   /** List of IDs that will be used when dispatching a notification. IDs for email type will be the email address. */
   mechanisms?: {
-    email?: { id?: string }[];
-    pagerduty?: { id?: string }[];
-    webhooks?: { id?: string }[];
-  };
-  modified?: string;
+    email?: { id?: string | null }[] | null;
+    pagerduty?: { id?: string | null }[] | null;
+    webhooks?: { id?: string | null }[] | null;
+  } | null;
+  modified?: string | null;
   /** Name of the policy. */
-  name?: string;
+  name?: string | null;
 }
 
 export const GetPolicyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  alertInterval: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  alertInterval: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   alertType: Schema.optional(
-    Schema.Literals([
-      "abuse_report_alert",
-      "access_custom_certificate_expiration_type",
-      "advanced_ddos_attack_l4_alert",
-      "advanced_ddos_attack_l7_alert",
-      "advanced_http_alert_error",
-      "bgp_hijack_notification",
-      "billing_usage_alert",
-      "block_notification_block_removed",
-      "block_notification_new_block",
-      "block_notification_review_rejected",
-      "bot_traffic_basic_alert",
-      "brand_protection_alert",
-      "brand_protection_digest",
-      "clickhouse_alert_fw_anomaly",
-      "clickhouse_alert_fw_ent_anomaly",
-      "cloudforce_one_request_notification",
-      "custom_analytics",
-      "custom_bot_detection_alert",
-      "custom_ssl_certificate_event_type",
-      "dedicated_ssl_certificate_event_type",
-      "device_connectivity_anomaly_alert",
-      "dos_attack_l4",
-      "dos_attack_l7",
-      "expiring_service_token_alert",
-      "failing_logpush_job_disabled_alert",
-      "fbm_auto_advertisement",
-      "fbm_dosd_attack",
-      "fbm_volumetric_attack",
-      "health_check_status_notification",
-      "hostname_aop_custom_certificate_expiration_type",
-      "http_alert_edge_error",
-      "http_alert_origin_error",
-      "image_notification",
-      "image_resizing_notification",
-      "incident_alert",
-      "load_balancing_health_alert",
-      "load_balancing_pool_enablement_alert",
-      "logo_match_alert",
-      "magic_tunnel_health_check_event",
-      "magic_wan_tunnel_health",
-      "maintenance_event_notification",
-      "mtls_certificate_store_certificate_expiration_type",
-      "pages_event_alert",
-      "radar_notification",
-      "real_origin_monitoring",
-      "scriptmonitor_alert_new_code_change_detections",
-      "scriptmonitor_alert_new_hosts",
-      "scriptmonitor_alert_new_malicious_hosts",
-      "scriptmonitor_alert_new_malicious_scripts",
-      "scriptmonitor_alert_new_malicious_url",
-      "scriptmonitor_alert_new_max_length_resource_url",
-      "scriptmonitor_alert_new_resources",
-      "secondary_dns_all_primaries_failing",
-      "secondary_dns_primaries_failing",
-      "secondary_dns_warning",
-      "secondary_dns_zone_successfully_updated",
-      "secondary_dns_zone_validation_warning",
-      "security_insights_alert",
-      "sentinel_alert",
-      "stream_live_notifications",
-      "synthetic_test_latency_alert",
-      "synthetic_test_low_availability_alert",
-      "traffic_anomalies_alert",
-      "tunnel_health_event",
-      "tunnel_update_event",
-      "universal_ssl_event_type",
-      "web_analytics_metrics_update",
-      "zone_aop_custom_certificate_expiration_type",
-    ]),
-  ),
-  created: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
-  filters: Schema.optional(
-    Schema.Struct({
-      actions: Schema.optional(Schema.Array(Schema.String)),
-      affectedAsns: Schema.optional(Schema.Array(Schema.String)),
-      affectedComponents: Schema.optional(Schema.Array(Schema.String)),
-      affectedLocations: Schema.optional(Schema.Array(Schema.String)),
-      airportCode: Schema.optional(Schema.Array(Schema.String)),
-      alertTriggerPreferences: Schema.optional(Schema.Array(Schema.String)),
-      alertTriggerPreferencesValue: Schema.optional(
-        Schema.Array(Schema.String),
-      ),
-      enabled: Schema.optional(Schema.Array(Schema.String)),
-      environment: Schema.optional(Schema.Array(Schema.String)),
-      event: Schema.optional(Schema.Array(Schema.String)),
-      eventSource: Schema.optional(Schema.Array(Schema.String)),
-      eventType: Schema.optional(Schema.Array(Schema.String)),
-      groupBy: Schema.optional(Schema.Array(Schema.String)),
-      healthCheckId: Schema.optional(Schema.Array(Schema.String)),
-      incidentImpact: Schema.optional(
-        Schema.Array(
-          Schema.Literals([
-            "INCIDENT_IMPACT_NONE",
-            "INCIDENT_IMPACT_MINOR",
-            "INCIDENT_IMPACT_MAJOR",
-            "INCIDENT_IMPACT_CRITICAL",
-          ]),
-        ),
-      ),
-      inputId: Schema.optional(Schema.Array(Schema.String)),
-      insightClass: Schema.optional(Schema.Array(Schema.String)),
-      limit: Schema.optional(Schema.Array(Schema.String)),
-      logoTag: Schema.optional(Schema.Array(Schema.String)),
-      megabitsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-      newHealth: Schema.optional(Schema.Array(Schema.String)),
-      newStatus: Schema.optional(Schema.Array(Schema.String)),
-      packetsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-      poolId: Schema.optional(Schema.Array(Schema.String)),
-      popNames: Schema.optional(Schema.Array(Schema.String)),
-      product: Schema.optional(Schema.Array(Schema.String)),
-      projectId: Schema.optional(Schema.Array(Schema.String)),
-      protocol: Schema.optional(Schema.Array(Schema.String)),
-      queryTag: Schema.optional(Schema.Array(Schema.String)),
-      requestsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-      selectors: Schema.optional(Schema.Array(Schema.String)),
-      services: Schema.optional(Schema.Array(Schema.String)),
-      slo: Schema.optional(Schema.Array(Schema.String)),
-      status: Schema.optional(Schema.Array(Schema.String)),
-      targetHostname: Schema.optional(Schema.Array(Schema.String)),
-      targetIp: Schema.optional(Schema.Array(Schema.String)),
-      targetZoneName: Schema.optional(Schema.Array(Schema.String)),
-      trafficExclusions: Schema.optional(
-        Schema.Array(Schema.Literal("security_events")),
-      ),
-      tunnelId: Schema.optional(Schema.Array(Schema.String)),
-      tunnelName: Schema.optional(Schema.Array(Schema.String)),
-      type: Schema.optional(Schema.Array(Schema.String)),
-      where: Schema.optional(Schema.Array(Schema.String)),
-      zones: Schema.optional(Schema.Array(Schema.String)),
-    }).pipe(
-      Schema.encodeKeys({
-        actions: "actions",
-        affectedAsns: "affected_asns",
-        affectedComponents: "affected_components",
-        affectedLocations: "affected_locations",
-        airportCode: "airport_code",
-        alertTriggerPreferences: "alert_trigger_preferences",
-        alertTriggerPreferencesValue: "alert_trigger_preferences_value",
-        enabled: "enabled",
-        environment: "environment",
-        event: "event",
-        eventSource: "event_source",
-        eventType: "event_type",
-        groupBy: "group_by",
-        healthCheckId: "health_check_id",
-        incidentImpact: "incident_impact",
-        inputId: "input_id",
-        insightClass: "insight_class",
-        limit: "limit",
-        logoTag: "logo_tag",
-        megabitsPerSecond: "megabits_per_second",
-        newHealth: "new_health",
-        newStatus: "new_status",
-        packetsPerSecond: "packets_per_second",
-        poolId: "pool_id",
-        popNames: "pop_names",
-        product: "product",
-        projectId: "project_id",
-        protocol: "protocol",
-        queryTag: "query_tag",
-        requestsPerSecond: "requests_per_second",
-        selectors: "selectors",
-        services: "services",
-        slo: "slo",
-        status: "status",
-        targetHostname: "target_hostname",
-        targetIp: "target_ip",
-        targetZoneName: "target_zone_name",
-        trafficExclusions: "traffic_exclusions",
-        tunnelId: "tunnel_id",
-        tunnelName: "tunnel_name",
-        type: "type",
-        where: "where",
-        zones: "zones",
-      }),
-    ),
-  ),
-  mechanisms: Schema.optional(
-    Schema.Struct({
-      email: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.optional(Schema.String),
-          }),
-        ),
-      ),
-      pagerduty: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.optional(Schema.String),
-          }),
-        ),
-      ),
-      webhooks: Schema.optional(
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.optional(Schema.String),
-          }),
-        ),
-      ),
-    }),
-  ),
-  modified: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    alertInterval: "alert_interval",
-    alertType: "alert_type",
-    created: "created",
-    description: "description",
-    enabled: "enabled",
-    filters: "filters",
-    mechanisms: "mechanisms",
-    modified: "modified",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<GetPolicyResponse>;
-
-export type GetPolicyError = DefaultErrors | InvalidRoute | PolicyNotFound;
-
-export const getPolicy: API.OperationMethod<
-  GetPolicyRequest,
-  GetPolicyResponse,
-  GetPolicyError,
-  Credentials | HttpClient.HttpClient
-> = API.make(() => ({
-  input: GetPolicyRequest,
-  output: GetPolicyResponse,
-  errors: [InvalidRoute, PolicyNotFound],
-}));
-
-export interface ListPoliciesRequest {
-  /** The account id */
-  accountId: string;
-}
-
-export const ListPoliciesRequest = Schema.Struct({
-  accountId: Schema.String.pipe(T.HttpPath("account_id")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "/accounts/{account_id}/alerting/v3/policies",
-  }),
-) as unknown as Schema.Schema<ListPoliciesRequest>;
-
-export type ListPoliciesResponse = {
-  id?: string;
-  alertInterval?: string;
-  alertType?:
-    | "abuse_report_alert"
-    | "access_custom_certificate_expiration_type"
-    | "advanced_ddos_attack_l4_alert"
-    | "advanced_ddos_attack_l7_alert"
-    | "advanced_http_alert_error"
-    | "bgp_hijack_notification"
-    | "billing_usage_alert"
-    | "block_notification_block_removed"
-    | "block_notification_new_block"
-    | "block_notification_review_rejected"
-    | "bot_traffic_basic_alert"
-    | "brand_protection_alert"
-    | "brand_protection_digest"
-    | "clickhouse_alert_fw_anomaly"
-    | "clickhouse_alert_fw_ent_anomaly"
-    | "cloudforce_one_request_notification"
-    | "custom_analytics"
-    | "custom_bot_detection_alert"
-    | "custom_ssl_certificate_event_type"
-    | "dedicated_ssl_certificate_event_type"
-    | "device_connectivity_anomaly_alert"
-    | "dos_attack_l4"
-    | "dos_attack_l7"
-    | "expiring_service_token_alert"
-    | "failing_logpush_job_disabled_alert"
-    | "fbm_auto_advertisement"
-    | "fbm_dosd_attack"
-    | "fbm_volumetric_attack"
-    | "health_check_status_notification"
-    | "hostname_aop_custom_certificate_expiration_type"
-    | "http_alert_edge_error"
-    | "http_alert_origin_error"
-    | "image_notification"
-    | "image_resizing_notification"
-    | "incident_alert"
-    | "load_balancing_health_alert"
-    | "load_balancing_pool_enablement_alert"
-    | "logo_match_alert"
-    | "magic_tunnel_health_check_event"
-    | "magic_wan_tunnel_health"
-    | "maintenance_event_notification"
-    | "mtls_certificate_store_certificate_expiration_type"
-    | "pages_event_alert"
-    | "radar_notification"
-    | "real_origin_monitoring"
-    | "scriptmonitor_alert_new_code_change_detections"
-    | "scriptmonitor_alert_new_hosts"
-    | "scriptmonitor_alert_new_malicious_hosts"
-    | "scriptmonitor_alert_new_malicious_scripts"
-    | "scriptmonitor_alert_new_malicious_url"
-    | "scriptmonitor_alert_new_max_length_resource_url"
-    | "scriptmonitor_alert_new_resources"
-    | "secondary_dns_all_primaries_failing"
-    | "secondary_dns_primaries_failing"
-    | "secondary_dns_warning"
-    | "secondary_dns_zone_successfully_updated"
-    | "secondary_dns_zone_validation_warning"
-    | "security_insights_alert"
-    | "sentinel_alert"
-    | "stream_live_notifications"
-    | "synthetic_test_latency_alert"
-    | "synthetic_test_low_availability_alert"
-    | "traffic_anomalies_alert"
-    | "tunnel_health_event"
-    | "tunnel_update_event"
-    | "universal_ssl_event_type"
-    | "web_analytics_metrics_update"
-    | "zone_aop_custom_certificate_expiration_type";
-  created?: string;
-  description?: string;
-  enabled?: boolean;
-  filters?: {
-    actions?: string[];
-    affectedAsns?: string[];
-    affectedComponents?: string[];
-    affectedLocations?: string[];
-    airportCode?: string[];
-    alertTriggerPreferences?: string[];
-    alertTriggerPreferencesValue?: string[];
-    enabled?: string[];
-    environment?: string[];
-    event?: string[];
-    eventSource?: string[];
-    eventType?: string[];
-    groupBy?: string[];
-    healthCheckId?: string[];
-    incidentImpact?: (
-      | "INCIDENT_IMPACT_NONE"
-      | "INCIDENT_IMPACT_MINOR"
-      | "INCIDENT_IMPACT_MAJOR"
-      | "INCIDENT_IMPACT_CRITICAL"
-    )[];
-    inputId?: string[];
-    insightClass?: string[];
-    limit?: string[];
-    logoTag?: string[];
-    megabitsPerSecond?: string[];
-    newHealth?: string[];
-    newStatus?: string[];
-    packetsPerSecond?: string[];
-    poolId?: string[];
-    popNames?: string[];
-    product?: string[];
-    projectId?: string[];
-    protocol?: string[];
-    queryTag?: string[];
-    requestsPerSecond?: string[];
-    selectors?: string[];
-    services?: string[];
-    slo?: string[];
-    status?: string[];
-    targetHostname?: string[];
-    targetIp?: string[];
-    targetZoneName?: string[];
-    trafficExclusions?: "security_events"[];
-    tunnelId?: string[];
-    tunnelName?: string[];
-    type?: string[];
-    where?: string[];
-    zones?: string[];
-  };
-  mechanisms?: {
-    email?: { id?: string }[];
-    pagerduty?: { id?: string }[];
-    webhooks?: { id?: string }[];
-  };
-  modified?: string;
-  name?: string;
-}[];
-
-export const ListPoliciesResponse = Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.String),
-    alertInterval: Schema.optional(Schema.String),
-    alertType: Schema.optional(
+    Schema.Union([
       Schema.Literals([
         "abuse_report_alert",
         "access_custom_certificate_expiration_type",
@@ -1337,68 +967,157 @@ export const ListPoliciesResponse = Schema.Array(
         "web_analytics_metrics_update",
         "zone_aop_custom_certificate_expiration_type",
       ]),
-    ),
-    created: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    filters: Schema.optional(
+      Schema.Null,
+    ]),
+  ),
+  created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  filters: Schema.optional(
+    Schema.Union([
       Schema.Struct({
-        actions: Schema.optional(Schema.Array(Schema.String)),
-        affectedAsns: Schema.optional(Schema.Array(Schema.String)),
-        affectedComponents: Schema.optional(Schema.Array(Schema.String)),
-        affectedLocations: Schema.optional(Schema.Array(Schema.String)),
-        airportCode: Schema.optional(Schema.Array(Schema.String)),
-        alertTriggerPreferences: Schema.optional(Schema.Array(Schema.String)),
+        actions: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        affectedAsns: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        affectedComponents: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        affectedLocations: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        airportCode: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        alertTriggerPreferences: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
         alertTriggerPreferencesValue: Schema.optional(
-          Schema.Array(Schema.String),
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
         ),
-        enabled: Schema.optional(Schema.Array(Schema.String)),
-        environment: Schema.optional(Schema.Array(Schema.String)),
-        event: Schema.optional(Schema.Array(Schema.String)),
-        eventSource: Schema.optional(Schema.Array(Schema.String)),
-        eventType: Schema.optional(Schema.Array(Schema.String)),
-        groupBy: Schema.optional(Schema.Array(Schema.String)),
-        healthCheckId: Schema.optional(Schema.Array(Schema.String)),
+        enabled: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        environment: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        event: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        eventSource: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        eventType: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        groupBy: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        healthCheckId: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
         incidentImpact: Schema.optional(
-          Schema.Array(
-            Schema.Literals([
-              "INCIDENT_IMPACT_NONE",
-              "INCIDENT_IMPACT_MINOR",
-              "INCIDENT_IMPACT_MAJOR",
-              "INCIDENT_IMPACT_CRITICAL",
-            ]),
-          ),
+          Schema.Union([
+            Schema.Array(
+              Schema.Literals([
+                "INCIDENT_IMPACT_NONE",
+                "INCIDENT_IMPACT_MINOR",
+                "INCIDENT_IMPACT_MAJOR",
+                "INCIDENT_IMPACT_CRITICAL",
+              ]),
+            ),
+            Schema.Null,
+          ]),
         ),
-        inputId: Schema.optional(Schema.Array(Schema.String)),
-        insightClass: Schema.optional(Schema.Array(Schema.String)),
-        limit: Schema.optional(Schema.Array(Schema.String)),
-        logoTag: Schema.optional(Schema.Array(Schema.String)),
-        megabitsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-        newHealth: Schema.optional(Schema.Array(Schema.String)),
-        newStatus: Schema.optional(Schema.Array(Schema.String)),
-        packetsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-        poolId: Schema.optional(Schema.Array(Schema.String)),
-        popNames: Schema.optional(Schema.Array(Schema.String)),
-        product: Schema.optional(Schema.Array(Schema.String)),
-        projectId: Schema.optional(Schema.Array(Schema.String)),
-        protocol: Schema.optional(Schema.Array(Schema.String)),
-        queryTag: Schema.optional(Schema.Array(Schema.String)),
-        requestsPerSecond: Schema.optional(Schema.Array(Schema.String)),
-        selectors: Schema.optional(Schema.Array(Schema.String)),
-        services: Schema.optional(Schema.Array(Schema.String)),
-        slo: Schema.optional(Schema.Array(Schema.String)),
-        status: Schema.optional(Schema.Array(Schema.String)),
-        targetHostname: Schema.optional(Schema.Array(Schema.String)),
-        targetIp: Schema.optional(Schema.Array(Schema.String)),
-        targetZoneName: Schema.optional(Schema.Array(Schema.String)),
+        inputId: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        insightClass: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        limit: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        logoTag: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        megabitsPerSecond: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        newHealth: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        newStatus: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        packetsPerSecond: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        poolId: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        popNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        product: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        projectId: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        protocol: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        queryTag: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        requestsPerSecond: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        selectors: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        services: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        slo: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        status: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        targetHostname: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        targetIp: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        targetZoneName: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
         trafficExclusions: Schema.optional(
-          Schema.Array(Schema.Literal("security_events")),
+          Schema.Union([
+            Schema.Array(Schema.Literal("security_events")),
+            Schema.Null,
+          ]),
         ),
-        tunnelId: Schema.optional(Schema.Array(Schema.String)),
-        tunnelName: Schema.optional(Schema.Array(Schema.String)),
-        type: Schema.optional(Schema.Array(Schema.String)),
-        where: Schema.optional(Schema.Array(Schema.String)),
-        zones: Schema.optional(Schema.Array(Schema.String)),
+        tunnelId: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        tunnelName: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        type: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        where: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        zones: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           actions: "actions",
@@ -1446,34 +1165,549 @@ export const ListPoliciesResponse = Schema.Array(
           zones: "zones",
         }),
       ),
-    ),
-    mechanisms: Schema.optional(
+      Schema.Null,
+    ]),
+  ),
+  mechanisms: Schema.optional(
+    Schema.Union([
       Schema.Struct({
         email: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.optional(Schema.String),
-            }),
-          ),
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
         pagerduty: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.optional(Schema.String),
-            }),
-          ),
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
         webhooks: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.optional(Schema.String),
-            }),
-          ),
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
       }),
+      Schema.Null,
+    ]),
+  ),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    alertInterval: "alert_interval",
+    alertType: "alert_type",
+    created: "created",
+    description: "description",
+    enabled: "enabled",
+    filters: "filters",
+    mechanisms: "mechanisms",
+    modified: "modified",
+    name: "name",
+  }),
+) as unknown as Schema.Schema<GetPolicyResponse>;
+
+export type GetPolicyError = DefaultErrors | InvalidRoute | PolicyNotFound;
+
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
+  GetPolicyResponse,
+  GetPolicyError,
+  Credentials | HttpClient.HttpClient
+> = API.make(() => ({
+  input: GetPolicyRequest,
+  output: GetPolicyResponse,
+  errors: [InvalidRoute, PolicyNotFound],
+}));
+
+export interface ListPoliciesRequest {
+  /** The account id */
+  accountId: string;
+}
+
+export const ListPoliciesRequest = Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/alerting/v3/policies",
+  }),
+) as unknown as Schema.Schema<ListPoliciesRequest>;
+
+export type ListPoliciesResponse = {
+  id?: string | null;
+  alertInterval?: string | null;
+  alertType?:
+    | "abuse_report_alert"
+    | "access_custom_certificate_expiration_type"
+    | "advanced_ddos_attack_l4_alert"
+    | "advanced_ddos_attack_l7_alert"
+    | "advanced_http_alert_error"
+    | "bgp_hijack_notification"
+    | "billing_usage_alert"
+    | "block_notification_block_removed"
+    | "block_notification_new_block"
+    | "block_notification_review_rejected"
+    | "bot_traffic_basic_alert"
+    | "brand_protection_alert"
+    | "brand_protection_digest"
+    | "clickhouse_alert_fw_anomaly"
+    | "clickhouse_alert_fw_ent_anomaly"
+    | "cloudforce_one_request_notification"
+    | "custom_analytics"
+    | "custom_bot_detection_alert"
+    | "custom_ssl_certificate_event_type"
+    | "dedicated_ssl_certificate_event_type"
+    | "device_connectivity_anomaly_alert"
+    | "dos_attack_l4"
+    | "dos_attack_l7"
+    | "expiring_service_token_alert"
+    | "failing_logpush_job_disabled_alert"
+    | "fbm_auto_advertisement"
+    | "fbm_dosd_attack"
+    | "fbm_volumetric_attack"
+    | "health_check_status_notification"
+    | "hostname_aop_custom_certificate_expiration_type"
+    | "http_alert_edge_error"
+    | "http_alert_origin_error"
+    | "image_notification"
+    | "image_resizing_notification"
+    | "incident_alert"
+    | "load_balancing_health_alert"
+    | "load_balancing_pool_enablement_alert"
+    | "logo_match_alert"
+    | "magic_tunnel_health_check_event"
+    | "magic_wan_tunnel_health"
+    | "maintenance_event_notification"
+    | "mtls_certificate_store_certificate_expiration_type"
+    | "pages_event_alert"
+    | "radar_notification"
+    | "real_origin_monitoring"
+    | "scriptmonitor_alert_new_code_change_detections"
+    | "scriptmonitor_alert_new_hosts"
+    | "scriptmonitor_alert_new_malicious_hosts"
+    | "scriptmonitor_alert_new_malicious_scripts"
+    | "scriptmonitor_alert_new_malicious_url"
+    | "scriptmonitor_alert_new_max_length_resource_url"
+    | "scriptmonitor_alert_new_resources"
+    | "secondary_dns_all_primaries_failing"
+    | "secondary_dns_primaries_failing"
+    | "secondary_dns_warning"
+    | "secondary_dns_zone_successfully_updated"
+    | "secondary_dns_zone_validation_warning"
+    | "security_insights_alert"
+    | "sentinel_alert"
+    | "stream_live_notifications"
+    | "synthetic_test_latency_alert"
+    | "synthetic_test_low_availability_alert"
+    | "traffic_anomalies_alert"
+    | "tunnel_health_event"
+    | "tunnel_update_event"
+    | "universal_ssl_event_type"
+    | "web_analytics_metrics_update"
+    | "zone_aop_custom_certificate_expiration_type"
+    | null;
+  created?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  filters?: {
+    actions?: string[] | null;
+    affectedAsns?: string[] | null;
+    affectedComponents?: string[] | null;
+    affectedLocations?: string[] | null;
+    airportCode?: string[] | null;
+    alertTriggerPreferences?: string[] | null;
+    alertTriggerPreferencesValue?: string[] | null;
+    enabled?: string[] | null;
+    environment?: string[] | null;
+    event?: string[] | null;
+    eventSource?: string[] | null;
+    eventType?: string[] | null;
+    groupBy?: string[] | null;
+    healthCheckId?: string[] | null;
+    incidentImpact?:
+      | (
+          | "INCIDENT_IMPACT_NONE"
+          | "INCIDENT_IMPACT_MINOR"
+          | "INCIDENT_IMPACT_MAJOR"
+          | "INCIDENT_IMPACT_CRITICAL"
+        )[]
+      | null;
+    inputId?: string[] | null;
+    insightClass?: string[] | null;
+    limit?: string[] | null;
+    logoTag?: string[] | null;
+    megabitsPerSecond?: string[] | null;
+    newHealth?: string[] | null;
+    newStatus?: string[] | null;
+    packetsPerSecond?: string[] | null;
+    poolId?: string[] | null;
+    popNames?: string[] | null;
+    product?: string[] | null;
+    projectId?: string[] | null;
+    protocol?: string[] | null;
+    queryTag?: string[] | null;
+    requestsPerSecond?: string[] | null;
+    selectors?: string[] | null;
+    services?: string[] | null;
+    slo?: string[] | null;
+    status?: string[] | null;
+    targetHostname?: string[] | null;
+    targetIp?: string[] | null;
+    targetZoneName?: string[] | null;
+    trafficExclusions?: "security_events"[] | null;
+    tunnelId?: string[] | null;
+    tunnelName?: string[] | null;
+    type?: string[] | null;
+    where?: string[] | null;
+    zones?: string[] | null;
+  } | null;
+  mechanisms?: {
+    email?: { id?: string | null }[] | null;
+    pagerduty?: { id?: string | null }[] | null;
+    webhooks?: { id?: string | null }[] | null;
+  } | null;
+  modified?: string | null;
+  name?: string | null;
+}[];
+
+export const ListPoliciesResponse = Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    alertInterval: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    alertType: Schema.optional(
+      Schema.Union([
+        Schema.Literals([
+          "abuse_report_alert",
+          "access_custom_certificate_expiration_type",
+          "advanced_ddos_attack_l4_alert",
+          "advanced_ddos_attack_l7_alert",
+          "advanced_http_alert_error",
+          "bgp_hijack_notification",
+          "billing_usage_alert",
+          "block_notification_block_removed",
+          "block_notification_new_block",
+          "block_notification_review_rejected",
+          "bot_traffic_basic_alert",
+          "brand_protection_alert",
+          "brand_protection_digest",
+          "clickhouse_alert_fw_anomaly",
+          "clickhouse_alert_fw_ent_anomaly",
+          "cloudforce_one_request_notification",
+          "custom_analytics",
+          "custom_bot_detection_alert",
+          "custom_ssl_certificate_event_type",
+          "dedicated_ssl_certificate_event_type",
+          "device_connectivity_anomaly_alert",
+          "dos_attack_l4",
+          "dos_attack_l7",
+          "expiring_service_token_alert",
+          "failing_logpush_job_disabled_alert",
+          "fbm_auto_advertisement",
+          "fbm_dosd_attack",
+          "fbm_volumetric_attack",
+          "health_check_status_notification",
+          "hostname_aop_custom_certificate_expiration_type",
+          "http_alert_edge_error",
+          "http_alert_origin_error",
+          "image_notification",
+          "image_resizing_notification",
+          "incident_alert",
+          "load_balancing_health_alert",
+          "load_balancing_pool_enablement_alert",
+          "logo_match_alert",
+          "magic_tunnel_health_check_event",
+          "magic_wan_tunnel_health",
+          "maintenance_event_notification",
+          "mtls_certificate_store_certificate_expiration_type",
+          "pages_event_alert",
+          "radar_notification",
+          "real_origin_monitoring",
+          "scriptmonitor_alert_new_code_change_detections",
+          "scriptmonitor_alert_new_hosts",
+          "scriptmonitor_alert_new_malicious_hosts",
+          "scriptmonitor_alert_new_malicious_scripts",
+          "scriptmonitor_alert_new_malicious_url",
+          "scriptmonitor_alert_new_max_length_resource_url",
+          "scriptmonitor_alert_new_resources",
+          "secondary_dns_all_primaries_failing",
+          "secondary_dns_primaries_failing",
+          "secondary_dns_warning",
+          "secondary_dns_zone_successfully_updated",
+          "secondary_dns_zone_validation_warning",
+          "security_insights_alert",
+          "sentinel_alert",
+          "stream_live_notifications",
+          "synthetic_test_latency_alert",
+          "synthetic_test_low_availability_alert",
+          "traffic_anomalies_alert",
+          "tunnel_health_event",
+          "tunnel_update_event",
+          "universal_ssl_event_type",
+          "web_analytics_metrics_update",
+          "zone_aop_custom_certificate_expiration_type",
+        ]),
+        Schema.Null,
+      ]),
     ),
-    modified: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    filters: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          actions: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          affectedAsns: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          affectedComponents: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          affectedLocations: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          airportCode: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          alertTriggerPreferences: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          alertTriggerPreferencesValue: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          enabled: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          environment: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          event: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          eventSource: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          eventType: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          groupBy: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          healthCheckId: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          incidentImpact: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Literals([
+                  "INCIDENT_IMPACT_NONE",
+                  "INCIDENT_IMPACT_MINOR",
+                  "INCIDENT_IMPACT_MAJOR",
+                  "INCIDENT_IMPACT_CRITICAL",
+                ]),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          inputId: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          insightClass: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          limit: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          logoTag: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          megabitsPerSecond: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          newHealth: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          newStatus: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          packetsPerSecond: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          poolId: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          popNames: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          product: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          projectId: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          protocol: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          queryTag: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          requestsPerSecond: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          selectors: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          services: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          slo: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          status: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          targetHostname: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          targetIp: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          targetZoneName: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          trafficExclusions: Schema.optional(
+            Schema.Union([
+              Schema.Array(Schema.Literal("security_events")),
+              Schema.Null,
+            ]),
+          ),
+          tunnelId: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          tunnelName: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          type: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          where: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          zones: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            actions: "actions",
+            affectedAsns: "affected_asns",
+            affectedComponents: "affected_components",
+            affectedLocations: "affected_locations",
+            airportCode: "airport_code",
+            alertTriggerPreferences: "alert_trigger_preferences",
+            alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+            enabled: "enabled",
+            environment: "environment",
+            event: "event",
+            eventSource: "event_source",
+            eventType: "event_type",
+            groupBy: "group_by",
+            healthCheckId: "health_check_id",
+            incidentImpact: "incident_impact",
+            inputId: "input_id",
+            insightClass: "insight_class",
+            limit: "limit",
+            logoTag: "logo_tag",
+            megabitsPerSecond: "megabits_per_second",
+            newHealth: "new_health",
+            newStatus: "new_status",
+            packetsPerSecond: "packets_per_second",
+            poolId: "pool_id",
+            popNames: "pop_names",
+            product: "product",
+            projectId: "project_id",
+            protocol: "protocol",
+            queryTag: "query_tag",
+            requestsPerSecond: "requests_per_second",
+            selectors: "selectors",
+            services: "services",
+            slo: "slo",
+            status: "status",
+            targetHostname: "target_hostname",
+            targetIp: "target_ip",
+            targetZoneName: "target_zone_name",
+            trafficExclusions: "traffic_exclusions",
+            tunnelId: "tunnel_id",
+            tunnelName: "tunnel_name",
+            type: "type",
+            where: "where",
+            zones: "zones",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    mechanisms: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          email: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          pagerduty: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          webhooks: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  id: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
+    ),
+    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1866,11 +2100,11 @@ export const CreatePolicyRequest = Schema.Struct({
 
 export interface CreatePolicyResponse {
   /** UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const CreatePolicyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreatePolicyResponse>;
 
 export type CreatePolicyError =
@@ -2259,11 +2493,11 @@ export const UpdatePolicyRequest = Schema.Struct({
 
 export interface UpdatePolicyResponse {
   /** UUID */
-  id?: string;
+  id?: string | null;
 }
 
 export const UpdatePolicyResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
 export type UpdatePolicyError =
@@ -2301,50 +2535,59 @@ export const DeletePolicyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeletePolicyRequest>;
 
 export interface DeletePolicyResponse {
-  errors?: { message: string; code?: number }[];
-  messages?: { message: string; code?: number }[];
+  errors?: { message: string; code?: number | null }[] | null;
+  messages?: { message: string; code?: number | null }[] | null;
   /** Whether the API call was successful */
-  success?: true;
+  success?: true | null;
   resultInfo?: {
-    count?: number;
-    page?: number;
-    perPage?: number;
-    totalCount?: number;
-  };
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
 }
 
 export const DeletePolicyResponse = Schema.Struct({
   errors: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        message: Schema.String,
-        code: Schema.optional(Schema.Number),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          message: Schema.String,
+          code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   messages: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        message: Schema.String,
-        code: Schema.optional(Schema.Number),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          message: Schema.String,
+          code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
-  success: Schema.optional(Schema.Literal(true)),
+  success: Schema.optional(Schema.Union([Schema.Literal(true), Schema.Null])),
   resultInfo: Schema.optional(
-    Schema.Struct({
-      count: Schema.optional(Schema.Number),
-      page: Schema.optional(Schema.Number),
-      perPage: Schema.optional(Schema.Number),
-      totalCount: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -2390,26 +2633,26 @@ export const GetSilenceRequest = Schema.Struct({
 
 export interface GetSilenceResponse {
   /** Silence ID */
-  id?: string;
+  id?: string | null;
   /** When the silence was created. */
-  createdAt?: string;
+  createdAt?: string | null;
   /** When the silence ends. */
-  endTime?: string;
+  endTime?: string | null;
   /** The unique identifier of a notification policy */
-  policyId?: string;
+  policyId?: string | null;
   /** When the silence starts. */
-  startTime?: string;
+  startTime?: string | null;
   /** When the silence was modified. */
-  updatedAt?: string;
+  updatedAt?: string | null;
 }
 
 export const GetSilenceResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  endTime: Schema.optional(Schema.String),
-  policyId: Schema.optional(Schema.String),
-  startTime: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -2452,22 +2695,22 @@ export const ListSilencesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSilencesRequest>;
 
 export type ListSilencesResponse = {
-  id?: string;
-  createdAt?: string;
-  endTime?: string;
-  policyId?: string;
-  startTime?: string;
-  updatedAt?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  endTime?: string | null;
+  policyId?: string | null;
+  startTime?: string | null;
+  updatedAt?: string | null;
 }[];
 
 export const ListSilencesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    policyId: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -2523,8 +2766,8 @@ export const CreateSilenceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateSilenceRequest>;
 
 export interface CreateSilenceResponse {
-  errors: { message: string; code?: number }[];
-  messages: { message: string; code?: number }[];
+  errors: { message: string; code?: number | null }[];
+  messages: { message: string; code?: number | null }[];
   /** Whether the API call was successful */
   success: true;
 }
@@ -2533,13 +2776,13 @@ export const CreateSilenceResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   success: Schema.Literal(true),
@@ -2588,22 +2831,22 @@ export const UpdateSilenceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateSilenceRequest>;
 
 export type UpdateSilenceResponse = {
-  id?: string;
-  createdAt?: string;
-  endTime?: string;
-  policyId?: string;
-  startTime?: string;
-  updatedAt?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  endTime?: string | null;
+  policyId?: string | null;
+  startTime?: string | null;
+  updatedAt?: string | null;
 }[];
 
 export const UpdateSilenceResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    endTime: Schema.optional(Schema.String),
-    policyId: Schema.optional(Schema.String),
-    startTime: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -2646,8 +2889,8 @@ export const DeleteSilenceRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteSilenceRequest>;
 
 export interface DeleteSilenceResponse {
-  errors: { message: string; code?: number }[];
-  messages: { message: string; code?: number }[];
+  errors: { message: string; code?: number | null }[];
+  messages: { message: string; code?: number | null }[];
   /** Whether the API call was successful */
   success: true;
 }
@@ -2656,13 +2899,13 @@ export const DeleteSilenceResponse = Schema.Struct({
   errors: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   messages: Schema.Array(
     Schema.Struct({
       message: Schema.String,
-      code: Schema.optional(Schema.Number),
+      code: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
   success: Schema.Literal(true),

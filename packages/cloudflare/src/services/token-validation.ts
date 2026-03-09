@@ -493,15 +493,17 @@ export const PatchConfigurationRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchConfigurationRequest>;
 
 export interface PatchConfigurationResponse {
-  description?: string;
-  title?: string;
-  tokenSources?: string[];
+  description?: string | null;
+  title?: string | null;
+  tokenSources?: string[] | null;
 }
 
 export const PatchConfigurationResponse = Schema.Struct({
-  description: Schema.optional(Schema.String),
-  title: Schema.optional(Schema.String),
-  tokenSources: Schema.optional(Schema.Array(Schema.String)),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  title: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  tokenSources: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     description: "description",
@@ -541,11 +543,11 @@ export const DeleteConfigurationRequest = Schema.Struct({
 
 export interface DeleteConfigurationResponse {
   /** UUID. */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteConfigurationResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteConfigurationResponse>;
 
 export type DeleteConfigurationError = DefaultErrors;
@@ -757,15 +759,15 @@ export interface GetRuleResponse {
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }
 
 export const GetRuleResponse = Schema.Struct({
@@ -778,7 +780,9 @@ export const GetRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
+            operationIds: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
@@ -788,7 +792,9 @@ export const GetRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            host: Schema.optional(Schema.Array(Schema.String)),
+            host: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }),
         ),
         Schema.Null,
@@ -796,9 +802,9 @@ export const GetRuleResponse = Schema.Struct({
     ),
   }),
   title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     action: "action",
@@ -868,13 +874,13 @@ export type ListRulesResponse = {
   enabled: boolean;
   expression: string;
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   title: string;
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
@@ -888,7 +894,9 @@ export const ListRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              operationIds: Schema.optional(Schema.Array(Schema.String)),
+              operationIds: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
           ),
           Schema.Null,
@@ -898,7 +906,9 @@ export const ListRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              host: Schema.optional(Schema.Array(Schema.String)),
+              host: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }),
           ),
           Schema.Null,
@@ -906,9 +916,9 @@ export const ListRulesResponse = Schema.Array(
       ),
     }),
     title: Schema.String,
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    lastUpdated: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       action: "action",
@@ -1001,15 +1011,15 @@ export interface CreateRuleResponse {
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }
 
 export const CreateRuleResponse = Schema.Struct({
@@ -1022,7 +1032,9 @@ export const CreateRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
+            operationIds: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
@@ -1032,7 +1044,9 @@ export const CreateRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            host: Schema.optional(Schema.Array(Schema.String)),
+            host: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }),
         ),
         Schema.Null,
@@ -1040,9 +1054,9 @@ export const CreateRuleResponse = Schema.Struct({
     ),
   }),
   title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     action: "action",
@@ -1156,15 +1170,15 @@ export interface PatchRuleResponse {
   expression: string;
   /** Select operations covered by this rule.  For details on selectors, see the [Cloudflare Docs](https://developers.cloudflare.com/api-shield/security/jwt-validation/). */
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   /** A human-readable name for the rule. */
   title: string;
   /** UUID. */
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }
 
 export const PatchRuleResponse = Schema.Struct({
@@ -1177,7 +1191,9 @@ export const PatchRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            operationIds: Schema.optional(Schema.Array(Schema.String)),
+            operationIds: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
         ),
         Schema.Null,
@@ -1187,7 +1203,9 @@ export const PatchRuleResponse = Schema.Struct({
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            host: Schema.optional(Schema.Array(Schema.String)),
+            host: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
           }),
         ),
         Schema.Null,
@@ -1195,9 +1213,9 @@ export const PatchRuleResponse = Schema.Struct({
     ),
   }),
   title: Schema.String,
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  lastUpdated: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     action: "action",
@@ -1322,13 +1340,13 @@ export type BulkCreateRulesResponse = {
   enabled: boolean;
   expression: string;
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   title: string;
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }[];
 
 export const BulkCreateRulesResponse = Schema.Array(
@@ -1342,7 +1360,9 @@ export const BulkCreateRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              operationIds: Schema.optional(Schema.Array(Schema.String)),
+              operationIds: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
           ),
           Schema.Null,
@@ -1352,7 +1372,9 @@ export const BulkCreateRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              host: Schema.optional(Schema.Array(Schema.String)),
+              host: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }),
           ),
           Schema.Null,
@@ -1360,9 +1382,9 @@ export const BulkCreateRulesResponse = Schema.Array(
       ),
     }),
     title: Schema.String,
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    lastUpdated: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       action: "action",
@@ -1472,13 +1494,13 @@ export type BulkPatchRulesResponse = {
   enabled: boolean;
   expression: string;
   selector: {
-    exclude?: { operationIds?: string[] }[] | null;
-    include?: { host?: string[] }[] | null;
+    exclude?: { operationIds?: string[] | null }[] | null;
+    include?: { host?: string[] | null }[] | null;
   };
   title: string;
-  id?: string;
-  createdAt?: string;
-  lastUpdated?: string;
+  id?: string | null;
+  createdAt?: string | null;
+  lastUpdated?: string | null;
 }[];
 
 export const BulkPatchRulesResponse = Schema.Array(
@@ -1492,7 +1514,9 @@ export const BulkPatchRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              operationIds: Schema.optional(Schema.Array(Schema.String)),
+              operationIds: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }).pipe(Schema.encodeKeys({ operationIds: "operation_ids" })),
           ),
           Schema.Null,
@@ -1502,7 +1526,9 @@ export const BulkPatchRulesResponse = Schema.Array(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              host: Schema.optional(Schema.Array(Schema.String)),
+              host: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
             }),
           ),
           Schema.Null,
@@ -1510,9 +1536,9 @@ export const BulkPatchRulesResponse = Schema.Array(
       ),
     }),
     title: Schema.String,
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
-    lastUpdated: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    lastUpdated: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       action: "action",

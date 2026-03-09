@@ -430,13 +430,13 @@ export interface GetRuleResponse {
   /** MNM rule type. */
   type: "threshold" | "zscore" | "advanced_ddos";
   /** The id of the rule. Must be unique. */
-  id?: string;
+  id?: string | null;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | null;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m", */
-  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m";
+  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m" | null;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | null;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
   prefixMatch?: "exact" | "subnet" | "supernet" | null;
   /** Level of sensitivity set for zscore rules. */
@@ -450,12 +450,17 @@ export const GetRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -593,13 +598,13 @@ export interface CreateRuleResponse {
   /** MNM rule type. */
   type: "threshold" | "zscore" | "advanced_ddos";
   /** The id of the rule. Must be unique. */
-  id?: string;
+  id?: string | null;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | null;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m", */
-  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m";
+  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m" | null;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | null;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
   prefixMatch?: "exact" | "subnet" | "supernet" | null;
   /** Level of sensitivity set for zscore rules. */
@@ -613,12 +618,17 @@ export const CreateRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -732,13 +742,13 @@ export interface UpdateRuleResponse {
   /** MNM rule type. */
   type: "threshold" | "zscore" | "advanced_ddos";
   /** The id of the rule. Must be unique. */
-  id?: string;
+  id?: string | null;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | null;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m", */
-  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m";
+  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m" | null;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | null;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
   prefixMatch?: "exact" | "subnet" | "supernet" | null;
   /** Level of sensitivity set for zscore rules. */
@@ -752,12 +762,17 @@ export const UpdateRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -865,13 +880,13 @@ export interface PatchRuleResponse {
   /** MNM rule type. */
   type: "threshold" | "zscore" | "advanced_ddos";
   /** The id of the rule. Must be unique. */
-  id?: string;
+  id?: string | null;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | null;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m", */
-  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m";
+  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m" | null;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | null;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
   prefixMatch?: "exact" | "subnet" | "supernet" | null;
   /** Level of sensitivity set for zscore rules. */
@@ -885,12 +900,17 @@ export const PatchRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),
@@ -967,13 +987,13 @@ export interface DeleteRuleResponse {
   /** MNM rule type. */
   type: "threshold" | "zscore" | "advanced_ddos";
   /** The id of the rule. Must be unique. */
-  id?: string;
+  id?: string | null;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | null;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m", */
-  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m";
+  duration?: "1m" | "5m" | "10m" | "15m" | "20m" | "30m" | "45m" | "60m" | null;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | null;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
   prefixMatch?: "exact" | "subnet" | "supernet" | null;
   /** Level of sensitivity set for zscore rules. */
@@ -987,12 +1007,17 @@ export const DeleteRuleResponse = Schema.Struct({
   name: Schema.String,
   prefixes: Schema.Array(Schema.String),
   type: Schema.Literals(["threshold", "zscore", "advanced_ddos"]),
-  id: Schema.optional(Schema.String),
-  bandwidthThreshold: Schema.optional(Schema.Number),
-  duration: Schema.optional(
-    Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  bandwidthThreshold: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
   ),
-  packetThreshold: Schema.optional(Schema.Number),
+  duration: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["1m", "5m", "10m", "15m", "20m", "30m", "45m", "60m"]),
+      Schema.Null,
+    ]),
+  ),
+  packetThreshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   prefixMatch: Schema.optional(
     Schema.Union([
       Schema.Literal("exact"),

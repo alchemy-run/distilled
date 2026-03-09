@@ -42,7 +42,7 @@ export interface GetInvestigateResponse {
   /** The identifier of the message. */
   postfixId: string;
   properties: {
-    allowlistedPattern?: string;
+    allowlistedPattern?: string | null;
     allowlistedPatternType?:
       | "quarantine_release"
       | "acceptable_sender"
@@ -51,9 +51,10 @@ export interface GetInvestigateResponse {
       | "domain_similarity"
       | "domain_recency"
       | "managed_acceptable_sender"
-      | "outbound_ndr";
-    blocklistedMessage?: boolean;
-    blocklistedPattern?: string;
+      | "outbound_ndr"
+      | null;
+    blocklistedMessage?: boolean | null;
+    blocklistedPattern?: string | null;
     whitelistedPatternType?:
       | "quarantine_release"
       | "acceptable_sender"
@@ -62,7 +63,8 @@ export interface GetInvestigateResponse {
       | "domain_similarity"
       | "domain_recency"
       | "managed_acceptable_sender"
-      | "outbound_ndr";
+      | "outbound_ndr"
+      | null;
   };
   ts: string;
   alertId?: string | null;
@@ -146,31 +148,43 @@ export const GetInvestigateResponse = Schema.Struct({
   isQuarantined: Schema.Boolean,
   postfixId: Schema.String,
   properties: Schema.Struct({
-    allowlistedPattern: Schema.optional(Schema.String),
+    allowlistedPattern: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
     allowlistedPatternType: Schema.optional(
-      Schema.Literals([
-        "quarantine_release",
-        "acceptable_sender",
-        "allowed_sender",
-        "allowed_recipient",
-        "domain_similarity",
-        "domain_recency",
-        "managed_acceptable_sender",
-        "outbound_ndr",
+      Schema.Union([
+        Schema.Literals([
+          "quarantine_release",
+          "acceptable_sender",
+          "allowed_sender",
+          "allowed_recipient",
+          "domain_similarity",
+          "domain_recency",
+          "managed_acceptable_sender",
+          "outbound_ndr",
+        ]),
+        Schema.Null,
       ]),
     ),
-    blocklistedMessage: Schema.optional(Schema.Boolean),
-    blocklistedPattern: Schema.optional(Schema.String),
+    blocklistedMessage: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    blocklistedPattern: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
     whitelistedPatternType: Schema.optional(
-      Schema.Literals([
-        "quarantine_release",
-        "acceptable_sender",
-        "allowed_sender",
-        "allowed_recipient",
-        "domain_similarity",
-        "domain_recency",
-        "managed_acceptable_sender",
-        "outbound_ndr",
+      Schema.Union([
+        Schema.Literals([
+          "quarantine_release",
+          "acceptable_sender",
+          "allowed_sender",
+          "allowed_recipient",
+          "domain_similarity",
+          "domain_recency",
+          "managed_acceptable_sender",
+          "outbound_ndr",
+        ]),
+        Schema.Null,
       ]),
     ),
   }).pipe(
@@ -444,7 +458,7 @@ export type ListInvestigatesResponse = {
   isQuarantined: boolean;
   postfixId: string;
   properties: {
-    allowlistedPattern?: string;
+    allowlistedPattern?: string | null;
     allowlistedPatternType?:
       | "quarantine_release"
       | "acceptable_sender"
@@ -453,9 +467,10 @@ export type ListInvestigatesResponse = {
       | "domain_similarity"
       | "domain_recency"
       | "managed_acceptable_sender"
-      | "outbound_ndr";
-    blocklistedMessage?: boolean;
-    blocklistedPattern?: string;
+      | "outbound_ndr"
+      | null;
+    blocklistedMessage?: boolean | null;
+    blocklistedPattern?: string | null;
     whitelistedPatternType?:
       | "quarantine_release"
       | "acceptable_sender"
@@ -464,7 +479,8 @@ export type ListInvestigatesResponse = {
       | "domain_similarity"
       | "domain_recency"
       | "managed_acceptable_sender"
-      | "outbound_ndr";
+      | "outbound_ndr"
+      | null;
   };
   ts: string;
   alertId?: string | null;
@@ -549,31 +565,43 @@ export const ListInvestigatesResponse = Schema.Array(
     isQuarantined: Schema.Boolean,
     postfixId: Schema.String,
     properties: Schema.Struct({
-      allowlistedPattern: Schema.optional(Schema.String),
+      allowlistedPattern: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       allowlistedPatternType: Schema.optional(
-        Schema.Literals([
-          "quarantine_release",
-          "acceptable_sender",
-          "allowed_sender",
-          "allowed_recipient",
-          "domain_similarity",
-          "domain_recency",
-          "managed_acceptable_sender",
-          "outbound_ndr",
+        Schema.Union([
+          Schema.Literals([
+            "quarantine_release",
+            "acceptable_sender",
+            "allowed_sender",
+            "allowed_recipient",
+            "domain_similarity",
+            "domain_recency",
+            "managed_acceptable_sender",
+            "outbound_ndr",
+          ]),
+          Schema.Null,
         ]),
       ),
-      blocklistedMessage: Schema.optional(Schema.Boolean),
-      blocklistedPattern: Schema.optional(Schema.String),
+      blocklistedMessage: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      blocklistedPattern: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       whitelistedPatternType: Schema.optional(
-        Schema.Literals([
-          "quarantine_release",
-          "acceptable_sender",
-          "allowed_sender",
-          "allowed_recipient",
-          "domain_similarity",
-          "domain_recency",
-          "managed_acceptable_sender",
-          "outbound_ndr",
+        Schema.Union([
+          Schema.Literals([
+            "quarantine_release",
+            "acceptable_sender",
+            "allowed_sender",
+            "allowed_recipient",
+            "domain_similarity",
+            "domain_recency",
+            "managed_acceptable_sender",
+            "outbound_ndr",
+          ]),
+          Schema.Null,
         ]),
       ),
     }).pipe(
@@ -1509,11 +1537,11 @@ export interface GetSettingAllowPolicyResponse {
   verifySender: boolean;
   comments?: string | null;
   /** @deprecated */
-  isRecipient?: boolean;
+  isRecipient?: boolean | null;
   /** @deprecated */
-  isSender?: boolean;
+  isSender?: boolean | null;
   /** @deprecated */
-  isSpoof?: boolean;
+  isSpoof?: boolean | null;
 }
 
 export const GetSettingAllowPolicyResponse = Schema.Struct({
@@ -1528,9 +1556,9 @@ export const GetSettingAllowPolicyResponse = Schema.Struct({
   patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
   verifySender: Schema.Boolean,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
+  isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1641,9 +1669,9 @@ export type ListSettingAllowPoliciesResponse = {
   patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
   verifySender: boolean;
   comments?: string | null;
-  isRecipient?: boolean;
-  isSender?: boolean;
-  isSpoof?: boolean;
+  isRecipient?: boolean | null;
+  isSender?: boolean | null;
+  isSpoof?: boolean | null;
 }[];
 
 export const ListSettingAllowPoliciesResponse = Schema.Array(
@@ -1659,9 +1687,9 @@ export const ListSettingAllowPoliciesResponse = Schema.Array(
     patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
     verifySender: Schema.Boolean,
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    isRecipient: Schema.optional(Schema.Boolean),
-    isSender: Schema.optional(Schema.Boolean),
-    isSpoof: Schema.optional(Schema.Boolean),
+    isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1773,11 +1801,11 @@ export interface CreateSettingAllowPolicyResponse {
   verifySender: boolean;
   comments?: string | null;
   /** @deprecated */
-  isRecipient?: boolean;
+  isRecipient?: boolean | null;
   /** @deprecated */
-  isSender?: boolean;
+  isSender?: boolean | null;
   /** @deprecated */
-  isSpoof?: boolean;
+  isSpoof?: boolean | null;
 }
 
 export const CreateSettingAllowPolicyResponse = Schema.Struct({
@@ -1792,9 +1820,9 @@ export const CreateSettingAllowPolicyResponse = Schema.Struct({
   patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
   verifySender: Schema.Boolean,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
+  isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -1907,11 +1935,11 @@ export interface PatchSettingAllowPolicyResponse {
   verifySender: boolean;
   comments?: string | null;
   /** @deprecated */
-  isRecipient?: boolean;
+  isRecipient?: boolean | null;
   /** @deprecated */
-  isSender?: boolean;
+  isSender?: boolean | null;
   /** @deprecated */
-  isSpoof?: boolean;
+  isSpoof?: boolean | null;
 }
 
 export const PatchSettingAllowPolicyResponse = Schema.Struct({
@@ -1926,9 +1954,9 @@ export const PatchSettingAllowPolicyResponse = Schema.Struct({
   patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
   verifySender: Schema.Boolean,
   comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  isRecipient: Schema.optional(Schema.Boolean),
-  isSender: Schema.optional(Schema.Boolean),
-  isSpoof: Schema.optional(Schema.Boolean),
+  isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

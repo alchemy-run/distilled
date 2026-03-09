@@ -126,9 +126,9 @@ export const GetBucketRequest = Schema.Struct({
 
 export interface GetBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: "default" | "eu" | "fedramp";
+  jurisdiction?: "default" | "eu" | "fedramp" | null;
   /** Location of the bucket. */
   location?:
     | "apac"
@@ -142,35 +142,44 @@ export interface GetBucketResponse {
     | "ENAM"
     | "WEUR"
     | "WNAM"
-    | "OC";
+    | "OC"
+    | null;
   /** Name of the bucket. */
-  name?: string;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: "Standard" | "InfrequentAccess";
+  storageClass?: "Standard" | "InfrequentAccess" | null;
 }
 
 export const GetBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
-  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
+  creationDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  jurisdiction: Schema.optional(
+    Schema.Union([Schema.Literals(["default", "eu", "fedramp"]), Schema.Null]),
+  ),
   location: Schema.optional(
-    Schema.Literals([
-      "apac",
-      "eeur",
-      "enam",
-      "weur",
-      "wnam",
-      "oc",
-      "APAC",
-      "EEUR",
-      "ENAM",
-      "WEUR",
-      "WNAM",
-      "OC",
+    Schema.Union([
+      Schema.Literals([
+        "apac",
+        "eeur",
+        "enam",
+        "weur",
+        "wnam",
+        "oc",
+        "APAC",
+        "EEUR",
+        "ENAM",
+        "WEUR",
+        "WNAM",
+        "OC",
+      ]),
+      Schema.Null,
     ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   storageClass: Schema.optional(
-    Schema.Literals(["Standard", "InfrequentAccess"]),
+    Schema.Union([
+      Schema.Literals(["Standard", "InfrequentAccess"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -234,65 +243,82 @@ export const ListBucketsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListBucketsRequest>;
 
 export interface ListBucketsResponse {
-  buckets?: {
-    creationDate?: string;
-    jurisdiction?: "default" | "eu" | "fedramp";
-    location?:
-      | "apac"
-      | "eeur"
-      | "enam"
-      | "weur"
-      | "wnam"
-      | "oc"
-      | "APAC"
-      | "EEUR"
-      | "ENAM"
-      | "WEUR"
-      | "WNAM"
-      | "OC";
-    name?: string;
-    storageClass?: "Standard" | "InfrequentAccess";
-  }[];
+  buckets?:
+    | {
+        creationDate?: string | null;
+        jurisdiction?: "default" | "eu" | "fedramp" | null;
+        location?:
+          | "apac"
+          | "eeur"
+          | "enam"
+          | "weur"
+          | "wnam"
+          | "oc"
+          | "APAC"
+          | "EEUR"
+          | "ENAM"
+          | "WEUR"
+          | "WNAM"
+          | "OC"
+          | null;
+        name?: string | null;
+        storageClass?: "Standard" | "InfrequentAccess" | null;
+      }[]
+    | null;
 }
 
 export const ListBucketsResponse = Schema.Struct({
   buckets: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        creationDate: Schema.optional(Schema.String),
-        jurisdiction: Schema.optional(
-          Schema.Literals(["default", "eu", "fedramp"]),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          creationDate: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          jurisdiction: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["default", "eu", "fedramp"]),
+              Schema.Null,
+            ]),
+          ),
+          location: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "apac",
+                "eeur",
+                "enam",
+                "weur",
+                "wnam",
+                "oc",
+                "APAC",
+                "EEUR",
+                "ENAM",
+                "WEUR",
+                "WNAM",
+                "OC",
+              ]),
+              Schema.Null,
+            ]),
+          ),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          storageClass: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["Standard", "InfrequentAccess"]),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            creationDate: "creation_date",
+            jurisdiction: "jurisdiction",
+            location: "location",
+            name: "name",
+            storageClass: "storage_class",
+          }),
         ),
-        location: Schema.optional(
-          Schema.Literals([
-            "apac",
-            "eeur",
-            "enam",
-            "weur",
-            "wnam",
-            "oc",
-            "APAC",
-            "EEUR",
-            "ENAM",
-            "WEUR",
-            "WNAM",
-            "OC",
-          ]),
-        ),
-        name: Schema.optional(Schema.String),
-        storageClass: Schema.optional(
-          Schema.Literals(["Standard", "InfrequentAccess"]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          creationDate: "creation_date",
-          jurisdiction: "jurisdiction",
-          location: "location",
-          name: "name",
-          storageClass: "storage_class",
-        }),
       ),
-    ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListBucketsResponse>;
 
@@ -340,9 +366,9 @@ export const CreateBucketRequest = Schema.Struct({
 
 export interface CreateBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: "default" | "eu" | "fedramp";
+  jurisdiction?: "default" | "eu" | "fedramp" | null;
   /** Location of the bucket. */
   location?:
     | "apac"
@@ -356,35 +382,44 @@ export interface CreateBucketResponse {
     | "ENAM"
     | "WEUR"
     | "WNAM"
-    | "OC";
+    | "OC"
+    | null;
   /** Name of the bucket. */
-  name?: string;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: "Standard" | "InfrequentAccess";
+  storageClass?: "Standard" | "InfrequentAccess" | null;
 }
 
 export const CreateBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
-  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
+  creationDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  jurisdiction: Schema.optional(
+    Schema.Union([Schema.Literals(["default", "eu", "fedramp"]), Schema.Null]),
+  ),
   location: Schema.optional(
-    Schema.Literals([
-      "apac",
-      "eeur",
-      "enam",
-      "weur",
-      "wnam",
-      "oc",
-      "APAC",
-      "EEUR",
-      "ENAM",
-      "WEUR",
-      "WNAM",
-      "OC",
+    Schema.Union([
+      Schema.Literals([
+        "apac",
+        "eeur",
+        "enam",
+        "weur",
+        "wnam",
+        "oc",
+        "APAC",
+        "EEUR",
+        "ENAM",
+        "WEUR",
+        "WNAM",
+        "OC",
+      ]),
+      Schema.Null,
     ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   storageClass: Schema.optional(
-    Schema.Literals(["Standard", "InfrequentAccess"]),
+    Schema.Union([
+      Schema.Literals(["Standard", "InfrequentAccess"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -441,9 +476,9 @@ export const PatchBucketRequest = Schema.Struct({
 
 export interface PatchBucketResponse {
   /** Creation timestamp. */
-  creationDate?: string;
+  creationDate?: string | null;
   /** Jurisdiction where objects in this bucket are guaranteed to be stored. */
-  jurisdiction?: "default" | "eu" | "fedramp";
+  jurisdiction?: "default" | "eu" | "fedramp" | null;
   /** Location of the bucket. */
   location?:
     | "apac"
@@ -457,35 +492,44 @@ export interface PatchBucketResponse {
     | "ENAM"
     | "WEUR"
     | "WNAM"
-    | "OC";
+    | "OC"
+    | null;
   /** Name of the bucket. */
-  name?: string;
+  name?: string | null;
   /** Storage class for newly uploaded objects, unless specified otherwise. */
-  storageClass?: "Standard" | "InfrequentAccess";
+  storageClass?: "Standard" | "InfrequentAccess" | null;
 }
 
 export const PatchBucketResponse = Schema.Struct({
-  creationDate: Schema.optional(Schema.String),
-  jurisdiction: Schema.optional(Schema.Literals(["default", "eu", "fedramp"])),
+  creationDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  jurisdiction: Schema.optional(
+    Schema.Union([Schema.Literals(["default", "eu", "fedramp"]), Schema.Null]),
+  ),
   location: Schema.optional(
-    Schema.Literals([
-      "apac",
-      "eeur",
-      "enam",
-      "weur",
-      "wnam",
-      "oc",
-      "APAC",
-      "EEUR",
-      "ENAM",
-      "WEUR",
-      "WNAM",
-      "OC",
+    Schema.Union([
+      Schema.Literals([
+        "apac",
+        "eeur",
+        "enam",
+        "weur",
+        "wnam",
+        "oc",
+        "APAC",
+        "EEUR",
+        "ENAM",
+        "WEUR",
+        "WNAM",
+        "OC",
+      ]),
+      Schema.Null,
     ]),
   ),
-  name: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   storageClass: Schema.optional(
-    Schema.Literals(["Standard", "InfrequentAccess"]),
+    Schema.Union([
+      Schema.Literals(["Standard", "InfrequentAccess"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -579,34 +623,45 @@ export const GetBucketCorsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBucketCorsRequest>;
 
 export interface GetBucketCorsResponse {
-  rules?: {
-    allowed: {
-      methods: ("GET" | "PUT" | "POST" | "DELETE" | "HEAD")[];
-      origins: string[];
-      headers?: string[];
-    };
-    id?: string;
-    exposeHeaders?: string[];
-    maxAgeSeconds?: number;
-  }[];
+  rules?:
+    | {
+        allowed: {
+          methods: ("GET" | "PUT" | "POST" | "DELETE" | "HEAD")[];
+          origins: string[];
+          headers?: string[] | null;
+        };
+        id?: string | null;
+        exposeHeaders?: string[] | null;
+        maxAgeSeconds?: number | null;
+      }[]
+    | null;
 }
 
 export const GetBucketCorsResponse = Schema.Struct({
   rules: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        allowed: Schema.Struct({
-          methods: Schema.Array(
-            Schema.Literals(["GET", "PUT", "POST", "DELETE", "HEAD"]),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          allowed: Schema.Struct({
+            methods: Schema.Array(
+              Schema.Literals(["GET", "PUT", "POST", "DELETE", "HEAD"]),
+            ),
+            origins: Schema.Array(Schema.String),
+            headers: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+          }),
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          exposeHeaders: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
           ),
-          origins: Schema.Array(Schema.String),
-          headers: Schema.optional(Schema.Array(Schema.String)),
+          maxAgeSeconds: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
         }),
-        id: Schema.optional(Schema.String),
-        exposeHeaders: Schema.optional(Schema.Array(Schema.String)),
-        maxAgeSeconds: Schema.optional(Schema.Number),
-      }),
-    ),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetBucketCorsResponse>;
 
@@ -781,13 +836,13 @@ export interface GetBucketDomainCustomResponse {
       | "unknown";
   };
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: string[];
+  ciphers?: string[] | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: "1.0" | "1.1" | "1.2" | "1.3";
+  minTLS?: "1.0" | "1.1" | "1.2" | "1.3" | null;
   /** Zone ID of the custom domain resides in. */
-  zoneId?: string;
+  zoneId?: string | null;
   /** Zone that the custom domain resides in. */
-  zoneName?: string;
+  zoneName?: string | null;
 }
 
 export const GetBucketDomainCustomResponse = Schema.Struct({
@@ -811,10 +866,14 @@ export const GetBucketDomainCustomResponse = Schema.Struct({
       "unknown",
     ]),
   }),
-  ciphers: Schema.optional(Schema.Array(Schema.String)),
-  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
-  zoneId: Schema.optional(Schema.String),
-  zoneName: Schema.optional(Schema.String),
+  ciphers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  minTLS: Schema.optional(
+    Schema.Union([Schema.Literals(["1.0", "1.1", "1.2", "1.3"]), Schema.Null]),
+  ),
+  zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetBucketDomainCustomResponse>;
 
 export type GetBucketDomainCustomError = DefaultErrors;
@@ -871,10 +930,10 @@ export interface ListBucketDomainCustomsResponse {
         | "error"
         | "unknown";
     };
-    ciphers?: string[];
-    minTLS?: "1.0" | "1.1" | "1.2" | "1.3";
-    zoneId?: string;
-    zoneName?: string;
+    ciphers?: string[] | null;
+    minTLS?: "1.0" | "1.1" | "1.2" | "1.3" | null;
+    zoneId?: string | null;
+    zoneName?: string | null;
   }[];
 }
 
@@ -901,10 +960,17 @@ export const ListBucketDomainCustomsResponse = Schema.Struct({
           "unknown",
         ]),
       }),
-      ciphers: Schema.optional(Schema.Array(Schema.String)),
-      minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
-      zoneId: Schema.optional(Schema.String),
-      zoneName: Schema.optional(Schema.String),
+      ciphers: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      minTLS: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
+          Schema.Null,
+        ]),
+      ),
+      zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<ListBucketDomainCustomsResponse>;
@@ -967,16 +1033,20 @@ export interface CreateBucketDomainCustomResponse {
   /** Whether this bucket is publicly accessible at the specified custom domain. */
   enabled: boolean;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: string[];
+  ciphers?: string[] | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: "1.0" | "1.1" | "1.2" | "1.3";
+  minTLS?: "1.0" | "1.1" | "1.2" | "1.3" | null;
 }
 
 export const CreateBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
   enabled: Schema.Boolean,
-  ciphers: Schema.optional(Schema.Array(Schema.String)),
-  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
+  ciphers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  minTLS: Schema.optional(
+    Schema.Union([Schema.Literals(["1.0", "1.1", "1.2", "1.3"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<CreateBucketDomainCustomResponse>;
 
 export type CreateBucketDomainCustomError =
@@ -1031,18 +1101,22 @@ export interface UpdateBucketDomainCustomResponse {
   /** Domain name of the affected custom domain. */
   domain: string;
   /** An allowlist of ciphers for TLS termination. These ciphers must be in the BoringSSL format. */
-  ciphers?: string[];
+  ciphers?: string[] | null;
   /** Whether this bucket is publicly accessible at the specified custom domain. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** Minimum TLS Version the custom domain will accept for incoming connections. If not set, defaults to 1.0. */
-  minTLS?: "1.0" | "1.1" | "1.2" | "1.3";
+  minTLS?: "1.0" | "1.1" | "1.2" | "1.3" | null;
 }
 
 export const UpdateBucketDomainCustomResponse = Schema.Struct({
   domain: Schema.String,
-  ciphers: Schema.optional(Schema.Array(Schema.String)),
-  enabled: Schema.optional(Schema.Boolean),
-  minTLS: Schema.optional(Schema.Literals(["1.0", "1.1", "1.2", "1.3"])),
+  ciphers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  minTLS: Schema.optional(
+    Schema.Union([Schema.Literals(["1.0", "1.1", "1.2", "1.3"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<UpdateBucketDomainCustomResponse>;
 
 export type UpdateBucketDomainCustomError = DefaultErrors;
@@ -1243,47 +1317,56 @@ export const GetBucketEventNotificationRequest = Schema.Struct({
 
 export interface GetBucketEventNotificationResponse {
   /** Queue ID. */
-  queueId?: string;
+  queueId?: string | null;
   /** Name of the queue. */
-  queueName?: string;
-  rules?: {
-    actions: (
-      | "PutObject"
-      | "CopyObject"
-      | "DeleteObject"
-      | "CompleteMultipartUpload"
-      | "LifecycleDeletion"
-    )[];
-    createdAt?: string;
-    description?: string;
-    prefix?: string;
-    ruleId?: string;
-    suffix?: string;
-  }[];
+  queueName?: string | null;
+  rules?:
+    | {
+        actions: (
+          | "PutObject"
+          | "CopyObject"
+          | "DeleteObject"
+          | "CompleteMultipartUpload"
+          | "LifecycleDeletion"
+        )[];
+        createdAt?: string | null;
+        description?: string | null;
+        prefix?: string | null;
+        ruleId?: string | null;
+        suffix?: string | null;
+      }[]
+    | null;
 }
 
 export const GetBucketEventNotificationResponse = Schema.Struct({
-  queueId: Schema.optional(Schema.String),
-  queueName: Schema.optional(Schema.String),
+  queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  queueName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   rules: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        actions: Schema.Array(
-          Schema.Literals([
-            "PutObject",
-            "CopyObject",
-            "DeleteObject",
-            "CompleteMultipartUpload",
-            "LifecycleDeletion",
-          ]),
-        ),
-        createdAt: Schema.optional(Schema.String),
-        description: Schema.optional(Schema.String),
-        prefix: Schema.optional(Schema.String),
-        ruleId: Schema.optional(Schema.String),
-        suffix: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          actions: Schema.Array(
+            Schema.Literals([
+              "PutObject",
+              "CopyObject",
+              "DeleteObject",
+              "CompleteMultipartUpload",
+              "LifecycleDeletion",
+            ]),
+          ),
+          createdAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          description: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          ruleId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          suffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetBucketEventNotificationResponse>;
 
@@ -1323,57 +1406,79 @@ export const ListBucketEventNotificationsRequest = Schema.Struct({
 
 export interface ListBucketEventNotificationsResponse {
   /** Name of the bucket. */
-  bucketName?: string;
+  bucketName?: string | null;
   /** List of queues associated with the bucket. */
-  queues?: {
-    queueId?: string;
-    queueName?: string;
-    rules?: {
-      actions: (
-        | "PutObject"
-        | "CopyObject"
-        | "DeleteObject"
-        | "CompleteMultipartUpload"
-        | "LifecycleDeletion"
-      )[];
-      createdAt?: string;
-      description?: string;
-      prefix?: string;
-      ruleId?: string;
-      suffix?: string;
-    }[];
-  }[];
+  queues?:
+    | {
+        queueId?: string | null;
+        queueName?: string | null;
+        rules?:
+          | {
+              actions: (
+                | "PutObject"
+                | "CopyObject"
+                | "DeleteObject"
+                | "CompleteMultipartUpload"
+                | "LifecycleDeletion"
+              )[];
+              createdAt?: string | null;
+              description?: string | null;
+              prefix?: string | null;
+              ruleId?: string | null;
+              suffix?: string | null;
+            }[]
+          | null;
+      }[]
+    | null;
 }
 
 export const ListBucketEventNotificationsResponse = Schema.Struct({
-  bucketName: Schema.optional(Schema.String),
+  bucketName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   queues: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        queueId: Schema.optional(Schema.String),
-        queueName: Schema.optional(Schema.String),
-        rules: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              actions: Schema.Array(
-                Schema.Literals([
-                  "PutObject",
-                  "CopyObject",
-                  "DeleteObject",
-                  "CompleteMultipartUpload",
-                  "LifecycleDeletion",
-                ]),
-              ),
-              createdAt: Schema.optional(Schema.String),
-              description: Schema.optional(Schema.String),
-              prefix: Schema.optional(Schema.String),
-              ruleId: Schema.optional(Schema.String),
-              suffix: Schema.optional(Schema.String),
-            }),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          queueId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          queueName: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
           ),
-        ),
-      }),
-    ),
+          rules: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  actions: Schema.Array(
+                    Schema.Literals([
+                      "PutObject",
+                      "CopyObject",
+                      "DeleteObject",
+                      "CompleteMultipartUpload",
+                      "LifecycleDeletion",
+                    ]),
+                  ),
+                  createdAt: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  description: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  prefix: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  ruleId: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  suffix: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListBucketEventNotificationsResponse>;
 
@@ -1537,81 +1642,104 @@ export const GetBucketLifecycleRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBucketLifecycleRequest>;
 
 export interface GetBucketLifecycleResponse {
-  rules?: {
-    id: string;
-    conditions: { prefix?: string };
-    enabled: boolean;
-    abortMultipartUploadsTransition?: {
-      condition?: { maxAge: number; type: "Age" };
-    };
-    deleteObjectsTransition?: {
-      condition?:
-        | { maxAge: number; type: "Age" }
-        | { date: string; type: "Date" };
-    };
-    storageClassTransitions?: {
-      condition:
-        | { maxAge: number; type: "Age" }
-        | { date: string; type: "Date" };
-      storageClass: "InfrequentAccess";
-    }[];
-  }[];
+  rules?:
+    | {
+        id: string;
+        conditions: { prefix?: string | null };
+        enabled: boolean;
+        abortMultipartUploadsTransition?: {
+          condition?: { maxAge: number; type: "Age" } | null;
+        } | null;
+        deleteObjectsTransition?: {
+          condition?:
+            | { maxAge: number; type: "Age" }
+            | { date: string; type: "Date" }
+            | null;
+        } | null;
+        storageClassTransitions?:
+          | {
+              condition:
+                | { maxAge: number; type: "Age" }
+                | { date: string; type: "Date" };
+              storageClass: "InfrequentAccess";
+            }[]
+          | null;
+      }[]
+    | null;
 }
 
 export const GetBucketLifecycleResponse = Schema.Struct({
   rules: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        conditions: Schema.Struct({
-          prefix: Schema.optional(Schema.String),
-        }),
-        enabled: Schema.Boolean,
-        abortMultipartUploadsTransition: Schema.optional(
-          Schema.Struct({
-            condition: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          conditions: Schema.Struct({
+            prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          enabled: Schema.Boolean,
+          abortMultipartUploadsTransition: Schema.optional(
+            Schema.Union([
               Schema.Struct({
-                maxAge: Schema.Number,
-                type: Schema.Literal("Age"),
+                condition: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      maxAge: Schema.Number,
+                      type: Schema.Literal("Age"),
+                    }),
+                    Schema.Null,
+                  ]),
+                ),
               }),
-            ),
-          }),
-        ),
-        deleteObjectsTransition: Schema.optional(
-          Schema.Struct({
-            condition: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  maxAge: Schema.Number,
-                  type: Schema.Literal("Age"),
-                }),
-                Schema.Struct({
-                  date: Schema.String,
-                  type: Schema.Literal("Date"),
-                }),
-              ]),
-            ),
-          }),
-        ),
-        storageClassTransitions: Schema.optional(
-          Schema.Array(
-            Schema.Struct({
-              condition: Schema.Union([
-                Schema.Struct({
-                  maxAge: Schema.Number,
-                  type: Schema.Literal("Age"),
-                }),
-                Schema.Struct({
-                  date: Schema.String,
-                  type: Schema.Literal("Date"),
-                }),
-              ]),
-              storageClass: Schema.Literal("InfrequentAccess"),
-            }),
+              Schema.Null,
+            ]),
           ),
-        ),
-      }),
-    ),
+          deleteObjectsTransition: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                condition: Schema.optional(
+                  Schema.Union([
+                    Schema.Union([
+                      Schema.Struct({
+                        maxAge: Schema.Number,
+                        type: Schema.Literal("Age"),
+                      }),
+                      Schema.Struct({
+                        date: Schema.String,
+                        type: Schema.Literal("Date"),
+                      }),
+                    ]),
+                    Schema.Null,
+                  ]),
+                ),
+              }),
+              Schema.Null,
+            ]),
+          ),
+          storageClassTransitions: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Struct({
+                  condition: Schema.Union([
+                    Schema.Struct({
+                      maxAge: Schema.Number,
+                      type: Schema.Literal("Age"),
+                    }),
+                    Schema.Struct({
+                      date: Schema.String,
+                      type: Schema.Literal("Date"),
+                    }),
+                  ]),
+                  storageClass: Schema.Literal("InfrequentAccess"),
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetBucketLifecycleResponse>;
 
@@ -1773,39 +1901,44 @@ export const GetBucketLockRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetBucketLockRequest>;
 
 export interface GetBucketLockResponse {
-  rules?: {
-    id: string;
-    condition:
-      | { maxAgeSeconds: number; type: "Age" }
-      | { date: string; type: "Date" }
-      | { type: "Indefinite" };
-    enabled: boolean;
-    prefix?: string;
-  }[];
+  rules?:
+    | {
+        id: string;
+        condition:
+          | { maxAgeSeconds: number; type: "Age" }
+          | { date: string; type: "Date" }
+          | { type: "Indefinite" };
+        enabled: boolean;
+        prefix?: string | null;
+      }[]
+    | null;
 }
 
 export const GetBucketLockResponse = Schema.Struct({
   rules: Schema.optional(
-    Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        condition: Schema.Union([
-          Schema.Struct({
-            maxAgeSeconds: Schema.Number,
-            type: Schema.Literal("Age"),
-          }),
-          Schema.Struct({
-            date: Schema.String,
-            type: Schema.Literal("Date"),
-          }),
-          Schema.Struct({
-            type: Schema.Literal("Indefinite"),
-          }),
-        ]),
-        enabled: Schema.Boolean,
-        prefix: Schema.optional(Schema.String),
-      }),
-    ),
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          id: Schema.String,
+          condition: Schema.Union([
+            Schema.Struct({
+              maxAgeSeconds: Schema.Number,
+              type: Schema.Literal("Age"),
+            }),
+            Schema.Struct({
+              date: Schema.String,
+              type: Schema.Literal("Date"),
+            }),
+            Schema.Struct({
+              type: Schema.Literal("Indefinite"),
+            }),
+          ]),
+          enabled: Schema.Boolean,
+          prefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetBucketLockResponse>;
 
@@ -1912,67 +2045,109 @@ export interface ListBucketMetricsResponse {
   /** Metrics based on what state they are in(uploaded or published). */
   infrequentAccess?: {
     published?: {
-      metadataSize?: number;
-      objects?: number;
-      payloadSize?: number;
-    };
+      metadataSize?: number | null;
+      objects?: number | null;
+      payloadSize?: number | null;
+    } | null;
     uploaded?: {
-      metadataSize?: number;
-      objects?: number;
-      payloadSize?: number;
-    };
-  };
+      metadataSize?: number | null;
+      objects?: number | null;
+      payloadSize?: number | null;
+    } | null;
+  } | null;
   /** Metrics based on what state they are in(uploaded or published). */
   standard?: {
     published?: {
-      metadataSize?: number;
-      objects?: number;
-      payloadSize?: number;
-    };
+      metadataSize?: number | null;
+      objects?: number | null;
+      payloadSize?: number | null;
+    } | null;
     uploaded?: {
-      metadataSize?: number;
-      objects?: number;
-      payloadSize?: number;
-    };
-  };
+      metadataSize?: number | null;
+      objects?: number | null;
+      payloadSize?: number | null;
+    } | null;
+  } | null;
 }
 
 export const ListBucketMetricsResponse = Schema.Struct({
   infrequentAccess: Schema.optional(
-    Schema.Struct({
-      published: Schema.optional(
-        Schema.Struct({
-          metadataSize: Schema.optional(Schema.Number),
-          objects: Schema.optional(Schema.Number),
-          payloadSize: Schema.optional(Schema.Number),
-        }),
-      ),
-      uploaded: Schema.optional(
-        Schema.Struct({
-          metadataSize: Schema.optional(Schema.Number),
-          objects: Schema.optional(Schema.Number),
-          payloadSize: Schema.optional(Schema.Number),
-        }),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        published: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              metadataSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              objects: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              payloadSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        uploaded: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              metadataSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              objects: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              payloadSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
   standard: Schema.optional(
-    Schema.Struct({
-      published: Schema.optional(
-        Schema.Struct({
-          metadataSize: Schema.optional(Schema.Number),
-          objects: Schema.optional(Schema.Number),
-          payloadSize: Schema.optional(Schema.Number),
-        }),
-      ),
-      uploaded: Schema.optional(
-        Schema.Struct({
-          metadataSize: Schema.optional(Schema.Number),
-          objects: Schema.optional(Schema.Number),
-          payloadSize: Schema.optional(Schema.Number),
-        }),
-      ),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        published: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              metadataSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              objects: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              payloadSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        uploaded: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              metadataSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              objects: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              payloadSize: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<ListBucketMetricsResponse>;
 
@@ -2017,39 +2192,51 @@ export const GetBucketSippyRequest = Schema.Struct({
 export interface GetBucketSippyResponse {
   /** Details about the configured destination bucket. */
   destination?: {
-    accessKeyId?: string;
-    account?: string;
-    bucket?: string;
-    provider?: "r2";
-  };
+    accessKeyId?: string | null;
+    account?: string | null;
+    bucket?: string | null;
+    provider?: "r2" | null;
+  } | null;
   /** State of Sippy for this bucket. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** Details about the configured source bucket. */
   source?: {
     bucket?: string | null;
     bucketUrl?: string | null;
-    provider?: "aws" | "gcs" | "s3";
+    provider?: "aws" | "gcs" | "s3" | null;
     region?: string | null;
-  };
+  } | null;
 }
 
 export const GetBucketSippyResponse = Schema.Struct({
   destination: Schema.optional(
-    Schema.Struct({
-      accessKeyId: Schema.optional(Schema.String),
-      account: Schema.optional(Schema.String),
-      bucket: Schema.optional(Schema.String),
-      provider: Schema.optional(Schema.Literal("r2")),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        accessKeyId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        provider: Schema.optional(
+          Schema.Union([Schema.Literal("r2"), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   source: Schema.optional(
-    Schema.Struct({
-      bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      provider: Schema.optional(Schema.Literals(["aws", "gcs", "s3"])),
-      region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        provider: Schema.optional(
+          Schema.Union([Schema.Literals(["aws", "gcs", "s3"]), Schema.Null]),
+        ),
+        region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetBucketSippyResponse>;
 
@@ -2120,39 +2307,51 @@ export const PutBucketSippyRequest = Schema.Struct({
 export interface PutBucketSippyResponse {
   /** Details about the configured destination bucket. */
   destination?: {
-    accessKeyId?: string;
-    account?: string;
-    bucket?: string;
-    provider?: "r2";
-  };
+    accessKeyId?: string | null;
+    account?: string | null;
+    bucket?: string | null;
+    provider?: "r2" | null;
+  } | null;
   /** State of Sippy for this bucket. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** Details about the configured source bucket. */
   source?: {
     bucket?: string | null;
     bucketUrl?: string | null;
-    provider?: "aws" | "gcs" | "s3";
+    provider?: "aws" | "gcs" | "s3" | null;
     region?: string | null;
-  };
+  } | null;
 }
 
 export const PutBucketSippyResponse = Schema.Struct({
   destination: Schema.optional(
-    Schema.Struct({
-      accessKeyId: Schema.optional(Schema.String),
-      account: Schema.optional(Schema.String),
-      bucket: Schema.optional(Schema.String),
-      provider: Schema.optional(Schema.Literal("r2")),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        accessKeyId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        provider: Schema.optional(
+          Schema.Union([Schema.Literal("r2"), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   source: Schema.optional(
-    Schema.Struct({
-      bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      provider: Schema.optional(Schema.Literals(["aws", "gcs", "s3"])),
-      region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        bucketUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        provider: Schema.optional(
+          Schema.Union([Schema.Literals(["aws", "gcs", "s3"]), Schema.Null]),
+        ),
+        region: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<PutBucketSippyResponse>;
 
@@ -2191,11 +2390,11 @@ export const DeleteBucketSippyRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteBucketSippyRequest>;
 
 export interface DeleteBucketSippyResponse {
-  enabled?: false;
+  enabled?: false | null;
 }
 
 export const DeleteBucketSippyResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Literal(false)),
+  enabled: Schema.optional(Schema.Union([Schema.Literal(false), Schema.Null])),
 }) as unknown as Schema.Schema<DeleteBucketSippyResponse>;
 
 export type DeleteBucketSippyError =
@@ -2254,11 +2453,13 @@ export const SourceSuperSlurperConnectivityPrecheckRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckRequest>;
 
 export interface SourceSuperSlurperConnectivityPrecheckResponse {
-  connectivityStatus?: "success" | "error";
+  connectivityStatus?: "success" | "error" | null;
 }
 
 export const SourceSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
-  connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
+  connectivityStatus: Schema.optional(
+    Schema.Union([Schema.Literals(["success", "error"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckResponse>;
 
 export type SourceSuperSlurperConnectivityPrecheckError = DefaultErrors;
@@ -2304,11 +2505,13 @@ export const TargetSuperSlurperConnectivityPrecheckRequest = Schema.Struct({
 ) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckRequest>;
 
 export interface TargetSuperSlurperConnectivityPrecheckResponse {
-  connectivityStatus?: "success" | "error";
+  connectivityStatus?: "success" | "error" | null;
 }
 
 export const TargetSuperSlurperConnectivityPrecheckResponse = Schema.Struct({
-  connectivityStatus: Schema.optional(Schema.Literals(["success", "error"])),
+  connectivityStatus: Schema.optional(
+    Schema.Union([Schema.Literals(["success", "error"]), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckResponse>;
 
 export type TargetSuperSlurperConnectivityPrecheckError = DefaultErrors;
@@ -2344,87 +2547,117 @@ export const GetSuperSlurperJobRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetSuperSlurperJobRequest>;
 
 export interface GetSuperSlurperJobResponse {
-  id?: string;
-  createdAt?: string;
+  id?: string | null;
+  createdAt?: string | null;
   finishedAt?: string | null;
-  overwrite?: boolean;
+  overwrite?: boolean | null;
   source?:
     | {
-        bucket?: string;
+        bucket?: string | null;
         endpoint?: string | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "s3";
+        vendor?: "s3" | null;
       }
     | {
-        bucket?: string;
+        bucket?: string | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "gcs";
+        vendor?: "gcs" | null;
       }
     | {
-        bucket?: string;
-        jurisdiction?: "default" | "eu" | "fedramp";
+        bucket?: string | null;
+        jurisdiction?: "default" | "eu" | "fedramp" | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "r2";
-      };
-  status?: "running" | "paused" | "aborted" | "completed";
+        vendor?: "r2" | null;
+      }
+    | null;
+  status?: "running" | "paused" | "aborted" | "completed" | null;
   target?: {
-    bucket?: string;
-    jurisdiction?: "default" | "eu" | "fedramp";
-    vendor?: "r2";
-  };
+    bucket?: string | null;
+    jurisdiction?: "default" | "eu" | "fedramp" | null;
+    vendor?: "r2" | null;
+  } | null;
 }
 
 export const GetSuperSlurperJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   finishedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  overwrite: Schema.optional(Schema.Boolean),
+  overwrite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   source: Schema.optional(
     Schema.Union([
-      Schema.Struct({
-        bucket: Schema.optional(Schema.String),
-        endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        keys: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        vendor: Schema.optional(Schema.Literal("s3")),
-      }),
-      Schema.Struct({
-        bucket: Schema.optional(Schema.String),
-        keys: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        vendor: Schema.optional(Schema.Literal("gcs")),
-      }),
-      Schema.Struct({
-        bucket: Schema.optional(Schema.String),
-        jurisdiction: Schema.optional(
-          Schema.Literals(["default", "eu", "fedramp"]),
-        ),
-        keys: Schema.optional(
-          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-        ),
-        pathPrefix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        vendor: Schema.optional(Schema.Literal("r2")),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          keys: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathPrefix: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          vendor: Schema.optional(
+            Schema.Union([Schema.Literal("s3"), Schema.Null]),
+          ),
+        }),
+        Schema.Struct({
+          bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          keys: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathPrefix: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          vendor: Schema.optional(
+            Schema.Union([Schema.Literal("gcs"), Schema.Null]),
+          ),
+        }),
+        Schema.Struct({
+          bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          jurisdiction: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["default", "eu", "fedramp"]),
+              Schema.Null,
+            ]),
+          ),
+          keys: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+          ),
+          pathPrefix: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          vendor: Schema.optional(
+            Schema.Union([Schema.Literal("r2"), Schema.Null]),
+          ),
+        }),
+      ]),
+      Schema.Null,
     ]),
   ),
   status: Schema.optional(
-    Schema.Literals(["running", "paused", "aborted", "completed"]),
+    Schema.Union([
+      Schema.Literals(["running", "paused", "aborted", "completed"]),
+      Schema.Null,
+    ]),
   ),
   target: Schema.optional(
-    Schema.Struct({
-      bucket: Schema.optional(Schema.String),
-      jurisdiction: Schema.optional(
-        Schema.Literals(["default", "eu", "fedramp"]),
-      ),
-      vendor: Schema.optional(Schema.Literal("r2")),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        jurisdiction: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["default", "eu", "fedramp"]),
+            Schema.Null,
+          ]),
+        ),
+        vendor: Schema.optional(
+          Schema.Union([Schema.Literal("r2"), Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<GetSuperSlurperJobResponse>;
 
@@ -2459,94 +2692,120 @@ export const ListSuperSlurperJobsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSuperSlurperJobsRequest>;
 
 export type ListSuperSlurperJobsResponse = {
-  id?: string;
-  createdAt?: string;
+  id?: string | null;
+  createdAt?: string | null;
   finishedAt?: string | null;
-  overwrite?: boolean;
+  overwrite?: boolean | null;
   source?:
     | {
-        bucket?: string;
+        bucket?: string | null;
         endpoint?: string | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "s3";
+        vendor?: "s3" | null;
       }
     | {
-        bucket?: string;
+        bucket?: string | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "gcs";
+        vendor?: "gcs" | null;
       }
     | {
-        bucket?: string;
-        jurisdiction?: "default" | "eu" | "fedramp";
+        bucket?: string | null;
+        jurisdiction?: "default" | "eu" | "fedramp" | null;
         keys?: string[] | null;
         pathPrefix?: string | null;
-        vendor?: "r2";
-      };
-  status?: "running" | "paused" | "aborted" | "completed";
+        vendor?: "r2" | null;
+      }
+    | null;
+  status?: "running" | "paused" | "aborted" | "completed" | null;
   target?: {
-    bucket?: string;
-    jurisdiction?: "default" | "eu" | "fedramp";
-    vendor?: "r2";
-  };
+    bucket?: string | null;
+    jurisdiction?: "default" | "eu" | "fedramp" | null;
+    vendor?: "r2" | null;
+  } | null;
 }[];
 
 export const ListSuperSlurperJobsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdAt: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     finishedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    overwrite: Schema.optional(Schema.Boolean),
+    overwrite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     source: Schema.optional(
       Schema.Union([
-        Schema.Struct({
-          bucket: Schema.optional(Schema.String),
-          endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          keys: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          pathPrefix: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          vendor: Schema.optional(Schema.Literal("s3")),
-        }),
-        Schema.Struct({
-          bucket: Schema.optional(Schema.String),
-          keys: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          pathPrefix: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          vendor: Schema.optional(Schema.Literal("gcs")),
-        }),
-        Schema.Struct({
-          bucket: Schema.optional(Schema.String),
-          jurisdiction: Schema.optional(
-            Schema.Literals(["default", "eu", "fedramp"]),
-          ),
-          keys: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          pathPrefix: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          vendor: Schema.optional(Schema.Literal("r2")),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            endpoint: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            keys: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathPrefix: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            vendor: Schema.optional(
+              Schema.Union([Schema.Literal("s3"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            keys: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathPrefix: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            vendor: Schema.optional(
+              Schema.Union([Schema.Literal("gcs"), Schema.Null]),
+            ),
+          }),
+          Schema.Struct({
+            bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            jurisdiction: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["default", "eu", "fedramp"]),
+                Schema.Null,
+              ]),
+            ),
+            keys: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            pathPrefix: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            vendor: Schema.optional(
+              Schema.Union([Schema.Literal("r2"), Schema.Null]),
+            ),
+          }),
+        ]),
+        Schema.Null,
       ]),
     ),
     status: Schema.optional(
-      Schema.Literals(["running", "paused", "aborted", "completed"]),
+      Schema.Union([
+        Schema.Literals(["running", "paused", "aborted", "completed"]),
+        Schema.Null,
+      ]),
     ),
     target: Schema.optional(
-      Schema.Struct({
-        bucket: Schema.optional(Schema.String),
-        jurisdiction: Schema.optional(
-          Schema.Literals(["default", "eu", "fedramp"]),
-        ),
-        vendor: Schema.optional(Schema.Literal("r2")),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          jurisdiction: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["default", "eu", "fedramp"]),
+              Schema.Null,
+            ]),
+          ),
+          vendor: Schema.optional(
+            Schema.Union([Schema.Literal("r2"), Schema.Null]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
   }),
 ) as unknown as Schema.Schema<ListSuperSlurperJobsResponse>;
@@ -2658,11 +2917,11 @@ export const CreateSuperSlurperJobRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateSuperSlurperJobRequest>;
 
 export interface CreateSuperSlurperJobResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const CreateSuperSlurperJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateSuperSlurperJobResponse>;
 
 export type CreateSuperSlurperJobError = DefaultErrors;
@@ -2760,25 +3019,30 @@ export const ProgressSuperSlurperJobRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ProgressSuperSlurperJobRequest>;
 
 export interface ProgressSuperSlurperJobResponse {
-  id?: string;
-  createdAt?: string;
-  failedObjects?: number;
-  objects?: number;
-  skippedObjects?: number;
-  status?: "running" | "paused" | "aborted" | "completed";
-  transferredObjects?: number;
+  id?: string | null;
+  createdAt?: string | null;
+  failedObjects?: number | null;
+  objects?: number | null;
+  skippedObjects?: number | null;
+  status?: "running" | "paused" | "aborted" | "completed" | null;
+  transferredObjects?: number | null;
 }
 
 export const ProgressSuperSlurperJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdAt: Schema.optional(Schema.String),
-  failedObjects: Schema.optional(Schema.Number),
-  objects: Schema.optional(Schema.Number),
-  skippedObjects: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  failedObjects: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  objects: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  skippedObjects: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals(["running", "paused", "aborted", "completed"]),
+    Schema.Union([
+      Schema.Literals(["running", "paused", "aborted", "completed"]),
+      Schema.Null,
+    ]),
   ),
-  transferredObjects: Schema.optional(Schema.Number),
+  transferredObjects: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<ProgressSuperSlurperJobResponse>;
 
 export type ProgressSuperSlurperJobError = DefaultErrors;
@@ -2854,8 +3118,8 @@ export const ListSuperSlurperJobLogsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListSuperSlurperJobLogsRequest>;
 
 export type ListSuperSlurperJobLogsResponse = {
-  createdAt?: string;
-  job?: string;
+  createdAt?: string | null;
+  job?: string | null;
   logType?:
     | "migrationStart"
     | "migrationComplete"
@@ -2871,32 +3135,36 @@ export type ListSuperSlurperJobLogsResponse = {
     | "importSkippedUnsupportedContentType"
     | "importSkippedExcludedContentType"
     | "importSkippedInvalidMedia"
-    | "importSkippedRequiresRetrieval";
+    | "importSkippedRequiresRetrieval"
+    | null;
   message?: string | null;
   objectKey?: string | null;
 }[];
 
 export const ListSuperSlurperJobLogsResponse = Schema.Array(
   Schema.Struct({
-    createdAt: Schema.optional(Schema.String),
-    job: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    job: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     logType: Schema.optional(
-      Schema.Literals([
-        "migrationStart",
-        "migrationComplete",
-        "migrationAbort",
-        "migrationError",
-        "migrationPause",
-        "migrationResume",
-        "migrationErrorFailedContinuation",
-        "importErrorRetryExhaustion",
-        "importSkippedStorageClass",
-        "importSkippedOversized",
-        "importSkippedEmptyObject",
-        "importSkippedUnsupportedContentType",
-        "importSkippedExcludedContentType",
-        "importSkippedInvalidMedia",
-        "importSkippedRequiresRetrieval",
+      Schema.Union([
+        Schema.Literals([
+          "migrationStart",
+          "migrationComplete",
+          "migrationAbort",
+          "migrationError",
+          "migrationPause",
+          "migrationResume",
+          "migrationErrorFailedContinuation",
+          "importErrorRetryExhaustion",
+          "importSkippedStorageClass",
+          "importSkippedOversized",
+          "importSkippedEmptyObject",
+          "importSkippedUnsupportedContentType",
+          "importSkippedExcludedContentType",
+          "importSkippedInvalidMedia",
+          "importSkippedRequiresRetrieval",
+        ]),
+        Schema.Null,
       ]),
     ),
     message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2964,17 +3232,17 @@ export const CreateTemporaryCredentialRequest = Schema.Struct({
 
 export interface CreateTemporaryCredentialResponse {
   /** ID for new access key. */
-  accessKeyId?: string;
+  accessKeyId?: string | null;
   /** Secret access key. */
-  secretAccessKey?: string;
+  secretAccessKey?: string | null;
   /** Security token. */
-  sessionToken?: string;
+  sessionToken?: string | null;
 }
 
 export const CreateTemporaryCredentialResponse = Schema.Struct({
-  accessKeyId: Schema.optional(Schema.String),
-  secretAccessKey: Schema.optional(Schema.String),
-  sessionToken: Schema.optional(Schema.String),
+  accessKeyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  secretAccessKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  sessionToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateTemporaryCredentialResponse>;
 
 export type CreateTemporaryCredentialError = DefaultErrors;

@@ -57,19 +57,22 @@ export const GetTotalTlRequest = Schema.Struct({
 
 export interface GetTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | null;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: number;
+  validityPeriod?: number | null;
 }
 
 export const GetTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+    Schema.Union([
+      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",
@@ -119,19 +122,22 @@ export const CreateTotalTlRequest = Schema.Struct({
 
 export interface CreateTotalTlResponse {
   /** The Certificate Authority that Total TLS certificates will be issued through. */
-  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com";
+  certificateAuthority?: "google" | "lets_encrypt" | "ssl_com" | null;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** The validity period in days for the certificates ordered via Total TLS. */
-  validityPeriod?: number;
+  validityPeriod?: number | null;
 }
 
 export const CreateTotalTlResponse = Schema.Struct({
   certificateAuthority: Schema.optional(
-    Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+    Schema.Union([
+      Schema.Literals(["google", "lets_encrypt", "ssl_com"]),
+      Schema.Null,
+    ]),
   ),
-  enabled: Schema.optional(Schema.Boolean),
-  validityPeriod: Schema.optional(Schema.Number),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     certificateAuthority: "certificate_authority",

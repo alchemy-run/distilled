@@ -175,7 +175,7 @@ export interface StatusCacheReserveResponse {
   /** The current state of the Cache Reserve Clear operation. */
   state: "In-progress" | "Completed";
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string;
+  endTs?: string | null;
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
 }
@@ -184,7 +184,7 @@ export const StatusCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve_clear"),
   startTs: Schema.String,
   state: Schema.Literals(["In-progress", "Completed"]),
-  endTs: Schema.optional(Schema.String),
+  endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
@@ -234,7 +234,7 @@ export interface ClearCacheReserveResponse {
   /** The current state of the Cache Reserve Clear operation. */
   state: "In-progress" | "Completed";
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string;
+  endTs?: string | null;
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
 }
@@ -243,7 +243,7 @@ export const ClearCacheReserveResponse = Schema.Struct({
   id: Schema.Literal("cache_reserve_clear"),
   startTs: Schema.String,
   state: Schema.Literals(["In-progress", "Completed"]),
-  endTs: Schema.optional(Schema.String),
+  endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
@@ -560,17 +560,17 @@ export interface GetVariantResponse {
   editable: boolean;
   /** Value of the zone setting. */
   value: {
-    avif?: string[];
-    bmp?: string[];
-    gif?: string[];
-    jp2?: string[];
-    jpeg?: string[];
-    jpg?: string[];
-    jpg2?: string[];
-    png?: string[];
-    tif?: string[];
-    tiff?: string[];
-    webp?: string[];
+    avif?: string[] | null;
+    bmp?: string[] | null;
+    gif?: string[] | null;
+    jp2?: string[] | null;
+    jpeg?: string[] | null;
+    jpg?: string[] | null;
+    jpg2?: string[] | null;
+    png?: string[] | null;
+    tif?: string[] | null;
+    tiff?: string[] | null;
+    webp?: string[] | null;
   };
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
@@ -580,17 +580,39 @@ export const GetVariantResponse = Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   value: Schema.Struct({
-    avif: Schema.optional(Schema.Array(Schema.String)),
-    bmp: Schema.optional(Schema.Array(Schema.String)),
-    gif: Schema.optional(Schema.Array(Schema.String)),
-    jp2: Schema.optional(Schema.Array(Schema.String)),
-    jpeg: Schema.optional(Schema.Array(Schema.String)),
-    jpg: Schema.optional(Schema.Array(Schema.String)),
-    jpg2: Schema.optional(Schema.Array(Schema.String)),
-    png: Schema.optional(Schema.Array(Schema.String)),
-    tif: Schema.optional(Schema.Array(Schema.String)),
-    tiff: Schema.optional(Schema.Array(Schema.String)),
-    webp: Schema.optional(Schema.Array(Schema.String)),
+    avif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    bmp: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    gif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jp2: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpeg: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpg: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpg2: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    png: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    tif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    tiff: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    webp: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
@@ -660,17 +682,17 @@ export interface PatchVariantResponse {
   editable: boolean;
   /** Value of the zone setting. */
   value: {
-    avif?: string[];
-    bmp?: string[];
-    gif?: string[];
-    jp2?: string[];
-    jpeg?: string[];
-    jpg?: string[];
-    jpg2?: string[];
-    png?: string[];
-    tif?: string[];
-    tiff?: string[];
-    webp?: string[];
+    avif?: string[] | null;
+    bmp?: string[] | null;
+    gif?: string[] | null;
+    jp2?: string[] | null;
+    jpeg?: string[] | null;
+    jpg?: string[] | null;
+    jpg2?: string[] | null;
+    png?: string[] | null;
+    tif?: string[] | null;
+    tiff?: string[] | null;
+    webp?: string[] | null;
   };
   /** Last time this setting was modified. */
   modifiedOn?: string | null;
@@ -680,17 +702,39 @@ export const PatchVariantResponse = Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   value: Schema.Struct({
-    avif: Schema.optional(Schema.Array(Schema.String)),
-    bmp: Schema.optional(Schema.Array(Schema.String)),
-    gif: Schema.optional(Schema.Array(Schema.String)),
-    jp2: Schema.optional(Schema.Array(Schema.String)),
-    jpeg: Schema.optional(Schema.Array(Schema.String)),
-    jpg: Schema.optional(Schema.Array(Schema.String)),
-    jpg2: Schema.optional(Schema.Array(Schema.String)),
-    png: Schema.optional(Schema.Array(Schema.String)),
-    tif: Schema.optional(Schema.Array(Schema.String)),
-    tiff: Schema.optional(Schema.Array(Schema.String)),
-    webp: Schema.optional(Schema.Array(Schema.String)),
+    avif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    bmp: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    gif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jp2: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpeg: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpg: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    jpg2: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    png: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    tif: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    tiff: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    webp: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(

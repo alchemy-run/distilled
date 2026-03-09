@@ -62,13 +62,13 @@ export const ListDomainsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDomainsRequest>;
 
 export type ListDomainsResponse = {
-  id?: string;
-  available?: boolean;
-  canRegister?: boolean;
-  createdAt?: string;
-  currentRegistrar?: string;
-  expiresAt?: string;
-  locked?: boolean;
+  id?: string | null;
+  available?: boolean | null;
+  canRegister?: boolean | null;
+  createdAt?: string | null;
+  currentRegistrar?: string | null;
+  expiresAt?: string | null;
+  locked?: boolean | null;
   registrantContact?: {
     address: string;
     city: string;
@@ -79,109 +79,142 @@ export type ListDomainsResponse = {
     phone: string | null;
     state: string;
     zip: string | null;
-    id?: string;
-    address2?: string;
-    email?: string;
-    fax?: string;
-  };
-  registryStatuses?: string;
-  supportedTld?: boolean;
+    id?: string | null;
+    address2?: string | null;
+    email?: string | null;
+    fax?: string | null;
+  } | null;
+  registryStatuses?: string | null;
+  supportedTld?: boolean | null;
   transferIn?: {
-    acceptFoa?: "needed" | "ok";
+    acceptFoa?: "needed" | "ok" | null;
     approveTransfer?:
       | "needed"
       | "ok"
       | "pending"
       | "trying"
       | "rejected"
-      | "unknown";
-    canCancelTransfer?: boolean;
-    disablePrivacy?: "needed" | "ok" | "unknown";
-    enterAuthCode?: "needed" | "ok" | "pending" | "trying" | "rejected";
-    unlockDomain?: "needed" | "ok" | "pending" | "trying" | "unknown";
-  };
-  updatedAt?: string;
+      | "unknown"
+      | null;
+    canCancelTransfer?: boolean | null;
+    disablePrivacy?: "needed" | "ok" | "unknown" | null;
+    enterAuthCode?: "needed" | "ok" | "pending" | "trying" | "rejected" | null;
+    unlockDomain?: "needed" | "ok" | "pending" | "trying" | "unknown" | null;
+  } | null;
+  updatedAt?: string | null;
 }[];
 
 export const ListDomainsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    available: Schema.optional(Schema.Boolean),
-    canRegister: Schema.optional(Schema.Boolean),
-    createdAt: Schema.optional(Schema.String),
-    currentRegistrar: Schema.optional(Schema.String),
-    expiresAt: Schema.optional(Schema.String),
-    locked: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    available: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    canRegister: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    currentRegistrar: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    expiresAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    locked: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     registrantContact: Schema.optional(
-      Schema.Struct({
-        address: Schema.String,
-        city: Schema.String,
-        country: Schema.Union([Schema.String, Schema.Null]),
-        firstName: Schema.Union([Schema.String, Schema.Null]),
-        lastName: Schema.Union([Schema.String, Schema.Null]),
-        organization: Schema.String,
-        phone: Schema.Union([Schema.String, Schema.Null]),
-        state: Schema.String,
-        zip: Schema.Union([Schema.String, Schema.Null]),
-        id: Schema.optional(Schema.String),
-        address2: Schema.optional(Schema.String),
-        email: Schema.optional(Schema.String),
-        fax: Schema.optional(Schema.String),
-      }).pipe(
-        Schema.encodeKeys({
-          address: "address",
-          city: "city",
-          country: "country",
-          firstName: "first_name",
-          lastName: "last_name",
-          organization: "organization",
-          phone: "phone",
-          state: "state",
-          zip: "zip",
-          id: "id",
-          address2: "address2",
-          email: "email",
-          fax: "fax",
-        }),
-      ),
+      Schema.Union([
+        Schema.Struct({
+          address: Schema.String,
+          city: Schema.String,
+          country: Schema.Union([Schema.String, Schema.Null]),
+          firstName: Schema.Union([Schema.String, Schema.Null]),
+          lastName: Schema.Union([Schema.String, Schema.Null]),
+          organization: Schema.String,
+          phone: Schema.Union([Schema.String, Schema.Null]),
+          state: Schema.String,
+          zip: Schema.Union([Schema.String, Schema.Null]),
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          address2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          fax: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(
+          Schema.encodeKeys({
+            address: "address",
+            city: "city",
+            country: "country",
+            firstName: "first_name",
+            lastName: "last_name",
+            organization: "organization",
+            phone: "phone",
+            state: "state",
+            zip: "zip",
+            id: "id",
+            address2: "address2",
+            email: "email",
+            fax: "fax",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
-    registryStatuses: Schema.optional(Schema.String),
-    supportedTld: Schema.optional(Schema.Boolean),
+    registryStatuses: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    supportedTld: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     transferIn: Schema.optional(
-      Schema.Struct({
-        acceptFoa: Schema.optional(Schema.Literals(["needed", "ok"])),
-        approveTransfer: Schema.optional(
-          Schema.Literals([
-            "needed",
-            "ok",
-            "pending",
-            "trying",
-            "rejected",
-            "unknown",
-          ]),
+      Schema.Union([
+        Schema.Struct({
+          acceptFoa: Schema.optional(
+            Schema.Union([Schema.Literals(["needed", "ok"]), Schema.Null]),
+          ),
+          approveTransfer: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "needed",
+                "ok",
+                "pending",
+                "trying",
+                "rejected",
+                "unknown",
+              ]),
+              Schema.Null,
+            ]),
+          ),
+          canCancelTransfer: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          disablePrivacy: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["needed", "ok", "unknown"]),
+              Schema.Null,
+            ]),
+          ),
+          enterAuthCode: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "needed",
+                "ok",
+                "pending",
+                "trying",
+                "rejected",
+              ]),
+              Schema.Null,
+            ]),
+          ),
+          unlockDomain: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["needed", "ok", "pending", "trying", "unknown"]),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            acceptFoa: "accept_foa",
+            approveTransfer: "approve_transfer",
+            canCancelTransfer: "can_cancel_transfer",
+            disablePrivacy: "disable_privacy",
+            enterAuthCode: "enter_auth_code",
+            unlockDomain: "unlock_domain",
+          }),
         ),
-        canCancelTransfer: Schema.optional(Schema.Boolean),
-        disablePrivacy: Schema.optional(
-          Schema.Literals(["needed", "ok", "unknown"]),
-        ),
-        enterAuthCode: Schema.optional(
-          Schema.Literals(["needed", "ok", "pending", "trying", "rejected"]),
-        ),
-        unlockDomain: Schema.optional(
-          Schema.Literals(["needed", "ok", "pending", "trying", "unknown"]),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          acceptFoa: "accept_foa",
-          approveTransfer: "approve_transfer",
-          canCancelTransfer: "can_cancel_transfer",
-          disablePrivacy: "disable_privacy",
-          enterAuthCode: "enter_auth_code",
-          unlockDomain: "unlock_domain",
-        }),
-      ),
+        Schema.Null,
+      ]),
     ),
-    updatedAt: Schema.optional(Schema.String),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",

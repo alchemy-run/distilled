@@ -33,14 +33,14 @@ export interface ListManagedTransformsResponse {
     id: string;
     enabled: boolean;
     hasConflict: boolean;
-    conflictsWith?: string[];
+    conflictsWith?: string[] | null;
   }[];
   /** The list of Managed Response Transforms. */
   managedResponseHeaders: {
     id: string;
     enabled: boolean;
     hasConflict: boolean;
-    conflictsWith?: string[];
+    conflictsWith?: string[] | null;
   }[];
 }
 
@@ -50,7 +50,9 @@ export const ListManagedTransformsResponse = Schema.Struct({
       id: Schema.String,
       enabled: Schema.Boolean,
       hasConflict: Schema.Boolean,
-      conflictsWith: Schema.optional(Schema.Array(Schema.String)),
+      conflictsWith: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -65,7 +67,9 @@ export const ListManagedTransformsResponse = Schema.Struct({
       id: Schema.String,
       enabled: Schema.Boolean,
       hasConflict: Schema.Boolean,
-      conflictsWith: Schema.optional(Schema.Array(Schema.String)),
+      conflictsWith: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -132,14 +136,14 @@ export interface PatchManagedTransformResponse {
     id: string;
     enabled: boolean;
     hasConflict: boolean;
-    conflictsWith?: string[];
+    conflictsWith?: string[] | null;
   }[];
   /** The list of Managed Response Transforms. */
   managedResponseHeaders: {
     id: string;
     enabled: boolean;
     hasConflict: boolean;
-    conflictsWith?: string[];
+    conflictsWith?: string[] | null;
   }[];
 }
 
@@ -149,7 +153,9 @@ export const PatchManagedTransformResponse = Schema.Struct({
       id: Schema.String,
       enabled: Schema.Boolean,
       hasConflict: Schema.Boolean,
-      conflictsWith: Schema.optional(Schema.Array(Schema.String)),
+      conflictsWith: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -164,7 +170,9 @@ export const PatchManagedTransformResponse = Schema.Struct({
       id: Schema.String,
       enabled: Schema.Boolean,
       hasConflict: Schema.Boolean,
-      conflictsWith: Schema.optional(Schema.Array(Schema.String)),
+      conflictsWith: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",

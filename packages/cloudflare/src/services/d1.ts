@@ -89,11 +89,11 @@ export const GetBookmarkDatabaseTimeTravelRequest = Schema.Struct({
 
 export interface GetBookmarkDatabaseTimeTravelResponse {
   /** A bookmark representing a specific state of the database at a specific point in time. */
-  bookmark?: string;
+  bookmark?: string | null;
 }
 
 export const GetBookmarkDatabaseTimeTravelResponse = Schema.Struct({
-  bookmark: Schema.optional(Schema.String),
+  bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetBookmarkDatabaseTimeTravelResponse>;
 
 export type GetBookmarkDatabaseTimeTravelError =
@@ -138,18 +138,18 @@ export const ListDatabasesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDatabasesRequest>;
 
 export type ListDatabasesResponse = {
-  createdAt?: string;
-  name?: string;
-  uuid?: string;
-  version?: string;
+  createdAt?: string | null;
+  name?: string | null;
+  uuid?: string | null;
+  version?: string | null;
 }[];
 
 export const ListDatabasesResponse = Schema.Array(
   Schema.Struct({
-    createdAt: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    uuid: Schema.optional(Schema.String),
-    version: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    uuid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    version: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
@@ -435,33 +435,43 @@ export const ExportDatabaseRequest = Schema.Struct({
 
 export interface ExportDatabaseResponse {
   /** The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the export task. */
-  atBookmark?: string;
+  atBookmark?: string | null;
   /** Only present when status = 'error'. Contains the error message. */
-  error?: string;
+  error?: string | null;
   /** Logs since the last time you polled */
-  messages?: string[];
+  messages?: string[] | null;
   /** Only present when status = 'complete' */
-  result?: { filename?: string; signedUrl?: string };
-  status?: "complete" | "error" | "active";
-  success?: boolean;
-  type?: "export";
+  result?: { filename?: string | null; signedUrl?: string | null } | null;
+  status?: "complete" | "error" | "active" | null;
+  success?: boolean | null;
+  type?: "export" | null;
 }
 
 export const ExportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.String),
-  error: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  result: Schema.optional(
-    Schema.Struct({
-      filename: Schema.optional(Schema.String),
-      signedUrl: Schema.optional(Schema.String),
-    }).pipe(
-      Schema.encodeKeys({ filename: "filename", signedUrl: "signed_url" }),
-    ),
+  atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-  status: Schema.optional(Schema.Literals(["complete", "error", "active"])),
-  success: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.Literal("export")),
+  result: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        signedUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({ filename: "filename", signedUrl: "signed_url" }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["complete", "error", "active"]),
+      Schema.Null,
+    ]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.Literal("export"), Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     atBookmark: "at_bookmark",
@@ -515,94 +525,141 @@ export const ImportDatabaseRequest = Schema.Struct({
 
 export interface ImportDatabaseResponse {
   /** The current time-travel bookmark for your D1, used to poll for updates. Will not change for the duration of the import. Only returned if an import process is currently running or recently finished. */
-  atBookmark?: string;
+  atBookmark?: string | null;
   /** Only present when status = 'error'. Contains the error message that prevented the import from succeeding. */
-  error?: string;
+  error?: string | null;
   /** Derived from the database ID and etag, to use in avoiding repeated uploads. Only returned when for the 'init' action. */
-  filename?: string;
+  filename?: string | null;
   /** Logs since the last time you polled */
-  messages?: string[];
+  messages?: string[] | null;
   /** Only present when status = 'complete' */
   result?: {
-    finalBookmark?: string;
+    finalBookmark?: string | null;
     meta?: {
-      changedDb?: boolean;
-      changes?: number;
-      duration?: number;
-      lastRowId?: number;
-      rowsRead?: number;
-      rowsWritten?: number;
-      servedByColo?: string;
-      servedByPrimary?: boolean;
-      servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC";
-      sizeAfter?: number;
-      timings?: { sqlDurationMs?: number };
-    };
-    numQueries?: number;
-  };
-  status?: "complete" | "error";
-  success?: boolean;
-  type?: "import";
+      changedDb?: boolean | null;
+      changes?: number | null;
+      duration?: number | null;
+      lastRowId?: number | null;
+      rowsRead?: number | null;
+      rowsWritten?: number | null;
+      servedByColo?: string | null;
+      servedByPrimary?: boolean | null;
+      servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC" | null;
+      sizeAfter?: number | null;
+      timings?: { sqlDurationMs?: number | null } | null;
+    } | null;
+    numQueries?: number | null;
+  } | null;
+  status?: "complete" | "error" | null;
+  success?: boolean | null;
+  type?: "import" | null;
   /** The R2 presigned URL to use for uploading. Only returned when for the 'init' action. */
-  uploadUrl?: string;
+  uploadUrl?: string | null;
 }
 
 export const ImportDatabaseResponse = Schema.Struct({
-  atBookmark: Schema.optional(Schema.String),
-  error: Schema.optional(Schema.String),
-  filename: Schema.optional(Schema.String),
-  messages: Schema.optional(Schema.Array(Schema.String)),
-  result: Schema.optional(
-    Schema.Struct({
-      finalBookmark: Schema.optional(Schema.String),
-      meta: Schema.optional(
-        Schema.Struct({
-          changedDb: Schema.optional(Schema.Boolean),
-          changes: Schema.optional(Schema.Number),
-          duration: Schema.optional(Schema.Number),
-          lastRowId: Schema.optional(Schema.Number),
-          rowsRead: Schema.optional(Schema.Number),
-          rowsWritten: Schema.optional(Schema.Number),
-          servedByColo: Schema.optional(Schema.String),
-          servedByPrimary: Schema.optional(Schema.Boolean),
-          servedByRegion: Schema.optional(
-            Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
-          ),
-          sizeAfter: Schema.optional(Schema.Number),
-          timings: Schema.optional(
-            Schema.Struct({
-              sqlDurationMs: Schema.optional(Schema.Number),
-            }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            changedDb: "changed_db",
-            changes: "changes",
-            duration: "duration",
-            lastRowId: "last_row_id",
-            rowsRead: "rows_read",
-            rowsWritten: "rows_written",
-            servedByColo: "served_by_colo",
-            servedByPrimary: "served_by_primary",
-            servedByRegion: "served_by_region",
-            sizeAfter: "size_after",
-            timings: "timings",
-          }),
-        ),
-      ),
-      numQueries: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        finalBookmark: "final_bookmark",
-        meta: "meta",
-        numQueries: "num_queries",
-      }),
-    ),
+  atBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  error: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  messages: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-  status: Schema.optional(Schema.Literals(["complete", "error"])),
-  success: Schema.optional(Schema.Boolean),
-  type: Schema.optional(Schema.Literal("import")),
-  uploadUrl: Schema.optional(Schema.String),
+  result: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        finalBookmark: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        meta: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              changedDb: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              changes: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              duration: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              lastRowId: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              rowsRead: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              rowsWritten: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              servedByColo: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              servedByPrimary: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              servedByRegion: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "WNAM",
+                    "ENAM",
+                    "WEUR",
+                    "EEUR",
+                    "APAC",
+                    "OC",
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+              sizeAfter: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              timings: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    sqlDurationMs: Schema.optional(
+                      Schema.Union([Schema.Number, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                changedDb: "changed_db",
+                changes: "changes",
+                duration: "duration",
+                lastRowId: "last_row_id",
+                rowsRead: "rows_read",
+                rowsWritten: "rows_written",
+                servedByColo: "served_by_colo",
+                servedByPrimary: "served_by_primary",
+                servedByRegion: "served_by_region",
+                sizeAfter: "size_after",
+                timings: "timings",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        numQueries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          finalBookmark: "final_bookmark",
+          meta: "meta",
+          numQueries: "num_queries",
+        }),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  status: Schema.optional(
+    Schema.Union([Schema.Literals(["complete", "error"]), Schema.Null]),
+  ),
+  success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  type: Schema.optional(Schema.Union([Schema.Literal("import"), Schema.Null])),
+  uploadUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     atBookmark: "at_bookmark",
@@ -654,61 +711,86 @@ export const QueryDatabaseRequest = Schema.Struct({
 
 export type QueryDatabaseResponse = {
   meta?: {
-    changedDb?: boolean;
-    changes?: number;
-    duration?: number;
-    lastRowId?: number;
-    rowsRead?: number;
-    rowsWritten?: number;
-    servedByColo?: string;
-    servedByPrimary?: boolean;
-    servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC";
-    sizeAfter?: number;
-    timings?: { sqlDurationMs?: number };
-  };
-  results?: unknown[];
-  success?: boolean;
+    changedDb?: boolean | null;
+    changes?: number | null;
+    duration?: number | null;
+    lastRowId?: number | null;
+    rowsRead?: number | null;
+    rowsWritten?: number | null;
+    servedByColo?: string | null;
+    servedByPrimary?: boolean | null;
+    servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC" | null;
+    sizeAfter?: number | null;
+    timings?: { sqlDurationMs?: number | null } | null;
+  } | null;
+  results?: unknown[] | null;
+  success?: boolean | null;
 }[];
 
 export const QueryDatabaseResponse = Schema.Array(
   Schema.Struct({
     meta: Schema.optional(
-      Schema.Struct({
-        changedDb: Schema.optional(Schema.Boolean),
-        changes: Schema.optional(Schema.Number),
-        duration: Schema.optional(Schema.Number),
-        lastRowId: Schema.optional(Schema.Number),
-        rowsRead: Schema.optional(Schema.Number),
-        rowsWritten: Schema.optional(Schema.Number),
-        servedByColo: Schema.optional(Schema.String),
-        servedByPrimary: Schema.optional(Schema.Boolean),
-        servedByRegion: Schema.optional(
-          Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
+      Schema.Union([
+        Schema.Struct({
+          changedDb: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          changes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          lastRowId: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          rowsRead: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          rowsWritten: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          servedByColo: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          servedByPrimary: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          servedByRegion: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
+              Schema.Null,
+            ]),
+          ),
+          sizeAfter: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          timings: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                sqlDurationMs: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            changedDb: "changed_db",
+            changes: "changes",
+            duration: "duration",
+            lastRowId: "last_row_id",
+            rowsRead: "rows_read",
+            rowsWritten: "rows_written",
+            servedByColo: "served_by_colo",
+            servedByPrimary: "served_by_primary",
+            servedByRegion: "served_by_region",
+            sizeAfter: "size_after",
+            timings: "timings",
+          }),
         ),
-        sizeAfter: Schema.optional(Schema.Number),
-        timings: Schema.optional(
-          Schema.Struct({
-            sqlDurationMs: Schema.optional(Schema.Number),
-          }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          changedDb: "changed_db",
-          changes: "changes",
-          duration: "duration",
-          lastRowId: "last_row_id",
-          rowsRead: "rows_read",
-          rowsWritten: "rows_written",
-          servedByColo: "served_by_colo",
-          servedByPrimary: "served_by_primary",
-          servedByRegion: "served_by_region",
-          sizeAfter: "size_after",
-          timings: "timings",
-        }),
-      ),
+        Schema.Null,
+      ]),
     ),
-    results: Schema.optional(Schema.Array(Schema.Unknown)),
-    success: Schema.optional(Schema.Boolean),
+    results: Schema.optional(
+      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+    ),
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<QueryDatabaseResponse>;
 
@@ -749,70 +831,104 @@ export const RawDatabaseRequest = Schema.Struct({
 
 export type RawDatabaseResponse = {
   meta?: {
-    changedDb?: boolean;
-    changes?: number;
-    duration?: number;
-    lastRowId?: number;
-    rowsRead?: number;
-    rowsWritten?: number;
-    servedByColo?: string;
-    servedByPrimary?: boolean;
-    servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC";
-    sizeAfter?: number;
-    timings?: { sqlDurationMs?: number };
-  };
-  results?: { columns?: string[]; rows?: (number | string)[][] };
-  success?: boolean;
+    changedDb?: boolean | null;
+    changes?: number | null;
+    duration?: number | null;
+    lastRowId?: number | null;
+    rowsRead?: number | null;
+    rowsWritten?: number | null;
+    servedByColo?: string | null;
+    servedByPrimary?: boolean | null;
+    servedByRegion?: "WNAM" | "ENAM" | "WEUR" | "EEUR" | "APAC" | "OC" | null;
+    sizeAfter?: number | null;
+    timings?: { sqlDurationMs?: number | null } | null;
+  } | null;
+  results?: {
+    columns?: string[] | null;
+    rows?: (number | string)[][] | null;
+  } | null;
+  success?: boolean | null;
 }[];
 
 export const RawDatabaseResponse = Schema.Array(
   Schema.Struct({
     meta: Schema.optional(
-      Schema.Struct({
-        changedDb: Schema.optional(Schema.Boolean),
-        changes: Schema.optional(Schema.Number),
-        duration: Schema.optional(Schema.Number),
-        lastRowId: Schema.optional(Schema.Number),
-        rowsRead: Schema.optional(Schema.Number),
-        rowsWritten: Schema.optional(Schema.Number),
-        servedByColo: Schema.optional(Schema.String),
-        servedByPrimary: Schema.optional(Schema.Boolean),
-        servedByRegion: Schema.optional(
-          Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
+      Schema.Union([
+        Schema.Struct({
+          changedDb: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          changes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          lastRowId: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          rowsRead: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          rowsWritten: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          servedByColo: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          servedByPrimary: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          servedByRegion: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["WNAM", "ENAM", "WEUR", "EEUR", "APAC", "OC"]),
+              Schema.Null,
+            ]),
+          ),
+          sizeAfter: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+          timings: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                sqlDurationMs: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+              }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            changedDb: "changed_db",
+            changes: "changes",
+            duration: "duration",
+            lastRowId: "last_row_id",
+            rowsRead: "rows_read",
+            rowsWritten: "rows_written",
+            servedByColo: "served_by_colo",
+            servedByPrimary: "served_by_primary",
+            servedByRegion: "served_by_region",
+            sizeAfter: "size_after",
+            timings: "timings",
+          }),
         ),
-        sizeAfter: Schema.optional(Schema.Number),
-        timings: Schema.optional(
-          Schema.Struct({
-            sqlDurationMs: Schema.optional(Schema.Number),
-          }).pipe(Schema.encodeKeys({ sqlDurationMs: "sql_duration_ms" })),
-        ),
-      }).pipe(
-        Schema.encodeKeys({
-          changedDb: "changed_db",
-          changes: "changes",
-          duration: "duration",
-          lastRowId: "last_row_id",
-          rowsRead: "rows_read",
-          rowsWritten: "rows_written",
-          servedByColo: "served_by_colo",
-          servedByPrimary: "served_by_primary",
-          servedByRegion: "served_by_region",
-          sizeAfter: "size_after",
-          timings: "timings",
-        }),
-      ),
+        Schema.Null,
+      ]),
     ),
     results: Schema.optional(
-      Schema.Struct({
-        columns: Schema.optional(Schema.Array(Schema.String)),
-        rows: Schema.optional(
-          Schema.Array(
-            Schema.Array(Schema.Union([Schema.Number, Schema.String])),
+      Schema.Union([
+        Schema.Struct({
+          columns: Schema.optional(
+            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
           ),
-        ),
-      }),
+          rows: Schema.optional(
+            Schema.Union([
+              Schema.Array(
+                Schema.Array(Schema.Union([Schema.Number, Schema.String])),
+              ),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
     ),
-    success: Schema.optional(Schema.Boolean),
+    success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<RawDatabaseResponse>;
 
@@ -857,17 +973,17 @@ export const RestoreDatabaseTimeTravelRequest = Schema.Struct({
 
 export interface RestoreDatabaseTimeTravelResponse {
   /** The new bookmark representing the state of the database after the restore operation. */
-  bookmark?: string;
+  bookmark?: string | null;
   /** A message describing the result of the restore operation. */
-  message?: string;
+  message?: string | null;
   /** The bookmark representing the state of the database before the restore operation. Can be used to undo the restore if needed. */
-  previousBookmark?: string;
+  previousBookmark?: string | null;
 }
 
 export const RestoreDatabaseTimeTravelResponse = Schema.Struct({
-  bookmark: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  previousBookmark: Schema.optional(Schema.String),
+  bookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  previousBookmark: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     bookmark: "bookmark",

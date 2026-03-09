@@ -32,14 +32,14 @@ export const GetContentScanningRequest = Schema.Struct({
 
 export interface GetContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string;
+  modified?: string | null;
   /** Defines the status of Content Scanning. */
-  value?: string;
+  value?: string | null;
 }
 
 export const GetContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetContentScanningResponse>;
 
 export type GetContentScanningError = DefaultErrors;
@@ -74,14 +74,14 @@ export const CreateContentScanningRequest = Schema.Struct({
 
 export interface CreateContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string;
+  modified?: string | null;
   /** Defines the status of Content Scanning. */
-  value?: string;
+  value?: string | null;
 }
 
 export const CreateContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
 export type CreateContentScanningError = DefaultErrors;
@@ -116,14 +116,14 @@ export const PutContentScanningRequest = Schema.Struct({
 
 export interface PutContentScanningResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string;
+  modified?: string | null;
   /** Defines the status of Content Scanning. */
-  value?: string;
+  value?: string | null;
 }
 
 export const PutContentScanningResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<PutContentScanningResponse>;
 
 export type PutContentScanningError = DefaultErrors;
@@ -221,12 +221,15 @@ export const ListPayloadsRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPayloadsRequest>;
 
-export type ListPayloadsResponse = { id?: string; payload?: string }[];
+export type ListPayloadsResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const ListPayloadsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListPayloadsResponse>;
 
@@ -264,12 +267,15 @@ export const CreatePayloadRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePayloadRequest>;
 
-export type CreatePayloadResponse = { id?: string; payload?: string }[];
+export type CreatePayloadResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const CreatePayloadResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<CreatePayloadResponse>;
 
@@ -302,12 +308,15 @@ export const DeletePayloadRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeletePayloadRequest>;
 
-export type DeletePayloadResponse = { id?: string; payload?: string }[];
+export type DeletePayloadResponse = {
+  id?: string | null;
+  payload?: string | null;
+}[];
 
 export const DeletePayloadResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    payload: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<DeletePayloadResponse>;
 
@@ -344,14 +353,14 @@ export const GetSettingRequest = Schema.Struct({
 
 export interface GetSettingResponse {
   /** Defines the last modification date (ISO 8601) of the Content Scanning status. */
-  modified?: string;
+  modified?: string | null;
   /** Defines the status of Content Scanning. */
-  value?: string;
+  value?: string | null;
 }
 
 export const GetSettingResponse = Schema.Struct({
-  modified: Schema.optional(Schema.String),
-  value: Schema.optional(Schema.String),
+  modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetSettingResponse>;
 
 export type GetSettingError = DefaultErrors;

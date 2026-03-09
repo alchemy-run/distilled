@@ -1598,7 +1598,7 @@ export interface ListAnnotationsResponse {
     asnsDetails: {
       asn: string;
       name: string;
-      locations?: { code: string; name: string };
+      locations?: { code: string; name: string } | null;
     }[];
     dataSource: string;
     eventType: string;
@@ -1608,10 +1608,10 @@ export interface ListAnnotationsResponse {
     originsDetails: { name: string; origin: string }[];
     outage: { outageCause: string; outageType: string };
     startDate: string;
-    description?: string;
-    endDate?: string;
-    linkedUrl?: string;
-    scope?: string;
+    description?: string | null;
+    endDate?: string | null;
+    linkedUrl?: string | null;
+    scope?: string | null;
   }[];
 }
 
@@ -1625,10 +1625,13 @@ export const ListAnnotationsResponse = Schema.Struct({
           asn: Schema.String,
           name: Schema.String,
           locations: Schema.optional(
-            Schema.Struct({
-              code: Schema.String,
-              name: Schema.String,
-            }),
+            Schema.Union([
+              Schema.Struct({
+                code: Schema.String,
+                name: Schema.String,
+              }),
+              Schema.Null,
+            ]),
           ),
         }),
       ),
@@ -1653,10 +1656,10 @@ export const ListAnnotationsResponse = Schema.Struct({
         outageType: Schema.String,
       }),
       startDate: Schema.String,
-      description: Schema.optional(Schema.String),
-      endDate: Schema.optional(Schema.String),
-      linkedUrl: Schema.optional(Schema.String),
-      scope: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      endDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      linkedUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      scope: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<ListAnnotationsResponse>;
@@ -1691,7 +1694,7 @@ export interface GetAnnotationOutageResponse {
     asnsDetails: {
       asn: string;
       name: string;
-      locations?: { code: string; name: string };
+      locations?: { code: string; name: string } | null;
     }[];
     dataSource: string;
     eventType: string;
@@ -1701,10 +1704,10 @@ export interface GetAnnotationOutageResponse {
     originsDetails: { name: string; origin: string }[];
     outage: { outageCause: string; outageType: string };
     startDate: string;
-    description?: string;
-    endDate?: string;
-    linkedUrl?: string;
-    scope?: string;
+    description?: string | null;
+    endDate?: string | null;
+    linkedUrl?: string | null;
+    scope?: string | null;
   }[];
 }
 
@@ -1718,10 +1721,13 @@ export const GetAnnotationOutageResponse = Schema.Struct({
           asn: Schema.String,
           name: Schema.String,
           locations: Schema.optional(
-            Schema.Struct({
-              code: Schema.String,
-              name: Schema.String,
-            }),
+            Schema.Union([
+              Schema.Struct({
+                code: Schema.String,
+                name: Schema.String,
+              }),
+              Schema.Null,
+            ]),
           ),
         }),
       ),
@@ -1746,10 +1752,10 @@ export const GetAnnotationOutageResponse = Schema.Struct({
         outageType: Schema.String,
       }),
       startDate: Schema.String,
-      description: Schema.optional(Schema.String),
-      endDate: Schema.optional(Schema.String),
-      linkedUrl: Schema.optional(Schema.String),
-      scope: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      endDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      linkedUrl: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      scope: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<GetAnnotationOutageResponse>;
@@ -9611,7 +9617,7 @@ export interface TimeseriesBgpIpResponse {
       };
       healthy: boolean;
       nowTs: number;
-    };
+    } | null;
   };
   serie_0: { ipv4: string[]; ipv6: string[]; timestamps: string[] };
 }
@@ -9696,42 +9702,45 @@ export const TimeseriesBgpIpResponse = Schema.Struct({
       }),
     ),
     delay: Schema.optional(
-      Schema.Struct({
-        asnData: Schema.Struct({
-          delaySecs: Schema.Number,
-          delayStr: Schema.String,
-          healthy: Schema.Boolean,
-          latest: Schema.Struct({
-            entriesCount: Schema.Number,
-            path: Schema.String,
-            timestamp: Schema.Number,
-          }).pipe(
-            Schema.encodeKeys({
-              entriesCount: "entries_count",
-              path: "path",
-              timestamp: "timestamp",
-            }),
-          ),
-        }),
-        countryData: Schema.Struct({
-          delaySecs: Schema.Number,
-          delayStr: Schema.String,
-          healthy: Schema.Boolean,
-          latest: Schema.Struct({
-            count: Schema.Number,
-            timestamp: Schema.Number,
+      Schema.Union([
+        Schema.Struct({
+          asnData: Schema.Struct({
+            delaySecs: Schema.Number,
+            delayStr: Schema.String,
+            healthy: Schema.Boolean,
+            latest: Schema.Struct({
+              entriesCount: Schema.Number,
+              path: Schema.String,
+              timestamp: Schema.Number,
+            }).pipe(
+              Schema.encodeKeys({
+                entriesCount: "entries_count",
+                path: "path",
+                timestamp: "timestamp",
+              }),
+            ),
           }),
-        }),
-        healthy: Schema.Boolean,
-        nowTs: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          asnData: "asn_data",
-          countryData: "country_data",
-          healthy: "healthy",
-          nowTs: "nowTs",
-        }),
-      ),
+          countryData: Schema.Struct({
+            delaySecs: Schema.Number,
+            delayStr: Schema.String,
+            healthy: Schema.Boolean,
+            latest: Schema.Struct({
+              count: Schema.Number,
+              timestamp: Schema.Number,
+            }),
+          }),
+          healthy: Schema.Boolean,
+          nowTs: Schema.Number,
+        }).pipe(
+          Schema.encodeKeys({
+            asnData: "asn_data",
+            countryData: "country_data",
+            healthy: "healthy",
+            nowTs: "nowTs",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }),
   serie_0: Schema.Struct({
@@ -20271,21 +20280,21 @@ export interface GetEntityAsnResponse {
       locations: {
         locationAlpha2: string;
         locationName: string;
-        estimatedUsers?: number;
+        estimatedUsers?: number | null;
       }[];
-      estimatedUsers?: number;
+      estimatedUsers?: number | null;
     };
     name: string;
     orgName: string;
     related: {
       asn: number;
       name: string;
-      aka?: string;
-      estimatedUsers?: number;
+      aka?: string | null;
+      estimatedUsers?: number | null;
     }[];
     source: string;
     website: string;
-    aka?: string;
+    aka?: string | null;
   };
 }
 
@@ -20300,10 +20309,14 @@ export const GetEntityAsnResponse = Schema.Struct({
         Schema.Struct({
           locationAlpha2: Schema.String,
           locationName: Schema.String,
-          estimatedUsers: Schema.optional(Schema.Number),
+          estimatedUsers: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
         }),
       ),
-      estimatedUsers: Schema.optional(Schema.Number),
+      estimatedUsers: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
     }),
     name: Schema.String,
     orgName: Schema.String,
@@ -20311,13 +20324,15 @@ export const GetEntityAsnResponse = Schema.Struct({
       Schema.Struct({
         asn: Schema.Number,
         name: Schema.String,
-        aka: Schema.optional(Schema.String),
-        estimatedUsers: Schema.optional(Schema.Number),
+        aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        estimatedUsers: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
       }),
     ),
     source: Schema.String,
     website: Schema.String,
-    aka: Schema.optional(Schema.String),
+    aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 }) as unknown as Schema.Schema<GetEntityAsnResponse>;
 
@@ -20346,9 +20361,9 @@ export interface ListEntityAsnsResponse {
     country: string;
     countryName: string;
     name: string;
-    aka?: string;
-    orgName?: string;
-    website?: string;
+    aka?: string | null;
+    orgName?: string | null;
+    website?: string | null;
   }[];
 }
 
@@ -20359,9 +20374,9 @@ export const ListEntityAsnsResponse = Schema.Struct({
       country: Schema.String,
       countryName: Schema.String,
       name: Schema.String,
-      aka: Schema.optional(Schema.String),
-      orgName: Schema.optional(Schema.String),
-      website: Schema.optional(Schema.String),
+      aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      orgName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      website: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<ListEntityAsnsResponse>;
@@ -20402,21 +20417,21 @@ export interface IpEntityAsnResponse {
       locations: {
         locationAlpha2: string;
         locationName: string;
-        estimatedUsers?: number;
+        estimatedUsers?: number | null;
       }[];
-      estimatedUsers?: number;
+      estimatedUsers?: number | null;
     };
     name: string;
     orgName: string;
     related: {
       asn: number;
       name: string;
-      aka?: string;
-      estimatedUsers?: number;
+      aka?: string | null;
+      estimatedUsers?: number | null;
     }[];
     source: string;
     website: string;
-    aka?: string;
+    aka?: string | null;
   };
 }
 
@@ -20430,10 +20445,14 @@ export const IpEntityAsnResponse = Schema.Struct({
         Schema.Struct({
           locationAlpha2: Schema.String,
           locationName: Schema.String,
-          estimatedUsers: Schema.optional(Schema.Number),
+          estimatedUsers: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
         }),
       ),
-      estimatedUsers: Schema.optional(Schema.Number),
+      estimatedUsers: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
     }),
     name: Schema.String,
     orgName: Schema.String,
@@ -20441,13 +20460,15 @@ export const IpEntityAsnResponse = Schema.Struct({
       Schema.Struct({
         asn: Schema.Number,
         name: Schema.String,
-        aka: Schema.optional(Schema.String),
-        estimatedUsers: Schema.optional(Schema.Number),
+        aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        estimatedUsers: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
       }),
     ),
     source: Schema.String,
     website: Schema.String,
-    aka: Schema.optional(Schema.String),
+    aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 }) as unknown as Schema.Schema<IpEntityAsnResponse>;
 
@@ -32733,7 +32754,7 @@ export interface TopRankingResponse {
     categories: { id: number; name: string; superCategoryId: number }[];
     domain: string;
     rank: number;
-    pctRankChange?: number;
+    pctRankChange?: number | null;
   }[];
 }
 
@@ -32824,7 +32845,9 @@ export const TopRankingResponse = Schema.Struct({
       ),
       domain: Schema.String,
       rank: Schema.Number,
-      pctRankChange: Schema.optional(Schema.Number),
+      pctRankChange: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<TopRankingResponse>;
@@ -32859,13 +32882,11 @@ export const GetRankingDomainRequest = Schema.Struct({
 export interface GetRankingDomainResponse {
   details_0: {
     categories: { id: number; name: string; superCategoryId: number }[];
-    bucket?: string;
-    rank?: number;
-    topLocations?: {
-      locationCode: string;
-      locationName: string;
-      rank: number;
-    }[];
+    bucket?: string | null;
+    rank?: number | null;
+    topLocations?:
+      | { locationCode: string; locationName: string; rank: number }[]
+      | null;
   };
   meta: { dateRange: { endTime: string; startTime: string }[] };
 }
@@ -32879,16 +32900,19 @@ export const GetRankingDomainResponse = Schema.Struct({
         superCategoryId: Schema.Number,
       }),
     ),
-    bucket: Schema.optional(Schema.String),
-    rank: Schema.optional(Schema.Number),
+    bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    rank: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     topLocations: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          locationCode: Schema.String,
-          locationName: Schema.String,
-          rank: Schema.Number,
-        }),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            locationCode: Schema.String,
+            locationName: Schema.String,
+            rank: Schema.Number,
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -33195,7 +33219,12 @@ export interface DirectiveRobotsTxtTopUserAgentResponse {
       | "RATIO";
     units: { name: string; value: string }[];
   };
-  top_0: { name: string; value: number; fully?: number; partially?: number }[];
+  top_0: {
+    name: string;
+    value: number;
+    fully?: number | null;
+    partially?: number | null;
+  }[];
 }
 
 export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
@@ -33278,8 +33307,8 @@ export const DirectiveRobotsTxtTopUserAgentResponse = Schema.Struct({
     Schema.Struct({
       name: Schema.String,
       value: Schema.Number,
-      fully: Schema.optional(Schema.Number),
-      partially: Schema.optional(Schema.Number),
+      fully: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      partially: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
   ),
 }) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentResponse>;
@@ -33781,9 +33810,9 @@ export interface AsSetEntityAsnResponse {
     asnConeSize: number;
     irrSources: string[];
     name: string;
-    hierarchicalAsn?: number;
-    inferredAsn?: number;
-    peeringdbAsn?: number;
+    hierarchicalAsn?: number | null;
+    inferredAsn?: number | null;
+    peeringdbAsn?: number | null;
   }[];
   /** Paths from the AS-SET that include the given AS to its upstreams recursively */
   paths: string[][];
@@ -33798,9 +33827,11 @@ export const AsSetEntityAsnResponse = Schema.Struct({
       asnConeSize: Schema.Number,
       irrSources: Schema.Array(Schema.String),
       name: Schema.String,
-      hierarchicalAsn: Schema.optional(Schema.Number),
-      inferredAsn: Schema.optional(Schema.Number),
-      peeringdbAsn: Schema.optional(Schema.Number),
+      hierarchicalAsn: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      inferredAsn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      peeringdbAsn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         asMembersCount: "as_members_count",
@@ -34033,12 +34064,12 @@ export interface GetTrafficAnomalyResponse {
     asnDetails?: {
       asn: string;
       name: string;
-      locations?: { code: string; name: string };
-    };
-    endDate?: string;
-    locationDetails?: { code: string; name: string };
-    originDetails?: { name: string; origin: string };
-    visibleInDataSources?: string[];
+      locations?: { code: string; name: string } | null;
+    } | null;
+    endDate?: string | null;
+    locationDetails?: { code: string; name: string } | null;
+    originDetails?: { name: string; origin: string } | null;
+    visibleInDataSources?: string[] | null;
   }[];
 }
 
@@ -34050,31 +34081,45 @@ export const GetTrafficAnomalyResponse = Schema.Struct({
       type: Schema.String,
       uuid: Schema.String,
       asnDetails: Schema.optional(
-        Schema.Struct({
-          asn: Schema.String,
-          name: Schema.String,
-          locations: Schema.optional(
-            Schema.Struct({
-              code: Schema.String,
-              name: Schema.String,
-            }),
-          ),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            asn: Schema.String,
+            name: Schema.String,
+            locations: Schema.optional(
+              Schema.Union([
+                Schema.Struct({
+                  code: Schema.String,
+                  name: Schema.String,
+                }),
+                Schema.Null,
+              ]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
-      endDate: Schema.optional(Schema.String),
+      endDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       locationDetails: Schema.optional(
-        Schema.Struct({
-          code: Schema.String,
-          name: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            code: Schema.String,
+            name: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
       originDetails: Schema.optional(
-        Schema.Struct({
-          name: Schema.String,
-          origin: Schema.String,
-        }),
+        Schema.Union([
+          Schema.Struct({
+            name: Schema.String,
+            origin: Schema.String,
+          }),
+          Schema.Null,
+        ]),
       ),
-      visibleInDataSources: Schema.optional(Schema.Array(Schema.String)),
+      visibleInDataSources: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
     }),
   ),
 }) as unknown as Schema.Schema<GetTrafficAnomalyResponse>;

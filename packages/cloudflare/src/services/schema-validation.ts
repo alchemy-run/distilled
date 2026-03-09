@@ -46,7 +46,7 @@ export interface GetSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | null;
 }
 
 export const GetSchemaResponse = Schema.Struct({
@@ -55,7 +55,9 @@ export const GetSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -105,7 +107,7 @@ export type ListSchemasResponse = {
   name: string;
   schemaId: string;
   source: string;
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | null;
 }[];
 
 export const ListSchemasResponse = Schema.Array(
@@ -115,7 +117,9 @@ export const ListSchemasResponse = Schema.Array(
     name: Schema.String,
     schemaId: Schema.String,
     source: Schema.String,
-    validationEnabled: Schema.optional(Schema.Boolean),
+    validationEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       createdAt: "created_at",
@@ -184,7 +188,7 @@ export interface CreateSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | null;
 }
 
 export const CreateSchemaResponse = Schema.Struct({
@@ -193,7 +197,9 @@ export const CreateSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -249,7 +255,7 @@ export interface PatchSchemaResponse {
   /** The raw schema, e.g., the OpenAPI schema, either as JSON or YAML */
   source: string;
   /** An indicator if this schema is enabled */
-  validationEnabled?: boolean;
+  validationEnabled?: boolean | null;
 }
 
 export const PatchSchemaResponse = Schema.Struct({
@@ -258,7 +264,9 @@ export const PatchSchemaResponse = Schema.Struct({
   name: Schema.String,
   schemaId: Schema.String,
   source: Schema.String,
-  validationEnabled: Schema.optional(Schema.Boolean),
+  validationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     createdAt: "created_at",
@@ -343,12 +351,14 @@ export interface GetSettingResponse {
   /** The default mitigation action used  Mitigation actions are as follows:  - `log` - log request when request does not conform to schema - `block` - deny access to the site when request does not conform  */
   validationDefaultMitigationAction: "none" | "log" | "block";
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.  - `"none"` will skip runnin */
-  validationOverrideMitigationAction?: "none";
+  validationOverrideMitigationAction?: "none" | null;
 }
 
 export const GetSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -399,12 +409,14 @@ export interface PutSettingResponse {
   /** The default mitigation action used  Mitigation actions are as follows:  - `log` - log request when request does not conform to schema - `block` - deny access to the site when request does not conform  */
   validationDefaultMitigationAction: "none" | "log" | "block";
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.  - `"none"` will skip runnin */
-  validationOverrideMitigationAction?: "none";
+  validationOverrideMitigationAction?: "none" | null;
 }
 
 export const PutSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -457,12 +469,14 @@ export interface PatchSettingResponse {
   /** The default mitigation action used  Mitigation actions are as follows:  - `log` - log request when request does not conform to schema - `block` - deny access to the site when request does not conform  */
   validationDefaultMitigationAction: "none" | "log" | "block";
   /** When not null, this overrides global both zone level and operation level mitigation actions. This can serve as a quick way to disable schema validation for the whole zone.  - `"none"` will skip runnin */
-  validationOverrideMitigationAction?: "none";
+  validationOverrideMitigationAction?: "none" | null;
 }
 
 export const PatchSettingResponse = Schema.Struct({
   validationDefaultMitigationAction: Schema.Literals(["none", "log", "block"]),
-  validationOverrideMitigationAction: Schema.optional(Schema.Literal("none")),
+  validationOverrideMitigationAction: Schema.optional(
+    Schema.Union([Schema.Literal("none"), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     validationDefaultMitigationAction: "validation_default_mitigation_action",
@@ -650,11 +664,11 @@ export const DeleteSettingOperationRequest = Schema.Struct({
 
 export interface DeleteSettingOperationResponse {
   /** UUID. */
-  operationId?: string;
+  operationId?: string | null;
 }
 
 export const DeleteSettingOperationResponse = Schema.Struct({
-  operationId: Schema.optional(Schema.String),
+  operationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ operationId: "operation_id" }),
 ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;

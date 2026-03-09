@@ -63,8 +63,8 @@ export interface GetAnalyticReportResponse {
     metrics: string[];
     since: string;
     until: string;
-    filters?: string;
-    sort?: string[];
+    filters?: string | null;
+    sort?: string[] | null;
   };
   /** Total number of rows in the result. */
   rows: number;
@@ -88,8 +88,10 @@ export const GetAnalyticReportResponse = Schema.Struct({
     metrics: Schema.Array(Schema.String),
     since: Schema.String,
     until: Schema.String,
-    filters: Schema.optional(Schema.String),
-    sort: Schema.optional(Schema.Array(Schema.String)),
+    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sort: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }),
   rows: Schema.Number,
   totals: Schema.Unknown,
@@ -209,8 +211,8 @@ export interface GetAnalyticReportBytimeResponse {
       | "dekaminute"
       | "minute";
     until: string;
-    filters?: string;
-    sort?: string[];
+    filters?: string | null;
+    sort?: string[] | null;
   };
   /** Total number of rows in the result. */
   rows: number;
@@ -248,8 +250,10 @@ export const GetAnalyticReportBytimeResponse = Schema.Struct({
       "minute",
     ]),
     until: Schema.String,
-    filters: Schema.optional(Schema.String),
-    sort: Schema.optional(Schema.Array(Schema.String)),
+    filters: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sort: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       dimensions: "dimensions",
@@ -316,11 +320,11 @@ export interface GetDnssecResponse {
   /** Coded type for digest algorithm. */
   digestType?: string | null;
   /** If true, multi-signer DNSSEC is enabled on the zone, allowing multiple providers to serve a DNSSEC-signed zone at the same time. This is required for DNSKEY records (except those automatically generat */
-  dnssecMultiSigner?: boolean;
+  dnssecMultiSigner?: boolean | null;
   /** If true, allows Cloudflare to transfer in a DNSSEC-signed zone including signatures from an external provider, without requiring Cloudflare to sign any records on the fly.  Note that this feature has  */
-  dnssecPresigned?: boolean;
+  dnssecPresigned?: boolean | null;
   /** If true, enables the use of NSEC3 together with DNSSEC on the zone. Combined with setting dnssec_presigned to true, this enables the use of NSEC3 records when transferring in from an external provider */
-  dnssecUseNsec3?: boolean;
+  dnssecUseNsec3?: boolean | null;
   /** Full DS record. */
   ds?: string | null;
   /** Flag for DNSSEC record. */
@@ -334,7 +338,13 @@ export interface GetDnssecResponse {
   /** Public key for DS record. */
   publicKey?: string | null;
   /** Status of DNSSEC, based on user-desired state and presence of necessary records. */
-  status?: "active" | "pending" | "disabled" | "pending-disabled" | "error";
+  status?:
+    | "active"
+    | "pending"
+    | "disabled"
+    | "pending-disabled"
+    | "error"
+    | null;
 }
 
 export const GetDnssecResponse = Schema.Struct({
@@ -342,9 +352,11 @@ export const GetDnssecResponse = Schema.Struct({
   digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  dnssecMultiSigner: Schema.optional(Schema.Boolean),
-  dnssecPresigned: Schema.optional(Schema.Boolean),
-  dnssecUseNsec3: Schema.optional(Schema.Boolean),
+  dnssecMultiSigner: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  dnssecPresigned: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  dnssecUseNsec3: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ds: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   flags: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   keyTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
@@ -352,12 +364,15 @@ export const GetDnssecResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals([
-      "active",
-      "pending",
-      "disabled",
-      "pending-disabled",
-      "error",
+    Schema.Union([
+      Schema.Literals([
+        "active",
+        "pending",
+        "disabled",
+        "pending-disabled",
+        "error",
+      ]),
+      Schema.Null,
     ]),
   ),
 }).pipe(
@@ -431,11 +446,11 @@ export interface PatchDnssecResponse {
   /** Coded type for digest algorithm. */
   digestType?: string | null;
   /** If true, multi-signer DNSSEC is enabled on the zone, allowing multiple providers to serve a DNSSEC-signed zone at the same time. This is required for DNSKEY records (except those automatically generat */
-  dnssecMultiSigner?: boolean;
+  dnssecMultiSigner?: boolean | null;
   /** If true, allows Cloudflare to transfer in a DNSSEC-signed zone including signatures from an external provider, without requiring Cloudflare to sign any records on the fly.  Note that this feature has  */
-  dnssecPresigned?: boolean;
+  dnssecPresigned?: boolean | null;
   /** If true, enables the use of NSEC3 together with DNSSEC on the zone. Combined with setting dnssec_presigned to true, this enables the use of NSEC3 records when transferring in from an external provider */
-  dnssecUseNsec3?: boolean;
+  dnssecUseNsec3?: boolean | null;
   /** Full DS record. */
   ds?: string | null;
   /** Flag for DNSSEC record. */
@@ -449,7 +464,13 @@ export interface PatchDnssecResponse {
   /** Public key for DS record. */
   publicKey?: string | null;
   /** Status of DNSSEC, based on user-desired state and presence of necessary records. */
-  status?: "active" | "pending" | "disabled" | "pending-disabled" | "error";
+  status?:
+    | "active"
+    | "pending"
+    | "disabled"
+    | "pending-disabled"
+    | "error"
+    | null;
 }
 
 export const PatchDnssecResponse = Schema.Struct({
@@ -457,9 +478,11 @@ export const PatchDnssecResponse = Schema.Struct({
   digest: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestAlgorithm: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   digestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  dnssecMultiSigner: Schema.optional(Schema.Boolean),
-  dnssecPresigned: Schema.optional(Schema.Boolean),
-  dnssecUseNsec3: Schema.optional(Schema.Boolean),
+  dnssecMultiSigner: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  dnssecPresigned: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  dnssecUseNsec3: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   ds: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   flags: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   keyTag: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
@@ -467,12 +490,15 @@ export const PatchDnssecResponse = Schema.Struct({
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   publicKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   status: Schema.optional(
-    Schema.Literals([
-      "active",
-      "pending",
-      "disabled",
-      "pending-disabled",
-      "error",
+    Schema.Union([
+      Schema.Literals([
+        "active",
+        "pending",
+        "disabled",
+        "pending-disabled",
+        "error",
+      ]),
+      Schema.Null,
     ]),
   ),
 }).pipe(
@@ -558,8 +584,8 @@ export type ScanListRecordResponse = (
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -571,12 +597,12 @@ export type ScanListRecordResponse = (
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
 )[];
 
@@ -588,8 +614,12 @@ export const ScanListRecordResponse = Schema.Array(
       meta: Schema.Unknown,
       modifiedOn: Schema.String,
       proxiable: Schema.Boolean,
-      commentModifiedOn: Schema.optional(Schema.String),
-      tagsModifiedOn: Schema.optional(Schema.String),
+      commentModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      tagsModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -612,16 +642,20 @@ export const ScanListRecordResponse = Schema.Array(
       proxiable: Schema.Boolean,
       proxied: Schema.Boolean,
       settings: Schema.Struct({
-        ipv4Only: Schema.optional(Schema.Boolean),
-        ipv6Only: Schema.optional(Schema.Boolean),
+        ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
       ),
       tags: Schema.Array(Schema.String),
       ttl: Schema.Number,
       type: Schema.Literal("OPENPGPKEY"),
-      commentModifiedOn: Schema.optional(Schema.String),
-      tagsModifiedOn: Schema.optional(Schema.String),
+      commentModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      tagsModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -720,8 +754,8 @@ export type GetRecordResponse =
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -733,12 +767,12 @@ export type GetRecordResponse =
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     };
 
 export const GetRecordResponse = Schema.Union([
@@ -748,8 +782,10 @@ export const GetRecordResponse = Schema.Union([
     meta: Schema.Unknown,
     modifiedOn: Schema.String,
     proxiable: Schema.Boolean,
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -772,16 +808,18 @@ export const GetRecordResponse = Schema.Union([
     proxiable: Schema.Boolean,
     proxied: Schema.Boolean,
     settings: Schema.Struct({
-      ipv4Only: Schema.optional(Schema.Boolean),
-      ipv6Only: Schema.optional(Schema.Boolean),
+      ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
     ),
     tags: Schema.Array(Schema.String),
     ttl: Schema.Number,
     type: Schema.Literal("OPENPGPKEY"),
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -976,8 +1014,8 @@ export type ListRecordsResponse = (
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -989,12 +1027,12 @@ export type ListRecordsResponse = (
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
 )[];
 
@@ -1006,8 +1044,12 @@ export const ListRecordsResponse = Schema.Array(
       meta: Schema.Unknown,
       modifiedOn: Schema.String,
       proxiable: Schema.Boolean,
-      commentModifiedOn: Schema.optional(Schema.String),
-      tagsModifiedOn: Schema.optional(Schema.String),
+      commentModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      tagsModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -1030,16 +1072,20 @@ export const ListRecordsResponse = Schema.Array(
       proxiable: Schema.Boolean,
       proxied: Schema.Boolean,
       settings: Schema.Struct({
-        ipv4Only: Schema.optional(Schema.Boolean),
-        ipv6Only: Schema.optional(Schema.Boolean),
+        ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       }).pipe(
         Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
       ),
       tags: Schema.Array(Schema.String),
       ttl: Schema.Number,
       type: Schema.Literal("OPENPGPKEY"),
-      commentModifiedOn: Schema.optional(Schema.String),
-      tagsModifiedOn: Schema.optional(Schema.String),
+      commentModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      tagsModifiedOn: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -1124,8 +1170,8 @@ export type CreateRecordResponse =
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -1137,12 +1183,12 @@ export type CreateRecordResponse =
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     };
 
 export const CreateRecordResponse = Schema.Union([
@@ -1152,8 +1198,10 @@ export const CreateRecordResponse = Schema.Union([
     meta: Schema.Unknown,
     modifiedOn: Schema.String,
     proxiable: Schema.Boolean,
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1176,16 +1224,18 @@ export const CreateRecordResponse = Schema.Union([
     proxiable: Schema.Boolean,
     proxied: Schema.Boolean,
     settings: Schema.Struct({
-      ipv4Only: Schema.optional(Schema.Boolean),
-      ipv6Only: Schema.optional(Schema.Boolean),
+      ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
     ),
     tags: Schema.Array(Schema.String),
     ttl: Schema.Number,
     type: Schema.Literal("OPENPGPKEY"),
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1271,8 +1321,8 @@ export type UpdateRecordResponse =
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -1284,12 +1334,12 @@ export type UpdateRecordResponse =
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     };
 
 export const UpdateRecordResponse = Schema.Union([
@@ -1299,8 +1349,10 @@ export const UpdateRecordResponse = Schema.Union([
     meta: Schema.Unknown,
     modifiedOn: Schema.String,
     proxiable: Schema.Boolean,
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1323,16 +1375,18 @@ export const UpdateRecordResponse = Schema.Union([
     proxiable: Schema.Boolean,
     proxied: Schema.Boolean,
     settings: Schema.Struct({
-      ipv4Only: Schema.optional(Schema.Boolean),
-      ipv6Only: Schema.optional(Schema.Boolean),
+      ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
     ),
     tags: Schema.Array(Schema.String),
     ttl: Schema.Number,
     type: Schema.Literal("OPENPGPKEY"),
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1421,8 +1475,8 @@ export type PatchRecordResponse =
       meta: unknown;
       modifiedOn: string;
       proxiable: boolean;
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     }
   | {
       id: string;
@@ -1434,12 +1488,12 @@ export type PatchRecordResponse =
       name: string;
       proxiable: boolean;
       proxied: boolean;
-      settings: { ipv4Only?: boolean; ipv6Only?: boolean };
+      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
       tags: string[];
       ttl: number;
       type: "OPENPGPKEY";
-      commentModifiedOn?: string;
-      tagsModifiedOn?: string;
+      commentModifiedOn?: string | null;
+      tagsModifiedOn?: string | null;
     };
 
 export const PatchRecordResponse = Schema.Union([
@@ -1449,8 +1503,10 @@ export const PatchRecordResponse = Schema.Union([
     meta: Schema.Unknown,
     modifiedOn: Schema.String,
     proxiable: Schema.Boolean,
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1473,16 +1529,18 @@ export const PatchRecordResponse = Schema.Union([
     proxiable: Schema.Boolean,
     proxied: Schema.Boolean,
     settings: Schema.Struct({
-      ipv4Only: Schema.optional(Schema.Boolean),
-      ipv6Only: Schema.optional(Schema.Boolean),
+      ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
     ),
     tags: Schema.Array(Schema.String),
     ttl: Schema.Number,
     type: Schema.Literal("OPENPGPKEY"),
-    commentModifiedOn: Schema.optional(Schema.String),
-    tagsModifiedOn: Schema.optional(Schema.String),
+    commentModifiedOn: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    tagsModifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1535,11 +1593,11 @@ export const DeleteRecordRequest = Schema.Struct({
 
 export interface DeleteRecordResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteRecordResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteRecordResponse>;
 
 export type DeleteRecordError = DefaultErrors;
@@ -4676,380 +4734,460 @@ export const BatchRecordRequest = Schema.Struct({
 ) as unknown as Schema.Schema<BatchRecordRequest>;
 
 export interface BatchRecordResponse {
-  deletes?: (
-    | {
-        id: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        proxiable: boolean;
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-    | {
-        id: string;
-        comment: string;
-        content: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        name: string;
-        proxiable: boolean;
-        proxied: boolean;
-        settings: { ipv4Only?: boolean; ipv6Only?: boolean };
-        tags: string[];
-        ttl: number;
-        type: "OPENPGPKEY";
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-  )[];
-  patches?: (
-    | {
-        id: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        proxiable: boolean;
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-    | {
-        id: string;
-        comment: string;
-        content: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        name: string;
-        proxiable: boolean;
-        proxied: boolean;
-        settings: { ipv4Only?: boolean; ipv6Only?: boolean };
-        tags: string[];
-        ttl: number;
-        type: "OPENPGPKEY";
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-  )[];
-  posts?: (
-    | {
-        id: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        proxiable: boolean;
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-    | {
-        id: string;
-        comment: string;
-        content: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        name: string;
-        proxiable: boolean;
-        proxied: boolean;
-        settings: { ipv4Only?: boolean; ipv6Only?: boolean };
-        tags: string[];
-        ttl: number;
-        type: "OPENPGPKEY";
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-  )[];
-  puts?: (
-    | {
-        id: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        proxiable: boolean;
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-    | {
-        id: string;
-        comment: string;
-        content: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        name: string;
-        proxiable: boolean;
-        proxied: boolean;
-        settings: { ipv4Only?: boolean; ipv6Only?: boolean };
-        tags: string[];
-        ttl: number;
-        type: "OPENPGPKEY";
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-  )[];
+  deletes?:
+    | (
+        | {
+            id: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            proxiable: boolean;
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+        | {
+            id: string;
+            comment: string;
+            content: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            name: string;
+            proxiable: boolean;
+            proxied: boolean;
+            settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+            tags: string[];
+            ttl: number;
+            type: "OPENPGPKEY";
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+      )[]
+    | null;
+  patches?:
+    | (
+        | {
+            id: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            proxiable: boolean;
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+        | {
+            id: string;
+            comment: string;
+            content: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            name: string;
+            proxiable: boolean;
+            proxied: boolean;
+            settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+            tags: string[];
+            ttl: number;
+            type: "OPENPGPKEY";
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+      )[]
+    | null;
+  posts?:
+    | (
+        | {
+            id: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            proxiable: boolean;
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+        | {
+            id: string;
+            comment: string;
+            content: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            name: string;
+            proxiable: boolean;
+            proxied: boolean;
+            settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+            tags: string[];
+            ttl: number;
+            type: "OPENPGPKEY";
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+      )[]
+    | null;
+  puts?:
+    | (
+        | {
+            id: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            proxiable: boolean;
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+        | {
+            id: string;
+            comment: string;
+            content: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            name: string;
+            proxiable: boolean;
+            proxied: boolean;
+            settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+            tags: string[];
+            ttl: number;
+            type: "OPENPGPKEY";
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+      )[]
+    | null;
 }
 
 export const BatchRecordResponse = Schema.Struct({
   deletes: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          proxiable: Schema.Boolean,
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            proxiable: "proxiable",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-        Schema.Struct({
-          id: Schema.String,
-          comment: Schema.String,
-          content: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          name: Schema.String,
-          proxiable: Schema.Boolean,
-          proxied: Schema.Boolean,
-          settings: Schema.Struct({
-            ipv4Only: Schema.optional(Schema.Boolean),
-            ipv6Only: Schema.optional(Schema.Boolean),
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            proxiable: Schema.Boolean,
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
-            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+            Schema.encodeKeys({
+              id: "id",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              proxiable: "proxiable",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
           ),
-          tags: Schema.Array(Schema.String),
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            comment: "comment",
-            content: "content",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            name: "name",
-            proxiable: "proxiable",
-            proxied: "proxied",
-            settings: "settings",
-            tags: "tags",
-            ttl: "ttl",
-            type: "type",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-      ]),
-    ),
+          Schema.Struct({
+            id: Schema.String,
+            comment: Schema.String,
+            content: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            name: Schema.String,
+            proxiable: Schema.Boolean,
+            proxied: Schema.Boolean,
+            settings: Schema.Struct({
+              ipv4Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              ipv6Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4Only: "ipv4_only",
+                ipv6Only: "ipv6_only",
+              }),
+            ),
+            tags: Schema.Array(Schema.String),
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              comment: "comment",
+              content: "content",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              name: "name",
+              proxiable: "proxiable",
+              proxied: "proxied",
+              settings: "settings",
+              tags: "tags",
+              ttl: "ttl",
+              type: "type",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
   ),
   patches: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          proxiable: Schema.Boolean,
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            proxiable: "proxiable",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-        Schema.Struct({
-          id: Schema.String,
-          comment: Schema.String,
-          content: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          name: Schema.String,
-          proxiable: Schema.Boolean,
-          proxied: Schema.Boolean,
-          settings: Schema.Struct({
-            ipv4Only: Schema.optional(Schema.Boolean),
-            ipv6Only: Schema.optional(Schema.Boolean),
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            proxiable: Schema.Boolean,
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
-            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+            Schema.encodeKeys({
+              id: "id",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              proxiable: "proxiable",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
           ),
-          tags: Schema.Array(Schema.String),
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            comment: "comment",
-            content: "content",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            name: "name",
-            proxiable: "proxiable",
-            proxied: "proxied",
-            settings: "settings",
-            tags: "tags",
-            ttl: "ttl",
-            type: "type",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-      ]),
-    ),
+          Schema.Struct({
+            id: Schema.String,
+            comment: Schema.String,
+            content: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            name: Schema.String,
+            proxiable: Schema.Boolean,
+            proxied: Schema.Boolean,
+            settings: Schema.Struct({
+              ipv4Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              ipv6Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4Only: "ipv4_only",
+                ipv6Only: "ipv6_only",
+              }),
+            ),
+            tags: Schema.Array(Schema.String),
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              comment: "comment",
+              content: "content",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              name: "name",
+              proxiable: "proxiable",
+              proxied: "proxied",
+              settings: "settings",
+              tags: "tags",
+              ttl: "ttl",
+              type: "type",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
   ),
   posts: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          proxiable: Schema.Boolean,
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            proxiable: "proxiable",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-        Schema.Struct({
-          id: Schema.String,
-          comment: Schema.String,
-          content: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          name: Schema.String,
-          proxiable: Schema.Boolean,
-          proxied: Schema.Boolean,
-          settings: Schema.Struct({
-            ipv4Only: Schema.optional(Schema.Boolean),
-            ipv6Only: Schema.optional(Schema.Boolean),
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            proxiable: Schema.Boolean,
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
-            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+            Schema.encodeKeys({
+              id: "id",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              proxiable: "proxiable",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
           ),
-          tags: Schema.Array(Schema.String),
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            comment: "comment",
-            content: "content",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            name: "name",
-            proxiable: "proxiable",
-            proxied: "proxied",
-            settings: "settings",
-            tags: "tags",
-            ttl: "ttl",
-            type: "type",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-      ]),
-    ),
+          Schema.Struct({
+            id: Schema.String,
+            comment: Schema.String,
+            content: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            name: Schema.String,
+            proxiable: Schema.Boolean,
+            proxied: Schema.Boolean,
+            settings: Schema.Struct({
+              ipv4Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              ipv6Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4Only: "ipv4_only",
+                ipv6Only: "ipv6_only",
+              }),
+            ),
+            tags: Schema.Array(Schema.String),
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              comment: "comment",
+              content: "content",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              name: "name",
+              proxiable: "proxiable",
+              proxied: "proxied",
+              settings: "settings",
+              tags: "tags",
+              ttl: "ttl",
+              type: "type",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
   ),
   puts: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          proxiable: Schema.Boolean,
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            proxiable: "proxiable",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-        Schema.Struct({
-          id: Schema.String,
-          comment: Schema.String,
-          content: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          name: Schema.String,
-          proxiable: Schema.Boolean,
-          proxied: Schema.Boolean,
-          settings: Schema.Struct({
-            ipv4Only: Schema.optional(Schema.Boolean),
-            ipv6Only: Schema.optional(Schema.Boolean),
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            proxiable: Schema.Boolean,
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
-            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+            Schema.encodeKeys({
+              id: "id",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              proxiable: "proxiable",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
           ),
-          tags: Schema.Array(Schema.String),
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            comment: "comment",
-            content: "content",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            name: "name",
-            proxiable: "proxiable",
-            proxied: "proxied",
-            settings: "settings",
-            tags: "tags",
-            ttl: "ttl",
-            type: "type",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-      ]),
-    ),
+          Schema.Struct({
+            id: Schema.String,
+            comment: Schema.String,
+            content: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            name: Schema.String,
+            proxiable: Schema.Boolean,
+            proxied: Schema.Boolean,
+            settings: Schema.Struct({
+              ipv4Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              ipv6Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4Only: "ipv4_only",
+                ipv6Only: "ipv6_only",
+              }),
+            ),
+            tags: Schema.Array(Schema.String),
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              comment: "comment",
+              content: "content",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              name: "name",
+              proxiable: "proxiable",
+              proxied: "proxied",
+              settings: "settings",
+              tags: "tags",
+              ttl: "ttl",
+              type: "type",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
   ),
 }) as unknown as Schema.Schema<BatchRecordResponse>;
 
@@ -5118,14 +5256,16 @@ export const ImportRecordRequest = Schema.Struct({
 
 export interface ImportRecordResponse {
   /** Number of DNS records added. */
-  recsAdded?: number;
+  recsAdded?: number | null;
   /** Total number of DNS records parsed. */
-  totalRecordsParsed?: number;
+  totalRecordsParsed?: number | null;
 }
 
 export const ImportRecordResponse = Schema.Struct({
-  recsAdded: Schema.optional(Schema.Number),
-  totalRecordsParsed: Schema.optional(Schema.Number),
+  recsAdded: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  totalRecordsParsed: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     recsAdded: "recs_added",
@@ -5162,14 +5302,16 @@ export const ScanRecordRequest = Schema.Struct({
 
 export interface ScanRecordResponse {
   /** Number of DNS records added. */
-  recsAdded?: number;
+  recsAdded?: number | null;
   /** Total number of DNS records parsed. */
-  totalRecordsParsed?: number;
+  totalRecordsParsed?: number | null;
 }
 
 export const ScanRecordResponse = Schema.Struct({
-  recsAdded: Schema.optional(Schema.Number),
-  totalRecordsParsed: Schema.optional(Schema.Number),
+  recsAdded: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  totalRecordsParsed: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     recsAdded: "recs_added",
@@ -6059,104 +6201,126 @@ export const ScanReviewRecordRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ScanReviewRecordRequest>;
 
 export interface ScanReviewRecordResponse {
-  accepts?: (
-    | {
-        id: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        proxiable: boolean;
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-    | {
-        id: string;
-        comment: string;
-        content: string;
-        createdOn: string;
-        meta: unknown;
-        modifiedOn: string;
-        name: string;
-        proxiable: boolean;
-        proxied: boolean;
-        settings: { ipv4Only?: boolean; ipv6Only?: boolean };
-        tags: string[];
-        ttl: number;
-        type: "OPENPGPKEY";
-        commentModifiedOn?: string;
-        tagsModifiedOn?: string;
-      }
-  )[];
-  rejects?: string[];
+  accepts?:
+    | (
+        | {
+            id: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            proxiable: boolean;
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+        | {
+            id: string;
+            comment: string;
+            content: string;
+            createdOn: string;
+            meta: unknown;
+            modifiedOn: string;
+            name: string;
+            proxiable: boolean;
+            proxied: boolean;
+            settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+            tags: string[];
+            ttl: number;
+            type: "OPENPGPKEY";
+            commentModifiedOn?: string | null;
+            tagsModifiedOn?: string | null;
+          }
+      )[]
+    | null;
+  rejects?: string[] | null;
 }
 
 export const ScanReviewRecordResponse = Schema.Struct({
   accepts: Schema.optional(
-    Schema.Array(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          proxiable: Schema.Boolean,
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            proxiable: "proxiable",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-        Schema.Struct({
-          id: Schema.String,
-          comment: Schema.String,
-          content: Schema.String,
-          createdOn: Schema.String,
-          meta: Schema.Unknown,
-          modifiedOn: Schema.String,
-          name: Schema.String,
-          proxiable: Schema.Boolean,
-          proxied: Schema.Boolean,
-          settings: Schema.Struct({
-            ipv4Only: Schema.optional(Schema.Boolean),
-            ipv6Only: Schema.optional(Schema.Boolean),
+    Schema.Union([
+      Schema.Array(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            proxiable: Schema.Boolean,
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
           }).pipe(
-            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+            Schema.encodeKeys({
+              id: "id",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              proxiable: "proxiable",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
           ),
-          tags: Schema.Array(Schema.String),
-          ttl: Schema.Number,
-          type: Schema.Literal("OPENPGPKEY"),
-          commentModifiedOn: Schema.optional(Schema.String),
-          tagsModifiedOn: Schema.optional(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            comment: "comment",
-            content: "content",
-            createdOn: "created_on",
-            meta: "meta",
-            modifiedOn: "modified_on",
-            name: "name",
-            proxiable: "proxiable",
-            proxied: "proxied",
-            settings: "settings",
-            tags: "tags",
-            ttl: "ttl",
-            type: "type",
-            commentModifiedOn: "comment_modified_on",
-            tagsModifiedOn: "tags_modified_on",
-          }),
-        ),
-      ]),
-    ),
+          Schema.Struct({
+            id: Schema.String,
+            comment: Schema.String,
+            content: Schema.String,
+            createdOn: Schema.String,
+            meta: Schema.Unknown,
+            modifiedOn: Schema.String,
+            name: Schema.String,
+            proxiable: Schema.Boolean,
+            proxied: Schema.Boolean,
+            settings: Schema.Struct({
+              ipv4Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              ipv6Only: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                ipv4Only: "ipv4_only",
+                ipv6Only: "ipv6_only",
+              }),
+            ),
+            tags: Schema.Array(Schema.String),
+            ttl: Schema.Number,
+            type: Schema.Literal("OPENPGPKEY"),
+            commentModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tagsModifiedOn: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              comment: "comment",
+              content: "content",
+              createdOn: "created_on",
+              meta: "meta",
+              modifiedOn: "modified_on",
+              name: "name",
+              proxiable: "proxiable",
+              proxied: "proxied",
+              settings: "settings",
+              tags: "tags",
+              ttl: "ttl",
+              type: "type",
+              commentModifiedOn: "comment_modified_on",
+              tagsModifiedOn: "tags_modified_on",
+            }),
+          ),
+        ]),
+      ),
+      Schema.Null,
+    ]),
   ),
-  rejects: Schema.optional(Schema.Array(Schema.String)),
+  rejects: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }) as unknown as Schema.Schema<ScanReviewRecordResponse>;
 
 export type ScanReviewRecordError = DefaultErrors;
@@ -6191,25 +6355,26 @@ export interface GetSettingAccountResponse {
   zoneDefaults: {
     flattenAllCnames: boolean;
     foundationDns: boolean;
-    internalDns: { referenceZoneId?: string };
+    internalDns: { referenceZoneId?: string | null };
     multiProvider: boolean;
     nameservers: {
       type?:
         | "cloudflare.standard"
         | "cloudflare.standard.random"
         | "custom.account"
-        | "custom.tenant";
+        | "custom.tenant"
+        | null;
     };
     nsTtl: number;
     secondaryOverrides: boolean;
     soa: {
-      expire?: number;
-      minTtl?: number;
+      expire?: number | null;
+      minTtl?: number | null;
       mname?: string | null;
-      refresh?: number;
-      retry?: number;
-      rname?: string;
-      ttl?: number;
+      refresh?: number | null;
+      retry?: number | null;
+      rname?: string | null;
+      ttl?: number | null;
     };
     zoneMode: "standard" | "cdn_only" | "dns_only";
   };
@@ -6220,29 +6385,34 @@ export const GetSettingAccountResponse = Schema.Struct({
     flattenAllCnames: Schema.Boolean,
     foundationDns: Schema.Boolean,
     internalDns: Schema.Struct({
-      referenceZoneId: Schema.optional(Schema.String),
+      referenceZoneId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
     multiProvider: Schema.Boolean,
     nameservers: Schema.Struct({
       type: Schema.optional(
-        Schema.Literals([
-          "cloudflare.standard",
-          "cloudflare.standard.random",
-          "custom.account",
-          "custom.tenant",
+        Schema.Union([
+          Schema.Literals([
+            "cloudflare.standard",
+            "cloudflare.standard.random",
+            "custom.account",
+            "custom.tenant",
+          ]),
+          Schema.Null,
         ]),
       ),
     }),
     nsTtl: Schema.Number,
     secondaryOverrides: Schema.Boolean,
     soa: Schema.Struct({
-      expire: Schema.optional(Schema.Number),
-      minTtl: Schema.optional(Schema.Number),
+      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      refresh: Schema.optional(Schema.Number),
-      retry: Schema.optional(Schema.Number),
-      rname: Schema.optional(Schema.String),
-      ttl: Schema.optional(Schema.Number),
+      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         expire: "expire",
@@ -6389,25 +6559,26 @@ export interface PatchSettingAccountResponse {
   zoneDefaults: {
     flattenAllCnames: boolean;
     foundationDns: boolean;
-    internalDns: { referenceZoneId?: string };
+    internalDns: { referenceZoneId?: string | null };
     multiProvider: boolean;
     nameservers: {
       type?:
         | "cloudflare.standard"
         | "cloudflare.standard.random"
         | "custom.account"
-        | "custom.tenant";
+        | "custom.tenant"
+        | null;
     };
     nsTtl: number;
     secondaryOverrides: boolean;
     soa: {
-      expire?: number;
-      minTtl?: number;
+      expire?: number | null;
+      minTtl?: number | null;
       mname?: string | null;
-      refresh?: number;
-      retry?: number;
-      rname?: string;
-      ttl?: number;
+      refresh?: number | null;
+      retry?: number | null;
+      rname?: string | null;
+      ttl?: number | null;
     };
     zoneMode: "standard" | "cdn_only" | "dns_only";
   };
@@ -6418,29 +6589,34 @@ export const PatchSettingAccountResponse = Schema.Struct({
     flattenAllCnames: Schema.Boolean,
     foundationDns: Schema.Boolean,
     internalDns: Schema.Struct({
-      referenceZoneId: Schema.optional(Schema.String),
+      referenceZoneId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
     }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
     multiProvider: Schema.Boolean,
     nameservers: Schema.Struct({
       type: Schema.optional(
-        Schema.Literals([
-          "cloudflare.standard",
-          "cloudflare.standard.random",
-          "custom.account",
-          "custom.tenant",
+        Schema.Union([
+          Schema.Literals([
+            "cloudflare.standard",
+            "cloudflare.standard.random",
+            "custom.account",
+            "custom.tenant",
+          ]),
+          Schema.Null,
         ]),
       ),
     }),
     nsTtl: Schema.Number,
     secondaryOverrides: Schema.Boolean,
     soa: Schema.Struct({
-      expire: Schema.optional(Schema.Number),
-      minTtl: Schema.optional(Schema.Number),
+      expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      refresh: Schema.optional(Schema.Number),
-      retry: Schema.optional(Schema.Number),
-      rname: Schema.optional(Schema.String),
-      ttl: Schema.optional(Schema.Number),
+      refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         expire: "expire",
@@ -6772,11 +6948,11 @@ export const DeleteSettingAccountViewRequest = Schema.Struct({
 
 export interface DeleteSettingAccountViewResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteSettingAccountViewResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
 
 export type DeleteSettingAccountViewError = DefaultErrors;
@@ -6813,7 +6989,7 @@ export interface GetSettingZoneResponse {
   /** Whether to enable Foundation DNS Advanced Nameservers on the zone. */
   foundationDns: boolean;
   /** Settings for this internal zone. */
-  internalDns: { referenceZoneId?: string };
+  internalDns: { referenceZoneId?: string | null };
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
   multiProvider: boolean;
   /** Settings determining the nameservers through which the zone should be available. */
@@ -6823,7 +6999,7 @@ export interface GetSettingZoneResponse {
       | "custom.account"
       | "custom.tenant"
       | "custom.zone";
-    nsSet?: number;
+    nsSet?: number | null;
   };
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
   nsTtl: number;
@@ -6831,13 +7007,13 @@ export interface GetSettingZoneResponse {
   secondaryOverrides: boolean;
   /** Components of the zone's SOA record. */
   soa: {
-    expire?: number;
-    minTtl?: number;
+    expire?: number | null;
+    minTtl?: number | null;
     mname?: string | null;
-    refresh?: number;
-    retry?: number;
-    rname?: string;
-    ttl?: number;
+    refresh?: number | null;
+    retry?: number | null;
+    rname?: string | null;
+    ttl?: number | null;
   };
   /** Whether the zone mode is a regular or CDN/DNS only zone. */
   zoneMode: "standard" | "cdn_only" | "dns_only";
@@ -6847,7 +7023,9 @@ export const GetSettingZoneResponse = Schema.Struct({
   flattenAllCnames: Schema.Boolean,
   foundationDns: Schema.Boolean,
   internalDns: Schema.Struct({
-    referenceZoneId: Schema.optional(Schema.String),
+    referenceZoneId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
   }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
   multiProvider: Schema.Boolean,
   nameservers: Schema.Struct({
@@ -6857,18 +7035,18 @@ export const GetSettingZoneResponse = Schema.Struct({
       "custom.tenant",
       "custom.zone",
     ]),
-    nsSet: Schema.optional(Schema.Number),
+    nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
   nsTtl: Schema.Number,
   secondaryOverrides: Schema.Boolean,
   soa: Schema.Struct({
-    expire: Schema.optional(Schema.Number),
-    minTtl: Schema.optional(Schema.Number),
+    expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    refresh: Schema.optional(Schema.Number),
-    retry: Schema.optional(Schema.Number),
-    rname: Schema.optional(Schema.String),
-    ttl: Schema.optional(Schema.Number),
+    refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       expire: "expire",
@@ -7016,7 +7194,7 @@ export interface PatchSettingZoneResponse {
   /** Whether to enable Foundation DNS Advanced Nameservers on the zone. */
   foundationDns: boolean;
   /** Settings for this internal zone. */
-  internalDns: { referenceZoneId?: string };
+  internalDns: { referenceZoneId?: string | null };
   /** Whether to enable multi-provider DNS, which causes Cloudflare to activate the zone even when non-Cloudflare NS records exist, and to respect NS records at the zone apex during outbound zone transfers. */
   multiProvider: boolean;
   /** Settings determining the nameservers through which the zone should be available. */
@@ -7026,7 +7204,7 @@ export interface PatchSettingZoneResponse {
       | "custom.account"
       | "custom.tenant"
       | "custom.zone";
-    nsSet?: number;
+    nsSet?: number | null;
   };
   /** The time to live (TTL) of the zone's nameserver (NS) records. */
   nsTtl: number;
@@ -7034,13 +7212,13 @@ export interface PatchSettingZoneResponse {
   secondaryOverrides: boolean;
   /** Components of the zone's SOA record. */
   soa: {
-    expire?: number;
-    minTtl?: number;
+    expire?: number | null;
+    minTtl?: number | null;
     mname?: string | null;
-    refresh?: number;
-    retry?: number;
-    rname?: string;
-    ttl?: number;
+    refresh?: number | null;
+    retry?: number | null;
+    rname?: string | null;
+    ttl?: number | null;
   };
   /** Whether the zone mode is a regular or CDN/DNS only zone. */
   zoneMode: "standard" | "cdn_only" | "dns_only";
@@ -7050,7 +7228,9 @@ export const PatchSettingZoneResponse = Schema.Struct({
   flattenAllCnames: Schema.Boolean,
   foundationDns: Schema.Boolean,
   internalDns: Schema.Struct({
-    referenceZoneId: Schema.optional(Schema.String),
+    referenceZoneId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
   }).pipe(Schema.encodeKeys({ referenceZoneId: "reference_zone_id" })),
   multiProvider: Schema.Boolean,
   nameservers: Schema.Struct({
@@ -7060,18 +7240,18 @@ export const PatchSettingZoneResponse = Schema.Struct({
       "custom.tenant",
       "custom.zone",
     ]),
-    nsSet: Schema.optional(Schema.Number),
+    nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(Schema.encodeKeys({ type: "type", nsSet: "ns_set" })),
   nsTtl: Schema.Number,
   secondaryOverrides: Schema.Boolean,
   soa: Schema.Struct({
-    expire: Schema.optional(Schema.Number),
-    minTtl: Schema.optional(Schema.Number),
+    expire: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    minTtl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     mname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    refresh: Schema.optional(Schema.Number),
-    retry: Schema.optional(Schema.Number),
-    rname: Schema.optional(Schema.String),
-    ttl: Schema.optional(Schema.Number),
+    refresh: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    retry: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    rname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       expire: "expire",
@@ -7130,14 +7310,14 @@ export interface ScanTriggerRecordResponse {
   errors: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   messages: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   /** Whether the API call was successful. */
   success: true;
@@ -7148,11 +7328,18 @@ export const ScanTriggerRecordResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -7167,11 +7354,18 @@ export const ScanTriggerRecordResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -7398,11 +7592,11 @@ export const DeleteZoneTransferAclRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteZoneTransferAclRequest>;
 
 export interface DeleteZoneTransferAclResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteZoneTransferAclResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
 
 export type DeleteZoneTransferAclError = DefaultErrors;
@@ -7469,32 +7663,36 @@ export const GetZoneTransferIncomingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetZoneTransferIncomingRequest>;
 
 export interface GetZoneTransferIncomingResponse {
-  id?: string;
+  id?: string | null;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number;
+  autoRefreshSeconds?: number | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  modifiedTime?: string;
+  modifiedTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const GetZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  autoRefreshSeconds: Schema.optional(Schema.Number),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  modifiedTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  autoRefreshSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7547,32 +7745,36 @@ export const CreateZoneTransferIncomingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateZoneTransferIncomingRequest>;
 
 export interface CreateZoneTransferIncomingResponse {
-  id?: string;
+  id?: string | null;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number;
+  autoRefreshSeconds?: number | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  modifiedTime?: string;
+  modifiedTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const CreateZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  autoRefreshSeconds: Schema.optional(Schema.Number),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  modifiedTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  autoRefreshSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7625,32 +7827,36 @@ export const UpdateZoneTransferIncomingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateZoneTransferIncomingRequest>;
 
 export interface UpdateZoneTransferIncomingResponse {
-  id?: string;
+  id?: string | null;
   /** How often should a secondary zone auto refresh regardless of DNS NOTIFY. Not applicable for primary zones. */
-  autoRefreshSeconds?: number;
+  autoRefreshSeconds?: number | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  modifiedTime?: string;
+  modifiedTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const UpdateZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  autoRefreshSeconds: Schema.optional(Schema.Number),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  modifiedTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  autoRefreshSeconds: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7688,11 +7894,11 @@ export const DeleteZoneTransferIncomingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteZoneTransferIncomingRequest>;
 
 export interface DeleteZoneTransferIncomingResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteZoneTransferIncomingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
 
 export type DeleteZoneTransferIncomingError = DefaultErrors;
@@ -7723,29 +7929,33 @@ export const GetZoneTransferOutgoingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetZoneTransferOutgoingRequest>;
 
 export interface GetZoneTransferOutgoingResponse {
-  id?: string;
+  id?: string | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  lastTransferredTime?: string;
+  lastTransferredTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const GetZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  lastTransferredTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastTransferredTime: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7789,29 +7999,33 @@ export const CreateZoneTransferOutgoingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateZoneTransferOutgoingRequest>;
 
 export interface CreateZoneTransferOutgoingResponse {
-  id?: string;
+  id?: string | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  lastTransferredTime?: string;
+  lastTransferredTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const CreateZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  lastTransferredTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastTransferredTime: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7855,29 +8069,33 @@ export const UpdateZoneTransferOutgoingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingRequest>;
 
 export interface UpdateZoneTransferOutgoingResponse {
-  id?: string;
+  id?: string | null;
   /** The time for a specific event. */
-  checkedTime?: string;
+  checkedTime?: string | null;
   /** The time for a specific event. */
-  createdTime?: string;
+  createdTime?: string | null;
   /** The time for a specific event. */
-  lastTransferredTime?: string;
+  lastTransferredTime?: string | null;
   /** Zone name. */
-  name?: string;
+  name?: string | null;
   /** A list of peer tags. */
-  peers?: string[];
+  peers?: string[] | null;
   /** The serial number of the SOA for the given zone. */
-  soaSerial?: number;
+  soaSerial?: number | null;
 }
 
 export const UpdateZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  checkedTime: Schema.optional(Schema.String),
-  createdTime: Schema.optional(Schema.String),
-  lastTransferredTime: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  peers: Schema.optional(Schema.Array(Schema.String)),
-  soaSerial: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  checkedTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastTransferredTime: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  peers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -7914,11 +8132,11 @@ export const DeleteZoneTransferOutgoingRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteZoneTransferOutgoingRequest>;
 
 export interface DeleteZoneTransferOutgoingResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteZoneTransferOutgoingResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
 
 export type DeleteZoneTransferOutgoingError = DefaultErrors;
@@ -8063,22 +8281,22 @@ export interface GetZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zo */
-  ip?: string;
+  ip?: string | null;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean;
+  ixfrEnable?: boolean | null;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number;
+  port?: number | null;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string;
+  tsigId?: string | null;
 }
 
 export const GetZoneTransferPeerResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  ip: Schema.optional(Schema.String),
-  ixfrEnable: Schema.optional(Schema.Boolean),
-  port: Schema.optional(Schema.Number),
-  tsigId: Schema.optional(Schema.String),
+  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8116,20 +8334,20 @@ export const ListZoneTransferPeersRequest = Schema.Struct({
 export type ListZoneTransferPeersResponse = {
   id: string;
   name: string;
-  ip?: string;
-  ixfrEnable?: boolean;
-  port?: number;
-  tsigId?: string;
+  ip?: string | null;
+  ixfrEnable?: boolean | null;
+  port?: number | null;
+  tsigId?: string | null;
 }[];
 
 export const ListZoneTransferPeersResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
     name: Schema.String,
-    ip: Schema.optional(Schema.String),
-    ixfrEnable: Schema.optional(Schema.Boolean),
-    port: Schema.optional(Schema.Number),
-    tsigId: Schema.optional(Schema.String),
+    ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -8177,22 +8395,22 @@ export interface CreateZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zo */
-  ip?: string;
+  ip?: string | null;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean;
+  ixfrEnable?: boolean | null;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number;
+  port?: number | null;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string;
+  tsigId?: string | null;
 }
 
 export const CreateZoneTransferPeerResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  ip: Schema.optional(Schema.String),
-  ixfrEnable: Schema.optional(Schema.Boolean),
-  port: Schema.optional(Schema.Number),
-  tsigId: Schema.optional(Schema.String),
+  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8260,22 +8478,22 @@ export interface UpdateZoneTransferPeerResponse {
   /** The name of the peer. */
   name: string;
   /** IPv4/IPv6 address of primary or secondary nameserver, depending on what zone this peer is linked to. For primary zones this IP defines the IP of the secondary nameserver Cloudflare will NOTIFY upon zo */
-  ip?: string;
+  ip?: string | null;
   /** Enable IXFR transfer protocol, default is AXFR. Only applicable to secondary zones. */
-  ixfrEnable?: boolean;
+  ixfrEnable?: boolean | null;
   /** DNS port of primary or secondary nameserver, depending on what zone this peer is linked to. */
-  port?: number;
+  port?: number | null;
   /** TSIG authentication will be used for zone transfer if configured. */
-  tsigId?: string;
+  tsigId?: string | null;
 }
 
 export const UpdateZoneTransferPeerResponse = Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-  ip: Schema.optional(Schema.String),
-  ixfrEnable: Schema.optional(Schema.Boolean),
-  port: Schema.optional(Schema.Number),
-  tsigId: Schema.optional(Schema.String),
+  ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -8316,11 +8534,11 @@ export const DeleteZoneTransferPeerRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteZoneTransferPeerRequest>;
 
 export interface DeleteZoneTransferPeerResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteZoneTransferPeerResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
 
 export type DeleteZoneTransferPeerError = DefaultErrors;
@@ -8548,11 +8766,11 @@ export const DeleteZoneTransferTsigRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteZoneTransferTsigRequest>;
 
 export interface DeleteZoneTransferTsigResponse {
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteZoneTransferTsigResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
 
 export type DeleteZoneTransferTsigError = DefaultErrors;

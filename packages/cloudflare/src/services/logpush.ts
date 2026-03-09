@@ -263,23 +263,23 @@ export const CreateEdgeRequest = Schema.Struct({
 
 export interface CreateEdgeResponse {
   /** Unique WebSocket address that will receive messages from Cloudflare’s edge. */
-  destinationConf?: string;
+  destinationConf?: string | null;
   /** Comma-separated list of fields. */
-  fields?: string;
+  fields?: string | null;
   /** Filters to drill down into specific events. */
-  filter?: string;
+  filter?: string | null;
   /** The sample parameter is the sample rate of the records set by the client: "sample": 1 is 100% of records "sample": 10 is 10% and so on. */
-  sample?: number;
+  sample?: number | null;
   /** Unique session id of the job. */
-  sessionId?: string;
+  sessionId?: string | null;
 }
 
 export const CreateEdgeResponse = Schema.Struct({
-  destinationConf: Schema.optional(Schema.String),
-  fields: Schema.optional(Schema.String),
-  filter: Schema.optional(Schema.String),
-  sample: Schema.optional(Schema.Number),
-  sessionId: Schema.optional(Schema.String),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  fields: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  sample: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  sessionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     destinationConf: "destination_conf",
@@ -329,11 +329,11 @@ export const DestinationExistsValidateRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DestinationExistsValidateRequest>;
 
 export interface DestinationExistsValidateResponse {
-  exists?: boolean;
+  exists?: boolean | null;
 }
 
 export const DestinationExistsValidateResponse = Schema.Struct({
-  exists: Schema.optional(Schema.Boolean),
+  exists: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
 export type DestinationExistsValidateError = DefaultErrors;
@@ -368,7 +368,7 @@ export const GetJobRequest = Schema.Struct({
 
 export interface GetJobResponse {
   /** Unique id of the job. */
-  id?: number;
+  id?: number | null;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
   dataset?:
     | "access_requests"
@@ -403,15 +403,15 @@ export interface GetJobResponse {
     | "zero_trust_network_sessions"
     | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string;
+  destinationConf?: string | null;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
   errorMessage?: string | null;
   /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
   frequency?: "high" | "low" | null;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: "" | "edge";
+  kind?: "" | "edge" | null;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
   lastComplete?: string | null;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
@@ -432,19 +432,19 @@ export interface GetJobResponse {
     batchSuffix?: string | null;
     "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const GetJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -480,13 +480,15 @@ export const GetJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -515,8 +517,12 @@ export const GetJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -531,7 +537,10 @@ export const GetJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -822,7 +831,7 @@ export const CreateJobRequest = Schema.Struct({
 
 export interface CreateJobResponse {
   /** Unique id of the job. */
-  id?: number;
+  id?: number | null;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
   dataset?:
     | "access_requests"
@@ -857,15 +866,15 @@ export interface CreateJobResponse {
     | "zero_trust_network_sessions"
     | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string;
+  destinationConf?: string | null;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
   errorMessage?: string | null;
   /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
   frequency?: "high" | "low" | null;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: "" | "edge";
+  kind?: "" | "edge" | null;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
   lastComplete?: string | null;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
@@ -886,19 +895,19 @@ export interface CreateJobResponse {
     batchSuffix?: string | null;
     "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const CreateJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -934,13 +943,15 @@ export const CreateJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -969,8 +980,12 @@ export const CreateJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -985,7 +1000,10 @@ export const CreateJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -1182,7 +1200,7 @@ export const UpdateJobRequest = Schema.Struct({
 
 export interface UpdateJobResponse {
   /** Unique id of the job. */
-  id?: number;
+  id?: number | null;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
   dataset?:
     | "access_requests"
@@ -1217,15 +1235,15 @@ export interface UpdateJobResponse {
     | "zero_trust_network_sessions"
     | null;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string;
+  destinationConf?: string | null;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a jo */
   errorMessage?: string | null;
   /** @deprecated This field is deprecated. Please use `max_upload_ ` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your  */
   frequency?: "high" | "low" | null;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: "" | "edge";
+  kind?: "" | "edge" | null;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 201 */
   lastComplete?: string | null;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_ */
@@ -1246,19 +1264,19 @@ export interface UpdateJobResponse {
     batchSuffix?: string | null;
     "cve-2021-44228"?: boolean | null;
     fieldDelimiter?: string | null;
-    fieldNames?: string[];
-    outputType?: "ndjson" | "csv";
+    fieldNames?: string[] | null;
+    outputType?: "ndjson" | "csv" | null;
     recordDelimiter?: string | null;
     recordPrefix?: string | null;
     recordSuffix?: string | null;
     recordTemplate?: string | null;
     sampleRate?: number | null;
-    timestampFormat?: "unixnano" | "unix" | "rfc3339";
+    timestampFormat?: "unixnano" | "unix" | "rfc3339" | null;
   } | null;
 }
 
 export const UpdateJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   dataset: Schema.optional(
     Schema.Union([
       Schema.Literal("access_requests"),
@@ -1294,13 +1312,15 @@ export const UpdateJobResponse = Schema.Struct({
       Schema.Null,
     ]),
   ),
-  destinationConf: Schema.optional(Schema.String),
-  enabled: Schema.optional(Schema.Boolean),
+  destinationConf: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   errorMessage: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   frequency: Schema.optional(
     Schema.Union([Schema.Literal("high"), Schema.Literal("low"), Schema.Null]),
   ),
-  kind: Schema.optional(Schema.Literals(["", "edge"])),
+  kind: Schema.optional(
+    Schema.Union([Schema.Literals(["", "edge"]), Schema.Null]),
+  ),
   lastComplete: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   lastError: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   logpullOptions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -1329,8 +1349,12 @@ export const UpdateJobResponse = Schema.Struct({
         fieldDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        fieldNames: Schema.optional(Schema.Array(Schema.String)),
-        outputType: Schema.optional(Schema.Literals(["ndjson", "csv"])),
+        fieldNames: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        outputType: Schema.optional(
+          Schema.Union([Schema.Literals(["ndjson", "csv"]), Schema.Null]),
+        ),
         recordDelimiter: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
@@ -1345,7 +1369,10 @@ export const UpdateJobResponse = Schema.Struct({
         ),
         sampleRate: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
         timestampFormat: Schema.optional(
-          Schema.Literals(["unixnano", "unix", "rfc3339"]),
+          Schema.Union([
+            Schema.Literals(["unixnano", "unix", "rfc3339"]),
+            Schema.Null,
+          ]),
         ),
       }).pipe(
         Schema.encodeKeys({
@@ -1414,11 +1441,11 @@ export const DeleteJobRequest = Schema.Struct({
 
 export interface DeleteJobResponse {
   /** Unique id of the job. */
-  id?: number;
+  id?: number | null;
 }
 
 export const DeleteJobResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteJobResponse>;
 
 export type DeleteJobError = DefaultErrors;
@@ -1460,15 +1487,15 @@ export const CreateOwnershipRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateOwnershipRequest>;
 
 export interface CreateOwnershipResponse {
-  filename?: string;
-  message?: string;
-  valid?: boolean;
+  filename?: string | null;
+  message?: string | null;
+  valid?: boolean | null;
 }
 
 export const CreateOwnershipResponse = Schema.Struct({
-  filename: Schema.optional(Schema.String),
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
 export type CreateOwnershipError = DefaultErrors;
@@ -1512,11 +1539,11 @@ export const ValidateOwnershipRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ValidateOwnershipRequest>;
 
 export interface ValidateOwnershipResponse {
-  valid?: boolean;
+  valid?: boolean | null;
 }
 
 export const ValidateOwnershipResponse = Schema.Struct({
-  valid: Schema.optional(Schema.Boolean),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
 export type ValidateOwnershipError = DefaultErrors;
@@ -1558,13 +1585,13 @@ export const DestinationValidateRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DestinationValidateRequest>;
 
 export interface DestinationValidateResponse {
-  message?: string;
-  valid?: boolean;
+  message?: string | null;
+  valid?: boolean | null;
 }
 
 export const DestinationValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<DestinationValidateResponse>;
 
 export type DestinationValidateError = DefaultErrors;
@@ -1602,13 +1629,13 @@ export const OriginValidateRequest = Schema.Struct({
 ) as unknown as Schema.Schema<OriginValidateRequest>;
 
 export interface OriginValidateResponse {
-  message?: string;
-  valid?: boolean;
+  message?: string | null;
+  valid?: boolean | null;
 }
 
 export const OriginValidateResponse = Schema.Struct({
-  message: Schema.optional(Schema.String),
-  valid: Schema.optional(Schema.Boolean),
+  message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<OriginValidateResponse>;
 
 export type OriginValidateError = DefaultErrors;

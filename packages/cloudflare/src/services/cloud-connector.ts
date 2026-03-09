@@ -28,31 +28,42 @@ export const ListRulesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListRulesRequest>;
 
 export type ListRulesResponse = {
-  id?: string;
-  description?: string;
-  enabled?: boolean;
-  expression?: string;
-  parameters?: { host?: string };
-  provider?: "aws_s3" | "cloudflare_r2" | "gcp_storage" | "azure_storage";
+  id?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  expression?: string | null;
+  parameters?: { host?: string | null } | null;
+  provider?:
+    | "aws_s3"
+    | "cloudflare_r2"
+    | "gcp_storage"
+    | "azure_storage"
+    | null;
 }[];
 
 export const ListRulesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    expression: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     parameters: Schema.optional(
-      Schema.Struct({
-        host: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     provider: Schema.optional(
-      Schema.Literals([
-        "aws_s3",
-        "cloudflare_r2",
-        "gcp_storage",
-        "azure_storage",
+      Schema.Union([
+        Schema.Literals([
+          "aws_s3",
+          "cloudflare_r2",
+          "gcp_storage",
+          "azure_storage",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),
@@ -115,31 +126,42 @@ export const PutRuleRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PutRuleRequest>;
 
 export type PutRuleResponse = {
-  id?: string;
-  description?: string;
-  enabled?: boolean;
-  expression?: string;
-  parameters?: { host?: string };
-  provider?: "aws_s3" | "cloudflare_r2" | "gcp_storage" | "azure_storage";
+  id?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  expression?: string | null;
+  parameters?: { host?: string | null } | null;
+  provider?:
+    | "aws_s3"
+    | "cloudflare_r2"
+    | "gcp_storage"
+    | "azure_storage"
+    | null;
 }[];
 
 export const PutRuleResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    enabled: Schema.optional(Schema.Boolean),
-    expression: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    expression: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     parameters: Schema.optional(
-      Schema.Struct({
-        host: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     provider: Schema.optional(
-      Schema.Literals([
-        "aws_s3",
-        "cloudflare_r2",
-        "gcp_storage",
-        "azure_storage",
+      Schema.Union([
+        Schema.Literals([
+          "aws_s3",
+          "cloudflare_r2",
+          "gcp_storage",
+          "azure_storage",
+        ]),
+        Schema.Null,
       ]),
     ),
   }),

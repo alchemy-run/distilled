@@ -34,17 +34,17 @@ export const GetDetectionRequest = Schema.Struct({
 
 export interface GetDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string;
+  id?: string | null;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string;
+  password?: string | null;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string;
+  username?: string | null;
 }
 
 export const GetDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<GetDetectionResponse>;
 
 export type GetDetectionError = DefaultErrors;
@@ -75,16 +75,16 @@ export const ListDetectionsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListDetectionsRequest>;
 
 export type ListDetectionsResponse = {
-  id?: string;
-  password?: string;
-  username?: string;
+  id?: string | null;
+  password?: string | null;
+  username?: string | null;
 }[];
 
 export const ListDetectionsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    password: Schema.optional(Schema.String),
-    username: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListDetectionsResponse>;
 
@@ -123,17 +123,17 @@ export const CreateDetectionRequest = Schema.Struct({
 
 export interface CreateDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string;
+  id?: string | null;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string;
+  password?: string | null;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string;
+  username?: string | null;
 }
 
 export const CreateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<CreateDetectionResponse>;
 
 export type CreateDetectionError = DefaultErrors;
@@ -173,17 +173,17 @@ export const UpdateDetectionRequest = Schema.Struct({
 
 export interface UpdateDetectionResponse {
   /** Defines the unique ID for this custom detection. */
-  id?: string;
+  id?: string | null;
   /** Defines ehe ruleset expression to use in matching the password in a request. */
-  password?: string;
+  password?: string | null;
   /** Defines the ruleset expression to use in matching the username in a request. */
-  username?: string;
+  username?: string | null;
 }
 
 export const UpdateDetectionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  password: Schema.optional(Schema.String),
-  username: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<UpdateDetectionResponse>;
 
 export type UpdateDetectionError = DefaultErrors;
@@ -250,11 +250,11 @@ export const GetLeakedCredentialCheckRequest = Schema.Struct({
 
 export interface GetLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
 }
 
 export const GetLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<GetLeakedCredentialCheckResponse>;
 
 export type GetLeakedCredentialCheckError = DefaultErrors;
@@ -286,11 +286,11 @@ export const CreateLeakedCredentialCheckRequest = Schema.Struct({
 
 export interface CreateLeakedCredentialCheckResponse {
   /** Determines whether or not Leaked Credential Checks are enabled. */
-  enabled?: boolean;
+  enabled?: boolean | null;
 }
 
 export const CreateLeakedCredentialCheckResponse = Schema.Struct({
-  enabled: Schema.optional(Schema.Boolean),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<CreateLeakedCredentialCheckResponse>;
 
 export type CreateLeakedCredentialCheckError = DefaultErrors;

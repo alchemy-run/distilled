@@ -42,11 +42,11 @@ export interface GetDirectoryServiceResponse {
       };
   name: string;
   type: "http";
-  createdAt?: string;
+  createdAt?: string | null;
   httpPort?: number | null;
   httpsPort?: number | null;
-  serviceId?: string;
-  updatedAt?: string;
+  serviceId?: string | null;
+  updatedAt?: string | null;
 }
 
 export const GetDirectoryServiceResponse = Schema.Struct({
@@ -92,11 +92,11 @@ export const GetDirectoryServiceResponse = Schema.Struct({
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  serviceId: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     host: "host",
@@ -153,11 +153,11 @@ export type ListDirectoryServicesResponse = {
       };
   name: string;
   type: "http";
-  createdAt?: string;
+  createdAt?: string | null;
   httpPort?: number | null;
   httpsPort?: number | null;
-  serviceId?: string;
-  updatedAt?: string;
+  serviceId?: string | null;
+  updatedAt?: string | null;
 }[];
 
 export const ListDirectoryServicesResponse = Schema.Array(
@@ -204,11 +204,11 @@ export const ListDirectoryServicesResponse = Schema.Array(
     ]),
     name: Schema.String,
     type: Schema.Literal("http"),
-    createdAt: Schema.optional(Schema.String),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    serviceId: Schema.optional(Schema.String),
-    updatedAt: Schema.optional(Schema.String),
+    serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       host: "host",
@@ -329,11 +329,11 @@ export interface CreateDirectoryServiceResponse {
       };
   name: string;
   type: "http";
-  createdAt?: string;
+  createdAt?: string | null;
   httpPort?: number | null;
   httpsPort?: number | null;
-  serviceId?: string;
-  updatedAt?: string;
+  serviceId?: string | null;
+  updatedAt?: string | null;
 }
 
 export const CreateDirectoryServiceResponse = Schema.Struct({
@@ -379,11 +379,11 @@ export const CreateDirectoryServiceResponse = Schema.Struct({
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  serviceId: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     host: "host",
@@ -505,11 +505,11 @@ export interface UpdateDirectoryServiceResponse {
       };
   name: string;
   type: "http";
-  createdAt?: string;
+  createdAt?: string | null;
   httpPort?: number | null;
   httpsPort?: number | null;
-  serviceId?: string;
-  updatedAt?: string;
+  serviceId?: string | null;
+  updatedAt?: string | null;
 }
 
 export const UpdateDirectoryServiceResponse = Schema.Struct({
@@ -555,11 +555,11 @@ export const UpdateDirectoryServiceResponse = Schema.Struct({
   ]),
   name: Schema.String,
   type: Schema.Literal("http"),
-  createdAt: Schema.optional(Schema.String),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  serviceId: Schema.optional(Schema.String),
-  updatedAt: Schema.optional(Schema.String),
+  serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     host: "host",

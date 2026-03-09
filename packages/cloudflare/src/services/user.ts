@@ -58,7 +58,7 @@ export type ListBillingHistoriesResponse = {
   description: string;
   occurredAt: string;
   type: string;
-  zone: { name?: string };
+  zone: { name?: string | null };
 }[];
 
 export const ListBillingHistoriesResponse = Schema.Array(
@@ -71,7 +71,7 @@ export const ListBillingHistoriesResponse = Schema.Array(
     occurredAt: Schema.String,
     type: Schema.String,
     zone: Schema.Struct({
-      name: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   }).pipe(
     Schema.encodeKeys({
@@ -112,87 +112,91 @@ export const GetBillingProfileRequest = Schema.Struct({}).pipe(
 
 export interface GetBillingProfileResponse {
   /** Billing item identifier tag. */
-  id?: string;
-  accountType?: string;
-  address?: string;
-  address2?: string;
-  balance?: string;
-  cardExpiryMonth?: number;
-  cardExpiryYear?: number;
-  cardNumber?: string;
-  city?: string;
-  company?: string;
-  country?: string;
-  createdOn?: string;
-  deviceData?: string;
-  editedOn?: string;
-  enterpriseBillingEmail?: string;
-  enterprisePrimaryEmail?: string;
-  firstName?: string;
-  isPartner?: boolean;
-  lastName?: string;
-  nextBillDate?: string;
-  paymentAddress?: string;
-  paymentAddress2?: string;
-  paymentCity?: string;
-  paymentCountry?: string;
-  paymentEmail?: string;
-  paymentFirstName?: string;
-  paymentGateway?: string;
-  paymentLastName?: string;
-  paymentNonce?: string;
-  paymentState?: string;
-  paymentZipcode?: string;
-  primaryEmail?: string;
-  state?: string;
-  taxIdType?: string;
-  telephone?: string;
-  useLegacy?: boolean;
-  validationCode?: string;
-  vat?: string;
-  zipcode?: string;
+  id?: string | null;
+  accountType?: string | null;
+  address?: string | null;
+  address2?: string | null;
+  balance?: string | null;
+  cardExpiryMonth?: number | null;
+  cardExpiryYear?: number | null;
+  cardNumber?: string | null;
+  city?: string | null;
+  company?: string | null;
+  country?: string | null;
+  createdOn?: string | null;
+  deviceData?: string | null;
+  editedOn?: string | null;
+  enterpriseBillingEmail?: string | null;
+  enterprisePrimaryEmail?: string | null;
+  firstName?: string | null;
+  isPartner?: boolean | null;
+  lastName?: string | null;
+  nextBillDate?: string | null;
+  paymentAddress?: string | null;
+  paymentAddress2?: string | null;
+  paymentCity?: string | null;
+  paymentCountry?: string | null;
+  paymentEmail?: string | null;
+  paymentFirstName?: string | null;
+  paymentGateway?: string | null;
+  paymentLastName?: string | null;
+  paymentNonce?: string | null;
+  paymentState?: string | null;
+  paymentZipcode?: string | null;
+  primaryEmail?: string | null;
+  state?: string | null;
+  taxIdType?: string | null;
+  telephone?: string | null;
+  useLegacy?: boolean | null;
+  validationCode?: string | null;
+  vat?: string | null;
+  zipcode?: string | null;
 }
 
 export const GetBillingProfileResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  accountType: Schema.optional(Schema.String),
-  address: Schema.optional(Schema.String),
-  address2: Schema.optional(Schema.String),
-  balance: Schema.optional(Schema.String),
-  cardExpiryMonth: Schema.optional(Schema.Number),
-  cardExpiryYear: Schema.optional(Schema.Number),
-  cardNumber: Schema.optional(Schema.String),
-  city: Schema.optional(Schema.String),
-  company: Schema.optional(Schema.String),
-  country: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  deviceData: Schema.optional(Schema.String),
-  editedOn: Schema.optional(Schema.String),
-  enterpriseBillingEmail: Schema.optional(Schema.String),
-  enterprisePrimaryEmail: Schema.optional(Schema.String),
-  firstName: Schema.optional(Schema.String),
-  isPartner: Schema.optional(Schema.Boolean),
-  lastName: Schema.optional(Schema.String),
-  nextBillDate: Schema.optional(Schema.String),
-  paymentAddress: Schema.optional(Schema.String),
-  paymentAddress2: Schema.optional(Schema.String),
-  paymentCity: Schema.optional(Schema.String),
-  paymentCountry: Schema.optional(Schema.String),
-  paymentEmail: Schema.optional(Schema.String),
-  paymentFirstName: Schema.optional(Schema.String),
-  paymentGateway: Schema.optional(Schema.String),
-  paymentLastName: Schema.optional(Schema.String),
-  paymentNonce: Schema.optional(Schema.String),
-  paymentState: Schema.optional(Schema.String),
-  paymentZipcode: Schema.optional(Schema.String),
-  primaryEmail: Schema.optional(Schema.String),
-  state: Schema.optional(Schema.String),
-  taxIdType: Schema.optional(Schema.String),
-  telephone: Schema.optional(Schema.String),
-  useLegacy: Schema.optional(Schema.Boolean),
-  validationCode: Schema.optional(Schema.String),
-  vat: Schema.optional(Schema.String),
-  zipcode: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  address: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  address2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  balance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  cardExpiryMonth: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cardExpiryYear: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cardNumber: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  city: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  company: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  deviceData: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  editedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enterpriseBillingEmail: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  enterprisePrimaryEmail: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  isPartner: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  nextBillDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentAddress: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentAddress2: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentCity: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentCountry: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentFirstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentGateway: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentLastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentNonce: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentState: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paymentZipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  primaryEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  state: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  taxIdType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  useLegacy: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  validationCode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  vat: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -270,37 +274,46 @@ export interface GetInviteResponse {
   /** ID of the organization the user will be added to. */
   organizationId: string;
   /** Invite identifier tag. */
-  id?: string;
+  id?: string | null;
   /** When the invite is no longer active. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The email address of the user who created the invite. */
-  invitedBy?: string;
+  invitedBy?: string | null;
   /** Email address of the user to add to the organization. */
-  invitedMemberEmail?: string;
+  invitedMemberEmail?: string | null;
   /** When the invite was sent. */
-  invitedOn?: string;
-  organizationIsEnforcingTwofactor?: boolean;
+  invitedOn?: string | null;
+  organizationIsEnforcingTwofactor?: boolean | null;
   /** Organization name. */
-  organizationName?: string;
+  organizationName?: string | null;
   /** List of role names the membership has for this account. */
-  roles?: string[];
+  roles?: string[] | null;
   /** Current status of the invitation. */
-  status?: "pending" | "accepted" | "rejected" | "expired";
+  status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }
 
 export const GetInviteResponse = Schema.Struct({
   invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
   organizationId: Schema.String,
-  id: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  invitedBy: Schema.optional(Schema.String),
-  invitedMemberEmail: Schema.optional(Schema.String),
-  invitedOn: Schema.optional(Schema.String),
-  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean),
-  organizationName: Schema.optional(Schema.String),
-  roles: Schema.optional(Schema.Array(Schema.String)),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  invitedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  invitedMemberEmail: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  invitedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  organizationIsEnforcingTwofactor: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  organizationName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  roles: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+    Schema.Union([
+      Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -340,31 +353,42 @@ export const ListInvitesRequest = Schema.Struct({}).pipe(
 export type ListInvitesResponse = {
   invitedMemberId: string | null;
   organizationId: string;
-  id?: string;
-  expiresOn?: string;
-  invitedBy?: string;
-  invitedMemberEmail?: string;
-  invitedOn?: string;
-  organizationIsEnforcingTwofactor?: boolean;
-  organizationName?: string;
-  roles?: string[];
-  status?: "pending" | "accepted" | "rejected" | "expired";
+  id?: string | null;
+  expiresOn?: string | null;
+  invitedBy?: string | null;
+  invitedMemberEmail?: string | null;
+  invitedOn?: string | null;
+  organizationIsEnforcingTwofactor?: boolean | null;
+  organizationName?: string | null;
+  roles?: string[] | null;
+  status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }[];
 
 export const ListInvitesResponse = Schema.Array(
   Schema.Struct({
     invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
     organizationId: Schema.String,
-    id: Schema.optional(Schema.String),
-    expiresOn: Schema.optional(Schema.String),
-    invitedBy: Schema.optional(Schema.String),
-    invitedMemberEmail: Schema.optional(Schema.String),
-    invitedOn: Schema.optional(Schema.String),
-    organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean),
-    organizationName: Schema.optional(Schema.String),
-    roles: Schema.optional(Schema.Array(Schema.String)),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    invitedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    invitedMemberEmail: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    invitedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    organizationIsEnforcingTwofactor: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    organizationName: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    roles: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
     status: Schema.optional(
-      Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+      Schema.Union([
+        Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({
@@ -415,37 +439,46 @@ export interface PatchInviteResponse {
   /** ID of the organization the user will be added to. */
   organizationId: string;
   /** Invite identifier tag. */
-  id?: string;
+  id?: string | null;
   /** When the invite is no longer active. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The email address of the user who created the invite. */
-  invitedBy?: string;
+  invitedBy?: string | null;
   /** Email address of the user to add to the organization. */
-  invitedMemberEmail?: string;
+  invitedMemberEmail?: string | null;
   /** When the invite was sent. */
-  invitedOn?: string;
-  organizationIsEnforcingTwofactor?: boolean;
+  invitedOn?: string | null;
+  organizationIsEnforcingTwofactor?: boolean | null;
   /** Organization name. */
-  organizationName?: string;
+  organizationName?: string | null;
   /** List of role names the membership has for this account. */
-  roles?: string[];
+  roles?: string[] | null;
   /** Current status of the invitation. */
-  status?: "pending" | "accepted" | "rejected" | "expired";
+  status?: "pending" | "accepted" | "rejected" | "expired" | null;
 }
 
 export const PatchInviteResponse = Schema.Struct({
   invitedMemberId: Schema.Union([Schema.String, Schema.Null]),
   organizationId: Schema.String,
-  id: Schema.optional(Schema.String),
-  expiresOn: Schema.optional(Schema.String),
-  invitedBy: Schema.optional(Schema.String),
-  invitedMemberEmail: Schema.optional(Schema.String),
-  invitedOn: Schema.optional(Schema.String),
-  organizationIsEnforcingTwofactor: Schema.optional(Schema.Boolean),
-  organizationName: Schema.optional(Schema.String),
-  roles: Schema.optional(Schema.Array(Schema.String)),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  invitedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  invitedMemberEmail: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  invitedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  organizationIsEnforcingTwofactor: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  organizationName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  roles: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+    Schema.Union([
+      Schema.Literals(["pending", "accepted", "rejected", "expired"]),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -515,20 +548,26 @@ export const ListOrganizationsRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListOrganizationsRequest>;
 
 export type ListOrganizationsResponse = {
-  id?: string;
-  name?: string;
-  permissions?: string[];
-  roles?: string[];
-  status?: "member" | "invited";
+  id?: string | null;
+  name?: string | null;
+  permissions?: string[] | null;
+  roles?: string[] | null;
+  status?: "member" | "invited" | null;
 }[];
 
 export const ListOrganizationsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    permissions: Schema.optional(Schema.Array(Schema.String)),
-    roles: Schema.optional(Schema.Array(Schema.String)),
-    status: Schema.optional(Schema.Literals(["member", "invited"])),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    permissions: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    roles: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    status: Schema.optional(
+      Schema.Union([Schema.Literals(["member", "invited"]), Schema.Null]),
+    ),
   }),
 ) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
@@ -557,11 +596,11 @@ export const DeleteOrganizationRequest = Schema.Struct({
 
 export interface DeleteOrganizationResponse {
   /** Identifier */
-  id?: string;
+  id?: string | null;
 }
 
 export const DeleteOrganizationResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
 export type DeleteOrganizationError = DefaultErrors;
@@ -656,11 +695,11 @@ export const DeleteSubscriptionRequest = Schema.Struct({
 
 export interface DeleteSubscriptionResponse {
   /** Subscription identifier tag. */
-  subscriptionId?: string;
+  subscriptionId?: string | null;
 }
 
 export const DeleteSubscriptionResponse = Schema.Struct({
-  subscriptionId: Schema.optional(Schema.String),
+  subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ subscriptionId: "subscription_id" }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
@@ -774,49 +813,68 @@ export const CreateTokenRequest = Schema.Struct({
 
 export interface CreateTokenResponse {
   /** Token identifier tag. */
-  id?: string;
-  condition?: { requestIp?: { in?: string[]; notIn?: string[] } };
+  id?: string | null;
+  condition?: {
+    requestIp?: { in?: string[] | null; notIn?: string[] | null } | null;
+  } | null;
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The time on which the token was created. */
-  issuedOn?: string;
+  issuedOn?: string | null;
   /** Last time the token was used. */
-  lastUsedOn?: string;
+  lastUsedOn?: string | null;
   /** Last time the token was modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | null;
   /** Token name. */
-  name?: string;
+  name?: string | null;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | null;
   /** List of access policies assigned to the token. */
-  policies?: unknown[];
+  policies?: unknown[] | null;
   /** Status of the token. */
-  status?: "active" | "disabled" | "expired";
+  status?: "active" | "disabled" | "expired" | null;
   /** The token value. */
-  value?: string;
+  value?: string | null;
 }
 
 export const CreateTokenResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   condition: Schema.optional(
-    Schema.Struct({
-      requestIp: Schema.optional(
-        Schema.Struct({
-          in: Schema.optional(Schema.Array(Schema.String)),
-          notIn: Schema.optional(Schema.Array(Schema.String)),
-        }).pipe(Schema.encodeKeys({ in: "in", notIn: "not_in" })),
-      ),
-    }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
+    Schema.Union([
+      Schema.Struct({
+        requestIp: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              in: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              notIn: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(Schema.encodeKeys({ in: "in", notIn: "not_in" })),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(Schema.encodeKeys({ requestIp: "request_ip" })),
+      Schema.Null,
+    ]),
   ),
-  expiresOn: Schema.optional(Schema.String),
-  issuedOn: Schema.optional(Schema.String),
-  lastUsedOn: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
-  policies: Schema.optional(Schema.Array(Schema.Unknown)),
-  status: Schema.optional(Schema.Literals(["active", "disabled", "expired"])),
-  value: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  issuedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  lastUsedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  notBefore: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  policies: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  status: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["active", "disabled", "expired"]),
+      Schema.Null,
+    ]),
+  ),
+  value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -952,16 +1010,16 @@ export interface VerifyTokenResponse {
   /** Status of the token. */
   status: "active" | "disabled" | "expired";
   /** The expiration time on or after which the JWT MUST NOT be accepted for processing. */
-  expiresOn?: string;
+  expiresOn?: string | null;
   /** The time before which the token MUST NOT be accepted for processing. */
-  notBefore?: string;
+  notBefore?: string | null;
 }
 
 export const VerifyTokenResponse = Schema.Struct({
   id: Schema.String,
   status: Schema.Literals(["active", "disabled", "expired"]),
-  expiresOn: Schema.optional(Schema.String),
-  notBefore: Schema.optional(Schema.String),
+  expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  notBefore: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -995,29 +1053,34 @@ export const ListTokenPermissionGroupsRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
 
 export type ListTokenPermissionGroupsResponse = {
-  id?: string;
-  name?: string;
-  scopes?: (
-    | "com.cloudflare.api.account"
-    | "com.cloudflare.api.account.zone"
-    | "com.cloudflare.api.user"
-    | "com.cloudflare.edge.r2.bucket"
-  )[];
+  id?: string | null;
+  name?: string | null;
+  scopes?:
+    | (
+        | "com.cloudflare.api.account"
+        | "com.cloudflare.api.account.zone"
+        | "com.cloudflare.api.user"
+        | "com.cloudflare.edge.r2.bucket"
+      )[]
+    | null;
 }[];
 
 export const ListTokenPermissionGroupsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     scopes: Schema.optional(
-      Schema.Array(
-        Schema.Literals([
-          "com.cloudflare.api.account",
-          "com.cloudflare.api.account.zone",
-          "com.cloudflare.api.user",
-          "com.cloudflare.edge.r2.bucket",
-        ]),
-      ),
+      Schema.Union([
+        Schema.Array(
+          Schema.Literals([
+            "com.cloudflare.api.account",
+            "com.cloudflare.api.account.zone",
+            "com.cloudflare.api.user",
+            "com.cloudflare.edge.r2.bucket",
+          ]),
+        ),
+        Schema.Null,
+      ]),
     ),
   }),
 ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
@@ -1079,48 +1142,60 @@ export const GetUserRequest = Schema.Struct({}).pipe(
 
 export interface GetUserResponse {
   /** Identifier of the user. */
-  id?: string;
+  id?: string | null;
   /** Lists the betas that the user is participating in. */
-  betas?: string[];
+  betas?: string[] | null;
   /** The country in which the user lives. */
   country?: string | null;
   /** User's first name */
   firstName?: string | null;
   /** Indicates whether user has any business zones */
-  hasBusinessZones?: boolean;
+  hasBusinessZones?: boolean | null;
   /** Indicates whether user has any enterprise zones */
-  hasEnterpriseZones?: boolean;
+  hasEnterpriseZones?: boolean | null;
   /** Indicates whether user has any pro zones */
-  hasProZones?: boolean;
+  hasProZones?: boolean | null;
   /** User's last name */
   lastName?: string | null;
-  organizations?: unknown[];
+  organizations?: unknown[] | null;
   /** Indicates whether user has been suspended */
-  suspended?: boolean;
+  suspended?: boolean | null;
   /** User's telephone number */
   telephone?: string | null;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean;
+  twoFactorAuthenticationEnabled?: boolean | null;
   /** Indicates whether two-factor authentication is required by one of the accounts that the user is a member of. */
-  twoFactorAuthenticationLocked?: boolean;
+  twoFactorAuthenticationLocked?: boolean | null;
   /** The zipcode or postal code where the user lives. */
   zipcode?: string | null;
 }
 
 export const GetUserResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  betas: Schema.optional(Schema.Array(Schema.String)),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  betas: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  hasBusinessZones: Schema.optional(Schema.Boolean),
-  hasEnterpriseZones: Schema.optional(Schema.Boolean),
-  hasProZones: Schema.optional(Schema.Boolean),
+  hasBusinessZones: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  hasEnterpriseZones: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  hasProZones: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizations: Schema.optional(Schema.Array(Schema.Unknown)),
-  suspended: Schema.optional(Schema.Boolean),
+  organizations: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean),
-  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean),
+  twoFactorAuthenticationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  twoFactorAuthenticationLocked: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
@@ -1186,48 +1261,60 @@ export const PatchUserRequest = Schema.Struct({
 
 export interface PatchUserResponse {
   /** Identifier of the user. */
-  id?: string;
+  id?: string | null;
   /** Lists the betas that the user is participating in. */
-  betas?: string[];
+  betas?: string[] | null;
   /** The country in which the user lives. */
   country?: string | null;
   /** User's first name */
   firstName?: string | null;
   /** Indicates whether user has any business zones */
-  hasBusinessZones?: boolean;
+  hasBusinessZones?: boolean | null;
   /** Indicates whether user has any enterprise zones */
-  hasEnterpriseZones?: boolean;
+  hasEnterpriseZones?: boolean | null;
   /** Indicates whether user has any pro zones */
-  hasProZones?: boolean;
+  hasProZones?: boolean | null;
   /** User's last name */
   lastName?: string | null;
-  organizations?: unknown[];
+  organizations?: unknown[] | null;
   /** Indicates whether user has been suspended */
-  suspended?: boolean;
+  suspended?: boolean | null;
   /** User's telephone number */
   telephone?: string | null;
   /** Indicates whether two-factor authentication is enabled for the user account. Does not apply to API authentication. */
-  twoFactorAuthenticationEnabled?: boolean;
+  twoFactorAuthenticationEnabled?: boolean | null;
   /** Indicates whether two-factor authentication is required by one of the accounts that the user is a member of. */
-  twoFactorAuthenticationLocked?: boolean;
+  twoFactorAuthenticationLocked?: boolean | null;
   /** The zipcode or postal code where the user lives. */
   zipcode?: string | null;
 }
 
 export const PatchUserResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  betas: Schema.optional(Schema.Array(Schema.String)),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  betas: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   country: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   firstName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  hasBusinessZones: Schema.optional(Schema.Boolean),
-  hasEnterpriseZones: Schema.optional(Schema.Boolean),
-  hasProZones: Schema.optional(Schema.Boolean),
+  hasBusinessZones: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  hasEnterpriseZones: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  hasProZones: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   lastName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  organizations: Schema.optional(Schema.Array(Schema.Unknown)),
-  suspended: Schema.optional(Schema.Boolean),
+  organizations: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+  ),
+  suspended: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   telephone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  twoFactorAuthenticationEnabled: Schema.optional(Schema.Boolean),
-  twoFactorAuthenticationLocked: Schema.optional(Schema.Boolean),
+  twoFactorAuthenticationEnabled: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  twoFactorAuthenticationLocked: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
   zipcode: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({

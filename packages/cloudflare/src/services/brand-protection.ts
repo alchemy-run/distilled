@@ -31,13 +31,17 @@ export const SubmitBrandProtectionRequest = Schema.Struct({
 ) as unknown as Schema.Schema<SubmitBrandProtectionRequest>;
 
 export interface SubmitBrandProtectionResponse {
-  skippedUrls?: Record<string, unknown>[];
-  submittedUrls?: Record<string, unknown>[];
+  skippedUrls?: Record<string, unknown>[] | null;
+  submittedUrls?: Record<string, unknown>[] | null;
 }
 
 export const SubmitBrandProtectionResponse = Schema.Struct({
-  skippedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
-  submittedUrls: Schema.optional(Schema.Array(Schema.Struct({}))),
+  skippedUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  submittedUrls: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     skippedUrls: "skipped_urls",
@@ -126,15 +130,15 @@ export const CreateLogoRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateLogoRequest>;
 
 export interface CreateLogoResponse {
-  id?: number;
-  tag?: string;
-  uploadPath?: string;
+  id?: number | null;
+  tag?: string | null;
+  uploadPath?: string | null;
 }
 
 export const CreateLogoResponse = Schema.Struct({
-  id: Schema.optional(Schema.Number),
-  tag: Schema.optional(Schema.String),
-  uploadPath: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  uploadPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({ id: "id", tag: "tag", uploadPath: "upload_path" }),
 ) as unknown as Schema.Schema<CreateLogoResponse>;
@@ -215,13 +219,15 @@ export const GetLogoMatchRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetLogoMatchRequest>;
 
 export interface GetLogoMatchResponse {
-  matches?: Record<string, unknown>[];
-  total?: number;
+  matches?: Record<string, unknown>[] | null;
+  total?: number | null;
 }
 
 export const GetLogoMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetLogoMatchResponse>;
 
 export type GetLogoMatchError = DefaultErrors;
@@ -263,13 +269,15 @@ export const DownloadLogoMatchRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadLogoMatchRequest>;
 
 export interface DownloadLogoMatchResponse {
-  matches?: Record<string, unknown>[];
-  total?: number;
+  matches?: Record<string, unknown>[] | null;
+  total?: number | null;
 }
 
 export const DownloadLogoMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DownloadLogoMatchResponse>;
 
 export type DownloadLogoMatchError = DefaultErrors;
@@ -318,13 +326,15 @@ export const GetMatchRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetMatchRequest>;
 
 export interface GetMatchResponse {
-  matches?: Record<string, unknown>[];
-  total?: number;
+  matches?: Record<string, unknown>[] | null;
+  total?: number | null;
 }
 
 export const GetMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<GetMatchResponse>;
 
 export type GetMatchError = DefaultErrors;
@@ -369,13 +379,15 @@ export const DownloadMatchRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DownloadMatchRequest>;
 
 export interface DownloadMatchResponse {
-  matches?: Record<string, unknown>[];
-  total?: number;
+  matches?: Record<string, unknown>[] | null;
+  total?: number | null;
 }
 
 export const DownloadMatchResponse = Schema.Struct({
-  matches: Schema.optional(Schema.Array(Schema.Struct({}))),
-  total: Schema.optional(Schema.Number),
+  matches: Schema.optional(
+    Schema.Union([Schema.Array(Schema.Struct({})), Schema.Null]),
+  ),
+  total: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }) as unknown as Schema.Schema<DownloadMatchResponse>;
 
 export type DownloadMatchError = DefaultErrors;

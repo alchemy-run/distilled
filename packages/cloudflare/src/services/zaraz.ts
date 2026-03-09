@@ -35,19 +35,19 @@ export interface GetConfigResponse {
   /** General Zaraz settings. */
   settings: {
     autoInjectScript: boolean;
-    contextEnricher?: { escapedWorkerName: string; workerTag: string };
-    cookieDomain?: string;
-    ecommerce?: boolean;
-    eventsApiPath?: string;
-    hideExternalReferer?: boolean;
-    hideIPAddress?: boolean;
-    hideQueryParams?: boolean;
-    hideUserAgent?: boolean;
-    initPath?: string;
-    injectIframes?: boolean;
-    mcRootPath?: string;
-    scriptPath?: string;
-    trackPath?: string;
+    contextEnricher?: { escapedWorkerName: string; workerTag: string } | null;
+    cookieDomain?: string | null;
+    ecommerce?: boolean | null;
+    eventsApiPath?: string | null;
+    hideExternalReferer?: boolean | null;
+    hideIPAddress?: boolean | null;
+    hideQueryParams?: boolean | null;
+    hideUserAgent?: boolean | null;
+    initPath?: string | null;
+    injectIframes?: boolean | null;
+    mcRootPath?: string | null;
+    scriptPath?: string | null;
+    trackPath?: string | null;
   };
   /** Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. */
   tools: Record<string, unknown>;
@@ -59,30 +59,30 @@ export interface GetConfigResponse {
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
   analytics?: {
-    defaultPurpose?: string;
-    enabled?: boolean;
-    sessionExpTime?: number;
-  };
+    defaultPurpose?: string | null;
+    enabled?: boolean | null;
+    sessionExpTime?: number | null;
+  } | null;
   /** Consent management configuration. */
   consent?: {
     enabled: boolean;
-    buttonTextTranslations?: unknown;
-    companyEmail?: string;
-    companyName?: string;
-    companyStreetAddress?: string;
-    consentModalIntroHTML?: string;
-    consentModalIntroHTMLWithTranslations?: Record<string, unknown>;
-    cookieName?: string;
-    customCSS?: string;
-    customIntroDisclaimerDismissed?: boolean;
-    defaultLanguage?: string;
-    hideModal?: boolean;
-    purposes?: Record<string, unknown>;
-    purposesWithTranslations?: Record<string, unknown>;
-    tcfCompliant?: boolean;
-  };
+    buttonTextTranslations?: unknown | null;
+    companyEmail?: string | null;
+    companyName?: string | null;
+    companyStreetAddress?: string | null;
+    consentModalIntroHTML?: string | null;
+    consentModalIntroHTMLWithTranslations?: Record<string, unknown> | null;
+    cookieName?: string | null;
+    customCSS?: string | null;
+    customIntroDisclaimerDismissed?: boolean | null;
+    defaultLanguage?: string | null;
+    hideModal?: boolean | null;
+    purposes?: Record<string, unknown> | null;
+    purposesWithTranslations?: Record<string, unknown> | null;
+    tcfCompliant?: boolean | null;
+  } | null;
   /** Single Page Application support enabled. */
-  historyChange?: boolean;
+  historyChange?: boolean | null;
 }
 
 export const GetConfigResponse = Schema.Struct({
@@ -91,55 +91,94 @@ export const GetConfigResponse = Schema.Struct({
   settings: Schema.Struct({
     autoInjectScript: Schema.Boolean,
     contextEnricher: Schema.optional(
-      Schema.Struct({
-        escapedWorkerName: Schema.String,
-        workerTag: Schema.String,
-      }),
+      Schema.Union([
+        Schema.Struct({
+          escapedWorkerName: Schema.String,
+          workerTag: Schema.String,
+        }),
+        Schema.Null,
+      ]),
     ),
-    cookieDomain: Schema.optional(Schema.String),
-    ecommerce: Schema.optional(Schema.Boolean),
-    eventsApiPath: Schema.optional(Schema.String),
-    hideExternalReferer: Schema.optional(Schema.Boolean),
-    hideIPAddress: Schema.optional(Schema.Boolean),
-    hideQueryParams: Schema.optional(Schema.Boolean),
-    hideUserAgent: Schema.optional(Schema.Boolean),
-    initPath: Schema.optional(Schema.String),
-    injectIframes: Schema.optional(Schema.Boolean),
-    mcRootPath: Schema.optional(Schema.String),
-    scriptPath: Schema.optional(Schema.String),
-    trackPath: Schema.optional(Schema.String),
+    cookieDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ecommerce: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    eventsApiPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    hideExternalReferer: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    hideIPAddress: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    hideQueryParams: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    hideUserAgent: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    initPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    injectIframes: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    mcRootPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    scriptPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    trackPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   tools: Schema.Struct({}),
   triggers: Schema.Struct({}),
   variables: Schema.Struct({}),
   zarazVersion: Schema.Number,
   analytics: Schema.optional(
-    Schema.Struct({
-      defaultPurpose: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      sessionExpTime: Schema.optional(Schema.Number),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        defaultPurpose: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        sessionExpTime: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
   consent: Schema.optional(
-    Schema.Struct({
-      enabled: Schema.Boolean,
-      buttonTextTranslations: Schema.optional(Schema.Unknown),
-      companyEmail: Schema.optional(Schema.String),
-      companyName: Schema.optional(Schema.String),
-      companyStreetAddress: Schema.optional(Schema.String),
-      consentModalIntroHTML: Schema.optional(Schema.String),
-      consentModalIntroHTMLWithTranslations: Schema.optional(Schema.Struct({})),
-      cookieName: Schema.optional(Schema.String),
-      customCSS: Schema.optional(Schema.String),
-      customIntroDisclaimerDismissed: Schema.optional(Schema.Boolean),
-      defaultLanguage: Schema.optional(Schema.String),
-      hideModal: Schema.optional(Schema.Boolean),
-      purposes: Schema.optional(Schema.Struct({})),
-      purposesWithTranslations: Schema.optional(Schema.Struct({})),
-      tcfCompliant: Schema.optional(Schema.Boolean),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        buttonTextTranslations: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        companyEmail: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        companyName: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        companyStreetAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        consentModalIntroHTML: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        consentModalIntroHTMLWithTranslations: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        cookieName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customCSS: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customIntroDisclaimerDismissed: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        defaultLanguage: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        hideModal: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        purposes: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        purposesWithTranslations: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        tcfCompliant: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  historyChange: Schema.optional(Schema.Boolean),
+  historyChange: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<GetConfigResponse>;
 
 export type GetConfigError = DefaultErrors;
@@ -283,19 +322,19 @@ export interface PutConfigResponse {
   /** General Zaraz settings. */
   settings: {
     autoInjectScript: boolean;
-    contextEnricher?: { escapedWorkerName: string; workerTag: string };
-    cookieDomain?: string;
-    ecommerce?: boolean;
-    eventsApiPath?: string;
-    hideExternalReferer?: boolean;
-    hideIPAddress?: boolean;
-    hideQueryParams?: boolean;
-    hideUserAgent?: boolean;
-    initPath?: string;
-    injectIframes?: boolean;
-    mcRootPath?: string;
-    scriptPath?: string;
-    trackPath?: string;
+    contextEnricher?: { escapedWorkerName: string; workerTag: string } | null;
+    cookieDomain?: string | null;
+    ecommerce?: boolean | null;
+    eventsApiPath?: string | null;
+    hideExternalReferer?: boolean | null;
+    hideIPAddress?: boolean | null;
+    hideQueryParams?: boolean | null;
+    hideUserAgent?: boolean | null;
+    initPath?: string | null;
+    injectIframes?: boolean | null;
+    mcRootPath?: string | null;
+    scriptPath?: string | null;
+    trackPath?: string | null;
   };
   /** Tools set up under Zaraz configuration, where key is the alpha-numeric tool ID and value is the tool configuration object. */
   tools: Record<string, unknown>;
@@ -307,30 +346,30 @@ export interface PutConfigResponse {
   zarazVersion: number;
   /** Cloudflare Monitoring settings. */
   analytics?: {
-    defaultPurpose?: string;
-    enabled?: boolean;
-    sessionExpTime?: number;
-  };
+    defaultPurpose?: string | null;
+    enabled?: boolean | null;
+    sessionExpTime?: number | null;
+  } | null;
   /** Consent management configuration. */
   consent?: {
     enabled: boolean;
-    buttonTextTranslations?: unknown;
-    companyEmail?: string;
-    companyName?: string;
-    companyStreetAddress?: string;
-    consentModalIntroHTML?: string;
-    consentModalIntroHTMLWithTranslations?: Record<string, unknown>;
-    cookieName?: string;
-    customCSS?: string;
-    customIntroDisclaimerDismissed?: boolean;
-    defaultLanguage?: string;
-    hideModal?: boolean;
-    purposes?: Record<string, unknown>;
-    purposesWithTranslations?: Record<string, unknown>;
-    tcfCompliant?: boolean;
-  };
+    buttonTextTranslations?: unknown | null;
+    companyEmail?: string | null;
+    companyName?: string | null;
+    companyStreetAddress?: string | null;
+    consentModalIntroHTML?: string | null;
+    consentModalIntroHTMLWithTranslations?: Record<string, unknown> | null;
+    cookieName?: string | null;
+    customCSS?: string | null;
+    customIntroDisclaimerDismissed?: boolean | null;
+    defaultLanguage?: string | null;
+    hideModal?: boolean | null;
+    purposes?: Record<string, unknown> | null;
+    purposesWithTranslations?: Record<string, unknown> | null;
+    tcfCompliant?: boolean | null;
+  } | null;
   /** Single Page Application support enabled. */
-  historyChange?: boolean;
+  historyChange?: boolean | null;
 }
 
 export const PutConfigResponse = Schema.Struct({
@@ -339,55 +378,94 @@ export const PutConfigResponse = Schema.Struct({
   settings: Schema.Struct({
     autoInjectScript: Schema.Boolean,
     contextEnricher: Schema.optional(
-      Schema.Struct({
-        escapedWorkerName: Schema.String,
-        workerTag: Schema.String,
-      }),
+      Schema.Union([
+        Schema.Struct({
+          escapedWorkerName: Schema.String,
+          workerTag: Schema.String,
+        }),
+        Schema.Null,
+      ]),
     ),
-    cookieDomain: Schema.optional(Schema.String),
-    ecommerce: Schema.optional(Schema.Boolean),
-    eventsApiPath: Schema.optional(Schema.String),
-    hideExternalReferer: Schema.optional(Schema.Boolean),
-    hideIPAddress: Schema.optional(Schema.Boolean),
-    hideQueryParams: Schema.optional(Schema.Boolean),
-    hideUserAgent: Schema.optional(Schema.Boolean),
-    initPath: Schema.optional(Schema.String),
-    injectIframes: Schema.optional(Schema.Boolean),
-    mcRootPath: Schema.optional(Schema.String),
-    scriptPath: Schema.optional(Schema.String),
-    trackPath: Schema.optional(Schema.String),
+    cookieDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ecommerce: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    eventsApiPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    hideExternalReferer: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    hideIPAddress: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    hideQueryParams: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    hideUserAgent: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    initPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    injectIframes: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    mcRootPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    scriptPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    trackPath: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   tools: Schema.Struct({}),
   triggers: Schema.Struct({}),
   variables: Schema.Struct({}),
   zarazVersion: Schema.Number,
   analytics: Schema.optional(
-    Schema.Struct({
-      defaultPurpose: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      sessionExpTime: Schema.optional(Schema.Number),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        defaultPurpose: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        sessionExpTime: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
   consent: Schema.optional(
-    Schema.Struct({
-      enabled: Schema.Boolean,
-      buttonTextTranslations: Schema.optional(Schema.Unknown),
-      companyEmail: Schema.optional(Schema.String),
-      companyName: Schema.optional(Schema.String),
-      companyStreetAddress: Schema.optional(Schema.String),
-      consentModalIntroHTML: Schema.optional(Schema.String),
-      consentModalIntroHTMLWithTranslations: Schema.optional(Schema.Struct({})),
-      cookieName: Schema.optional(Schema.String),
-      customCSS: Schema.optional(Schema.String),
-      customIntroDisclaimerDismissed: Schema.optional(Schema.Boolean),
-      defaultLanguage: Schema.optional(Schema.String),
-      hideModal: Schema.optional(Schema.Boolean),
-      purposes: Schema.optional(Schema.Struct({})),
-      purposesWithTranslations: Schema.optional(Schema.Struct({})),
-      tcfCompliant: Schema.optional(Schema.Boolean),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        enabled: Schema.Boolean,
+        buttonTextTranslations: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        companyEmail: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        companyName: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        companyStreetAddress: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        consentModalIntroHTML: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        consentModalIntroHTMLWithTranslations: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        cookieName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customCSS: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        customIntroDisclaimerDismissed: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        defaultLanguage: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        hideModal: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        purposes: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        purposesWithTranslations: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        tcfCompliant: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }),
+      Schema.Null,
+    ]),
   ),
-  historyChange: Schema.optional(Schema.Boolean),
+  historyChange: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
 }) as unknown as Schema.Schema<PutConfigResponse>;
 
 export type PutConfigError = DefaultErrors;

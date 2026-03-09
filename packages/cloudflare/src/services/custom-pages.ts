@@ -51,27 +51,31 @@ export const GetCustomPageRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetCustomPageRequest>;
 
 export interface GetCustomPageResponse {
-  id?: string;
-  createdOn?: string;
-  description?: string;
-  modifiedOn?: string;
-  previewTarget?: string;
-  requiredTokens?: string[];
+  id?: string | null;
+  createdOn?: string | null;
+  description?: string | null;
+  modifiedOn?: string | null;
+  previewTarget?: string | null;
+  requiredTokens?: string[] | null;
   /** The custom page state. */
-  state?: "default" | "customized";
+  state?: "default" | "customized" | null;
   /** The URL associated with the custom page. */
-  url?: string;
+  url?: string | null;
 }
 
 export const GetCustomPageResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  previewTarget: Schema.optional(Schema.String),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.Literals(["default", "customized"])),
-  url: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  previewTarget: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requiredTokens: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  state: Schema.optional(
+    Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
+  ),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -108,26 +112,30 @@ export const ListCustomPagesRequest = Schema.Struct({}).pipe(
 ) as unknown as Schema.Schema<ListCustomPagesRequest>;
 
 export type ListCustomPagesResponse = {
-  id?: string;
-  createdOn?: string;
-  description?: string;
-  modifiedOn?: string;
-  previewTarget?: string;
-  requiredTokens?: string[];
-  state?: "default" | "customized";
-  url?: string;
+  id?: string | null;
+  createdOn?: string | null;
+  description?: string | null;
+  modifiedOn?: string | null;
+  previewTarget?: string | null;
+  requiredTokens?: string[] | null;
+  state?: "default" | "customized" | null;
+  url?: string | null;
 }[];
 
 export const ListCustomPagesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    createdOn: Schema.optional(Schema.String),
-    description: Schema.optional(Schema.String),
-    modifiedOn: Schema.optional(Schema.String),
-    previewTarget: Schema.optional(Schema.String),
-    requiredTokens: Schema.optional(Schema.Array(Schema.String)),
-    state: Schema.optional(Schema.Literals(["default", "customized"])),
-    url: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    previewTarget: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    requiredTokens: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    state: Schema.optional(
+      Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
+    ),
+    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -202,27 +210,31 @@ export const PutCustomPageRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PutCustomPageRequest>;
 
 export interface PutCustomPageResponse {
-  id?: string;
-  createdOn?: string;
-  description?: string;
-  modifiedOn?: string;
-  previewTarget?: string;
-  requiredTokens?: string[];
+  id?: string | null;
+  createdOn?: string | null;
+  description?: string | null;
+  modifiedOn?: string | null;
+  previewTarget?: string | null;
+  requiredTokens?: string[] | null;
   /** The custom page state. */
-  state?: "default" | "customized";
+  state?: "default" | "customized" | null;
   /** The URL associated with the custom page. */
-  url?: string;
+  url?: string | null;
 }
 
 export const PutCustomPageResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  createdOn: Schema.optional(Schema.String),
-  description: Schema.optional(Schema.String),
-  modifiedOn: Schema.optional(Schema.String),
-  previewTarget: Schema.optional(Schema.String),
-  requiredTokens: Schema.optional(Schema.Array(Schema.String)),
-  state: Schema.optional(Schema.Literals(["default", "customized"])),
-  url: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  previewTarget: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  requiredTokens: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  state: Schema.optional(
+    Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
+  ),
+  url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

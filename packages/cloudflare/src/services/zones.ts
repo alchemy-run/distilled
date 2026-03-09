@@ -29,11 +29,11 @@ export const TriggerActivationCheckRequest = Schema.Struct({
 
 export interface TriggerActivationCheckResponse {
   /** Identifier. */
-  id?: string;
+  id?: string | null;
 }
 
 export const TriggerActivationCheckResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }) as unknown as Schema.Schema<TriggerActivationCheckResponse>;
 
 export type TriggerActivationCheckError = DefaultErrors;
@@ -68,27 +68,27 @@ export interface GetCustomNameserverResponse {
   errors: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   messages: {
     code: number;
     message: string;
-    documentationUrl?: string;
-    source?: { pointer?: string };
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
   }[];
   /** Whether the API call was successful. */
   success: true;
   /** Whether zone uses account-level custom nameservers. */
-  enabled?: boolean;
+  enabled?: boolean | null;
   /** The number of the name server set to assign to the zone. */
-  nsSet?: number;
+  nsSet?: number | null;
   resultInfo?: {
-    count?: number;
-    page?: number;
-    perPage?: number;
-    totalCount?: number;
-  };
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
 }
 
 export const GetCustomNameserverResponse = Schema.Struct({
@@ -96,11 +96,18 @@ export const GetCustomNameserverResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -115,11 +122,18 @@ export const GetCustomNameserverResponse = Schema.Struct({
     Schema.Struct({
       code: Schema.Number,
       message: Schema.String,
-      documentationUrl: Schema.optional(Schema.String),
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
       source: Schema.optional(
-        Schema.Struct({
-          pointer: Schema.optional(Schema.String),
-        }),
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
@@ -131,22 +145,25 @@ export const GetCustomNameserverResponse = Schema.Struct({
     ),
   ),
   success: Schema.Literal(true),
-  enabled: Schema.optional(Schema.Boolean),
-  nsSet: Schema.optional(Schema.Number),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  nsSet: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   resultInfo: Schema.optional(
-    Schema.Struct({
-      count: Schema.optional(Schema.Number),
-      page: Schema.optional(Schema.Number),
-      perPage: Schema.optional(Schema.Number),
-      totalCount: Schema.optional(Schema.Number),
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
-    ),
+    Schema.Union([
+      Schema.Struct({
+        count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({
@@ -225,15 +242,17 @@ export const GetHoldRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetHoldRequest>;
 
 export interface GetHoldResponse {
-  hold?: boolean;
-  holdAfter?: string;
-  includeSubdomains?: string;
+  hold?: boolean | null;
+  holdAfter?: string | null;
+  includeSubdomains?: string | null;
 }
 
 export const GetHoldResponse = Schema.Struct({
-  hold: Schema.optional(Schema.Boolean),
-  holdAfter: Schema.optional(Schema.String),
-  includeSubdomains: Schema.optional(Schema.String),
+  hold: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  holdAfter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  includeSubdomains: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     hold: "hold",
@@ -272,15 +291,17 @@ export const CreateHoldRequest = Schema.Struct({
 ) as unknown as Schema.Schema<CreateHoldRequest>;
 
 export interface CreateHoldResponse {
-  hold?: boolean;
-  holdAfter?: string;
-  includeSubdomains?: string;
+  hold?: boolean | null;
+  holdAfter?: string | null;
+  includeSubdomains?: string | null;
 }
 
 export const CreateHoldResponse = Schema.Struct({
-  hold: Schema.optional(Schema.Boolean),
-  holdAfter: Schema.optional(Schema.String),
-  includeSubdomains: Schema.optional(Schema.String),
+  hold: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  holdAfter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  includeSubdomains: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     hold: "hold",
@@ -324,15 +345,17 @@ export const PatchHoldRequest = Schema.Struct({
 ) as unknown as Schema.Schema<PatchHoldRequest>;
 
 export interface PatchHoldResponse {
-  hold?: boolean;
-  holdAfter?: string;
-  includeSubdomains?: string;
+  hold?: boolean | null;
+  holdAfter?: string | null;
+  includeSubdomains?: string | null;
 }
 
 export const PatchHoldResponse = Schema.Struct({
-  hold: Schema.optional(Schema.Boolean),
-  holdAfter: Schema.optional(Schema.String),
-  includeSubdomains: Schema.optional(Schema.String),
+  hold: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  holdAfter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  includeSubdomains: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     hold: "hold",
@@ -369,15 +392,17 @@ export const DeleteHoldRequest = Schema.Struct({
 ) as unknown as Schema.Schema<DeleteHoldRequest>;
 
 export interface DeleteHoldResponse {
-  hold?: boolean;
-  holdAfter?: string;
-  includeSubdomains?: string;
+  hold?: boolean | null;
+  holdAfter?: string | null;
+  includeSubdomains?: string | null;
 }
 
 export const DeleteHoldResponse = Schema.Struct({
-  hold: Schema.optional(Schema.Boolean),
-  holdAfter: Schema.optional(Schema.String),
-  includeSubdomains: Schema.optional(Schema.String),
+  hold: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  holdAfter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  includeSubdomains: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     hold: "hold",
@@ -421,40 +446,45 @@ export const GetPlanRequest = Schema.Struct({
 
 export interface GetPlanResponse {
   /** Identifier */
-  id?: string;
+  id?: string | null;
   /** Indicates whether you can subscribe to this plan. */
-  canSubscribe?: boolean;
+  canSubscribe?: boolean | null;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string;
+  currency?: string | null;
   /** Indicates whether this plan is managed externally. */
-  externallyManaged?: boolean;
+  externallyManaged?: boolean | null;
   /** The frequency at which you will be billed for this plan. */
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly";
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
   /** Indicates whether you are currently subscribed to this plan. */
-  isSubscribed?: boolean;
+  isSubscribed?: boolean | null;
   /** Indicates whether this plan has a legacy discount applied. */
-  legacyDiscount?: boolean;
+  legacyDiscount?: boolean | null;
   /** The legacy identifier for this rate plan, if any. */
-  legacyId?: string;
+  legacyId?: string | null;
   /** The plan name. */
-  name?: string;
+  name?: string | null;
   /** The amount you will be billed for this plan. */
-  price?: number;
+  price?: number | null;
 }
 
 export const GetPlanResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  canSubscribe: Schema.optional(Schema.Boolean),
-  currency: Schema.optional(Schema.String),
-  externallyManaged: Schema.optional(Schema.Boolean),
-  frequency: Schema.optional(
-    Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  externallyManaged: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
   ),
-  isSubscribed: Schema.optional(Schema.Boolean),
-  legacyDiscount: Schema.optional(Schema.Boolean),
-  legacyId: Schema.optional(Schema.String),
-  name: Schema.optional(Schema.String),
-  price: Schema.optional(Schema.Number),
+  frequency: Schema.optional(
+    Schema.Union([
+      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+      Schema.Null,
+    ]),
+  ),
+  isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  legacyDiscount: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -495,32 +525,39 @@ export const ListPlansRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListPlansRequest>;
 
 export type ListPlansResponse = {
-  id?: string;
-  canSubscribe?: boolean;
-  currency?: string;
-  externallyManaged?: boolean;
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly";
-  isSubscribed?: boolean;
-  legacyDiscount?: boolean;
-  legacyId?: string;
-  name?: string;
-  price?: number;
+  id?: string | null;
+  canSubscribe?: boolean | null;
+  currency?: string | null;
+  externallyManaged?: boolean | null;
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+  isSubscribed?: boolean | null;
+  legacyDiscount?: boolean | null;
+  legacyId?: string | null;
+  name?: string | null;
+  price?: number | null;
 }[];
 
 export const ListPlansResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean),
-    currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean),
-    frequency: Schema.optional(
-      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    externallyManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
     ),
-    isSubscribed: Schema.optional(Schema.Boolean),
-    legacyDiscount: Schema.optional(Schema.Boolean),
-    legacyId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    price: Schema.optional(Schema.Number),
+    frequency: Schema.optional(
+      Schema.Union([
+        Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+        Schema.Null,
+      ]),
+    ),
+    isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    legacyDiscount: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -566,53 +603,69 @@ export const GetRatePlanRequest = Schema.Struct({
 ) as unknown as Schema.Schema<GetRatePlanRequest>;
 
 export type GetRatePlanResponse = {
-  id?: string;
-  components?: {
-    default?: number;
-    name?:
-      | "zones"
-      | "page_rules"
-      | "dedicated_certificates"
-      | "dedicated_certificates_custom";
-    unitPrice?: number;
-  }[];
-  currency?: string;
-  duration?: number;
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly";
-  name?: string;
+  id?: string | null;
+  components?:
+    | {
+        default?: number | null;
+        name?:
+          | "zones"
+          | "page_rules"
+          | "dedicated_certificates"
+          | "dedicated_certificates_custom"
+          | null;
+        unitPrice?: number | null;
+      }[]
+    | null;
+  currency?: string | null;
+  duration?: number | null;
+  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+  name?: string | null;
 }[];
 
 export const GetRatePlanResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     components: Schema.optional(
-      Schema.Array(
-        Schema.Struct({
-          default: Schema.optional(Schema.Number),
-          name: Schema.optional(
-            Schema.Literals([
-              "zones",
-              "page_rules",
-              "dedicated_certificates",
-              "dedicated_certificates_custom",
-            ]),
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            default: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            name: Schema.optional(
+              Schema.Union([
+                Schema.Literals([
+                  "zones",
+                  "page_rules",
+                  "dedicated_certificates",
+                  "dedicated_certificates_custom",
+                ]),
+                Schema.Null,
+              ]),
+            ),
+            unitPrice: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              default: "default",
+              name: "name",
+              unitPrice: "unit_price",
+            }),
           ),
-          unitPrice: Schema.optional(Schema.Number),
-        }).pipe(
-          Schema.encodeKeys({
-            default: "default",
-            name: "name",
-            unitPrice: "unit_price",
-          }),
         ),
-      ),
+        Schema.Null,
+      ]),
     ),
-    currency: Schema.optional(Schema.String),
-    duration: Schema.optional(Schema.Number),
+    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     frequency: Schema.optional(
-      Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+      Schema.Union([
+        Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+        Schema.Null,
+      ]),
     ),
-    name: Schema.optional(Schema.String),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<GetRatePlanResponse>;
 
@@ -650,60 +703,60 @@ export type GetSettingResponse =
   | {
       id: "0rtt";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "advanced_ddos";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "aegis";
       modifiedOn?: string | null;
-      value?: { enabled?: boolean; poolId?: string };
+      value?: { enabled?: boolean | null; poolId?: string | null } | null;
     }
   | {
       id: "always_online";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "always_use_https";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "automatic_https_rewrites";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "brotli";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "browser_cache_ttl";
       value: number;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "browser_check";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "cache_level";
       value: "aggressive" | "basic" | "simplified";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -723,38 +776,38 @@ export type GetSettingResponse =
         | "604800"
         | "2592000"
         | "31536000";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "china_network_enabled";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ciphers";
       value: string[];
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "cname_flattening";
       value: "flatten_at_root" | "flatten_all";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "development_mode";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
-      timeRemaining?: number;
+      timeRemaining?: number | null;
     }
   | {
       id: "early_hints";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -781,55 +834,55 @@ export type GetSettingResponse =
         | "432000"
         | "518400"
         | "604800";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "email_obfuscation";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "h2_prioritization";
       value: "on" | "off" | "custom";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "hotlink_protection";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "http2";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "http3";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "image_resizing";
       value: "on" | "off" | "open";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ip_geolocation";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ipv6";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -853,123 +906,127 @@ export type GetSettingResponse =
         | "475"
         | "500"
         | "1000";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "min_tls_version";
       value: "1.0" | "1.1" | "1.2" | "1.3";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "mirage";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "nel";
-      value: { enabled?: boolean };
-      editable?: true | false;
+      value: { enabled?: boolean | null };
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "opportunistic_encryption";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "opportunistic_onion";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "orange_to_orange";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "origin_error_page_pass_thru";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
-  | { id: "origin_h2_max_streams"; modifiedOn?: string | null; value?: number }
+  | {
+      id: "origin_h2_max_streams";
+      modifiedOn?: string | null;
+      value?: number | null;
+    }
   | {
       id: "origin_max_http_version";
       modifiedOn?: string | null;
-      value?: "2" | "1";
+      value?: "2" | "1" | null;
     }
   | {
       id: "polish";
       value: "off" | "lossless" | "lossy";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "prefetch_preload";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "privacy_pass";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "proxy_read_timeout";
       value: number;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "pseudo_ipv4";
       value: "off" | "add_header" | "overwrite_header";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "replace_insecure_js";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "response_buffering";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "rocket_loader";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "automatic_platform_optimization";
       value: unknown;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "security_header";
       value: {
         strictTransportSecurity?: {
-          enabled?: boolean;
-          includeSubdomains?: boolean;
-          maxAge?: number;
-          nosniff?: boolean;
-          preload?: boolean;
-        };
+          enabled?: boolean | null;
+          includeSubdomains?: boolean | null;
+          maxAge?: number | null;
+          nosniff?: boolean | null;
+          preload?: boolean | null;
+        } | null;
       };
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -981,86 +1038,86 @@ export type GetSettingResponse =
         | "medium"
         | "high"
         | "under_attack";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "server_side_exclude";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "sha1_support";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "sort_query_string_for_cache";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ssl";
       value: "off" | "flexible" | "full" | "strict";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
-  | { id?: "ssl_recommender"; enabled?: boolean }
+  | { id?: "ssl_recommender" | null; enabled?: boolean | null }
   | {
       id: "tls_1_2_only";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "tls_1_3";
       value: "on" | "off" | "zrt";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "tls_client_auth";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "transformations";
       value: "on" | "off" | "open";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "transformations_allowed_origins";
       value: string;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "true_client_ip_header";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "waf";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "webp";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "websockets";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     };
 
@@ -1068,7 +1125,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("0rtt"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1081,7 +1140,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1095,10 +1156,13 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("aegis"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        poolId: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          poolId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
@@ -1106,7 +1170,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1119,7 +1185,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1132,7 +1200,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1145,7 +1215,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1158,7 +1230,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1171,7 +1245,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1184,7 +1260,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1212,7 +1290,9 @@ export const GetSettingResponse = Schema.Union([
       "2592000",
       "31536000",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1225,7 +1305,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1238,7 +1320,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1251,7 +1335,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1264,9 +1350,11 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    timeRemaining: Schema.optional(Schema.Number),
+    timeRemaining: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -1279,7 +1367,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("early_hints"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1314,7 +1404,9 @@ export const GetSettingResponse = Schema.Union([
       "518400",
       "604800",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1327,7 +1419,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1340,7 +1434,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1353,7 +1449,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1366,7 +1464,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1379,7 +1479,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1392,7 +1494,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1405,7 +1509,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1418,7 +1524,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1450,7 +1558,9 @@ export const GetSettingResponse = Schema.Union([
       "500",
       "1000",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1463,7 +1573,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1476,7 +1588,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1489,9 +1603,11 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("nel"),
     value: Schema.Struct({
-      enabled: Schema.optional(Schema.Boolean),
+      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1504,7 +1620,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1517,7 +1635,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1530,7 +1650,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1543,7 +1665,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1556,21 +1680,25 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    value: Schema.optional(Schema.Number),
+    value: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
   ),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    value: Schema.optional(Schema.Literals(["2", "1"])),
+    value: Schema.optional(
+      Schema.Union([Schema.Literals(["2", "1"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
   ),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1583,7 +1711,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1596,7 +1726,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1609,7 +1741,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1622,7 +1756,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1635,7 +1771,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1648,7 +1786,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1661,7 +1801,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1674,7 +1816,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1688,28 +1832,41 @@ export const GetSettingResponse = Schema.Union([
     id: Schema.Literal("security_header"),
     value: Schema.Struct({
       strictTransportSecurity: Schema.optional(
-        Schema.Struct({
-          enabled: Schema.optional(Schema.Boolean),
-          includeSubdomains: Schema.optional(Schema.Boolean),
-          maxAge: Schema.optional(Schema.Number),
-          nosniff: Schema.optional(Schema.Boolean),
-          preload: Schema.optional(Schema.Boolean),
-        }).pipe(
-          Schema.encodeKeys({
-            enabled: "enabled",
-            includeSubdomains: "include_subdomains",
-            maxAge: "max_age",
-            nosniff: "nosniff",
-            preload: "preload",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            includeSubdomains: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            maxAge: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            nosniff: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            preload: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              includeSubdomains: "include_subdomains",
+              maxAge: "max_age",
+              nosniff: "nosniff",
+              preload: "preload",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
         strictTransportSecurity: "strict_transport_security",
       }),
     ),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1729,7 +1886,9 @@ export const GetSettingResponse = Schema.Union([
       "high",
       "under_attack",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1742,7 +1901,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1755,7 +1916,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1768,7 +1931,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1781,7 +1946,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1792,13 +1959,17 @@ export const GetSettingResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    id: Schema.optional(Schema.Literal("ssl_recommender")),
-    enabled: Schema.optional(Schema.Boolean),
+    id: Schema.optional(
+      Schema.Union([Schema.Literal("ssl_recommender"), Schema.Null]),
+    ),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_1_2_only"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1811,7 +1982,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1824,7 +1997,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1837,7 +2012,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1850,7 +2027,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1863,7 +2042,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1876,7 +2057,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1889,7 +2072,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1902,7 +2087,9 @@ export const GetSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -1947,60 +2134,60 @@ export type PatchSettingResponse =
   | {
       id: "0rtt";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "advanced_ddos";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "aegis";
       modifiedOn?: string | null;
-      value?: { enabled?: boolean; poolId?: string };
+      value?: { enabled?: boolean | null; poolId?: string | null } | null;
     }
   | {
       id: "always_online";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "always_use_https";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "automatic_https_rewrites";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "brotli";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "browser_cache_ttl";
       value: number;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "browser_check";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "cache_level";
       value: "aggressive" | "basic" | "simplified";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -2020,38 +2207,38 @@ export type PatchSettingResponse =
         | "604800"
         | "2592000"
         | "31536000";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "china_network_enabled";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ciphers";
       value: string[];
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "cname_flattening";
       value: "flatten_at_root" | "flatten_all";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "development_mode";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
-      timeRemaining?: number;
+      timeRemaining?: number | null;
     }
   | {
       id: "early_hints";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -2078,55 +2265,55 @@ export type PatchSettingResponse =
         | "432000"
         | "518400"
         | "604800";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "email_obfuscation";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "h2_prioritization";
       value: "on" | "off" | "custom";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "hotlink_protection";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "http2";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "http3";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "image_resizing";
       value: "on" | "off" | "open";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ip_geolocation";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ipv6";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -2150,123 +2337,127 @@ export type PatchSettingResponse =
         | "475"
         | "500"
         | "1000";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "min_tls_version";
       value: "1.0" | "1.1" | "1.2" | "1.3";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "mirage";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "nel";
-      value: { enabled?: boolean };
-      editable?: true | false;
+      value: { enabled?: boolean | null };
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "opportunistic_encryption";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "opportunistic_onion";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "orange_to_orange";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "origin_error_page_pass_thru";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
-  | { id: "origin_h2_max_streams"; modifiedOn?: string | null; value?: number }
+  | {
+      id: "origin_h2_max_streams";
+      modifiedOn?: string | null;
+      value?: number | null;
+    }
   | {
       id: "origin_max_http_version";
       modifiedOn?: string | null;
-      value?: "2" | "1";
+      value?: "2" | "1" | null;
     }
   | {
       id: "polish";
       value: "off" | "lossless" | "lossy";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "prefetch_preload";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "privacy_pass";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "proxy_read_timeout";
       value: number;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "pseudo_ipv4";
       value: "off" | "add_header" | "overwrite_header";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "replace_insecure_js";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "response_buffering";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "rocket_loader";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "automatic_platform_optimization";
       value: unknown;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "security_header";
       value: {
         strictTransportSecurity?: {
-          enabled?: boolean;
-          includeSubdomains?: boolean;
-          maxAge?: number;
-          nosniff?: boolean;
-          preload?: boolean;
-        };
+          enabled?: boolean | null;
+          includeSubdomains?: boolean | null;
+          maxAge?: number | null;
+          nosniff?: boolean | null;
+          preload?: boolean | null;
+        } | null;
       };
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
@@ -2278,86 +2469,86 @@ export type PatchSettingResponse =
         | "medium"
         | "high"
         | "under_attack";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "server_side_exclude";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "sha1_support";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "sort_query_string_for_cache";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "ssl";
       value: "off" | "flexible" | "full" | "strict";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
-  | { id?: "ssl_recommender"; enabled?: boolean }
+  | { id?: "ssl_recommender" | null; enabled?: boolean | null }
   | {
       id: "tls_1_2_only";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "tls_1_3";
       value: "on" | "off" | "zrt";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "tls_client_auth";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "transformations";
       value: "on" | "off" | "open";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "transformations_allowed_origins";
       value: string;
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "true_client_ip_header";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "waf";
       value: "on" | "off";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "webp";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     }
   | {
       id: "websockets";
       value: "off" | "on";
-      editable?: true | false;
+      editable?: true | false | null;
       modifiedOn?: string | null;
     };
 
@@ -2365,7 +2556,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("0rtt"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2378,7 +2571,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("advanced_ddos"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2392,10 +2587,13 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("aegis"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(
-      Schema.Struct({
-        enabled: Schema.optional(Schema.Boolean),
-        poolId: Schema.optional(Schema.String),
-      }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          poolId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }).pipe(Schema.encodeKeys({ enabled: "enabled", poolId: "pool_id" })),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
@@ -2403,7 +2601,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("always_online"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2416,7 +2616,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("always_use_https"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2429,7 +2631,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("automatic_https_rewrites"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2442,7 +2646,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("brotli"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2455,7 +2661,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("browser_cache_ttl"),
     value: Schema.Number,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2468,7 +2676,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("browser_check"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2481,7 +2691,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("cache_level"),
     value: Schema.Literals(["aggressive", "basic", "simplified"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2509,7 +2721,9 @@ export const PatchSettingResponse = Schema.Union([
       "2592000",
       "31536000",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2522,7 +2736,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("china_network_enabled"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2535,7 +2751,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ciphers"),
     value: Schema.Array(Schema.String),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2548,7 +2766,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("cname_flattening"),
     value: Schema.Literals(["flatten_at_root", "flatten_all"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2561,9 +2781,11 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("development_mode"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    timeRemaining: Schema.optional(Schema.Number),
+    timeRemaining: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -2576,7 +2798,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("early_hints"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2611,7 +2835,9 @@ export const PatchSettingResponse = Schema.Union([
       "518400",
       "604800",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2624,7 +2850,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("email_obfuscation"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2637,7 +2865,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("h2_prioritization"),
     value: Schema.Literals(["on", "off", "custom"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2650,7 +2880,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("hotlink_protection"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2663,7 +2895,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("http2"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2676,7 +2910,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("http3"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2689,7 +2925,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("image_resizing"),
     value: Schema.Literals(["on", "off", "open"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2702,7 +2940,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ip_geolocation"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2715,7 +2955,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ipv6"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2747,7 +2989,9 @@ export const PatchSettingResponse = Schema.Union([
       "500",
       "1000",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2760,7 +3004,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("min_tls_version"),
     value: Schema.Literals(["1.0", "1.1", "1.2", "1.3"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2773,7 +3019,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("mirage"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2786,9 +3034,11 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("nel"),
     value: Schema.Struct({
-      enabled: Schema.optional(Schema.Boolean),
+      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2801,7 +3051,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("opportunistic_encryption"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2814,7 +3066,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("opportunistic_onion"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2827,7 +3081,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("orange_to_orange"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2840,7 +3096,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("origin_error_page_pass_thru"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2853,21 +3111,25 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("origin_h2_max_streams"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    value: Schema.optional(Schema.Number),
+    value: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
   ),
   Schema.Struct({
     id: Schema.Literal("origin_max_http_version"),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    value: Schema.optional(Schema.Literals(["2", "1"])),
+    value: Schema.optional(
+      Schema.Union([Schema.Literals(["2", "1"]), Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({ id: "id", modifiedOn: "modified_on", value: "value" }),
   ),
   Schema.Struct({
     id: Schema.Literal("polish"),
     value: Schema.Literals(["off", "lossless", "lossy"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2880,7 +3142,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("prefetch_preload"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2893,7 +3157,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("privacy_pass"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2906,7 +3172,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("proxy_read_timeout"),
     value: Schema.Number,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2919,7 +3187,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("pseudo_ipv4"),
     value: Schema.Literals(["off", "add_header", "overwrite_header"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2932,7 +3202,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("replace_insecure_js"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2945,7 +3217,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("response_buffering"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2958,7 +3232,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("rocket_loader"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2971,7 +3247,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("automatic_platform_optimization"),
     value: Schema.Unknown,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -2985,28 +3263,41 @@ export const PatchSettingResponse = Schema.Union([
     id: Schema.Literal("security_header"),
     value: Schema.Struct({
       strictTransportSecurity: Schema.optional(
-        Schema.Struct({
-          enabled: Schema.optional(Schema.Boolean),
-          includeSubdomains: Schema.optional(Schema.Boolean),
-          maxAge: Schema.optional(Schema.Number),
-          nosniff: Schema.optional(Schema.Boolean),
-          preload: Schema.optional(Schema.Boolean),
-        }).pipe(
-          Schema.encodeKeys({
-            enabled: "enabled",
-            includeSubdomains: "include_subdomains",
-            maxAge: "max_age",
-            nosniff: "nosniff",
-            preload: "preload",
-          }),
-        ),
+        Schema.Union([
+          Schema.Struct({
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            includeSubdomains: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            maxAge: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            nosniff: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            preload: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              includeSubdomains: "include_subdomains",
+              maxAge: "max_age",
+              nosniff: "nosniff",
+              preload: "preload",
+            }),
+          ),
+          Schema.Null,
+        ]),
       ),
     }).pipe(
       Schema.encodeKeys({
         strictTransportSecurity: "strict_transport_security",
       }),
     ),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3026,7 +3317,9 @@ export const PatchSettingResponse = Schema.Union([
       "high",
       "under_attack",
     ]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3039,7 +3332,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("server_side_exclude"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3052,7 +3347,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("sha1_support"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3065,7 +3362,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("sort_query_string_for_cache"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3078,7 +3377,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("ssl"),
     value: Schema.Literals(["off", "flexible", "full", "strict"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3089,13 +3390,17 @@ export const PatchSettingResponse = Schema.Union([
     }),
   ),
   Schema.Struct({
-    id: Schema.optional(Schema.Literal("ssl_recommender")),
-    enabled: Schema.optional(Schema.Boolean),
+    id: Schema.optional(
+      Schema.Union([Schema.Literal("ssl_recommender"), Schema.Null]),
+    ),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }),
   Schema.Struct({
     id: Schema.Literal("tls_1_2_only"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3108,7 +3413,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("tls_1_3"),
     value: Schema.Literals(["on", "off", "zrt"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3121,7 +3428,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("tls_client_auth"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3134,7 +3443,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("transformations"),
     value: Schema.Literals(["on", "off", "open"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3147,7 +3458,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("transformations_allowed_origins"),
     value: Schema.String,
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3160,7 +3473,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("true_client_ip_header"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3173,7 +3488,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("waf"),
     value: Schema.Literals(["on", "off"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3186,7 +3503,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("webp"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3199,7 +3518,9 @@ export const PatchSettingResponse = Schema.Union([
   Schema.Struct({
     id: Schema.Literal("websockets"),
     value: Schema.Literals(["off", "on"]),
-    editable: Schema.optional(Schema.Literals([true, false])),
+    editable: Schema.optional(
+      Schema.Union([Schema.Literals([true, false]), Schema.Null]),
+    ),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
@@ -3241,19 +3562,25 @@ export const GetSubscriptionRequest = Schema.Struct({
 
 export interface GetSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string;
+  id?: string | null;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string;
+  currency?: string | null;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string;
+  currentPeriodEnd?: string | null;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string;
+  currentPeriodStart?: string | null;
   /** How often the subscription is renewed automatically. */
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  frequency?:
+    | "weekly"
+    | "monthly"
+    | "quarterly"
+    | "yearly"
+    | "not-applicable"
+    | null;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number;
+  price?: number | null;
   /** The rate plan applied to the subscription. */
-  ratePlan?: unknown;
+  ratePlan?: unknown | null;
   /** The state that the subscription is in. */
   state?:
     | "Trial"
@@ -3262,34 +3589,43 @@ export interface GetSubscriptionResponse {
     | "AwaitingPayment"
     | "Cancelled"
     | "Failed"
-    | "Expired";
+    | "Expired"
+    | null;
 }
 
 export const GetSubscriptionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  currency: Schema.optional(Schema.String),
-  currentPeriodEnd: Schema.optional(Schema.String),
-  currentPeriodStart: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodEnd: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodStart: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   frequency: Schema.optional(
-    Schema.Literals([
-      "weekly",
-      "monthly",
-      "quarterly",
-      "yearly",
-      "not-applicable",
+    Schema.Union([
+      Schema.Literals([
+        "weekly",
+        "monthly",
+        "quarterly",
+        "yearly",
+        "not-applicable",
+      ]),
+      Schema.Null,
     ]),
   ),
-  price: Schema.optional(Schema.Number),
-  ratePlan: Schema.optional(Schema.Unknown),
+  price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ratePlan: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   state: Schema.optional(
-    Schema.Literals([
-      "Trial",
-      "Provisioned",
-      "Paid",
-      "AwaitingPayment",
-      "Cancelled",
-      "Failed",
-      "Expired",
+    Schema.Union([
+      Schema.Literals([
+        "Trial",
+        "Provisioned",
+        "Paid",
+        "AwaitingPayment",
+        "Cancelled",
+        "Failed",
+        "Expired",
+      ]),
+      Schema.Null,
     ]),
   ),
 }).pipe(
@@ -3340,19 +3676,25 @@ export const CreateSubscriptionRequest = Schema.Struct({
 
 export interface CreateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string;
+  id?: string | null;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string;
+  currency?: string | null;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string;
+  currentPeriodEnd?: string | null;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string;
+  currentPeriodStart?: string | null;
   /** How often the subscription is renewed automatically. */
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  frequency?:
+    | "weekly"
+    | "monthly"
+    | "quarterly"
+    | "yearly"
+    | "not-applicable"
+    | null;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number;
+  price?: number | null;
   /** The rate plan applied to the subscription. */
-  ratePlan?: unknown;
+  ratePlan?: unknown | null;
   /** The state that the subscription is in. */
   state?:
     | "Trial"
@@ -3361,34 +3703,43 @@ export interface CreateSubscriptionResponse {
     | "AwaitingPayment"
     | "Cancelled"
     | "Failed"
-    | "Expired";
+    | "Expired"
+    | null;
 }
 
 export const CreateSubscriptionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  currency: Schema.optional(Schema.String),
-  currentPeriodEnd: Schema.optional(Schema.String),
-  currentPeriodStart: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodEnd: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodStart: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   frequency: Schema.optional(
-    Schema.Literals([
-      "weekly",
-      "monthly",
-      "quarterly",
-      "yearly",
-      "not-applicable",
+    Schema.Union([
+      Schema.Literals([
+        "weekly",
+        "monthly",
+        "quarterly",
+        "yearly",
+        "not-applicable",
+      ]),
+      Schema.Null,
     ]),
   ),
-  price: Schema.optional(Schema.Number),
-  ratePlan: Schema.optional(Schema.Unknown),
+  price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ratePlan: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   state: Schema.optional(
-    Schema.Literals([
-      "Trial",
-      "Provisioned",
-      "Paid",
-      "AwaitingPayment",
-      "Cancelled",
-      "Failed",
-      "Expired",
+    Schema.Union([
+      Schema.Literals([
+        "Trial",
+        "Provisioned",
+        "Paid",
+        "AwaitingPayment",
+        "Cancelled",
+        "Failed",
+        "Expired",
+      ]),
+      Schema.Null,
     ]),
   ),
 }).pipe(
@@ -3439,19 +3790,25 @@ export const UpdateSubscriptionRequest = Schema.Struct({
 
 export interface UpdateSubscriptionResponse {
   /** Subscription identifier tag. */
-  id?: string;
+  id?: string | null;
   /** The monetary unit in which pricing information is displayed. */
-  currency?: string;
+  currency?: string | null;
   /** The end of the current period and also when the next billing is due. */
-  currentPeriodEnd?: string;
+  currentPeriodEnd?: string | null;
   /** When the current billing period started. May match initial_period_start if this is the first period. */
-  currentPeriodStart?: string;
+  currentPeriodStart?: string | null;
   /** How often the subscription is renewed automatically. */
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | "not-applicable";
+  frequency?:
+    | "weekly"
+    | "monthly"
+    | "quarterly"
+    | "yearly"
+    | "not-applicable"
+    | null;
   /** The price of the subscription that will be billed, in US dollars. */
-  price?: number;
+  price?: number | null;
   /** The rate plan applied to the subscription. */
-  ratePlan?: unknown;
+  ratePlan?: unknown | null;
   /** The state that the subscription is in. */
   state?:
     | "Trial"
@@ -3460,34 +3817,43 @@ export interface UpdateSubscriptionResponse {
     | "AwaitingPayment"
     | "Cancelled"
     | "Failed"
-    | "Expired";
+    | "Expired"
+    | null;
 }
 
 export const UpdateSubscriptionResponse = Schema.Struct({
-  id: Schema.optional(Schema.String),
-  currency: Schema.optional(Schema.String),
-  currentPeriodEnd: Schema.optional(Schema.String),
-  currentPeriodStart: Schema.optional(Schema.String),
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodEnd: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  currentPeriodStart: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
   frequency: Schema.optional(
-    Schema.Literals([
-      "weekly",
-      "monthly",
-      "quarterly",
-      "yearly",
-      "not-applicable",
+    Schema.Union([
+      Schema.Literals([
+        "weekly",
+        "monthly",
+        "quarterly",
+        "yearly",
+        "not-applicable",
+      ]),
+      Schema.Null,
     ]),
   ),
-  price: Schema.optional(Schema.Number),
-  ratePlan: Schema.optional(Schema.Unknown),
+  price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ratePlan: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   state: Schema.optional(
-    Schema.Literals([
-      "Trial",
-      "Provisioned",
-      "Paid",
-      "AwaitingPayment",
-      "Cancelled",
-      "Failed",
-      "Expired",
+    Schema.Union([
+      Schema.Literals([
+        "Trial",
+        "Provisioned",
+        "Paid",
+        "AwaitingPayment",
+        "Cancelled",
+        "Failed",
+        "Expired",
+      ]),
+      Schema.Null,
     ]),
   ),
 }).pipe(
@@ -3535,7 +3901,7 @@ export interface GetZoneResponse {
   /** Identifier */
   id: string;
   /** The account the zone belongs to. */
-  account: { id?: string; name?: string };
+  account: { id?: string | null; name?: string | null };
   /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string | null;
   /** When the zone was created. */
@@ -3544,13 +3910,13 @@ export interface GetZoneResponse {
   developmentMode: number;
   /** Metadata about the zone. */
   meta: {
-    cdnOnly?: boolean;
-    customCertificateQuota?: number;
-    dnsOnly?: boolean;
-    foundationDns?: boolean;
-    pageRuleQuota?: number;
-    phishingDetected?: boolean;
-    step?: number;
+    cdnOnly?: boolean | null;
+    customCertificateQuota?: number | null;
+    dnsOnly?: boolean | null;
+    foundationDns?: boolean | null;
+    pageRuleQuota?: number | null;
+    phishingDetected?: boolean | null;
+    step?: number | null;
   };
   /** When the zone was last modified. */
   modifiedOn: string;
@@ -3565,57 +3931,61 @@ export interface GetZoneResponse {
   /** Registrar for the domain at the time of switching to Cloudflare. */
   originalRegistrar: string | null;
   /** The owner of the zone. */
-  owner: { id?: string; name?: string; type?: string };
+  owner: { id?: string | null; name?: string | null; type?: string | null };
   /** @deprecated Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zon */
   plan: {
-    id?: string;
-    canSubscribe?: boolean;
-    currency?: string;
-    externallyManaged?: boolean;
-    frequency?: string;
-    isSubscribed?: boolean;
-    legacyDiscount?: boolean;
-    legacyId?: string;
-    name?: string;
-    price?: number;
+    id?: string | null;
+    canSubscribe?: boolean | null;
+    currency?: string | null;
+    externallyManaged?: boolean | null;
+    frequency?: string | null;
+    isSubscribed?: boolean | null;
+    legacyDiscount?: boolean | null;
+    legacyId?: string | null;
+    name?: string | null;
+    price?: number | null;
   };
   /** Allows the customer to use a custom apex. _Tenants Only Configuration_. */
-  cnameSuffix?: string;
+  cnameSuffix?: string | null;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean;
+  paused?: boolean | null;
   /** @deprecated This has been replaced by Account memberships. */
-  permissions?: string[];
+  permissions?: string[] | null;
   /** The zone status on Cloudflare. */
-  status?: "initializing" | "pending" | "active" | "moved";
+  status?: "initializing" | "pending" | "active" | "moved" | null;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: { id?: string; name?: string };
+  tenant?: { id?: string | null; name?: string | null } | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: { id?: string };
+  tenantUnit?: { id?: string | null } | null;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: "full" | "partial" | "secondary" | "internal";
+  type?: "full" | "partial" | "secondary" | "internal" | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: string[];
+  vanityNameServers?: string[] | null;
   /** Verification key for partial zone setup. */
-  verificationKey?: string;
+  verificationKey?: string | null;
 }
 
 export const GetZoneResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   activatedOn: Schema.Union([Schema.String, Schema.Null]),
   createdOn: Schema.String,
   developmentMode: Schema.Number,
   meta: Schema.Struct({
-    cdnOnly: Schema.optional(Schema.Boolean),
-    customCertificateQuota: Schema.optional(Schema.Number),
-    dnsOnly: Schema.optional(Schema.Boolean),
-    foundationDns: Schema.optional(Schema.Boolean),
-    pageRuleQuota: Schema.optional(Schema.Number),
-    phishingDetected: Schema.optional(Schema.Boolean),
-    step: Schema.optional(Schema.Number),
+    cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    customCertificateQuota: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    foundationDns: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    pageRuleQuota: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    phishingDetected: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       cdnOnly: "cdn_only",
@@ -3634,21 +4004,25 @@ export const GetZoneResponse = Schema.Struct({
   originalNameServers: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
   owner: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   plan: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean),
-    currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean),
-    frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean),
-    legacyDiscount: Schema.optional(Schema.Boolean),
-    legacyId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    price: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    externallyManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    legacyDiscount: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -3663,28 +4037,44 @@ export const GetZoneResponse = Schema.Struct({
       price: "price",
     }),
   ),
-  cnameSuffix: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  permissions: Schema.optional(Schema.Array(Schema.String)),
+  cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  permissions: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals(["initializing", "pending", "active", "moved"]),
+    Schema.Union([
+      Schema.Literals(["initializing", "pending", "active", "moved"]),
+      Schema.Null,
+    ]),
   ),
   tenant: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   tenantUnit: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   type: Schema.optional(
-    Schema.Literals(["full", "partial", "secondary", "internal"]),
+    Schema.Union([
+      Schema.Literals(["full", "partial", "secondary", "internal"]),
+      Schema.Null,
+    ]),
   ),
-  vanityNameServers: Schema.optional(Schema.Array(Schema.String)),
-  verificationKey: Schema.optional(Schema.String),
+  vanityNameServers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -3734,18 +4124,18 @@ export const ListZonesRequest = Schema.Struct({}).pipe(
 
 export type ListZonesResponse = {
   id: string;
-  account: { id?: string; name?: string };
+  account: { id?: string | null; name?: string | null };
   activatedOn: string | null;
   createdOn: string;
   developmentMode: number;
   meta: {
-    cdnOnly?: boolean;
-    customCertificateQuota?: number;
-    dnsOnly?: boolean;
-    foundationDns?: boolean;
-    pageRuleQuota?: number;
-    phishingDetected?: boolean;
-    step?: number;
+    cdnOnly?: boolean | null;
+    customCertificateQuota?: number | null;
+    dnsOnly?: boolean | null;
+    foundationDns?: boolean | null;
+    pageRuleQuota?: number | null;
+    phishingDetected?: boolean | null;
+    step?: number | null;
   };
   modifiedOn: string;
   name: string;
@@ -3753,48 +4143,56 @@ export type ListZonesResponse = {
   originalDnshost: string | null;
   originalNameServers: string[] | null;
   originalRegistrar: string | null;
-  owner: { id?: string; name?: string; type?: string };
+  owner: { id?: string | null; name?: string | null; type?: string | null };
   plan: {
-    id?: string;
-    canSubscribe?: boolean;
-    currency?: string;
-    externallyManaged?: boolean;
-    frequency?: string;
-    isSubscribed?: boolean;
-    legacyDiscount?: boolean;
-    legacyId?: string;
-    name?: string;
-    price?: number;
+    id?: string | null;
+    canSubscribe?: boolean | null;
+    currency?: string | null;
+    externallyManaged?: boolean | null;
+    frequency?: string | null;
+    isSubscribed?: boolean | null;
+    legacyDiscount?: boolean | null;
+    legacyId?: string | null;
+    name?: string | null;
+    price?: number | null;
   };
-  cnameSuffix?: string;
-  paused?: boolean;
-  permissions?: string[];
-  status?: "initializing" | "pending" | "active" | "moved";
-  tenant?: { id?: string; name?: string };
-  tenantUnit?: { id?: string };
-  type?: "full" | "partial" | "secondary" | "internal";
-  vanityNameServers?: string[];
-  verificationKey?: string;
+  cnameSuffix?: string | null;
+  paused?: boolean | null;
+  permissions?: string[] | null;
+  status?: "initializing" | "pending" | "active" | "moved" | null;
+  tenant?: { id?: string | null; name?: string | null } | null;
+  tenantUnit?: { id?: string | null } | null;
+  type?: "full" | "partial" | "secondary" | "internal" | null;
+  vanityNameServers?: string[] | null;
+  verificationKey?: string | null;
 }[];
 
 export const ListZonesResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
     account: Schema.Struct({
-      id: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
     activatedOn: Schema.Union([Schema.String, Schema.Null]),
     createdOn: Schema.String,
     developmentMode: Schema.Number,
     meta: Schema.Struct({
-      cdnOnly: Schema.optional(Schema.Boolean),
-      customCertificateQuota: Schema.optional(Schema.Number),
-      dnsOnly: Schema.optional(Schema.Boolean),
-      foundationDns: Schema.optional(Schema.Boolean),
-      pageRuleQuota: Schema.optional(Schema.Number),
-      phishingDetected: Schema.optional(Schema.Boolean),
-      step: Schema.optional(Schema.Number),
+      cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      customCertificateQuota: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      foundationDns: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      pageRuleQuota: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      phishingDetected: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         cdnOnly: "cdn_only",
@@ -3816,21 +4214,29 @@ export const ListZonesResponse = Schema.Array(
     ]),
     originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
     owner: Schema.Struct({
-      id: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
     plan: Schema.Struct({
-      id: Schema.optional(Schema.String),
-      canSubscribe: Schema.optional(Schema.Boolean),
-      currency: Schema.optional(Schema.String),
-      externallyManaged: Schema.optional(Schema.Boolean),
-      frequency: Schema.optional(Schema.String),
-      isSubscribed: Schema.optional(Schema.Boolean),
-      legacyDiscount: Schema.optional(Schema.Boolean),
-      legacyId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      price: Schema.optional(Schema.Number),
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      canSubscribe: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      externallyManaged: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      isSubscribed: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      legacyDiscount: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -3845,28 +4251,46 @@ export const ListZonesResponse = Schema.Array(
         price: "price",
       }),
     ),
-    cnameSuffix: Schema.optional(Schema.String),
-    paused: Schema.optional(Schema.Boolean),
-    permissions: Schema.optional(Schema.Array(Schema.String)),
+    cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    permissions: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
     status: Schema.optional(
-      Schema.Literals(["initializing", "pending", "active", "moved"]),
+      Schema.Union([
+        Schema.Literals(["initializing", "pending", "active", "moved"]),
+        Schema.Null,
+      ]),
     ),
     tenant: Schema.optional(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-        name: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     tenantUnit: Schema.optional(
-      Schema.Struct({
-        id: Schema.optional(Schema.String),
-      }),
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
     type: Schema.optional(
-      Schema.Literals(["full", "partial", "secondary", "internal"]),
+      Schema.Union([
+        Schema.Literals(["full", "partial", "secondary", "internal"]),
+        Schema.Null,
+      ]),
     ),
-    vanityNameServers: Schema.optional(Schema.Array(Schema.String)),
-    verificationKey: Schema.optional(Schema.String),
+    vanityNameServers: Schema.optional(
+      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+    ),
+    verificationKey: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -3933,7 +4357,7 @@ export interface CreateZoneResponse {
   /** Identifier */
   id: string;
   /** The account the zone belongs to. */
-  account: { id?: string; name?: string };
+  account: { id?: string | null; name?: string | null };
   /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string | null;
   /** When the zone was created. */
@@ -3942,13 +4366,13 @@ export interface CreateZoneResponse {
   developmentMode: number;
   /** Metadata about the zone. */
   meta: {
-    cdnOnly?: boolean;
-    customCertificateQuota?: number;
-    dnsOnly?: boolean;
-    foundationDns?: boolean;
-    pageRuleQuota?: number;
-    phishingDetected?: boolean;
-    step?: number;
+    cdnOnly?: boolean | null;
+    customCertificateQuota?: number | null;
+    dnsOnly?: boolean | null;
+    foundationDns?: boolean | null;
+    pageRuleQuota?: number | null;
+    phishingDetected?: boolean | null;
+    step?: number | null;
   };
   /** When the zone was last modified. */
   modifiedOn: string;
@@ -3963,57 +4387,61 @@ export interface CreateZoneResponse {
   /** Registrar for the domain at the time of switching to Cloudflare. */
   originalRegistrar: string | null;
   /** The owner of the zone. */
-  owner: { id?: string; name?: string; type?: string };
+  owner: { id?: string | null; name?: string | null; type?: string | null };
   /** @deprecated Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zon */
   plan: {
-    id?: string;
-    canSubscribe?: boolean;
-    currency?: string;
-    externallyManaged?: boolean;
-    frequency?: string;
-    isSubscribed?: boolean;
-    legacyDiscount?: boolean;
-    legacyId?: string;
-    name?: string;
-    price?: number;
+    id?: string | null;
+    canSubscribe?: boolean | null;
+    currency?: string | null;
+    externallyManaged?: boolean | null;
+    frequency?: string | null;
+    isSubscribed?: boolean | null;
+    legacyDiscount?: boolean | null;
+    legacyId?: string | null;
+    name?: string | null;
+    price?: number | null;
   };
   /** Allows the customer to use a custom apex. _Tenants Only Configuration_. */
-  cnameSuffix?: string;
+  cnameSuffix?: string | null;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean;
+  paused?: boolean | null;
   /** @deprecated This has been replaced by Account memberships. */
-  permissions?: string[];
+  permissions?: string[] | null;
   /** The zone status on Cloudflare. */
-  status?: "initializing" | "pending" | "active" | "moved";
+  status?: "initializing" | "pending" | "active" | "moved" | null;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: { id?: string; name?: string };
+  tenant?: { id?: string | null; name?: string | null } | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: { id?: string };
+  tenantUnit?: { id?: string | null } | null;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: "full" | "partial" | "secondary" | "internal";
+  type?: "full" | "partial" | "secondary" | "internal" | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: string[];
+  vanityNameServers?: string[] | null;
   /** Verification key for partial zone setup. */
-  verificationKey?: string;
+  verificationKey?: string | null;
 }
 
 export const CreateZoneResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   activatedOn: Schema.Union([Schema.String, Schema.Null]),
   createdOn: Schema.String,
   developmentMode: Schema.Number,
   meta: Schema.Struct({
-    cdnOnly: Schema.optional(Schema.Boolean),
-    customCertificateQuota: Schema.optional(Schema.Number),
-    dnsOnly: Schema.optional(Schema.Boolean),
-    foundationDns: Schema.optional(Schema.Boolean),
-    pageRuleQuota: Schema.optional(Schema.Number),
-    phishingDetected: Schema.optional(Schema.Boolean),
-    step: Schema.optional(Schema.Number),
+    cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    customCertificateQuota: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    foundationDns: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    pageRuleQuota: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    phishingDetected: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       cdnOnly: "cdn_only",
@@ -4032,21 +4460,25 @@ export const CreateZoneResponse = Schema.Struct({
   originalNameServers: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
   owner: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   plan: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean),
-    currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean),
-    frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean),
-    legacyDiscount: Schema.optional(Schema.Boolean),
-    legacyId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    price: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    externallyManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    legacyDiscount: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -4061,28 +4493,44 @@ export const CreateZoneResponse = Schema.Struct({
       price: "price",
     }),
   ),
-  cnameSuffix: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  permissions: Schema.optional(Schema.Array(Schema.String)),
+  cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  permissions: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals(["initializing", "pending", "active", "moved"]),
+    Schema.Union([
+      Schema.Literals(["initializing", "pending", "active", "moved"]),
+      Schema.Null,
+    ]),
   ),
   tenant: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   tenantUnit: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   type: Schema.optional(
-    Schema.Literals(["full", "partial", "secondary", "internal"]),
+    Schema.Union([
+      Schema.Literals(["full", "partial", "secondary", "internal"]),
+      Schema.Null,
+    ]),
   ),
-  vanityNameServers: Schema.optional(Schema.Array(Schema.String)),
-  verificationKey: Schema.optional(Schema.String),
+  vanityNameServers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -4155,7 +4603,7 @@ export interface PatchZoneResponse {
   /** Identifier */
   id: string;
   /** The account the zone belongs to. */
-  account: { id?: string; name?: string };
+  account: { id?: string | null; name?: string | null };
   /** The last time proof of ownership was detected and the zone was made active. */
   activatedOn: string | null;
   /** When the zone was created. */
@@ -4164,13 +4612,13 @@ export interface PatchZoneResponse {
   developmentMode: number;
   /** Metadata about the zone. */
   meta: {
-    cdnOnly?: boolean;
-    customCertificateQuota?: number;
-    dnsOnly?: boolean;
-    foundationDns?: boolean;
-    pageRuleQuota?: number;
-    phishingDetected?: boolean;
-    step?: number;
+    cdnOnly?: boolean | null;
+    customCertificateQuota?: number | null;
+    dnsOnly?: boolean | null;
+    foundationDns?: boolean | null;
+    pageRuleQuota?: number | null;
+    phishingDetected?: boolean | null;
+    step?: number | null;
   };
   /** When the zone was last modified. */
   modifiedOn: string;
@@ -4185,57 +4633,61 @@ export interface PatchZoneResponse {
   /** Registrar for the domain at the time of switching to Cloudflare. */
   originalRegistrar: string | null;
   /** The owner of the zone. */
-  owner: { id?: string; name?: string; type?: string };
+  owner: { id?: string | null; name?: string | null; type?: string | null };
   /** @deprecated Please use the `/zones/{zone_id}/subscription` API to update a zone's plan. Changing this value will create/cancel associated subscriptions. To view available plans for this zone, see [Zon */
   plan: {
-    id?: string;
-    canSubscribe?: boolean;
-    currency?: string;
-    externallyManaged?: boolean;
-    frequency?: string;
-    isSubscribed?: boolean;
-    legacyDiscount?: boolean;
-    legacyId?: string;
-    name?: string;
-    price?: number;
+    id?: string | null;
+    canSubscribe?: boolean | null;
+    currency?: string | null;
+    externallyManaged?: boolean | null;
+    frequency?: string | null;
+    isSubscribed?: boolean | null;
+    legacyDiscount?: boolean | null;
+    legacyId?: string | null;
+    name?: string | null;
+    price?: number | null;
   };
   /** Allows the customer to use a custom apex. _Tenants Only Configuration_. */
-  cnameSuffix?: string;
+  cnameSuffix?: string | null;
   /** Indicates whether the zone is only using Cloudflare DNS services. A true value means the zone will not receive security or performance benefits. */
-  paused?: boolean;
+  paused?: boolean | null;
   /** @deprecated This has been replaced by Account memberships. */
-  permissions?: string[];
+  permissions?: string[] | null;
   /** The zone status on Cloudflare. */
-  status?: "initializing" | "pending" | "active" | "moved";
+  status?: "initializing" | "pending" | "active" | "moved" | null;
   /** The root organizational unit that this zone belongs to (such as a tenant or organization). */
-  tenant?: { id?: string; name?: string };
+  tenant?: { id?: string | null; name?: string | null } | null;
   /** The immediate parent organizational unit that this zone belongs to (such as under a tenant or sub-organization). */
-  tenantUnit?: { id?: string };
+  tenantUnit?: { id?: string | null } | null;
   /** A full zone implies that DNS is hosted with Cloudflare. A partial zone is typically a partner-hosted zone or a CNAME setup. */
-  type?: "full" | "partial" | "secondary" | "internal";
+  type?: "full" | "partial" | "secondary" | "internal" | null;
   /** An array of domains used for custom name servers. This is only available for Business and Enterprise plans. */
-  vanityNameServers?: string[];
+  vanityNameServers?: string[] | null;
   /** Verification key for partial zone setup. */
-  verificationKey?: string;
+  verificationKey?: string | null;
 }
 
 export const PatchZoneResponse = Schema.Struct({
   id: Schema.String,
   account: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   activatedOn: Schema.Union([Schema.String, Schema.Null]),
   createdOn: Schema.String,
   developmentMode: Schema.Number,
   meta: Schema.Struct({
-    cdnOnly: Schema.optional(Schema.Boolean),
-    customCertificateQuota: Schema.optional(Schema.Number),
-    dnsOnly: Schema.optional(Schema.Boolean),
-    foundationDns: Schema.optional(Schema.Boolean),
-    pageRuleQuota: Schema.optional(Schema.Number),
-    phishingDetected: Schema.optional(Schema.Boolean),
-    step: Schema.optional(Schema.Number),
+    cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    customCertificateQuota: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    foundationDns: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    pageRuleQuota: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    phishingDetected: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       cdnOnly: "cdn_only",
@@ -4254,21 +4706,25 @@ export const PatchZoneResponse = Schema.Struct({
   originalNameServers: Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
   owner: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    type: Schema.optional(Schema.String),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
   plan: Schema.Struct({
-    id: Schema.optional(Schema.String),
-    canSubscribe: Schema.optional(Schema.Boolean),
-    currency: Schema.optional(Schema.String),
-    externallyManaged: Schema.optional(Schema.Boolean),
-    frequency: Schema.optional(Schema.String),
-    isSubscribed: Schema.optional(Schema.Boolean),
-    legacyDiscount: Schema.optional(Schema.Boolean),
-    legacyId: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    price: Schema.optional(Schema.Number),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    externallyManaged: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    legacyDiscount: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -4283,28 +4739,44 @@ export const PatchZoneResponse = Schema.Struct({
       price: "price",
     }),
   ),
-  cnameSuffix: Schema.optional(Schema.String),
-  paused: Schema.optional(Schema.Boolean),
-  permissions: Schema.optional(Schema.Array(Schema.String)),
+  cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  permissions: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
   status: Schema.optional(
-    Schema.Literals(["initializing", "pending", "active", "moved"]),
+    Schema.Union([
+      Schema.Literals(["initializing", "pending", "active", "moved"]),
+      Schema.Null,
+    ]),
   ),
   tenant: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   tenantUnit: Schema.optional(
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-    }),
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      Schema.Null,
+    ]),
   ),
   type: Schema.optional(
-    Schema.Literals(["full", "partial", "secondary", "internal"]),
+    Schema.Union([
+      Schema.Literals(["full", "partial", "secondary", "internal"]),
+      Schema.Null,
+    ]),
   ),
-  vanityNameServers: Schema.optional(Schema.Array(Schema.String)),
-  verificationKey: Schema.optional(Schema.String),
+  vanityNameServers: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
+  verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
 }).pipe(
   Schema.encodeKeys({
     id: "id",

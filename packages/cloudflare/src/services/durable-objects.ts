@@ -53,20 +53,20 @@ export const ListNamespacesRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListNamespacesRequest>;
 
 export type ListNamespacesResponse = {
-  id?: string;
-  class?: string;
-  name?: string;
-  script?: string;
-  useSqlite?: boolean;
+  id?: string | null;
+  class?: string | null;
+  name?: string | null;
+  script?: string | null;
+  useSqlite?: boolean | null;
 }[];
 
 export const ListNamespacesResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    class: Schema.optional(Schema.String),
-    name: Schema.optional(Schema.String),
-    script: Schema.optional(Schema.String),
-    useSqlite: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    class: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    useSqlite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -115,14 +115,14 @@ export const ListNamespaceObjectsRequest = Schema.Struct({
 ) as unknown as Schema.Schema<ListNamespaceObjectsRequest>;
 
 export type ListNamespaceObjectsResponse = {
-  id?: string;
-  hasStoredData?: boolean;
+  id?: string | null;
+  hasStoredData?: boolean | null;
 }[];
 
 export const ListNamespaceObjectsResponse = Schema.Array(
   Schema.Struct({
-    id: Schema.optional(Schema.String),
-    hasStoredData: Schema.optional(Schema.Boolean),
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    hasStoredData: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 

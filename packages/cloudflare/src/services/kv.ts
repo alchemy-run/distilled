@@ -99,13 +99,15 @@ export interface GetNamespaceResponse {
   /** A human-readable string name for a Namespace. */
   title: string;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean;
+  supportsUrlEncoding?: boolean | null;
 }
 
 export const GetNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+  supportsUrlEncoding: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -157,14 +159,16 @@ export const ListNamespacesRequest = Schema.Struct({
 export type ListNamespacesResponse = {
   id: string;
   title: string;
-  supportsUrlEncoding?: boolean;
+  supportsUrlEncoding?: boolean | null;
 }[];
 
 export const ListNamespacesResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
     title: Schema.String,
-    supportsUrlEncoding: Schema.optional(Schema.Boolean),
+    supportsUrlEncoding: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
   }).pipe(
     Schema.encodeKeys({
       id: "id",
@@ -210,13 +214,15 @@ export interface CreateNamespaceResponse {
   /** A human-readable string name for a Namespace. */
   title: string;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean;
+  supportsUrlEncoding?: boolean | null;
 }
 
 export const CreateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+  supportsUrlEncoding: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -267,13 +273,15 @@ export interface UpdateNamespaceResponse {
   /** A human-readable string name for a Namespace. */
   title: string;
   /** True if keys written on the URL will be URL-decoded before storing. For example, if set to "true", a key written on the URL as "%3F" will be stored as "?". */
-  supportsUrlEncoding?: boolean;
+  supportsUrlEncoding?: boolean | null;
 }
 
 export const UpdateNamespaceResponse = Schema.Struct({
   id: Schema.String,
   title: Schema.String,
-  supportsUrlEncoding: Schema.optional(Schema.Boolean),
+  supportsUrlEncoding: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     id: "id",
@@ -369,10 +377,12 @@ export const BulkGetNamespacesRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespacesRequest>;
 
-export type BulkGetNamespacesResponse = { values?: Record<string, unknown> };
+export type BulkGetNamespacesResponse = {
+  values?: Record<string, unknown> | null;
+};
 
 export const BulkGetNamespacesResponse = Schema.Struct({
-  values: Schema.optional(Schema.Struct({})),
+  values: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
 }) as unknown as Schema.Schema<BulkGetNamespacesResponse>;
 
 export type BulkGetNamespacesError =
@@ -419,14 +429,18 @@ export const BulkDeleteNamespacesRequest = Schema.Struct({
 
 export interface BulkDeleteNamespacesResponse {
   /** Number of keys successfully updated. */
-  successfulKeyCount?: number;
+  successfulKeyCount?: number | null;
   /** Name of the keys that failed to be fully updated. They should be retried. */
-  unsuccessfulKeys?: string[];
+  unsuccessfulKeys?: string[] | null;
 }
 
 export const BulkDeleteNamespacesResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+  successfulKeyCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  unsuccessfulKeys: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     successfulKeyCount: "successful_key_count",
@@ -479,15 +493,15 @@ export const ListNamespaceKeysRequest = Schema.Struct({
 
 export type ListNamespaceKeysResponse = {
   name: string;
-  expiration?: number;
-  metadata?: unknown;
+  expiration?: number | null;
+  metadata?: unknown | null;
 }[];
 
 export const ListNamespaceKeysResponse = Schema.Array(
   Schema.Struct({
     name: Schema.String,
-    expiration: Schema.optional(Schema.Number),
-    metadata: Schema.optional(Schema.Unknown),
+    expiration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    metadata: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   }),
 ) as unknown as Schema.Schema<ListNamespaceKeysResponse>;
 
@@ -529,10 +543,12 @@ export const BulkGetNamespaceKeysRequest = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkGetNamespaceKeysRequest>;
 
-export type BulkGetNamespaceKeysResponse = { values?: Record<string, unknown> };
+export type BulkGetNamespaceKeysResponse = {
+  values?: Record<string, unknown> | null;
+};
 
 export const BulkGetNamespaceKeysResponse = Schema.Struct({
-  values: Schema.optional(Schema.Struct({})),
+  values: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
 }) as unknown as Schema.Schema<BulkGetNamespaceKeysResponse>;
 
 export type BulkGetNamespaceKeysError =
@@ -573,14 +589,18 @@ export const BulkDeleteNamespaceKeysRequest = Schema.Struct({
 
 export interface BulkDeleteNamespaceKeysResponse {
   /** Number of keys successfully updated. */
-  successfulKeyCount?: number;
+  successfulKeyCount?: number | null;
   /** Name of the keys that failed to be fully updated. They should be retried. */
-  unsuccessfulKeys?: string[];
+  unsuccessfulKeys?: string[] | null;
 }
 
 export const BulkDeleteNamespaceKeysResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+  successfulKeyCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  unsuccessfulKeys: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     successfulKeyCount: "successful_key_count",
@@ -839,14 +859,18 @@ export const BulkPutNamespacesRequest = Schema.Struct({
 
 export interface BulkPutNamespacesResponse {
   /** Number of keys successfully updated. */
-  successfulKeyCount?: number;
+  successfulKeyCount?: number | null;
   /** Name of the keys that failed to be fully updated. They should be retried. */
-  unsuccessfulKeys?: string[];
+  unsuccessfulKeys?: string[] | null;
 }
 
 export const BulkPutNamespacesResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+  successfulKeyCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  unsuccessfulKeys: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     successfulKeyCount: "successful_key_count",
@@ -921,14 +945,18 @@ export const BulkPutNamespaceKeysRequest = Schema.Struct({
 
 export interface BulkPutNamespaceKeysResponse {
   /** Number of keys successfully updated. */
-  successfulKeyCount?: number;
+  successfulKeyCount?: number | null;
   /** Name of the keys that failed to be fully updated. They should be retried. */
-  unsuccessfulKeys?: string[];
+  unsuccessfulKeys?: string[] | null;
 }
 
 export const BulkPutNamespaceKeysResponse = Schema.Struct({
-  successfulKeyCount: Schema.optional(Schema.Number),
-  unsuccessfulKeys: Schema.optional(Schema.Array(Schema.String)),
+  successfulKeyCount: Schema.optional(
+    Schema.Union([Schema.Number, Schema.Null]),
+  ),
+  unsuccessfulKeys: Schema.optional(
+    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  ),
 }).pipe(
   Schema.encodeKeys({
     successfulKeyCount: "successful_key_count",
