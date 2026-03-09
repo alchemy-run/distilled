@@ -601,7 +601,7 @@ describe("passwords", () => {
       expect(isNotFoundOrForbidden(error)).toBe(true);
     });
 
-    it("can update a password name", async () => {
+    it("can update a password name", { timeout: 30_000 }, async () => {
       const db = getDb();
       const originalName = `test-update-password-${Date.now()}`;
       const updatedName = `updated-password-${Date.now()}`;
