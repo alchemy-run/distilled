@@ -73,6 +73,8 @@ jobs:
           role-to-assume: arn:aws:iam::391965393224:role/distilled-github-oidc-role
           aws-region: us-west-2
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun run check
         working-directory: packages/aws
       - run: bun run test
@@ -88,6 +90,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun run check
         working-directory: packages/cloudflare
       - run: bun run test
@@ -110,6 +114,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun run check
         working-directory: packages/gcp
 
@@ -123,6 +129,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun run check
         working-directory: packages/neon
       - run: bun run test
@@ -140,6 +148,8 @@ jobs:
         with:
           bun-version: latest
       - run: bun install
+      - run: bun run build
+        working-directory: packages/core
       - run: bun run check
         working-directory: packages/planetscale
       - run: bun run test
