@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import { applyAllPatches } from "@distilled.cloud/sdk-core/json-patch";
+ * import { applyAllPatches } from "@distilled.cloud/core/json-patch";
  *
  * const spec = JSON.parse(fs.readFileSync("openapi.json", "utf-8"));
  * const { applied, errors } = applyAllPatches(spec, "./patches");

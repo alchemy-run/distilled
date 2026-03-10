@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import * as Category from "@distilled.cloud/sdk-core/category";
+ * import * as Category from "@distilled.cloud/core/category";
  *
  * export class Unauthorized extends Schema.TaggedErrorClass<Unauthorized>()(
  *   "Unauthorized",

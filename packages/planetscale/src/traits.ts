@@ -9,4 +9,4 @@
  * import * as T from "@distilled.cloud/planetscale/traits";
  * ```
  */
-export * from "@distilled.cloud/sdk-core/traits";
+export * from "@distilled.cloud/core/traits";

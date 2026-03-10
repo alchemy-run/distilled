@@ -1,9 +1,9 @@
 /**
  * GCP traits - re-exports shared traits and adds GCP-specific ones.
  */
-export * from "@distilled.cloud/sdk-core/traits";
+export * from "@distilled.cloud/core/traits";
 
-import { makeAnnotation } from "@distilled.cloud/sdk-core/traits";
+import { makeAnnotation } from "@distilled.cloud/core/traits";
 
 // =============================================================================
 // GCP-specific Error Matcher Traits

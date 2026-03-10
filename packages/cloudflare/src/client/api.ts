@@ -13,7 +13,7 @@ import {
   type ApiErrorClass,
   type OperationMethod,
   type PaginatedOperationMethod,
-} from "@distilled.cloud/sdk-core/client";
+} from "@distilled.cloud/core/client";
 import { CloudflareHttpError, UnknownCloudflareError } from "../errors.ts";
 import { Credentials } from "../credentials.ts";
 import { type ErrorMatcher, getErrorMatchers } from "../traits.ts";

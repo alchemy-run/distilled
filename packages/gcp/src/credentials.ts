@@ -1,7 +1,7 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
-import { ConfigError } from "@distilled.cloud/sdk-core/errors";
+import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
   readonly accessToken: string;

@@ -1,12 +1,9 @@
 /**
  * Cloudflare traits - re-exports shared traits and adds Cloudflare-specific ones.
  */
-export * from "@distilled.cloud/sdk-core/traits";
+export * from "@distilled.cloud/core/traits";
 
-import {
-  makeAnnotation,
-  getAnnotation,
-} from "@distilled.cloud/sdk-core/traits";
+import { makeAnnotation, getAnnotation } from "@distilled.cloud/core/traits";
 import * as AST from "effect/SchemaAST";
 
 // =============================================================================

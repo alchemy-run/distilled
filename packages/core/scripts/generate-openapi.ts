@@ -13,7 +13,7 @@
  *
  * @example
  * ```ts
- * import { generateFromOpenAPI } from "@distilled.cloud/sdk-core/openapi/generate";
+ * import { generateFromOpenAPI } from "@distilled.cloud/core/openapi/generate";
  *
  * generateFromOpenAPI({
  *   specPath: "specs/openapi.json",
@@ -176,7 +176,7 @@ export interface GeneratorConfig {
   importPrefix: string;
   /** Client import path (e.g., "../client") */
   clientImport?: string;
-  /** Traits import path (e.g., "../traits" or "@distilled.cloud/sdk-core/traits") */
+  /** Traits import path (e.g., "../traits" or "@distilled.cloud/core/traits") */
   traitsImport?: string;
   /** Sensitive import path */
   sensitiveImport?: string;
@@ -626,9 +626,11 @@ function generateInputSchemaSwagger(
     }
   }
 
-  const inputSchemaCode = annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
+  const inputSchemaCode =
+    annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) + `
+}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) +
+    `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 
   return { inputSchemaCode, inputSchemaName };
@@ -741,9 +743,11 @@ function generateInputSchema3(
     }
   }
 
-  const inputSchemaCode = annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
+  const inputSchemaCode =
+    annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) + `
+}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) +
+    `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 
   return { inputSchemaCode, inputSchemaName };

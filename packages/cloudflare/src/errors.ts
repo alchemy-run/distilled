@@ -15,11 +15,11 @@ export {
   HTTP_STATUS_MAP,
   DEFAULT_ERRORS,
   API_ERRORS,
-} from "@distilled.cloud/sdk-core/errors";
-export type { DefaultErrors } from "@distilled.cloud/sdk-core/errors";
+} from "@distilled.cloud/core/errors";
+export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Schema from "effect/Schema";
-import * as Category from "@distilled.cloud/sdk-core/category";
+import * as Category from "@distilled.cloud/core/category";
 
 // Generic Cloudflare API Error
 export class CloudflareApiError extends Schema.TaggedErrorClass<CloudflareApiError>()(

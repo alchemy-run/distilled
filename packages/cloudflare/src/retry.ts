@@ -10,12 +10,12 @@ export {
   capped,
   throttlingOptions,
   transientOptions,
-} from "@distilled.cloud/sdk-core/retry";
+} from "@distilled.cloud/core/retry";
 import {
   type Policy,
   throttlingOptions,
   transientOptions,
-} from "@distilled.cloud/sdk-core/retry";
+} from "@distilled.cloud/core/retry";
 
 export class Retry extends ServiceMap.Service<Retry, Policy>()(
   "CloudflareRetry",

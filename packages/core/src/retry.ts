@@ -7,7 +7,7 @@
  *
  * @example
  * ```ts
- * import * as Retry from "@distilled.cloud/sdk-core/retry";
+ * import * as Retry from "@distilled.cloud/core/retry";
  *
  * // Use the default retry policy
  * myEffect.pipe(Retry.policy(myRetryService, Retry.makeDefault()))

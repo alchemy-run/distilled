@@ -9,7 +9,10 @@
   "type": "module",
   "sideEffects": false,
   "module": "src/index.ts",
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -70,7 +73,7 @@
     "specs:update": "git -C specs/distilled-spec-neon fetch && git -C specs/distilled-spec-neon checkout main && git -C specs/distilled-spec-neon pull"
   },
   "dependencies": {
-    "@distilled.cloud/sdk-core": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {

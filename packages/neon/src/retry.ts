@@ -13,8 +13,8 @@ export {
   capped,
   throttlingOptions,
   transientOptions,
-} from "@distilled.cloud/sdk-core/retry";
-import type { Policy } from "@distilled.cloud/sdk-core/retry";
+} from "@distilled.cloud/core/retry";
+import type { Policy } from "@distilled.cloud/core/retry";
 
 /**
  * Context tag for configuring retry behavior of Neon API calls.

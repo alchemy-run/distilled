@@ -11,7 +11,7 @@
  *
  * @example
  * ```ts
- * import * as Pagination from "@distilled.cloud/sdk-core/pagination";
+ * import * as Pagination from "@distilled.cloud/core/pagination";
  *
  * // Page-based pagination
  * const allPages = Pagination.paginatePages(listDatabases, { organization: "my-org" }, {

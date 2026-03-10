@@ -10,7 +10,7 @@ import {
   makeAPI,
   type OperationMethod,
   type PaginatedOperationMethod,
-} from "@distilled.cloud/sdk-core/client";
+} from "@distilled.cloud/core/client";
 import { HTTP_STATUS_MAP, GCPApiError, GCPParseError } from "../errors.ts";
 import { Credentials } from "../credentials.ts";
 

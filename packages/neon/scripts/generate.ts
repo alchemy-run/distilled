@@ -5,7 +5,7 @@
  * from the Neon OpenAPI 3.0 spec.
  */
 import * as path from "path";
-import { generateFromOpenAPI } from "@distilled.cloud/sdk-core/openapi/generate";
+import { generateFromOpenAPI } from "@distilled.cloud/core/openapi/generate";
 
 const rootDir = path.join(import.meta.dir, "..");
 

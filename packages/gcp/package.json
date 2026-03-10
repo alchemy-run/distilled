@@ -8,7 +8,10 @@
   },
   "type": "module",
   "sideEffects": false,
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "exports": {
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -54,7 +57,7 @@
     "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"
   },
   "dependencies": {
-    "@distilled.cloud/sdk-core": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {

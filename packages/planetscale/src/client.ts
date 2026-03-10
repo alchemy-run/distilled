@@ -6,7 +6,7 @@
  */
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { makeAPI } from "@distilled.cloud/sdk-core/client";
+import { makeAPI } from "@distilled.cloud/core/client";
 import {
   HTTP_STATUS_MAP,
   PlanetScaleApiError,

@@ -9,7 +9,7 @@
  *
  * @example
  * ```ts
- * import { API } from "@distilled.cloud/sdk-core/client";
+ * import { API } from "@distilled.cloud/core/client";
  *
  * const listDatabases = API.make(() => ({
  *   inputSchema: ListDatabasesInput,

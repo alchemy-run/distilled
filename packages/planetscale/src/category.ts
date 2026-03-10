@@ -9,4 +9,4 @@
  * import * as Category from "@distilled.cloud/planetscale/category";
  * ```
  */
-export * from "@distilled.cloud/sdk-core/category";
+export * from "@distilled.cloud/core/category";

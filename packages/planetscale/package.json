@@ -9,7 +9,10 @@
   "type": "module",
   "sideEffects": false,
   "module": "src/index.ts",
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -70,7 +73,7 @@
     "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
   },
   "dependencies": {
-    "@distilled.cloud/sdk-core": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {

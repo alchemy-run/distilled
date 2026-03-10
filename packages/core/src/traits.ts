@@ -9,7 +9,7 @@
  *
  * @example
  * ```ts
- * import * as T from "@distilled.cloud/sdk-core/traits";
+ * import * as T from "@distilled.cloud/core/traits";
  *
  * const GetDatabaseInput = Schema.Struct({
  *   organization: Schema.String.pipe(T.PathParam()),

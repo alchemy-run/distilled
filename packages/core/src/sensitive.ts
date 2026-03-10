@@ -6,7 +6,7 @@
  *
  * @example
  * ```ts
- * import { SensitiveString } from "@distilled.cloud/sdk-core/sensitive";
+ * import { SensitiveString } from "@distilled.cloud/core/sensitive";
  *
  * const Password = Schema.Struct({ plain_text: SensitiveString });
  *
