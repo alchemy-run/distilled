@@ -85,10 +85,26 @@ export class InternalServerError extends Schema.TaggedErrorClass<InternalServerE
 ).pipe(Category.withServerError, Category.withRetryable()) {}
 
 /**
+ * BadGateway - Bad gateway (502).
+ */
+export class BadGateway extends Schema.TaggedErrorClass<BadGateway>()(
+  "BadGateway",
+  { message: Schema.String },
+).pipe(Category.withServerError, Category.withRetryable()) {}
+
+/**
  * ServiceUnavailable - Service unavailable (503).
  */
 export class ServiceUnavailable extends Schema.TaggedErrorClass<ServiceUnavailable>()(
   "ServiceUnavailable",
+  { message: Schema.String },
+).pipe(Category.withServerError, Category.withRetryable()) {}
+
+/**
+ * GatewayTimeout - Gateway timeout (504).
+ */
+export class GatewayTimeout extends Schema.TaggedErrorClass<GatewayTimeout>()(
+  "GatewayTimeout",
   { message: Schema.String },
 ).pipe(Category.withServerError, Category.withRetryable()) {}
 
@@ -117,14 +133,16 @@ export const HTTP_STATUS_MAP = {
   423: Locked,
   429: TooManyRequests,
   500: InternalServerError,
+  502: BadGateway,
   503: ServiceUnavailable,
+  504: GatewayTimeout,
 } as const;
 
 /**
  * HTTP status codes that are considered "default" errors (always present).
  * These are excluded from per-operation error types since they're handled globally.
  */
-export const DEFAULT_ERROR_STATUSES = new Set([401, 429, 500, 503]);
+export const DEFAULT_ERROR_STATUSES = new Set([401, 429, 500, 502, 503, 504]);
 
 /**
  * All common API error classes.
@@ -139,7 +157,9 @@ export const API_ERRORS = [
   TooManyRequests,
   Locked,
   InternalServerError,
+  BadGateway,
   ServiceUnavailable,
+  GatewayTimeout,
 ] as const;
 
 /**
@@ -150,7 +170,9 @@ export const DEFAULT_ERRORS = [
   Unauthorized,
   TooManyRequests,
   InternalServerError,
+  BadGateway,
   ServiceUnavailable,
+  GatewayTimeout,
 ] as const;
 
 export type DefaultErrors = InstanceType<(typeof DEFAULT_ERRORS)[number]>;

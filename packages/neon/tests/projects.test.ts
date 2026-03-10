@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { NeonApiError } from "../src/client";
+import { UnknownNeonError } from "../src/client";
 import { Forbidden, NotFound } from "../src/errors";
 import { createProject } from "../src/operations/createProject";
 import { deleteProject } from "../src/operations/deleteProject";
@@ -36,7 +36,7 @@ const isNotFoundOrForbidden = (error: unknown): boolean =>
 const isApiError = (error: unknown): boolean =>
   error instanceof NotFound ||
   error instanceof Forbidden ||
-  error instanceof NeonApiError ||
+  error instanceof UnknownNeonError ||
   (error !== null && typeof error === "object" && "_tag" in error);
 
 describe("projects", () => {

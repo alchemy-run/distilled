@@ -7,10 +7,10 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
-import { HTTP_STATUS_MAP, NeonApiError, NeonParseError } from "./errors.ts";
+import { HTTP_STATUS_MAP, UnknownNeonError, NeonParseError } from "./errors.ts";
 
-// Re-export for backwards compatibility (tests import NeonApiError from client)
-export { NeonApiError } from "./errors.ts";
+// Re-export for backwards compatibility (tests import UnknownNeonError from client)
+export { UnknownNeonError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema
@@ -33,14 +33,14 @@ const matchError = (
       return Effect.fail(new ErrorClass({ message: parsed.message ?? "" }));
     }
     return Effect.fail(
-      new NeonApiError({
+      new UnknownNeonError({
         code: parsed.code,
         message: parsed.message,
         body: errorBody,
       }),
     );
   } catch {
-    return Effect.fail(new NeonApiError({ body: errorBody }));
+    return Effect.fail(new UnknownNeonError({ body: errorBody }));
   }
 };
 

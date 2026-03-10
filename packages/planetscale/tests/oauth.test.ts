@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
-import { PlanetScaleApiError } from "../src/client";
+import { UnknownPlanetScaleError } from "../src/client";
 import { Credentials } from "../src/credentials";
 import { Forbidden, NotFound, Unauthorized } from "../src/errors";
 import { createOauthToken } from "../src/operations/createOauthToken";
@@ -28,13 +28,13 @@ const isNotFoundOrForbiddenOrUnauthorized = (error: unknown): boolean =>
 
 /**
  * Helper to check if an error is any API error type.
- * Includes both specific error types and the generic PlanetScaleApiError.
+ * Includes both specific error types and the generic UnknownPlanetScaleError.
  */
 const isApiError = (error: unknown): boolean =>
   error instanceof NotFound ||
   error instanceof Forbidden ||
   error instanceof Unauthorized ||
-  error instanceof PlanetScaleApiError ||
+  error instanceof UnknownPlanetScaleError ||
   (error !== null && typeof error === "object" && "_tag" in error);
 
 /**

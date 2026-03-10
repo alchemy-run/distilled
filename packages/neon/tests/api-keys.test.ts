@@ -1,7 +1,7 @@
 import { Effect } from "effect";
 import { describe, expect, it } from "vitest";
 import { Forbidden, NotFound, Unauthorized } from "../src/errors";
-import { NeonApiError } from "../src/client";
+import { UnknownNeonError } from "../src/client";
 import { listApiKeys } from "../src/operations/listApiKeys";
 import { createApiKey } from "../src/operations/createApiKey";
 import { revokeApiKey } from "../src/operations/revokeApiKey";
@@ -24,7 +24,7 @@ const isNotFoundOrForbidden = (error: unknown): boolean =>
 const isNotAllowed = (error: unknown): boolean =>
   error instanceof Forbidden ||
   error instanceof Unauthorized ||
-  (error instanceof NeonApiError && error.message.includes("not allowed")) ||
+  (error instanceof UnknownNeonError && error.message.includes("not allowed")) ||
   // Neon returns 404 with "not allowed for organization API keys" message
   (error instanceof NotFound && error.message.includes("not allowed"));
 

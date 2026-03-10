@@ -9,12 +9,12 @@ import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
 import {
   HTTP_STATUS_MAP,
-  PlanetScaleApiError,
+  UnknownPlanetScaleError,
   PlanetScaleParseError,
 } from "./errors.ts";
 
-// Re-export for backwards compatibility (tests import PlanetScaleApiError from client)
-export { PlanetScaleApiError } from "./errors.ts";
+// Re-export for backwards compatibility (tests import UnknownPlanetScaleError from client)
+export { UnknownPlanetScaleError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema
@@ -37,14 +37,14 @@ const matchError = (
       return Effect.fail(new ErrorClass({ message: parsed.message ?? "" }));
     }
     return Effect.fail(
-      new PlanetScaleApiError({
+      new UnknownPlanetScaleError({
         code: parsed.code,
         message: parsed.message,
         body: errorBody,
       }),
     );
   } catch {
-    return Effect.fail(new PlanetScaleApiError({ body: errorBody }));
+    return Effect.fail(new UnknownPlanetScaleError({ body: errorBody }));
   }
 };
 

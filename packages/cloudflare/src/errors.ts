@@ -2,10 +2,12 @@
  * Cloudflare-specific error types.
  */
 export {
+  BadGateway,
   BadRequest,
   Conflict,
   ConfigError,
   Forbidden,
+  GatewayTimeout,
   InternalServerError,
   NotFound,
   ServiceUnavailable,
@@ -20,16 +22,6 @@ export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
-
-// Generic Cloudflare API Error
-export class CloudflareApiError extends Schema.TaggedErrorClass<CloudflareApiError>()(
-  "CloudflareApiError",
-  {
-    code: Schema.optional(Schema.Number),
-    message: Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  },
-).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
 export class CloudflareParseError extends Schema.TaggedErrorClass<CloudflareParseError>()(

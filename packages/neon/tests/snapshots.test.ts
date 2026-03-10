@@ -1,6 +1,6 @@
 import { Effect, Schedule } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { NeonApiError } from "../src/client";
+import { UnknownNeonError } from "../src/client";
 import { BadRequest, Forbidden, NotFound } from "../src/errors";
 import { createSnapshot } from "../src/operations/createSnapshot";
 import { deleteSnapshot } from "../src/operations/deleteSnapshot";
@@ -36,7 +36,7 @@ const isNotFoundOrForbidden = (error: unknown): boolean =>
 const isFeatureNotAvailable = (error: unknown): boolean =>
   error instanceof BadRequest ||
   error instanceof Forbidden ||
-  (error instanceof NeonApiError &&
+  (error instanceof UnknownNeonError &&
     (error.message.includes("not available") ||
       error.message.includes("not enabled") ||
       error.message.includes("plan")));

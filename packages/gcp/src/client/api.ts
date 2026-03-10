@@ -11,7 +11,7 @@ import {
   type OperationMethod,
   type PaginatedOperationMethod,
 } from "@distilled.cloud/core/client";
-import { HTTP_STATUS_MAP, GCPApiError, GCPParseError } from "../errors.ts";
+import { HTTP_STATUS_MAP, UnknownGCPError, GCPParseError } from "../errors.ts";
 import { Credentials } from "../credentials.ts";
 
 export type { OperationMethod, PaginatedOperationMethod };
@@ -33,7 +33,7 @@ const matchError = (
     return Effect.fail(new ErrorClass({ message }));
   }
   return Effect.fail(
-    new GCPApiError({ code: status, message, body: errorBody }),
+    new UnknownGCPError({ code: status, message, body: errorBody }),
   );
 };
 

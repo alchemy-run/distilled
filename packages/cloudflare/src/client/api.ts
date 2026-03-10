@@ -14,9 +14,53 @@ import {
   type OperationMethod,
   type PaginatedOperationMethod,
 } from "@distilled.cloud/core/client";
-import { CloudflareHttpError, UnknownCloudflareError } from "../errors.ts";
+import {
+  CloudflareHttpError,
+  HTTP_STATUS_MAP,
+  InternalServerError,
+  TooManyRequests,
+  UnknownCloudflareError,
+} from "../errors.ts";
 import { Credentials } from "../credentials.ts";
 import { type ErrorMatcher, getErrorMatchers } from "../traits.ts";
+
+// ============================================================================
+// Global Cloudflare error codes
+// ============================================================================
+
+/**
+ * Cloudflare error codes that map to global/default errors regardless of operation.
+ * These are infrastructure-level errors that can occur on any endpoint.
+ */
+const GLOBAL_ERROR_CODE_MAP: Record<number, (message: string) => unknown> = {
+  // "Please wait and consider throttling your request speed"
+  971: (message) => new TooManyRequests({ message }),
+};
+
+/**
+ * Create an appropriate error for an HTTP status code.
+ *
+ * For status codes in HTTP_STATUS_MAP (400, 401, 500, 502, 503, 504, etc.),
+ * returns the properly categorized error (with retry categories for 5xx).
+ * For unmapped 5xx codes (e.g., Cloudflare-specific 520-530), returns a
+ * CloudflareHttpError so the status is preserved.
+ */
+function httpStatusError(status: number, body?: string): unknown {
+  const ErrorClass = HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
+  if (ErrorClass) {
+    return new ErrorClass({ message: body ?? String(status) });
+  }
+  // For unmapped 5xx codes (e.g., Cloudflare-specific 520-530), use
+  // InternalServerError so they get ServerError + Retryable categories
+  if (status >= 500) {
+    return new InternalServerError({ message: body ?? String(status) });
+  }
+  return new CloudflareHttpError({
+    status,
+    statusText: String(status),
+    body,
+  });
+}
 
 export type { OperationMethod, PaginatedOperationMethod };
 
@@ -123,12 +167,18 @@ const matchError = (
   errorBody: unknown,
   errors?: readonly ApiErrorClass[],
 ): Effect.Effect<never, unknown> => {
-  // Handle non-JSON error responses (e.g., HTML from malformed URLs)
+  // Handle non-JSON error responses (e.g., HTML from malformed URLs, 520 pages)
   const isNonJsonError =
     typeof errorBody === "object" &&
     errorBody !== null &&
     "_nonJsonError" in errorBody;
   if (isNonJsonError) {
+    // For 5xx errors, return a properly categorized error so retries work
+    if (status >= 500) {
+      return Effect.fail(
+        httpStatusError(status, String((errorBody as any).body)),
+      );
+    }
     return Effect.fail(
       new CloudflareHttpError({
         status,
@@ -165,12 +215,17 @@ const matchError = (
 
   if (!isEnvelope) {
     // Not a Cloudflare envelope — HTTP-level error
+    // For 5xx errors, return a properly categorized error so retries work
+    const bodyStr =
+      typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody);
+    if (status >= 500) {
+      return Effect.fail(httpStatusError(status, bodyStr));
+    }
     return Effect.fail(
       new CloudflareHttpError({
         status,
         statusText: String(status),
-        body:
-          typeof errorBody === "string" ? errorBody : JSON.stringify(errorBody),
+        body: bodyStr,
       }),
     );
   }
@@ -219,6 +274,11 @@ const matchError = (
         ),
       ) as Effect.Effect<never, unknown>;
     }
+  }
+
+  // Check global error codes before falling through to unknown
+  if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
+    return Effect.fail(GLOBAL_ERROR_CODE_MAP[errorCode](errorMessage));
   }
 
   // No match — return unknown Cloudflare error

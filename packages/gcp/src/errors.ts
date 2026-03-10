@@ -2,10 +2,12 @@
  * GCP-specific error types.
  */
 export {
+  BadGateway,
   BadRequest,
   Conflict,
   ConfigError,
   Forbidden,
+  GatewayTimeout,
   InternalServerError,
   NotFound,
   ServiceUnavailable,
@@ -21,9 +23,9 @@ export type { DefaultErrors } from "@distilled.cloud/core/errors";
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 
-// Generic GCP API Error
-export class GCPApiError extends Schema.TaggedErrorClass<GCPApiError>()(
-  "GCPApiError",
+// Unknown GCP error - returned when an error code is not recognized
+export class UnknownGCPError extends Schema.TaggedErrorClass<UnknownGCPError>()(
+  "UnknownGCPError",
   {
     code: Schema.optional(Schema.Number),
     message: Schema.optional(Schema.String),

@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { NeonApiError } from "../src/client";
+import { UnknownNeonError } from "../src/client";
 import { Forbidden, NotFound } from "../src/errors";
 import { createProjectBranch } from "../src/operations/createProjectBranch";
 import { deleteProjectBranch } from "../src/operations/deleteProjectBranch";

@@ -5,10 +5,12 @@
  * error matching and API error types.
  */
 export {
+  BadGateway,
   BadRequest,
   Conflict,
   ConfigError,
   Forbidden,
+  GatewayTimeout,
   InternalServerError,
   NotFound,
   ServiceUnavailable,
@@ -30,9 +32,9 @@ import * as Category from "@distilled.cloud/core/category";
  */
 export { HTTP_STATUS_MAP as ERROR_CODE_MAP } from "@distilled.cloud/core/errors";
 
-// Generic API Error - uncategorized fallback
-export class PlanetScaleApiError extends Schema.TaggedErrorClass<PlanetScaleApiError>()(
-  "PlanetScaleApiError",
+// Unknown PlanetScale error - returned when an error code is not recognized
+export class UnknownPlanetScaleError extends Schema.TaggedErrorClass<UnknownPlanetScaleError>()(
+  "UnknownPlanetScaleError",
   {
     code: Schema.optional(Schema.String),
     message: Schema.optional(Schema.String),

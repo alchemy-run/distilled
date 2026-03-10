@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { PlanetScaleApiError } from "../src/client";
+import { UnknownPlanetScaleError } from "../src/client";
 import { Forbidden, NotFound } from "../src/errors";
 import { createQueryPatternsReport } from "../src/operations/createQueryPatternsReport";
 import { deleteQueryPatternsReport } from "../src/operations/deleteQueryPatternsReport";
@@ -31,12 +31,12 @@ const isNotFoundOrForbidden = (error: unknown): boolean =>
 
 /**
  * Helper to check if an error is any API error type.
- * Includes both specific error types and the generic PlanetScaleApiError.
+ * Includes both specific error types and the generic UnknownPlanetScaleError.
  */
 const isApiError = (error: unknown): boolean =>
   error instanceof NotFound ||
   error instanceof Forbidden ||
-  error instanceof PlanetScaleApiError ||
+  error instanceof UnknownPlanetScaleError ||
   (error !== null && typeof error === "object" && "_tag" in error);
 
 describe("query-patterns-reports", () => {

@@ -27,7 +27,7 @@ export class NotEntitled extends Schema.TaggedErrorClass<NotEntitled>()(
   "NotEntitled",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(NotEntitled, [{ code: 10403 }]);
+T.applyErrorMatchers(NotEntitled, [{ code: 10403 }, { code: 10404 }]);
 
 export class OperationNotFound extends Schema.TaggedErrorClass<OperationNotFound>()(
   "OperationNotFound",

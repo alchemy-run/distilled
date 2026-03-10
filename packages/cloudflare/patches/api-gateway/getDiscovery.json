@@ -1,6 +1,6 @@
 {
   "errors": {
     "InvalidObjectIdentifier": [{ "code": 7003 }],
-    "NotEntitled": [{ "code": 10403 }]
+    "NotEntitled": [{ "code": 10403 }, { "code": 10404 }]
   }
 }
