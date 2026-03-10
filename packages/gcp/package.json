@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/gcp",
-  "version": "0.2.0",
+  "version": "0.2.0-alpha",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
