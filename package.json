@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun --filter '@distilled.cloud/sdk-core' build && bun --filter '*' build",
+    "build": "bun --filter '@distilled.cloud/core' build && bun --filter '*' build",
     "typecheck": "bun --filter '*' typecheck",
     "fmt": "bun --filter '*' fmt",
     "lint": "bun --filter '*' lint",
@@ -13,7 +13,7 @@
     "specs:fetch": "bun --filter '*' specs:fetch",
     "specs:update": "bun --filter '*' specs:update",
     "bump": "bun ./scripts/bump.ts",
-    "publish:npm": "bun run --filter '@distilled.cloud/sdk-core' publish:npm && bun run --filter '*' publish:npm"
+    "publish:npm": "bun run --filter '@distilled.cloud/core' publish:npm && bun run --filter '*' publish:npm"
   },
   "workspaces": {
     "packages": [
