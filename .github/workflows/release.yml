@@ -77,7 +77,13 @@ jobs:
         if: ${{ !inputs.skip-github-release }}
         run: |
           if ! gh release view "v${{ steps.bump.outputs.version }}" >/dev/null 2>&1; then
-            bunx changelogithub
+            # Use previous tag as --from, or the release commit itself if no prior tags exist
+            PREV_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
+            if [ -n "$PREV_TAG" ]; then
+              bunx changelogithub --from "$PREV_TAG"
+            else
+              bunx changelogithub --from "v${{ steps.bump.outputs.version }}"
+            fi
           else
             echo "Release v${{ steps.bump.outputs.version }} already exists, skipping"
           fi
