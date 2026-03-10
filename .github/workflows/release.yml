@@ -112,13 +112,10 @@ jobs:
 
             # Use bun to pack (resolves catalog: deps), then npm to publish (OIDC auth)
             cd "packages/${pkg}"
-            bun pm pack --destination .
-            TARBALL=$(ls *.tgz)
-            echo "Publishing tarball: ${TARBALL}"
+            TARBALL=$(bun pm pack --quiet)
             npm publish "${TARBALL}" --access public
             rm -f "${TARBALL}"
             cd ../..
-
 
             echo "--- Published ${PKG_NAME}@${VERSION} ---"
           done
