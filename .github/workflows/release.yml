@@ -44,7 +44,9 @@ jobs:
           node-version: 22
 
       - name: Upgrade npm for OIDC trusted publishing
-        run: npm install -g npm@latest && npm --version
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -118,7 +120,12 @@ jobs:
             bun pm pack --destination .
             TARBALL=$(ls *.tgz 2>/dev/null | head -1)
             echo "Publishing tarball: ${TARBALL}"
-            npm publish "${TARBALL}" --access public
+            # Use --tag for prerelease versions (e.g. 0.2.0-alpha), otherwise use latest
+            TAG="latest"
+            if echo "${VERSION}" | grep -q '-'; then
+              TAG="next"
+            fi
+            npm publish "${TARBALL}" --access public --tag "${TAG}"
             rm -f *.tgz
             cd ../..
 
