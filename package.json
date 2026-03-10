@@ -11,7 +11,9 @@
     "test": "bun --filter '*' test",
     "generate": "bun --filter '*' generate",
     "specs:fetch": "bun --filter '*' specs:fetch",
-    "specs:update": "bun --filter '*' specs:update"
+    "specs:update": "bun --filter '*' specs:update",
+    "bump": "bun ./scripts/bump.ts",
+    "publish:npm": "bun run --filter '@distilled.cloud/sdk-core' publish:npm && bun run --filter '*' publish:npm"
   },
   "workspaces": {
     "packages": [
@@ -49,6 +51,7 @@
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "@typescript/native-preview": "catalog:",
+    "changelogithub": "^14.0.0",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
     "yaml": "catalog:"

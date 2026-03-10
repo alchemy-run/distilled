@@ -1,6 +1,11 @@
 {
   "name": "@distilled.cloud/sdk-core",
   "version": "0.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/core"
+  },
   "type": "module",
   "sideEffects": false,
   "files": ["lib", "src"],
@@ -56,7 +61,8 @@
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",
-    "test": "bunx vitest run test"
+    "test": "bunx vitest run test",
+    "publish:npm": "bun run build && bun publish --access public"
   },
   "dependencies": {
     "effect": "catalog:"
