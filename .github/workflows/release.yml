@@ -1,0 +1,112 @@
+name: Release NPM Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Bump type"
+        required: true
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      version-override:
+        description: "Exact version override (e.g. 0.2.0-alpha). Leave empty to use bump type."
+        required: false
+        type: string
+      skip-github-release:
+        description: "Skip creating git tag and GitHub release"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Bump versions
+        id: bump
+        run: |
+          if [ -n "${{ inputs.version-override }}" ]; then
+            bun ./scripts/bump.ts "${{ inputs.version-override }}"
+            VERSION="${{ inputs.version-override }}"
+          else
+            bun ./scripts/bump.ts "${{ inputs.bump }}"
+            VERSION=$(node -p "require('./packages/core/package.json').version")
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Commit version bump
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -A
+          git commit -m "chore(release): ${{ steps.bump.outputs.version }}"
+          git push
+
+      - name: Create and push tag
+        if: ${{ !inputs.skip-github-release }}
+        run: |
+          git tag -a "v${{ steps.bump.outputs.version }}" -m "Release v${{ steps.bump.outputs.version }}"
+          git push --tags
+
+      - name: Create GitHub Release
+        if: ${{ !inputs.skip-github-release }}
+        run: |
+          if ! gh release view "v${{ steps.bump.outputs.version }}" >/dev/null 2>&1; then
+            bunx changelogithub
+          else
+            echo "Release v${{ steps.bump.outputs.version }} already exists, skipping"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build all packages
+        run: bun run build
+
+      - name: Publish to NPM
+        run: |
+          VERSION="${{ steps.bump.outputs.version }}"
+          PACKAGES=(core aws cloudflare gcp neon planetscale)
+
+          for pkg in "${PACKAGES[@]}"; do
+            PKG_NAME=$(node -p "require('./packages/${pkg}/package.json').name")
+            echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+            if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+              echo "${PKG_NAME}@${VERSION} already published, skipping"
+              continue
+            fi
+
+            # Use bun to pack (resolves catalog: deps), then npm to publish (OIDC auth)
+            cd "packages/${pkg}"
+            TARBALL=$(bun pm pack --quiet)
+            npm publish "${TARBALL}" --access public
+            rm -f "${TARBALL}"
+            cd ../..
+
+            echo "--- Published ${PKG_NAME}@${VERSION} ---"
+          done
