@@ -1,5 +1,5 @@
 {
-  "name": "@distilled.cloud/sdk-core",
+  "name": "@distilled.cloud/core",
   "version": "0.2.0",
   "repository": {
     "type": "git",
@@ -8,7 +8,10 @@
   },
   "type": "module",
   "sideEffects": false,
-  "files": ["lib", "src"],
+  "files": [
+    "lib",
+    "src"
+  ],
   "exports": {
     "./category": {
       "types": "./lib/category.d.ts",
