@@ -66,6 +66,24 @@
         "effect": "catalog:",
       },
     },
+    "packages/coinbase": {
+      "name": "@distilled.cloud/coinbase",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+        "yaml": "^2.8.2",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
     "packages/core": {
       "name": "@distilled.cloud/core",
       "version": "0.2.0-alpha",
@@ -325,6 +343,8 @@
     "@distilled.cloud/aws": ["@distilled.cloud/aws@workspace:packages/aws"],
 
     "@distilled.cloud/cloudflare": ["@distilled.cloud/cloudflare@workspace:packages/cloudflare"],
+
+    "@distilled.cloud/coinbase": ["@distilled.cloud/coinbase@workspace:packages/coinbase"],
 
     "@distilled.cloud/core": ["@distilled.cloud/core@workspace:packages/core"],
 
