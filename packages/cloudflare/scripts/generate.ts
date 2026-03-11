@@ -44,6 +44,14 @@ function quotePropKey(name: string): string {
   return isValidIdentifier(name) ? name : `"${name}"`;
 }
 
+/** Ensure local relative module specifiers always include a `.ts` suffix. */
+function withTsExtension(specifier: string): string {
+  if (!specifier.startsWith(".") || /\.[^/]+$/.test(specifier)) {
+    return specifier;
+  }
+  return `${specifier}.ts`;
+}
+
 /**
  * Patch file structure (mirrors src/expr.ts OperationPatch).
  * Defined here to avoid cross-project imports.
@@ -1229,15 +1237,19 @@ function generateServiceFile(
   lines.push(
     `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
   );
-  lines.push(`import * as API from "../client/api.ts";`);
-  lines.push(`import * as T from "../traits";`);
-  lines.push(`import type { Credentials } from "../credentials";`);
+  lines.push(`import * as API from "${withTsExtension("../client/api")}";`);
+  lines.push(`import * as T from "${withTsExtension("../traits")}";`);
+  lines.push(
+    `import type { Credentials } from "${withTsExtension("../credentials")}";`,
+  );
   lines.push(`import {`);
   lines.push(`  type DefaultErrors,`);
-  lines.push(`} from "../errors";`);
+  lines.push(`} from "${withTsExtension("../errors")}";`);
   // Conditionally import UploadableSchema for file uploads
   if (hasFileUploads) {
-    lines.push(`import { UploadableSchema } from "../schemas";`);
+    lines.push(
+      `import { UploadableSchema } from "${withTsExtension("../schemas")}";`,
+    );
   }
   lines.push("");
 
