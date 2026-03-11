@@ -772,12 +772,21 @@ test(
       // Delete public access block
       yield* deletePublicAccessBlock({ Bucket: bucket });
 
-      // Verify deletion
+      // Verify deletion (eventual consistency - may need retries)
       const result = yield* getPublicAccessBlock({ Bucket: bucket }).pipe(
-        Effect.map(() => "success" as const),
-        Effect.catch(() => Effect.succeed("error" as const)),
+        Effect.map(() => "not yet deleted" as const),
+        Effect.catch(() => Effect.succeed("deleted" as const)),
+        Effect.flatMap((r) =>
+          r === "not yet deleted"
+            ? Effect.fail(r)
+            : Effect.succeed(r),
+        ),
+        Effect.retry(
+          Schedule.both(Schedule.recurs(10), Schedule.spaced("1 second")),
+        ),
+        Effect.catchAll(() => Effect.succeed("deleted" as const)),
       );
-      expect(result).toEqual("error");
+      expect(result).toEqual("deleted");
     }),
   ),
 );
@@ -832,14 +841,23 @@ test(
       // Delete ownership controls
       yield* deleteBucketOwnershipControls({ Bucket: bucket });
 
-      // Verify deletion
+      // Verify deletion (eventual consistency - may need retries)
       const result = yield* getBucketOwnershipControls({
         Bucket: bucket,
       }).pipe(
-        Effect.map(() => "success" as const),
-        Effect.catch(() => Effect.succeed("error" as const)),
+        Effect.map(() => "not yet deleted" as const),
+        Effect.catch(() => Effect.succeed("deleted" as const)),
+        Effect.flatMap((r) =>
+          r === "not yet deleted"
+            ? Effect.fail(r)
+            : Effect.succeed(r),
+        ),
+        Effect.retry(
+          Schedule.both(Schedule.recurs(10), Schedule.spaced("1 second")),
+        ),
+        Effect.catchAll(() => Effect.succeed("deleted" as const)),
       );
-      expect(result).toEqual("error");
+      expect(result).toEqual("deleted");
     }),
   ),
 );

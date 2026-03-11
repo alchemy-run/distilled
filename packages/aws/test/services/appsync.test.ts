@@ -519,14 +519,21 @@ const withDataSource = <A, E, R>(
 
         expect(result.status).toBeDefined();
 
-        // Wait for schema to be processed
-        yield* Effect.sleep("2 seconds");
-
-        // Verify types were created by listing them
+        // Poll for schema types (eventual consistency - schema creation is async)
         const types = yield* listTypes({
           apiId,
           format: "SDL",
-        });
+        }).pipe(
+          Effect.flatMap((result) => {
+            const queryType = result.types?.find((t) => t.name === "Query");
+            const itemType = result.types?.find((t) => t.name === "Item");
+            if (!queryType || !itemType) {
+              return Effect.fail("types not ready" as const);
+            }
+            return Effect.succeed(result);
+          }),
+          Effect.retry(retrySchedule),
+        );
 
         expect(types.types).toBeDefined();
 
