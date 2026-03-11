@@ -17689,7 +17689,7 @@ export const listDevices: API.OperationMethod<
 }));
 
 // =============================================================================
-// DeviceDevices_
+// DeviceDevice
 // =============================================================================
 
 export interface GetDeviceDevicesRequest {
@@ -17847,7 +17847,7 @@ export const GetDeviceDevicesResponse =
 
 export type GetDeviceDevicesError = DefaultErrors;
 
-export const getDeviceDevices_: API.OperationMethod<
+export const getDeviceDevices: API.OperationMethod<
   GetDeviceDevicesRequest,
   GetDeviceDevicesResponse,
   GetDeviceDevicesError,
@@ -17858,79 +17858,7 @@ export const getDeviceDevices_: API.OperationMethod<
   errors: [],
 }));
 
-export interface DeleteDeviceDevicesRequest {
-  deviceId: string;
-  accountId: string;
-}
-
-export const DeleteDeviceDevicesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
-    accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "/accounts/{account_id}/devices/physical-devices/{deviceId}",
-    }),
-  ) as unknown as Schema.Schema<DeleteDeviceDevicesRequest>;
-
-export type DeleteDeviceDevicesResponse = unknown;
-
-export const DeleteDeviceDevicesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteDeviceDevicesResponse>;
-
-export type DeleteDeviceDevicesError = DefaultErrors;
-
-export const deleteDeviceDevices_: API.OperationMethod<
-  DeleteDeviceDevicesRequest,
-  DeleteDeviceDevicesResponse,
-  DeleteDeviceDevicesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteDeviceDevicesRequest,
-  output: DeleteDeviceDevicesResponse,
-  errors: [],
-}));
-
-export interface RevokeDeviceDevicesRequest {
-  deviceId: string;
-  accountId: string;
-}
-
-export const RevokeDeviceDevicesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
-    accountId: Schema.String.pipe(T.HttpPath("account_id")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "/accounts/{account_id}/devices/physical-devices/{deviceId}/revoke",
-    }),
-  ) as unknown as Schema.Schema<RevokeDeviceDevicesRequest>;
-
-export type RevokeDeviceDevicesResponse = unknown;
-
-export const RevokeDeviceDevicesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<RevokeDeviceDevicesResponse>;
-
-export type RevokeDeviceDevicesError = DefaultErrors;
-
-export const revokeDeviceDevices_: API.OperationMethod<
-  RevokeDeviceDevicesRequest,
-  RevokeDeviceDevicesResponse,
-  RevokeDeviceDevicesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevokeDeviceDevicesRequest,
-  output: RevokeDeviceDevicesResponse,
-  errors: [],
-}));
-
-// =============================================================================
-// DeviceDevicesS
-// =============================================================================
-
-export interface ListDeviceDevicesSRequest {
+export interface ListDeviceDevicesRequest {
   /** Path param: */
   accountId: string;
   /** Query param: Filter by a one or more device IDs. */
@@ -17960,7 +17888,7 @@ export interface ListDeviceDevicesSRequest {
   sortOrder?: "asc" | "desc";
 }
 
-export const ListDeviceDevicesSRequest =
+export const ListDeviceDevicesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     accountId: Schema.String.pipe(T.HttpPath("account_id")),
     id: Schema.optional(Schema.Array(Schema.String)).pipe(T.HttpQuery("id")),
@@ -17995,9 +17923,9 @@ export const ListDeviceDevicesSRequest =
       method: "GET",
       path: "/accounts/{account_id}/devices/physical-devices",
     }),
-  ) as unknown as Schema.Schema<ListDeviceDevicesSRequest>;
+  ) as unknown as Schema.Schema<ListDeviceDevicesRequest>;
 
-export type ListDeviceDevicesSResponse = {
+export type ListDeviceDevicesResponse = {
   id: string;
   activeRegistrations: number;
   createdAt: string;
@@ -18031,7 +17959,7 @@ export type ListDeviceDevicesSResponse = {
   serialNumber?: string | null;
 }[];
 
-export const ListDeviceDevicesSResponse =
+export const ListDeviceDevicesResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     Schema.Struct({
       id: Schema.String,
@@ -18115,18 +18043,86 @@ export const ListDeviceDevicesSResponse =
         serialNumber: "serial_number",
       }),
     ),
-  ) as unknown as Schema.Schema<ListDeviceDevicesSResponse>;
+  ) as unknown as Schema.Schema<ListDeviceDevicesResponse>;
 
-export type ListDeviceDevicesSError = DefaultErrors;
+export type ListDeviceDevicesError = DefaultErrors;
 
-export const listDeviceDevicesS: API.OperationMethod<
-  ListDeviceDevicesSRequest,
-  ListDeviceDevicesSResponse,
-  ListDeviceDevicesSError,
+export const listDeviceDevices: API.OperationMethod<
+  ListDeviceDevicesRequest,
+  ListDeviceDevicesResponse,
+  ListDeviceDevicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListDeviceDevicesSRequest,
-  output: ListDeviceDevicesSResponse,
+  input: ListDeviceDevicesRequest,
+  output: ListDeviceDevicesResponse,
+  errors: [],
+}));
+
+export interface DeleteDeviceDevicesRequest {
+  deviceId: string;
+  accountId: string;
+}
+
+export const DeleteDeviceDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/devices/physical-devices/{deviceId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteDeviceDevicesRequest>;
+
+export type DeleteDeviceDevicesResponse = unknown;
+
+export const DeleteDeviceDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteDeviceDevicesResponse>;
+
+export type DeleteDeviceDevicesError = DefaultErrors;
+
+export const deleteDeviceDevices: API.OperationMethod<
+  DeleteDeviceDevicesRequest,
+  DeleteDeviceDevicesResponse,
+  DeleteDeviceDevicesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteDeviceDevicesRequest,
+  output: DeleteDeviceDevicesResponse,
+  errors: [],
+}));
+
+export interface RevokeDeviceDevicesRequest {
+  deviceId: string;
+  accountId: string;
+}
+
+export const RevokeDeviceDevicesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    deviceId: Schema.String.pipe(T.HttpPath("deviceId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/devices/physical-devices/{deviceId}/revoke",
+    }),
+  ) as unknown as Schema.Schema<RevokeDeviceDevicesRequest>;
+
+export type RevokeDeviceDevicesResponse = unknown;
+
+export const RevokeDeviceDevicesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<RevokeDeviceDevicesResponse>;
+
+export type RevokeDeviceDevicesError = DefaultErrors;
+
+export const revokeDeviceDevices: API.OperationMethod<
+  RevokeDeviceDevicesRequest,
+  RevokeDeviceDevicesResponse,
+  RevokeDeviceDevicesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevokeDeviceDevicesRequest,
+  output: RevokeDeviceDevicesResponse,
   errors: [],
 }));
 
