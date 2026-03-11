@@ -19,6 +19,11 @@
       "bun": "./src/services/*.ts",
       "default": "./lib/services/*.js"
     },
+    "./Auth": {
+      "types": "./lib/auth.d.ts",
+      "bun": "./src/auth.ts",
+      "default": "./lib/auth.js"
+    },
     "./Category": {
       "types": "./lib/category.d.ts",
       "bun": "./src/category.ts",
