@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as AI from "~/services/ai.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,10 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic finetune name for tests.
- * Follows the convention: distilled-cf-ai-{testname}
+ * Deterministic finetune name for tests with a random suffix to avoid collisions.
+ * Follows the convention: distilled-cf-ai-{testname}-{testRunId}
  */
-const finetuneName = (name: string) => `distilled-cf-ai-${name}`;
+const finetuneName = (name: string) => `distilled-cf-ai-${name}-${testRunId}`;
 
 // ============================================================================
 // AI Tests

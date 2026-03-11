@@ -12,6 +12,7 @@ import {
   runEffect,
   setupTestProject,
   teardownTestProject,
+  testRunId,
   TestLayer,
 } from "./setup";
 
@@ -232,7 +233,7 @@ describe("databases", () => {
   describe("createProjectBranchDatabase, updateProjectBranchDatabase & deleteProjectBranchDatabase", () => {
     it("can create, update, and delete a database", async () => {
       const proj = getProj();
-      const databaseName = `testdb_${Date.now()}`;
+      const databaseName = `testdb_${testRunId}`;
       let createdDatabaseName: string | null = null;
 
       try {
@@ -301,8 +302,8 @@ describe("databases", () => {
 
     it("can create multiple databases", async () => {
       const proj = getProj();
-      const databaseName1 = `testdb1_${Date.now()}`;
-      const databaseName2 = `testdb2_${Date.now()}`;
+      const databaseName1 = `testdb1_${testRunId}`;
+      const databaseName2 = `testdb2_${testRunId}`;
       const createdDatabases: string[] = [];
 
       try {

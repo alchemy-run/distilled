@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as KV from "~/services/kv.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,10 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic namespace name for tests.
- * Follows the convention: distilled-cf-kv-{testname}
+ * Deterministic namespace name for tests with a random suffix to avoid collisions in parallel runs.
+ * Follows the convention: distilled-cf-kv-{testname}-{testRunId}
  */
-const nsTitle = (name: string) => `distilled-cf-kv-${name}`;
+const nsTitle = (name: string) => `distilled-cf-kv-${name}-${testRunId}`;
 
 /**
  * Find an existing KV namespace by title using the REST API.

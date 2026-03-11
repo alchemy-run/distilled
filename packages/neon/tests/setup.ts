@@ -15,6 +15,15 @@ export const TestLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 const TEST_PROJECT_PREFIX = "distilled-test";
 
 /**
+ * Short random hex string generated once per test run.
+ * Append this to resource names so parallel test runs don't collide.
+ */
+export const testRunId: string = crypto
+  .randomUUID()
+  .replace(/-/g, "")
+  .slice(0, 8);
+
+/**
  * Test project configuration
  */
 export interface TestProjectConfig {
@@ -31,7 +40,9 @@ const testProjects: Map<string, TestProjectConfig> = new Map();
  * Get the project name with optional suffix
  */
 const getProjectName = (suffix?: string): string =>
-  suffix ? `${TEST_PROJECT_PREFIX}-${suffix}` : TEST_PROJECT_PREFIX;
+  suffix
+    ? `${TEST_PROJECT_PREFIX}-${suffix}-${testRunId}`
+    : `${TEST_PROJECT_PREFIX}-${testRunId}`;
 
 /**
  * Get the test project config. Throws if not initialized.

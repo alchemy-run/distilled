@@ -19,6 +19,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "workflows";
@@ -217,7 +218,7 @@ describe("workflows", () => {
         createWorkflow({
           organization: db.organization,
           database: NON_EXISTENT_DB,
-          name: `test-workflow-${Date.now()}`,
+          name: `test-workflow-${testRunId}`,
           source_keyspace: "source",
           target_keyspace: "target",
           tables: ["test_table"],
@@ -238,7 +239,7 @@ describe("workflows", () => {
         createWorkflow({
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
-          name: `test-workflow-${Date.now()}`,
+          name: `test-workflow-${testRunId}`,
           source_keyspace: "source",
           target_keyspace: "target",
           tables: ["test_table"],
@@ -260,7 +261,7 @@ describe("workflows", () => {
         createWorkflow({
           organization: db.organization,
           database: db.name,
-          name: `test-workflow-${Date.now()}`,
+          name: `test-workflow-${testRunId}`,
           source_keyspace: "non-existent-source",
           target_keyspace: "non-existent-target",
           tables: ["test_table"],

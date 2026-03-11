@@ -9,7 +9,7 @@ import {
   startSnapshot,
 } from "../../src/services/ebs.ts";
 import { deleteSnapshot } from "../../src/services/ec2.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // ============================================================================
 // Constants
@@ -72,7 +72,7 @@ const withSnapshot = <A, E, R>(
     // Start a new snapshot (1 GiB minimum size)
     const startResult = yield* startSnapshot({
       VolumeSize: 1,
-      Description: description,
+      Description: `${description}-${testRunId}`,
       Tags: [{ Key: "distilled-test", Value: "ebs" }],
     });
 
@@ -264,7 +264,7 @@ test.skip(
     // Create first (parent) snapshot with block 0
     const parentResult = yield* startSnapshot({
       VolumeSize: 1,
-      Description: "distilled-ebs-parent",
+      Description: `distilled-ebs-parent-${testRunId}`,
       Tags: [{ Key: "distilled-test", Value: "ebs" }],
     });
     const parentId = parentResult.SnapshotId!;
@@ -293,7 +293,7 @@ test.skip(
       const childResult = yield* startSnapshot({
         VolumeSize: 1,
         ParentSnapshotId: parentId,
-        Description: "distilled-ebs-child",
+        Description: `distilled-ebs-child-${testRunId}`,
         Tags: [{ Key: "distilled-test", Value: "ebs" }],
       });
       const childId = childResult.SnapshotId!;

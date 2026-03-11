@@ -15,6 +15,7 @@ import {
   runEffect,
   setupTestProject,
   teardownTestProject,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "branches";
@@ -250,7 +251,7 @@ describe("branches", () => {
   describe("createProjectBranch, updateProjectBranch & deleteProjectBranch", () => {
     it("can create, update, and delete a branch", async () => {
       const proj = getProj();
-      const branchName = `test-branch-${Date.now()}`;
+      const branchName = `test-branch-${testRunId}`;
       let createdBranchId: string | null = null;
 
       try {
@@ -276,7 +277,7 @@ describe("branches", () => {
         expect(fetched.branch.id).toBe(createdBranchId);
 
         // Update branch name
-        const newName = `updated-${Date.now()}`;
+        const newName = `updated-${testRunId}`;
         const updated = await runEffect(
           updateProjectBranch({
             project_id: proj.id,
@@ -311,7 +312,7 @@ describe("branches", () => {
 
     it("can create a branch with a specific name", async () => {
       const proj = getProj();
-      const branchName = `named-branch-${Date.now()}`;
+      const branchName = `named-branch-${testRunId}`;
       let createdBranchId: string | null = null;
 
       try {

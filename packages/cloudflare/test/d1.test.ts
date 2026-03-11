@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as D1 from "~/services/d1.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,11 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic database name for tests.
- * Follows the convention: distilled-cf-d1-{testname}
+ * Deterministic database name for tests with a random suffix to avoid collisions
+ * across parallel test runs.
+ * Follows the convention: distilled-cf-d1-{testname}-{testRunId}
  */
-const dbName = (name: string) => `distilled-cf-d1-${name}`;
+const dbName = (name: string) => `distilled-cf-d1-${name}-${testRunId}`;
 
 /**
  * Create a D1 database, run `fn`, then delete the database.

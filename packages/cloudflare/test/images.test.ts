@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Images from "~/services/images.ts";
 
 const accountId = () => getAccountId();
@@ -10,15 +10,16 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic variant name for tests.
- * Follows the convention: distilled-cf-images-{testname}
+ * Deterministic variant name for tests with a random suffix to avoid parallel collisions.
+ * Follows the convention: distilled-cf-images-{testname}-{testRunId}
  */
-const variantName = (name: string) => `distilled-cf-images-${name}`;
+const variantName = (name: string) => `distilled-cf-images-${name}-${testRunId}`;
 
 /**
- * Deterministic signing key name for tests.
+ * Deterministic signing key name for tests with a random suffix to avoid parallel collisions.
+ * Follows the convention: distilled-cf-images-key-{testname}-{testRunId}
  */
-const keyName = (name: string) => `distilled-cf-images-key-${name}`;
+const keyName = (name: string) => `distilled-cf-images-key-${name}-${testRunId}`;
 
 /**
  * A small 1x1 transparent PNG as a Blob for image upload tests.

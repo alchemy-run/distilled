@@ -21,7 +21,7 @@ import {
   startExecution,
   stopExecution,
 } from "../../src/services/sfn.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // Simple pass state machine definition
 const PASS_STATE_MACHINE_DEFINITION = JSON.stringify({
@@ -138,12 +138,14 @@ const withRole = <A, E, R>(
   testFn: (roleArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${roleName}-${testRunId}`;
+
     // Clean up any leftover from previous runs
-    yield* cleanupRole(roleName);
+    yield* cleanupRole(resolvedName);
 
     // Create the role
     const result = yield* createRole({
-      RoleName: roleName,
+      RoleName: resolvedName,
       AssumeRolePolicyDocument: STEP_FUNCTIONS_TRUST_POLICY,
       Description: "Test role for distilled-aws Step Functions tests",
     });
@@ -152,7 +154,7 @@ const withRole = <A, E, R>(
 
     // Attach the basic execution policy for Step Functions
     yield* attachRolePolicy({
-      RoleName: roleName,
+      RoleName: resolvedName,
       PolicyArn:
         "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
     }).pipe(Effect.ignore);
@@ -160,7 +162,9 @@ const withRole = <A, E, R>(
     // Wait for IAM to propagate
     yield* Effect.sleep("2 seconds");
 
-    return yield* testFn(roleArn).pipe(Effect.ensuring(cleanupRole(roleName)));
+    return yield* testFn(roleArn).pipe(
+      Effect.ensuring(cleanupRole(resolvedName)),
+    );
   });
 
 // Helper for activity with cleanup
@@ -169,11 +173,13 @@ const withActivity = <A, E, R>(
   testFn: (activityArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${activityName}-${testRunId}`;
+
     // Check if activity exists and clean up
     const existing = yield* listActivities({}).pipe(
       Effect.map(
         (result) =>
-          result.activities?.find((a) => a.name === activityName)?.activityArn,
+          result.activities?.find((a) => a.name === resolvedName)?.activityArn,
       ),
       Effect.orElseSucceed(() => undefined),
     );
@@ -183,7 +189,7 @@ const withActivity = <A, E, R>(
     }
 
     // Create the activity
-    const result = yield* createActivity({ name: activityName });
+    const result = yield* createActivity({ name: resolvedName });
     const activityArn = result.activityArn!;
 
     return yield* testFn(activityArn).pipe(
@@ -193,19 +199,21 @@ const withActivity = <A, E, R>(
 
 // Helper for state machine with cleanup - includes role creation
 const withStateMachine = <A, E, R>(
-  stateMachineName: string,
+  smName: string,
   roleName: string,
   definition: string,
   testFn: (stateMachineArn: string) => Effect.Effect<A, E, R>,
 ) =>
   withRole(roleName, (roleArn) =>
     Effect.gen(function* () {
+      const resolvedName = `${smName}-${testRunId}`;
+
       // Wait for any existing state machine with this name to be fully deleted
-      yield* waitForStateMachineAvailable(stateMachineName);
+      yield* waitForStateMachineAvailable(resolvedName);
 
       // Create the state machine, retrying if still being deleted
       const result = yield* createStateMachine({
-        name: stateMachineName,
+        name: resolvedName,
         definition,
         roleArn,
         type: "STANDARD",
@@ -238,7 +246,9 @@ test(
 
       // Describe activity
       const describeResult = yield* describeActivity({ activityArn });
-      expect(describeResult.name).toEqual("distilled-sfn-activity-lifecycle");
+      expect(describeResult.name).toEqual(
+        `distilled-sfn-activity-lifecycle-${testRunId}`,
+      );
       expect(describeResult.creationDate).toBeDefined();
 
       // List activities with retry for eventual consistency
@@ -278,7 +288,9 @@ test(
 
         // Describe state machine
         const describeResult = yield* describeStateMachine({ stateMachineArn });
-        expect(describeResult.name).toEqual("distilled-sfn-sm-lifecycle");
+        expect(describeResult.name).toEqual(
+          `distilled-sfn-sm-lifecycle-${testRunId}`,
+        );
         expect(describeResult.status).toEqual("ACTIVE");
 
         // Verify definition matches (definition is a sensitive field)

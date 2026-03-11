@@ -16,7 +16,7 @@ import { removeOrganizationMember } from "../src/operations/removeOrganizationMe
 import { updateOrganization } from "../src/operations/updateOrganization";
 import { updateOrganizationMembership } from "../src/operations/updateOrganizationMembership";
 import { updateOrganizationTeam } from "../src/operations/updateOrganizationTeam";
-import { runEffect } from "./setup";
+import { runEffect, testRunId } from "./setup";
 
 // Non-existent identifiers for unhappy path tests
 const NON_EXISTENT_ORG = "this-org-definitely-does-not-exist-12345";
@@ -619,7 +619,7 @@ describe("organizations", () => {
 
   describe("createOrganizationTeam", () => {
     it("can create and delete an organization team", async () => {
-      const teamName = `test-team-${Date.now()}`;
+      const teamName = `test-team-${testRunId}`;
 
       const result = await runEffect(
         Effect.gen(function* () {
@@ -667,7 +667,7 @@ describe("organizations", () => {
       const error = await runEffect(
         createOrganizationTeam({
           organization: NON_EXISTENT_ORG,
-          name: `test-team-${Date.now()}`,
+          name: `test-team-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -770,7 +770,7 @@ describe("organizations", () => {
 
     it("can update an existing team", async () => {
       // First create a team to update
-      const teamName = `test-team-update-${Date.now()}`;
+      const teamName = `test-team-update-${testRunId}`;
       let teamSlug: string | null = null;
 
       const result = await runEffect(

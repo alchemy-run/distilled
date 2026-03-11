@@ -18,7 +18,7 @@ import {
   getStage,
   getStages,
 } from "../../src/services/apigatewayv2.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // LocalStack community edition has limited API Gateway v2 support
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
@@ -57,11 +57,12 @@ const withWebSocketApi = <A, E, R>(
   testFn: (apiId: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${apiName}-${testRunId}`;
     // Clean up any existing API with the same name from failed test runs
-    yield* deleteExistingApiByName(apiName);
+    yield* deleteExistingApiByName(resolvedName);
 
     const api = yield* createApi({
-      Name: apiName,
+      Name: resolvedName,
       ProtocolType: "WEBSOCKET",
       RouteSelectionExpression: "$request.body.action",
     });
@@ -86,7 +87,7 @@ const withWebSocketApi = <A, E, R>(
           // Get WebSocket API
           const api = yield* getApi({ ApiId: apiId });
           expect(api.ApiId).toBeDefined();
-          expect(api.Name).toEqual("distilled-ws-lifecycle");
+          expect(api.Name).toEqual(`distilled-ws-lifecycle-${testRunId}`);
           expect(api.ProtocolType).toEqual("WEBSOCKET");
           expect(api.RouteSelectionExpression).toEqual("$request.body.action");
 

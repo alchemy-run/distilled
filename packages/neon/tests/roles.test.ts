@@ -13,6 +13,7 @@ import {
   runEffect,
   setupTestProject,
   teardownTestProject,
+  testRunId,
   TestLayer,
 } from "./setup";
 
@@ -280,7 +281,7 @@ describe("roles", () => {
   describe("createProjectBranchRole & deleteProjectBranchRole", () => {
     it("can create and delete a role", async () => {
       const proj = getProj();
-      const roleName = `testrole_${Date.now()}`;
+      const roleName = `testrole_${testRunId}`;
       let createdRoleName: string | null = null;
 
       try {
@@ -342,7 +343,7 @@ describe("roles", () => {
 
     it("can create a role with no_login option", async () => {
       const proj = getProj();
-      const roleName = `nologin_${Date.now()}`;
+      const roleName = `nologin_${testRunId}`;
       let createdRoleName: string | null = null;
 
       try {
@@ -414,7 +415,7 @@ describe("roles", () => {
   describe("resetProjectBranchRolePassword", () => {
     it("can reset password for a custom role", async () => {
       const proj = getProj();
-      const roleName = `resetpw_${Date.now()}`;
+      const roleName = `resetpw_${testRunId}`;
       let createdRoleName: string | null = null;
 
       try {

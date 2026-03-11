@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Pipelines from "~/services/pipelines.ts";
 
 const accountId = () => getAccountId();
@@ -10,11 +10,12 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic resource names for tests.
- * Follows the convention: distilled-cf-pipelines-{testname}
+ * Deterministic resource names for tests with a random suffix to avoid
+ * collisions between parallel test runs.
+ * Follows the convention: distilled_cf_pipelines_stream_{testname}_{testRunId}
  */
 const streamName = (name: string) =>
-  `distilled_cf_pipelines_stream_${name.replace(/-/g, "_")}`;
+  `distilled_cf_pipelines_stream_${name.replace(/-/g, "_")}_${testRunId}`;
 
 /**
  * Delete a stream by name. Looks it up by listing, then deletes by ID.

@@ -7,7 +7,7 @@ import { createServiceToken } from "../src/operations/createServiceToken";
 import { deleteServiceToken } from "../src/operations/deleteServiceToken";
 import { getServiceToken } from "../src/operations/getServiceToken";
 import { listServiceTokens } from "../src/operations/listServiceTokens";
-import { MainLayer, runEffect } from "./setup";
+import { MainLayer, runEffect, testRunId } from "./setup";
 
 // Non-existent identifiers for unhappy path tests
 const NON_EXISTENT_ORG = "this-org-definitely-does-not-exist-12345";
@@ -160,7 +160,7 @@ describe("service-tokens", () => {
       const error = await runEffect(
         createServiceToken({
           organization: NON_EXISTENT_ORG,
-          name: `test-token-${Date.now()}`,
+          name: `test-token-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -175,7 +175,7 @@ describe("service-tokens", () => {
 
     it("can create and delete a service token (or returns Forbidden if no permission)", async () => {
       const organization = await Effect.runPromise(getOrganization());
-      const tokenName = `test-token-${Date.now()}`;
+      const tokenName = `test-token-${testRunId}`;
 
       // Create service token
       const createResult = await runEffect(

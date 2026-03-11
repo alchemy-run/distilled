@@ -15,7 +15,7 @@ import {
   registerStreamConsumer,
   subscribeToShard,
 } from "../../src/services/kinesis.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 class NotReady extends Data.TaggedError("NotReady")<{
   status: string | undefined;
@@ -114,27 +114,29 @@ const withStream = <A, E, R>(
   testFn: (streamName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${streamName}-${testRunId}`;
+
     // Delete existing stream if it exists (cleanup from previous runs)
     yield* deleteStream({
-      StreamName: streamName,
+      StreamName: resolvedName,
       EnforceConsumerDeletion: true,
     }).pipe(Effect.ignore);
-    yield* waitForStreamDeleted(streamName);
+    yield* waitForStreamDeleted(resolvedName);
 
     // Create stream
     yield* createStream({
-      StreamName: streamName,
+      StreamName: resolvedName,
       ShardCount: 1,
     });
 
     // Wait for stream to become active
-    yield* waitForStreamActive(streamName);
+    yield* waitForStreamActive(resolvedName);
 
     // Run the test
-    return yield* testFn(streamName).pipe(
+    return yield* testFn(resolvedName).pipe(
       Effect.ensuring(
         deleteStream({
-          StreamName: streamName,
+          StreamName: resolvedName,
           EnforceConsumerDeletion: true,
         }).pipe(Effect.ignore),
       ),
@@ -169,7 +171,7 @@ test(
   "describeStreamSummary during creation (ON_DEMAND)",
   { timeout: 300_000 },
   Effect.gen(function* () {
-    const streamName = "distilled-aws-kinesis-ondemand-test";
+    const streamName = `distilled-aws-kinesis-ondemand-test-${testRunId}`;
 
     // Cleanup from previous runs
     yield* deleteStream({

@@ -24,7 +24,7 @@ import {
   unsubscribe,
   untagResource,
 } from "../../src/services/sns.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // ============================================================================
 // Idempotent Cleanup Helpers
@@ -87,10 +87,11 @@ const withTopic = <A, E, R>(
   testFn: (topicArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
-    yield* cleanupTopicByName(name);
+    yield* cleanupTopicByName(resolvedName);
 
-    const result = yield* createTopic({ Name: name });
+    const result = yield* createTopic({ Name: resolvedName });
     const topicArn = result.TopicArn!;
     return yield* testFn(topicArn).pipe(
       Effect.ensuring(cleanupTopicByArn(topicArn)),

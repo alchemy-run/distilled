@@ -14,9 +14,9 @@ import {
   tagResource,
   updateItem,
 } from "../../src/services/dynamodb.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { afterAll, beforeAll, test, testRunId } from "../test.ts";
 
-const TEST_TABLE_NAME = "distilled-aws-test-table";
+const TEST_TABLE_NAME = `distilled-aws-test-table-${testRunId}`;
 type CreateTableInput = Parameters<typeof createTable>[0];
 type ManagedTable = {
   TableName: string;
@@ -528,7 +528,7 @@ test(
   "query local secondary index by alternate sort key",
   withTable(
     {
-      TableName: "distilled-aws-test-table-lsi",
+      TableName: `distilled-aws-test-table-lsi-${testRunId}`,
       KeySchema: [
         { AttributeName: "pk", KeyType: "HASH" },
         { AttributeName: "sk", KeyType: "RANGE" },
@@ -612,7 +612,7 @@ test(
   "query global secondary index after index propagation",
   withTable(
     {
-      TableName: "distilled-aws-test-table-gsi",
+      TableName: `distilled-aws-test-table-gsi-${testRunId}`,
       KeySchema: [
         { AttributeName: "pk", KeyType: "HASH" },
         { AttributeName: "sk", KeyType: "RANGE" },
@@ -712,7 +712,7 @@ test(
   "list tags retries while new index table ARN is still propagating",
   withTable(
     {
-      TableName: "distilled-aws-test-table-tagging",
+      TableName: `distilled-aws-test-table-tagging-${testRunId}`,
       KeySchema: [
         { AttributeName: "pk", KeyType: "HASH" },
         { AttributeName: "sk", KeyType: "RANGE" },

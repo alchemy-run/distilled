@@ -15,6 +15,15 @@ export const MainLayer = Layer.merge(CredentialsFromEnv, FetchHttpClient.layer);
 const TEST_DATABASE_PREFIX = "distilled-test-db";
 
 /**
+ * Short random hex string generated once per test run.
+ * Append this to resource names so parallel test runs don't collide.
+ */
+export const testRunId: string = crypto
+  .randomUUID()
+  .replace(/-/g, "")
+  .slice(0, 8);
+
+/**
  * Test database configuration
  */
 export interface TestDatabaseConfig {
@@ -30,7 +39,9 @@ const testDatabases: Map<string, TestDatabaseConfig> = new Map();
  * Get the database name with optional suffix
  */
 const getDatabaseName = (suffix?: string): string =>
-  suffix ? `${TEST_DATABASE_PREFIX}-${suffix}` : TEST_DATABASE_PREFIX;
+  suffix
+    ? `${TEST_DATABASE_PREFIX}-${suffix}-${testRunId}`
+    : `${TEST_DATABASE_PREFIX}-${testRunId}`;
 
 /**
  * Get the test database config. Throws if not initialized.

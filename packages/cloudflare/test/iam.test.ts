@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as IAM from "~/services/iam.ts";
 import { InvalidMember } from "~/services/iam.ts";
 
@@ -11,15 +11,16 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic resource group name for tests.
- * Follows the convention: distilled-cf-iam-{testname}
+ * Deterministic resource group name for tests with a random suffix.
+ * Follows the convention: distilled-cf-iam-rg-{testname}-{testRunId}
  */
-const rgName = (name: string) => `distilled-cf-iam-rg-${name}`;
+const rgName = (name: string) => `distilled-cf-iam-rg-${name}-${testRunId}`;
 
 /**
- * Deterministic user group name for tests.
+ * Deterministic user group name for tests with a random suffix.
+ * Follows the convention: distilled-cf-iam-ug-{testname}-{testRunId}
  */
-const ugName = (name: string) => `distilled-cf-iam-ug-${name}`;
+const ugName = (name: string) => `distilled-cf-iam-ug-${name}-${testRunId}`;
 
 /**
  * A valid scope object for resource group operations.

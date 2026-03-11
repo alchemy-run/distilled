@@ -17,6 +17,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "roles";
@@ -326,7 +327,7 @@ describe("roles", () => {
           organization: db.organization,
           database: db.name,
           branch: NON_EXISTENT_BRANCH,
-          name: `test-role-${Date.now()}`,
+          name: `test-role-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -346,7 +347,7 @@ describe("roles", () => {
           organization: db.organization,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-role-${Date.now()}`,
+          name: `test-role-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -365,7 +366,7 @@ describe("roles", () => {
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-role-${Date.now()}`,
+          name: `test-role-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),

@@ -13,6 +13,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "passwords";
@@ -241,7 +242,7 @@ describe("passwords", () => {
           organization: db.organization,
           database: db.name,
           branch: NON_EXISTENT_BRANCH,
-          name: `test-password-${Date.now()}`,
+          name: `test-password-${testRunId}`,
           role: "reader",
         }).pipe(
           Effect.matchEffect({
@@ -262,7 +263,7 @@ describe("passwords", () => {
           organization: db.organization,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-password-${Date.now()}`,
+          name: `test-password-${testRunId}`,
           role: "reader",
         }).pipe(
           Effect.matchEffect({
@@ -282,7 +283,7 @@ describe("passwords", () => {
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-password-${Date.now()}`,
+          name: `test-password-${testRunId}`,
           role: "reader",
         }).pipe(
           Effect.matchEffect({
@@ -298,7 +299,7 @@ describe("passwords", () => {
 
     it("can create, get, and delete a password", async () => {
       const db = getDb();
-      const passwordName = `test-password-${Date.now()}`;
+      const passwordName = `test-password-${testRunId}`;
       let createdPasswordId: string | undefined;
 
       try {
@@ -350,7 +351,7 @@ describe("passwords", () => {
 
     it("can create a password with different roles", async () => {
       const db = getDb();
-      const passwordName = `test-admin-password-${Date.now()}`;
+      const passwordName = `test-admin-password-${testRunId}`;
       let createdPasswordId: string | undefined;
 
       try {
@@ -468,7 +469,7 @@ describe("passwords", () => {
 
     it("can delete a password successfully", async () => {
       const db = getDb();
-      const passwordName = `test-delete-password-${Date.now()}`;
+      const passwordName = `test-delete-password-${testRunId}`;
 
       // Create password first
       const created = await runEffect(
@@ -603,8 +604,8 @@ describe("passwords", () => {
 
     it("can update a password name", { timeout: 30_000 }, async () => {
       const db = getDb();
-      const originalName = `test-update-password-${Date.now()}`;
-      const updatedName = `updated-password-${Date.now()}`;
+      const originalName = `test-update-password-${testRunId}`;
+      const updatedName = `updated-password-${testRunId}`;
       let createdPasswordId: string | undefined;
 
       try {
@@ -738,7 +739,7 @@ describe("passwords", () => {
 
     it("can renew a renewable password or returns error for non-renewable", async () => {
       const db = getDb();
-      const passwordName = `test-renew-password-${Date.now()}`;
+      const passwordName = `test-renew-password-${testRunId}`;
       let createdPasswordId: string | undefined;
 
       try {

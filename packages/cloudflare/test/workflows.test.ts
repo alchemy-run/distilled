@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Workflows from "~/services/workflows.ts";
 import {
   InstanceNotFound,
@@ -19,15 +19,18 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic workflow name for tests.
- * Follows the convention: distilled-cf-workflows-{testname}
+ * Deterministic workflow name for tests with a random suffix to avoid collisions
+ * between parallel test runs.
+ * Follows the convention: distilled-cf-workflows-{testname}-{testRunId}
  */
-const workflowName = (name: string) => `distilled-cf-workflows-${name}`;
+const workflowName = (name: string) => `distilled-cf-workflows-${name}-${testRunId}`;
 
 /**
- * Deterministic script name for workflow worker scripts.
+ * Deterministic script name for workflow worker scripts with a random suffix
+ * to avoid collisions between parallel test runs.
+ * Follows the convention: distilled-cf-workflows-worker-{testname}-{testRunId}
  */
-const scriptName = (name: string) => `distilled-cf-workflows-worker-${name}`;
+const scriptName = (name: string) => `distilled-cf-workflows-worker-${name}-${testRunId}`;
 
 /**
  * Minimal Worker module source that exports a Workflow class.

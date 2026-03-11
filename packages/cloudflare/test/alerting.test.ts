@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Alerting from "~/services/alerting.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,10 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic name for test resources.
- * Follows the convention: distilled-cf-alerting-{testname}
+ * Deterministic name for test resources with a random suffix to avoid collisions in parallel runs.
+ * Follows the convention: distilled-cf-alerting-{testname}-{testRunId}
  */
-const resourceName = (name: string) => `distilled-cf-alerting-${name}`;
+const resourceName = (name: string) => `distilled-cf-alerting-${name}-${testRunId}`;
 
 /**
  * Create an alerting policy, run `fn`, then delete the policy.
