@@ -118,15 +118,48 @@ if (githubTagExists) {
   process.exit(1);
 }
 
-// Update version in ALL packages
+// Update version in ALL packages and collect their npm names
 const packageDirs = await getPackageDirs();
+const packageNames: Set<string> = new Set();
 
 for (const dir of packageDirs) {
   const pkgJsonPath = join(PACKAGES_DIR, dir, "package.json");
   const pkgJson = JSON.parse(await readFile(pkgJsonPath, "utf-8"));
   pkgJson.version = newVersion;
   await writeFile(pkgJsonPath, `${JSON.stringify(pkgJson, null, 2)}\n`);
+  packageNames.add(pkgJson.name);
   console.log(`  Updated ${pkgJson.name} to ${newVersion}`);
+}
+
+// Update workspace versions in bun.lock so bun pm pack resolves workspace:* correctly.
+// Only target entries whose "name" matches one of our workspace packages.
+// The lockfile format has "name": "..." immediately before "version": "..." for each
+// workspace entry, so we match that pair specifically.
+const lockfilePath = join(process.cwd(), "bun.lock");
+try {
+  const lockfile = await readFile(lockfilePath, "utf-8");
+  const lines = lockfile.split("\n");
+  let updated = false;
+
+  for (let i = 1; i < lines.length; i++) {
+    const versionMatch = lines[i].match(/^(\s*"version": ")[^"]*(".*)/);
+    if (!versionMatch) continue;
+
+    // Look at the previous line for a "name" field matching one of our packages
+    const nameMatch = lines[i - 1].match(/"name": "([^"]*)"/);
+    if (!nameMatch || !packageNames.has(nameMatch[1])) continue;
+
+    lines[i] = `${versionMatch[1]}${newVersion}${versionMatch[2]}`;
+    updated = true;
+    console.log(`  Updated ${nameMatch[1]} version in bun.lock`);
+  }
+
+  if (updated) {
+    await writeFile(lockfilePath, lines.join("\n"));
+  }
+} catch {
+  // bun.lock may not exist (e.g. fresh clone before install)
+  console.log(`  Skipped bun.lock update (file not found)`);
 }
 
 console.log(`\nUpdated all packages to version ${newVersion}`);
