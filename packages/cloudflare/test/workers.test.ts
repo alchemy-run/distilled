@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId, getZoneId } from "./test.ts";
+import { test, getAccountId, getZoneId, testRunId } from "./test.ts";
 import * as Workers from "~/services/workers.ts";
 import {
   ContentTypeRequired,
@@ -27,10 +27,11 @@ const zoneId = () => {
 // ============================================================================
 
 /**
- * Deterministic script name for tests.
- * Follows the convention: distilled-cf-workers-{testname}
+ * Deterministic script name for tests with a random suffix to avoid collisions
+ * in parallel test runs.
+ * Follows the convention: distilled-cf-workers-{testname}-{testRunId}
  */
-const scriptName = (name: string) => `distilled-cf-workers-${name}`;
+const scriptName = (name: string) => `distilled-cf-workers-${name}-${testRunId}`;
 
 /**
  * Minimal Worker module source for uploads.

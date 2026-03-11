@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as AiGateway from "~/services/ai-gateway.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,10 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic gateway name for tests.
- * Follows the convention: distilled-cf-ai-gw-{testname}
+ * Deterministic gateway name for tests with a random suffix to avoid collisions in parallel runs.
+ * Follows the convention: distilled-cf-ai-gw-{testname}-{testRunId}
  */
-const gatewayName = (name: string) => `distilled-cf-ai-gw-${name}`;
+const gatewayName = (name: string) => `distilled-cf-ai-gw-${name}-${testRunId}`;
 
 /** Default create params (using 0 instead of null for numeric fields since null values are dropped from the request body) */
 const defaultGatewayParams = (name: string) => ({

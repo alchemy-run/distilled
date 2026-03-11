@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Queues from "~/services/queues.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,10 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic queue name for tests.
- * Follows the convention: distilled-cf-queues-{testname}
+ * Deterministic queue name for tests with a random suffix to avoid collisions in parallel runs.
+ * Follows the convention: distilled-cf-queues-{testname}-{testRunId}
  */
-const queueName = (name: string) => `distilled-cf-queues-${name}`;
+const queueName = (name: string) => `distilled-cf-queues-${name}-${testRunId}`;
 
 /**
  * Delete a queue by name. Looks it up by listing, then deletes by ID.

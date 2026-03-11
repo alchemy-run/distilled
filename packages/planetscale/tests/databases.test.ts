@@ -15,6 +15,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "databases";
@@ -250,7 +251,7 @@ describe("databases", () => {
       const error = await runEffect(
         createDatabase({
           organization: NON_EXISTENT_ORG,
-          name: `test-db-${Date.now()}`,
+          name: `test-db-${testRunId}`,
           cluster_size: "PS_10",
         }).pipe(
           Effect.matchEffect({
@@ -269,7 +270,7 @@ describe("databases", () => {
       const error = await runEffect(
         createDatabase({
           organization: db.organization,
-          name: `test-db-${Date.now()}`,
+          name: `test-db-${testRunId}`,
           cluster_size: "INVALID_SIZE_12345",
         }).pipe(
           Effect.matchEffect({
@@ -286,7 +287,7 @@ describe("databases", () => {
 
     it("can create and delete a database", async () => {
       const db = getDb();
-      const dbName = `distilled-test-create-${Date.now()}`;
+      const dbName = `distilled-test-create-${testRunId}`;
       let createdDb: { id: string; name: string } | null = null;
 
       try {

@@ -5,7 +5,7 @@ import { UnknownNeonError } from "../src/client";
 import { listApiKeys } from "../src/operations/listApiKeys";
 import { createApiKey } from "../src/operations/createApiKey";
 import { revokeApiKey } from "../src/operations/revokeApiKey";
-import { runEffect } from "./setup";
+import { runEffect, testRunId } from "./setup";
 
 // Non-existent identifiers for unhappy path tests
 const NON_EXISTENT_KEY_ID = 999999999;
@@ -91,7 +91,7 @@ describe("api-keys", () => {
 
   describe("createApiKey & revokeApiKey", () => {
     it("can create and revoke an API key or returns appropriate error for org keys", async () => {
-      const keyName = `test-key-${Date.now()}`;
+      const keyName = `test-key-${testRunId}`;
       let createdKeyId: number | null = null;
 
       try {
@@ -183,7 +183,7 @@ describe("api-keys", () => {
     });
 
     it("createApiKey returns the key token only on creation", async () => {
-      const keyName = `security-test-${Date.now()}`;
+      const keyName = `security-test-${testRunId}`;
       let createdKeyId: number | null = null;
 
       try {

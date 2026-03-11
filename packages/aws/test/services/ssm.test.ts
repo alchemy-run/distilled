@@ -15,9 +15,9 @@ import {
   describeMaintenanceWindows,
   getMaintenanceWindow,
 } from "../../src/services/ssm.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
-const MAINTENANCE_WINDOW_NAME = "distilled-ssm-idempotency-test";
+const MAINTENANCE_WINDOW_NAME = `distilled-ssm-idempotency-test-${testRunId}`;
 
 /**
  * Helper to clean up maintenance window
@@ -92,8 +92,8 @@ test(
 test(
   "create maintenance window with explicit ClientToken",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-explicit-token-test";
-    const explicitToken = "explicit-test-token-12345";
+    const windowName = `distilled-ssm-explicit-token-test-${testRunId}`;
+    const explicitToken = `explicit-test-token-${testRunId}`;
 
     // Clean up first
     yield* cleanupMaintenanceWindowByName(windowName);
@@ -118,8 +118,8 @@ test(
 test(
   "idempotent create with same ClientToken returns same result",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-idempotent-test";
-    const clientToken = "idempotent-test-token-67890";
+    const windowName = `distilled-ssm-idempotent-test-${testRunId}`;
+    const clientToken = `idempotent-test-token-${testRunId}`;
 
     // Clean up first
     yield* cleanupMaintenanceWindowByName(windowName);
@@ -179,7 +179,7 @@ test(
 test(
   "create, get, and delete maintenance window lifecycle",
   Effect.gen(function* () {
-    const windowName = "distilled-ssm-lifecycle-test";
+    const windowName = `distilled-ssm-lifecycle-test-${testRunId}`;
 
     // Clean up first
     yield* cleanupMaintenanceWindowByName(windowName);

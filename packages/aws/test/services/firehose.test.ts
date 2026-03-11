@@ -28,7 +28,7 @@ import {
   listObjectVersions,
 } from "../../src/services/s3.ts";
 import { getCallerIdentity } from "../../src/services/sts.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // ============================================================================
 // Error Classes for State Management
@@ -292,9 +292,9 @@ const withDeliveryStream = <A, E, R>(
   Effect.gen(function* () {
     const identity = yield* getCallerIdentity({});
     const accountId = identity.Account ?? "unknown";
-    const streamName = `distilled-firehose-${testName}`;
-    const bucketName = `distilled-firehose-${accountId}-${testName}`;
-    const roleName = `distilled-firehose-${testName}-role`;
+    const streamName = `distilled-firehose-${testName}-${testRunId}`;
+    const bucketName = `distilled-firehose-${accountId}-${testName}-${testRunId}`;
+    const roleName = `distilled-firehose-${testName}-${testRunId}-role`;
 
     const bucketArn = `arn:aws:s3:::${bucketName}`;
 

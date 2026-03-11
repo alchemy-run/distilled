@@ -16,6 +16,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "branches";
@@ -449,7 +450,7 @@ describe("branches", () => {
         createBranch({
           organization: db.organization,
           database: db.name,
-          name: `test-branch-${Date.now()}`,
+          name: `test-branch-${testRunId}`,
           parent_branch: NON_EXISTENT_BRANCH,
         }).pipe(
           Effect.matchEffect({
@@ -469,7 +470,7 @@ describe("branches", () => {
         createBranch({
           organization: db.organization,
           database: NON_EXISTENT_DB,
-          name: `test-branch-${Date.now()}`,
+          name: `test-branch-${testRunId}`,
           parent_branch: "main",
         }).pipe(
           Effect.matchEffect({
@@ -488,7 +489,7 @@ describe("branches", () => {
         createBranch({
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
-          name: `test-branch-${Date.now()}`,
+          name: `test-branch-${testRunId}`,
           parent_branch: "main",
         }).pipe(
           Effect.matchEffect({
@@ -505,7 +506,7 @@ describe("branches", () => {
     // This test creates an actual branch - it's slow due to provisioning time
     it("can create and delete a branch", { timeout: 120000 }, async () => {
       const db = getDb();
-      const branchName = `test-${Date.now()}`;
+      const branchName = `test-${testRunId}`;
 
       // Create branch
       const created = await runEffect(

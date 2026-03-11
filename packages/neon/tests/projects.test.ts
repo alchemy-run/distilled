@@ -16,6 +16,7 @@ import {
   runEffect,
   setupTestProject,
   teardownTestProject,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "projects";
@@ -364,7 +365,7 @@ describe("projects", () => {
 
   describe("createProject & deleteProject", () => {
     it("can create and delete a project", async () => {
-      const projectName = `distilled-test-create-${Date.now()}`;
+      const projectName = `distilled-test-create-${testRunId}`;
       let createdProjectId: string | null = null;
 
       try {

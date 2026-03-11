@@ -231,6 +231,57 @@ describe("ServiceName", () => {
 });
 ```
 
+### Resource Naming
+
+**Test resource names MUST be unique per test run** to prevent collisions when multiple CI runs (or local runs) execute in parallel. Every package's test support file (`test.ts` or `setup.ts`) exports a `testRunId` — an 8-character random hex string generated once per process via `crypto.randomUUID()`.
+
+The naming convention is: `distilled-{service}-{testname}-{testRunId}`
+
+#### Cloudflare pattern — name helper per file
+
+Each Cloudflare test file defines a name helper that incorporates `testRunId`:
+
+```typescript
+import { test, testRunId } from "./test.ts";
+
+const bucketName = (name: string) => `distilled-cf-r2-${name}-${testRunId}`;
+```
+
+#### AWS pattern — `withXxx` helpers resolve names
+
+AWS test helpers like `withBucket`, `withQueue`, `withTopic` etc. automatically append `testRunId` to the resource name before creating it:
+
+```typescript
+import { test, testRunId } from "../test.ts";
+
+const withBucket = <A, E, R>(name: string, testFn: (bucket: string) => Effect.Effect<A, E, R>) =>
+  Effect.gen(function* () {
+    const bucket = `${name}-${testRunId}`;
+    yield* cleanupBucket(bucket);
+    yield* createBucket({ Bucket: bucket });
+    return yield* testFn(bucket).pipe(Effect.ensuring(cleanupBucket(bucket)));
+  });
+```
+
+#### Neon / PlanetScale pattern — setup includes `testRunId`
+
+The shared `setup.ts` includes `testRunId` in the project/database name:
+
+```typescript
+export const testRunId: string = crypto.randomUUID().replace(/-/g, "").slice(0, 8);
+
+const getProjectName = (suffix?: string): string =>
+  suffix ? `${TEST_PROJECT_PREFIX}-${suffix}-${testRunId}` : `${TEST_PROJECT_PREFIX}-${testRunId}`;
+```
+
+Sub-resources within a shared project/database also use `testRunId`:
+
+```typescript
+import { testRunId } from "./setup";
+
+const branchName = `test-branch-${testRunId}`;
+```
+
 ### Resource Cleanup
 
 **Tests MUST always clean up resources they create**, even on failure. Use `Effect.ensuring` or try/finally:
@@ -238,11 +289,11 @@ describe("ServiceName", () => {
 ```typescript
 it.effect("creates and cleans up resource", () =>
   Effect.gen(function* () {
-    const resource = yield* createResource({ name: "test-resource" });
+    const resource = yield* createResource({ name: `test-resource-${testRunId}` });
     expect(resource.id).toBeDefined();
   }).pipe(
     Effect.ensuring(
-      deleteResource({ name: "test-resource" }).pipe(Effect.ignore)
+      deleteResource({ name: `test-resource-${testRunId}` }).pipe(Effect.ignore)
     )
   )
 );
@@ -273,7 +324,7 @@ There is `.ai-workspace` in the git ignore, this is designed as a workspace for 
 ### Key Rules
 
 - **Always clean up** — use `Effect.ensuring` or try/finally with `Effect.ignore` on cleanup
-- **Deterministic names** — prefer `distilled-{service}-{testname}` over random suffixes
+- **Unique names per run** — always include `testRunId` in resource names to prevent collisions between parallel test runs. Use the pattern `distilled-{service}-{testname}-${testRunId}`. Never use bare deterministic names without `testRunId`.
 - **Increase timeouts** for tests hitting real APIs — `{ timeout: 30_000 }`
 - **Use `DEBUG=1`** to see raw HTTP request/response logs when debugging failures
 - **DO NOT modify generated files** in `src/operations/` — fix the generator or patch instead

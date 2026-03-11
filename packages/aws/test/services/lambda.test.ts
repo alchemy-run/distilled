@@ -32,14 +32,14 @@ import {
   getQueueAttributes,
   sendMessage,
 } from "../../src/services/sqs.ts";
-import { beforeAll, test } from "../test.ts";
+import { beforeAll, test, testRunId } from "../test.ts";
 
 const retrySchedule = Schedule.both(
   Schedule.recurs(10),
   Schedule.spaced("1 second"),
 );
 
-const TEST_ROLE_NAME = "distilled-aws-test-lambda-role";
+const TEST_ROLE_NAME = `distilled-aws-test-lambda-role-${testRunId}`;
 
 // Trust policy that allows Lambda to assume the role
 const LAMBDA_TRUST_POLICY = JSON.stringify({

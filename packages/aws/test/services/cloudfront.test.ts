@@ -27,7 +27,7 @@ import {
   untagResource,
   updateOriginAccessControl,
 } from "../../src/services/cloudfront.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // Skip tests in LocalStack - CloudFront not available in Community edition
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
@@ -74,10 +74,11 @@ const withOriginAccessControl = <A, E, R>(
   testFn: (id: string, etag: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Try to create, or find existing if already exists
     const { id, etag } = yield* createOriginAccessControl({
       OriginAccessControlConfig: {
-        Name: name,
+        Name: resolvedName,
         Description: "Test OAC for distilled-aws",
         SigningProtocol: "sigv4",
         SigningBehavior: "always",
@@ -89,13 +90,13 @@ const withOriginAccessControl = <A, E, R>(
         etag: result.ETag!,
       })),
       Effect.catchTag("OriginAccessControlAlreadyExists", () =>
-        findOriginAccessControlByName(name).pipe(
+        findOriginAccessControlByName(resolvedName).pipe(
           Effect.flatMap(
             Option.match({
               onNone: () =>
                 Effect.fail(
                   new OriginAccessControlAlreadyExists({
-                    Message: `OAC "${name}" exists but could not be found`,
+                    Message: `OAC "${resolvedName}" exists but could not be found`,
                   }),
                 ),
               onSome: Effect.succeed,
@@ -148,11 +149,12 @@ const withDistribution = <A, E, R>(
   testFn: (id: string, etag: string, arn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${callerReference}-${testRunId}`;
     // Try to create, or find existing if already exists
     const { id, etag, arn } = yield* createDistribution({
       DistributionConfig: {
-        CallerReference: callerReference,
-        Comment: "distilled-aws test distribution",
+        CallerReference: resolvedName,
+        Comment: `distilled-aws test distribution (${resolvedName})`,
         Enabled: false, // Disabled for testing
         Origins: {
           Quantity: 1,
@@ -181,13 +183,13 @@ const withDistribution = <A, E, R>(
         arn: result.Distribution!.ARN!,
       })),
       Effect.catchTag("DistributionAlreadyExists", () =>
-        findDistributionByCallerReference(callerReference).pipe(
+        findDistributionByCallerReference(resolvedName).pipe(
           Effect.flatMap(
             Option.match({
               onNone: () =>
                 Effect.fail(
                   new DistributionAlreadyExists({
-                    Message: `Distribution "${callerReference}" exists but could not be found`,
+                    Message: `Distribution "${resolvedName}" exists but could not be found`,
                   }),
                 ),
               onSome: Effect.succeed,
@@ -223,7 +225,7 @@ test(
         expect(oac.OriginAccessControl?.Id).toEqual(id);
         expect(
           oac.OriginAccessControl?.OriginAccessControlConfig?.Name,
-        ).toEqual("distilled-cf-oac-lifecycle");
+        ).toEqual(`distilled-cf-oac-lifecycle-${testRunId}`);
 
         // List origin access controls
         const listResult = yield* listOriginAccessControls({});
@@ -253,7 +255,7 @@ test(
           Id: id,
           IfMatch: etag,
           OriginAccessControlConfig: {
-            Name: "distilled-cf-oac-update", // Same name - only update description
+            Name: `distilled-cf-oac-update-${testRunId}`, // Same name - only update description
             Description: "Updated description",
             SigningProtocol: "sigv4",
             SigningBehavior: "always",
@@ -263,7 +265,7 @@ test(
 
         expect(
           updateResult.OriginAccessControl?.OriginAccessControlConfig?.Name,
-        ).toEqual("distilled-cf-oac-update");
+        ).toEqual(`distilled-cf-oac-update-${testRunId}`);
         expect(
           updateResult.OriginAccessControl?.OriginAccessControlConfig
             ?.Description,
@@ -302,7 +304,7 @@ test(
         const comment = dist.Distribution?.DistributionConfig?.Comment;
         expect(
           Redacted.isRedacted(comment) ? Redacted.value(comment) : comment,
-        ).toEqual("distilled-aws test distribution");
+        ).toEqual(`distilled-aws test distribution (distilled-cf-dist-lifecycle-${testRunId})`);
 
         // Get distribution config
         const config = yield* getDistributionConfig({ Id: id });

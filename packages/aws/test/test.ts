@@ -148,6 +148,17 @@ function provideTestEnv<A, E, R extends Provided>(
  * Writes JSON snapshots to __snapshots__/{suite}/{testname}.json.
  * If filename is not provided, derives it from the describe block and test name.
  */
+/**
+ * Short random hex string generated once per test run.
+ * Append this to resource names so parallel test runs don't collide.
+ *
+ * Example: `distilled-s3-lifecycle-${testRunId}`
+ */
+export const testRunId: string = crypto
+  .randomUUID()
+  .replace(/-/g, "")
+  .slice(0, 8);
+
 export const expectSnapshot = (
   ctx: TestContext,
   value: unknown,

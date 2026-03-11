@@ -11,6 +11,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "backups";
@@ -295,7 +296,7 @@ describe("backups", () => {
           organization: db.organization,
           database: db.name,
           branch: NON_EXISTENT_BRANCH,
-          name: `test-backup-${Date.now()}`,
+          name: `test-backup-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -315,7 +316,7 @@ describe("backups", () => {
           organization: db.organization,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-backup-${Date.now()}`,
+          name: `test-backup-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -334,7 +335,7 @@ describe("backups", () => {
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-backup-${Date.now()}`,
+          name: `test-backup-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -356,7 +357,7 @@ describe("backups", () => {
   describe("backup lifecycle", () => {
     it("can create, get, and delete a backup", async () => {
       const db = getDb();
-      const backupName = `test-backup-${Date.now()}`;
+      const backupName = `test-backup-${testRunId}`;
       let createdBackup: { id: string } | null = null;
 
       try {
@@ -443,7 +444,7 @@ describe("backups", () => {
 
     it("can update backup protection status", async () => {
       const db = getDb();
-      const backupName = `test-protect-${Date.now()}`;
+      const backupName = `test-protect-${testRunId}`;
 
       try {
         // Create backup

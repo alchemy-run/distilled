@@ -15,6 +15,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "bouncers";
@@ -262,7 +263,7 @@ describe("bouncers", () => {
           organization: db.organization,
           database: db.name,
           branch: NON_EXISTENT_BRANCH,
-          name: `test-bouncer-${Date.now()}`,
+          name: `test-bouncer-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -282,7 +283,7 @@ describe("bouncers", () => {
           organization: db.organization,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-bouncer-${Date.now()}`,
+          name: `test-bouncer-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),
@@ -301,7 +302,7 @@ describe("bouncers", () => {
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-bouncer-${Date.now()}`,
+          name: `test-bouncer-${testRunId}`,
         }).pipe(
           Effect.matchEffect({
             onFailure: (e) => Effect.succeed(e),

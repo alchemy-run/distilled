@@ -15,6 +15,7 @@ import {
   runEffect,
   setupTestDatabase,
   teardownTestDatabase,
+  testRunId,
 } from "./setup";
 
 const TEST_SUFFIX = "keyspaces";
@@ -422,7 +423,7 @@ describe("keyspaces", () => {
           organization: db.organization,
           database: db.name,
           branch: NON_EXISTENT_BRANCH,
-          name: `test-keyspace-${Date.now()}`,
+          name: `test-keyspace-${testRunId}`,
           cluster_size: "PS_10",
         }).pipe(
           Effect.matchEffect({
@@ -443,7 +444,7 @@ describe("keyspaces", () => {
           organization: db.organization,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-keyspace-${Date.now()}`,
+          name: `test-keyspace-${testRunId}`,
           cluster_size: "PS_10",
         }).pipe(
           Effect.matchEffect({
@@ -463,7 +464,7 @@ describe("keyspaces", () => {
           organization: NON_EXISTENT_ORG,
           database: NON_EXISTENT_DB,
           branch: "main",
-          name: `test-keyspace-${Date.now()}`,
+          name: `test-keyspace-${testRunId}`,
           cluster_size: "PS_10",
         }).pipe(
           Effect.matchEffect({

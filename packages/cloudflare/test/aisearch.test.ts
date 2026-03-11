@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import * as Schedule from "effect/Schedule";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as AISearch from "~/services/aisearch.ts";
 import * as R2 from "~/services/r2.ts";
 
@@ -57,10 +57,10 @@ const getTokenCredentials = async (): Promise<{
 // ============================================================================
 
 /**
- * Deterministic name for test resources.
- * Follows the convention: dcf-ais-{testname} (max 32 chars for instance IDs)
+ * Deterministic name for test resources with random suffix to avoid collisions.
+ * Follows the convention: dcf-ais-{testname}-{testRunId} (max 32 chars for instance IDs)
  */
-const resourceName = (name: string) => `dcf-ais-${name}`;
+const resourceName = (name: string) => `dcf-ais-${name}-${testRunId}`;
 
 /**
  * Delete any AI Search tokens whose name matches `tokenName`.
@@ -122,8 +122,8 @@ const withInstance = <A, E, R>(
   fn: (instanceId: string) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E | any, R | any> =>
   Effect.gen(function* () {
-    const bucketName = resourceName(`${name}-bucket`);
-    const tokenName = resourceName(`${name}-token`);
+    const bucketName = resourceName(`${name}-bkt`);
+    const tokenName = resourceName(`${name}-tok`);
 
     // Cleanup first in case of previous failed run
     yield* AISearch.deleteInstance({
@@ -345,9 +345,9 @@ describe("AISearch", () => {
   describe("createInstance", () => {
     test("happy path - creates an AI Search instance backed by R2", () =>
       Effect.gen(function* () {
-        const name = resourceName("instance-create");
-        const bucketName = resourceName("instance-create-bucket");
-        const tokenName = resourceName("instance-create-token");
+        const name = resourceName("inst-create");
+        const bucketName = resourceName("inst-create-bkt");
+        const tokenName = resourceName("inst-create-tok");
 
         // Cleanup first in case of previous failed run
         yield* AISearch.deleteInstance({
@@ -406,7 +406,7 @@ describe("AISearch", () => {
 
   describe("readInstance", () => {
     test("happy path - reads an existing instance", () =>
-      withInstance("instance-read", (instanceId) =>
+      withInstance("inst-read", (instanceId) =>
         Effect.gen(function* () {
           const instance = yield* AISearch.readInstance({
             accountId: accountId(),
@@ -453,9 +453,9 @@ describe("AISearch", () => {
   describe("deleteInstance", () => {
     test("happy path - deletes an existing instance", () =>
       Effect.gen(function* () {
-        const name = resourceName("instance-delete");
-        const bucketName = resourceName("instance-delete-bucket");
-        const tokenName = resourceName("instance-delete-token");
+        const name = resourceName("inst-delete");
+        const bucketName = resourceName("inst-delete-bkt");
+        const tokenName = resourceName("inst-delete-tok");
 
         // Cleanup first in case of previous failed run
         yield* AISearch.deleteInstance({
@@ -543,7 +543,7 @@ describe("AISearch", () => {
   // --------------------------------------------------------------------------
   describe("statsInstance", () => {
     test("happy path - retrieves stats for an existing instance", () =>
-      withInstance("instance-stats", (instanceId) =>
+      withInstance("inst-stats", (instanceId) =>
         Effect.gen(function* () {
           const stats = yield* AISearch.statsInstance({
             accountId: accountId(),
@@ -578,7 +578,7 @@ describe("AISearch", () => {
   // --------------------------------------------------------------------------
   describe("updateInstance", () => {
     test("happy path - updates an existing instance", () =>
-      withInstance("instance-update", (instanceId) =>
+      withInstance("inst-upd", (instanceId) =>
         Effect.gen(function* () {
           const result = yield* AISearch.updateInstance({
             accountId: accountId(),
@@ -665,7 +665,7 @@ describe("AISearch", () => {
   // --------------------------------------------------------------------------
   describe("createInstanceJob", () => {
     test("happy path - creates a job for an existing instance", () =>
-      withInstance("instance-job-create", (instanceId) =>
+      withInstance("inst-job-crt", (instanceId) =>
         Effect.gen(function* () {
           const job = yield* AISearch.createInstanceJob({
             accountId: accountId(),

@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as SecretsStore from "~/services/secrets-store.ts";
 
 const accountId = () => getAccountId();
@@ -10,9 +10,9 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic secret name for tests.
+ * Deterministic secret name for tests with a random suffix so parallel runs don't collide.
  */
-const secretName = (name: string) => `distilled-cf-ss-secret-${name}`;
+const secretName = (name: string) => `distilled-cf-ss-secret-${name}-${testRunId}`;
 
 /**
  * Get the default store ID. The account only allows 1 store (the default),

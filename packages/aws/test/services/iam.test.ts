@@ -73,7 +73,7 @@ import {
   updateRole,
   updateUser,
 } from "../../src/services/iam.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // Helper trust policy document for roles
 const trustPolicy = JSON.stringify({
@@ -294,61 +294,69 @@ const cleanupInstanceProfile = (profileName: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withUser = <A, E, R>(
-  userName: string,
+  name: string,
   testFn: (userName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
-    yield* cleanupUser(userName);
-    yield* createUser({ UserName: userName });
-    return yield* testFn(userName).pipe(Effect.ensuring(cleanupUser(userName)));
+    yield* cleanupUser(resolvedName);
+    yield* createUser({ UserName: resolvedName });
+    return yield* testFn(resolvedName).pipe(
+      Effect.ensuring(cleanupUser(resolvedName)),
+    );
   });
 
 const withGroup = <A, E, R>(
-  groupName: string,
+  name: string,
   testFn: (groupName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
-    yield* cleanupGroup(groupName);
-    yield* createGroup({ GroupName: groupName });
-    return yield* testFn(groupName).pipe(
-      Effect.ensuring(cleanupGroup(groupName)),
+    yield* cleanupGroup(resolvedName);
+    yield* createGroup({ GroupName: resolvedName });
+    return yield* testFn(resolvedName).pipe(
+      Effect.ensuring(cleanupGroup(resolvedName)),
     );
   });
 
 const withRole = <A, E, R>(
-  roleName: string,
+  name: string,
   testFn: (roleName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
-    yield* cleanupRole(roleName);
+    yield* cleanupRole(resolvedName);
     yield* createRole({
-      RoleName: roleName,
+      RoleName: resolvedName,
       AssumeRolePolicyDocument: trustPolicy,
     });
-    return yield* testFn(roleName).pipe(Effect.ensuring(cleanupRole(roleName)));
+    return yield* testFn(resolvedName).pipe(
+      Effect.ensuring(cleanupRole(resolvedName)),
+    );
   });
 
 const withPolicy = <A, E, R>(
-  policyName: string,
+  name: string,
   testFn: (policyArn: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs - need to find the policy ARN first
     const existingPolicies = yield* listPolicies({ Scope: "Local" }).pipe(
       Effect.orElseSucceed(() => ({ Policies: [] })),
     );
     const existingPolicy = existingPolicies.Policies?.find(
-      (p) => p.PolicyName === policyName,
+      (p) => p.PolicyName === resolvedName,
     );
     if (existingPolicy?.Arn) {
       yield* cleanupPolicy(existingPolicy.Arn);
     }
 
     const result = yield* createPolicy({
-      PolicyName: policyName,
+      PolicyName: resolvedName,
       PolicyDocument: policyDocument,
     });
     const policyArn = result.Policy!.Arn!;
@@ -358,15 +366,16 @@ const withPolicy = <A, E, R>(
   });
 
 const withInstanceProfile = <A, E, R>(
-  profileName: string,
+  name: string,
   testFn: (profileName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
-    yield* cleanupInstanceProfile(profileName);
-    yield* createInstanceProfile({ InstanceProfileName: profileName });
-    return yield* testFn(profileName).pipe(
-      Effect.ensuring(cleanupInstanceProfile(profileName)),
+    yield* cleanupInstanceProfile(resolvedName);
+    yield* createInstanceProfile({ InstanceProfileName: resolvedName });
+    return yield* testFn(resolvedName).pipe(
+      Effect.ensuring(cleanupInstanceProfile(resolvedName)),
     );
   });
 
@@ -438,8 +447,8 @@ test(
 test(
   "update group name and path",
   Effect.gen(function* () {
-    const groupName = "distilled-iam-group-update";
-    const newGroupName = "distilled-iam-group-updated";
+    const groupName = `distilled-iam-group-update-${testRunId}`;
+    const newGroupName = `distilled-iam-group-updated-${testRunId}`;
 
     // Clean up both possible names from previous runs
     yield* cleanupGroup(groupName);

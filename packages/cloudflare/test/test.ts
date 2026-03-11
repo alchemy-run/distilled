@@ -135,3 +135,14 @@ export const hasCredentials = (): boolean => {
   const hasAccount = !!process.env.CLOUDFLARE_ACCOUNT_ID;
   return hasAccount && (hasToken || hasKey);
 };
+
+/**
+ * Short random hex string generated once per test run.
+ * Append this to resource names so parallel test runs don't collide.
+ *
+ * Example: `distilled-cf-r2-${name}-${testRunId}`
+ */
+export const testRunId: string = crypto
+  .randomUUID()
+  .replace(/-/g, "")
+  .slice(0, 8);

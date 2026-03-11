@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as R2DataCatalog from "~/services/r2-data-catalog.ts";
 import * as R2 from "~/services/r2.ts";
 
@@ -11,10 +11,11 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic bucket name for tests.
- * Follows the convention: distilled-cf-r2cat-{testname}
+ * Deterministic bucket name for tests with a random suffix to avoid collisions
+ * between parallel test runs.
+ * Follows the convention: distilled-cf-r2cat-{testname}-{testRunId}
  */
-const bucketName = (name: string) => `distilled-cf-r2cat-${name}`;
+const bucketName = (name: string) => `distilled-cf-r2cat-${name}-${testRunId}`;
 
 /**
  * Create an R2 bucket, run `fn`, then delete the bucket.

@@ -16,7 +16,7 @@ import {
   tagQueue,
   untagQueue,
 } from "../../src/services/sqs.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // ============================================================================
 // Idempotent Cleanup Helpers
@@ -53,14 +53,16 @@ const retryQueueNotExist = {
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withQueue = <A, E, R>(
   queueName: string,
-  testFn: (queueUrl: string) => Effect.Effect<A, E, R>,
+  testFn: (queueUrl: string, queueName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const resolvedName = `${queueName}-${testRunId}`;
+
     // Clean up any leftover from previous runs
-    yield* cleanupQueueByName(queueName);
+    yield* cleanupQueueByName(resolvedName);
 
     // Create the queue, retrying if recently deleted
-    const createResult = yield* createQueue({ QueueName: queueName }).pipe(
+    const createResult = yield* createQueue({ QueueName: resolvedName }).pipe(
       Effect.retry({
         while: (err) => err._tag === "QueueDeletedRecently",
         schedule: Schedule.spaced("5 seconds").pipe(
@@ -70,7 +72,7 @@ const withQueue = <A, E, R>(
     );
     const queueUrl = createResult.QueueUrl!;
 
-    return yield* testFn(queueUrl).pipe(
+    return yield* testFn(queueUrl, resolvedName).pipe(
       Effect.ensuring(cleanupQueueByUrl(queueUrl)),
     );
   });
@@ -78,12 +80,10 @@ const withQueue = <A, E, R>(
 // Helper for FIFO queues - cleans up before AND after
 const withFifoQueue = <A, E, R>(
   queueName: string,
-  testFn: (queueUrl: string) => Effect.Effect<A, E, R>,
+  testFn: (queueUrl: string, queueName: string) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
-    const fifoQueueName = queueName.endsWith(".fifo")
-      ? queueName
-      : `${queueName}.fifo`;
+    const fifoQueueName = `${queueName.replace(/\.fifo$/, "")}-${testRunId}.fifo`;
 
     // Clean up any leftover from previous runs
     yield* cleanupQueueByName(fifoQueueName);
@@ -105,7 +105,7 @@ const withFifoQueue = <A, E, R>(
     );
     const queueUrl = createResult.QueueUrl!;
 
-    return yield* testFn(queueUrl).pipe(
+    return yield* testFn(queueUrl, fifoQueueName).pipe(
       Effect.ensuring(cleanupQueueByUrl(queueUrl)),
     );
   });
@@ -116,23 +116,23 @@ const withFifoQueue = <A, E, R>(
 
 test(
   "create queue, get queue url, list queues, and delete",
-  withQueue("distilled-sqs-lifecycle", (queueUrl) =>
+  withQueue("distilled-sqs-lifecycle", (queueUrl, name) =>
     Effect.gen(function* () {
       // Verify queue URL is returned
       expect(queueUrl).toBeDefined();
 
       // Get queue URL by name (retry for eventual consistency after create)
       const getUrlResult = yield* getQueueUrl({
-        QueueName: "distilled-sqs-lifecycle",
+        QueueName: name,
       }).pipe(Effect.retry(retryQueueNotExist));
       expect(getUrlResult.QueueUrl).toEqual(queueUrl);
 
       // List queues and verify our queue is in the list (retry for eventual consistency)
       const listResult = yield* listQueues({
-        QueueNamePrefix: "distilled-sqs-lifecycle",
+        QueueNamePrefix: name,
       }).pipe(Effect.retry(retryQueueNotExist));
       const foundQueue = listResult.QueueUrls?.find((url) =>
-        url.includes("distilled-sqs-lifecycle"),
+        url.includes(name),
       );
       expect(foundQueue).toBeDefined();
     }),

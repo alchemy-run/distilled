@@ -28,7 +28,7 @@ import {
   putMethod,
   putMethodResponse,
 } from "../../src/services/api-gateway.ts";
-import { afterAll, beforeAll, test } from "../test.ts";
+import { afterAll, beforeAll, test, testRunId } from "../test.ts";
 
 // ============================================================================
 // Pagination Helpers
@@ -79,9 +79,9 @@ beforeAll(
   Effect.gen(function* () {
     // API Gateway names aren't unique - delete any existing API with the same name
     // to prevent accumulation from failed test runs
-    yield* deleteExistingApiByName("distilled-apigw-shared");
+    yield* deleteExistingApiByName(`distilled-apigw-shared-${testRunId}`);
 
-    const api = yield* createRestApi({ name: "distilled-apigw-shared" });
+    const api = yield* createRestApi({ name: `distilled-apigw-shared-${testRunId}` });
     sharedRestApiId = api.id!;
 
     // Get root resource
@@ -105,7 +105,7 @@ describe.sequential("API Gateway", () => {
       // Get REST API
       const api = yield* getRestApi({ restApiId: sharedRestApiId });
       expect(api.id).toBeDefined();
-      expect(api.name).toEqual("distilled-apigw-shared");
+      expect(api.name).toEqual(`distilled-apigw-shared-${testRunId}`);
 
       // List REST APIs (with pagination)
       const foundApi = yield* findRestApiById(sharedRestApiId);
@@ -364,7 +364,7 @@ describe.sequential("API Gateway", () => {
     Effect.gen(function* () {
       // Create API key
       const apiKey = yield* createApiKey({
-        name: "distilled-apigw-apikey",
+        name: `distilled-apigw-apikey-${testRunId}`,
         description: "Test API key",
         enabled: true,
       });
@@ -374,7 +374,7 @@ describe.sequential("API Gateway", () => {
       return yield* Effect.gen(function* () {
         // Get API key
         const fetchedKey = yield* getApiKey({ apiKey: apiKey.id! });
-        expect(fetchedKey.name).toEqual("distilled-apigw-apikey");
+        expect(fetchedKey.name).toEqual(`distilled-apigw-apikey-${testRunId}`);
         expect(fetchedKey.enabled).toBe(true);
 
         // List API keys

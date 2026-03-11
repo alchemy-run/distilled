@@ -12,6 +12,7 @@ import {
   runEffect,
   setupTestProject,
   teardownTestProject,
+  testRunId,
   TestLayer,
 } from "./setup";
 
@@ -165,7 +166,7 @@ describe("snapshots", () => {
   describe("createSnapshot & deleteSnapshot", () => {
     it("can create and delete a snapshot or returns appropriate error if feature not available", async () => {
       const proj = getProj();
-      const snapshotName = `test-snapshot-${Date.now()}`;
+      const snapshotName = `test-snapshot-${testRunId}`;
       let createdSnapshotId: string | null = null;
 
       try {
@@ -232,7 +233,7 @@ describe("snapshots", () => {
 
     it("can create snapshot with expiration", async () => {
       const proj = getProj();
-      const snapshotName = `expiring-snapshot-${Date.now()}`;
+      const snapshotName = `expiring-snapshot-${testRunId}`;
       // Set expiration to 1 week from now
       const expiresAt = new Date(
         Date.now() + 7 * 24 * 60 * 60 * 1000,
@@ -332,8 +333,8 @@ describe("snapshots", () => {
   describe("updateSnapshot", () => {
     it("can update a snapshot name when feature is available", async () => {
       const proj = getProj();
-      const originalName = `snapshot-to-update-${Date.now()}`;
-      const newName = `updated-snapshot-${Date.now()}`;
+      const originalName = `snapshot-to-update-${testRunId}`;
+      const newName = `updated-snapshot-${testRunId}`;
       let createdSnapshotId: string | null = null;
 
       try {

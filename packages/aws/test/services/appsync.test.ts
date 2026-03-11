@@ -33,7 +33,7 @@ import {
   tagResource,
   untagResource,
 } from "../../src/services/appsync.ts";
-import { test } from "../test.ts";
+import { test, testRunId } from "../test.ts";
 
 // Skip all tests in LocalStack - AppSync is not supported in community edition
 const isLocalStack = process.env.LOCAL === "true" || process.env.LOCAL === "1";
@@ -178,11 +178,12 @@ const cleanupGraphqlApiByName = (apiName: string) =>
 
 // Helper to ensure cleanup happens even on failure - cleans up before AND after
 const withGraphqlApi = <A, E, R>(
-  apiName: string,
+  name: string,
   options: { withSchema?: boolean } = {},
   testFn: (api: { apiId: string; arn: string }) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const apiName = `${name}-${testRunId}`;
     // Clean up any leftover from previous runs
     yield* cleanupGraphqlApiByName(apiName);
 
@@ -256,7 +257,7 @@ const withDataSource = <A, E, R>(
         const result = yield* getGraphqlApi({ apiId });
 
         expect(result.graphqlApi).toBeDefined();
-        expect(result.graphqlApi?.name).toEqual("distilled-appsync-lifecycle");
+        expect(result.graphqlApi?.name).toEqual(`distilled-appsync-lifecycle-${testRunId}`);
         expect(result.graphqlApi?.authenticationType).toEqual("API_KEY");
 
         // List APIs and verify our API is included
@@ -267,7 +268,7 @@ const withDataSource = <A, E, R>(
           (api) => api.apiId === apiId,
         );
         expect(found).toBeDefined();
-        expect(found?.name).toEqual("distilled-appsync-lifecycle");
+        expect(found?.name).toEqual(`distilled-appsync-lifecycle-${testRunId}`);
       }),
     ),
   );

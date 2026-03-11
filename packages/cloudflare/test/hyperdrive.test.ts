@@ -1,6 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
-import { test, getAccountId } from "./test.ts";
+import { test, getAccountId, testRunId } from "./test.ts";
 import * as Hyperdrive from "~/services/hyperdrive.ts";
 
 const accountId = () => getAccountId();
@@ -10,10 +10,11 @@ const accountId = () => getAccountId();
 // ============================================================================
 
 /**
- * Deterministic config name for tests.
- * Follows the convention: distilled-cf-hyperdrive-{testname}
+ * Deterministic config name for tests with a random suffix to avoid collisions
+ * in parallel test runs.
+ * Follows the convention: distilled-cf-hyperdrive-{testname}-{testRunId}
  */
-const configName = (name: string) => `distilled-cf-hyperdrive-${name}`;
+const configName = (name: string) => `distilled-cf-hyperdrive-${name}-${testRunId}`;
 
 /**
  * Valid origin configuration using localhost — Cloudflare rejects private/
