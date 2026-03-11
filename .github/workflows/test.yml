@@ -101,7 +101,16 @@ jobs:
       - run: bun install
       - run: bun run build
         working-directory: packages/core
-      - run: bun run specs:fetch
+      - name: Fetch AWS specs submodules
+        run: |
+          git submodule update --force --init --recursive --depth=1 specs/api-models-aws
+          git -C specs/api-models-aws checkout -- .
+          git submodule update --force --init --recursive --depth=1 specs/aws-sdk-js-v3
+          git -C specs/aws-sdk-js-v3 checkout -- .
+          git submodule update --force --init --recursive --depth=1 specs/smithy
+          git -C specs/smithy checkout -- .
+          git submodule update --force --init --recursive --depth=1 specs/smithy-typescript
+          git -C specs/smithy-typescript checkout -- .
         working-directory: packages/aws
       - run: bun run check
         working-directory: packages/aws
