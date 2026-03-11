@@ -171,8 +171,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/aws
 
       - name: Publish
         run: |
@@ -224,8 +229,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/cloudflare
 
       - name: Publish
         run: |
@@ -277,8 +287,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/gcp
 
       - name: Publish
         run: |
@@ -330,8 +345,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/neon
 
       - name: Publish
         run: |
@@ -383,8 +403,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/planetscale
 
       - name: Publish
         run: |
@@ -436,8 +461,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/prisma-postgres
 
       - name: Publish
         run: |
@@ -489,8 +519,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/stripe
 
       - name: Publish
         run: |
@@ -542,8 +577,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/supabase
 
       - name: Publish
         run: |
@@ -595,8 +635,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/mongodb-atlas
 
       - name: Publish
         run: |
@@ -648,8 +693,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/fly-io
 
       - name: Publish
         run: |
@@ -701,8 +751,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/turso
 
       - name: Publish
         run: |
@@ -754,8 +809,13 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
       - name: Build
         run: bun run build
+        working-directory: packages/coinbase
 
       - name: Publish
         run: |
