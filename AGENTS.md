@@ -20,7 +20,6 @@ distilled/
 │   ├── supabase/         # @distilled.cloud/supabase — Supabase SDK from OpenAPI spec
 │   └── turso/            # @distilled.cloud/turso — Turso SDK from OpenAPI spec
 ├── scripts/              # Root-level scripts (create-sdk.ts, bump.ts, etc.)
-├── .opencode/skills/     # OpenCode skill definitions (e.g. refine-sdk)
 ├── .github/workflows/    # CI (test.yml) and preview publishing (pkg-pr.yml)
 └── AGENTS.md             # This file
 ```
@@ -111,7 +110,7 @@ bun run create-sdk stripe --specs https://github.com/stripe/openapi.git
 bun run create-sdk foo --specs https://api.foo.com/openapi.json --register-package
 ```
 
-After scaffolding, use the `refine-sdk` skill (`.opencode/skills/refine-sdk/SKILL.md`) to review the OpenAPI spec and update credentials, client error handling, and auth to match the actual API.
+After scaffolding, the `create-sdk` script automatically calls opencode to review the OpenAPI spec and update credentials, client error handling, and auth to match the actual API.
 
 ## Submodules and Specs
 
