@@ -929,10 +929,22 @@ test(
         },
       });
 
-      // Get and verify
+      // Get and verify (eventual consistency - may need retries)
       const enabledAccelerate = yield* getBucketAccelerateConfiguration({
         Bucket: bucket,
-      });
+      }).pipe(
+        Effect.flatMap((r) =>
+          r.Status === "Enabled"
+            ? Effect.succeed(r)
+            : Effect.fail("not ready yet" as const),
+        ),
+        Effect.retry({
+          while: (err) => err === "not ready yet",
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.both(Schedule.recurs(10)),
+          ),
+        }),
+      );
       expect(enabledAccelerate.Status).toEqual("Enabled");
 
       // Disable accelerate
@@ -943,10 +955,22 @@ test(
         },
       });
 
-      // Verify suspended
+      // Verify suspended (eventual consistency - may need retries)
       const suspendedAccelerate = yield* getBucketAccelerateConfiguration({
         Bucket: bucket,
-      });
+      }).pipe(
+        Effect.flatMap((r) =>
+          r.Status === "Suspended"
+            ? Effect.succeed(r)
+            : Effect.fail("not ready yet" as const),
+        ),
+        Effect.retry({
+          while: (err) => err === "not ready yet",
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.both(Schedule.recurs(10)),
+          ),
+        }),
+      );
       expect(suspendedAccelerate.Status).toEqual("Suspended");
     }),
   ),

@@ -125,6 +125,62 @@ Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter
 | `neon` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
 | `planetscale` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
 
+## Effect 4 (IMPORTANT)
+
+This project uses **Effect 4** (`effect@4.x`), which is unlikely to be in your training data. The API has significant breaking changes from Effect 3. **Do NOT rely on training data for Effect APIs — always reference the actual code in the codebase and `node_modules`.**
+
+### How to verify APIs
+
+1. **Check existing code first** — search tests and `src/` for usage patterns of whatever API you need (e.g. `grep` for `Effect.retry`, `Effect.catch`, `Schedule.spaced`, etc.)
+2. **Check `node_modules`** — the Effect source is at `node_modules/.bun/effect@*/node_modules/effect/src/`. Read the actual type signatures when unsure.
+3. **Do NOT guess** — if you're unsure whether a function exists or what its signature is, look it up in the codebase or node_modules first.
+
+### Key Effect 4 API changes (non-exhaustive)
+
+| Effect 3 (old) | Effect 4 (current) | Notes |
+|---|---|---|
+| `Effect.catchAll(fn)` | `Effect.catch(fn)` | `catchAll` does not exist |
+| `Effect.catchTag("Tag", fn)` | `Effect.catch("Tag", fn)` | Catch by tag is via overload |
+| `Effect.retry(schedule)` | `Effect.retry({ schedule })` | Takes options object, not bare schedule |
+| `Effect.retry({ times: 3 })` | `Effect.retry({ schedule: Schedule.recurs(3) })` | Use `Schedule` for retry counts |
+
+The `while` option on `Effect.retry` is useful for retrying only specific errors:
+
+```typescript
+Effect.retry({
+  while: (err) => err === "not ready yet",
+  schedule: Schedule.spaced("1 second").pipe(
+    Schedule.both(Schedule.recurs(10)),
+  ),
+})
+```
+
+### Common patterns in this codebase
+
+```typescript
+// Error catching (Effect 4 — use Effect.catch, NOT Effect.catchAll)
+someOperation().pipe(
+  Effect.catch(() => Effect.succeed(fallback)),
+);
+
+// Retry with schedule
+someOperation().pipe(
+  Effect.retry({
+    schedule: Schedule.spaced("1 second").pipe(
+      Schedule.both(Schedule.recurs(10)),
+    ),
+  }),
+);
+
+// Retry only specific errors
+someOperation().pipe(
+  Effect.retry({
+    while: (err) => err._tag === "ThrottlingException",
+    schedule: Schedule.exponential("1 second"),
+  }),
+);
+```
+
 ## Writing Tests
 
 ### Structure
