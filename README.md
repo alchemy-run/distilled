@@ -1,9 +1,9 @@
-# distilled
+# Distilled
 
-Effect-native SDKs for cloud providers with tagged errors, retry policies and streaming pagination.
+Effect-native SDKs for cloud providers with exhaustive error typing, retry policies, and streaming pagination.
 
 ```typescript
-import * as S3 from "distilled-aws/s3"
+import * as S3 from "@distilled.cloud/aws/s3"
 
 const bucket = yield* S3.getBucket({
   Bucket: "my-bucket"
@@ -14,217 +14,111 @@ const bucket = yield* S3.getBucket({
 )
 ```
 
-## Cloud Providers
+## Packages
 
-Effect-native clients for major cloud providers, with tagged errors and tree-shakeable imports.
+| Package | Description |
+|---------|-------------|
+| [`@distilled.cloud/sdk-core`](./packages/core) | Shared client, traits, errors, and categories |
+| [`@distilled.cloud/aws`](./packages/aws) | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
+| [`@distilled.cloud/cloudflare`](./packages/cloudflare) | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS) |
+| [`@distilled.cloud/gcp`](./packages/gcp) | GCP SDK from Discovery Documents |
+| [`@distilled.cloud/neon`](./packages/neon) | Neon serverless Postgres SDK from OpenAPI spec |
+| [`@distilled.cloud/planetscale`](./packages/planetscale) | PlanetScale MySQL SDK from OpenAPI spec |
 
-### [distilled-aws](./distilled-aws)
-
-Complete AWS SDK with typed errors for S3, Lambda, DynamoDB, SQS, and 200+ services. Every API includes documented and undocumented error codes.
-
-```bash
-npm install distilled-aws effect @effect/platform
-```
-
-```typescript
-import * as S3 from "distilled-aws/s3"
-import * as Lambda from "distilled-aws/lambda"
-import * as DynamoDB from "distilled-aws/dynamodb"
-
-// All operations return Effect<A, TypedErrors, R>
-const result = yield* S3.getObject({
-  Bucket: "my-bucket",
-  Key: "data.json"
-}).pipe(
-  Effect.catchTag("NoSuchKey", () => Effect.succeed(null))
-)
-```
-
-[Read the full documentation →](./distilled-aws/README.md)
-
-### [distilled-cloudflare](./distilled-cloudflare)
-
-Cloudflare API client for Workers, R2, KV, D1, Queues, and more. Patched OpenAPI spec with complete error coverage.
+## Getting Started
 
 ```bash
-npm install distilled-cloudflare effect @effect/platform
+# Clone with submodules (needed for aws tests and code generation)
+git clone --recurse-submodules https://github.com/alchemy-run/distilled.git
+
+# Or if already cloned without submodules
+git submodule update --init --recursive
+
+# Install dependencies
+bun install
+
+# Build (core first, then all packages)
+bun run build
+
+# Run all tests
+bun run test
 ```
 
-```typescript
-import * as R2 from "distilled-cloudflare/r2"
-import * as Workers from "distilled-cloudflare/workers"
-import * as Queues from "distilled-cloudflare/queues"
+## Git Config for Submodules
 
-// Typed error handling
-yield* R2.getBucket({
-  accountId: "...",
-  bucketName: "my-bucket"
-}).pipe(
-  Effect.catchTag("NoSuchBucket", () => createBucket())
-)
-```
-
-[Read the full documentation →](./distilled-cloudflare/README.md)
-
-### [distilled-planetscale](./distilled-planetscale)
-
-PlanetScale MySQL serverless database client. Type-safe database management, branching, deploy requests, and schema migrations with complete error coverage.
+These settings make working with submodules much less painful:
 
 ```bash
-npm install distilled-planetscale effect @effect/platform
+# Automatically fetch submodules when pulling/cloning
+git config submodule.recurse true
+
+# Automatically push submodule changes when pushing
+git config push.recurseSubmodules on-demand
 ```
 
-```typescript
-import * as ps from "distilled-planetscale"
+## Submodules
 
-// Database and branch management
-const databases = yield* ps.listDatabases({ organization })
+Vendor API specifications are stored as git submodules under each package's `specs/` directory. They are **not needed for building or typechecking** — only for code generation (`bun run generate`). The exception is `aws`, which also needs submodules for testing.
 
-// Typed error handling
-yield* ps.getDatabase({
-  organization: "my-org",
-  database: "my-db"
-}).pipe(
-  Effect.catchTag("GetDatabaseNotfound", () => createDatabase())
-)
+```bash
+# Fetch specs for a specific package
+bun run specs:fetch    # run inside a package directory
+
+# Update specs to latest upstream
+bun run specs:update   # run inside a package directory
 ```
 
-[Read the full documentation →](./distilled-planetscale/README.md)
+| Package | Submodules |
+|---------|-----------|
+| `aws` | `api-models-aws`, `aws-sdk-js-v3`, `smithy`, `smithy-typescript` |
+| `cloudflare` | `cloudflare-typescript` |
+| `gcp` | `distilled-spec-gcp` |
+| `neon` | `distilled-spec-neon` |
+| `planetscale` | `distilled-spec-planetscale` |
 
-## Why distilled?
+## Scripts
 
-### Tagged Errors
+| Script | Description |
+|--------|-------------|
+| `bun run build` | Build core, then all packages |
+| `bun run typecheck` | Type check all packages |
+| `bun run check` | Full check (types + lint + format) |
+| `bun run test` | Run all tests |
+| `bun run fmt` | Format all packages |
+| `bun run lint` | Lint all packages |
+| `bun run generate` | Regenerate all SDKs from specs |
 
-Every API operation has properly typed, discriminated error unions. No more guessing what went wrong.
+## Deployment
 
-```typescript
-const bucket = yield* S3.getBucket({
-  Bucket: "my-bucket"
-}).pipe(
-  Effect.catchTag("NoSuchBucket", () =>
-    Effect.succeed(null)
-  ),
-  Effect.catchTag("AccessDenied", () =>
-    Effect.fail(new AuthError())
-  )
-)
-```
+### Preview Packages
 
-- Specs patched to include undocumented errors
-- Exhaustive error handling with catchTag
-- IDE autocomplete for all error tags
+Preview packages are automatically published on every PR and push to `main` via [pkg-pr-new](https://github.com/nicolo-ribaudo/pkg-pr-new) (`.github/workflows/pkg-pr.yml`).
 
-### Retry Policies
+### NPM Releases
 
-Declarative, composable retry logic with type-safe schedules. Handle transient failures without callback hell.
+To publish a release to npm, manually trigger the **Release NPM Packages** workflow from the [GitHub Actions UI](../../actions/workflows/release.yml):
 
-```typescript
-const result = yield* S3.getObject({
-  Bucket: "my-bucket",
-  Key: "data.json"
-}).pipe(
-  Effect.retry({
-    while: (e) => e._tag === "SlowDown",
-    schedule: Schedule.exponential("100 millis")
-  }),
-  Effect.timeout("5 seconds")
-)
-```
+1. Go to **Actions** → **Release NPM Packages** → **Run workflow**
+2. Choose a bump type (`patch` or `minor`) or provide an exact version override
+3. The workflow will bump all package versions, commit, tag, create a GitHub release, build, and publish to npm
 
-- Exponential backoff, jitter, and more
-- Retry only on specific error tags
-- Compose schedules for complex policies
+The release workflow uses npm's OIDC trusted publishing — no npm tokens needed.
 
-### Streaming Pagination
+### CI
 
-Paginated APIs return Effect Streams. No manual token juggling—just iterate.
-
-```typescript
-// Stream all pages
-yield* S3.listObjectsV2
-  .pages({ Bucket: "my-bucket" })
-  .pipe(Stream.runForEach(Console.log))
-
-// Or stream individual items
-yield* DynamoDB.scan
-  .items({ TableName: "users" })
-  .pipe(Stream.runCollect)
-```
-
-- `.pages()` streams full response objects
-- `.items()` streams individual items
-- Lazy evaluation—fetch only what you need
-
-### Streaming I/O
-
-Upload and download with Effect Streams. Process data as it flows without buffering entire payloads.
-
-```typescript
-// Upload a stream
-yield* S3.putObject({
-  Bucket: "my-bucket",
-  Key: "large-file.bin",
-  Body: Stream.fromIterable(chunks),
-})
-
-// Download as a stream
-const { Body } = yield* S3.getObject({ ... })
-const text = yield* Body.pipe(
-  Stream.decodeText(),
-  Stream.mkString
-)
-```
-
-- `Stream<Uint8Array>` for uploads and downloads
-- Composable with all Stream operators
-- Backpressure handled automatically
-
-### Tree-Shakeable
-
-No monolithic client classes. Import only what you need—your bundle stays lean.
-
-```typescript
-// Only bundles getBucket and createBucket
-import * as S3 from "distilled-aws/s3"
-
-// NOT this:
-// import { S3Client } from "@aws-sdk/client-s3"
-// new S3Client() bundles ALL 100+ operations
-```
-
-- Module-scoped functions, not class methods
-- Config via Effect Layers, not constructors
-- Perfect for serverless and edge runtimes
-
-## The Mission
-
-Type-safe, tagged error specs aren't just good for developers—they're essential for AI code generation.
-
-distilled SDKs are built to power [alchemy.run](https://alchemy.run)—next-generation Infrastructure-as-Code in native TypeScript. When AI generates infrastructure code, it needs to know every possible error and how to handle it.
-
-Proper error tags mean sound, reliable tooling. No more hallucinated error handling. No more runtime surprises.
-
-**AI-Ready Specs:**
-- Exhaustive error unions
-- Typed request/response schemas
-- Patched and verified specs
-- Reliable code generation
+The CI workflow (`.github/workflows/test.yml`) runs typecheck + lint + format + tests for each package that has changed files.
 
 ## Contributing
 
-The TDD workflow for discovering missing errors:
+The TDD workflow for discovering and patching missing errors:
 
 1. Write a test that triggers an error
-2. Run the test and observe `UnknownError` / `UnknownCloudflareError`
-3. Add the error to the spec/patch file
-4. Regenerate the SDK
-5. Import the typed error class and handle it
+2. Run with `DEBUG=1` to see the raw response
+3. Add the error to the patch file (see package READMEs for format)
+4. Regenerate: `bun run generate`
+5. Import the typed error and handle it
 
-See the individual package READMEs for detailed contribution guidelines:
-
-- [distilled-aws/README.md](./distilled-aws/README.md)
-- [distilled-cloudflare/README.md](./distilled-cloudflare/README.md)
-- [distilled-planetscale/README.md](./distilled-planetscale/README.md)
+See [AGENTS.md](./AGENTS.md) for detailed development guidelines.
 
 ## License
 

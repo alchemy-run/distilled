@@ -2,260 +2,183 @@
 
 Effect-native SDKs with exhaustive error typing. We use a TDD-driven approach to discover, document, and patch missing API behavior from vendor specifications.
 
-## The Problem
-
-Cloud provider APIs have incomplete or incorrect specifications:
-- Missing error types (APIs return errors not in the spec)
-- Incorrect schemas (nullable fields marked required, wrong types)
-- Undocumented behavior (rate limits, eventual consistency)
-
-This leads to runtime surprises and `catch (e: unknown)` everywhere.
-
-## The Solution
-
-Each sub-project generates an Effect-native SDK from a vendor specification, then uses TDD to discover and patch missing errors. The result is a fully typed SDK where every error is in the type signature.
-
-```mermaid
-flowchart LR
-    A[Vendor Spec] --> B[Generate SDK]
-    B --> C[Write Tests]
-    C --> D{Tests Pass?}
-    D -->|Yes| E[Next Operation]
-    D -->|No| F{Failure Type?}
-    F -->|Unknown Error| G[Patch spec/*.json]
-    F -->|Schema Bug| H[Fix Generator]
-    F -->|Client Bug| I[Fix Client]
-    G --> B
-    H --> B
-    I --> C
-```
-
-## Monorepo Structure
+## Directory Structure
 
 ```
 distilled/
-├── AGENTS.md                 # This file - ecosystem overview
-├── distilled-aws/            # AWS SDK from Smithy models
-├── distilled-cloudflare/     # Cloudflare SDK from TypeScript SDK
-├── distilled-gcp/            # GCP SDK from Discovery Documents
-├── distilled-code/           # Programmatic coding agent library
-└── distilled.cloud/          # Marketing & docs site (Astro)
+├── packages/
+│   ├── core/             # @distilled.cloud/sdk-core — shared client, traits, errors, categories
+│   ├── aws/              # @distilled.cloud/aws — AWS SDK from Smithy models
+│   ├── cloudflare/       # @distilled.cloud/cloudflare — Cloudflare SDK from TypeScript SDK
+│   ├── gcp/              # @distilled.cloud/gcp — GCP SDK from Discovery Documents
+│   ├── neon/             # @distilled.cloud/neon — Neon SDK from OpenAPI spec
+│   └── planetscale/      # @distilled.cloud/planetscale — PlanetScale SDK from OpenAPI spec
+├── scripts/              # Root-level scripts (e.g. generate-pnpm-workspace.yaml.ts)
+├── .github/workflows/    # CI (test.yml) and preview publishing (pkg-pr.yml)
+└── AGENTS.md             # This file
 ```
 
-Each sub-project has its own `AGENTS.md` with specialized context. This document covers shared patterns.
+### Package Layout (each package)
 
-## The Universal TDD Loop
+```
+packages/{name}/
+├── src/                  # Source code (generated + hand-written)
+│   ├── client.ts         # API.make/makePaginated factory
+│   ├── traits.ts         # HTTP trait annotations (PathParam, Http, etc.)
+│   ├── errors.ts         # Typed error classes
+│   ├── category.ts       # Error categories (re-exported from core)
+│   └── operations/       # Generated operations (DO NOT HAND-EDIT)
+├── tests/                # Tests
+├── specs/                # Git submodules with vendor specs (see below)
+├── scripts/              # Code generation scripts
+├── lib/                  # Build output (gitignored) — .js, .d.ts, .js.map, .d.ts.map
+├── package.json
+└── tsconfig.json
+```
 
-All distilled SDKs follow this process:
+### Core Package
 
-### 1. Generate SDK from Spec
+`packages/core` (`@distilled.cloud/sdk-core`) contains shared infrastructure used by all SDKs:
+
+- `client.ts` — `API.make()` and `API.makePaginated()` factories that create Effect operations from annotated schemas
+- `traits.ts` — Schema annotations for HTTP bindings (`T.Http`, `T.PathParam`, `T.HttpHeader`, `T.JsonName`, etc.)
+- `errors.ts` — Base error classes (`NotFound`, `Unauthorized`, `Forbidden`, etc.) with error code matching
+- `category.ts` — Error categories (`AuthError`, `ThrottlingError`, `ServerError`, etc.) for retry logic and semantic grouping
+- `pagination.ts` — `paginatePages`/`paginateItems` stream utilities
+- `retry.ts` — Retry policy configuration
+- `sensitive.ts` — Sensitive data schemas
+- `json-patch.ts` — JSON Patch (RFC 6902) implementation for spec patching
+
+All other packages depend on core via `@distilled.cloud/sdk-core` workspace dependency.
+
+## Tools
+
+| Tool | Purpose | Command |
+|------|---------|---------|
+| **Bun** | Runtime, package manager, test runner | `bun install`, `bun run ...` |
+| **tsgo** | Type checking (native TypeScript compiler) | `tsgo` (check), `tsgo -b` (build) |
+| **oxlint** | Linter | `oxlint --fix src` |
+| **oxfmt** | Formatter | `oxfmt --write src`, `oxfmt --check src` |
+| **vitest** | Test framework | `bunx vitest run test` |
+| **Effect** | Core framework | All operations return `Effect<A, E, R>` |
+
+### Per-Package Scripts
+
+Every package has these scripts:
+
+| Script | Command | Description |
+|--------|---------|-------------|
+| `typecheck` | `tsgo` | Type check only (no emit) |
+| `build` | `tsgo -b` | Build to `lib/` (.js + .d.ts + source maps) |
+| `check` | `tsgo && oxlint src && oxfmt --check src` | Full check (types + lint + format) |
+| `fmt` | `oxfmt --write src` | Format source |
+| `lint` | `oxlint --fix src` | Lint + autofix |
+| `test` | `bunx vitest run test` | Run tests |
+| `generate` | `bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src` | Regenerate from spec |
+
+### Root Build
 
 ```bash
-bun generate                    # Generate all services
-bun generate --sdk s3           # AWS: single service
-bun generate --service r2       # Cloudflare: single service
+bun run build  # Builds core first, then all packages in parallel
 ```
 
-The generator produces:
-- Effect Schema types with HTTP trait annotations
-- Operations returning `Effect<Output, TypedErrors, Requirements>`
-- Error classes with matching traits (status codes, error codes, messages)
+Core must be built before other packages because they resolve `@distilled.cloud/sdk-core/*` via the `types` export condition pointing to `lib/*.d.ts`.
 
-### 2. Write Tests for Each Operation
+## Submodules and Specs
 
-Tests cover both happy and unhappy paths:
+Each SDK package has vendor API specifications stored as git submodules under `specs/`:
 
-```typescript
-describe("getBucket", () => {
-  test("happy path - returns bucket metadata", () =>
-    Effect.gen(function* () {
-      const bucket = yield* getBucket({ name: "my-bucket" });
-      expect(bucket.name).toBe("my-bucket");
-    }));
+| Package | Submodule(s) | Contents |
+|---------|-------------|----------|
+| `aws` | `specs/api-models-aws`, `specs/aws-sdk-js-v3`, `specs/smithy`, `specs/smithy-typescript` | Smithy models, reference SDK, Smithy spec |
+| `cloudflare` | `specs/cloudflare-typescript` | Cloudflare TypeScript SDK source |
+| `gcp` | `specs/distilled-spec-gcp` | GCP Discovery Documents |
+| `neon` | `specs/distilled-spec-neon` | Neon OpenAPI spec |
+| `planetscale` | `specs/distilled-spec-planetscale` | PlanetScale OpenAPI spec |
 
-  test("error - NoSuchBucket for non-existent", () =>
-    getBucket({ name: "does-not-exist" }).pipe(
-      Effect.flip,
-      Effect.map((e) => expect(e._tag).toBe("NoSuchBucket")),
-    ));
-});
-```
-
-### 3. Type Check Before Running
+**Submodules are NOT needed for building or typechecking.** They're only needed for code generation (`bun run generate`), with the exception of `aws` which also needs its submodules for testing.
 
 ```bash
-bun tsgo -b
+# Fetch specs for a package (only needed for generation)
+bun run specs:fetch    # in a package directory
+
+# Update specs to latest upstream
+bun run specs:update   # in a package directory
 ```
 
-Fix type errors before running tests. Type errors often indicate:
-- Generator bug (schema/interface mismatch)
-- Missing error in spec
-- Incorrect trait annotations
+## Writing Patches
 
-### 4. Run Tests
+Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter an untyped error (e.g. `UnknownCloudflareError`, `PlanetScaleApiError`):
 
-```bash
-bun vitest run ./test/services/s3.test.ts
-DEBUG=1 bun vitest run ...      # With request/response logs
-```
+1. Run the test with `DEBUG=1` to see the raw error response
+2. Add the error to the appropriate patch file
+3. Regenerate: `bun run generate`
+4. Import the new typed error and update the test
 
-### 5. Analyze Failures
+### Patch Locations
 
-When tests fail, categorize the issue:
+| Package | Patch Format | Location |
+|---------|-------------|----------|
+| `aws` | Smithy error additions | `spec/{service}.json` |
+| `cloudflare` | Expression DSL matchers | `patch/{service}/{operation}.json` |
+| `gcp` | gRPC status matchers | `patch/{service}/{operation}.json` |
+| `neon` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
+| `planetscale` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
 
-| Failure Type | Symptom | Fix |
-|--------------|---------|-----|
-| **Unknown Error** | `UnknownError` / `PlanetScaleApiError` | Add to `spec/{service}.json` |
-| **Schema Bug** | Type mismatch, wrong field names | Fix generator |
-| **Client Bug** | Incorrect serialization/parsing | Fix `src/client/*.ts` |
-| **Test Bug** | Wrong assertions, bad test data | Fix the test |
+## Writing Tests
 
-### 6. Patch Missing Errors
+### Structure
 
-Each SDK has a `spec/` directory with JSON patches:
-
-```json
-{
-  "operations": {
-    "getBucket": {
-      "errors": ["NoSuchBucket", "AccessDenied"]
-    }
-  },
-  "errors": {
-    "NoSuchBucket": { "code": 10006, "status": 404 }
-  }
-}
-```
-
-### 7. Regenerate and Iterate
-
-```bash
-bun generate --sdk {service}    # Regenerate with patches
-bun vitest run ...              # Re-run tests
-```
-
-Repeat until all tests pass.
-
-## Shared Conventions
-
-### Resource Naming
-
-Deterministic names enable cleanup of leaked resources:
-
-```
-distilled-{service}-{testname}
-```
-
-Examples:
-- `distilled-s3-cors-test`
-- `distilled-cf-workers-upload`
-
-Never use random suffixes like `Date.now()` or `uuid()`.
-
-### Test Organization
-
-Tests are organized by API operation, not by feature:
+Tests are organized by API operation:
 
 ```typescript
 describe("ServiceName", () => {
   describe("operationName", () => {
-    test("happy path - ...", () => ...);
-    test("error - ErrorTag for condition", () => ...);
+    test("happy path - returns expected data", () => ...);
+    test("error - NotFound for non-existent resource", () => ...);
   });
 });
 ```
 
-### Resource Lifecycle Helpers
+### Resource Cleanup
 
-Use `withXxx` patterns for setup/teardown:
-
-```typescript
-const withBucket = <A, E, R>(
-  name: string,
-  fn: (bucket: string) => Effect.Effect<A, E, R>,
-) =>
-  cleanup(name).pipe(
-    Effect.andThen(createBucket({ name })),
-    Effect.andThen(fn(name)),
-    Effect.ensuring(cleanup(name)),
-  );
-```
-
-### Error Expectations
+**Tests MUST always clean up resources they create**, even on failure. Use `Effect.ensuring` or try/finally:
 
 ```typescript
-// Flip the effect to get the error, then assert
-someOperation().pipe(
-  Effect.flip,
-  Effect.map((e) => expect(e._tag).toBe("ExpectedError")),
+it.effect("creates and cleans up resource", () =>
+  Effect.gen(function* () {
+    const resource = yield* createResource({ name: "test-resource" });
+    expect(resource.id).toBeDefined();
+  }).pipe(
+    Effect.ensuring(
+      deleteResource({ name: "test-resource" }).pipe(Effect.ignore)
+    )
+  )
 );
 ```
 
-### Commits
-
-Use conventional commits:
-
-```
-feat: add S3 GetObject operation
-fix: handle nullable CreatedAt in bucket response
-test: add error cases for deleteBucket
-chore: regenerate s3 client
-```
-
-## Error Categories
-
-All SDKs share error category concepts for retry logic:
-
-| Category | Description | Retry? |
-|----------|-------------|--------|
-| `Throttling` | Rate limited (429, TooManyRequests) | Yes, with backoff |
-| `Transient` | Temporary failure (503, timeout) | Yes |
-| `Server` | Server error (5xx) | Maybe |
-| `NotFound` | Resource doesn't exist (404) | No |
-| `Validation` | Bad input (400) | No |
-| `Auth` | Authentication/authorization | No |
-
-## Sub-Project Details
-
-See specialized AGENTS.md in each sub-project:
-
-- **[distilled-aws/AGENTS.md](distilled-aws/AGENTS.md)** - Smithy models, AWS protocols (restJson, restXml, awsQuery), SigV4 signing
-- **[distilled-cloudflare/AGENTS.md](distilled-cloudflare/AGENTS.md)** - TypeScript SDK parsing, error code matching, multipart handling
-- **[distilled-gcp/AGENTS.md](distilled-gcp/AGENTS.md)** - GCP Discovery Documents, REST JSON, OAuth2/ADC authentication
-- **[distilled-code/AGENTS.md](distilled-code/AGENTS.md)** - Programmatic coding agents for automated test generation
-- **[distilled.cloud/AGENTS.md](distilled.cloud/AGENTS.md)** - Astro marketing site and documentation
-
-## Automated Test Generation with distilled-code
-
-The `distilled-code` package provides programmatic coding agents that can:
-
-1. Iterate over all operations in a service
-2. Generate test cases (happy path + error cases)
-3. Run tests and analyze failures
-4. Patch specs with discovered errors
-5. Regenerate and verify
-
-This enables running the TDD loop at scale across hundreds of operations.
+### Error Testing
 
 ```typescript
-import { Agent } from "distilled-code";
+// Flip the effect to get the error channel
+someOperation({ id: "non-existent" }).pipe(
+  Effect.flip,
+  Effect.map((e) => expect(e._tag).toBe("NotFound")),
+);
 
-// Run test generation for a specific service
-await Agent.generateTests({
-  sdk: "aws",
-  service: "ec2",
-  scope: "Vpc",        // Optional: limit to Vpc-related operations
-  fix: true,           // Auto-patch discovered errors
-});
+// Or use matchEffect for more control
+someOperation({ id: "non-existent" }).pipe(
+  Effect.matchEffect({
+    onFailure: (e) => Effect.succeed(e),
+    onSuccess: () => Effect.succeed(null),
+  }),
+);
 ```
 
-## Commands Reference
+### Key Rules
 
-| Command | Description |
-|---------|-------------|
-| `bun generate` | Generate all SDKs |
-| `bun generate --sdk {service}` | Generate single AWS service |
-| `bun generate --service {service}` | Generate single Cloudflare service |
-| `bun tsgo -b` | Type check all packages |
-| `bun vitest run ./test/...` | Run tests |
-| `DEBUG=1 bun vitest run ...` | Run tests with debug logging |
+- **Always clean up** — use `Effect.ensuring` or try/finally with `Effect.ignore` on cleanup
+- **Deterministic names** — prefer `distilled-{service}-{testname}` over random suffixes
+- **Increase timeouts** for tests hitting real APIs — `{ timeout: 30_000 }`
+- **Use `DEBUG=1`** to see raw HTTP request/response logs when debugging failures
+- **DO NOT modify generated files** in `src/operations/` — fix the generator or patch instead

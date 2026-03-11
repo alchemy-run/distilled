@@ -1,0 +1,80 @@
+{
+  "name": "@distilled.cloud/core",
+  "version": "0.2.0-alpha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "src"
+  ],
+  "exports": {
+    "./category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./client": {
+      "types": "./lib/client.d.ts",
+      "bun": "./src/client.ts",
+      "default": "./lib/client.js"
+    },
+    "./errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./json-patch": {
+      "types": "./lib/json-patch.d.ts",
+      "bun": "./src/json-patch.ts",
+      "default": "./lib/json-patch.js"
+    },
+    "./pagination": {
+      "types": "./lib/pagination.d.ts",
+      "bun": "./src/pagination.ts",
+      "default": "./lib/pagination.js"
+    },
+    "./retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    "./sensitive": {
+      "types": "./lib/sensitive.d.ts",
+      "bun": "./src/sensitive.ts",
+      "default": "./lib/sensitive.js"
+    },
+    "./traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    },
+    "./openapi/generate": {
+      "bun": "./scripts/generate-openapi.ts",
+      "default": "./scripts/generate-openapi.ts"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsgo",
+    "build": "tsgo -b",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint --fix src",
+    "check": "tsgo && oxlint src && oxfmt --check src",
+    "test": "bunx vitest run test",
+    "publish:npm": "bun run build && bun publish --access public"
+  },
+  "dependencies": {
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "name": "@distilled.cloud/cloudflare",
+  "version": "0.2.0-alpha",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alchemy-run/distilled",
+    "directory": "packages/cloudflare"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "lib",
+    "src"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "default": "./lib/services/*.js"
+    },
+    "./Auth": {
+      "types": "./lib/auth.d.ts",
+      "bun": "./src/auth.ts",
+      "default": "./lib/auth.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsgo",
+    "build": "tsgo -b",
+    "fmt": "oxfmt --write src",
+    "lint": "oxlint --fix src",
+    "check": "tsgo && oxlint src && oxfmt --check src",
+    "test": "bunx vitest run test",
+    "publish:npm": "bun run build && bun publish --access public",
+    "generate": "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+    "specs:fetch": "git submodule update --force --init --recursive specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",
+    "specs:update": "git -C specs/cloudflare-typescript fetch && git -C specs/cloudflare-typescript checkout main && git -C specs/cloudflare-typescript pull"
+  },
+  "dependencies": {
+    "@distilled.cloud/core": "workspace:*",
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/platform-node": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "dotenv": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "effect": "catalog:"
+  }
+}

@@ -3,6 +3,7 @@
   "rules": {
     "no-misused-new": "off",
     "require-yield": "off",
-    "no-non-null-asserted-optional-chain": "off"
+    "no-non-null-asserted-optional-chain": "off",
+    "no-thenable": "off"
   }
 }

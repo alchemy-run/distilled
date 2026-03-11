@@ -10,7 +10,6 @@ on:
         options:
           - patch
           - minor
-          - major
       version-override:
         description: "Exact version override (e.g. 0.2.0-alpha). Leave empty to use bump type."
         required: false

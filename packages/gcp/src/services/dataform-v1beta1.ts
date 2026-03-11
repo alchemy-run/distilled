@@ -1,0 +1,5974 @@
+// ==========================================================================
+// Dataform API (dataform v1beta1)
+// DO NOT EDIT - Generated from GCP Discovery Document
+// ==========================================================================
+
+import * as Schema from "effect/Schema";
+import * as API from "../client/api.ts";
+import * as T from "../traits";
+import type { Credentials } from "../credentials";
+import type { DefaultErrors } from "../errors";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+
+// Service metadata
+const svc = T.Service({
+  name: "dataform",
+  version: "v1beta1",
+  rootUrl: "https://dataform.googleapis.com/",
+  servicePath: "",
+});
+
+// ==========================================================================
+// Schemas
+// ==========================================================================
+
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: Array<Record<string, unknown>>;
+}
+
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+
+export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: Record<string, unknown>;
+}
+
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+
+export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: Array<Operation>;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: Array<string>;
+}
+
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
+
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
+
+export interface CancelOperationRequest {}
+
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
+
+export interface TeamFolder {
+  /** Identifier. The TeamFolder's name. */
+  name?: string;
+  /** Required. The TeamFolder's user-friendly name. */
+  displayName?: string;
+  /** Output only. The timestamp of when the TeamFolder was created. */
+  createTime?: string;
+  /** Output only. The timestamp of when the TeamFolder was last updated. */
+  updateTime?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+  /** Output only. The IAM principal identifier of the creator of the TeamFolder. */
+  creatorIamPrincipal?: string;
+}
+
+export const TeamFolder: Schema.Schema<TeamFolder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+      creatorIamPrincipal: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "TeamFolder" }) as any as Schema.Schema<TeamFolder>;
+
+export interface Folder {
+  /** Identifier. The Folder's name. */
+  name?: string;
+  /** Required. The Folder's user-friendly name. */
+  displayName?: string;
+  /** Optional. The containing Folder resource name. This should take the format: projects/{project}/locations/{location}/folders/{folder}, projects/{project}/locations/{location}/teamFolders/{teamFolder}, or just projects/{project}/locations/{location} if this is a root Folder. This field can only be updated through MoveFolder. */
+  containingFolder?: string;
+  /** Output only. The resource name of the TeamFolder that this Folder is associated with. This should take the format: projects/{project}/locations/{location}/teamFolders/{teamFolder}. If this is not set, the Folder is not associated with a TeamFolder and is a UserFolder. */
+  teamFolderName?: string;
+  /** Output only. The timestamp of when the Folder was created. */
+  createTime?: string;
+  /** Output only. The timestamp of when the Folder was last updated. */
+  updateTime?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+  /** Output only. The IAM principal identifier of the creator of the Folder. */
+  creatorIamPrincipal?: string;
+}
+
+export const Folder: Schema.Schema<Folder> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      containingFolder: Schema.optional(Schema.String),
+      teamFolderName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+      creatorIamPrincipal: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+
+export interface SshAuthenticationConfig {
+  /** Required. The name of the Secret Manager secret version to use as a ssh private key for Git operations. Must be in the format `projects/* /secrets/* /versions/*`. */
+  userPrivateKeySecretVersion?: string;
+  /** Required. Content of a public SSH key to verify an identity of a remote Git host. */
+  hostPublicKey?: string;
+}
+
+export const SshAuthenticationConfig: Schema.Schema<SshAuthenticationConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userPrivateKeySecretVersion: Schema.optional(Schema.String),
+      hostPublicKey: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SshAuthenticationConfig",
+  }) as any as Schema.Schema<SshAuthenticationConfig>;
+
+export interface GitRemoteSettings {
+  /** Required. The Git remote's URL. */
+  url?: string;
+  /** Required. The Git remote's default branch name. */
+  defaultBranch?: string;
+  /** Optional. The name of the Secret Manager secret version to use as an authentication token for Git operations. Must be in the format `projects/* /secrets/* /versions/*`. */
+  authenticationTokenSecretVersion?: string;
+  /** Optional. Authentication fields for remote uris using SSH protocol. */
+  sshAuthenticationConfig?: SshAuthenticationConfig;
+  /** Output only. Deprecated: The field does not contain any token status information. Instead use https://cloud.google.com/dataform/reference/rest/v1beta1/projects.locations.repositories/computeAccessTokenStatus */
+  tokenStatus?:
+    | "TOKEN_STATUS_UNSPECIFIED"
+    | "NOT_FOUND"
+    | "INVALID"
+    | "VALID"
+    | (string & {});
+}
+
+export const GitRemoteSettings: Schema.Schema<GitRemoteSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      url: Schema.optional(Schema.String),
+      defaultBranch: Schema.optional(Schema.String),
+      authenticationTokenSecretVersion: Schema.optional(Schema.String),
+      sshAuthenticationConfig: Schema.optional(SshAuthenticationConfig),
+      tokenStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GitRemoteSettings",
+  }) as any as Schema.Schema<GitRemoteSettings>;
+
+export interface WorkspaceCompilationOverrides {
+  /** Optional. The default database (Google Cloud project ID). */
+  defaultDatabase?: string;
+  /** Optional. The suffix that should be appended to all schema (BigQuery dataset ID) names. */
+  schemaSuffix?: string;
+  /** Optional. The prefix that should be prepended to all table names. */
+  tablePrefix?: string;
+}
+
+export const WorkspaceCompilationOverrides: Schema.Schema<WorkspaceCompilationOverrides> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      defaultDatabase: Schema.optional(Schema.String),
+      schemaSuffix: Schema.optional(Schema.String),
+      tablePrefix: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkspaceCompilationOverrides",
+  }) as any as Schema.Schema<WorkspaceCompilationOverrides>;
+
+export interface DataEncryptionState {
+  /** Required. The KMS key version name with which data of a resource is encrypted. */
+  kmsKeyVersionName?: string;
+}
+
+export const DataEncryptionState: Schema.Schema<DataEncryptionState> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kmsKeyVersionName: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataEncryptionState",
+  }) as any as Schema.Schema<DataEncryptionState>;
+
+export interface Repository {
+  /** Identifier. The repository's name. */
+  name?: string;
+  /** Optional. The name of the containing folder of the repository. The field is immutable and it can be modified via a MoveRepository operation. Format: `projects/* /locations/* /folders/*`. or `projects/* /locations/* /teamFolders/*`. */
+  containingFolder?: string;
+  /** Output only. The resource name of the TeamFolder that this Repository is associated with. This should take the format: projects/{project}/locations/{location}/teamFolders/{teamFolder}. If this is not set, the Repository is not associated with a TeamFolder. */
+  teamFolderName?: string;
+  /** Output only. The timestamp of when the repository was created. */
+  createTime?: string;
+  /** Optional. The repository's user-friendly name. */
+  displayName?: string;
+  /** Optional. If set, configures this repository to be linked to a Git remote. */
+  gitRemoteSettings?: GitRemoteSettings;
+  /** Optional. The name of the Secret Manager secret version to be used to interpolate variables into the .npmrc file for package installation operations. Must be in the format `projects/* /secrets/* /versions/*`. The file itself must be in a JSON format. */
+  npmrcEnvironmentVariablesSecretVersion?: string;
+  /** Optional. If set, fields of `workspace_compilation_overrides` override the default compilation settings that are specified in dataform.json when creating workspace-scoped compilation results. See documentation for `WorkspaceCompilationOverrides` for more information. */
+  workspaceCompilationOverrides?: WorkspaceCompilationOverrides;
+  /** Optional. Repository user labels. */
+  labels?: Record<string, string>;
+  /** Optional. Input only. If set to true, the authenticated user will be granted the roles/dataform.admin role on the created repository. To modify access to the created repository later apply setIamPolicy from https://cloud.google.com/dataform/reference/rest#rest-resource:-v1beta1.projects.locations.repositories */
+  setAuthenticatedUserAdmin?: boolean;
+  /** Optional. The service account to run workflow invocations under. */
+  serviceAccount?: string;
+  /** Optional. The reference to a KMS encryption key. If provided, it will be used to encrypt user data in the repository and all child resources. It is not possible to add or update the encryption key after the repository is created. Example: `projects/{kms_project}/locations/{location}/keyRings/{key_location}/cryptoKeys/{key}` */
+  kmsKeyName?: string;
+  /** Output only. A data encryption state of a Git repository if this Repository is protected by a KMS key. */
+  dataEncryptionState?: DataEncryptionState;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const Repository: Schema.Schema<Repository> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      containingFolder: Schema.optional(Schema.String),
+      teamFolderName: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      gitRemoteSettings: Schema.optional(GitRemoteSettings),
+      npmrcEnvironmentVariablesSecretVersion: Schema.optional(Schema.String),
+      workspaceCompilationOverrides: Schema.optional(
+        WorkspaceCompilationOverrides,
+      ),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      setAuthenticatedUserAdmin: Schema.optional(Schema.Boolean),
+      serviceAccount: Schema.optional(Schema.String),
+      kmsKeyName: Schema.optional(Schema.String),
+      dataEncryptionState: Schema.optional(DataEncryptionState),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Repository" }) as any as Schema.Schema<Repository>;
+
+export interface TeamFolderContentsEntry {
+  /** A subfolder. */
+  folder?: Folder;
+  /** A repository. */
+  repository?: Repository;
+}
+
+export const TeamFolderContentsEntry: Schema.Schema<TeamFolderContentsEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Folder),
+      repository: Schema.optional(Repository),
+    }),
+  ).annotate({
+    identifier: "TeamFolderContentsEntry",
+  }) as any as Schema.Schema<TeamFolderContentsEntry>;
+
+export interface QueryTeamFolderContentsResponse {
+  /** List of entries in the TeamFolder. */
+  entries?: Array<TeamFolderContentsEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryTeamFolderContentsResponse: Schema.Schema<QueryTeamFolderContentsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(Schema.Array(TeamFolderContentsEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryTeamFolderContentsResponse",
+  }) as any as Schema.Schema<QueryTeamFolderContentsResponse>;
+
+export interface TeamFolderSearchResult {
+  /** A TeamFolder resource that is in the project / location. */
+  teamFolder?: TeamFolder;
+}
+
+export const TeamFolderSearchResult: Schema.Schema<TeamFolderSearchResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      teamFolder: Schema.optional(TeamFolder),
+    }),
+  ).annotate({
+    identifier: "TeamFolderSearchResult",
+  }) as any as Schema.Schema<TeamFolderSearchResult>;
+
+export interface SearchTeamFoldersResponse {
+  /** List of TeamFolders that match the search query. */
+  results?: Array<TeamFolderSearchResult>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const SearchTeamFoldersResponse: Schema.Schema<SearchTeamFoldersResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      results: Schema.optional(Schema.Array(TeamFolderSearchResult)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchTeamFoldersResponse",
+  }) as any as Schema.Schema<SearchTeamFoldersResponse>;
+
+export interface FolderContentsEntry {
+  /** A subfolder. */
+  folder?: Folder;
+  /** A repository. */
+  repository?: Repository;
+}
+
+export const FolderContentsEntry: Schema.Schema<FolderContentsEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Folder),
+      repository: Schema.optional(Repository),
+    }),
+  ).annotate({
+    identifier: "FolderContentsEntry",
+  }) as any as Schema.Schema<FolderContentsEntry>;
+
+export interface QueryFolderContentsResponse {
+  /** List of entries in the folder. */
+  entries?: Array<FolderContentsEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryFolderContentsResponse: Schema.Schema<QueryFolderContentsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(Schema.Array(FolderContentsEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryFolderContentsResponse",
+  }) as any as Schema.Schema<QueryFolderContentsResponse>;
+
+export interface RootContentsEntry {
+  /** A subfolder. */
+  folder?: Folder;
+  /** A repository. */
+  repository?: Repository;
+}
+
+export const RootContentsEntry: Schema.Schema<RootContentsEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Folder),
+      repository: Schema.optional(Repository),
+    }),
+  ).annotate({
+    identifier: "RootContentsEntry",
+  }) as any as Schema.Schema<RootContentsEntry>;
+
+export interface QueryUserRootContentsResponse {
+  /** List of entries in the folder. */
+  entries?: Array<RootContentsEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryUserRootContentsResponse: Schema.Schema<QueryUserRootContentsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entries: Schema.optional(Schema.Array(RootContentsEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryUserRootContentsResponse",
+  }) as any as Schema.Schema<QueryUserRootContentsResponse>;
+
+export interface MoveFolderRequest {
+  /** Optional. The name of the Folder, TeamFolder, or root location to move the Folder to. Can be in the format of: "" to move into the root User folder, `projects/* /locations/* /folders/*`, `projects/* /locations/* /teamFolders/*` */
+  destinationContainingFolder?: string;
+}
+
+export const MoveFolderRequest: Schema.Schema<MoveFolderRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destinationContainingFolder: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveFolderRequest",
+  }) as any as Schema.Schema<MoveFolderRequest>;
+
+export interface ListRepositoriesResponse {
+  /** List of repositories. */
+  repositories?: Array<Repository>;
+  /** A token which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListRepositoriesResponse: Schema.Schema<ListRepositoriesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      repositories: Schema.optional(Schema.Array(Repository)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListRepositoriesResponse",
+  }) as any as Schema.Schema<ListRepositoriesResponse>;
+
+export interface MoveRepositoryRequest {
+  /** Optional. The name of the Folder, TeamFolder, or root location to move the repository to. Can be in the format of: "" to move into the root User folder, `projects/* /locations/* /folders/*`, `projects/* /locations/* /teamFolders/*` */
+  destinationContainingFolder?: string;
+}
+
+export const MoveRepositoryRequest: Schema.Schema<MoveRepositoryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destinationContainingFolder: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveRepositoryRequest",
+  }) as any as Schema.Schema<MoveRepositoryRequest>;
+
+export interface CommitAuthor {
+  /** Required. The commit author's name. */
+  name?: string;
+  /** Required. The commit author's email address. */
+  emailAddress?: string;
+}
+
+export const CommitAuthor: Schema.Schema<CommitAuthor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      emailAddress: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitAuthor",
+  }) as any as Schema.Schema<CommitAuthor>;
+
+export interface CommitMetadata {
+  /** Required. The commit's author. */
+  author?: CommitAuthor;
+  /** Optional. The commit's message. */
+  commitMessage?: string;
+}
+
+export const CommitMetadata: Schema.Schema<CommitMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      author: Schema.optional(CommitAuthor),
+      commitMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitMetadata",
+  }) as any as Schema.Schema<CommitMetadata>;
+
+export interface WriteFile {
+  /** The file's contents. */
+  contents?: string;
+}
+
+export const WriteFile: Schema.Schema<WriteFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contents: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "WriteFile" }) as any as Schema.Schema<WriteFile>;
+
+export interface DeleteFile {}
+
+export const DeleteFile: Schema.Schema<DeleteFile> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DeleteFile",
+  }) as any as Schema.Schema<DeleteFile>;
+
+export interface FileOperation {
+  /** Represents the write operation. */
+  writeFile?: WriteFile;
+  /** Represents the delete operation. */
+  deleteFile?: DeleteFile;
+}
+
+export const FileOperation: Schema.Schema<FileOperation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      writeFile: Schema.optional(WriteFile),
+      deleteFile: Schema.optional(DeleteFile),
+    }),
+  ).annotate({
+    identifier: "FileOperation",
+  }) as any as Schema.Schema<FileOperation>;
+
+export interface CommitRepositoryChangesRequest {
+  /** Required. The changes to commit to the repository. */
+  commitMetadata?: CommitMetadata;
+  /** Optional. The commit SHA which must be the repository's current HEAD before applying this commit; otherwise this request will fail. If unset, no validation on the current HEAD commit SHA is performed. */
+  requiredHeadCommitSha?: string;
+  /** Optional. A map to the path of the file to the operation. The path is the full file path including filename, from repository root. */
+  fileOperations?: Record<string, FileOperation>;
+}
+
+export const CommitRepositoryChangesRequest: Schema.Schema<CommitRepositoryChangesRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commitMetadata: Schema.optional(CommitMetadata),
+      requiredHeadCommitSha: Schema.optional(Schema.String),
+      fileOperations: Schema.optional(
+        Schema.Record(Schema.String, FileOperation),
+      ),
+    }),
+  ).annotate({
+    identifier: "CommitRepositoryChangesRequest",
+  }) as any as Schema.Schema<CommitRepositoryChangesRequest>;
+
+export interface CommitRepositoryChangesResponse {
+  /** The commit SHA of the current commit. */
+  commitSha?: string;
+}
+
+export const CommitRepositoryChangesResponse: Schema.Schema<CommitRepositoryChangesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commitSha: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitRepositoryChangesResponse",
+  }) as any as Schema.Schema<CommitRepositoryChangesResponse>;
+
+export interface ReadRepositoryFileResponse {
+  /** The file's contents. */
+  contents?: string;
+}
+
+export const ReadRepositoryFileResponse: Schema.Schema<ReadRepositoryFileResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contents: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReadRepositoryFileResponse",
+  }) as any as Schema.Schema<ReadRepositoryFileResponse>;
+
+export interface DirectoryEntry {
+  /** A file in the directory. */
+  file?: string;
+  /** A child directory in the directory. */
+  directory?: string;
+}
+
+export const DirectoryEntry: Schema.Schema<DirectoryEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      file: Schema.optional(Schema.String),
+      directory: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectoryEntry",
+  }) as any as Schema.Schema<DirectoryEntry>;
+
+export interface QueryRepositoryDirectoryContentsResponse {
+  /** List of entries in the directory. */
+  directoryEntries?: Array<DirectoryEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryRepositoryDirectoryContentsResponse: Schema.Schema<QueryRepositoryDirectoryContentsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      directoryEntries: Schema.optional(Schema.Array(DirectoryEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryRepositoryDirectoryContentsResponse",
+  }) as any as Schema.Schema<QueryRepositoryDirectoryContentsResponse>;
+
+export interface CommitLogEntry {
+  /** Commit timestamp. */
+  commitTime?: string;
+  /** The commit SHA for this commit log entry. */
+  commitSha?: string;
+  /** The commit author for this commit log entry. */
+  author?: CommitAuthor;
+  /** The commit message for this commit log entry. */
+  commitMessage?: string;
+}
+
+export const CommitLogEntry: Schema.Schema<CommitLogEntry> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commitTime: Schema.optional(Schema.String),
+      commitSha: Schema.optional(Schema.String),
+      author: Schema.optional(CommitAuthor),
+      commitMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CommitLogEntry",
+  }) as any as Schema.Schema<CommitLogEntry>;
+
+export interface FetchRepositoryHistoryResponse {
+  /** A list of commit logs, ordered by 'git log' default order. */
+  commits?: Array<CommitLogEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const FetchRepositoryHistoryResponse: Schema.Schema<FetchRepositoryHistoryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commits: Schema.optional(Schema.Array(CommitLogEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchRepositoryHistoryResponse",
+  }) as any as Schema.Schema<FetchRepositoryHistoryResponse>;
+
+export interface ComputeRepositoryAccessTokenStatusResponse {
+  /** Indicates the status of the Git access token. */
+  tokenStatus?:
+    | "TOKEN_STATUS_UNSPECIFIED"
+    | "NOT_FOUND"
+    | "INVALID"
+    | "VALID"
+    | (string & {});
+}
+
+export const ComputeRepositoryAccessTokenStatusResponse: Schema.Schema<ComputeRepositoryAccessTokenStatusResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tokenStatus: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ComputeRepositoryAccessTokenStatusResponse",
+  }) as any as Schema.Schema<ComputeRepositoryAccessTokenStatusResponse>;
+
+export interface FetchRemoteBranchesResponse {
+  /** The remote repository's branch names. */
+  branches?: Array<string>;
+}
+
+export const FetchRemoteBranchesResponse: Schema.Schema<FetchRemoteBranchesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      branches: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "FetchRemoteBranchesResponse",
+  }) as any as Schema.Schema<FetchRemoteBranchesResponse>;
+
+export interface PrivateResourceMetadata {
+  /** Output only. If true, this resource is user-scoped, meaning it is either a workspace or sourced from a workspace. */
+  userScoped?: boolean;
+}
+
+export const PrivateResourceMetadata: Schema.Schema<PrivateResourceMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      userScoped: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PrivateResourceMetadata",
+  }) as any as Schema.Schema<PrivateResourceMetadata>;
+
+export interface Workspace {
+  /** Identifier. The workspace's name. */
+  name?: string;
+  /** Output only. The timestamp of when the workspace was created. */
+  createTime?: string;
+  /** Output only. A data encryption state of a Git repository if this Workspace is protected by a KMS key. */
+  dataEncryptionState?: DataEncryptionState;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+  /** Optional. If set to true, workspaces will not be moved if its linked Repository is moved. Instead, it will be deleted. */
+  disableMoves?: boolean;
+  /** Output only. Metadata indicating whether this resource is user-scoped. For `Workspace` resources, the `user_scoped` field is always `true`. */
+  privateResourceMetadata?: PrivateResourceMetadata;
+}
+
+export const Workspace: Schema.Schema<Workspace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      dataEncryptionState: Schema.optional(DataEncryptionState),
+      internalMetadata: Schema.optional(Schema.String),
+      disableMoves: Schema.optional(Schema.Boolean),
+      privateResourceMetadata: Schema.optional(PrivateResourceMetadata),
+    }),
+  ).annotate({ identifier: "Workspace" }) as any as Schema.Schema<Workspace>;
+
+export interface ListWorkspacesResponse {
+  /** List of workspaces. */
+  workspaces?: Array<Workspace>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListWorkspacesResponse: Schema.Schema<ListWorkspacesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workspaces: Schema.optional(Schema.Array(Workspace)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListWorkspacesResponse",
+  }) as any as Schema.Schema<ListWorkspacesResponse>;
+
+export interface InstallNpmPackagesRequest {}
+
+export const InstallNpmPackagesRequest: Schema.Schema<InstallNpmPackagesRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "InstallNpmPackagesRequest",
+  }) as any as Schema.Schema<InstallNpmPackagesRequest>;
+
+export interface InstallNpmPackagesResponse {}
+
+export const InstallNpmPackagesResponse: Schema.Schema<InstallNpmPackagesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "InstallNpmPackagesResponse",
+  }) as any as Schema.Schema<InstallNpmPackagesResponse>;
+
+export interface PullGitCommitsRequest {
+  /** Optional. The name of the branch in the Git remote from which to pull commits. If left unset, the repository's default branch name will be used. */
+  remoteBranch?: string;
+  /** Required. The author of any merge commit which may be created as a result of merging fetched Git commits into this workspace. */
+  author?: CommitAuthor;
+}
+
+export const PullGitCommitsRequest: Schema.Schema<PullGitCommitsRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      remoteBranch: Schema.optional(Schema.String),
+      author: Schema.optional(CommitAuthor),
+    }),
+  ).annotate({
+    identifier: "PullGitCommitsRequest",
+  }) as any as Schema.Schema<PullGitCommitsRequest>;
+
+export interface PullGitCommitsResponse {}
+
+export const PullGitCommitsResponse: Schema.Schema<PullGitCommitsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "PullGitCommitsResponse",
+  }) as any as Schema.Schema<PullGitCommitsResponse>;
+
+export interface PushGitCommitsRequest {
+  /** Optional. The name of the branch in the Git remote to which commits should be pushed. If left unset, the repository's default branch name will be used. */
+  remoteBranch?: string;
+}
+
+export const PushGitCommitsRequest: Schema.Schema<PushGitCommitsRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      remoteBranch: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "PushGitCommitsRequest",
+  }) as any as Schema.Schema<PushGitCommitsRequest>;
+
+export interface PushGitCommitsResponse {}
+
+export const PushGitCommitsResponse: Schema.Schema<PushGitCommitsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "PushGitCommitsResponse",
+  }) as any as Schema.Schema<PushGitCommitsResponse>;
+
+export interface UncommittedFileChange {
+  /** The file's full path including filename, relative to the workspace root. */
+  path?: string;
+  /** Output only. Indicates the status of the file. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ADDED"
+    | "DELETED"
+    | "MODIFIED"
+    | "HAS_CONFLICTS"
+    | (string & {});
+}
+
+export const UncommittedFileChange: Schema.Schema<UncommittedFileChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UncommittedFileChange",
+  }) as any as Schema.Schema<UncommittedFileChange>;
+
+export interface FetchFileGitStatusesResponse {
+  /** A list of all files which have uncommitted Git changes. There will only be a single entry for any given file. */
+  uncommittedFileChanges?: Array<UncommittedFileChange>;
+}
+
+export const FetchFileGitStatusesResponse: Schema.Schema<FetchFileGitStatusesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uncommittedFileChanges: Schema.optional(
+        Schema.Array(UncommittedFileChange),
+      ),
+    }),
+  ).annotate({
+    identifier: "FetchFileGitStatusesResponse",
+  }) as any as Schema.Schema<FetchFileGitStatusesResponse>;
+
+export interface FetchGitAheadBehindResponse {
+  /** The number of commits in the remote branch that are not in the workspace. */
+  commitsAhead?: number;
+  /** The number of commits in the workspace that are not in the remote branch. */
+  commitsBehind?: number;
+}
+
+export const FetchGitAheadBehindResponse: Schema.Schema<FetchGitAheadBehindResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      commitsAhead: Schema.optional(Schema.Number),
+      commitsBehind: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "FetchGitAheadBehindResponse",
+  }) as any as Schema.Schema<FetchGitAheadBehindResponse>;
+
+export interface CommitWorkspaceChangesRequest {
+  /** Required. The commit's author. */
+  author?: CommitAuthor;
+  /** Optional. The commit's message. */
+  commitMessage?: string;
+  /** Optional. Full file paths to commit including filename, rooted at workspace root. If left empty, all files will be committed. */
+  paths?: Array<string>;
+}
+
+export const CommitWorkspaceChangesRequest: Schema.Schema<CommitWorkspaceChangesRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      author: Schema.optional(CommitAuthor),
+      commitMessage: Schema.optional(Schema.String),
+      paths: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "CommitWorkspaceChangesRequest",
+  }) as any as Schema.Schema<CommitWorkspaceChangesRequest>;
+
+export interface CommitWorkspaceChangesResponse {}
+
+export const CommitWorkspaceChangesResponse: Schema.Schema<CommitWorkspaceChangesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CommitWorkspaceChangesResponse",
+  }) as any as Schema.Schema<CommitWorkspaceChangesResponse>;
+
+export interface ResetWorkspaceChangesRequest {
+  /** Optional. Full file paths to reset back to their committed state including filename, rooted at workspace root. If left empty, all files will be reset. */
+  paths?: Array<string>;
+  /** Optional. If set to true, untracked files will be deleted. */
+  clean?: boolean;
+}
+
+export const ResetWorkspaceChangesRequest: Schema.Schema<ResetWorkspaceChangesRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      paths: Schema.optional(Schema.Array(Schema.String)),
+      clean: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ResetWorkspaceChangesRequest",
+  }) as any as Schema.Schema<ResetWorkspaceChangesRequest>;
+
+export interface ResetWorkspaceChangesResponse {}
+
+export const ResetWorkspaceChangesResponse: Schema.Schema<ResetWorkspaceChangesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ResetWorkspaceChangesResponse",
+  }) as any as Schema.Schema<ResetWorkspaceChangesResponse>;
+
+export interface FetchFileDiffResponse {
+  /** The raw formatted Git diff for the file. */
+  formattedDiff?: string;
+}
+
+export const FetchFileDiffResponse: Schema.Schema<FetchFileDiffResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      formattedDiff: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FetchFileDiffResponse",
+  }) as any as Schema.Schema<FetchFileDiffResponse>;
+
+export interface QueryDirectoryContentsResponse {
+  /** List of entries in the directory. */
+  directoryEntries?: Array<DirectoryEntry>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryDirectoryContentsResponse: Schema.Schema<QueryDirectoryContentsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      directoryEntries: Schema.optional(Schema.Array(DirectoryEntry)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryDirectoryContentsResponse",
+  }) as any as Schema.Schema<QueryDirectoryContentsResponse>;
+
+export interface FileSearchResult {
+  /** File system path relative to the workspace root. */
+  path?: string;
+}
+
+export const FileSearchResult: Schema.Schema<FileSearchResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "FileSearchResult",
+  }) as any as Schema.Schema<FileSearchResult>;
+
+export interface DirectorySearchResult {
+  /** File system path relative to the workspace root. */
+  path?: string;
+}
+
+export const DirectorySearchResult: Schema.Schema<DirectorySearchResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DirectorySearchResult",
+  }) as any as Schema.Schema<DirectorySearchResult>;
+
+export interface SearchResult {
+  /** Details when search result is a file. */
+  file?: FileSearchResult;
+  /** Details when search result is a directory. */
+  directory?: DirectorySearchResult;
+}
+
+export const SearchResult: Schema.Schema<SearchResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      file: Schema.optional(FileSearchResult),
+      directory: Schema.optional(DirectorySearchResult),
+    }),
+  ).annotate({
+    identifier: "SearchResult",
+  }) as any as Schema.Schema<SearchResult>;
+
+export interface SearchFilesResponse {
+  /** List of matched results. */
+  searchResults?: Array<SearchResult>;
+  /** Optional. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const SearchFilesResponse: Schema.Schema<SearchFilesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      searchResults: Schema.optional(Schema.Array(SearchResult)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SearchFilesResponse",
+  }) as any as Schema.Schema<SearchFilesResponse>;
+
+export interface MakeDirectoryRequest {
+  /** Required. The directory's full path including directory name, relative to the workspace root. */
+  path?: string;
+}
+
+export const MakeDirectoryRequest: Schema.Schema<MakeDirectoryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MakeDirectoryRequest",
+  }) as any as Schema.Schema<MakeDirectoryRequest>;
+
+export interface MakeDirectoryResponse {}
+
+export const MakeDirectoryResponse: Schema.Schema<MakeDirectoryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MakeDirectoryResponse",
+  }) as any as Schema.Schema<MakeDirectoryResponse>;
+
+export interface RemoveDirectoryRequest {
+  /** Required. The directory's full path including directory name, relative to the workspace root. */
+  path?: string;
+}
+
+export const RemoveDirectoryRequest: Schema.Schema<RemoveDirectoryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemoveDirectoryRequest",
+  }) as any as Schema.Schema<RemoveDirectoryRequest>;
+
+export interface RemoveDirectoryResponse {}
+
+export const RemoveDirectoryResponse: Schema.Schema<RemoveDirectoryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RemoveDirectoryResponse",
+  }) as any as Schema.Schema<RemoveDirectoryResponse>;
+
+export interface MoveDirectoryRequest {
+  /** Required. The directory's full path including directory name, relative to the workspace root. */
+  path?: string;
+  /** Required. The new path for the directory including directory name, rooted at workspace root. */
+  newPath?: string;
+}
+
+export const MoveDirectoryRequest: Schema.Schema<MoveDirectoryRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      newPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveDirectoryRequest",
+  }) as any as Schema.Schema<MoveDirectoryRequest>;
+
+export interface MoveDirectoryResponse {}
+
+export const MoveDirectoryResponse: Schema.Schema<MoveDirectoryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MoveDirectoryResponse",
+  }) as any as Schema.Schema<MoveDirectoryResponse>;
+
+export interface ReadFileResponse {
+  /** The file's contents. */
+  fileContents?: string;
+}
+
+export const ReadFileResponse: Schema.Schema<ReadFileResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileContents: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReadFileResponse",
+  }) as any as Schema.Schema<ReadFileResponse>;
+
+export interface RemoveFileRequest {
+  /** Required. The file's full path including filename, relative to the workspace root. */
+  path?: string;
+}
+
+export const RemoveFileRequest: Schema.Schema<RemoveFileRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RemoveFileRequest",
+  }) as any as Schema.Schema<RemoveFileRequest>;
+
+export interface RemoveFileResponse {}
+
+export const RemoveFileResponse: Schema.Schema<RemoveFileResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RemoveFileResponse",
+  }) as any as Schema.Schema<RemoveFileResponse>;
+
+export interface MoveFileRequest {
+  /** Required. The file's full path including filename, relative to the workspace root. */
+  path?: string;
+  /** Required. The file's new path including filename, relative to the workspace root. */
+  newPath?: string;
+}
+
+export const MoveFileRequest: Schema.Schema<MoveFileRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      newPath: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MoveFileRequest",
+  }) as any as Schema.Schema<MoveFileRequest>;
+
+export interface MoveFileResponse {}
+
+export const MoveFileResponse: Schema.Schema<MoveFileResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "MoveFileResponse",
+  }) as any as Schema.Schema<MoveFileResponse>;
+
+export interface WriteFileRequest {
+  /** Required. The file. */
+  path?: string;
+  /** Required. The file's contents. */
+  contents?: string;
+}
+
+export const WriteFileRequest: Schema.Schema<WriteFileRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+      contents: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WriteFileRequest",
+  }) as any as Schema.Schema<WriteFileRequest>;
+
+export interface WriteFileResponse {}
+
+export const WriteFileResponse: Schema.Schema<WriteFileResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "WriteFileResponse",
+  }) as any as Schema.Schema<WriteFileResponse>;
+
+export interface NotebookRuntimeOptions {
+  /** Optional. The Google Cloud Storage location to upload the result to. Format: `gs://bucket-name`. */
+  gcsOutputBucket?: string;
+  /** Optional. The resource name of the [Colab runtime template] (https://cloud.google.com/colab/docs/runtimes), from which a runtime is created for notebook executions. If not specified, a runtime is created with Colab's default specifications. */
+  aiPlatformNotebookRuntimeTemplate?: string;
+}
+
+export const NotebookRuntimeOptions: Schema.Schema<NotebookRuntimeOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gcsOutputBucket: Schema.optional(Schema.String),
+      aiPlatformNotebookRuntimeTemplate: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotebookRuntimeOptions",
+  }) as any as Schema.Schema<NotebookRuntimeOptions>;
+
+export interface CodeCompilationConfig {
+  /** Optional. The default database (Google Cloud project ID). */
+  defaultDatabase?: string;
+  /** Optional. The default schema (BigQuery dataset ID). */
+  defaultSchema?: string;
+  /** Optional. The default BigQuery location to use. Defaults to "US". See the BigQuery docs for a full list of locations: https://cloud.google.com/bigquery/docs/locations. */
+  defaultLocation?: string;
+  /** Optional. The default schema (BigQuery dataset ID) for assertions. */
+  assertionSchema?: string;
+  /** Optional. User-defined variables that are made available to project code during compilation. */
+  vars?: Record<string, string>;
+  /** Optional. The suffix that should be appended to all database (Google Cloud project ID) names. */
+  databaseSuffix?: string;
+  /** Optional. The suffix that should be appended to all schema (BigQuery dataset ID) names. */
+  schemaSuffix?: string;
+  /** Optional. The prefix that should be prepended to all table names. */
+  tablePrefix?: string;
+  /** Optional. The prefix to prepend to built-in assertion names. */
+  builtinAssertionNamePrefix?: string;
+  /** Optional. The default notebook runtime options. */
+  defaultNotebookRuntimeOptions?: NotebookRuntimeOptions;
+}
+
+export const CodeCompilationConfig: Schema.Schema<CodeCompilationConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      defaultDatabase: Schema.optional(Schema.String),
+      defaultSchema: Schema.optional(Schema.String),
+      defaultLocation: Schema.optional(Schema.String),
+      assertionSchema: Schema.optional(Schema.String),
+      vars: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      databaseSuffix: Schema.optional(Schema.String),
+      schemaSuffix: Schema.optional(Schema.String),
+      tablePrefix: Schema.optional(Schema.String),
+      builtinAssertionNamePrefix: Schema.optional(Schema.String),
+      defaultNotebookRuntimeOptions: Schema.optional(NotebookRuntimeOptions),
+    }),
+  ).annotate({
+    identifier: "CodeCompilationConfig",
+  }) as any as Schema.Schema<CodeCompilationConfig>;
+
+export interface ScheduledReleaseRecord {
+  /** The name of the created compilation result, if one was successfully created. Must be in the format `projects/* /locations/* /repositories/* /compilationResults/*`. */
+  compilationResult?: string;
+  /** The error status encountered upon this attempt to create the compilation result, if the attempt was unsuccessful. */
+  errorStatus?: Status;
+  /** Output only. The timestamp of this release attempt. */
+  releaseTime?: string;
+}
+
+export const ScheduledReleaseRecord: Schema.Schema<ScheduledReleaseRecord> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compilationResult: Schema.optional(Schema.String),
+      errorStatus: Schema.optional(Status),
+      releaseTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ScheduledReleaseRecord",
+  }) as any as Schema.Schema<ScheduledReleaseRecord>;
+
+export interface ReleaseConfig {
+  /** Identifier. The release config's name. */
+  name?: string;
+  /** Required. Git commit/tag/branch name at which the repository should be compiled. Must exist in the remote repository. Examples: - a commit SHA: `12ade345` - a tag: `tag1` - a branch name: `branch1` */
+  gitCommitish?: string;
+  /** Optional. If set, fields of `code_compilation_config` override the default compilation settings that are specified in dataform.json. */
+  codeCompilationConfig?: CodeCompilationConfig;
+  /** Optional. Optional schedule (in cron format) for automatic creation of compilation results. */
+  cronSchedule?: string;
+  /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). If left unspecified, the default is UTC. */
+  timeZone?: string;
+  /** Output only. Records of the 10 most recent scheduled release attempts, ordered in descending order of `release_time`. Updated whenever automatic creation of a compilation result is triggered by cron_schedule. */
+  recentScheduledReleaseRecords?: Array<ScheduledReleaseRecord>;
+  /** Optional. The name of the currently released compilation result for this release config. This value is updated when a compilation result is automatically created from this release config (using cron_schedule), or when this resource is updated by API call (perhaps to roll back to an earlier release). The compilation result must have been created using this release config. Must be in the format `projects/* /locations/* /repositories/* /compilationResults/*`. */
+  releaseCompilationResult?: string;
+  /** Optional. Disables automatic creation of compilation results. */
+  disabled?: boolean;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const ReleaseConfig: Schema.Schema<ReleaseConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      gitCommitish: Schema.optional(Schema.String),
+      codeCompilationConfig: Schema.optional(CodeCompilationConfig),
+      cronSchedule: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      recentScheduledReleaseRecords: Schema.optional(
+        Schema.Array(ScheduledReleaseRecord),
+      ),
+      releaseCompilationResult: Schema.optional(Schema.String),
+      disabled: Schema.optional(Schema.Boolean),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReleaseConfig",
+  }) as any as Schema.Schema<ReleaseConfig>;
+
+export interface ListReleaseConfigsResponse {
+  /** List of release configs. */
+  releaseConfigs?: Array<ReleaseConfig>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListReleaseConfigsResponse: Schema.Schema<ListReleaseConfigsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      releaseConfigs: Schema.optional(Schema.Array(ReleaseConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListReleaseConfigsResponse",
+  }) as any as Schema.Schema<ListReleaseConfigsResponse>;
+
+export interface Target {
+  /** Optional. The action's database (Google Cloud project ID) . */
+  database?: string;
+  /** Optional. The action's schema (BigQuery dataset ID), within `database`. */
+  schema?: string;
+  /** Optional. The action's name, within `database` and `schema`. */
+  name?: string;
+}
+
+export const Target: Schema.Schema<Target> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      database: Schema.optional(Schema.String),
+      schema: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Target" }) as any as Schema.Schema<Target>;
+
+export interface CompilationError {
+  /** Output only. The error's top level message. */
+  message?: string;
+  /** Output only. The error's full stack trace. */
+  stack?: string;
+  /** Output only. The path of the file where this error occurred, if available, relative to the project root. */
+  path?: string;
+  /** Output only. The identifier of the action where this error occurred, if available. */
+  actionTarget?: Target;
+}
+
+export const CompilationError: Schema.Schema<CompilationError> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      message: Schema.optional(Schema.String),
+      stack: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      actionTarget: Schema.optional(Target),
+    }),
+  ).annotate({
+    identifier: "CompilationError",
+  }) as any as Schema.Schema<CompilationError>;
+
+export interface CompilationResult {
+  /** Immutable. Git commit/tag/branch name at which the repository should be compiled. Must exist in the remote repository. Examples: - a commit SHA: `12ade345` - a tag: `tag1` - a branch name: `branch1` */
+  gitCommitish?: string;
+  /** Immutable. The name of the workspace to compile. Must be in the format `projects/* /locations/* /repositories/* /workspaces/*`. */
+  workspace?: string;
+  /** Immutable. The name of the release config to compile. Must be in the format `projects/* /locations/* /repositories/* /releaseConfigs/*`. */
+  releaseConfig?: string;
+  /** Output only. The compilation result's name. */
+  name?: string;
+  /** Immutable. If set, fields of `code_compilation_config` override the default compilation settings that are specified in dataform.json. */
+  codeCompilationConfig?: CodeCompilationConfig;
+  /** Output only. The fully resolved Git commit SHA of the code that was compiled. Not set for compilation results whose source is a workspace. */
+  resolvedGitCommitSha?: string;
+  /** Output only. The version of `@dataform/core` that was used for compilation. */
+  dataformCoreVersion?: string;
+  /** Output only. Errors encountered during project compilation. */
+  compilationErrors?: Array<CompilationError>;
+  /** Output only. Only set if the repository has a KMS Key. */
+  dataEncryptionState?: DataEncryptionState;
+  /** Output only. The timestamp of when the compilation result was created. */
+  createTime?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+  /** Output only. Metadata indicating whether this resource is user-scoped. `CompilationResult` resource is `user_scoped` only if it is sourced from a workspace. */
+  privateResourceMetadata?: PrivateResourceMetadata;
+}
+
+export const CompilationResult: Schema.Schema<CompilationResult> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gitCommitish: Schema.optional(Schema.String),
+      workspace: Schema.optional(Schema.String),
+      releaseConfig: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      codeCompilationConfig: Schema.optional(CodeCompilationConfig),
+      resolvedGitCommitSha: Schema.optional(Schema.String),
+      dataformCoreVersion: Schema.optional(Schema.String),
+      compilationErrors: Schema.optional(Schema.Array(CompilationError)),
+      dataEncryptionState: Schema.optional(DataEncryptionState),
+      createTime: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+      privateResourceMetadata: Schema.optional(PrivateResourceMetadata),
+    }),
+  ).annotate({
+    identifier: "CompilationResult",
+  }) as any as Schema.Schema<CompilationResult>;
+
+export interface ListCompilationResultsResponse {
+  /** List of compilation results. */
+  compilationResults?: Array<CompilationResult>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListCompilationResultsResponse: Schema.Schema<ListCompilationResultsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compilationResults: Schema.optional(Schema.Array(CompilationResult)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListCompilationResultsResponse",
+  }) as any as Schema.Schema<ListCompilationResultsResponse>;
+
+export interface ColumnDescriptor {
+  /** The identifier for the column. Each entry in `path` represents one level of nesting. */
+  path?: Array<string>;
+  /** A textual description of the column. */
+  description?: string;
+  /** A list of BigQuery policy tags that will be applied to the column. */
+  bigqueryPolicyTags?: Array<string>;
+}
+
+export const ColumnDescriptor: Schema.Schema<ColumnDescriptor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.Array(Schema.String)),
+      description: Schema.optional(Schema.String),
+      bigqueryPolicyTags: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ColumnDescriptor",
+  }) as any as Schema.Schema<ColumnDescriptor>;
+
+export interface RelationDescriptor {
+  /** A text description of the relation. */
+  description?: string;
+  /** A list of descriptions of columns within the relation. */
+  columns?: Array<ColumnDescriptor>;
+  /** A set of BigQuery labels that should be applied to the relation. */
+  bigqueryLabels?: Record<string, string>;
+}
+
+export const RelationDescriptor: Schema.Schema<RelationDescriptor> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      description: Schema.optional(Schema.String),
+      columns: Schema.optional(Schema.Array(ColumnDescriptor)),
+      bigqueryLabels: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+    }),
+  ).annotate({
+    identifier: "RelationDescriptor",
+  }) as any as Schema.Schema<RelationDescriptor>;
+
+export interface IncrementalTableConfig {
+  /** The SELECT query which returns rows which should be inserted into the relation if it already exists and is not being refreshed. */
+  incrementalSelectQuery?: string;
+  /** Whether this table should be protected from being refreshed. */
+  refreshDisabled?: boolean;
+  /** A set of columns or SQL expressions used to define row uniqueness. If any duplicates are discovered (as defined by `unique_key_parts`), only the newly selected rows (as defined by `incremental_select_query`) will be included in the relation. */
+  uniqueKeyParts?: Array<string>;
+  /** A SQL expression conditional used to limit the set of existing rows considered for a merge operation (see `unique_key_parts` for more information). */
+  updatePartitionFilter?: string;
+  /** SQL statements to be executed before inserting new rows into the relation. */
+  incrementalPreOperations?: Array<string>;
+  /** SQL statements to be executed after inserting new rows into the relation. */
+  incrementalPostOperations?: Array<string>;
+}
+
+export const IncrementalTableConfig: Schema.Schema<IncrementalTableConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      incrementalSelectQuery: Schema.optional(Schema.String),
+      refreshDisabled: Schema.optional(Schema.Boolean),
+      uniqueKeyParts: Schema.optional(Schema.Array(Schema.String)),
+      updatePartitionFilter: Schema.optional(Schema.String),
+      incrementalPreOperations: Schema.optional(Schema.Array(Schema.String)),
+      incrementalPostOperations: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "IncrementalTableConfig",
+  }) as any as Schema.Schema<IncrementalTableConfig>;
+
+export interface Relation {
+  /** A list of actions that this action depends on. */
+  dependencyTargets?: Array<Target>;
+  /** Whether this action is disabled (i.e. should not be run). */
+  disabled?: boolean;
+  /** Arbitrary, user-defined tags on this action. */
+  tags?: Array<string>;
+  /** Descriptor for the relation and its columns. */
+  relationDescriptor?: RelationDescriptor;
+  /** The type of this relation. */
+  relationType?:
+    | "RELATION_TYPE_UNSPECIFIED"
+    | "TABLE"
+    | "VIEW"
+    | "INCREMENTAL_TABLE"
+    | "MATERIALIZED_VIEW"
+    | (string & {});
+  /** The SELECT query which returns rows which this relation should contain. */
+  selectQuery?: string;
+  /** SQL statements to be executed before creating the relation. */
+  preOperations?: Array<string>;
+  /** SQL statements to be executed after creating the relation. */
+  postOperations?: Array<string>;
+  /** Configures `INCREMENTAL_TABLE` settings for this relation. Only set if `relation_type` is `INCREMENTAL_TABLE`. */
+  incrementalTableConfig?: IncrementalTableConfig;
+  /** The SQL expression used to partition the relation. */
+  partitionExpression?: string;
+  /** A list of columns or SQL expressions used to cluster the table. */
+  clusterExpressions?: Array<string>;
+  /** Sets the partition expiration in days. */
+  partitionExpirationDays?: number;
+  /** Specifies whether queries on this table must include a predicate filter that filters on the partitioning column. */
+  requirePartitionFilter?: boolean;
+  /** Additional options that will be provided as key/value pairs into the options clause of a create table/view statement. See https://cloud.google.com/bigquery/docs/reference/standard-sql/data-definition-language for more information on which options are supported. */
+  additionalOptions?: Record<string, string>;
+  /** Optional. The connection specifying the credentials to be used to read and write to external storage, such as Cloud Storage. The connection can have the form `{project}.{location}.{connection_id}` or `projects/{project}/locations/{location}/connections/{connection_id}`, or be set to DEFAULT. */
+  connection?: string;
+  /** Optional. The table format for the BigQuery table. */
+  tableFormat?: "TABLE_FORMAT_UNSPECIFIED" | "ICEBERG" | (string & {});
+  /** Optional. The file format for the BigQuery table. */
+  fileFormat?: "FILE_FORMAT_UNSPECIFIED" | "PARQUET" | (string & {});
+  /** Optional. The fully qualified location prefix of the external folder where table data is stored. The URI should be in the format `gs://bucket/path_to_table/`. */
+  storageUri?: string;
+}
+
+export const Relation: Schema.Schema<Relation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dependencyTargets: Schema.optional(Schema.Array(Target)),
+      disabled: Schema.optional(Schema.Boolean),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+      relationDescriptor: Schema.optional(RelationDescriptor),
+      relationType: Schema.optional(Schema.String),
+      selectQuery: Schema.optional(Schema.String),
+      preOperations: Schema.optional(Schema.Array(Schema.String)),
+      postOperations: Schema.optional(Schema.Array(Schema.String)),
+      incrementalTableConfig: Schema.optional(IncrementalTableConfig),
+      partitionExpression: Schema.optional(Schema.String),
+      clusterExpressions: Schema.optional(Schema.Array(Schema.String)),
+      partitionExpirationDays: Schema.optional(Schema.Number),
+      requirePartitionFilter: Schema.optional(Schema.Boolean),
+      additionalOptions: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      connection: Schema.optional(Schema.String),
+      tableFormat: Schema.optional(Schema.String),
+      fileFormat: Schema.optional(Schema.String),
+      storageUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Relation" }) as any as Schema.Schema<Relation>;
+
+export interface Operations {
+  /** A list of actions that this action depends on. */
+  dependencyTargets?: Array<Target>;
+  /** Whether this action is disabled (i.e. should not be run). */
+  disabled?: boolean;
+  /** Arbitrary, user-defined tags on this action. */
+  tags?: Array<string>;
+  /** Descriptor for any output relation and its columns. Only set if `has_output` is true. */
+  relationDescriptor?: RelationDescriptor;
+  /** A list of arbitrary SQL statements that will be executed without alteration. */
+  queries?: Array<string>;
+  /** Whether these operations produce an output relation. */
+  hasOutput?: boolean;
+}
+
+export const Operations: Schema.Schema<Operations> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dependencyTargets: Schema.optional(Schema.Array(Target)),
+      disabled: Schema.optional(Schema.Boolean),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+      relationDescriptor: Schema.optional(RelationDescriptor),
+      queries: Schema.optional(Schema.Array(Schema.String)),
+      hasOutput: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Operations" }) as any as Schema.Schema<Operations>;
+
+export interface Assertion {
+  /** A list of actions that this action depends on. */
+  dependencyTargets?: Array<Target>;
+  /** The parent action of this assertion. Only set if this assertion was automatically generated. */
+  parentAction?: Target;
+  /** Whether this action is disabled (i.e. should not be run). */
+  disabled?: boolean;
+  /** Arbitrary, user-defined tags on this action. */
+  tags?: Array<string>;
+  /** The SELECT query which must return zero rows in order for this assertion to succeed. */
+  selectQuery?: string;
+  /** Descriptor for the assertion's automatically-generated view and its columns. */
+  relationDescriptor?: RelationDescriptor;
+}
+
+export const Assertion: Schema.Schema<Assertion> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dependencyTargets: Schema.optional(Schema.Array(Target)),
+      parentAction: Schema.optional(Target),
+      disabled: Schema.optional(Schema.Boolean),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+      selectQuery: Schema.optional(Schema.String),
+      relationDescriptor: Schema.optional(RelationDescriptor),
+    }),
+  ).annotate({ identifier: "Assertion" }) as any as Schema.Schema<Assertion>;
+
+export interface Declaration {
+  /** Descriptor for the relation and its columns. Used as documentation only, i.e. values here will result in no changes to the relation's metadata. */
+  relationDescriptor?: RelationDescriptor;
+}
+
+export const Declaration: Schema.Schema<Declaration> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relationDescriptor: Schema.optional(RelationDescriptor),
+    }),
+  ).annotate({
+    identifier: "Declaration",
+  }) as any as Schema.Schema<Declaration>;
+
+export interface Notebook {
+  /** A list of actions that this action depends on. */
+  dependencyTargets?: Array<Target>;
+  /** Whether this action is disabled (i.e. should not be run). */
+  disabled?: boolean;
+  /** The contents of the notebook. */
+  contents?: string;
+  /** Arbitrary, user-defined tags on this action. */
+  tags?: Array<string>;
+}
+
+export const Notebook: Schema.Schema<Notebook> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dependencyTargets: Schema.optional(Schema.Array(Target)),
+      disabled: Schema.optional(Schema.Boolean),
+      contents: Schema.optional(Schema.String),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({ identifier: "Notebook" }) as any as Schema.Schema<Notebook>;
+
+export interface ErrorTable {
+  /** Error Table target. */
+  target?: Target;
+  /** Error table partition expiration in days. Only positive values are allowed. */
+  retentionDays?: number;
+}
+
+export const ErrorTable: Schema.Schema<ErrorTable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      target: Schema.optional(Target),
+      retentionDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "ErrorTable" }) as any as Schema.Schema<ErrorTable>;
+
+export interface SimpleLoadMode {}
+
+export const SimpleLoadMode: Schema.Schema<SimpleLoadMode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "SimpleLoadMode",
+  }) as any as Schema.Schema<SimpleLoadMode>;
+
+export interface IncrementalLoadMode {
+  /** Column name for incremental load modes */
+  column?: string;
+}
+
+export const IncrementalLoadMode: Schema.Schema<IncrementalLoadMode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      column: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "IncrementalLoadMode",
+  }) as any as Schema.Schema<IncrementalLoadMode>;
+
+export interface LoadConfig {
+  /** Replace destination table */
+  replace?: SimpleLoadMode;
+  /** Append into destination table */
+  append?: SimpleLoadMode;
+  /** Insert records where the value exceeds the previous maximum value for a column in the destination table */
+  maximum?: IncrementalLoadMode;
+  /** Insert records where the value of a column is not already present in the destination table */
+  unique?: IncrementalLoadMode;
+}
+
+export const LoadConfig: Schema.Schema<LoadConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      replace: Schema.optional(SimpleLoadMode),
+      append: Schema.optional(SimpleLoadMode),
+      maximum: Schema.optional(IncrementalLoadMode),
+      unique: Schema.optional(IncrementalLoadMode),
+    }),
+  ).annotate({ identifier: "LoadConfig" }) as any as Schema.Schema<LoadConfig>;
+
+export interface SqlDefinition {
+  /** The SQL query representing the data preparation steps. Formatted as a Pipe SQL query statement. */
+  query?: string;
+  /** Error table configuration, */
+  errorTable?: ErrorTable;
+  /** Load configuration. */
+  load?: LoadConfig;
+}
+
+export const SqlDefinition: Schema.Schema<SqlDefinition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      query: Schema.optional(Schema.String),
+      errorTable: Schema.optional(ErrorTable),
+      load: Schema.optional(LoadConfig),
+    }),
+  ).annotate({
+    identifier: "SqlDefinition",
+  }) as any as Schema.Schema<SqlDefinition>;
+
+export interface DataPreparation {
+  /** The data preparation definition, stored as a YAML string. */
+  contentsYaml?: string;
+  /** SQL definition for a Data Preparation. Contains a SQL query and additional context information. */
+  contentsSql?: SqlDefinition;
+  /** A list of actions that this action depends on. */
+  dependencyTargets?: Array<Target>;
+  /** Whether this action is disabled (i.e. should not be run). */
+  disabled?: boolean;
+  /** Arbitrary, user-defined tags on this action. */
+  tags?: Array<string>;
+}
+
+export const DataPreparation: Schema.Schema<DataPreparation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentsYaml: Schema.optional(Schema.String),
+      contentsSql: Schema.optional(SqlDefinition),
+      dependencyTargets: Schema.optional(Schema.Array(Target)),
+      disabled: Schema.optional(Schema.Boolean),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DataPreparation",
+  }) as any as Schema.Schema<DataPreparation>;
+
+export interface CompilationResultAction {
+  /** The database relation created/updated by this action. */
+  relation?: Relation;
+  /** The database operations executed by this action. */
+  operations?: Operations;
+  /** The assertion executed by this action. */
+  assertion?: Assertion;
+  /** The declaration declared by this action. */
+  declaration?: Declaration;
+  /** The notebook executed by this action. */
+  notebook?: Notebook;
+  /** The data preparation executed by this action. */
+  dataPreparation?: DataPreparation;
+  /** This action's identifier. Unique within the compilation result. */
+  target?: Target;
+  /** The action's identifier if the project had been compiled without any overrides configured. Unique within the compilation result. */
+  canonicalTarget?: Target;
+  /** The full path including filename in which this action is located, relative to the workspace root. */
+  filePath?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const CompilationResultAction: Schema.Schema<CompilationResultAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relation: Schema.optional(Relation),
+      operations: Schema.optional(Operations),
+      assertion: Schema.optional(Assertion),
+      declaration: Schema.optional(Declaration),
+      notebook: Schema.optional(Notebook),
+      dataPreparation: Schema.optional(DataPreparation),
+      target: Schema.optional(Target),
+      canonicalTarget: Schema.optional(Target),
+      filePath: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CompilationResultAction",
+  }) as any as Schema.Schema<CompilationResultAction>;
+
+export interface QueryCompilationResultActionsResponse {
+  /** List of compilation result actions. */
+  compilationResultActions?: Array<CompilationResultAction>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryCompilationResultActionsResponse: Schema.Schema<QueryCompilationResultActionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compilationResultActions: Schema.optional(
+        Schema.Array(CompilationResultAction),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryCompilationResultActionsResponse",
+  }) as any as Schema.Schema<QueryCompilationResultActionsResponse>;
+
+export interface InvocationConfig {
+  /** Optional. The set of action identifiers to include. */
+  includedTargets?: Array<Target>;
+  /** Optional. The set of tags to include. */
+  includedTags?: Array<string>;
+  /** Optional. When set to true, transitive dependencies of included actions will be executed. */
+  transitiveDependenciesIncluded?: boolean;
+  /** Optional. When set to true, transitive dependents of included actions will be executed. */
+  transitiveDependentsIncluded?: boolean;
+  /** Optional. When set to true, any incremental tables will be fully refreshed. */
+  fullyRefreshIncrementalTablesEnabled?: boolean;
+  /** Optional. The service account to run workflow invocations under. */
+  serviceAccount?: string;
+  /** Optional. Specifies the priority for query execution in BigQuery. More information can be found at https://cloud.google.com/bigquery/docs/running-queries#queries. */
+  queryPriority?:
+    | "QUERY_PRIORITY_UNSPECIFIED"
+    | "INTERACTIVE"
+    | "BATCH"
+    | (string & {});
+}
+
+export const InvocationConfig: Schema.Schema<InvocationConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      includedTargets: Schema.optional(Schema.Array(Target)),
+      includedTags: Schema.optional(Schema.Array(Schema.String)),
+      transitiveDependenciesIncluded: Schema.optional(Schema.Boolean),
+      transitiveDependentsIncluded: Schema.optional(Schema.Boolean),
+      fullyRefreshIncrementalTablesEnabled: Schema.optional(Schema.Boolean),
+      serviceAccount: Schema.optional(Schema.String),
+      queryPriority: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "InvocationConfig",
+  }) as any as Schema.Schema<InvocationConfig>;
+
+export interface ScheduledExecutionRecord {
+  /** The name of the created workflow invocation, if one was successfully created. Must be in the format `projects/* /locations/* /repositories/* /workflowInvocations/*`. */
+  workflowInvocation?: string;
+  /** The error status encountered upon this attempt to create the workflow invocation, if the attempt was unsuccessful. */
+  errorStatus?: Status;
+  /** Output only. The timestamp of this execution attempt. */
+  executionTime?: string;
+}
+
+export const ScheduledExecutionRecord: Schema.Schema<ScheduledExecutionRecord> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workflowInvocation: Schema.optional(Schema.String),
+      errorStatus: Schema.optional(Status),
+      executionTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ScheduledExecutionRecord",
+  }) as any as Schema.Schema<ScheduledExecutionRecord>;
+
+export interface WorkflowConfig {
+  /** Identifier. The workflow config's name. */
+  name?: string;
+  /** Required. The name of the release config whose release_compilation_result should be executed. Must be in the format `projects/* /locations/* /repositories/* /releaseConfigs/*`. */
+  releaseConfig?: string;
+  /** Optional. If left unset, a default InvocationConfig will be used. */
+  invocationConfig?: InvocationConfig;
+  /** Optional. Optional schedule (in cron format) for automatic execution of this workflow config. */
+  cronSchedule?: string;
+  /** Optional. Specifies the time zone to be used when interpreting cron_schedule. Must be a time zone name from the time zone database (https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). If left unspecified, the default is UTC. */
+  timeZone?: string;
+  /** Output only. Records of the 10 most recent scheduled execution attempts, ordered in descending order of `execution_time`. Updated whenever automatic creation of a workflow invocation is triggered by cron_schedule. */
+  recentScheduledExecutionRecords?: Array<ScheduledExecutionRecord>;
+  /** Optional. Disables automatic creation of workflow invocations. */
+  disabled?: boolean;
+  /** Output only. The timestamp of when the WorkflowConfig was created. */
+  createTime?: string;
+  /** Output only. The timestamp of when the WorkflowConfig was last updated. */
+  updateTime?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const WorkflowConfig: Schema.Schema<WorkflowConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      releaseConfig: Schema.optional(Schema.String),
+      invocationConfig: Schema.optional(InvocationConfig),
+      cronSchedule: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      recentScheduledExecutionRecords: Schema.optional(
+        Schema.Array(ScheduledExecutionRecord),
+      ),
+      disabled: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkflowConfig",
+  }) as any as Schema.Schema<WorkflowConfig>;
+
+export interface ListWorkflowConfigsResponse {
+  /** List of workflow configs. */
+  workflowConfigs?: Array<WorkflowConfig>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListWorkflowConfigsResponse: Schema.Schema<ListWorkflowConfigsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workflowConfigs: Schema.optional(Schema.Array(WorkflowConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListWorkflowConfigsResponse",
+  }) as any as Schema.Schema<ListWorkflowConfigsResponse>;
+
+export interface Interval {
+  /** Optional. Inclusive start of the interval. If specified, a Timestamp matching this interval will have to be the same or after the start. */
+  startTime?: string;
+  /** Optional. Exclusive end of the interval. If specified, a Timestamp matching this interval will have to be before the end. */
+  endTime?: string;
+}
+
+export const Interval: Schema.Schema<Interval> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
+
+export interface WorkflowInvocation {
+  /** Immutable. The name of the compilation result to use for this invocation. Must be in the format `projects/* /locations/* /repositories/* /compilationResults/*`. */
+  compilationResult?: string;
+  /** Immutable. The name of the workflow config to invoke. Must be in the format `projects/* /locations/* /repositories/* /workflowConfigs/*`. */
+  workflowConfig?: string;
+  /** Output only. The workflow invocation's name. */
+  name?: string;
+  /** Immutable. If left unset, a default InvocationConfig will be used. */
+  invocationConfig?: InvocationConfig;
+  /** Output only. This workflow invocation's current state. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "RUNNING"
+    | "SUCCEEDED"
+    | "CANCELLED"
+    | "FAILED"
+    | "CANCELING"
+    | (string & {});
+  /** Output only. This workflow invocation's timing details. */
+  invocationTiming?: Interval;
+  /** Output only. The resolved compilation result that was used to create this invocation. Will be in the format `projects/* /locations/* /repositories/* /compilationResults/*`. */
+  resolvedCompilationResult?: string;
+  /** Output only. Only set if the repository has a KMS Key. */
+  dataEncryptionState?: DataEncryptionState;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+  /** Output only. Metadata indicating whether this resource is user-scoped. `WorkflowInvocation` resource is `user_scoped` only if it is sourced from a compilation result and the compilation result is user-scoped. */
+  privateResourceMetadata?: PrivateResourceMetadata;
+}
+
+export const WorkflowInvocation: Schema.Schema<WorkflowInvocation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      compilationResult: Schema.optional(Schema.String),
+      workflowConfig: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      invocationConfig: Schema.optional(InvocationConfig),
+      state: Schema.optional(Schema.String),
+      invocationTiming: Schema.optional(Interval),
+      resolvedCompilationResult: Schema.optional(Schema.String),
+      dataEncryptionState: Schema.optional(DataEncryptionState),
+      internalMetadata: Schema.optional(Schema.String),
+      privateResourceMetadata: Schema.optional(PrivateResourceMetadata),
+    }),
+  ).annotate({
+    identifier: "WorkflowInvocation",
+  }) as any as Schema.Schema<WorkflowInvocation>;
+
+export interface ListWorkflowInvocationsResponse {
+  /** List of workflow invocations. */
+  workflowInvocations?: Array<WorkflowInvocation>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations which could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListWorkflowInvocationsResponse: Schema.Schema<ListWorkflowInvocationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workflowInvocations: Schema.optional(Schema.Array(WorkflowInvocation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListWorkflowInvocationsResponse",
+  }) as any as Schema.Schema<ListWorkflowInvocationsResponse>;
+
+export interface CancelWorkflowInvocationRequest {}
+
+export const CancelWorkflowInvocationRequest: Schema.Schema<CancelWorkflowInvocationRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelWorkflowInvocationRequest",
+  }) as any as Schema.Schema<CancelWorkflowInvocationRequest>;
+
+export interface CancelWorkflowInvocationResponse {}
+
+export const CancelWorkflowInvocationResponse: Schema.Schema<CancelWorkflowInvocationResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelWorkflowInvocationResponse",
+  }) as any as Schema.Schema<CancelWorkflowInvocationResponse>;
+
+export interface BigQueryAction {
+  /** Output only. The generated BigQuery SQL script that will be executed. */
+  sqlScript?: string;
+  /** Output only. The ID of the BigQuery job that executed the SQL in sql_script. Only set once the job has started to run. */
+  jobId?: string;
+}
+
+export const BigQueryAction: Schema.Schema<BigQueryAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sqlScript: Schema.optional(Schema.String),
+      jobId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "BigQueryAction",
+  }) as any as Schema.Schema<BigQueryAction>;
+
+export interface NotebookAction {
+  /** Output only. The code contents of a Notebook to be run. */
+  contents?: string;
+  /** Output only. The ID of the Vertex job that executed the notebook in contents and also the ID used for the outputs created in Google Cloud Storage buckets. Only set once the job has started to run. */
+  jobId?: string;
+}
+
+export const NotebookAction: Schema.Schema<NotebookAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contents: Schema.optional(Schema.String),
+      jobId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "NotebookAction",
+  }) as any as Schema.Schema<NotebookAction>;
+
+export interface ActionErrorTable {
+  /** Error Table target. */
+  target?: Target;
+  /** Error table partition expiration in days. Only positive values are allowed. */
+  retentionDays?: number;
+}
+
+export const ActionErrorTable: Schema.Schema<ActionErrorTable> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      target: Schema.optional(Target),
+      retentionDays: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ActionErrorTable",
+  }) as any as Schema.Schema<ActionErrorTable>;
+
+export interface ActionSimpleLoadMode {}
+
+export const ActionSimpleLoadMode: Schema.Schema<ActionSimpleLoadMode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ActionSimpleLoadMode",
+  }) as any as Schema.Schema<ActionSimpleLoadMode>;
+
+export interface ActionIncrementalLoadMode {
+  /** Column name for incremental load modes */
+  column?: string;
+}
+
+export const ActionIncrementalLoadMode: Schema.Schema<ActionIncrementalLoadMode> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      column: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ActionIncrementalLoadMode",
+  }) as any as Schema.Schema<ActionIncrementalLoadMode>;
+
+export interface ActionLoadConfig {
+  /** Replace destination table */
+  replace?: ActionSimpleLoadMode;
+  /** Append into destination table */
+  append?: ActionSimpleLoadMode;
+  /** Insert records where the value exceeds the previous maximum value for a column in the destination table */
+  maximum?: ActionIncrementalLoadMode;
+  /** Insert records where the value of a column is not already present in the destination table */
+  unique?: ActionIncrementalLoadMode;
+}
+
+export const ActionLoadConfig: Schema.Schema<ActionLoadConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      replace: Schema.optional(ActionSimpleLoadMode),
+      append: Schema.optional(ActionSimpleLoadMode),
+      maximum: Schema.optional(ActionIncrementalLoadMode),
+      unique: Schema.optional(ActionIncrementalLoadMode),
+    }),
+  ).annotate({
+    identifier: "ActionLoadConfig",
+  }) as any as Schema.Schema<ActionLoadConfig>;
+
+export interface ActionSqlDefinition {
+  /** The SQL query representing the data preparation steps. Formatted as a Pipe SQL query statement. */
+  query?: string;
+  /** Error table configuration, */
+  errorTable?: ActionErrorTable;
+  /** Load configuration. */
+  loadConfig?: ActionLoadConfig;
+}
+
+export const ActionSqlDefinition: Schema.Schema<ActionSqlDefinition> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      query: Schema.optional(Schema.String),
+      errorTable: Schema.optional(ActionErrorTable),
+      loadConfig: Schema.optional(ActionLoadConfig),
+    }),
+  ).annotate({
+    identifier: "ActionSqlDefinition",
+  }) as any as Schema.Schema<ActionSqlDefinition>;
+
+export interface DataPreparationAction {
+  /** Output only. YAML representing the contents of the data preparation. Can be used to show the customer what the input was to their workflow. */
+  contentsYaml?: string;
+  /** SQL definition for a Data Preparation. Contains a SQL query and additional context information. */
+  contentsSql?: ActionSqlDefinition;
+  /** Output only. The generated BigQuery SQL script that will be executed. For reference only. */
+  generatedSql?: string;
+  /** Output only. The ID of the BigQuery job that executed the SQL in sql_script. Only set once the job has started to run. */
+  jobId?: string;
+}
+
+export const DataPreparationAction: Schema.Schema<DataPreparationAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      contentsYaml: Schema.optional(Schema.String),
+      contentsSql: Schema.optional(ActionSqlDefinition),
+      generatedSql: Schema.optional(Schema.String),
+      jobId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DataPreparationAction",
+  }) as any as Schema.Schema<DataPreparationAction>;
+
+export interface WorkflowInvocationAction {
+  /** Output only. The workflow action's bigquery action details. */
+  bigqueryAction?: BigQueryAction;
+  /** Output only. The workflow action's notebook action details. */
+  notebookAction?: NotebookAction;
+  /** Output only. The workflow action's data preparation action details. */
+  dataPreparationAction?: DataPreparationAction;
+  /** Output only. This action's identifier. Unique within the workflow invocation. */
+  target?: Target;
+  /** Output only. The action's identifier if the project had been compiled without any overrides configured. Unique within the compilation result. */
+  canonicalTarget?: Target;
+  /** Output only. This action's current state. */
+  state?:
+    | "PENDING"
+    | "RUNNING"
+    | "SKIPPED"
+    | "DISABLED"
+    | "SUCCEEDED"
+    | "CANCELLED"
+    | "FAILED"
+    | (string & {});
+  /** Output only. If and only if action's state is FAILED a failure reason is set. */
+  failureReason?: string;
+  /** Output only. This action's timing details. `start_time` will be set if the action is in [RUNNING, SUCCEEDED, CANCELLED, FAILED] state. `end_time` will be set if the action is in [SUCCEEDED, CANCELLED, FAILED] state. */
+  invocationTiming?: Interval;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const WorkflowInvocationAction: Schema.Schema<WorkflowInvocationAction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      bigqueryAction: Schema.optional(BigQueryAction),
+      notebookAction: Schema.optional(NotebookAction),
+      dataPreparationAction: Schema.optional(DataPreparationAction),
+      target: Schema.optional(Target),
+      canonicalTarget: Schema.optional(Target),
+      state: Schema.optional(Schema.String),
+      failureReason: Schema.optional(Schema.String),
+      invocationTiming: Schema.optional(Interval),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "WorkflowInvocationAction",
+  }) as any as Schema.Schema<WorkflowInvocationAction>;
+
+export interface QueryWorkflowInvocationActionsResponse {
+  /** List of workflow invocation actions. */
+  workflowInvocationActions?: Array<WorkflowInvocationAction>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const QueryWorkflowInvocationActionsResponse: Schema.Schema<QueryWorkflowInvocationActionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workflowInvocationActions: Schema.optional(
+        Schema.Array(WorkflowInvocationAction),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "QueryWorkflowInvocationActionsResponse",
+  }) as any as Schema.Schema<QueryWorkflowInvocationActionsResponse>;
+
+export interface Config {
+  /** Identifier. The config name. */
+  name?: string;
+  /** Optional. The default KMS key that is used if no encryption key is provided when a repository is created. */
+  defaultKmsKeyName?: string;
+  /** Output only. All the metadata information that is used internally to serve the resource. For example: timestamps, flags, status fields, etc. The format of this field is a JSON string. */
+  internalMetadata?: string;
+}
+
+export const Config: Schema.Schema<Config> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      defaultKmsKeyName: Schema.optional(Schema.String),
+      internalMetadata: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Config" }) as any as Schema.Schema<Config>;
+
+export interface Expr {
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string;
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string;
+}
+
+export const Expr: Schema.Schema<Expr> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expression: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      location: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
+
+export interface Binding {
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: Array<string>;
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr;
+}
+
+export const Binding: Schema.Schema<Binding> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      role: Schema.optional(Schema.String),
+      members: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Expr),
+    }),
+  ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
+
+export interface Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: Array<Binding>;
+  /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
+  etag?: string;
+}
+
+export const Policy: Schema.Schema<Policy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.Number),
+      bindings: Schema.optional(Schema.Array(Binding)),
+      etag: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
+
+export interface SetIamPolicyRequest {
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
+}
+
+export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      policy: Schema.optional(Policy),
+    }),
+  ).annotate({
+    identifier: "SetIamPolicyRequest",
+  }) as any as Schema.Schema<SetIamPolicyRequest>;
+
+export interface TestIamPermissionsRequest {
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: Array<string>;
+}
+
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
+
+export interface TestIamPermissionsResponse {
+  /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
+  permissions?: Array<string>;
+}
+
+export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "TestIamPermissionsResponse",
+  }) as any as Schema.Schema<TestIamPermissionsResponse>;
+
+export interface Location {
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: Record<string, string>;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: Record<string, unknown>;
+}
+
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+
+export interface ListLocationsResponse {
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: Array<Location>;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+}
+
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      locations: Schema.optional(Schema.Array(Location)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
+
+export interface OperationMetadata {
+  /** Output only. The time the operation was created. */
+  createTime?: string;
+  /** Output only. The time the operation finished running. */
+  endTime?: string;
+  /** Output only. Server-defined resource path for the target of the operation. */
+  target?: string;
+  /** Output only. Name of the verb executed by the operation. */
+  verb?: string;
+  /** Output only. Human-readable status of the operation, if any. */
+  statusDetail?: string;
+  /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have google.longrunning.Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
+  cancelRequested?: boolean;
+  /** Output only. API version used to start the operation. */
+  apiVersion?: string;
+}
+
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusDetail: Schema.optional(Schema.String),
+      cancelRequested: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
+
+export interface PolicyName {
+  /** Resource type. Types are defined in IAM's .service files. Valid values for type might be 'storage_buckets', 'compute_instances', 'resourcemanager_customers', 'billing_accounts', etc. */
+  type?: string;
+  /** Identifies an instance of the type. ID format varies by type. The ID format is defined in the IAM .service file that defines the type, either in path_mapping or in a comment. */
+  id?: string;
+  /** For Cloud IAM: The location of the Policy. Must be empty or "global" for Policies owned by global IAM. Must name a region from prodspec/cloud-iam-cloudspec for Regional IAM Policies, see go/iam-faq#where-is-iam-currently-deployed. For Local IAM: This field should be set to "local". */
+  region?: string;
+}
+
+export const PolicyName: Schema.Schema<PolicyName> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      region: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "PolicyName" }) as any as Schema.Schema<PolicyName>;
+
+export interface IamPolicyOverrideView {
+  /** The IAM policy name for the resource. */
+  iamPolicyName?: PolicyName;
+  /** Whether the IAM policy encoded in this view is active. */
+  isActive?: boolean;
+}
+
+export const IamPolicyOverrideView: Schema.Schema<IamPolicyOverrideView> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iamPolicyName: Schema.optional(PolicyName),
+      isActive: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "IamPolicyOverrideView",
+  }) as any as Schema.Schema<IamPolicyOverrideView>;
+
+// ==========================================================================
+// Operations
+// ==========================================================================
+
+export interface QueryUserRootContentsProjectsLocationsRequest {
+  /** Required. Location of the user root folder whose contents to list. Format: projects/* /locations/* */
+  location: string;
+  /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryUserRootContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryUserRootFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: display_name (default), created_at, last_modified_at. Examples: - `orderBy="display_name"` - `orderBy="display_name desc"` */
+  orderBy?: string;
+  /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: - `filter="display_name="MyFolder""` */
+  filter?: string;
+}
+
+export const QueryUserRootContentsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}:queryUserRootContents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryUserRootContentsProjectsLocationsRequest>;
+
+export type QueryUserRootContentsProjectsLocationsResponse =
+  QueryUserRootContentsResponse;
+export const QueryUserRootContentsProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryUserRootContentsResponse;
+
+export type QueryUserRootContentsProjectsLocationsError = DefaultErrors;
+
+/** Returns the contents of a caller's root folder in a given location. The root folder contains all resources that are created by the user and not contained in any other folder. */
+export const queryUserRootContentsProjectsLocations: API.PaginatedOperationMethod<
+  QueryUserRootContentsProjectsLocationsRequest,
+  QueryUserRootContentsProjectsLocationsResponse,
+  QueryUserRootContentsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryUserRootContentsProjectsLocationsRequest,
+  output: QueryUserRootContentsProjectsLocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetConfigProjectsLocationsRequest {
+  /** Required. The config name. */
+  name: string;
+}
+
+export const GetConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/config",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetConfigProjectsLocationsRequest>;
+
+export type GetConfigProjectsLocationsResponse = Config;
+export const GetConfigProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Config;
+
+export type GetConfigProjectsLocationsError = DefaultErrors;
+
+/** Get default config for a given project and location. */
+export const getConfigProjectsLocations: API.OperationMethod<
+  GetConfigProjectsLocationsRequest,
+  GetConfigProjectsLocationsResponse,
+  GetConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetConfigProjectsLocationsRequest,
+  output: GetConfigProjectsLocationsResponse,
+  errors: [],
+}));
+
+export interface UpdateConfigProjectsLocationsRequest {
+  /** Identifier. The config name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the config. */
+  updateMask?: string;
+  /** Request body */
+  body?: Config;
+}
+
+export const UpdateConfigProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Config).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/config",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateConfigProjectsLocationsRequest>;
+
+export type UpdateConfigProjectsLocationsResponse = Config;
+export const UpdateConfigProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Config;
+
+export type UpdateConfigProjectsLocationsError = DefaultErrors;
+
+/** Update default config for a given project and location. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
+export const updateConfigProjectsLocations: API.OperationMethod<
+  UpdateConfigProjectsLocationsRequest,
+  UpdateConfigProjectsLocationsResponse,
+  UpdateConfigProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateConfigProjectsLocationsRequest,
+  output: UpdateConfigProjectsLocationsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRequest {
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: string[];
+}
+
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+
+export type ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
+
+export type ListProjectsLocationsError = DefaultErrors;
+
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRequest,
+  output: ListProjectsLocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRequest {
+  /** Resource name for the location. */
+  name: string;
+}
+
+export const GetProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRequest>;
+
+export type GetProjectsLocationsResponse = Location;
+export const GetProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Location;
+
+export type GetProjectsLocationsError = DefaultErrors;
+
+/** Gets information about a location. */
+export const getProjectsLocations: API.OperationMethod<
+  GetProjectsLocationsRequest,
+  GetProjectsLocationsResponse,
+  GetProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRequest,
+  output: GetProjectsLocationsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+}
+
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+
+export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
+
+export type ListProjectsLocationsOperationsError = DefaultErrors;
+
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsOperationsRequest,
+  output: ListProjectsLocationsOperationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsOperationsRequest {
+  /** The name of the operation resource. */
+  name: string;
+}
+
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+
+export type GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type GetProjectsLocationsOperationsError = DefaultErrors;
+
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsOperationsRequest,
+  output: GetProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsOperationsRequest {
+  /** The name of the operation resource to be deleted. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+
+export type DeleteProjectsLocationsOperationsResponse = Empty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsOperationsError = DefaultErrors;
+
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsOperationsRequest,
+  output: DeleteProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
+export interface CancelProjectsLocationsOperationsRequest {
+  /** The name of the operation resource to be cancelled. */
+  name: string;
+  /** Request body */
+  body?: CancelOperationRequest;
+}
+
+export const CancelProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelOperationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsOperationsRequest>;
+
+export type CancelProjectsLocationsOperationsResponse = Empty;
+export const CancelProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type CancelProjectsLocationsOperationsError = DefaultErrors;
+
+/** Starts asynchronous cancellation on a long-running operation. The server makes a best effort to cancel the operation, but success is not guaranteed. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. Clients can use Operations.GetOperation or other methods to check whether the cancellation succeeded or whether the operation completed despite cancellation. On successful cancellation, the operation is not deleted; instead, it becomes an operation with an Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
+export const cancelProjectsLocationsOperations: API.OperationMethod<
+  CancelProjectsLocationsOperationsRequest,
+  CancelProjectsLocationsOperationsResponse,
+  CancelProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelProjectsLocationsOperationsRequest,
+  output: CancelProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
+export interface GetProjectsLocationsTeamFoldersRequest {
+  /** Required. The TeamFolder's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsTeamFoldersRequest>;
+
+export type GetProjectsLocationsTeamFoldersResponse = TeamFolder;
+export const GetProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TeamFolder;
+
+export type GetProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Fetches a single TeamFolder. */
+export const getProjectsLocationsTeamFolders: API.OperationMethod<
+  GetProjectsLocationsTeamFoldersRequest,
+  GetProjectsLocationsTeamFoldersResponse,
+  GetProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsTeamFoldersRequest,
+  output: GetProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsTeamFoldersRequest {
+  /** Required. The location in which to create the TeamFolder. Must be in the format `projects/* /locations/*`. */
+  parent: string;
+  /** The ID to use for the TeamFolder, which will become the final component of the TeamFolder's resource name. */
+  teamFolderId?: string;
+  /** Request body */
+  body?: TeamFolder;
+}
+
+export const CreateProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    teamFolderId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("teamFolderId"),
+    ),
+    body: Schema.optional(TeamFolder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsTeamFoldersRequest>;
+
+export type CreateProjectsLocationsTeamFoldersResponse = TeamFolder;
+export const CreateProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TeamFolder;
+
+export type CreateProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Creates a new TeamFolder in a given project and location. */
+export const createProjectsLocationsTeamFolders: API.OperationMethod<
+  CreateProjectsLocationsTeamFoldersRequest,
+  CreateProjectsLocationsTeamFoldersResponse,
+  CreateProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsTeamFoldersRequest,
+  output: CreateProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsLocationsTeamFoldersRequest {
+  /** Identifier. The TeamFolder's name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields will be updated. */
+  updateMask?: string;
+  /** Request body */
+  body?: TeamFolder;
+}
+
+export const PatchProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(TeamFolder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsTeamFoldersRequest>;
+
+export type PatchProjectsLocationsTeamFoldersResponse = TeamFolder;
+export const PatchProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TeamFolder;
+
+export type PatchProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Updates a single TeamFolder. */
+export const patchProjectsLocationsTeamFolders: API.OperationMethod<
+  PatchProjectsLocationsTeamFoldersRequest,
+  PatchProjectsLocationsTeamFoldersResponse,
+  PatchProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsTeamFoldersRequest,
+  output: PatchProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsTeamFoldersRequest {
+  /** Required. The TeamFolder's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsTeamFoldersRequest>;
+
+export type DeleteProjectsLocationsTeamFoldersResponse = Empty;
+export const DeleteProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Deletes a single TeamFolder. */
+export const deleteProjectsLocationsTeamFolders: API.OperationMethod<
+  DeleteProjectsLocationsTeamFoldersRequest,
+  DeleteProjectsLocationsTeamFoldersResponse,
+  DeleteProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsTeamFoldersRequest,
+  output: DeleteProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface QueryContentsProjectsLocationsTeamFoldersRequest {
+  /** Required. Name of the team_folder whose contents to list. Format: `projects/* /locations/* /teamFolders/*`. */
+  teamFolder: string;
+  /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryTeamFolderContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryTeamFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: `display_name` (default), `create_time`, last_modified_time. Examples: - `orderBy="display_name"` - `orderBy="display_name desc"` */
+  orderBy?: string;
+  /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: - `filter="display_name="MyFolder""` */
+  filter?: string;
+}
+
+export const QueryContentsProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    teamFolder: Schema.String.pipe(T.HttpPath("teamFolder")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}:queryContents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryContentsProjectsLocationsTeamFoldersRequest>;
+
+export type QueryContentsProjectsLocationsTeamFoldersResponse =
+  QueryTeamFolderContentsResponse;
+export const QueryContentsProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryTeamFolderContentsResponse;
+
+export type QueryContentsProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Returns the contents of a given TeamFolder. */
+export const queryContentsProjectsLocationsTeamFolders: API.PaginatedOperationMethod<
+  QueryContentsProjectsLocationsTeamFoldersRequest,
+  QueryContentsProjectsLocationsTeamFoldersResponse,
+  QueryContentsProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryContentsProjectsLocationsTeamFoldersRequest,
+  output: QueryContentsProjectsLocationsTeamFoldersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface SearchProjectsLocationsTeamFoldersRequest {
+  /** Required. Location in which to query TeamFolders. Format: `projects/* /locations/*`. */
+  location: string;
+  /** Optional. Maximum number of TeamFolders to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `SearchTeamFolders` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchTeamFolders`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Field to additionally sort results by. Supported keywords: `display_name` (default), `create_time`, `last_modified_time`. Examples: - `orderBy="display_name"` - `orderBy="display_name desc"` */
+  orderBy?: string;
+  /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: - `filter="display_name="MyFolder""` */
+  filter?: string;
+}
+
+export const SearchProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    location: Schema.String.pipe(T.HttpPath("location")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchProjectsLocationsTeamFoldersRequest>;
+
+export type SearchProjectsLocationsTeamFoldersResponse =
+  SearchTeamFoldersResponse;
+export const SearchProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchTeamFoldersResponse;
+
+export type SearchProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Returns all TeamFolders in a given location that the caller has access to and match the provided filter. */
+export const searchProjectsLocationsTeamFolders: API.PaginatedOperationMethod<
+  SearchProjectsLocationsTeamFoldersRequest,
+  SearchProjectsLocationsTeamFoldersResponse,
+  SearchProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchProjectsLocationsTeamFoldersRequest,
+  output: SearchProjectsLocationsTeamFoldersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetIamPolicyProjectsLocationsTeamFoldersRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+}
+
+export const GetIamPolicyProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsTeamFoldersRequest>;
+
+export type GetIamPolicyProjectsLocationsTeamFoldersResponse = Policy;
+export const GetIamPolicyProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type GetIamPolicyProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsTeamFolders: API.OperationMethod<
+  GetIamPolicyProjectsLocationsTeamFoldersRequest,
+  GetIamPolicyProjectsLocationsTeamFoldersResponse,
+  GetIamPolicyProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsTeamFoldersRequest,
+  output: GetIamPolicyProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface SetIamPolicyProjectsLocationsTeamFoldersRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: SetIamPolicyRequest;
+}
+
+export const SetIamPolicyProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsTeamFoldersRequest>;
+
+export type SetIamPolicyProjectsLocationsTeamFoldersResponse = Policy;
+export const SetIamPolicyProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type SetIamPolicyProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsTeamFolders: API.OperationMethod<
+  SetIamPolicyProjectsLocationsTeamFoldersRequest,
+  SetIamPolicyProjectsLocationsTeamFoldersResponse,
+  SetIamPolicyProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsTeamFoldersRequest,
+  output: SetIamPolicyProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface TestIamPermissionsProjectsLocationsTeamFoldersRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+
+export const TestIamPermissionsProjectsLocationsTeamFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/teamFolders/{teamFoldersId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsTeamFoldersRequest>;
+
+export type TestIamPermissionsProjectsLocationsTeamFoldersResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsTeamFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
+
+export type TestIamPermissionsProjectsLocationsTeamFoldersError = DefaultErrors;
+
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsTeamFolders: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsTeamFoldersRequest,
+  TestIamPermissionsProjectsLocationsTeamFoldersResponse,
+  TestIamPermissionsProjectsLocationsTeamFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsTeamFoldersRequest,
+  output: TestIamPermissionsProjectsLocationsTeamFoldersResponse,
+  errors: [],
+}));
+
+export interface GetProjectsLocationsFoldersRequest {
+  /** Required. The Folder's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsFoldersRequest>;
+
+export type GetProjectsLocationsFoldersResponse = Folder;
+export const GetProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type GetProjectsLocationsFoldersError = DefaultErrors;
+
+/** Fetches a single Folder. */
+export const getProjectsLocationsFolders: API.OperationMethod<
+  GetProjectsLocationsFoldersRequest,
+  GetProjectsLocationsFoldersResponse,
+  GetProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsFoldersRequest,
+  output: GetProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsFoldersRequest {
+  /** Required. The location in which to create the Folder. Must be in the format `projects/* /locations/*`. */
+  parent: string;
+  /** The ID to use for the Folder, which will become the final component of the Folder's resource name. */
+  folderId?: string;
+  /** Request body */
+  body?: Folder;
+}
+
+export const CreateProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    folderId: Schema.optional(Schema.String).pipe(T.HttpQuery("folderId")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsFoldersRequest>;
+
+export type CreateProjectsLocationsFoldersResponse = Folder;
+export const CreateProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type CreateProjectsLocationsFoldersError = DefaultErrors;
+
+/** Creates a new Folder in a given project and location. */
+export const createProjectsLocationsFolders: API.OperationMethod<
+  CreateProjectsLocationsFoldersRequest,
+  CreateProjectsLocationsFoldersResponse,
+  CreateProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsFoldersRequest,
+  output: CreateProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsLocationsFoldersRequest {
+  /** Identifier. The Folder's name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields that can be updated, will be updated. A few fields cannot be updated and will be ignored if specified in the update_mask (e.g. parent_name, team_folder_name). */
+  updateMask?: string;
+  /** Request body */
+  body?: Folder;
+}
+
+export const PatchProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsFoldersRequest>;
+
+export type PatchProjectsLocationsFoldersResponse = Folder;
+export const PatchProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type PatchProjectsLocationsFoldersError = DefaultErrors;
+
+/** Updates a single Folder. */
+export const patchProjectsLocationsFolders: API.OperationMethod<
+  PatchProjectsLocationsFoldersRequest,
+  PatchProjectsLocationsFoldersResponse,
+  PatchProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsFoldersRequest,
+  output: PatchProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsFoldersRequest {
+  /** Required. The Folder's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsFoldersRequest>;
+
+export type DeleteProjectsLocationsFoldersResponse = Empty;
+export const DeleteProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsFoldersError = DefaultErrors;
+
+/** Deletes a single Folder. */
+export const deleteProjectsLocationsFolders: API.OperationMethod<
+  DeleteProjectsLocationsFoldersRequest,
+  DeleteProjectsLocationsFoldersResponse,
+  DeleteProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsFoldersRequest,
+  output: DeleteProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface QueryFolderContentsProjectsLocationsFoldersRequest {
+  /** Required. Name of the folder whose contents to list. Format: projects/* /locations/* /folders/* */
+  folder: string;
+  /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryFolderContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryFolderContents`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Field to additionally sort results by. Will order Folders before Repositories, and then by `order_by` in ascending order. Supported keywords: display_name (default), create_time, last_modified_time. Examples: - `orderBy="display_name"` - `orderBy="display_name desc"` */
+  orderBy?: string;
+  /** Optional. Optional filtering for the returned list. Filtering is currently only supported on the `display_name` field. Example: - `filter="display_name="MyFolder""` */
+  filter?: string;
+}
+
+export const QueryFolderContentsProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    folder: Schema.String.pipe(T.HttpPath("folder")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}:queryFolderContents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryFolderContentsProjectsLocationsFoldersRequest>;
+
+export type QueryFolderContentsProjectsLocationsFoldersResponse =
+  QueryFolderContentsResponse;
+export const QueryFolderContentsProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryFolderContentsResponse;
+
+export type QueryFolderContentsProjectsLocationsFoldersError = DefaultErrors;
+
+/** Returns the contents of a given Folder. */
+export const queryFolderContentsProjectsLocationsFolders: API.PaginatedOperationMethod<
+  QueryFolderContentsProjectsLocationsFoldersRequest,
+  QueryFolderContentsProjectsLocationsFoldersResponse,
+  QueryFolderContentsProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryFolderContentsProjectsLocationsFoldersRequest,
+  output: QueryFolderContentsProjectsLocationsFoldersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface MoveProjectsLocationsFoldersRequest {
+  /** Required. The full resource name of the Folder to move. */
+  name: string;
+  /** Request body */
+  body?: MoveFolderRequest;
+}
+
+export const MoveProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MoveFolderRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}:move",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveProjectsLocationsFoldersRequest>;
+
+export type MoveProjectsLocationsFoldersResponse = Operation;
+export const MoveProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type MoveProjectsLocationsFoldersError = DefaultErrors;
+
+/** Moves a Folder to a new Folder, TeamFolder, or the root location. */
+export const moveProjectsLocationsFolders: API.OperationMethod<
+  MoveProjectsLocationsFoldersRequest,
+  MoveProjectsLocationsFoldersResponse,
+  MoveProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveProjectsLocationsFoldersRequest,
+  output: MoveProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface GetIamPolicyProjectsLocationsFoldersRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+}
+
+export const GetIamPolicyProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsFoldersRequest>;
+
+export type GetIamPolicyProjectsLocationsFoldersResponse = Policy;
+export const GetIamPolicyProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type GetIamPolicyProjectsLocationsFoldersError = DefaultErrors;
+
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsFolders: API.OperationMethod<
+  GetIamPolicyProjectsLocationsFoldersRequest,
+  GetIamPolicyProjectsLocationsFoldersResponse,
+  GetIamPolicyProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsFoldersRequest,
+  output: GetIamPolicyProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface SetIamPolicyProjectsLocationsFoldersRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: SetIamPolicyRequest;
+}
+
+export const SetIamPolicyProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsFoldersRequest>;
+
+export type SetIamPolicyProjectsLocationsFoldersResponse = Policy;
+export const SetIamPolicyProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type SetIamPolicyProjectsLocationsFoldersError = DefaultErrors;
+
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsFolders: API.OperationMethod<
+  SetIamPolicyProjectsLocationsFoldersRequest,
+  SetIamPolicyProjectsLocationsFoldersResponse,
+  SetIamPolicyProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsFoldersRequest,
+  output: SetIamPolicyProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface TestIamPermissionsProjectsLocationsFoldersRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+
+export const TestIamPermissionsProjectsLocationsFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/folders/{foldersId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsFoldersRequest>;
+
+export type TestIamPermissionsProjectsLocationsFoldersResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
+
+export type TestIamPermissionsProjectsLocationsFoldersError = DefaultErrors;
+
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsFolders: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsFoldersRequest,
+  TestIamPermissionsProjectsLocationsFoldersResponse,
+  TestIamPermissionsProjectsLocationsFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsFoldersRequest,
+  output: TestIamPermissionsProjectsLocationsFoldersResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRepositoriesRequest {
+  /** Required. The location in which to list repositories. Must be in the format `projects/* /locations/*`. */
+  parent: string;
+  /** Optional. Maximum number of repositories to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListRepositories` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRepositories`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
+  orderBy?: string;
+  /** Optional. Filter for the returned list. */
+  filter?: string;
+}
+
+export const ListProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesRequest>;
+
+export type ListProjectsLocationsRepositoriesResponse =
+  ListRepositoriesResponse;
+export const ListProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListRepositoriesResponse;
+
+export type ListProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Lists Repositories in a given project and location. **Note:** *This method can return repositories not shown in the [Dataform UI](https://console.cloud.google.com/bigquery/dataform)*. */
+export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesRequest,
+  ListProjectsLocationsRepositoriesResponse,
+  ListProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesRequest,
+  output: ListProjectsLocationsRepositoriesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesRequest>;
+
+export type GetProjectsLocationsRepositoriesResponse = Repository;
+export const GetProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Repository;
+
+export type GetProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Fetches a single Repository. */
+export const getProjectsLocationsRepositories: API.OperationMethod<
+  GetProjectsLocationsRepositoriesRequest,
+  GetProjectsLocationsRepositoriesResponse,
+  GetProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesRequest,
+  output: GetProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesRequest {
+  /** Required. The location in which to create the repository. Must be in the format `projects/* /locations/*`. */
+  parent: string;
+  /** Required. The ID to use for the repository, which will become the final component of the repository's resource name. */
+  repositoryId?: string;
+  /** Request body */
+  body?: Repository;
+}
+
+export const CreateProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    repositoryId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("repositoryId"),
+    ),
+    body: Schema.optional(Repository).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesRequest>;
+
+export type CreateProjectsLocationsRepositoriesResponse = Repository;
+export const CreateProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Repository;
+
+export type CreateProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Creates a new Repository in a given project and location. */
+export const createProjectsLocationsRepositories: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesRequest,
+  CreateProjectsLocationsRepositoriesResponse,
+  CreateProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesRequest,
+  output: CreateProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsLocationsRepositoriesRequest {
+  /** Identifier. The repository's name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the repository. If left unset, all fields will be updated. */
+  updateMask?: string;
+  /** Request body */
+  body?: Repository;
+}
+
+export const PatchProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(Repository).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesRequest>;
+
+export type PatchProjectsLocationsRepositoriesResponse = Repository;
+export const PatchProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Repository;
+
+export type PatchProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Updates a single Repository. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
+export const patchProjectsLocationsRepositories: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesRequest,
+  PatchProjectsLocationsRepositoriesResponse,
+  PatchProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsRepositoriesRequest,
+  output: PatchProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+  /** Optional. If set to true, child resources of this repository (compilation results and workflow invocations) will also be deleted. Otherwise, the request will only succeed if the repository has no child resources. **Note:** *This flag doesn't support deletion of workspaces, release configs or workflow configs. If any of such resources exists in the repository, the request will fail.*. */
+  force?: boolean;
+}
+
+export const DeleteProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    force: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("force")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesRequest>;
+
+export type DeleteProjectsLocationsRepositoriesResponse = Empty;
+export const DeleteProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Deletes a single Repository. */
+export const deleteProjectsLocationsRepositories: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesRequest,
+  DeleteProjectsLocationsRepositoriesResponse,
+  DeleteProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsRepositoriesRequest,
+  output: DeleteProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface MoveProjectsLocationsRepositoriesRequest {
+  /** Required. The full resource name of the repository to move. */
+  name: string;
+  /** Request body */
+  body?: MoveRepositoryRequest;
+}
+
+export const MoveProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(MoveRepositoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:move",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveProjectsLocationsRepositoriesRequest>;
+
+export type MoveProjectsLocationsRepositoriesResponse = Operation;
+export const MoveProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type MoveProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Moves a Repository to a new location. */
+export const moveProjectsLocationsRepositories: API.OperationMethod<
+  MoveProjectsLocationsRepositoriesRequest,
+  MoveProjectsLocationsRepositoriesResponse,
+  MoveProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveProjectsLocationsRepositoriesRequest,
+  output: MoveProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface CommitProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+  /** Request body */
+  body?: CommitRepositoryChangesRequest;
+}
+
+export const CommitProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CommitRepositoryChangesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:commit",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CommitProjectsLocationsRepositoriesRequest>;
+
+export type CommitProjectsLocationsRepositoriesResponse =
+  CommitRepositoryChangesResponse;
+export const CommitProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CommitRepositoryChangesResponse;
+
+export type CommitProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Applies a Git commit to a Repository. The Repository must not have a value for `git_remote_settings.url`. */
+export const commitProjectsLocationsRepositories: API.OperationMethod<
+  CommitProjectsLocationsRepositoriesRequest,
+  CommitProjectsLocationsRepositoriesResponse,
+  CommitProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CommitProjectsLocationsRepositoriesRequest,
+  output: CommitProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface ReadFileProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+  /** Optional. The commit SHA for the commit to read from. If unset, the file will be read from HEAD. */
+  commitSha?: string;
+  /** Required. Full file path to read including filename, from repository root. */
+  path?: string;
+}
+
+export const ReadFileProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    commitSha: Schema.optional(Schema.String).pipe(T.HttpQuery("commitSha")),
+    path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:readFile",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReadFileProjectsLocationsRepositoriesRequest>;
+
+export type ReadFileProjectsLocationsRepositoriesResponse =
+  ReadRepositoryFileResponse;
+export const ReadFileProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReadRepositoryFileResponse;
+
+export type ReadFileProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Returns the contents of a file (inside a Repository). The Repository must not have a value for `git_remote_settings.url`. */
+export const readFileProjectsLocationsRepositories: API.OperationMethod<
+  ReadFileProjectsLocationsRepositoriesRequest,
+  ReadFileProjectsLocationsRepositoriesResponse,
+  ReadFileProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReadFileProjectsLocationsRepositoriesRequest,
+  output: ReadFileProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface QueryDirectoryContentsProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+  /** Optional. The Commit SHA for the commit to query from. If unset, the directory will be queried from HEAD. */
+  commitSha?: string;
+  /** Optional. The directory's full path including directory name, relative to root. If left unset, the root is used. */
+  path?: string;
+  /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryRepositoryDirectoryContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryRepositoryDirectoryContents`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const QueryDirectoryContentsProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    commitSha: Schema.optional(Schema.String).pipe(T.HttpQuery("commitSha")),
+    path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:queryDirectoryContents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryDirectoryContentsProjectsLocationsRepositoriesRequest>;
+
+export type QueryDirectoryContentsProjectsLocationsRepositoriesResponse =
+  QueryRepositoryDirectoryContentsResponse;
+export const QueryDirectoryContentsProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryRepositoryDirectoryContentsResponse;
+
+export type QueryDirectoryContentsProjectsLocationsRepositoriesError =
+  DefaultErrors;
+
+/** Returns the contents of a given Repository directory. The Repository must not have a value for `git_remote_settings.url`. */
+export const queryDirectoryContentsProjectsLocationsRepositories: API.PaginatedOperationMethod<
+  QueryDirectoryContentsProjectsLocationsRepositoriesRequest,
+  QueryDirectoryContentsProjectsLocationsRepositoriesResponse,
+  QueryDirectoryContentsProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryDirectoryContentsProjectsLocationsRepositoriesRequest,
+  output: QueryDirectoryContentsProjectsLocationsRepositoriesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface FetchHistoryProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+  /** Optional. Maximum number of commits to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `FetchRepositoryHistory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchRepositoryHistory`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const FetchHistoryProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchHistory",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchHistoryProjectsLocationsRepositoriesRequest>;
+
+export type FetchHistoryProjectsLocationsRepositoriesResponse =
+  FetchRepositoryHistoryResponse;
+export const FetchHistoryProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchRepositoryHistoryResponse;
+
+export type FetchHistoryProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Fetches a Repository's history of commits. The Repository must not have a value for `git_remote_settings.url`. */
+export const fetchHistoryProjectsLocationsRepositories: API.PaginatedOperationMethod<
+  FetchHistoryProjectsLocationsRepositoriesRequest,
+  FetchHistoryProjectsLocationsRepositoriesResponse,
+  FetchHistoryProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: FetchHistoryProjectsLocationsRepositoriesRequest,
+  output: FetchHistoryProjectsLocationsRepositoriesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+}
+
+export const ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:computeAccessTokenStatus",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest>;
+
+export type ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse =
+  ComputeRepositoryAccessTokenStatusResponse;
+export const ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ComputeRepositoryAccessTokenStatusResponse;
+
+export type ComputeAccessTokenStatusProjectsLocationsRepositoriesError =
+  DefaultErrors;
+
+/** Computes a Repository's Git access token status. */
+export const computeAccessTokenStatusProjectsLocationsRepositories: API.OperationMethod<
+  ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest,
+  ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse,
+  ComputeAccessTokenStatusProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ComputeAccessTokenStatusProjectsLocationsRepositoriesRequest,
+  output: ComputeAccessTokenStatusProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface FetchRemoteBranchesProjectsLocationsRepositoriesRequest {
+  /** Required. The repository's name. */
+  name: string;
+}
+
+export const FetchRemoteBranchesProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:fetchRemoteBranches",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchRemoteBranchesProjectsLocationsRepositoriesRequest>;
+
+export type FetchRemoteBranchesProjectsLocationsRepositoriesResponse =
+  FetchRemoteBranchesResponse;
+export const FetchRemoteBranchesProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchRemoteBranchesResponse;
+
+export type FetchRemoteBranchesProjectsLocationsRepositoriesError =
+  DefaultErrors;
+
+/** Fetches a Repository's remote branches. */
+export const fetchRemoteBranchesProjectsLocationsRepositories: API.OperationMethod<
+  FetchRemoteBranchesProjectsLocationsRepositoriesRequest,
+  FetchRemoteBranchesProjectsLocationsRepositoriesResponse,
+  FetchRemoteBranchesProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FetchRemoteBranchesProjectsLocationsRepositoriesRequest,
+  output: FetchRemoteBranchesProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface GetIamPolicyProjectsLocationsRepositoriesRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+}
+
+export const GetIamPolicyProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsRepositoriesRequest>;
+
+export type GetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
+export const GetIamPolicyProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type GetIamPolicyProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsRepositories: API.OperationMethod<
+  GetIamPolicyProjectsLocationsRepositoriesRequest,
+  GetIamPolicyProjectsLocationsRepositoriesResponse,
+  GetIamPolicyProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsRepositoriesRequest,
+  output: GetIamPolicyProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface SetIamPolicyProjectsLocationsRepositoriesRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: SetIamPolicyRequest;
+}
+
+export const SetIamPolicyProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsRepositoriesRequest>;
+
+export type SetIamPolicyProjectsLocationsRepositoriesResponse = Policy;
+export const SetIamPolicyProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type SetIamPolicyProjectsLocationsRepositoriesError = DefaultErrors;
+
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsRepositories: API.OperationMethod<
+  SetIamPolicyProjectsLocationsRepositoriesRequest,
+  SetIamPolicyProjectsLocationsRepositoriesResponse,
+  SetIamPolicyProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsRepositoriesRequest,
+  output: SetIamPolicyProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface TestIamPermissionsProjectsLocationsRepositoriesRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+
+export const TestIamPermissionsProjectsLocationsRepositoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsRepositoriesRequest>;
+
+export type TestIamPermissionsProjectsLocationsRepositoriesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsRepositoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
+
+export type TestIamPermissionsProjectsLocationsRepositoriesError =
+  DefaultErrors;
+
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsRepositories: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsRepositoriesRequest,
+  TestIamPermissionsProjectsLocationsRepositoriesResponse,
+  TestIamPermissionsProjectsLocationsRepositoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsRepositoriesRequest,
+  output: TestIamPermissionsProjectsLocationsRepositoriesResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The repository in which to list workspaces. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Optional. Maximum number of workspaces to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListWorkspaces` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkspaces`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
+  orderBy?: string;
+  /** Optional. Filter for the returned list. */
+  filter?: string;
+}
+
+export const ListProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type ListProjectsLocationsRepositoriesWorkspacesResponse =
+  ListWorkspacesResponse;
+export const ListProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListWorkspacesResponse;
+
+export type ListProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Lists Workspaces in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesWorkspacesRequest,
+  ListProjectsLocationsRepositoriesWorkspacesResponse,
+  ListProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesWorkspacesRequest,
+  output: ListProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type GetProjectsLocationsRepositoriesWorkspacesResponse = Workspace;
+export const GetProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
+
+export type GetProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Fetches a single Workspace. */
+export const getProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  GetProjectsLocationsRepositoriesWorkspacesRequest,
+  GetProjectsLocationsRepositoriesWorkspacesResponse,
+  GetProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesWorkspacesRequest,
+  output: GetProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The repository in which to create the workspace. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Required. The ID to use for the workspace, which will become the final component of the workspace's resource name. */
+  workspaceId?: string;
+  /** Request body */
+  body?: Workspace;
+}
+
+export const CreateProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    workspaceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("workspaceId"),
+    ),
+    body: Schema.optional(Workspace).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type CreateProjectsLocationsRepositoriesWorkspacesResponse = Workspace;
+export const CreateProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
+
+export type CreateProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Creates a new Workspace in a given Repository. */
+export const createProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesWorkspacesRequest,
+  CreateProjectsLocationsRepositoriesWorkspacesResponse,
+  CreateProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesWorkspacesRequest,
+  output: CreateProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace resource's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type DeleteProjectsLocationsRepositoriesWorkspacesResponse = Empty;
+export const DeleteProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Deletes a single Workspace. */
+export const deleteProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesWorkspacesRequest,
+  DeleteProjectsLocationsRepositoriesWorkspacesResponse,
+  DeleteProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsRepositoriesWorkspacesRequest,
+  output: DeleteProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: InstallNpmPackagesRequest;
+}
+
+export const InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(InstallNpmPackagesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:installNpmPackages",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse =
+  InstallNpmPackagesResponse;
+export const InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ InstallNpmPackagesResponse;
+
+export type InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Installs dependency NPM packages (inside a Workspace). */
+export const installNpmPackagesProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest,
+  InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse,
+  InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesRequest,
+  output: InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface PullProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+  /** Request body */
+  body?: PullGitCommitsRequest;
+}
+
+export const PullProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PullGitCommitsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:pull",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PullProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type PullProjectsLocationsRepositoriesWorkspacesResponse =
+  PullGitCommitsResponse;
+export const PullProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PullGitCommitsResponse;
+
+export type PullProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Pulls Git commits from the Repository's remote into a Workspace. */
+export const pullProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  PullProjectsLocationsRepositoriesWorkspacesRequest,
+  PullProjectsLocationsRepositoriesWorkspacesResponse,
+  PullProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PullProjectsLocationsRepositoriesWorkspacesRequest,
+  output: PullProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface PushProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+  /** Request body */
+  body?: PushGitCommitsRequest;
+}
+
+export const PushProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(PushGitCommitsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:push",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PushProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type PushProjectsLocationsRepositoriesWorkspacesResponse =
+  PushGitCommitsResponse;
+export const PushProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PushGitCommitsResponse;
+
+export type PushProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Pushes Git commits from a Workspace to the Repository's remote. */
+export const pushProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  PushProjectsLocationsRepositoriesWorkspacesRequest,
+  PushProjectsLocationsRepositoriesWorkspacesResponse,
+  PushProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PushProjectsLocationsRepositoriesWorkspacesRequest,
+  output: PushProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+}
+
+export const FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:fetchFileGitStatuses",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse =
+  FetchFileGitStatusesResponse;
+export const FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchFileGitStatusesResponse;
+
+export type FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Fetches Git statuses for the files in a Workspace. */
+export const fetchFileGitStatusesProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest,
+  FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse,
+  FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesRequest,
+  output: FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+  /** Optional. The name of the branch in the Git remote against which this workspace should be compared. If left unset, the repository's default branch name will be used. */
+  remoteBranch?: string;
+}
+
+export const FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    remoteBranch: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("remoteBranch"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:fetchGitAheadBehind",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse =
+  FetchGitAheadBehindResponse;
+export const FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchGitAheadBehindResponse;
+
+export type FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Fetches Git ahead/behind against a remote branch. */
+export const fetchGitAheadBehindProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest,
+  FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse,
+  FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesRequest,
+  output: FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface CommitProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+  /** Request body */
+  body?: CommitWorkspaceChangesRequest;
+}
+
+export const CommitProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CommitWorkspaceChangesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:commit",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CommitProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type CommitProjectsLocationsRepositoriesWorkspacesResponse =
+  CommitWorkspaceChangesResponse;
+export const CommitProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CommitWorkspaceChangesResponse;
+
+export type CommitProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Applies a Git commit for uncommitted files in a Workspace. */
+export const commitProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  CommitProjectsLocationsRepositoriesWorkspacesRequest,
+  CommitProjectsLocationsRepositoriesWorkspacesResponse,
+  CommitProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CommitProjectsLocationsRepositoriesWorkspacesRequest,
+  output: CommitProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface ResetProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  name: string;
+  /** Request body */
+  body?: ResetWorkspaceChangesRequest;
+}
+
+export const ResetProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ResetWorkspaceChangesRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:reset",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ResetProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type ResetProjectsLocationsRepositoriesWorkspacesResponse =
+  ResetWorkspaceChangesResponse;
+export const ResetProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ResetWorkspaceChangesResponse;
+
+export type ResetProjectsLocationsRepositoriesWorkspacesError = DefaultErrors;
+
+/** Performs a Git reset for uncommitted files in a Workspace. */
+export const resetProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  ResetProjectsLocationsRepositoriesWorkspacesRequest,
+  ResetProjectsLocationsRepositoriesWorkspacesResponse,
+  ResetProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ResetProjectsLocationsRepositoriesWorkspacesRequest,
+  output: ResetProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Required. The file's full path including filename, relative to the workspace root. */
+  path?: string;
+}
+
+export const FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:fetchFileDiff",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse =
+  FetchFileDiffResponse;
+export const FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FetchFileDiffResponse;
+
+export type FetchFileDiffProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Fetches Git diff for an uncommitted file in a Workspace. */
+export const fetchFileDiffProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest,
+  FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse,
+  FetchFileDiffProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: FetchFileDiffProjectsLocationsRepositoriesWorkspacesRequest,
+  output: FetchFileDiffProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Optional. The directory's full path including directory name, relative to the workspace root. If left unset, the workspace root is used. */
+  path?: string;
+  /** Optional. Maximum number of paths to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryDirectoryContents` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryDirectoryContents`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:queryDirectoryContents",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse =
+  QueryDirectoryContentsResponse;
+export const QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryDirectoryContentsResponse;
+
+export type QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Returns the contents of a given Workspace directory. */
+export const queryDirectoryContentsProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<
+  QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest,
+  QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse,
+  QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesRequest,
+  output: QueryDirectoryContentsProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface SearchFilesProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Optional. Maximum number of search results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `SearchFilesRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `SearchFilesRequest`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Optional filter for the returned list in filtering format. Filtering is only currently supported on the `path` field. See https://google.aip.dev/160 for details. */
+  filter?: string;
+}
+
+export const SearchFilesProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:searchFiles",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchFilesProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type SearchFilesProjectsLocationsRepositoriesWorkspacesResponse =
+  SearchFilesResponse;
+export const SearchFilesProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SearchFilesResponse;
+
+export type SearchFilesProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Finds the contents of a given Workspace directory by filter. */
+export const searchFilesProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperationMethod<
+  SearchFilesProjectsLocationsRepositoriesWorkspacesRequest,
+  SearchFilesProjectsLocationsRepositoriesWorkspacesResponse,
+  SearchFilesProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchFilesProjectsLocationsRepositoriesWorkspacesRequest,
+  output: SearchFilesProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: MakeDirectoryRequest;
+}
+
+export const MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(MakeDirectoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:makeDirectory",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  MakeDirectoryResponse;
+export const MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ MakeDirectoryResponse;
+
+export type MakeDirectoryProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Creates a directory inside a Workspace. */
+export const makeDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  MakeDirectoryProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MakeDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  output: MakeDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: RemoveDirectoryRequest;
+}
+
+export const RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(RemoveDirectoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:removeDirectory",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  RemoveDirectoryResponse;
+export const RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RemoveDirectoryResponse;
+
+export type RemoveDirectoryProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Deletes a directory (inside a Workspace) and all of its contents. */
+export const removeDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  RemoveDirectoryProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  output: RemoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: MoveDirectoryRequest;
+}
+
+export const MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(MoveDirectoryRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:moveDirectory",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  MoveDirectoryResponse;
+export const MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ MoveDirectoryResponse;
+
+export type MoveDirectoryProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Moves a directory (inside a Workspace), and all of its contents, to a new location. */
+export const moveDirectoryProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  MoveDirectoryProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveDirectoryProjectsLocationsRepositoriesWorkspacesRequest,
+  output: MoveDirectoryProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface ReadFileProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Required. The file's full path including filename, relative to the workspace root. */
+  path?: string;
+  /** Optional. The Git revision of the file to return. If left empty, the current contents of `path` will be returned. */
+  revision?: string;
+}
+
+export const ReadFileProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    path: Schema.optional(Schema.String).pipe(T.HttpQuery("path")),
+    revision: Schema.optional(Schema.String).pipe(T.HttpQuery("revision")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:readFile",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReadFileProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type ReadFileProjectsLocationsRepositoriesWorkspacesResponse =
+  ReadFileResponse;
+export const ReadFileProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReadFileResponse;
+
+export type ReadFileProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Returns the contents of a file (inside a Workspace). */
+export const readFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  ReadFileProjectsLocationsRepositoriesWorkspacesRequest,
+  ReadFileProjectsLocationsRepositoriesWorkspacesResponse,
+  ReadFileProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReadFileProjectsLocationsRepositoriesWorkspacesRequest,
+  output: ReadFileProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface RemoveFileProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: RemoveFileRequest;
+}
+
+export const RemoveFileProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(RemoveFileRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:removeFile",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RemoveFileProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type RemoveFileProjectsLocationsRepositoriesWorkspacesResponse =
+  RemoveFileResponse;
+export const RemoveFileProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RemoveFileResponse;
+
+export type RemoveFileProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Deletes a file (inside a Workspace). */
+export const removeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  RemoveFileProjectsLocationsRepositoriesWorkspacesRequest,
+  RemoveFileProjectsLocationsRepositoriesWorkspacesResponse,
+  RemoveFileProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RemoveFileProjectsLocationsRepositoriesWorkspacesRequest,
+  output: RemoveFileProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface MoveFileProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: MoveFileRequest;
+}
+
+export const MoveFileProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(MoveFileRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:moveFile",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<MoveFileProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type MoveFileProjectsLocationsRepositoriesWorkspacesResponse =
+  MoveFileResponse;
+export const MoveFileProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ MoveFileResponse;
+
+export type MoveFileProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Moves a file (inside a Workspace) to a new location. */
+export const moveFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  MoveFileProjectsLocationsRepositoriesWorkspacesRequest,
+  MoveFileProjectsLocationsRepositoriesWorkspacesResponse,
+  MoveFileProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: MoveFileProjectsLocationsRepositoriesWorkspacesRequest,
+  output: MoveFileProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface WriteFileProjectsLocationsRepositoriesWorkspacesRequest {
+  /** Required. The workspace's name. */
+  workspace: string;
+  /** Request body */
+  body?: WriteFileRequest;
+}
+
+export const WriteFileProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    workspace: Schema.String.pipe(T.HttpPath("workspace")),
+    body: Schema.optional(WriteFileRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:writeFile",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<WriteFileProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type WriteFileProjectsLocationsRepositoriesWorkspacesResponse =
+  WriteFileResponse;
+export const WriteFileProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WriteFileResponse;
+
+export type WriteFileProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Writes to a file (inside a Workspace). */
+export const writeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  WriteFileProjectsLocationsRepositoriesWorkspacesRequest,
+  WriteFileProjectsLocationsRepositoriesWorkspacesResponse,
+  WriteFileProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: WriteFileProjectsLocationsRepositoriesWorkspacesRequest,
+  output: WriteFileProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+}
+
+export const GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse =
+  Policy;
+export const GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type GetIamPolicyProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Gets the access control policy for a resource. Returns an empty policy if the resource exists and does not have a policy set. */
+export const getIamPolicyProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
+  GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
+  GetIamPolicyProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
+  output: GetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: SetIamPolicyRequest;
+}
+
+export const SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:setIamPolicy",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse =
+  Policy;
+export const SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type SetIamPolicyProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
+  SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
+  SetIamPolicyProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SetIamPolicyProjectsLocationsRepositoriesWorkspacesRequest,
+  output: SetIamPolicyProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+
+export const TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workspaces/{workspacesId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest>;
+
+export type TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
+
+export type TestIamPermissionsProjectsLocationsRepositoriesWorkspacesError =
+  DefaultErrors;
+
+/** Returns permissions that a caller has on the specified resource. If the resource does not exist, this will return an empty set of permissions, not a `NOT_FOUND` error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
+  TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest,
+  TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse,
+  TestIamPermissionsProjectsLocationsRepositoriesWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsLocationsRepositoriesWorkspacesRequest,
+  output: TestIamPermissionsProjectsLocationsRepositoriesWorkspacesResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRepositoriesReleaseConfigsRequest {
+  /** Required. The repository in which to list release configs. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Optional. Maximum number of release configs to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListReleaseConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReleaseConfigs`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListProjectsLocationsRepositoriesReleaseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/releaseConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesReleaseConfigsRequest>;
+
+export type ListProjectsLocationsRepositoriesReleaseConfigsResponse =
+  ListReleaseConfigsResponse;
+export const ListProjectsLocationsRepositoriesReleaseConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListReleaseConfigsResponse;
+
+export type ListProjectsLocationsRepositoriesReleaseConfigsError =
+  DefaultErrors;
+
+/** Lists ReleaseConfigs in a given Repository. */
+export const listProjectsLocationsRepositoriesReleaseConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesReleaseConfigsRequest,
+  ListProjectsLocationsRepositoriesReleaseConfigsResponse,
+  ListProjectsLocationsRepositoriesReleaseConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesReleaseConfigsRequest,
+  output: ListProjectsLocationsRepositoriesReleaseConfigsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesReleaseConfigsRequest {
+  /** Required. The release config's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesReleaseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/releaseConfigs/{releaseConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesReleaseConfigsRequest>;
+
+export type GetProjectsLocationsRepositoriesReleaseConfigsResponse =
+  ReleaseConfig;
+export const GetProjectsLocationsRepositoriesReleaseConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReleaseConfig;
+
+export type GetProjectsLocationsRepositoriesReleaseConfigsError = DefaultErrors;
+
+/** Fetches a single ReleaseConfig. */
+export const getProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<
+  GetProjectsLocationsRepositoriesReleaseConfigsRequest,
+  GetProjectsLocationsRepositoriesReleaseConfigsResponse,
+  GetProjectsLocationsRepositoriesReleaseConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesReleaseConfigsRequest,
+  output: GetProjectsLocationsRepositoriesReleaseConfigsResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesReleaseConfigsRequest {
+  /** Required. The repository in which to create the release config. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Required. The ID to use for the release config, which will become the final component of the release config's resource name. */
+  releaseConfigId?: string;
+  /** Request body */
+  body?: ReleaseConfig;
+}
+
+export const CreateProjectsLocationsRepositoriesReleaseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    releaseConfigId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("releaseConfigId"),
+    ),
+    body: Schema.optional(ReleaseConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/releaseConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesReleaseConfigsRequest>;
+
+export type CreateProjectsLocationsRepositoriesReleaseConfigsResponse =
+  ReleaseConfig;
+export const CreateProjectsLocationsRepositoriesReleaseConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReleaseConfig;
+
+export type CreateProjectsLocationsRepositoriesReleaseConfigsError =
+  DefaultErrors;
+
+/** Creates a new ReleaseConfig in a given Repository. */
+export const createProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesReleaseConfigsRequest,
+  CreateProjectsLocationsRepositoriesReleaseConfigsResponse,
+  CreateProjectsLocationsRepositoriesReleaseConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesReleaseConfigsRequest,
+  output: CreateProjectsLocationsRepositoriesReleaseConfigsResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest {
+  /** Identifier. The release config's name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the release config. If left unset, all fields will be updated. */
+  updateMask?: string;
+  /** Request body */
+  body?: ReleaseConfig;
+}
+
+export const PatchProjectsLocationsRepositoriesReleaseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(ReleaseConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/releaseConfigs/{releaseConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesReleaseConfigsRequest>;
+
+export type PatchProjectsLocationsRepositoriesReleaseConfigsResponse =
+  ReleaseConfig;
+export const PatchProjectsLocationsRepositoriesReleaseConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ReleaseConfig;
+
+export type PatchProjectsLocationsRepositoriesReleaseConfigsError =
+  DefaultErrors;
+
+/** Updates a single ReleaseConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
+export const patchProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesReleaseConfigsRequest,
+  PatchProjectsLocationsRepositoriesReleaseConfigsResponse,
+  PatchProjectsLocationsRepositoriesReleaseConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsRepositoriesReleaseConfigsRequest,
+  output: PatchProjectsLocationsRepositoriesReleaseConfigsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsRepositoriesReleaseConfigsRequest {
+  /** Required. The release config's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsRepositoriesReleaseConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/releaseConfigs/{releaseConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesReleaseConfigsRequest>;
+
+export type DeleteProjectsLocationsRepositoriesReleaseConfigsResponse = Empty;
+export const DeleteProjectsLocationsRepositoriesReleaseConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsRepositoriesReleaseConfigsError =
+  DefaultErrors;
+
+/** Deletes a single ReleaseConfig. */
+export const deleteProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesReleaseConfigsRequest,
+  DeleteProjectsLocationsRepositoriesReleaseConfigsResponse,
+  DeleteProjectsLocationsRepositoriesReleaseConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsRepositoriesReleaseConfigsRequest,
+  output: DeleteProjectsLocationsRepositoriesReleaseConfigsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRepositoriesCompilationResultsRequest {
+  /** Required. The repository in which to list compilation results. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Optional. Maximum number of compilation results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListCompilationResults` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCompilationResults`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. This field only supports ordering by `name` and `create_time`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
+  orderBy?: string;
+  /** Optional. Filter for the returned list. */
+  filter?: string;
+}
+
+export const ListProjectsLocationsRepositoriesCompilationResultsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/compilationResults",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesCompilationResultsRequest>;
+
+export type ListProjectsLocationsRepositoriesCompilationResultsResponse =
+  ListCompilationResultsResponse;
+export const ListProjectsLocationsRepositoriesCompilationResultsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListCompilationResultsResponse;
+
+export type ListProjectsLocationsRepositoriesCompilationResultsError =
+  DefaultErrors;
+
+/** Lists CompilationResults in a given Repository. */
+export const listProjectsLocationsRepositoriesCompilationResults: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesCompilationResultsRequest,
+  ListProjectsLocationsRepositoriesCompilationResultsResponse,
+  ListProjectsLocationsRepositoriesCompilationResultsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesCompilationResultsRequest,
+  output: ListProjectsLocationsRepositoriesCompilationResultsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesCompilationResultsRequest {
+  /** Required. The compilation result's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesCompilationResultsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/compilationResults/{compilationResultsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesCompilationResultsRequest>;
+
+export type GetProjectsLocationsRepositoriesCompilationResultsResponse =
+  CompilationResult;
+export const GetProjectsLocationsRepositoriesCompilationResultsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CompilationResult;
+
+export type GetProjectsLocationsRepositoriesCompilationResultsError =
+  DefaultErrors;
+
+/** Fetches a single CompilationResult. */
+export const getProjectsLocationsRepositoriesCompilationResults: API.OperationMethod<
+  GetProjectsLocationsRepositoriesCompilationResultsRequest,
+  GetProjectsLocationsRepositoriesCompilationResultsResponse,
+  GetProjectsLocationsRepositoriesCompilationResultsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesCompilationResultsRequest,
+  output: GetProjectsLocationsRepositoriesCompilationResultsResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesCompilationResultsRequest {
+  /** Required. The repository in which to create the compilation result. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Request body */
+  body?: CompilationResult;
+}
+
+export const CreateProjectsLocationsRepositoriesCompilationResultsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CompilationResult).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/compilationResults",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesCompilationResultsRequest>;
+
+export type CreateProjectsLocationsRepositoriesCompilationResultsResponse =
+  CompilationResult;
+export const CreateProjectsLocationsRepositoriesCompilationResultsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CompilationResult;
+
+export type CreateProjectsLocationsRepositoriesCompilationResultsError =
+  DefaultErrors;
+
+/** Creates a new CompilationResult in a given project and location. */
+export const createProjectsLocationsRepositoriesCompilationResults: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesCompilationResultsRequest,
+  CreateProjectsLocationsRepositoriesCompilationResultsResponse,
+  CreateProjectsLocationsRepositoriesCompilationResultsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesCompilationResultsRequest,
+  output: CreateProjectsLocationsRepositoriesCompilationResultsResponse,
+  errors: [],
+}));
+
+export interface QueryProjectsLocationsRepositoriesCompilationResultsRequest {
+  /** Required. The compilation result's name. */
+  name: string;
+  /** Optional. Maximum number of compilation results to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryCompilationResultActions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryCompilationResultActions`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. Optional filter for the returned list. Filtering is only currently supported on the `file_path` field. */
+  filter?: string;
+}
+
+export const QueryProjectsLocationsRepositoriesCompilationResultsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/compilationResults/{compilationResultsId}:query",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryProjectsLocationsRepositoriesCompilationResultsRequest>;
+
+export type QueryProjectsLocationsRepositoriesCompilationResultsResponse =
+  QueryCompilationResultActionsResponse;
+export const QueryProjectsLocationsRepositoriesCompilationResultsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryCompilationResultActionsResponse;
+
+export type QueryProjectsLocationsRepositoriesCompilationResultsError =
+  DefaultErrors;
+
+/** Returns CompilationResultActions in a given CompilationResult. */
+export const queryProjectsLocationsRepositoriesCompilationResults: API.PaginatedOperationMethod<
+  QueryProjectsLocationsRepositoriesCompilationResultsRequest,
+  QueryProjectsLocationsRepositoriesCompilationResultsResponse,
+  QueryProjectsLocationsRepositoriesCompilationResultsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryProjectsLocationsRepositoriesCompilationResultsRequest,
+  output: QueryProjectsLocationsRepositoriesCompilationResultsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface ListProjectsLocationsRepositoriesWorkflowConfigsRequest {
+  /** Required. The repository in which to list workflow configs. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Optional. Maximum number of workflow configs to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListWorkflowConfigs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkflowConfigs`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListProjectsLocationsRepositoriesWorkflowConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowConfigs",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesWorkflowConfigsRequest>;
+
+export type ListProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  ListWorkflowConfigsResponse;
+export const ListProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListWorkflowConfigsResponse;
+
+export type ListProjectsLocationsRepositoriesWorkflowConfigsError =
+  DefaultErrors;
+
+/** Lists WorkflowConfigs in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkflowConfigs: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  ListProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  ListProjectsLocationsRepositoriesWorkflowConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  output: ListProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesWorkflowConfigsRequest {
+  /** Required. The workflow config's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesWorkflowConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowConfigs/{workflowConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesWorkflowConfigsRequest>;
+
+export type GetProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  WorkflowConfig;
+export const GetProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WorkflowConfig;
+
+export type GetProjectsLocationsRepositoriesWorkflowConfigsError =
+  DefaultErrors;
+
+/** Fetches a single WorkflowConfig. */
+export const getProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<
+  GetProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  GetProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  GetProjectsLocationsRepositoriesWorkflowConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  output: GetProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesWorkflowConfigsRequest {
+  /** Required. The repository in which to create the workflow config. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Required. The ID to use for the workflow config, which will become the final component of the workflow config's resource name. */
+  workflowConfigId?: string;
+  /** Request body */
+  body?: WorkflowConfig;
+}
+
+export const CreateProjectsLocationsRepositoriesWorkflowConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    workflowConfigId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("workflowConfigId"),
+    ),
+    body: Schema.optional(WorkflowConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowConfigs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesWorkflowConfigsRequest>;
+
+export type CreateProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  WorkflowConfig;
+export const CreateProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WorkflowConfig;
+
+export type CreateProjectsLocationsRepositoriesWorkflowConfigsError =
+  DefaultErrors;
+
+/** Creates a new WorkflowConfig in a given Repository. */
+export const createProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  CreateProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  CreateProjectsLocationsRepositoriesWorkflowConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  output: CreateProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest {
+  /** Identifier. The workflow config's name. */
+  name: string;
+  /** Optional. Specifies the fields to be updated in the workflow config. If left unset, all fields will be updated. */
+  updateMask?: string;
+  /** Request body */
+  body?: WorkflowConfig;
+}
+
+export const PatchProjectsLocationsRepositoriesWorkflowConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    body: Schema.optional(WorkflowConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowConfigs/{workflowConfigsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsLocationsRepositoriesWorkflowConfigsRequest>;
+
+export type PatchProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  WorkflowConfig;
+export const PatchProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WorkflowConfig;
+
+export type PatchProjectsLocationsRepositoriesWorkflowConfigsError =
+  DefaultErrors;
+
+/** Updates a single WorkflowConfig. **Note:** *This method does not fully implement [AIP/134](https://google.aip.dev/134). The wildcard entry (\*) is treated as a bad request, and when the `field_mask` is omitted, the request is treated as a full update on all modifiable fields.* */
+export const patchProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<
+  PatchProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  PatchProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  PatchProjectsLocationsRepositoriesWorkflowConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  output: PatchProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest {
+  /** Required. The workflow config's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowConfigs/{workflowConfigsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest>;
+
+export type DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse = Empty;
+export const DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsRepositoriesWorkflowConfigsError =
+  DefaultErrors;
+
+/** Deletes a single WorkflowConfig. */
+export const deleteProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  DeleteProjectsLocationsRepositoriesWorkflowConfigsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsRepositoriesWorkflowConfigsRequest,
+  output: DeleteProjectsLocationsRepositoriesWorkflowConfigsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The parent resource of the WorkflowInvocation type. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Optional. Maximum number of workflow invocations to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `ListWorkflowInvocations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkflowInvocations`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. This field only supports ordering by `name`. If unspecified, the server will choose the ordering. If specified, the default order is ascending for the `name` field. */
+  orderBy?: string;
+  /** Optional. Filter for the returned list. */
+  filter?: string;
+}
+
+export const ListProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type ListProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  ListWorkflowInvocationsResponse;
+export const ListProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListWorkflowInvocationsResponse;
+
+export type ListProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Lists WorkflowInvocations in a given Repository. */
+export const listProjectsLocationsRepositoriesWorkflowInvocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  ListProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  ListProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: ListProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The workflow invocation resource's name. */
+  name: string;
+}
+
+export const GetProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations/{workflowInvocationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type GetProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  WorkflowInvocation;
+export const GetProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WorkflowInvocation;
+
+export type GetProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Fetches a single WorkflowInvocation. */
+export const getProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<
+  GetProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  GetProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  GetProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: GetProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The repository in which to create the workflow invocation. Must be in the format `projects/* /locations/* /repositories/*`. */
+  parent: string;
+  /** Request body */
+  body?: WorkflowInvocation;
+}
+
+export const CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(WorkflowInvocation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  WorkflowInvocation;
+export const CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ WorkflowInvocation;
+
+export type CreateProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Creates a new WorkflowInvocation in a given Repository. */
+export const createProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<
+  CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  CreateProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: CreateProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The workflow invocation resource's name. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations/{workflowInvocationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  Empty;
+export const DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Deletes a single WorkflowInvocation. */
+export const deleteProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<
+  DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  DeleteProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: DeleteProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+}));
+
+export interface CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The workflow invocation resource's name. */
+  name: string;
+  /** Request body */
+  body?: CancelWorkflowInvocationRequest;
+}
+
+export const CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(CancelWorkflowInvocationRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations/{workflowInvocationsId}:cancel",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  CancelWorkflowInvocationResponse;
+export const CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CancelWorkflowInvocationResponse;
+
+export type CancelProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Requests cancellation of a running WorkflowInvocation. */
+export const cancelProjectsLocationsRepositoriesWorkflowInvocations: API.OperationMethod<
+  CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  CancelProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CancelProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: CancelProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+}));
+
+export interface QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest {
+  /** Required. The workflow invocation's name. */
+  name: string;
+  /** Optional. Maximum number of workflow invocations to return. The server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
+  pageSize?: number;
+  /** Optional. Page token received from a previous `QueryWorkflowInvocationActions` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `QueryWorkflowInvocationActions`, with the exception of `page_size`, must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/locations/{locationsId}/repositories/{repositoriesId}/workflowInvocations/{workflowInvocationsId}:query",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest>;
+
+export type QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  QueryWorkflowInvocationActionsResponse;
+export const QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ QueryWorkflowInvocationActionsResponse;
+
+export type QueryProjectsLocationsRepositoriesWorkflowInvocationsError =
+  DefaultErrors;
+
+/** Returns WorkflowInvocationActions in a given WorkflowInvocation. */
+export const queryProjectsLocationsRepositoriesWorkflowInvocations: API.PaginatedOperationMethod<
+  QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  QueryProjectsLocationsRepositoriesWorkflowInvocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: QueryProjectsLocationsRepositoriesWorkflowInvocationsRequest,
+  output: QueryProjectsLocationsRepositoriesWorkflowInvocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));

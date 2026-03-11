@@ -1,0 +1,11 @@
+{
+  "responseType": "array",
+  "errors": {},
+  "response": {
+    "properties": {
+      "[].result_info": { "optional": true },
+      "[].results": { "optional": true },
+      "[].success": { "optional": true }
+    }
+  }
+}

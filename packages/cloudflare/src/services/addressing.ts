@@ -1,0 +1,3947 @@
+/**
+ * Cloudflare ADDRESSING API
+ *
+ * Generated from Cloudflare TypeScript SDK.
+ * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service addressing
+ */
+
+import * as Schema from "effect/Schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import * as API from "../client/api.ts";
+import * as T from "../traits";
+import type { Credentials } from "../credentials";
+import { type DefaultErrors } from "../errors";
+
+// =============================================================================
+// Errors
+// =============================================================================
+
+export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFound>()(
+  "AddressMapNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(AddressMapNotFound, [
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
+
+export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(
+  "BgpPrefixNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(BgpPrefixNotFound, [{ code: 1002 }]);
+
+export class BindingNotFound extends Schema.TaggedErrorClass<BindingNotFound>()(
+  "BindingNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(BindingNotFound, [{ code: 1002 }]);
+
+export class DelegationNotFound extends Schema.TaggedErrorClass<DelegationNotFound>()(
+  "DelegationNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(DelegationNotFound, [{ code: 1000 }]);
+
+export class FeatureNotEnabled extends Schema.TaggedErrorClass<FeatureNotEnabled>()(
+  "FeatureNotEnabled",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(FeatureNotEnabled, [
+  { code: 1002, message: { includes: "address_maps_not_enabled" } },
+]);
+
+export class InvalidAccountId extends Schema.TaggedErrorClass<InvalidAccountId>()(
+  "InvalidAccountId",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidAccountId, [
+  { code: 7003, message: { includes: "Could not route" } },
+]);
+
+export class InvalidHostname extends Schema.TaggedErrorClass<InvalidHostname>()(
+  "InvalidHostname",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidHostname, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
+
+export class InvalidLoaForm extends Schema.TaggedErrorClass<InvalidLoaForm>()(
+  "InvalidLoaForm",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidLoaForm, [
+  { code: 1001, message: { includes: "invalid_loa_form" } },
+]);
+
+export class InvalidNetworkCidr extends Schema.TaggedErrorClass<InvalidNetworkCidr>()(
+  "InvalidNetworkCidr",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidNetworkCidr, [
+  { code: 1001, message: { includes: "invalid_network_cidr" } },
+]);
+
+export class InvalidZoneId extends Schema.TaggedErrorClass<InvalidZoneId>()(
+  "InvalidZoneId",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidZoneId, [
+  { code: 7003, message: { includes: "Could not route" } },
+]);
+
+export class IrrEntryNotFound extends Schema.TaggedErrorClass<IrrEntryNotFound>()(
+  "IrrEntryNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(IrrEntryNotFound, [
+  { code: 1003, message: { includes: "irr_entry_not_found" } },
+]);
+
+export class LoaDocumentNotFound extends Schema.TaggedErrorClass<LoaDocumentNotFound>()(
+  "LoaDocumentNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(LoaDocumentNotFound, [{ code: 1000 }]);
+
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 10405, message: { includes: "not allowed" } },
+  { code: 10000, message: { includes: "not allowed" } },
+]);
+
+export class MissingAccountId extends Schema.TaggedErrorClass<MissingAccountId>()(
+  "MissingAccountId",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MissingAccountId, [{ code: 1001 }]);
+
+export class NonexistentAccountPrefix extends Schema.TaggedErrorClass<NonexistentAccountPrefix>()(
+  "NonexistentAccountPrefix",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NonexistentAccountPrefix, [{ code: 1003 }]);
+
+export class PrefixNotFound extends Schema.TaggedErrorClass<PrefixNotFound>()(
+  "PrefixNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(PrefixNotFound, [
+  { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
+]);
+
+export class RegionalHostnameEmpty extends Schema.TaggedErrorClass<RegionalHostnameEmpty>()(
+  "RegionalHostnameEmpty",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(RegionalHostnameEmpty, [
+  { code: 1000, message: { includes: "not_found" } },
+]);
+
+export class RegionalHostnameNotFound extends Schema.TaggedErrorClass<RegionalHostnameNotFound>()(
+  "RegionalHostnameNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(RegionalHostnameNotFound, [
+  { code: 1002, message: { includes: "forbidden" } },
+]);
+
+export class UnsupportedBindingConfiguration extends Schema.TaggedErrorClass<UnsupportedBindingConfiguration>()(
+  "UnsupportedBindingConfiguration",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(UnsupportedBindingConfiguration, [{ code: 1003 }]);
+
+// =============================================================================
+// AddressMap
+// =============================================================================
+
+export interface GetAddressMapRequest {
+  addressMapId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetAddressMapRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
+) as unknown as Schema.Schema<GetAddressMapRequest>;
+
+export interface GetAddressMapResponse {
+  /** Identifier of an Address Map. */
+  id?: string | null;
+  /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
+  canDelete?: boolean | null;
+  /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
+  canModifyIps?: boolean | null;
+  createdAt?: string | null;
+  /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it */
+  defaultSni?: string | null;
+  /** An optional description field which may be used to describe the types of IPs or zones on the map. */
+  description?: string | null;
+  /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
+  enabled?: boolean | null;
+  /** The set of IPs on the Address Map. */
+  ips?: unknown | null;
+  /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
+  memberships?:
+    | {
+        canDelete?: boolean | null;
+        createdAt?: string | null;
+        identifier?: string | null;
+        kind?: "zone" | "account" | null;
+      }[]
+    | null;
+  modifiedAt?: string | null;
+}
+
+export const GetAddressMapResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  canDelete: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  canModifyIps: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ips: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+  memberships: Schema.optional(
+    Schema.Union([
+      Schema.Array(
+        Schema.Struct({
+          canDelete: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          createdAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          identifier: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          kind: Schema.optional(
+            Schema.Union([Schema.Literals(["zone", "account"]), Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            canDelete: "can_delete",
+            createdAt: "created_at",
+            identifier: "identifier",
+            kind: "kind",
+          }),
+        ),
+      ),
+      Schema.Null,
+    ]),
+  ),
+  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    canDelete: "can_delete",
+    canModifyIps: "can_modify_ips",
+    createdAt: "created_at",
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+    ips: "ips",
+    memberships: "memberships",
+    modifiedAt: "modified_at",
+  }),
+) as unknown as Schema.Schema<GetAddressMapResponse>;
+
+export type GetAddressMapError =
+  | DefaultErrors
+  | AddressMapNotFound
+  | InvalidAccountId;
+
+export const getAddressMap: API.OperationMethod<
+  GetAddressMapRequest,
+  GetAddressMapResponse,
+  GetAddressMapError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAddressMapRequest,
+  output: GetAddressMapResponse,
+  errors: [AddressMapNotFound, InvalidAccountId],
+}));
+
+export interface ListAddressMapsRequest {
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListAddressMapsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  },
+).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/address_maps",
+  }),
+) as unknown as Schema.Schema<ListAddressMapsRequest>;
+
+export type ListAddressMapsResponse = {
+  id?: string | null;
+  canDelete?: boolean | null;
+  canModifyIps?: boolean | null;
+  createdAt?: string | null;
+  defaultSni?: string | null;
+  description?: string | null;
+  enabled?: boolean | null;
+  modifiedAt?: string | null;
+}[];
+
+export const ListAddressMapsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canDelete: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    canModifyIps: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      canDelete: "can_delete",
+      canModifyIps: "can_modify_ips",
+      createdAt: "created_at",
+      defaultSni: "default_sni",
+      description: "description",
+      enabled: "enabled",
+      modifiedAt: "modified_at",
+    }),
+  ),
+) as unknown as Schema.Schema<ListAddressMapsResponse>;
+
+export type ListAddressMapsError = DefaultErrors;
+
+export const listAddressMaps: API.OperationMethod<
+  ListAddressMapsRequest,
+  ListAddressMapsResponse,
+  ListAddressMapsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListAddressMapsRequest,
+  output: ListAddressMapsResponse,
+  errors: [],
+}));
+
+export interface CreateAddressMapRequest {
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: An optional description field which may be used to describe the types of IPs or zones on the map. */
+  description?: string | null;
+  /** Body param: Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
+  enabled?: boolean | null;
+  /** Body param: */
+  ips?: string[];
+  /** Body param: Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
+  memberships?: { identifier?: string; kind?: "zone" | "account" }[];
+}
+
+export const CreateAddressMapRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    ips: Schema.optional(Schema.Array(Schema.String)),
+    memberships: Schema.optional(
+      Schema.Array(
+        Schema.Struct({
+          identifier: Schema.optional(Schema.String),
+          kind: Schema.optional(Schema.Literals(["zone", "account"])),
+        }),
+      ),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/addressing/address_maps",
+    }),
+  ) as unknown as Schema.Schema<CreateAddressMapRequest>;
+
+export interface CreateAddressMapResponse {
+  /** Identifier of an Address Map. */
+  id?: string | null;
+  /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
+  canDelete?: boolean | null;
+  /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
+  canModifyIps?: boolean | null;
+  createdAt?: string | null;
+  /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it */
+  defaultSni?: string | null;
+  /** An optional description field which may be used to describe the types of IPs or zones on the map. */
+  description?: string | null;
+  /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
+  enabled?: boolean | null;
+  /** The set of IPs on the Address Map. */
+  ips?: unknown | null;
+  /** Zones and Accounts which will be assigned IPs on this Address Map. A zone membership will take priority over an account membership. */
+  memberships?:
+    | {
+        canDelete?: boolean | null;
+        createdAt?: string | null;
+        identifier?: string | null;
+        kind?: "zone" | "account" | null;
+      }[]
+    | null;
+  modifiedAt?: string | null;
+}
+
+export const CreateAddressMapResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canDelete: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    canModifyIps: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    ips: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+    memberships: Schema.optional(
+      Schema.Union([
+        Schema.Array(
+          Schema.Struct({
+            canDelete: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            createdAt: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            identifier: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            kind: Schema.optional(
+              Schema.Union([Schema.Literals(["zone", "account"]), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              canDelete: "can_delete",
+              createdAt: "created_at",
+              identifier: "identifier",
+              kind: "kind",
+            }),
+          ),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      canDelete: "can_delete",
+      canModifyIps: "can_modify_ips",
+      createdAt: "created_at",
+      defaultSni: "default_sni",
+      description: "description",
+      enabled: "enabled",
+      ips: "ips",
+      memberships: "memberships",
+      modifiedAt: "modified_at",
+    }),
+  ) as unknown as Schema.Schema<CreateAddressMapResponse>;
+
+export type CreateAddressMapError =
+  | DefaultErrors
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const createAddressMap: API.OperationMethod<
+  CreateAddressMapRequest,
+  CreateAddressMapResponse,
+  CreateAddressMapError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAddressMapRequest,
+  output: CreateAddressMapResponse,
+  errors: [FeatureNotEnabled, InvalidAccountId],
+}));
+
+export interface PatchAddressMapRequest {
+  addressMapId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client withou */
+  defaultSni?: string | null;
+  /** Body param: An optional description field which may be used to describe the types of IPs or zones on the map. */
+  description?: string | null;
+  /** Body param: Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
+  enabled?: boolean | null;
+}
+
+export const PatchAddressMapRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  },
+).pipe(
+  Schema.encodeKeys({
+    defaultSni: "default_sni",
+    description: "description",
+    enabled: "enabled",
+  }),
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+  }),
+) as unknown as Schema.Schema<PatchAddressMapRequest>;
+
+export interface PatchAddressMapResponse {
+  /** Identifier of an Address Map. */
+  id?: string | null;
+  /** If set to false, then the Address Map cannot be deleted via API. This is true for Cloudflare-managed maps. */
+  canDelete?: boolean | null;
+  /** If set to false, then the IPs on the Address Map cannot be modified via the API. This is true for Cloudflare-managed maps. */
+  canModifyIps?: boolean | null;
+  createdAt?: string | null;
+  /** If you have legacy TLS clients which do not send the TLS server name indicator, then you can specify one default SNI on the map. If Cloudflare receives a TLS handshake from a client without an SNI, it */
+  defaultSni?: string | null;
+  /** An optional description field which may be used to describe the types of IPs or zones on the map. */
+  description?: string | null;
+  /** Whether the Address Map is enabled or not. Cloudflare's DNS will not respond with IP addresses on an Address Map until the map is enabled. */
+  enabled?: boolean | null;
+  modifiedAt?: string | null;
+}
+
+export const PatchAddressMapResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    canDelete: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    canModifyIps: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    defaultSni: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      canDelete: "can_delete",
+      canModifyIps: "can_modify_ips",
+      createdAt: "created_at",
+      defaultSni: "default_sni",
+      description: "description",
+      enabled: "enabled",
+      modifiedAt: "modified_at",
+    }),
+  ) as unknown as Schema.Schema<PatchAddressMapResponse>;
+
+export type PatchAddressMapError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const patchAddressMap: API.OperationMethod<
+  PatchAddressMapRequest,
+  PatchAddressMapResponse,
+  PatchAddressMapError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchAddressMapRequest,
+  output: PatchAddressMapResponse,
+  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
+}));
+
+export interface DeleteAddressMapRequest {
+  addressMapId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeleteAddressMapRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapRequest>;
+
+export interface DeleteAddressMapResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const DeleteAddressMapResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapResponse>;
+
+export type DeleteAddressMapError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId
+  | AddressMapNotFound;
+
+export const deleteAddressMap: API.OperationMethod<
+  DeleteAddressMapRequest,
+  DeleteAddressMapResponse,
+  DeleteAddressMapError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddressMapRequest,
+  output: DeleteAddressMapResponse,
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
+}));
+
+// =============================================================================
+// AddressMapAccount
+// =============================================================================
+
+export interface PutAddressMapAccountRequest {
+  addressMapId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: */
+  body: unknown;
+}
+
+export const PutAddressMapAccountRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}",
+    }),
+  ) as unknown as Schema.Schema<PutAddressMapAccountRequest>;
+
+export interface PutAddressMapAccountResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const PutAddressMapAccountResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<PutAddressMapAccountResponse>;
+
+export type PutAddressMapAccountError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const putAddressMapAccount: API.OperationMethod<
+  PutAddressMapAccountRequest,
+  PutAddressMapAccountResponse,
+  PutAddressMapAccountError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAddressMapAccountRequest,
+  output: PutAddressMapAccountResponse,
+  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
+}));
+
+export interface DeleteAddressMapAccountRequest {
+  addressMapId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeleteAddressMapAccountRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/accounts/{account_id}",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapAccountRequest>;
+
+export interface DeleteAddressMapAccountResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const DeleteAddressMapAccountResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapAccountResponse>;
+
+export type DeleteAddressMapAccountError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const deleteAddressMapAccount: API.OperationMethod<
+  DeleteAddressMapAccountRequest,
+  DeleteAddressMapAccountResponse,
+  DeleteAddressMapAccountError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddressMapAccountRequest,
+  output: DeleteAddressMapAccountResponse,
+  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
+}));
+
+// =============================================================================
+// AddressMapIp
+// =============================================================================
+
+export interface PutAddressMapIpRequest {
+  addressMapId: string;
+  ipAddress: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: */
+  body: unknown;
+}
+
+export const PutAddressMapIpRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    ipAddress: Schema.String.pipe(T.HttpPath("ipAddress")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  },
+).pipe(
+  T.Http({
+    method: "PUT",
+    path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}",
+  }),
+) as unknown as Schema.Schema<PutAddressMapIpRequest>;
+
+export interface PutAddressMapIpResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const PutAddressMapIpResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<PutAddressMapIpResponse>;
+
+export type PutAddressMapIpError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId
+  | AddressMapNotFound;
+
+export const putAddressMapIp: API.OperationMethod<
+  PutAddressMapIpRequest,
+  PutAddressMapIpResponse,
+  PutAddressMapIpError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAddressMapIpRequest,
+  output: PutAddressMapIpResponse,
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
+}));
+
+export interface DeleteAddressMapIpRequest {
+  addressMapId: string;
+  ipAddress: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeleteAddressMapIpRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    ipAddress: Schema.String.pipe(T.HttpPath("ipAddress")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/ips/{ipAddress}",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapIpRequest>;
+
+export interface DeleteAddressMapIpResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const DeleteAddressMapIpResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapIpResponse>;
+
+export type DeleteAddressMapIpError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId
+  | AddressMapNotFound;
+
+export const deleteAddressMapIp: API.OperationMethod<
+  DeleteAddressMapIpRequest,
+  DeleteAddressMapIpResponse,
+  DeleteAddressMapIpError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddressMapIpRequest,
+  output: DeleteAddressMapIpResponse,
+  errors: [
+    MethodNotAllowed,
+    FeatureNotEnabled,
+    InvalidAccountId,
+    AddressMapNotFound,
+  ],
+}));
+
+// =============================================================================
+// AddressMapZone
+// =============================================================================
+
+export interface PutAddressMapZoneRequest {
+  addressMapId: string;
+  /** Path param: Identifier of a zone. */
+  zoneId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: */
+  body: unknown;
+}
+
+export const PutAddressMapZoneRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    body: Schema.Unknown.pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}",
+    }),
+  ) as unknown as Schema.Schema<PutAddressMapZoneRequest>;
+
+export interface PutAddressMapZoneResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const PutAddressMapZoneResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<PutAddressMapZoneResponse>;
+
+export type PutAddressMapZoneError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const putAddressMapZone: API.OperationMethod<
+  PutAddressMapZoneRequest,
+  PutAddressMapZoneResponse,
+  PutAddressMapZoneError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAddressMapZoneRequest,
+  output: PutAddressMapZoneResponse,
+  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
+}));
+
+export interface DeleteAddressMapZoneRequest {
+  addressMapId: string;
+  /** Identifier of a zone. */
+  zoneId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeleteAddressMapZoneRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    addressMapId: Schema.String.pipe(T.HttpPath("addressMapId")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/address_maps/{addressMapId}/zones/{zone_id}",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapZoneRequest>;
+
+export interface DeleteAddressMapZoneResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+  resultInfo?: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  } | null;
+}
+
+export const DeleteAddressMapZoneResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      errors: "errors",
+      messages: "messages",
+      success: "success",
+      resultInfo: "result_info",
+    }),
+  ) as unknown as Schema.Schema<DeleteAddressMapZoneResponse>;
+
+export type DeleteAddressMapZoneError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | FeatureNotEnabled
+  | InvalidAccountId;
+
+export const deleteAddressMapZone: API.OperationMethod<
+  DeleteAddressMapZoneRequest,
+  DeleteAddressMapZoneResponse,
+  DeleteAddressMapZoneError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAddressMapZoneRequest,
+  output: DeleteAddressMapZoneResponse,
+  errors: [MethodNotAllowed, FeatureNotEnabled, InvalidAccountId],
+}));
+
+// =============================================================================
+// LoaDocument
+// =============================================================================
+
+export interface GetLoaDocumentRequest {
+  loaDocumentId: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetLoaDocumentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  loaDocumentId: Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.HttpPath("loaDocumentId"),
+  ),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/loa_documents/{loaDocumentId}/download",
+  }),
+) as unknown as Schema.Schema<GetLoaDocumentRequest>;
+
+export type GetLoaDocumentResponse = unknown;
+
+export const GetLoaDocumentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetLoaDocumentResponse>;
+
+export type GetLoaDocumentError =
+  | DefaultErrors
+  | LoaDocumentNotFound
+  | InvalidAccountId;
+
+export const getLoaDocument: API.OperationMethod<
+  GetLoaDocumentRequest,
+  GetLoaDocumentResponse,
+  GetLoaDocumentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoaDocumentRequest,
+  output: GetLoaDocumentResponse,
+  errors: [LoaDocumentNotFound, InvalidAccountId],
+}));
+
+export interface CreateLoaDocumentRequest {
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: LOA document to upload. */
+  loaDocument: string;
+}
+
+export const CreateLoaDocumentRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    loaDocument: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ loaDocument: "loa_document" }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/addressing/loa_documents",
+      contentType: "multipart",
+    }),
+  ) as unknown as Schema.Schema<CreateLoaDocumentRequest>;
+
+export interface CreateLoaDocumentResponse {
+  /** Identifier for the uploaded LOA document. */
+  id?: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId?: string | null;
+  /** Whether the LOA has been auto-generated for the prefix owner by Cloudflare. */
+  autoGenerated?: boolean | null;
+  created?: string | null;
+  /** Name of LOA document. Max file size 10MB, and supported filetype is pdf. */
+  filename?: string | null;
+  /** File size of the uploaded LOA document. */
+  sizeBytes?: number | null;
+  /** Whether the LOA has been verified by Cloudflare staff. */
+  verified?: boolean | null;
+  /** Timestamp of the moment the LOA was marked as validated. */
+  verifiedAt?: string | null;
+}
+
+export const CreateLoaDocumentResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    autoGenerated: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    sizeBytes: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    verified: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    verifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      autoGenerated: "auto_generated",
+      created: "created",
+      filename: "filename",
+      sizeBytes: "size_bytes",
+      verified: "verified",
+      verifiedAt: "verified_at",
+    }),
+  ) as unknown as Schema.Schema<CreateLoaDocumentResponse>;
+
+export type CreateLoaDocumentError =
+  | DefaultErrors
+  | InvalidAccountId
+  | InvalidLoaForm;
+
+export const createLoaDocument: API.OperationMethod<
+  CreateLoaDocumentRequest,
+  CreateLoaDocumentResponse,
+  CreateLoaDocumentError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateLoaDocumentRequest,
+  output: CreateLoaDocumentResponse,
+  errors: [InvalidAccountId, InvalidLoaForm],
+}));
+
+// =============================================================================
+// Prefix
+// =============================================================================
+
+export interface GetPrefixRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetPrefixRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<GetPrefixRequest>;
+
+export interface GetPrefixResponse {
+  /** Identifier of an IP Prefix. */
+  id?: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertised?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertisedModifiedAt?: string | null;
+  /** Approval state of the prefix (P = pending, V = active). */
+  approved?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
+  delegateLoaCreation?: boolean | null;
+  /** Description of the prefix. */
+  description?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  irrValidationState?: string | null;
+  /** Identifier for the uploaded LOA document. */
+  loaDocumentId?: string | null;
+  modifiedAt?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandEnabled?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandLocked?: boolean | null;
+  /** State of one kind of validation for an IP prefix. */
+  ownershipValidationState?: string | null;
+  /** Token provided to demonstrate ownership of the prefix. */
+  ownershipValidationToken?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  rpkiValidationState?: string | null;
+}
+
+export const GetPrefixResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  approved: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  delegateLoaCreation: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  irrValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  onDemandEnabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  onDemandLocked: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ownershipValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  ownershipValidationToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  rpkiValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<GetPrefixResponse>;
+
+export type GetPrefixError = DefaultErrors | PrefixNotFound | InvalidAccountId;
+
+export const getPrefix: API.OperationMethod<
+  GetPrefixRequest,
+  GetPrefixResponse,
+  GetPrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrefixRequest,
+  output: GetPrefixResponse,
+  errors: [PrefixNotFound, InvalidAccountId],
+}));
+
+export interface ListPrefixesRequest {
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListPrefixesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/prefixes" }),
+) as unknown as Schema.Schema<ListPrefixesRequest>;
+
+export type ListPrefixesResponse = {
+  id?: string | null;
+  accountId?: string | null;
+  advertised?: boolean | null;
+  advertisedModifiedAt?: string | null;
+  approved?: string | null;
+  asn?: number | null;
+  cidr?: string | null;
+  createdAt?: string | null;
+  delegateLoaCreation?: boolean | null;
+  description?: string | null;
+  irrValidationState?: string | null;
+  loaDocumentId?: string | null;
+  modifiedAt?: string | null;
+  onDemandEnabled?: boolean | null;
+  onDemandLocked?: boolean | null;
+  ownershipValidationState?: string | null;
+  ownershipValidationToken?: string | null;
+  rpkiValidationState?: string | null;
+}[];
+
+export const ListPrefixesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    advertisedModifiedAt: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    approved: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    delegateLoaCreation: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    irrValidationState: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    onDemandEnabled: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    onDemandLocked: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    ownershipValidationState: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    ownershipValidationToken: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    rpkiValidationState: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      advertised: "advertised",
+      advertisedModifiedAt: "advertised_modified_at",
+      approved: "approved",
+      asn: "asn",
+      cidr: "cidr",
+      createdAt: "created_at",
+      delegateLoaCreation: "delegate_loa_creation",
+      description: "description",
+      irrValidationState: "irr_validation_state",
+      loaDocumentId: "loa_document_id",
+      modifiedAt: "modified_at",
+      onDemandEnabled: "on_demand_enabled",
+      onDemandLocked: "on_demand_locked",
+      ownershipValidationState: "ownership_validation_state",
+      ownershipValidationToken: "ownership_validation_token",
+      rpkiValidationState: "rpki_validation_state",
+    }),
+  ),
+) as unknown as Schema.Schema<ListPrefixesResponse>;
+
+export type ListPrefixesError = DefaultErrors;
+
+export const listPrefixes: API.OperationMethod<
+  ListPrefixesRequest,
+  ListPrefixesResponse,
+  ListPrefixesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrefixesRequest,
+  output: ListPrefixesResponse,
+  errors: [],
+}));
+
+export interface CreatePrefixRequest {
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn: number;
+  /** Body param: IP Prefix in Classless Inter-Domain Routing format. */
+  cidr: string;
+  /** Body param: Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
+  delegateLoaCreation?: boolean;
+  /** Body param: Description of the prefix. */
+  description?: string;
+  /** Body param: Identifier for the uploaded LOA document. */
+  loaDocumentId?: string | null;
+}
+
+export const CreatePrefixRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  asn: Schema.Number,
+  cidr: Schema.String,
+  delegateLoaCreation: Schema.optional(Schema.Boolean),
+  description: Schema.optional(Schema.String),
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+}).pipe(
+  Schema.encodeKeys({
+    asn: "asn",
+    cidr: "cidr",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    loaDocumentId: "loa_document_id",
+  }),
+  T.Http({
+    method: "POST",
+    path: "/accounts/{account_id}/addressing/prefixes",
+  }),
+) as unknown as Schema.Schema<CreatePrefixRequest>;
+
+export interface CreatePrefixResponse {
+  /** Identifier of an IP Prefix. */
+  id?: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertised?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertisedModifiedAt?: string | null;
+  /** Approval state of the prefix (P = pending, V = active). */
+  approved?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
+  delegateLoaCreation?: boolean | null;
+  /** Description of the prefix. */
+  description?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  irrValidationState?: string | null;
+  /** Identifier for the uploaded LOA document. */
+  loaDocumentId?: string | null;
+  modifiedAt?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandEnabled?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandLocked?: boolean | null;
+  /** State of one kind of validation for an IP prefix. */
+  ownershipValidationState?: string | null;
+  /** Token provided to demonstrate ownership of the prefix. */
+  ownershipValidationToken?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  rpkiValidationState?: string | null;
+}
+
+export const CreatePrefixResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  approved: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  delegateLoaCreation: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  irrValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  onDemandEnabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  onDemandLocked: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ownershipValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  ownershipValidationToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  rpkiValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<CreatePrefixResponse>;
+
+export type CreatePrefixError =
+  | DefaultErrors
+  | InvalidAccountId
+  | InvalidNetworkCidr
+  | IrrEntryNotFound;
+
+export const createPrefix: API.OperationMethod<
+  CreatePrefixRequest,
+  CreatePrefixResponse,
+  CreatePrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrefixRequest,
+  output: CreatePrefixResponse,
+  errors: [InvalidAccountId, InvalidNetworkCidr, IrrEntryNotFound],
+}));
+
+export interface PatchPrefixRequest {
+  prefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: Description of the prefix. */
+  description: string;
+}
+
+export const PatchPrefixRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  description: Schema.String,
+}).pipe(
+  T.Http({
+    method: "PATCH",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<PatchPrefixRequest>;
+
+export interface PatchPrefixResponse {
+  /** Identifier of an IP Prefix. */
+  id?: string | null;
+  /** Identifier of a Cloudflare account. */
+  accountId?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertised?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  advertisedModifiedAt?: string | null;
+  /** Approval state of the prefix (P = pending, V = active). */
+  approved?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  /** Whether Cloudflare is allowed to generate the LOA document on behalf of the prefix owner. */
+  delegateLoaCreation?: boolean | null;
+  /** Description of the prefix. */
+  description?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  irrValidationState?: string | null;
+  /** Identifier for the uploaded LOA document. */
+  loaDocumentId?: string | null;
+  modifiedAt?: string | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandEnabled?: boolean | null;
+  /** @deprecated Prefer the [BGP Prefixes API](https://developers.cloudflare.com/api/resources/addressing/subresources/prefixes/subresources/bgp_prefixes/) instead, which allows for advertising multiple BG */
+  onDemandLocked?: boolean | null;
+  /** State of one kind of validation for an IP prefix. */
+  ownershipValidationState?: string | null;
+  /** Token provided to demonstrate ownership of the prefix. */
+  ownershipValidationToken?: string | null;
+  /** State of one kind of validation for an IP prefix. */
+  rpkiValidationState?: string | null;
+}
+
+export const PatchPrefixResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  accountId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  advertisedModifiedAt: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  approved: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  delegateLoaCreation: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Null]),
+  ),
+  description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  irrValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  loaDocumentId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  onDemandEnabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  onDemandLocked: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  ownershipValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  ownershipValidationToken: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+  rpkiValidationState: Schema.optional(
+    Schema.Union([Schema.String, Schema.Null]),
+  ),
+}).pipe(
+  Schema.encodeKeys({
+    id: "id",
+    accountId: "account_id",
+    advertised: "advertised",
+    advertisedModifiedAt: "advertised_modified_at",
+    approved: "approved",
+    asn: "asn",
+    cidr: "cidr",
+    createdAt: "created_at",
+    delegateLoaCreation: "delegate_loa_creation",
+    description: "description",
+    irrValidationState: "irr_validation_state",
+    loaDocumentId: "loa_document_id",
+    modifiedAt: "modified_at",
+    onDemandEnabled: "on_demand_enabled",
+    onDemandLocked: "on_demand_locked",
+    ownershipValidationState: "ownership_validation_state",
+    ownershipValidationToken: "ownership_validation_token",
+    rpkiValidationState: "rpki_validation_state",
+  }),
+) as unknown as Schema.Schema<PatchPrefixResponse>;
+
+export type PatchPrefixError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | PrefixNotFound
+  | InvalidAccountId;
+
+export const patchPrefix: API.OperationMethod<
+  PatchPrefixRequest,
+  PatchPrefixResponse,
+  PatchPrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchPrefixRequest,
+  output: PatchPrefixResponse,
+  errors: [MethodNotAllowed, PrefixNotFound, InvalidAccountId],
+}));
+
+export interface DeletePrefixRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeletePrefixRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({
+    method: "DELETE",
+    path: "/accounts/{account_id}/addressing/prefixes/{prefixId}",
+  }),
+) as unknown as Schema.Schema<DeletePrefixRequest>;
+
+export interface DeletePrefixResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+}
+
+export const DeletePrefixResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  errors: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      source: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  messages: Schema.Array(
+    Schema.Struct({
+      code: Schema.Number,
+      message: Schema.String,
+      documentationUrl: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      source: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            pointer: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    ),
+  ),
+  success: Schema.Literal(true),
+}) as unknown as Schema.Schema<DeletePrefixResponse>;
+
+export type DeletePrefixError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | PrefixNotFound
+  | InvalidAccountId;
+
+export const deletePrefix: API.OperationMethod<
+  DeletePrefixRequest,
+  DeletePrefixResponse,
+  DeletePrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrefixRequest,
+  output: DeletePrefixResponse,
+  errors: [MethodNotAllowed, PrefixNotFound, InvalidAccountId],
+}));
+
+// =============================================================================
+// PrefixAdvertisementStatus
+// =============================================================================
+
+export interface GetPrefixAdvertisementStatusRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetPrefixAdvertisementStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixAdvertisementStatusRequest>;
+
+export interface GetPrefixAdvertisementStatusResponse {
+  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
+  advertised?: boolean | null;
+  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  advertisedModifiedAt?: string | null;
+}
+
+export const GetPrefixAdvertisementStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    advertisedModifiedAt: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      advertised: "advertised",
+      advertisedModifiedAt: "advertised_modified_at",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixAdvertisementStatusResponse>;
+
+export type GetPrefixAdvertisementStatusError =
+  | DefaultErrors
+  | PrefixNotFound
+  | InvalidAccountId;
+
+export const getPrefixAdvertisementStatus: API.OperationMethod<
+  GetPrefixAdvertisementStatusRequest,
+  GetPrefixAdvertisementStatusResponse,
+  GetPrefixAdvertisementStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrefixAdvertisementStatusRequest,
+  output: GetPrefixAdvertisementStatusResponse,
+  errors: [PrefixNotFound, InvalidAccountId],
+}));
+
+export interface PatchPrefixAdvertisementStatusRequest {
+  prefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
+  advertised: boolean;
+}
+
+export const PatchPrefixAdvertisementStatusRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    advertised: Schema.Boolean,
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/status",
+    }),
+  ) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusRequest>;
+
+export interface PatchPrefixAdvertisementStatusResponse {
+  /** Advertisement status of the prefix. If `true`, the BGP route for the prefix is advertised to the Internet. If `false`, the BGP route is withdrawn. */
+  advertised?: boolean | null;
+  /** Last time the advertisement status was changed. This field is only not 'null' if on demand is enabled. */
+  advertisedModifiedAt?: string | null;
+}
+
+export const PatchPrefixAdvertisementStatusResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    advertised: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    advertisedModifiedAt: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      advertised: "advertised",
+      advertisedModifiedAt: "advertised_modified_at",
+    }),
+  ) as unknown as Schema.Schema<PatchPrefixAdvertisementStatusResponse>;
+
+export type PatchPrefixAdvertisementStatusError =
+  | DefaultErrors
+  | PrefixNotFound
+  | InvalidAccountId;
+
+export const patchPrefixAdvertisementStatus: API.OperationMethod<
+  PatchPrefixAdvertisementStatusRequest,
+  PatchPrefixAdvertisementStatusResponse,
+  PatchPrefixAdvertisementStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchPrefixAdvertisementStatusRequest,
+  output: PatchPrefixAdvertisementStatusResponse,
+  errors: [PrefixNotFound, InvalidAccountId],
+}));
+
+// =============================================================================
+// PrefixBgpPrefix
+// =============================================================================
+
+export interface GetPrefixBgpPrefixRequest {
+  prefixId: string;
+  bgpPrefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetPrefixBgpPrefixRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    bgpPrefixId: Schema.String.pipe(T.HttpPath("bgpPrefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixBgpPrefixRequest>;
+
+export interface GetPrefixBgpPrefixResponse {
+  /** Identifier of BGP Prefix. */
+  id?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
+  asnPrependCount?: number | null;
+  /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there */
+  autoAdvertiseWithdraw?: boolean | null;
+  bgpSignalOpts?: {
+    enabled?: boolean | null;
+    modifiedAt?: string | null;
+  } | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean | null;
+    onDemandLocked?: boolean | null;
+  } | null;
+}
+
+export const GetPrefixBgpPrefixResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    asnPrependCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    autoAdvertiseWithdraw: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    bgpSignalOpts: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          modifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    onDemand: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          advertised: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          advertisedModifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          onDemandEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          onDemandLocked: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            advertised: "advertised",
+            advertisedModifiedAt: "advertised_modified_at",
+            onDemandEnabled: "on_demand_enabled",
+            onDemandLocked: "on_demand_locked",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
+      asnPrependCount: "asn_prepend_count",
+      autoAdvertiseWithdraw: "auto_advertise_withdraw",
+      bgpSignalOpts: "bgp_signal_opts",
+      cidr: "cidr",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      onDemand: "on_demand",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixBgpPrefixResponse>;
+
+export type GetPrefixBgpPrefixError =
+  | DefaultErrors
+  | BgpPrefixNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
+export const getPrefixBgpPrefix: API.OperationMethod<
+  GetPrefixBgpPrefixRequest,
+  GetPrefixBgpPrefixResponse,
+  GetPrefixBgpPrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrefixBgpPrefixRequest,
+  output: GetPrefixBgpPrefixResponse,
+  errors: [BgpPrefixNotFound, InvalidAccountId, PrefixNotFound],
+}));
+
+export interface ListPrefixBgpPrefixesRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListPrefixBgpPrefixesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes",
+    }),
+  ) as unknown as Schema.Schema<ListPrefixBgpPrefixesRequest>;
+
+export type ListPrefixBgpPrefixesResponse = {
+  id?: string | null;
+  asn?: number | null;
+  asnPrependCount?: number | null;
+  autoAdvertiseWithdraw?: boolean | null;
+  bgpSignalOpts?: {
+    enabled?: boolean | null;
+    modifiedAt?: string | null;
+  } | null;
+  cidr?: string | null;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean | null;
+    onDemandLocked?: boolean | null;
+  } | null;
+}[];
+
+export const ListPrefixBgpPrefixesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      asnPrependCount: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      autoAdvertiseWithdraw: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      bgpSignalOpts: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            modifiedAt: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              modifiedAt: "modified_at",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      onDemand: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            advertised: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            advertisedModifiedAt: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            onDemandEnabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            onDemandLocked: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              advertised: "advertised",
+              advertisedModifiedAt: "advertised_modified_at",
+              onDemandEnabled: "on_demand_enabled",
+              onDemandLocked: "on_demand_locked",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        asn: "asn",
+        asnPrependCount: "asn_prepend_count",
+        autoAdvertiseWithdraw: "auto_advertise_withdraw",
+        bgpSignalOpts: "bgp_signal_opts",
+        cidr: "cidr",
+        createdAt: "created_at",
+        modifiedAt: "modified_at",
+        onDemand: "on_demand",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListPrefixBgpPrefixesResponse>;
+
+export type ListPrefixBgpPrefixesError = DefaultErrors;
+
+export const listPrefixBgpPrefixes: API.OperationMethod<
+  ListPrefixBgpPrefixesRequest,
+  ListPrefixBgpPrefixesResponse,
+  ListPrefixBgpPrefixesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrefixBgpPrefixesRequest,
+  output: ListPrefixBgpPrefixesResponse,
+  errors: [],
+}));
+
+export interface CreatePrefixBgpPrefixRequest {
+  prefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: IP Prefix in Classless Inter-Domain Routing format. */
+  cidr: string;
+}
+
+export const CreatePrefixBgpPrefixRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    cidr: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixBgpPrefixRequest>;
+
+export interface CreatePrefixBgpPrefixResponse {
+  /** Identifier of BGP Prefix. */
+  id?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
+  asnPrependCount?: number | null;
+  /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there */
+  autoAdvertiseWithdraw?: boolean | null;
+  bgpSignalOpts?: {
+    enabled?: boolean | null;
+    modifiedAt?: string | null;
+  } | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean | null;
+    onDemandLocked?: boolean | null;
+  } | null;
+}
+
+export const CreatePrefixBgpPrefixResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    asnPrependCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    autoAdvertiseWithdraw: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    bgpSignalOpts: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          modifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    onDemand: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          advertised: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          advertisedModifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          onDemandEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          onDemandLocked: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            advertised: "advertised",
+            advertisedModifiedAt: "advertised_modified_at",
+            onDemandEnabled: "on_demand_enabled",
+            onDemandLocked: "on_demand_locked",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
+      asnPrependCount: "asn_prepend_count",
+      autoAdvertiseWithdraw: "auto_advertise_withdraw",
+      bgpSignalOpts: "bgp_signal_opts",
+      cidr: "cidr",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      onDemand: "on_demand",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixBgpPrefixResponse>;
+
+export type CreatePrefixBgpPrefixError =
+  | DefaultErrors
+  | NonexistentAccountPrefix
+  | InvalidAccountId
+  | InvalidNetworkCidr;
+
+export const createPrefixBgpPrefix: API.OperationMethod<
+  CreatePrefixBgpPrefixRequest,
+  CreatePrefixBgpPrefixResponse,
+  CreatePrefixBgpPrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrefixBgpPrefixRequest,
+  output: CreatePrefixBgpPrefixResponse,
+  errors: [NonexistentAccountPrefix, InvalidAccountId, InvalidNetworkCidr],
+}));
+
+export interface PatchPrefixBgpPrefixRequest {
+  prefixId: string;
+  bgpPrefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
+  asnPrependCount?: number;
+  /** Body param: Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefi */
+  autoAdvertiseWithdraw?: boolean;
+  /** Body param: */
+  onDemand?: { advertised?: boolean };
+}
+
+export const PatchPrefixBgpPrefixRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    bgpPrefixId: Schema.String.pipe(T.HttpPath("bgpPrefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    asnPrependCount: Schema.optional(Schema.Number),
+    autoAdvertiseWithdraw: Schema.optional(Schema.Boolean),
+    onDemand: Schema.optional(
+      Schema.Struct({
+        advertised: Schema.optional(Schema.Boolean),
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      asnPrependCount: "asn_prepend_count",
+      autoAdvertiseWithdraw: "auto_advertise_withdraw",
+      onDemand: "on_demand",
+    }),
+    T.Http({
+      method: "PATCH",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bgp/prefixes/{bgpPrefixId}",
+    }),
+  ) as unknown as Schema.Schema<PatchPrefixBgpPrefixRequest>;
+
+export interface PatchPrefixBgpPrefixResponse {
+  /** Identifier of BGP Prefix. */
+  id?: string | null;
+  /** Autonomous System Number (ASN) the prefix will be advertised under. */
+  asn?: number | null;
+  /** Number of times to prepend the Cloudflare ASN to the BGP AS-Path attribute */
+  asnPrependCount?: number | null;
+  /** Determines if Cloudflare advertises a BYOIP BGP prefix even when there is no matching BGP prefix in the Magic routing table. When true, Cloudflare will automatically withdraw the BGP prefix when there */
+  autoAdvertiseWithdraw?: boolean | null;
+  bgpSignalOpts?: {
+    enabled?: boolean | null;
+    modifiedAt?: string | null;
+  } | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  modifiedAt?: string | null;
+  onDemand?: {
+    advertised?: boolean | null;
+    advertisedModifiedAt?: string | null;
+    onDemandEnabled?: boolean | null;
+    onDemandLocked?: boolean | null;
+  } | null;
+}
+
+export const PatchPrefixBgpPrefixResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    asnPrependCount: Schema.optional(
+      Schema.Union([Schema.Number, Schema.Null]),
+    ),
+    autoAdvertiseWithdraw: Schema.optional(
+      Schema.Union([Schema.Boolean, Schema.Null]),
+    ),
+    bgpSignalOpts: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+          modifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ enabled: "enabled", modifiedAt: "modified_at" }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    onDemand: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          advertised: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          advertisedModifiedAt: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          onDemandEnabled: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          onDemandLocked: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            advertised: "advertised",
+            advertisedModifiedAt: "advertised_modified_at",
+            onDemandEnabled: "on_demand_enabled",
+            onDemandLocked: "on_demand_locked",
+          }),
+        ),
+        Schema.Null,
+      ]),
+    ),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      asn: "asn",
+      asnPrependCount: "asn_prepend_count",
+      autoAdvertiseWithdraw: "auto_advertise_withdraw",
+      bgpSignalOpts: "bgp_signal_opts",
+      cidr: "cidr",
+      createdAt: "created_at",
+      modifiedAt: "modified_at",
+      onDemand: "on_demand",
+    }),
+  ) as unknown as Schema.Schema<PatchPrefixBgpPrefixResponse>;
+
+export type PatchPrefixBgpPrefixError =
+  | DefaultErrors
+  | BgpPrefixNotFound
+  | InvalidAccountId;
+
+export const patchPrefixBgpPrefix: API.OperationMethod<
+  PatchPrefixBgpPrefixRequest,
+  PatchPrefixBgpPrefixResponse,
+  PatchPrefixBgpPrefixError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchPrefixBgpPrefixRequest,
+  output: PatchPrefixBgpPrefixResponse,
+  errors: [BgpPrefixNotFound, InvalidAccountId],
+}));
+
+// =============================================================================
+// PrefixDelegation
+// =============================================================================
+
+export interface ListPrefixDelegationsRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListPrefixDelegationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations",
+    }),
+  ) as unknown as Schema.Schema<ListPrefixDelegationsRequest>;
+
+export type ListPrefixDelegationsResponse = {
+  id?: string | null;
+  cidr?: string | null;
+  createdAt?: string | null;
+  delegatedAccountId?: string | null;
+  modifiedAt?: string | null;
+  parentPrefixId?: string | null;
+}[];
+
+export const ListPrefixDelegationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      delegatedAccountId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      parentPrefixId: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        cidr: "cidr",
+        createdAt: "created_at",
+        delegatedAccountId: "delegated_account_id",
+        modifiedAt: "modified_at",
+        parentPrefixId: "parent_prefix_id",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListPrefixDelegationsResponse>;
+
+export type ListPrefixDelegationsError = DefaultErrors;
+
+export const listPrefixDelegations: API.OperationMethod<
+  ListPrefixDelegationsRequest,
+  ListPrefixDelegationsResponse,
+  ListPrefixDelegationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrefixDelegationsRequest,
+  output: ListPrefixDelegationsResponse,
+  errors: [],
+}));
+
+export interface CreatePrefixDelegationRequest {
+  prefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: IP Prefix in Classless Inter-Domain Routing format. */
+  cidr: string;
+  /** Body param: Account identifier for the account to which prefix is being delegated. */
+  delegatedAccountId: string;
+}
+
+export const CreatePrefixDelegationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    cidr: Schema.String,
+    delegatedAccountId: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({
+      cidr: "cidr",
+      delegatedAccountId: "delegated_account_id",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixDelegationRequest>;
+
+export interface CreatePrefixDelegationResponse {
+  /** Identifier of a Delegation. */
+  id?: string | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  createdAt?: string | null;
+  /** Account identifier for the account to which prefix is being delegated. */
+  delegatedAccountId?: string | null;
+  modifiedAt?: string | null;
+  /** Identifier of an IP Prefix. */
+  parentPrefixId?: string | null;
+}
+
+export const CreatePrefixDelegationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    delegatedAccountId: Schema.optional(
+      Schema.Union([Schema.String, Schema.Null]),
+    ),
+    modifiedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    parentPrefixId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      createdAt: "created_at",
+      delegatedAccountId: "delegated_account_id",
+      modifiedAt: "modified_at",
+      parentPrefixId: "parent_prefix_id",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixDelegationResponse>;
+
+export type CreatePrefixDelegationError =
+  | DefaultErrors
+  | PrefixNotFound
+  | MissingAccountId
+  | InvalidAccountId;
+
+export const createPrefixDelegation: API.OperationMethod<
+  CreatePrefixDelegationRequest,
+  CreatePrefixDelegationResponse,
+  CreatePrefixDelegationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrefixDelegationRequest,
+  output: CreatePrefixDelegationResponse,
+  errors: [PrefixNotFound, MissingAccountId, InvalidAccountId],
+}));
+
+export interface DeletePrefixDelegationRequest {
+  prefixId: string;
+  delegationId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeletePrefixDelegationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    delegationId: Schema.String.pipe(T.HttpPath("delegationId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/delegations/{delegationId}",
+    }),
+  ) as unknown as Schema.Schema<DeletePrefixDelegationRequest>;
+
+export interface DeletePrefixDelegationResponse {
+  /** Identifier of a Delegation. */
+  id?: string | null;
+}
+
+export const DeletePrefixDelegationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }) as unknown as Schema.Schema<DeletePrefixDelegationResponse>;
+
+export type DeletePrefixDelegationError =
+  | DefaultErrors
+  | DelegationNotFound
+  | InvalidAccountId;
+
+export const deletePrefixDelegation: API.OperationMethod<
+  DeletePrefixDelegationRequest,
+  DeletePrefixDelegationResponse,
+  DeletePrefixDelegationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrefixDelegationRequest,
+  output: DeletePrefixDelegationResponse,
+  errors: [DelegationNotFound, InvalidAccountId],
+}));
+
+// =============================================================================
+// PrefixServiceBinding
+// =============================================================================
+
+export interface GetPrefixServiceBindingRequest {
+  prefixId: string;
+  bindingId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const GetPrefixServiceBindingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    bindingId: Schema.String.pipe(T.HttpPath("bindingId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixServiceBindingRequest>;
+
+export interface GetPrefixServiceBindingResponse {
+  /** Identifier of a Service Binding. */
+  id?: string | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  /** Status of a Service Binding's deployment to the Cloudflare network */
+  provisioning?: { state?: "provisioning" | "active" | null } | null;
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the  List Services  endpoint. */
+  serviceId?: string | null;
+  /** Name of a service running on the Cloudflare network */
+  serviceName?: string | null;
+}
+
+export const GetPrefixServiceBindingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    provisioning: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          state: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["provisioning", "active"]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
+    ),
+    serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serviceName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      provisioning: "provisioning",
+      serviceId: "service_id",
+      serviceName: "service_name",
+    }),
+  ) as unknown as Schema.Schema<GetPrefixServiceBindingResponse>;
+
+export type GetPrefixServiceBindingError =
+  | DefaultErrors
+  | BindingNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
+export const getPrefixServiceBinding: API.OperationMethod<
+  GetPrefixServiceBindingRequest,
+  GetPrefixServiceBindingResponse,
+  GetPrefixServiceBindingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetPrefixServiceBindingRequest,
+  output: GetPrefixServiceBindingResponse,
+  errors: [BindingNotFound, InvalidAccountId, PrefixNotFound],
+}));
+
+export interface ListPrefixServiceBindingsRequest {
+  prefixId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListPrefixServiceBindingsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings",
+    }),
+  ) as unknown as Schema.Schema<ListPrefixServiceBindingsRequest>;
+
+export type ListPrefixServiceBindingsResponse = {
+  id?: string | null;
+  cidr?: string | null;
+  provisioning?: { state?: "provisioning" | "active" | null } | null;
+  serviceId?: string | null;
+  serviceName?: string | null;
+}[];
+
+export const ListPrefixServiceBindingsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      provisioning: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            state: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["provisioning", "active"]),
+                Schema.Null,
+              ]),
+            ),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      serviceName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        cidr: "cidr",
+        provisioning: "provisioning",
+        serviceId: "service_id",
+        serviceName: "service_name",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListPrefixServiceBindingsResponse>;
+
+export type ListPrefixServiceBindingsError = DefaultErrors;
+
+export const listPrefixServiceBindings: API.OperationMethod<
+  ListPrefixServiceBindingsRequest,
+  ListPrefixServiceBindingsResponse,
+  ListPrefixServiceBindingsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListPrefixServiceBindingsRequest,
+  output: ListPrefixServiceBindingsResponse,
+  errors: [],
+}));
+
+export interface CreatePrefixServiceBindingRequest {
+  prefixId: string;
+  /** Path param: Identifier of a Cloudflare account. */
+  accountId: string;
+  /** Body param: IP Prefix in Classless Inter-Domain Routing format. */
+  cidr: string;
+  /** Body param: Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the  List Services  endpoint. */
+  serviceId: string;
+}
+
+export const CreatePrefixServiceBindingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    cidr: Schema.String,
+    serviceId: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ cidr: "cidr", serviceId: "service_id" }),
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixServiceBindingRequest>;
+
+export interface CreatePrefixServiceBindingResponse {
+  /** Identifier of a Service Binding. */
+  id?: string | null;
+  /** IP Prefix in Classless Inter-Domain Routing format. */
+  cidr?: string | null;
+  /** Status of a Service Binding's deployment to the Cloudflare network */
+  provisioning?: { state?: "provisioning" | "active" | null } | null;
+  /** Identifier of a Service on the Cloudflare network. Available services and their IDs may be found in the  List Services  endpoint. */
+  serviceId?: string | null;
+  /** Name of a service running on the Cloudflare network */
+  serviceName?: string | null;
+}
+
+export const CreatePrefixServiceBindingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    provisioning: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          state: Schema.optional(
+            Schema.Union([
+              Schema.Literals(["provisioning", "active"]),
+              Schema.Null,
+            ]),
+          ),
+        }),
+        Schema.Null,
+      ]),
+    ),
+    serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    serviceName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cidr: "cidr",
+      provisioning: "provisioning",
+      serviceId: "service_id",
+      serviceName: "service_name",
+    }),
+  ) as unknown as Schema.Schema<CreatePrefixServiceBindingResponse>;
+
+export type CreatePrefixServiceBindingError =
+  | DefaultErrors
+  | UnsupportedBindingConfiguration
+  | InvalidAccountId;
+
+export const createPrefixServiceBinding: API.OperationMethod<
+  CreatePrefixServiceBindingRequest,
+  CreatePrefixServiceBindingResponse,
+  CreatePrefixServiceBindingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreatePrefixServiceBindingRequest,
+  output: CreatePrefixServiceBindingResponse,
+  errors: [UnsupportedBindingConfiguration, InvalidAccountId],
+}));
+
+export interface DeletePrefixServiceBindingRequest {
+  prefixId: string;
+  bindingId: string;
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const DeletePrefixServiceBindingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    prefixId: Schema.String.pipe(T.HttpPath("prefixId")),
+    bindingId: Schema.String.pipe(T.HttpPath("bindingId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/accounts/{account_id}/addressing/prefixes/{prefixId}/bindings/{bindingId}",
+    }),
+  ) as unknown as Schema.Schema<DeletePrefixServiceBindingRequest>;
+
+export interface DeletePrefixServiceBindingResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+}
+
+export const DeletePrefixServiceBindingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+  }) as unknown as Schema.Schema<DeletePrefixServiceBindingResponse>;
+
+export type DeletePrefixServiceBindingError =
+  | DefaultErrors
+  | BindingNotFound
+  | InvalidAccountId
+  | PrefixNotFound;
+
+export const deletePrefixServiceBinding: API.OperationMethod<
+  DeletePrefixServiceBindingRequest,
+  DeletePrefixServiceBindingResponse,
+  DeletePrefixServiceBindingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeletePrefixServiceBindingRequest,
+  output: DeletePrefixServiceBindingResponse,
+  errors: [BindingNotFound, InvalidAccountId, PrefixNotFound],
+}));
+
+// =============================================================================
+// RegionalHostname
+// =============================================================================
+
+export interface GetRegionalHostnameRequest {
+  hostname: string;
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetRegionalHostnameRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    hostname: Schema.String.pipe(T.HttpPath("hostname")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+    }),
+  ) as unknown as Schema.Schema<GetRegionalHostnameRequest>;
+
+export interface GetRegionalHostnameResponse {
+  /** When the regional hostname was created */
+  createdOn: string;
+  /** DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g ` .example.com` */
+  hostname: string;
+  /** Identifying key for the region */
+  regionKey: string;
+  /** Configure which routing method to use for the regional hostname */
+  routing?: string | null;
+}
+
+export const GetRegionalHostnameResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    createdOn: Schema.String,
+    hostname: Schema.String,
+    regionKey: Schema.String,
+    routing: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
+  ) as unknown as Schema.Schema<GetRegionalHostnameResponse>;
+
+export type GetRegionalHostnameError =
+  | DefaultErrors
+  | InvalidZoneId
+  | RegionalHostnameNotFound
+  | RegionalHostnameEmpty;
+
+export const getRegionalHostname: API.OperationMethod<
+  GetRegionalHostnameRequest,
+  GetRegionalHostnameResponse,
+  GetRegionalHostnameError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRegionalHostnameRequest,
+  output: GetRegionalHostnameResponse,
+  errors: [InvalidZoneId, RegionalHostnameNotFound, RegionalHostnameEmpty],
+}));
+
+export interface ListRegionalHostnamesRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const ListRegionalHostnamesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/zones/{zone_id}/addressing/regional_hostnames",
+    }),
+  ) as unknown as Schema.Schema<ListRegionalHostnamesRequest>;
+
+export type ListRegionalHostnamesResponse = {
+  createdOn: string;
+  hostname: string;
+  regionKey: string;
+  routing?: string | null;
+}[];
+
+export const ListRegionalHostnamesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      createdOn: Schema.String,
+      hostname: Schema.String,
+      regionKey: Schema.String,
+      routing: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        createdOn: "created_on",
+        hostname: "hostname",
+        regionKey: "region_key",
+        routing: "routing",
+      }),
+    ),
+  ) as unknown as Schema.Schema<ListRegionalHostnamesResponse>;
+
+export type ListRegionalHostnamesError = DefaultErrors;
+
+export const listRegionalHostnames: API.OperationMethod<
+  ListRegionalHostnamesRequest,
+  ListRegionalHostnamesResponse,
+  ListRegionalHostnamesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRegionalHostnamesRequest,
+  output: ListRegionalHostnamesResponse,
+  errors: [],
+}));
+
+export interface CreateRegionalHostnameRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g ` .example.com` */
+  hostname: string;
+  /** Body param: Identifying key for the region */
+  regionKey: string;
+  /** Body param: Configure which routing method to use for the regional hostname */
+  routing?: string;
+}
+
+export const CreateRegionalHostnameRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    hostname: Schema.String,
+    regionKey: Schema.String,
+    routing: Schema.optional(Schema.String),
+  }).pipe(
+    Schema.encodeKeys({
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
+    T.Http({
+      method: "POST",
+      path: "/zones/{zone_id}/addressing/regional_hostnames",
+    }),
+  ) as unknown as Schema.Schema<CreateRegionalHostnameRequest>;
+
+export interface CreateRegionalHostnameResponse {
+  /** When the regional hostname was created */
+  createdOn: string;
+  /** DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g ` .example.com` */
+  hostname: string;
+  /** Identifying key for the region */
+  regionKey: string;
+  /** Configure which routing method to use for the regional hostname */
+  routing?: string | null;
+}
+
+export const CreateRegionalHostnameResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    createdOn: Schema.String,
+    hostname: Schema.String,
+    regionKey: Schema.String,
+    routing: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
+  ) as unknown as Schema.Schema<CreateRegionalHostnameResponse>;
+
+export type CreateRegionalHostnameError =
+  | DefaultErrors
+  | InvalidZoneId
+  | InvalidHostname
+  | RegionalHostnameEmpty;
+
+export const createRegionalHostname: API.OperationMethod<
+  CreateRegionalHostnameRequest,
+  CreateRegionalHostnameResponse,
+  CreateRegionalHostnameError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRegionalHostnameRequest,
+  output: CreateRegionalHostnameResponse,
+  errors: [InvalidZoneId, InvalidHostname, RegionalHostnameEmpty],
+}));
+
+export interface PatchRegionalHostnameRequest {
+  hostname: string;
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: Identifying key for the region */
+  regionKey: string;
+}
+
+export const PatchRegionalHostnameRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    hostname: Schema.String.pipe(T.HttpPath("hostname")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    regionKey: Schema.String,
+  }).pipe(
+    Schema.encodeKeys({ regionKey: "region_key" }),
+    T.Http({
+      method: "PATCH",
+      path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+    }),
+  ) as unknown as Schema.Schema<PatchRegionalHostnameRequest>;
+
+export interface PatchRegionalHostnameResponse {
+  /** When the regional hostname was created */
+  createdOn: string;
+  /** DNS hostname to be regionalized, must be a subdomain of the zone. Wildcards are supported for one level, e.g ` .example.com` */
+  hostname: string;
+  /** Identifying key for the region */
+  regionKey: string;
+  /** Configure which routing method to use for the regional hostname */
+  routing?: string | null;
+}
+
+export const PatchRegionalHostnameResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    createdOn: Schema.String,
+    hostname: Schema.String,
+    regionKey: Schema.String,
+    routing: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      createdOn: "created_on",
+      hostname: "hostname",
+      regionKey: "region_key",
+      routing: "routing",
+    }),
+  ) as unknown as Schema.Schema<PatchRegionalHostnameResponse>;
+
+export type PatchRegionalHostnameError =
+  | DefaultErrors
+  | InvalidZoneId
+  | RegionalHostnameNotFound
+  | RegionalHostnameEmpty;
+
+export const patchRegionalHostname: API.OperationMethod<
+  PatchRegionalHostnameRequest,
+  PatchRegionalHostnameResponse,
+  PatchRegionalHostnameError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchRegionalHostnameRequest,
+  output: PatchRegionalHostnameResponse,
+  errors: [InvalidZoneId, RegionalHostnameNotFound, RegionalHostnameEmpty],
+}));
+
+export interface DeleteRegionalHostnameRequest {
+  hostname: string;
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const DeleteRegionalHostnameRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    hostname: Schema.String.pipe(T.HttpPath("hostname")),
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "/zones/{zone_id}/addressing/regional_hostnames/{hostname}",
+    }),
+  ) as unknown as Schema.Schema<DeleteRegionalHostnameRequest>;
+
+export interface DeleteRegionalHostnameResponse {
+  errors: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  messages: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+  /** Whether the API call was successful. */
+  success: true;
+}
+
+export const DeleteRegionalHostnameResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    errors: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    messages: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
+      ),
+    ),
+    success: Schema.Literal(true),
+  }) as unknown as Schema.Schema<DeleteRegionalHostnameResponse>;
+
+export type DeleteRegionalHostnameError =
+  | DefaultErrors
+  | MethodNotAllowed
+  | InvalidZoneId
+  | RegionalHostnameNotFound
+  | RegionalHostnameEmpty;
+
+export const deleteRegionalHostname: API.OperationMethod<
+  DeleteRegionalHostnameRequest,
+  DeleteRegionalHostnameResponse,
+  DeleteRegionalHostnameError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRegionalHostnameRequest,
+  output: DeleteRegionalHostnameResponse,
+  errors: [
+    MethodNotAllowed,
+    InvalidZoneId,
+    RegionalHostnameNotFound,
+    RegionalHostnameEmpty,
+  ],
+}));
+
+// =============================================================================
+// RegionalHostnameRegion
+// =============================================================================
+
+export interface ListRegionalHostnameRegionsRequest {
+  /** Identifier. */
+  accountId: string;
+}
+
+export const ListRegionalHostnameRegionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "/accounts/{account_id}/addressing/regional_hostnames/regions",
+    }),
+  ) as unknown as Schema.Schema<ListRegionalHostnameRegionsRequest>;
+
+export type ListRegionalHostnameRegionsResponse = {
+  key?: string | null;
+  label?: string | null;
+}[];
+
+export const ListRegionalHostnameRegionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+    Schema.Struct({
+      key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      label: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ) as unknown as Schema.Schema<ListRegionalHostnameRegionsResponse>;
+
+export type ListRegionalHostnameRegionsError = DefaultErrors;
+
+export const listRegionalHostnameRegions: API.OperationMethod<
+  ListRegionalHostnameRegionsRequest,
+  ListRegionalHostnameRegionsResponse,
+  ListRegionalHostnameRegionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListRegionalHostnameRegionsRequest,
+  output: ListRegionalHostnameRegionsResponse,
+  errors: [],
+}));
+
+// =============================================================================
+// Service
+// =============================================================================
+
+export interface ListServicesRequest {
+  /** Identifier of a Cloudflare account. */
+  accountId: string;
+}
+
+export const ListServicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  accountId: Schema.String.pipe(T.HttpPath("account_id")),
+}).pipe(
+  T.Http({ method: "GET", path: "/accounts/{account_id}/addressing/services" }),
+) as unknown as Schema.Schema<ListServicesRequest>;
+
+export type ListServicesResponse = {
+  id?: string | null;
+  name?: string | null;
+}[];
+
+export const ListServicesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
+  Schema.Struct({
+    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }),
+) as unknown as Schema.Schema<ListServicesResponse>;
+
+export type ListServicesError = DefaultErrors;
+
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  ListServicesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ListServicesRequest,
+  output: ListServicesResponse,
+  errors: [],
+}));

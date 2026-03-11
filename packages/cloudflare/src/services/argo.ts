@@ -1,0 +1,254 @@
+/**
+ * Cloudflare ARGO API
+ *
+ * Generated from Cloudflare TypeScript SDK.
+ * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service argo
+ */
+
+import * as Schema from "effect/Schema";
+import type * as HttpClient from "effect/unstable/http/HttpClient";
+import * as API from "../client/api.ts";
+import * as T from "../traits";
+import type { Credentials } from "../credentials";
+import { type DefaultErrors } from "../errors";
+
+// =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
+
+export class NotAuthorized extends Schema.TaggedErrorClass<NotAuthorized>()(
+  "NotAuthorized",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(NotAuthorized, [{ code: 1015 }]);
+
+// =============================================================================
+// SmartRouting
+// =============================================================================
+
+export interface GetSmartRoutingRequest {
+  /** Specifies the zone associated with the API call. */
+  zoneId: string;
+}
+
+export const GetSmartRoutingRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  },
+).pipe(
+  T.Http({ method: "GET", path: "/zones/{zone_id}/argo/smart_routing" }),
+) as unknown as Schema.Schema<GetSmartRoutingRequest>;
+
+export interface GetSmartRoutingResponse {
+  /** Specifies the identifier of the Argo Smart Routing setting. */
+  id: string;
+  /** Specifies if the setting is editable. */
+  editable: boolean;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value: "on" | "off";
+  /** Specifies the time when the setting was last modified. */
+  modifiedOn?: string | null;
+}
+
+export const GetSmartRoutingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<GetSmartRoutingResponse>;
+
+export type GetSmartRoutingError =
+  | DefaultErrors
+  | InvalidObjectIdentifier
+  | NotAuthorized;
+
+export const getSmartRouting: API.OperationMethod<
+  GetSmartRoutingRequest,
+  GetSmartRoutingResponse,
+  GetSmartRoutingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSmartRoutingRequest,
+  output: GetSmartRoutingResponse,
+  errors: [InvalidObjectIdentifier, NotAuthorized],
+}));
+
+export interface PatchSmartRoutingRequest {
+  /** Path param: Specifies the zone associated with the API call. */
+  zoneId: string;
+  /** Body param: Specifies the enablement value of Argo Smart Routing. */
+  value: "on" | "off";
+}
+
+export const PatchSmartRoutingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    value: Schema.Literals(["on", "off"]),
+  }).pipe(
+    T.Http({ method: "PATCH", path: "/zones/{zone_id}/argo/smart_routing" }),
+  ) as unknown as Schema.Schema<PatchSmartRoutingRequest>;
+
+export interface PatchSmartRoutingResponse {
+  /** Specifies the identifier of the Argo Smart Routing setting. */
+  id: string;
+  /** Specifies if the setting is editable. */
+  editable: boolean;
+  /** Specifies the enablement value of Argo Smart Routing. */
+  value: "on" | "off";
+  /** Specifies the time when the setting was last modified. */
+  modifiedOn?: string | null;
+}
+
+export const PatchSmartRoutingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String,
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
+
+export type PatchSmartRoutingError =
+  | DefaultErrors
+  | InvalidObjectIdentifier
+  | NotAuthorized;
+
+export const patchSmartRouting: API.OperationMethod<
+  PatchSmartRoutingRequest,
+  PatchSmartRoutingResponse,
+  PatchSmartRoutingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchSmartRoutingRequest,
+  output: PatchSmartRoutingResponse,
+  errors: [InvalidObjectIdentifier, NotAuthorized],
+}));
+
+// =============================================================================
+// TieredCaching
+// =============================================================================
+
+export interface GetTieredCachingRequest {
+  /** Identifier. */
+  zoneId: string;
+}
+
+export const GetTieredCachingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/argo/tiered_caching" }),
+  ) as unknown as Schema.Schema<GetTieredCachingRequest>;
+
+export interface GetTieredCachingResponse {
+  /** The identifier of the caching setting. */
+  id: "tiered_caching";
+  /** Whether the setting is editable. */
+  editable: boolean;
+  /** Value of the Tiered Cache zone setting. */
+  value: "on" | "off";
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+
+export const GetTieredCachingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tiered_caching"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<GetTieredCachingResponse>;
+
+export type GetTieredCachingError = DefaultErrors | InvalidObjectIdentifier;
+
+export const getTieredCaching: API.OperationMethod<
+  GetTieredCachingRequest,
+  GetTieredCachingResponse,
+  GetTieredCachingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetTieredCachingRequest,
+  output: GetTieredCachingResponse,
+  errors: [InvalidObjectIdentifier],
+}));
+
+export interface PatchTieredCachingRequest {
+  /** Path param: Identifier. */
+  zoneId: string;
+  /** Body param: Enables Tiered Caching. */
+  value: "on" | "off";
+}
+
+export const PatchTieredCachingRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+    value: Schema.Literals(["on", "off"]),
+  }).pipe(
+    T.Http({ method: "PATCH", path: "/zones/{zone_id}/argo/tiered_caching" }),
+  ) as unknown as Schema.Schema<PatchTieredCachingRequest>;
+
+export interface PatchTieredCachingResponse {
+  /** The identifier of the caching setting. */
+  id: "tiered_caching";
+  /** Whether the setting is editable. */
+  editable: boolean;
+  /** Value of the Tiered Cache zone setting. */
+  value: "on" | "off";
+  /** Last time this setting was modified. */
+  modifiedOn?: string | null;
+}
+
+export const PatchTieredCachingResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.Literal("tiered_caching"),
+    editable: Schema.Boolean,
+    value: Schema.Literals(["on", "off"]),
+    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  ) as unknown as Schema.Schema<PatchTieredCachingResponse>;
+
+export type PatchTieredCachingError = DefaultErrors | InvalidObjectIdentifier;
+
+export const patchTieredCaching: API.OperationMethod<
+  PatchTieredCachingRequest,
+  PatchTieredCachingResponse,
+  PatchTieredCachingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchTieredCachingRequest,
+  output: PatchTieredCachingResponse,
+  errors: [InvalidObjectIdentifier],
+}));

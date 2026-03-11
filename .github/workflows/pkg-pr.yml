@@ -9,10 +9,8 @@ jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      aws: ${{ steps.changes.outputs.aws }}
+      core: ${{ steps.changes.outputs.core }}
       cloudflare: ${{ steps.changes.outputs.cloudflare }}
-      coinbase: ${{ steps.changes.outputs.coinbase }}
-      gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
     steps:
@@ -21,56 +19,33 @@ jobs:
         id: changes
         with:
           filters: |
-            aws:
-              - 'distilled-aws/**'
+            core:
+              - 'packages/core/**'
             cloudflare:
-              - 'distilled-cloudflare/**'
-            coinbase:
-              - 'distilled-coinbase/**'
-            gcp:
-              - 'distilled-gcp/**'
+              - 'packages/cloudflare/**'
             neon:
-              - 'distilled-neon/**'
+              - 'packages/neon/**'
             planetscale:
-              - 'distilled-planetscale/**'
+              - 'packages/planetscale/**'
 
-  pkg-pr-aws:
+  pkg-pr-core:
     needs: detect-changes
-    if: needs.detect-changes.outputs.aws == 'true'
-    runs-on: ubuntu-22-large
+    if: needs.detect-changes.outputs.core == 'true'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       - run: bun install
-      - run: bun run setup --http
-        working-directory: distilled-aws
       - run: bun run build
-        working-directory: distilled-aws
+        working-directory: packages/core
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-aws
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
 
   pkg-pr-cloudflare:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.cloudflare == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run setup --http
-        working-directory: distilled-cloudflare
-      - run: bun run build
-        working-directory: distilled-cloudflare
-      - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-cloudflare
-
-  pkg-pr-coinbase:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.coinbase == 'true'
+    needs: [detect-changes, pkg-pr-core]
+    if: ${{ !failure() && needs.detect-changes.outputs.cloudflare == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -79,30 +54,15 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
-        working-directory: distilled-coinbase
-      - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-coinbase
-
-  pkg-pr-gcp:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.gcp == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run setup
-        working-directory: distilled-gcp
+        working-directory: packages/core
       - run: bun run build
-        working-directory: distilled-gcp
+        working-directory: packages/cloudflare
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-gcp
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
 
   pkg-pr-neon:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.neon == 'true'
+    needs: [detect-changes, pkg-pr-cloudflare]
+    if: ${{ !failure() && needs.detect-changes.outputs.neon == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -111,13 +71,15 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
-        working-directory: distilled-neon
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/neon
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-neon
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
 
   pkg-pr-planetscale:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.planetscale == 'true'
+    needs: [detect-changes, pkg-pr-neon]
+    if: ${{ !failure() && needs.detect-changes.outputs.planetscale == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -126,6 +88,8 @@ jobs:
           bun-version: latest
       - run: bun install
       - run: bun run build
-        working-directory: distilled-planetscale
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/planetscale
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./distilled-planetscale
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/planetscale
