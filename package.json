@@ -16,6 +16,7 @@
     "specs:fetch": "bun --filter '*' specs:fetch",
     "specs:update": "bun --filter '*' specs:update",
     "bump": "bun ./scripts/bump.ts",
+    "create-sdk": "bun ./scripts/create-sdk.ts",
     "publish:npm": "bun run --filter '@distilled.cloud/core' publish:npm && bun run --filter '*' publish:npm"
   },
   "workspaces": {

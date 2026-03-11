@@ -80,6 +80,23 @@
         "effect": "catalog:",
       },
     },
+    "packages/fly-io": {
+      "name": "@distilled.cloud/fly-io",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
     "packages/gcp": {
       "name": "@distilled.cloud/gcp",
       "version": "0.2.0-alpha",
@@ -90,6 +107,23 @@
       "devDependencies": {
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
+    "packages/mongodb-atlas": {
+      "name": "@distilled.cloud/mongodb-atlas",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
       },
       "peerDependencies": {
         "effect": "catalog:",
@@ -146,8 +180,8 @@
         "effect": "catalog:",
       },
     },
-    "packages/test-dry-run": {
-      "name": "@distilled.cloud/test-dry-run",
+    "packages/turso": {
+      "name": "@distilled.cloud/turso",
       "version": "0.2.0-alpha",
       "dependencies": {
         "@distilled.cloud/core": "workspace:*",
@@ -260,7 +294,11 @@
 
     "@distilled.cloud/core": ["@distilled.cloud/core@workspace:packages/core"],
 
+    "@distilled.cloud/fly-io": ["@distilled.cloud/fly-io@workspace:packages/fly-io"],
+
     "@distilled.cloud/gcp": ["@distilled.cloud/gcp@workspace:packages/gcp"],
+
+    "@distilled.cloud/mongodb-atlas": ["@distilled.cloud/mongodb-atlas@workspace:packages/mongodb-atlas"],
 
     "@distilled.cloud/neon": ["@distilled.cloud/neon@workspace:packages/neon"],
 
@@ -268,7 +306,7 @@
 
     "@distilled.cloud/prisma-postgres": ["@distilled.cloud/prisma-postgres@workspace:packages/prisma-postgres"],
 
-    "@distilled.cloud/test-dry-run": ["@distilled.cloud/test-dry-run@workspace:packages/test-dry-run"],
+    "@distilled.cloud/turso": ["@distilled.cloud/turso@workspace:packages/turso"],
 
     "@effect/platform-bun": ["@effect/platform-bun@4.0.0-beta.25", "", { "dependencies": { "@effect/platform-node-shared": "^4.0.0-beta.25" }, "peerDependencies": { "effect": "^4.0.0-beta.25" } }, "sha512-x+CN+9n7ZFvhv0VCxJILWmik0/DkrVQ2g48Y3HtoVzisMh1IomAYuiG5gBYPAgsyOwE7ssnHf5Et2Swd9tZ/EQ=="],
 

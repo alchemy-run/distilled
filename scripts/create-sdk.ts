@@ -74,16 +74,49 @@ function parseArgs(): Args {
 // Shell Helpers
 // ============================================================================
 
+// On Windows with shell: true, args containing spaces get re-split.
+// Quote them so the shell treats each as a single token.
+function shellQuoteArgs(args: string[]): string[] {
+  if (process.platform !== "win32") return args;
+  return args.map((a) => (a.includes(" ") ? `"${a}"` : a));
+}
+
 function run(
   cmd: string,
   args: string[],
-  opts?: { cwd?: string; ignoreError?: boolean },
+  opts?: { cwd?: string; ignoreError?: boolean; interactive?: boolean },
 ): Promise<{ stdout: string; stderr: string; code: number }> {
+  const isWin = process.platform === "win32";
+  const quotedArgs = shellQuoteArgs(args);
+
   return new Promise((resolve, reject) => {
-    const cp = spawn(cmd, args, {
+    // Interactive mode inherits stdio so the user can respond to prompts
+    // (e.g. npm hardware key OTP, browser auth flows)
+    if (opts?.interactive) {
+      const cp = spawn(cmd, quotedArgs, {
+        cwd: opts?.cwd ?? ROOT,
+        stdio: "inherit",
+        shell: isWin,
+      });
+      cp.on("close", (code: number) => {
+        if (code !== 0 && !opts?.ignoreError) {
+          reject(
+            new Error(
+              `Command failed (${code}): ${cmd} ${args.join(" ")}`,
+            ),
+          );
+        } else {
+          resolve({ stdout: "", stderr: "", code: code ?? 0 });
+        }
+      });
+      cp.on("error", reject);
+      return;
+    }
+
+    const cp = spawn(cmd, quotedArgs, {
       cwd: opts?.cwd ?? ROOT,
       stdio: ["ignore", "pipe", "pipe"],
-      shell: process.platform === "win32",
+      shell: isWin,
     });
     let stdout = "";
     let stderr = "";
@@ -150,13 +183,30 @@ async function registerNpmPackage(name: string): Promise<void> {
   console.log(`\n📦 Registering npm package: ${pkgName}@0.0.0`);
 
   // Check if package already exists on npm
-  const { code } = await run("npm", ["view", pkgName, "version"], {
-    ignoreError: true,
-  });
+  // npm view returns 0 if found, non-zero if not (including 404)
+  const { code, stdout } = await run(
+    "npm",
+    ["view", pkgName, "version"],
+    { ignoreError: true },
+  );
 
-  if (code === 0) {
+  if (code === 0 && stdout.trim().length > 0) {
     console.log(
-      `⚠️  Package ${pkgName} already exists on npm, skipping registration`,
+      `⚠️  Package ${pkgName}@${stdout.trim()} already exists on npm, skipping registration`,
+    );
+    return;
+  }
+
+  // Also check specifically for 0.0.0 — registry propagation can be slow
+  const { code: code2 } = await run(
+    "npm",
+    ["view", `${pkgName}@0.0.0`, "version"],
+    { ignoreError: true },
+  );
+
+  if (code2 === 0) {
+    console.log(
+      `⚠️  Package ${pkgName}@0.0.0 already exists on npm, skipping registration`,
     );
     return;
   }
@@ -189,9 +239,19 @@ async function registerNpmPackage(name: string): Promise<void> {
     `// Placeholder — this package will be replaced by the generated SDK.\nexport {};\n`,
   );
 
-  await run("npm", ["publish", "--access", "public"], { cwd: tmpDir });
+  const { code: publishCode } = await run(
+    "npm",
+    ["publish", "--access", "public"],
+    { cwd: tmpDir, interactive: true, ignoreError: true },
+  );
 
-  console.log(`✅ Published ${pkgName}@0.0.0`);
+  if (publishCode === 0) {
+    console.log(`✅ Published ${pkgName}@0.0.0`);
+  } else {
+    console.log(
+      `⚠️  npm publish exited with code ${publishCode} — package may already exist or auth was cancelled. Continuing...`,
+    );
+  }
 }
 
 // ============================================================================
@@ -1350,6 +1410,11 @@ Please review and refine the following files:
 
 Review the generated operations in packages/${name}/src/operations/ to make sure they look reasonable. If something seems wrong with generation, check the spec path and try regenerating.
 
+5. **Final verification** — As your LAST step, you MUST run the following commands from packages/${name}/ and ensure they succeed:
+   - \`bun run generate\` — regenerate from spec (must exit 0)
+   - \`bun run typecheck\` — type check the package (must exit 0)
+   If either fails, fix the issue and re-run until both pass.
+
 DO NOT create tests. DO NOT modify files in packages/core/. DO NOT modify any CI/workflow files.
 Only modify files within packages/${name}/.
 
@@ -1409,18 +1474,7 @@ async function main() {
   // Step 6: Refine with opencode
   await refineWithOpencode(name, specInfo);
 
-  // Step 7: Format and lint
-  console.log("\n🧹 Formatting and linting...");
   const pkgDir = path.join(ROOT, "packages", name);
-  await run("bun", ["run", "fmt"], { cwd: pkgDir, ignoreError: true });
-  await run("bun", ["run", "lint"], { cwd: pkgDir, ignoreError: true });
-
-  // Step 8: Type check
-  console.log("\n🔍 Type checking...");
-  await run("bun", ["run", "typecheck"], {
-    cwd: pkgDir,
-    ignoreError: true,
-  });
 
   console.log(`
 ✨ SDK package created successfully!
