@@ -18,7 +18,7 @@ const bucket = yield* S3.getBucket({
 
 | Package | Description |
 |---------|-------------|
-| [`@distilled.cloud/sdk-core`](./packages/core) | Shared client, traits, errors, and categories |
+| [`@distilled.cloud/core`](./packages/core) | Shared client, traits, errors, and categories |
 | [`@distilled.cloud/aws`](./packages/aws) | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
 | [`@distilled.cloud/cloudflare`](./packages/cloudflare) | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS) |
 | [`@distilled.cloud/fly-io`](./packages/fly-io) | Fly.io SDK from OpenAPI spec |
