@@ -180,6 +180,40 @@
         "effect": "catalog:",
       },
     },
+    "packages/stripe": {
+      "name": "@distilled.cloud/stripe",
+      "version": "0.1.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
+    "packages/supabase": {
+      "name": "@distilled.cloud/supabase",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
     "packages/turso": {
       "name": "@distilled.cloud/turso",
       "version": "0.2.0-alpha",
@@ -305,6 +339,10 @@
     "@distilled.cloud/planetscale": ["@distilled.cloud/planetscale@workspace:packages/planetscale"],
 
     "@distilled.cloud/prisma-postgres": ["@distilled.cloud/prisma-postgres@workspace:packages/prisma-postgres"],
+
+    "@distilled.cloud/stripe": ["@distilled.cloud/stripe@workspace:packages/stripe"],
+
+    "@distilled.cloud/supabase": ["@distilled.cloud/supabase@workspace:packages/supabase"],
 
     "@distilled.cloud/turso": ["@distilled.cloud/turso@workspace:packages/turso"],
 

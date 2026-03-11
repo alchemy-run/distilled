@@ -22,6 +22,11 @@ jobs:
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
+      stripe: ${{ steps.changes.outputs.stripe }}
+      supabase: ${{ steps.changes.outputs.supabase }}
+      mongodb-atlas: ${{ steps.changes.outputs.mongodb-atlas }}
+      fly-io: ${{ steps.changes.outputs.fly-io }}
+      turso: ${{ steps.changes.outputs.turso }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -47,6 +52,21 @@ jobs:
               - 'packages/core/**'
             prisma-postgres:
               - 'packages/prisma-postgres/**'
+              - 'packages/core/**'
+            stripe:
+              - 'packages/stripe/**'
+              - 'packages/core/**'
+            supabase:
+              - 'packages/supabase/**'
+              - 'packages/core/**'
+            mongodb-atlas:
+              - 'packages/mongodb-atlas/**'
+              - 'packages/core/**'
+            fly-io:
+              - 'packages/fly-io/**'
+              - 'packages/core/**'
+            turso:
+              - 'packages/turso/**'
               - 'packages/core/**'
 
   ci-core:
@@ -180,6 +200,36 @@ jobs:
         working-directory: packages/core
       - run: bun run check
         working-directory: packages/prisma-postgres
+
+  ci-stripe:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.stripe == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/stripe
+
+  ci-supabase:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.supabase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/supabase
 
   ci-mongodb-atlas:
     needs: detect-changes

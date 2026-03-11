@@ -201,7 +201,9 @@ function capitalize(s: string): string {
 }
 
 function toCamelCase(s: string): string {
-  return s.replace(/_([a-z])/g, (_, c) => c.toUpperCase());
+  return s
+    .replace(/[-_\s]+([a-zA-Z])/g, (_, c) => c.toUpperCase())
+    .replace(/[^a-zA-Z0-9$]/g, "");
 }
 
 function toPascalCase(s: string): string {
@@ -210,6 +212,10 @@ function toPascalCase(s: string): string {
 
 function operationIdToFunctionName(operationId: string): string {
   return toCamelCase(operationId);
+}
+
+function escapeStringLiteral(s: string): string {
+  return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/`/g, "\\`");
 }
 
 // ============================================================================
@@ -345,7 +351,7 @@ function openApiTypeToEffectSchema(
 
   // Handle enum
   if (prop.enum && prop.enum.length > 0) {
-    const literals = prop.enum.map((v) => `"${v}"`).join(", ");
+    const literals = prop.enum.map((v) => `"${escapeStringLiteral(String(v))}"`).join(", ");
     const baseSchema = `Schema.Literals([${literals}])`;
     return isNullable(prop) ? `Schema.NullOr(${baseSchema})` : baseSchema;
   }
@@ -587,7 +593,7 @@ function generateInputSchemaSwagger(
   // Path parameters
   for (const param of pathParams) {
     const baseSchema = param.enum
-      ? `Schema.Literals([${param.enum.map((v) => `"${v}"`).join(", ")}])`
+      ? `Schema.Literals([${param.enum.map((v) => `"${escapeStringLiteral(String(v))}"`).join(", ")}])`
       : param.type === "integer"
         ? "Schema.Number"
         : "Schema.String";
@@ -602,7 +608,7 @@ function generateInputSchemaSwagger(
         : param.type === "boolean"
           ? "Schema.Boolean"
           : param.enum
-            ? `Schema.Literals([${param.enum.map((v) => `"${v}"`).join(", ")}])`
+            ? `Schema.Literals([${param.enum.map((v) => `"${escapeStringLiteral(String(v))}"`).join(", ")}])`
             : "Schema.String";
 
     if (!param.required) {
@@ -692,7 +698,7 @@ function generateInputSchema3(
     const schema = param.schema;
     const baseSchema =
       schema?.enum && schema.enum.length > 0
-        ? `Schema.Literals([${schema.enum.map((v) => `"${v}"`).join(", ")}])`
+        ? `Schema.Literals([${schema.enum.map((v) => `"${escapeStringLiteral(String(v))}"`).join(", ")}])`
         : schema?.type === "integer" || schema?.type === "number"
           ? "Schema.Number"
           : "Schema.String";
@@ -710,7 +716,7 @@ function generateInputSchema3(
         : schema?.type === "boolean"
           ? "Schema.Boolean"
           : schema?.enum && schema.enum.length > 0
-            ? `Schema.Literals([${schema.enum.map((v) => `"${v}"`).join(", ")}])`
+            ? `Schema.Literals([${schema.enum.map((v) => `"${escapeStringLiteral(String(v))}"`).join(", ")}])`
             : "Schema.String";
 
     if (!param.required) {
@@ -719,11 +725,21 @@ function generateInputSchema3(
     fields.push(`  ${param.name}: ${schemaStr},`);
   }
 
-  // Request body
+  // Request body — check for JSON, form-urlencoded, or multipart content
+  let bodyContentType: string | undefined;
   if (requestBody?.content) {
     const jsonContent = requestBody.content["application/json"];
-    if (jsonContent?.schema) {
-      let bodySchema = jsonContent.schema;
+    const formContent =
+      requestBody.content["application/x-www-form-urlencoded"];
+    const multipartContent = requestBody.content["multipart/form-data"];
+    const bodyContent = jsonContent ?? formContent ?? multipartContent;
+    if (formContent && !jsonContent) {
+      bodyContentType = "form-urlencoded";
+    } else if (multipartContent && !jsonContent && !formContent) {
+      bodyContentType = "multipart";
+    }
+    if (bodyContent?.schema) {
+      let bodySchema = bodyContent.schema;
       if (bodySchema.$ref) {
         bodySchema = resolveRef(spec, bodySchema.$ref);
       }
@@ -743,10 +759,15 @@ function generateInputSchema3(
     }
   }
 
+  const httpTraitParts = [`method: "${method.toUpperCase()}"`, `path: "${pathTemplate}"`];
+  if (bodyContentType) {
+    httpTraitParts.push(`contentType: "${bodyContentType}"`);
+  }
+
   const inputSchemaCode =
     annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) +
+}).pipe(T.Http({ ${httpTraitParts.join(", ")} }));`) +
     `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 

@@ -162,6 +162,76 @@ function isArrayAST(ast: AST.AST): boolean {
 }
 
 // ============================================================================
+// Form URL-Encoded Builder (Stripe deepObject style)
+// ============================================================================
+
+/**
+ * Recursively flatten a nested object into Stripe-style bracket notation
+ * for application/x-www-form-urlencoded encoding.
+ *
+ * Examples:
+ *   { amount: 2000 } -> "amount=2000"
+ *   { shipping: { address: { city: "SF" } } } -> "shipping[address][city]=SF"
+ *   { expand: ["data"] } -> "expand[0]=data"
+ *   { metadata: { key: "val" } } -> "metadata[key]=val"
+ */
+function flattenToFormPairs(
+  obj: Record<string, unknown>,
+  prefix: string = "",
+): Array<[string, string]> {
+  const pairs: Array<[string, string]> = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (value === undefined || value === null) continue;
+
+    const fullKey = prefix ? `${prefix}[${key}]` : key;
+
+    if (Array.isArray(value)) {
+      for (let i = 0; i < value.length; i++) {
+        const item = value[i];
+        if (
+          item !== null &&
+          item !== undefined &&
+          typeof item === "object" &&
+          !Array.isArray(item)
+        ) {
+          pairs.push(
+            ...flattenToFormPairs(
+              item as Record<string, unknown>,
+              `${fullKey}[${i}]`,
+            ),
+          );
+        } else if (item !== undefined && item !== null) {
+          pairs.push([`${fullKey}[${i}]`, String(item)]);
+        }
+      }
+    } else if (typeof value === "object") {
+      pairs.push(
+        ...flattenToFormPairs(value as Record<string, unknown>, fullKey),
+      );
+    } else if (typeof value === "boolean") {
+      pairs.push([fullKey, value ? "true" : "false"]);
+    } else {
+      pairs.push([fullKey, String(value)]);
+    }
+  }
+
+  return pairs;
+}
+
+/**
+ * Build a URLSearchParams from a nested object using Stripe deepObject encoding.
+ */
+function buildFormUrlEncoded(body: Record<string, unknown>): string {
+  const pairs = flattenToFormPairs(body);
+  const params = new URLSearchParams();
+  for (const [key, value] of pairs) {
+    params.append(key, value);
+  }
+  return params.toString();
+}
+
+// ============================================================================
 // Multipart FormData Builder
 // ============================================================================
 
@@ -291,8 +361,19 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
             HttpClientRequest.setHeader("Accept", "application/json"),
           );
 
-          // Set Content-Type based on body type (skip for FormData — browser sets boundary)
-          if (!parts.isMultipart) {
+          // Set Content-Type based on body type
+          // - Skip for FormData (multipart) — browser sets boundary
+          // - Use form-urlencoded for Stripe-style APIs
+          // - Default to JSON
+          const isFormUrlEncoded = httpTrait.contentType === "form-urlencoded";
+          if (parts.isMultipart) {
+            // browser/runtime sets Content-Type with boundary
+          } else if (isFormUrlEncoded) {
+            request = HttpClientRequest.setHeader(
+              "Content-Type",
+              "application/x-www-form-urlencoded",
+            )(request);
+          } else {
             request = HttpClientRequest.setHeader(
               "Content-Type",
               "application/json",
@@ -311,6 +392,14 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
               request = HttpClientRequest.setBody(HttpBody.formData(formData))(
                 request,
               );
+            } else if (isFormUrlEncoded) {
+              // Encode body as form-urlencoded with deepObject bracket notation
+              const encoded = buildFormUrlEncoded(
+                parts.body as Record<string, unknown>,
+              );
+              request = HttpClientRequest.setBody(
+                HttpBody.text(encoded, "application/x-www-form-urlencoded"),
+              )(request);
             } else {
               request = yield* HttpClientRequest.bodyJson(parts.body)(request);
             }
