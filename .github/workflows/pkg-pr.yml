@@ -44,8 +44,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
 
   pkg-pr-cloudflare:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.cloudflare == 'true'
+    needs: [detect-changes, pkg-pr-core]
+    if: ${{ !failure() && needs.detect-changes.outputs.cloudflare == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -61,8 +61,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
 
   pkg-pr-neon:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.neon == 'true'
+    needs: [detect-changes, pkg-pr-cloudflare]
+    if: ${{ !failure() && needs.detect-changes.outputs.neon == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -78,8 +78,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
 
   pkg-pr-planetscale:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.planetscale == 'true'
+    needs: [detect-changes, pkg-pr-neon]
+    if: ${{ !failure() && needs.detect-changes.outputs.planetscale == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
