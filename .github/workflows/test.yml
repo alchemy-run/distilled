@@ -21,6 +21,7 @@ jobs:
       gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
+      prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -43,6 +44,9 @@ jobs:
               - 'packages/core/**'
             planetscale:
               - 'packages/planetscale/**'
+              - 'packages/core/**'
+            prisma-postgres:
+              - 'packages/prisma-postgres/**'
               - 'packages/core/**'
 
   ci-core:
@@ -161,3 +165,18 @@ jobs:
         env:
           PLANETSCALE_API_TOKEN: ${{ secrets.PLANETSCALE_API_TOKEN }}
           PLANETSCALE_ORGANIZATION: ${{ secrets.PLANETSCALE_ORGANIZATION }}
+
+  ci-prisma-postgres:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.prisma-postgres == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/prisma-postgres

@@ -12,7 +12,8 @@ distilled/
 │   ├── cloudflare/       # @distilled.cloud/cloudflare — Cloudflare SDK from TypeScript SDK
 │   ├── gcp/              # @distilled.cloud/gcp — GCP SDK from Discovery Documents
 │   ├── neon/             # @distilled.cloud/neon — Neon SDK from OpenAPI spec
-│   └── planetscale/      # @distilled.cloud/planetscale — PlanetScale SDK from OpenAPI spec
+│   ├── planetscale/      # @distilled.cloud/planetscale — PlanetScale SDK from OpenAPI spec
+│   └── prisma-postgres/  # @distilled.cloud/prisma-postgres — Prisma Postgres SDK from OpenAPI spec
 ├── scripts/              # Root-level scripts (e.g. generate-pnpm-workspace.yaml.ts)
 ├── .github/workflows/    # CI (test.yml) and preview publishing (pkg-pr.yml)
 └── AGENTS.md             # This file
@@ -95,6 +96,7 @@ Each SDK package has vendor API specifications stored as git submodules under `s
 | `gcp` | `specs/distilled-spec-gcp` | GCP Discovery Documents |
 | `neon` | `specs/distilled-spec-neon` | Neon OpenAPI spec |
 | `planetscale` | `specs/distilled-spec-planetscale` | PlanetScale OpenAPI spec |
+| `prisma-postgres` | `specs/distilled-spec-prisma-postgres` | Prisma Postgres OpenAPI spec |
 
 **Submodules are NOT needed for building or typechecking.** They're only needed for code generation (`bun run generate`), with the exception of `aws` which also needs its submodules for testing.
 
@@ -124,6 +126,7 @@ Each SDK uses a patch system to fix vendor spec inaccuracies. When you encounter
 | `gcp` | gRPC status matchers | `patch/{service}/{operation}.json` |
 | `neon` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
 | `planetscale` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
+| `prisma-postgres` | JSON Patch (RFC 6902) | `specs/*.patch.json` |
 
 ## Effect 4 (IMPORTANT)
 
