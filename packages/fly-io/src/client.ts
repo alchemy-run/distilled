@@ -7,10 +7,14 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
-import { HTTP_STATUS_MAP, UnknownFly-ioError, Fly-ioParseError } from "./errors.ts";
+import {
+  HTTP_STATUS_MAP,
+  UnknownFlyIoError,
+  FlyIoParseError,
+} from "./errors.ts";
 
 // Re-export for backwards compatibility
-export { UnknownFly-ioError } from "./errors.ts";
+export { UnknownFlyIoError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema
@@ -33,14 +37,14 @@ const matchError = (
       return Effect.fail(new ErrorClass({ message: parsed.message ?? "" }));
     }
     return Effect.fail(
-      new UnknownFly-ioError({
+      new UnknownFlyIoError({
         code: parsed.code,
         message: parsed.message,
         body: errorBody,
       }),
     );
   } catch {
-    return Effect.fail(new UnknownFly-ioError({ body: errorBody }));
+    return Effect.fail(new UnknownFlyIoError({ body: errorBody }));
   }
 };
 
@@ -54,5 +58,5 @@ export const API = makeAPI({
     Authorization: `Bearer ${creds.apiKey}`,
   }),
   matchError,
-  ParseError: Fly-ioParseError as any,
+  ParseError: FlyIoParseError as any,
 });

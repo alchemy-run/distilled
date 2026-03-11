@@ -28,8 +28,8 @@ import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 
 // Unknown Fly-io error - returned when an error code is not recognized
-export class UnknownFly-ioError extends Schema.TaggedErrorClass<UnknownFly-ioError>()(
-  "UnknownFly-ioError",
+export class UnknownFlyIoError extends Schema.TaggedErrorClass<UnknownFlyIoError>()(
+  "UnknownFlyIoError",
   {
     code: Schema.optional(Schema.String),
     message: Schema.optional(Schema.String),
@@ -38,8 +38,8 @@ export class UnknownFly-ioError extends Schema.TaggedErrorClass<UnknownFly-ioErr
 ).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class Fly-ioParseError extends Schema.TaggedErrorClass<Fly-ioParseError>()(
-  "Fly-ioParseError",
+export class FlyIoParseError extends Schema.TaggedErrorClass<FlyIoParseError>()(
+  "FlyIoParseError",
   {
     body: Schema.Unknown,
     cause: Schema.Unknown,
