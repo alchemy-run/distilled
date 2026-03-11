@@ -25,3 +25,6 @@
 [submodule "packages/prisma-postgres/specs/distilled-spec-prisma-postgres"]
 	path = packages/prisma-postgres/specs/distilled-spec-prisma-postgres
 	url = https://github.com/alchemy-run/distilled-spec-prisma-postgres.git
+[submodule "packages/stripe/specs/stripe-openapi"]
+	path = packages/stripe/specs/stripe-openapi
+	url = https://github.com/stripe/openapi.git

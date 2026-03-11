@@ -719,11 +719,21 @@ function generateInputSchema3(
     fields.push(`  ${param.name}: ${schemaStr},`);
   }
 
-  // Request body
+  // Request body — check for JSON, form-urlencoded, or multipart content
+  let bodyContentType: string | undefined;
   if (requestBody?.content) {
     const jsonContent = requestBody.content["application/json"];
-    if (jsonContent?.schema) {
-      let bodySchema = jsonContent.schema;
+    const formContent =
+      requestBody.content["application/x-www-form-urlencoded"];
+    const multipartContent = requestBody.content["multipart/form-data"];
+    const bodyContent = jsonContent ?? formContent ?? multipartContent;
+    if (formContent && !jsonContent) {
+      bodyContentType = "form-urlencoded";
+    } else if (multipartContent && !jsonContent && !formContent) {
+      bodyContentType = "multipart";
+    }
+    if (bodyContent?.schema) {
+      let bodySchema = bodyContent.schema;
       if (bodySchema.$ref) {
         bodySchema = resolveRef(spec, bodySchema.$ref);
       }
@@ -743,10 +753,15 @@ function generateInputSchema3(
     }
   }
 
+  const httpTraitParts = [`method: "${method.toUpperCase()}"`, `path: "${pathTemplate}"`];
+  if (bodyContentType) {
+    httpTraitParts.push(`contentType: "${bodyContentType}"`);
+  }
+
   const inputSchemaCode =
     annotatePureExportConst(`export const ${inputSchemaName} = Schema.Struct({
 ${fields.join("\n")}
-}).pipe(T.Http({ method: "${method.toUpperCase()}", path: "${pathTemplate}" }));`) +
+}).pipe(T.Http({ ${httpTraitParts.join(", ")} }));`) +
     `
 export type ${inputSchemaName} = typeof ${inputSchemaName}.Type;`;
 
