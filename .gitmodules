@@ -25,3 +25,12 @@
 [submodule "packages/prisma-postgres/specs/distilled-spec-prisma-postgres"]
 	path = packages/prisma-postgres/specs/distilled-spec-prisma-postgres
 	url = https://github.com/alchemy-run/distilled-spec-prisma-postgres.git
+[submodule "packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas"]
+	path = packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas
+	url = https://github.com/alchemy-run/distilled-spec-mongodb-atlas.git
+[submodule "packages/fly-io/specs/distilled-spec-fly-io"]
+	path = packages/fly-io/specs/distilled-spec-fly-io
+	url = https://github.com/alchemy-run/distilled-spec-fly-io.git
+[submodule "packages/turso/specs/turso-docs"]
+	path = packages/turso/specs/turso-docs
+	url = https://github.com/tursodatabase/turso-docs.git
