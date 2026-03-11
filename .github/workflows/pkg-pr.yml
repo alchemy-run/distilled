@@ -10,9 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       core: ${{ steps.changes.outputs.core }}
-      aws: ${{ steps.changes.outputs.aws }}
       cloudflare: ${{ steps.changes.outputs.cloudflare }}
-      gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
     steps:
@@ -23,12 +21,8 @@ jobs:
           filters: |
             core:
               - 'packages/core/**'
-            aws:
-              - 'packages/aws/**'
             cloudflare:
               - 'packages/cloudflare/**'
-            gcp:
-              - 'packages/gcp/**'
             neon:
               - 'packages/neon/**'
             planetscale:
@@ -49,23 +43,6 @@ jobs:
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
 
-  pkg-pr-aws:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.aws == 'true'
-    runs-on: ubuntu-22-large
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run build
-        working-directory: packages/core
-      - run: bun run build
-        working-directory: packages/aws
-      - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/aws
-
   pkg-pr-cloudflare:
     needs: detect-changes
     if: needs.detect-changes.outputs.cloudflare == 'true'
@@ -82,23 +59,6 @@ jobs:
         working-directory: packages/cloudflare
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
-
-  pkg-pr-gcp:
-    needs: detect-changes
-    if: needs.detect-changes.outputs.gcp == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run build
-        working-directory: packages/core
-      - run: bun run build
-        working-directory: packages/gcp
-      - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/gcp
 
   pkg-pr-neon:
     needs: detect-changes
