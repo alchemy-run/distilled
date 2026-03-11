@@ -234,6 +234,10 @@ someOperation({ id: "non-existent" }).pipe(
 );
 ```
 
+### AI-WORKSPACE
+
+There is `.ai-workspace` in the git ignore, this is designed as a workspace for ai agents to write files and try things without polluting the workspace.
+
 ### Key Rules
 
 - **Always clean up** — use `Effect.ensuring` or try/finally with `Effect.ignore` on cleanup

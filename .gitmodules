@@ -31,3 +31,12 @@
 [submodule "packages/supabase/specs/distilled-spec-supabase"]
 	path = packages/supabase/specs/distilled-spec-supabase
 	url = https://github.com/alchemy-run/distilled-spec-supabase.git
+[submodule "packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas"]
+	path = packages/mongodb-atlas/specs/distilled-spec-mongodb-atlas
+	url = https://github.com/alchemy-run/distilled-spec-mongodb-atlas.git
+[submodule "packages/fly-io/specs/distilled-spec-fly-io"]
+	path = packages/fly-io/specs/distilled-spec-fly-io
+	url = https://github.com/alchemy-run/distilled-spec-fly-io.git
+[submodule "packages/turso/specs/turso-docs"]
+	path = packages/turso/specs/turso-docs
+	url = https://github.com/tursodatabase/turso-docs.git

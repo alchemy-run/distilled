@@ -16,6 +16,9 @@ jobs:
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
       stripe: ${{ steps.changes.outputs.stripe }}
       supabase: ${{ steps.changes.outputs.supabase }}
+      mongodb-atlas: ${{ steps.changes.outputs.mongodb-atlas }}
+      fly-io: ${{ steps.changes.outputs.fly-io }}
+      turso: ${{ steps.changes.outputs.turso }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -36,6 +39,12 @@ jobs:
               - 'packages/stripe/**'
             supabase:
               - 'packages/supabase/**'
+            mongodb-atlas:
+              - 'packages/mongodb-atlas/**'
+            fly-io:
+              - 'packages/fly-io/**'
+            turso:
+              - 'packages/turso/**'
 
   pkg-pr-core:
     needs: detect-changes
@@ -153,3 +162,54 @@ jobs:
         working-directory: packages/supabase
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/supabase
+
+  pkg-pr-mongodb-atlas:
+    needs: [detect-changes, pkg-pr-supabase]
+    if: ${{ !failure() && needs.detect-changes.outputs.mongodb-atlas == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/mongodb-atlas
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/mongodb-atlas
+
+  pkg-pr-fly-io:
+    needs: [detect-changes, pkg-pr-supabase]
+    if: ${{ !failure() && needs.detect-changes.outputs.fly-io == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/fly-io
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/fly-io
+
+  pkg-pr-turso:
+    needs: [detect-changes, pkg-pr-supabase]
+    if: ${{ !failure() && needs.detect-changes.outputs.turso == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/turso
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/turso

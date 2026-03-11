@@ -4,3 +4,4 @@ node_modules
 lib/
 .env
 pnpm-workspace.yaml
+.ai-workspace

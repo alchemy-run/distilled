@@ -24,6 +24,9 @@ jobs:
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
       stripe: ${{ steps.changes.outputs.stripe }}
       supabase: ${{ steps.changes.outputs.supabase }}
+      mongodb-atlas: ${{ steps.changes.outputs.mongodb-atlas }}
+      fly-io: ${{ steps.changes.outputs.fly-io }}
+      turso: ${{ steps.changes.outputs.turso }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -55,6 +58,15 @@ jobs:
               - 'packages/core/**'
             supabase:
               - 'packages/supabase/**'
+              - 'packages/core/**'
+            mongodb-atlas:
+              - 'packages/mongodb-atlas/**'
+              - 'packages/core/**'
+            fly-io:
+              - 'packages/fly-io/**'
+              - 'packages/core/**'
+            turso:
+              - 'packages/turso/**'
               - 'packages/core/**'
 
   ci-core:
@@ -218,3 +230,48 @@ jobs:
         working-directory: packages/core
       - run: bun run check
         working-directory: packages/supabase
+
+  ci-mongodb-atlas:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mongodb-atlas == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/mongodb-atlas
+
+  ci-fly-io:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.fly-io == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/fly-io
+
+  ci-turso:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.turso == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/turso
