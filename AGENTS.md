@@ -10,11 +10,17 @@ distilled/
 │   ├── core/             # @distilled.cloud/sdk-core — shared client, traits, errors, categories
 │   ├── aws/              # @distilled.cloud/aws — AWS SDK from Smithy models
 │   ├── cloudflare/       # @distilled.cloud/cloudflare — Cloudflare SDK from TypeScript SDK
+│   ├── fly-io/           # @distilled.cloud/fly-io — Fly.io SDK from OpenAPI spec
 │   ├── gcp/              # @distilled.cloud/gcp — GCP SDK from Discovery Documents
+│   ├── mongodb-atlas/    # @distilled.cloud/mongodb-atlas — MongoDB Atlas SDK from OpenAPI spec
 │   ├── neon/             # @distilled.cloud/neon — Neon SDK from OpenAPI spec
 │   ├── planetscale/      # @distilled.cloud/planetscale — PlanetScale SDK from OpenAPI spec
-│   └── prisma-postgres/  # @distilled.cloud/prisma-postgres — Prisma Postgres SDK from OpenAPI spec
-├── scripts/              # Root-level scripts (e.g. generate-pnpm-workspace.yaml.ts)
+│   ├── prisma-postgres/  # @distilled.cloud/prisma-postgres — Prisma Postgres SDK from OpenAPI spec
+│   ├── stripe/           # @distilled.cloud/stripe — Stripe SDK from OpenAPI spec
+│   ├── supabase/         # @distilled.cloud/supabase — Supabase SDK from OpenAPI spec
+│   └── turso/            # @distilled.cloud/turso — Turso SDK from OpenAPI spec
+├── scripts/              # Root-level scripts (create-sdk.ts, bump.ts, etc.)
+├── .opencode/skills/     # OpenCode skill definitions (e.g. refine-sdk)
 ├── .github/workflows/    # CI (test.yml) and preview publishing (pkg-pr.yml)
 └── AGENTS.md             # This file
 ```
@@ -85,6 +91,28 @@ bun run build  # Builds core first, then all packages in parallel
 
 Core must be built before other packages because they resolve `@distilled.cloud/sdk-core/*` via the `types` export condition pointing to `lib/*.d.ts`.
 
+### Scaffolding a New SDK
+
+Use `create-sdk` to scaffold a new SDK package with all boilerplate, submodule setup, and code generation:
+
+```bash
+bun run create-sdk <name> --specs <url-or-repo>... [--register-package]
+```
+
+Examples:
+```bash
+# OpenAPI spec URL → creates distilled-spec-* mirror repo
+bun run create-sdk stripe --specs https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json
+
+# Git repo → adds as direct submodule
+bun run create-sdk stripe --specs https://github.com/stripe/openapi.git
+
+# Publish a 0.0.0 placeholder to npm
+bun run create-sdk foo --specs https://api.foo.com/openapi.json --register-package
+```
+
+After scaffolding, use the `refine-sdk` skill (`.opencode/skills/refine-sdk/SKILL.md`) to review the OpenAPI spec and update credentials, client error handling, and auth to match the actual API.
+
 ## Submodules and Specs
 
 Each SDK package has vendor API specifications stored as git submodules under `specs/`:
@@ -93,10 +121,15 @@ Each SDK package has vendor API specifications stored as git submodules under `s
 |---------|-------------|----------|
 | `aws` | `specs/api-models-aws`, `specs/aws-sdk-js-v3`, `specs/smithy`, `specs/smithy-typescript` | Smithy models, reference SDK, Smithy spec |
 | `cloudflare` | `specs/cloudflare-typescript` | Cloudflare TypeScript SDK source |
+| `fly-io` | `specs/distilled-spec-fly-io` | Fly.io OpenAPI spec |
 | `gcp` | `specs/distilled-spec-gcp` | GCP Discovery Documents |
+| `mongodb-atlas` | `specs/distilled-spec-mongodb-atlas` | MongoDB Atlas OpenAPI spec |
 | `neon` | `specs/distilled-spec-neon` | Neon OpenAPI spec |
 | `planetscale` | `specs/distilled-spec-planetscale` | PlanetScale OpenAPI spec |
 | `prisma-postgres` | `specs/distilled-spec-prisma-postgres` | Prisma Postgres OpenAPI spec |
+| `stripe` | `specs/stripe-openapi` | Stripe OpenAPI spec |
+| `supabase` | `specs/distilled-spec-supabase` | Supabase OpenAPI spec |
+| `turso` | `specs/turso-docs` | Turso API docs |
 
 **Submodules are NOT needed for building or typechecking.** They're only needed for code generation (`bun run generate`), with the exception of `aws` which also needs its submodules for testing.
 

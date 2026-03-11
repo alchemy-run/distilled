@@ -8,7 +8,7 @@ import * as S3 from "@distilled.cloud/aws/s3"
 const bucket = yield* S3.getBucket({
   Bucket: "my-bucket"
 }).pipe(
-  Effect.catchTag("NoSuchBucket", () =>
+  Effect.catch("NoSuchBucket", () =>
     Effect.void
   )
 )
@@ -21,11 +21,15 @@ const bucket = yield* S3.getBucket({
 | [`@distilled.cloud/sdk-core`](./packages/core) | Shared client, traits, errors, and categories |
 | [`@distilled.cloud/aws`](./packages/aws) | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
 | [`@distilled.cloud/cloudflare`](./packages/cloudflare) | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS) |
+| [`@distilled.cloud/fly-io`](./packages/fly-io) | Fly.io SDK from OpenAPI spec |
 | [`@distilled.cloud/gcp`](./packages/gcp) | GCP SDK from Discovery Documents |
+| [`@distilled.cloud/mongodb-atlas`](./packages/mongodb-atlas) | MongoDB Atlas SDK from OpenAPI spec |
 | [`@distilled.cloud/neon`](./packages/neon) | Neon serverless Postgres SDK from OpenAPI spec |
 | [`@distilled.cloud/planetscale`](./packages/planetscale) | PlanetScale MySQL SDK from OpenAPI spec |
 | [`@distilled.cloud/prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec |
+| [`@distilled.cloud/stripe`](./packages/stripe) | Stripe SDK from OpenAPI spec |
 | [`@distilled.cloud/supabase`](./packages/supabase) | Supabase Management API SDK from OpenAPI spec |
+| [`@distilled.cloud/turso`](./packages/turso) | Turso SDK from OpenAPI spec |
 
 ## Getting Started
 
@@ -74,11 +78,15 @@ bun run specs:update   # run inside a package directory
 |---------|-----------|
 | `aws` | `api-models-aws`, `aws-sdk-js-v3`, `smithy`, `smithy-typescript` |
 | `cloudflare` | `cloudflare-typescript` |
+| `fly-io` | `distilled-spec-fly-io` |
 | `gcp` | `distilled-spec-gcp` |
+| `mongodb-atlas` | `distilled-spec-mongodb-atlas` |
 | `neon` | `distilled-spec-neon` |
 | `planetscale` | `distilled-spec-planetscale` |
 | `prisma-postgres` | `distilled-spec-prisma-postgres` |
+| `stripe` | `stripe-openapi` |
 | `supabase` | `distilled-spec-supabase` |
+| `turso` | `turso-docs` |
 
 ## Scripts
 
@@ -91,6 +99,7 @@ bun run specs:update   # run inside a package directory
 | `bun run fmt` | Format all packages |
 | `bun run lint` | Lint all packages |
 | `bun run generate` | Regenerate all SDKs from specs |
+| `bun run create-sdk <name> --specs <url>...` | Scaffold a new SDK package |
 
 ## Deployment
 
