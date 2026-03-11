@@ -99,19 +99,30 @@ test(
       expect(describeResult.KeyMetadata?.KeyId).toEqual(keyId);
       expect(describeResult.KeyMetadata?.KeyState).toEqual("Enabled");
 
-      // List keys and verify our key is in the list (paginate through all)
-      let foundKey = false;
-      let marker: string | undefined;
-      do {
-        const listResult = yield* listKeys({ Marker: marker });
-        if (listResult.Keys?.some((k) => k.KeyId === keyId)) {
-          foundKey = true;
-          break;
-        }
-        marker = listResult.Truncated ? listResult.NextMarker : undefined;
-      } while (marker);
+      // List keys and verify our key is in the list (eventual consistency - may need retries)
+      yield* Effect.gen(function* () {
+        let foundKey = false;
+        let marker: string | undefined;
+        do {
+          const listResult = yield* listKeys({ Marker: marker });
+          if (listResult.Keys?.some((k) => k.KeyId === keyId)) {
+            foundKey = true;
+            break;
+          }
+          marker = listResult.Truncated ? listResult.NextMarker : undefined;
+        } while (marker);
 
-      expect(foundKey).toBe(true);
+        if (!foundKey) {
+          return yield* Effect.fail("key not found yet" as const);
+        }
+      }).pipe(
+        Effect.retry({
+          while: (err) => err === "key not found yet",
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.both(Schedule.recurs(10)),
+          ),
+        }),
+      );
     } finally {
       // Schedule key deletion (minimum 7 days in AWS, but LocalStack may allow less)
       yield* scheduleKeyDeletion({

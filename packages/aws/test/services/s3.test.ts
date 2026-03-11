@@ -781,10 +781,13 @@ test(
             ? Effect.fail(r)
             : Effect.succeed(r),
         ),
-        Effect.retry(
-          Schedule.both(Schedule.recurs(10), Schedule.spaced("1 second")),
-        ),
-        Effect.catchAll(() => Effect.succeed("deleted" as const)),
+        Effect.retry({
+          while: (err) => err === "not yet deleted",
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.both(Schedule.recurs(10)),
+          ),
+        }),
+        Effect.catch(() => Effect.succeed("deleted" as const)),
       );
       expect(result).toEqual("deleted");
     }),
@@ -852,10 +855,13 @@ test(
             ? Effect.fail(r)
             : Effect.succeed(r),
         ),
-        Effect.retry(
-          Schedule.both(Schedule.recurs(10), Schedule.spaced("1 second")),
-        ),
-        Effect.catchAll(() => Effect.succeed("deleted" as const)),
+        Effect.retry({
+          while: (err) => err === "not yet deleted",
+          schedule: Schedule.spaced("1 second").pipe(
+            Schedule.both(Schedule.recurs(10)),
+          ),
+        }),
+        Effect.catch(() => Effect.succeed("deleted" as const)),
       );
       expect(result).toEqual("deleted");
     }),
