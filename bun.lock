@@ -146,6 +146,23 @@
         "effect": "catalog:",
       },
     },
+    "packages/test-dry-run": {
+      "name": "@distilled.cloud/test-dry-run",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
   },
   "catalog": {
     "@aws-crypto/crc32": "^5.2.0",
@@ -250,6 +267,8 @@
     "@distilled.cloud/planetscale": ["@distilled.cloud/planetscale@workspace:packages/planetscale"],
 
     "@distilled.cloud/prisma-postgres": ["@distilled.cloud/prisma-postgres@workspace:packages/prisma-postgres"],
+
+    "@distilled.cloud/test-dry-run": ["@distilled.cloud/test-dry-run@workspace:packages/test-dry-run"],
 
     "@effect/platform-bun": ["@effect/platform-bun@4.0.0-beta.25", "", { "dependencies": { "@effect/platform-node-shared": "^4.0.0-beta.25" }, "peerDependencies": { "effect": "^4.0.0-beta.25" } }, "sha512-x+CN+9n7ZFvhv0VCxJILWmik0/DkrVQ2g48Y3HtoVzisMh1IomAYuiG5gBYPAgsyOwE7ssnHf5Et2Swd9tZ/EQ=="],
 
