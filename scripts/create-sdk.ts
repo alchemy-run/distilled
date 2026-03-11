@@ -21,7 +21,7 @@
  */
 
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import * as path from "node:path";
 
 const ROOT = path.resolve(import.meta.dir, "..");
@@ -144,10 +144,12 @@ function run(
 
 function runOpencode(
   prompt: string,
-  opts?: { cwd?: string; model?: string },
+  opts?: { cwd?: string; model?: string; inactivityTimeoutMs?: number },
 ): Promise<string> {
   const model = opts?.model ?? "anthropic/claude-opus-4-6";
   const cwd = opts?.cwd ?? ROOT;
+  // Kill if no output for 8 minutes — means it's stuck, not just slow
+  const inactivityTimeoutMs = opts?.inactivityTimeoutMs ?? 8 * 60 * 1000;
   return new Promise((resolve, reject) => {
     const cp = spawn("opencode", ["run", "--model", model, prompt], {
       cwd,
@@ -156,21 +158,56 @@ function runOpencode(
     });
     let stdout = "";
     let stderr = "";
+    let killed = false;
+
+    // Reset this timer every time we get output
+    let inactivityTimer = setTimeout(onInactive, inactivityTimeoutMs);
+
+    function onInactive() {
+      killed = true;
+      console.error(
+        `\n⚠️  opencode has produced no output for ${inactivityTimeoutMs / 1000}s — killing stuck process`,
+      );
+      cp.kill("SIGTERM");
+      setTimeout(() => {
+        try { cp.kill("SIGKILL"); } catch {}
+      }, 5000);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      inactivityTimer = setTimeout(onInactive, inactivityTimeoutMs);
+    }
+
     cp.stdout.on("data", (d: Buffer) => {
       stdout += d.toString();
+      resetInactivityTimer();
     });
     cp.stderr.on("data", (d: Buffer) => {
       stderr += d.toString();
       process.stderr.write(d);
+      resetInactivityTimer();
     });
     cp.on("close", (code: number) => {
-      if (code === 0) resolve(stdout);
-      else
+      clearTimeout(inactivityTimer);
+      if (killed) {
+        reject(
+          new Error(
+            `opencode stuck (no output for ${inactivityTimeoutMs / 1000}s)\nstderr (last 500 chars): ${stderr.slice(-500)}`,
+          ),
+        );
+      } else if (code === 0) {
+        resolve(stdout);
+      } else {
         reject(
           new Error(`opencode exited with code ${code}\nstderr: ${stderr}`),
         );
+      }
     });
-    cp.on("error", reject);
+    cp.on("error", (err) => {
+      clearTimeout(inactivityTimer);
+      reject(err);
+    });
   });
 }
 
@@ -1347,6 +1384,18 @@ function updateReleaseYml(name: string): void {
 // Step 5: Run Generation & OpenCode for SDK Refinement
 // ============================================================================
 
+/**
+ * Check if the operations directory has generated files (more than just index.ts).
+ */
+function hasGeneratedOperations(name: string): boolean {
+  const opsDir = path.join(ROOT, "packages", name, "src", "operations");
+  if (!existsSync(opsDir)) return false;
+
+  const files = readdirSync(opsDir).filter((f) => f.endsWith(".ts"));
+  // Must have more than just index.ts
+  return files.length > 1;
+}
+
 async function installAndGenerate(name: string): Promise<void> {
   const pkgDir = path.join(ROOT, "packages", name);
 
@@ -1369,6 +1418,15 @@ async function installAndGenerate(name: string): Promise<void> {
     cwd: pkgDir,
     ignoreError: true,
   });
+
+  // Check if generation produced actual operation files
+  if (hasGeneratedOperations(name)) {
+    console.log("  ✅ Operations generated successfully");
+  } else {
+    console.log(
+      "  ⚠️  Operations directory is empty (only index.ts) — opencode will attempt to fix the spec path and regenerate",
+    );
+  }
 }
 
 async function refineWithOpencode(
@@ -1376,6 +1434,7 @@ async function refineWithOpencode(
   specInfo: { submodulePaths: string[]; hasSpecMirror: boolean },
 ): Promise<void> {
   const capitalName = capitalize(name);
+  const operationsEmpty = !hasGeneratedOperations(name);
 
   console.log(`\n🤖 Calling opencode to refine ${capitalName} SDK...`);
 
@@ -1387,43 +1446,118 @@ async function refineWithOpencode(
       : "  (no spec submodules)";
 
   const prompt = `
-Load the "refine-sdk" skill for context.
-
 You are refining a newly scaffolded SDK package for ${capitalName} at packages/${name}/.
 
 The package has been scaffolded with boilerplate files and the code generator has been run.
 
-The following spec submodules are available:
+## Step 0: Find the OpenAPI spec
+
+The spec submodules are at:
 ${specLocations}
 
-There may be multiple spec sources — explore all of them to understand what each contains (OpenAPI specs, reference SDKs, supplementary schemas, etc.) and how they should be used together.
+Each submodule is a cloned git repo. The OpenAPI spec file could be anywhere inside it. Your FIRST action must be to recursively list the contents of every submodule directory under packages/${name}/specs/ to find the actual spec file. Use \`find\` or \`ls -R\` on each submodule. Look for .json and .yaml files. Read the first few lines of candidates to confirm they are OpenAPI/Swagger specs (look for "openapi", "swagger", "paths", etc.).
 
-Please review and refine the following files:
+Do NOT guess the path. Do NOT assume it's at a conventional location. Actually look at the files.
+${operationsEmpty ? `
+## ⚠️  GENERATION FAILED — operations directory is EMPTY
 
-1. **packages/${name}/scripts/generate.ts** — Verify the specPath points to a real OpenAPI spec file. Explore all the spec submodules under packages/${name}/specs/ to find where the actual spec JSON/YAML file(s) are. Update the path if needed. If the spec has been found and the operations directory is empty or has only the placeholder, run \`bun run generate\` from packages/${name}/.
+packages/${name}/src/operations/ only has a placeholder index.ts. The spec path in packages/${name}/scripts/generate.ts is almost certainly wrong.
 
-2. **packages/${name}/src/credentials.ts** — Update the DEFAULT_API_BASE_URL to the correct base URL for the ${capitalName} API. Update the environment variable name(s) if needed. Look at the OpenAPI spec to determine the correct base URL and authentication scheme.
+After you find the real spec file in Step 0:
+1. Update the \`specPath\` in packages/${name}/scripts/generate.ts to point to the correct file
+2. Run \`bun run generate\` from packages/${name}/
+3. List packages/${name}/src/operations/ — it MUST have more than just index.ts
+4. If still empty, you got the path wrong. Go back to Step 0 and look harder.
+` : ""}
+## Step 1: Update generate.ts
 
-3. **packages/${name}/src/client.ts** — Update the API error response schema to match ${capitalName}'s actual error format. Update the authentication header format if needed (e.g., some APIs use \`X-API-Key\` instead of \`Bearer\` tokens). Refer to the OpenAPI spec for the correct error shape and auth scheme.
+Read packages/${name}/scripts/generate.ts. Make sure the \`specPath\` points to the actual spec file you found in Step 0. If it's wrong, fix it. Run \`bun run generate\` from packages/${name}/ and confirm operations were generated (more than just index.ts in src/operations/).
 
-4. **packages/${name}/src/errors.ts** — If the OpenAPI spec has custom error codes or types beyond standard HTTP errors, add them as tagged error classes following the pattern of the existing Unknown${capitalName}Error.
+## Step 2: Update credentials.ts
 
-Review the generated operations in packages/${name}/src/operations/ to make sure they look reasonable. If something seems wrong with generation, check the spec path and try regenerating.
+Read the OpenAPI spec you found. Look at:
+- \`servers\` array (OpenAPI 3.x) or \`host\` + \`basePath\` (Swagger 2.0) → set \`DEFAULT_API_BASE_URL\`
+- \`components.securitySchemes\` or \`securityDefinitions\` → determine auth scheme and env var names
 
-5. **Final verification** — As your LAST step, you MUST run the following commands from packages/${name}/ and ensure they succeed:
-   - \`bun run generate\` — regenerate from spec (must exit 0)
-   - \`bun run typecheck\` — type check the package (must exit 0)
-   If either fails, fix the issue and re-run until both pass.
+Update packages/${name}/src/credentials.ts accordingly.
 
-DO NOT create tests. DO NOT modify files in packages/core/. DO NOT modify any CI/workflow files.
-Only modify files within packages/${name}/.
+## Step 3: Update client.ts
 
-Use .ai-workspace/ if you need a scratch area.
+Read error response schemas from the OpenAPI spec (\`components.schemas\`, response bodies on 4xx/5xx). Update:
+- \`ApiErrorResponse\` schema to match the API's actual error shape
+- \`getAuthHeaders\` — use the correct header (Bearer, X-API-Key, etc.)
+- \`matchError\` — parse errors according to the actual format
+
+Examples of error shapes:
+\`\`\`typescript
+// Simple: { message: "..." }
+Schema.Struct({ message: Schema.String })
+
+// With code: { code: "not_found", message: "..." }
+Schema.Struct({ code: Schema.optional(Schema.String), message: Schema.String })
+
+// Nested: { error: { type: "...", message: "..." } }
+Schema.Struct({ error: Schema.Struct({ type: Schema.String, message: Schema.String }) })
+\`\`\`
+
+## Step 4: Update errors.ts
+
+If the spec defines custom error types beyond standard HTTP status codes, add them as \`Schema.TaggedErrorClass\` entries following the existing Unknown${capitalName}Error pattern. Use \`Category.withServerError\`, \`Category.withParseError\`, etc.
+
+## Step 5: Final verification
+
+Run these commands from packages/${name}/ and they MUST all pass:
+1. \`bun run generate\` — must exit 0
+2. \`ls src/operations/\` — must show MORE than just index.ts
+3. \`bun run typecheck\` — must exit 0
+
+If any fail, fix and retry until all pass.
+
+## Rules
+
+- Only modify files within packages/${name}/
+- Do NOT create tests
+- Do NOT modify packages/core/ or CI/workflow files
+- Follow patterns from other SDKs (neon, planetscale, supabase)
+- Use .ai-workspace/ for scratch files
 `.trim();
 
-  await runOpencode(prompt, { model: "anthropic/claude-opus-4-6" });
+  let attempt = 0;
+  while (true) {
+    attempt++;
+    try {
+      await runOpencode(prompt, { model: "anthropic/claude-opus-4-6" });
+    } catch (err: any) {
+      const isStuck = err?.message?.includes("no output for");
+      if (isStuck) {
+        console.log(
+          `\n🔄 opencode got stuck (attempt ${attempt}), retrying...`,
+        );
+        continue;
+      }
+      // Non-stuck error (actual failure) — warn and move on
+      console.error(
+        `\n⚠️  opencode failed: ${err?.message ?? err}`,
+      );
+      break;
+    }
 
-  console.log(`✅ OpenCode refinement complete`);
+    // opencode exited 0 — but did it actually produce operations?
+    if (hasGeneratedOperations(name)) {
+      console.log(`✅ OpenCode refinement complete — operations generated successfully`);
+      break;
+    }
+
+    console.log(
+      `\n🔄 opencode exited successfully but operations directory is still empty (attempt ${attempt}), retrying...`,
+    );
+  }
+
+  if (!hasGeneratedOperations(name)) {
+    console.log(
+      `\n⚠️  Operations directory is still empty after refinement — you may need to manually check the spec path in packages/${name}/scripts/generate.ts`,
+    );
+  }
 }
 
 // ============================================================================
@@ -1473,8 +1607,6 @@ async function main() {
 
   // Step 6: Refine with opencode
   await refineWithOpencode(name, specInfo);
-
-  const pkgDir = path.join(ROOT, "packages", name);
 
   console.log(`
 ✨ SDK package created successfully!

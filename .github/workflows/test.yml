@@ -24,6 +24,7 @@ jobs:
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
       stripe: ${{ steps.changes.outputs.stripe }}
       supabase: ${{ steps.changes.outputs.supabase }}
+      coinbase: ${{ steps.changes.outputs.coinbase }}
       mongodb-atlas: ${{ steps.changes.outputs.mongodb-atlas }}
       fly-io: ${{ steps.changes.outputs.fly-io }}
       turso: ${{ steps.changes.outputs.turso }}
@@ -58,6 +59,9 @@ jobs:
               - 'packages/core/**'
             supabase:
               - 'packages/supabase/**'
+              - 'packages/core/**'
+            coinbase:
+              - 'packages/coinbase/**'
               - 'packages/core/**'
             mongodb-atlas:
               - 'packages/mongodb-atlas/**'
@@ -284,3 +288,18 @@ jobs:
         working-directory: packages/core
       - run: bun run check
         working-directory: packages/turso
+
+  ci-coinbase:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.coinbase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/coinbase

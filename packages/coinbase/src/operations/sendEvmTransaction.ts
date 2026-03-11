@@ -1,0 +1,70 @@
+import * as Schema from "effect/Schema";
+import { API } from "../client";
+import * as T from "../traits";
+
+// Input Schema
+export const SendEvmTransactionInput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    address: Schema.String.pipe(T.PathParam()),
+    network: Schema.Literals([
+      "base",
+      "base-sepolia",
+      "ethereum",
+      "ethereum-sepolia",
+      "avalanche",
+      "polygon",
+      "optimism",
+      "arbitrum",
+    ]),
+    transaction: Schema.String,
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/v2/evm/accounts/{address}/send/transaction",
+    }),
+  );
+export type SendEvmTransactionInput = typeof SendEvmTransactionInput.Type;
+
+// Output Schema
+export const SendEvmTransactionOutput =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    transactionHash: Schema.String,
+  });
+export type SendEvmTransactionOutput = typeof SendEvmTransactionOutput.Type;
+
+// The operation
+/**
+ * Send a transaction
+ *
+ * Signs a transaction with the given EVM account and sends it to the indicated supported network. This API handles nonce management and gas estimation, leaving the developer to provide only the minimal set of fields necessary to send the transaction. The transaction should be serialized as a hex string using [RLP](https://ethereum.org/en/developers/docs/data-structures-and-encoding/rlp/).
+ * The transaction must be an [EIP-1559 dynamic fee transaction](https://github.com/ethereum/EIPs/blob/master/EIPS/eip-1559.md).
+ * **Transaction fields and API behavior**
+ * - `to` *(Required)*: The address of the contract or account to send the transaction to.
+ * - `chainId` *(Ignored)*: The value of the `chainId` field in the transaction is ignored.
+ * The transaction will be sent to the network indicated by the `network` field in the request body.
+ * - `nonce` *(Optional)*: The nonce to use for the transaction. If not provided, the API will assign
+ * a nonce to the transaction based on the current state of the account.
+ * - `maxPriorityFeePerGas` *(Optional)*: The maximum priority fee per gas to use for the transaction.
+ * If not provided, the API will estimate a value based on current network conditions.
+ * - `maxFeePerGas` *(Optional)*: The maximum fee per gas to use for the transaction.
+ * If not provided, the API will estimate a value based on current network conditions.
+ * - `gasLimit` *(Optional)*: The gas limit to use for the transaction. If not provided, the API will estimate a value
+ * based on the `to` and `data` fields of the transaction.
+ * - `value` *(Optional)*: The amount of ETH, in wei, to send with the transaction.
+ * - `data` *(Optional)*: The data to send with the transaction; only used for contract calls.
+ * - `accessList` *(Optional)*: The access list to use for the transaction.
+ *
+ * @param X-Wallet-Auth - A JWT signed using your Wallet Secret, encoded in base64. Refer to the
+[Generate Wallet Token](https://docs.cdp.coinbase.com/api-reference/v2/authentication#2-generate-wallet-token)
+section of our Authentication docs for more details on how to generate your Wallet Token.
+
+ * @param X-Idempotency-Key - An optional string request header for making requests safely retryable.
+When included, duplicate requests with the same key will return identical responses.
+Refer to our [Idempotency docs](https://docs.cdp.coinbase.com/api-reference/v2/idempotency) for more information on using idempotency keys.
+
+ * @param address - The 0x-prefixed address of the Ethereum account.
+ */
+export const sendEvmTransaction = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  inputSchema: SendEvmTransactionInput,
+  outputSchema: SendEvmTransactionOutput,
+}));
