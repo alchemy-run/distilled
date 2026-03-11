@@ -103,7 +103,7 @@ jobs:
       - name: Publish to NPM
         run: |
           VERSION="${{ steps.bump.outputs.version }}"
-          PACKAGES=(core aws cloudflare gcp neon planetscale prisma-postgres)
+          PACKAGES=(core aws cloudflare gcp neon planetscale prisma-postgres mongodb-atlas fly-io turso)
 
           for pkg in "${PACKAGES[@]}"; do
             PKG_NAME=$(node -p "require('./packages/${pkg}/package.json').name")
