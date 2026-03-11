@@ -96,7 +96,7 @@ export const make = <Op extends Operation<any, any, any>>(
     yield* Effect.logDebug("Built Request", request);
 
     // Sign the request
-    const credentials = yield* (yield* Credentials.Credentials);
+    const credentials = yield* yield* Credentials.Credentials;
     const region = yield* Region.Region;
     const serviceName = sigv4?.name ?? "s3";
 
