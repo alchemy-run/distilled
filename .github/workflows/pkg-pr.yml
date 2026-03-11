@@ -14,6 +14,7 @@ jobs:
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
+      stripe: ${{ steps.changes.outputs.stripe }}
       supabase: ${{ steps.changes.outputs.supabase }}
     steps:
       - uses: actions/checkout@v4
@@ -31,6 +32,8 @@ jobs:
               - 'packages/planetscale/**'
             prisma-postgres:
               - 'packages/prisma-postgres/**'
+            stripe:
+              - 'packages/stripe/**'
             supabase:
               - 'packages/supabase/**'
 
@@ -117,8 +120,25 @@ jobs:
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/prisma-postgres
 
-  pkg-pr-supabase:
+  pkg-pr-stripe:
     needs: [detect-changes, pkg-pr-prisma-postgres]
+    if: ${{ !failure() && needs.detect-changes.outputs.stripe == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/stripe
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/stripe
+
+  pkg-pr-supabase:
+    needs: [detect-changes, pkg-pr-stripe]
     if: ${{ !failure() && needs.detect-changes.outputs.supabase == 'true' }}
     runs-on: ubuntu-latest
     steps:
