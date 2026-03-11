@@ -28,3 +28,6 @@
 [submodule "packages/stripe/specs/stripe-openapi"]
 	path = packages/stripe/specs/stripe-openapi
 	url = https://github.com/stripe/openapi.git
+[submodule "packages/supabase/specs/distilled-spec-supabase"]
+	path = packages/supabase/specs/distilled-spec-supabase
+	url = https://github.com/alchemy-run/distilled-spec-supabase.git

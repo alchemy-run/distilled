@@ -25,6 +25,7 @@ const bucket = yield* S3.getBucket({
 | [`@distilled.cloud/neon`](./packages/neon) | Neon serverless Postgres SDK from OpenAPI spec |
 | [`@distilled.cloud/planetscale`](./packages/planetscale) | PlanetScale MySQL SDK from OpenAPI spec |
 | [`@distilled.cloud/prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec |
+| [`@distilled.cloud/supabase`](./packages/supabase) | Supabase Management API SDK from OpenAPI spec |
 
 ## Getting Started
 
@@ -77,6 +78,7 @@ bun run specs:update   # run inside a package directory
 | `neon` | `distilled-spec-neon` |
 | `planetscale` | `distilled-spec-planetscale` |
 | `prisma-postgres` | `distilled-spec-prisma-postgres` |
+| `supabase` | `distilled-spec-supabase` |
 
 ## Scripts
 

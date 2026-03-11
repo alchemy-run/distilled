@@ -23,6 +23,7 @@ jobs:
       planetscale: ${{ steps.changes.outputs.planetscale }}
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
       stripe: ${{ steps.changes.outputs.stripe }}
+      supabase: ${{ steps.changes.outputs.supabase }}
     steps:
       - uses: actions/checkout@v4
       - uses: dorny/paths-filter@v3
@@ -51,6 +52,9 @@ jobs:
               - 'packages/core/**'
             stripe:
               - 'packages/stripe/**'
+              - 'packages/core/**'
+            supabase:
+              - 'packages/supabase/**'
               - 'packages/core/**'
 
   ci-core:
@@ -199,3 +203,18 @@ jobs:
         working-directory: packages/core
       - run: bun run check
         working-directory: packages/stripe
+
+  ci-supabase:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.supabase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run check
+        working-directory: packages/supabase
