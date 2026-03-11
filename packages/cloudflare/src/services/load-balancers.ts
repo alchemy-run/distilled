@@ -8,9 +8,9 @@
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
-import * as T from "../traits";
-import type { Credentials } from "../credentials";
-import { type DefaultErrors } from "../errors";
+import * as T from "../traits.ts";
+import type { Credentials } from "../credentials.ts";
+import { type DefaultErrors } from "../errors.ts";
 
 // =============================================================================
 // LoadBalancer
