@@ -4,6 +4,9 @@
   "type": "module",
   "scripts": {
     "build": "bun --filter '@distilled.cloud/core' build && bun --filter '*' build",
+    "build:clean": "bun install:clean && bun run build",
+    "clean": "git clean -fqdx . -e .env",
+    "install:clean": "bun clean && bun install",
     "typecheck": "bun --filter '*' typecheck",
     "fmt": "bun --filter '*' fmt",
     "lint": "bun --filter '*' lint",
