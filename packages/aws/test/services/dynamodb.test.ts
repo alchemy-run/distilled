@@ -6,19 +6,29 @@ import {
   deleteTable,
   describeTable,
   getItem,
+  listTagsOfResource,
   listTables,
   putItem,
   query,
   scan,
+  tagResource,
   updateItem,
 } from "../../src/services/dynamodb.ts";
 import { afterAll, beforeAll, test } from "../test.ts";
 
 const TEST_TABLE_NAME = "distilled-aws-test-table";
+type CreateTableInput = Parameters<typeof createTable>[0];
+type ManagedTable = {
+  TableName: string;
+  TableArn: string;
+};
 
 const retrySchedule = Schedule.both(
   Schedule.recurs(30),
   Schedule.spaced("1 second"),
+);
+const eventualRetrySchedule = Schedule.exponential(250).pipe(
+  Schedule.both(Schedule.recurs(20)),
 );
 
 // Helper to wait for table to become active
@@ -47,6 +57,39 @@ const waitForTableDeleted = (tableName: string) =>
     Effect.retry(retrySchedule),
     Effect.mapError(() => new Error("Table was not deleted")),
   );
+
+const cleanupTable = (tableName: string) =>
+  deleteTable({ TableName: tableName }).pipe(
+    Effect.ignore,
+    Effect.andThen(waitForTableDeleted(tableName)),
+  );
+
+const getTableArn = (tableName: string) =>
+  describeTable({ TableName: tableName }).pipe(
+    Effect.flatMap((result) =>
+      result.Table?.TableArn
+        ? Effect.succeed(result.Table.TableArn)
+        : Effect.fail(new Error("Table ARN not available yet")),
+    ),
+    Effect.retry(retrySchedule),
+    Effect.mapError(() => new Error(`Table ARN not available for ${tableName}`)),
+  );
+
+const withTable = <A, E, R>(
+  input: CreateTableInput,
+  testFn: (table: ManagedTable) => Effect.Effect<A, E, R>,
+) =>
+  Effect.gen(function* () {
+    yield* cleanupTable(input.TableName);
+    yield* createTable(input);
+    yield* waitForTableActive(input.TableName);
+
+    const tableArn = yield* getTableArn(input.TableName);
+    return yield* testFn({
+      TableName: input.TableName,
+      TableArn: tableArn,
+    }).pipe(Effect.ensuring(cleanupTable(input.TableName).pipe(Effect.ignore)));
+  });
 
 // Create the table before all tests
 beforeAll(
@@ -475,6 +518,273 @@ test(
     const firstSk = (queryDescResult.Items![0].sk as { S: string }).S;
     expect(firstSk).toEqual("order#2024-01-01");
   }),
+);
+
+// ============================================================================
+// Secondary Index Tests
+// ============================================================================
+
+test(
+  "query local secondary index by alternate sort key",
+  withTable(
+    {
+      TableName: "distilled-aws-test-table-lsi",
+      KeySchema: [
+        { AttributeName: "pk", KeyType: "HASH" },
+        { AttributeName: "sk", KeyType: "RANGE" },
+      ],
+      AttributeDefinitions: [
+        { AttributeName: "pk", AttributeType: "S" },
+        { AttributeName: "sk", AttributeType: "S" },
+        { AttributeName: "lsiSk", AttributeType: "S" },
+      ],
+      LocalSecondaryIndexes: [
+        {
+          IndexName: "lsi-by-priority",
+          KeySchema: [
+            { AttributeName: "pk", KeyType: "HASH" },
+            { AttributeName: "lsiSk", KeyType: "RANGE" },
+          ],
+          Projection: { ProjectionType: "ALL" },
+        },
+      ],
+      BillingMode: "PAY_PER_REQUEST",
+    },
+    (table) =>
+      Effect.gen(function* () {
+        const items = [
+          {
+            pk: { S: "customer#1" },
+            sk: { S: "order#1" },
+            lsiSk: { S: "priority#002" },
+            status: { S: "open" },
+          },
+          {
+            pk: { S: "customer#1" },
+            sk: { S: "order#2" },
+            lsiSk: { S: "priority#001" },
+            status: { S: "open" },
+          },
+          {
+            pk: { S: "customer#1" },
+            sk: { S: "order#3" },
+            lsiSk: { S: "archived#001" },
+            status: { S: "archived" },
+          },
+          {
+            pk: { S: "customer#2" },
+            sk: { S: "order#1" },
+            lsiSk: { S: "priority#001" },
+            status: { S: "open" },
+          },
+        ];
+
+        yield* Effect.all(
+          items.map((item) =>
+            putItem({ TableName: table.TableName, Item: item }),
+          ),
+          { concurrency: 4 },
+        );
+
+        const queryResult = yield* query({
+          TableName: table.TableName,
+          IndexName: "lsi-by-priority",
+          ConsistentRead: true,
+          KeyConditionExpression: "pk = :pk AND begins_with(lsiSk, :prefix)",
+          ExpressionAttributeValues: {
+            ":pk": { S: "customer#1" },
+            ":prefix": { S: "priority#" },
+          },
+        });
+
+        expect(queryResult.Count).toEqual(2);
+        expect(queryResult.Items).toBeDefined();
+
+        const orderIds = queryResult.Items!.map(
+          (item) => (item.sk as { S: string }).S,
+        );
+        expect(orderIds).toEqual(["order#2", "order#1"]);
+      }),
+  ),
+);
+
+test(
+  "query global secondary index after index propagation",
+  withTable(
+    {
+      TableName: "distilled-aws-test-table-gsi",
+      KeySchema: [
+        { AttributeName: "pk", KeyType: "HASH" },
+        { AttributeName: "sk", KeyType: "RANGE" },
+      ],
+      AttributeDefinitions: [
+        { AttributeName: "pk", AttributeType: "S" },
+        { AttributeName: "sk", AttributeType: "S" },
+        { AttributeName: "gsiPk", AttributeType: "S" },
+        { AttributeName: "gsiSk", AttributeType: "S" },
+      ],
+      GlobalSecondaryIndexes: [
+        {
+          IndexName: "gsi-by-status",
+          KeySchema: [
+            { AttributeName: "gsiPk", KeyType: "HASH" },
+            { AttributeName: "gsiSk", KeyType: "RANGE" },
+          ],
+          Projection: { ProjectionType: "ALL" },
+        },
+      ],
+      BillingMode: "PAY_PER_REQUEST",
+    },
+    (table) =>
+      Effect.gen(function* () {
+        const items = [
+          {
+            pk: { S: "order#1" },
+            sk: { S: "meta" },
+            gsiPk: { S: "status#pending" },
+            gsiSk: { S: "tenant#1#2024-01-02" },
+          },
+          {
+            pk: { S: "order#2" },
+            sk: { S: "meta" },
+            gsiPk: { S: "status#pending" },
+            gsiSk: { S: "tenant#1#2024-01-01" },
+          },
+          {
+            pk: { S: "order#3" },
+            sk: { S: "meta" },
+            gsiPk: { S: "status#complete" },
+            gsiSk: { S: "tenant#1#2024-01-03" },
+          },
+          {
+            pk: { S: "order#4" },
+            sk: { S: "meta" },
+            gsiPk: { S: "status#pending" },
+            gsiSk: { S: "tenant#2#2024-01-04" },
+          },
+        ];
+
+        yield* Effect.all(
+          items.map((item) =>
+            putItem({ TableName: table.TableName, Item: item }),
+          ),
+          { concurrency: 4 },
+        );
+
+        const queryResult = yield* Effect.gen(function* () {
+          const result = yield* query({
+            TableName: table.TableName,
+            IndexName: "gsi-by-status",
+            KeyConditionExpression:
+              "gsiPk = :gsiPk AND begins_with(gsiSk, :prefix)",
+            ExpressionAttributeValues: {
+              ":gsiPk": { S: "status#pending" },
+              ":prefix": { S: "tenant#1#" },
+            },
+          });
+
+          if ((result.Count ?? 0) !== 2) {
+            return yield* Effect.fail("gsi items not visible yet" as const);
+          }
+
+          return result;
+        }).pipe(
+          Effect.retry({
+            while: (error) => error === "gsi items not visible yet",
+            schedule: eventualRetrySchedule,
+          }),
+        );
+
+        expect(queryResult.Items).toBeDefined();
+
+        const gsiSortKeys = queryResult.Items!.map(
+          (item) => (item.gsiSk as { S: string }).S,
+        );
+        expect(gsiSortKeys).toEqual([
+          "tenant#1#2024-01-01",
+          "tenant#1#2024-01-02",
+        ]);
+      }),
+  ),
+);
+
+test(
+  "list tags retries while new index table ARN is still propagating",
+  withTable(
+    {
+      TableName: "distilled-aws-test-table-tagging",
+      KeySchema: [
+        { AttributeName: "pk", KeyType: "HASH" },
+        { AttributeName: "sk", KeyType: "RANGE" },
+      ],
+      AttributeDefinitions: [
+        { AttributeName: "pk", AttributeType: "S" },
+        { AttributeName: "sk", AttributeType: "S" },
+        { AttributeName: "gsiPk", AttributeType: "S" },
+        { AttributeName: "gsiSk", AttributeType: "S" },
+      ],
+      GlobalSecondaryIndexes: [
+        {
+          IndexName: "gsi-by-tagging-state",
+          KeySchema: [
+            { AttributeName: "gsiPk", KeyType: "HASH" },
+            { AttributeName: "gsiSk", KeyType: "RANGE" },
+          ],
+          Projection: { ProjectionType: "KEYS_ONLY" },
+        },
+      ],
+      BillingMode: "PAY_PER_REQUEST",
+    },
+    (table) =>
+      Effect.gen(function* () {
+        yield* tagResource({
+          ResourceArn: table.TableArn,
+          Tags: [
+            { Key: "Environment", Value: "test" },
+            { Key: "Project", Value: "distilled-aws" },
+          ],
+        });
+
+        const tagsResult = yield* Effect.gen(function* () {
+          const result = yield* listTagsOfResource({
+            ResourceArn: table.TableArn,
+          }).pipe(
+            Effect.retry({
+              while: (e) =>
+                e._tag === "InternalServerError" ||
+                e._tag === "ResourceNotFoundException",
+              schedule: Schedule.exponential(250).pipe(
+                Schedule.both(Schedule.recurs(20)),
+              ),
+            }),
+          );
+
+          const environmentTag = result.Tags?.find(
+            (tag) => tag.Key === "Environment",
+          );
+          if (!environmentTag) {
+            return yield* Effect.fail("tags not visible yet" as const);
+          }
+
+          return result;
+        }).pipe(
+          Effect.retry({
+            while: (error) => error === "tags not visible yet",
+            schedule: eventualRetrySchedule,
+          }),
+        );
+
+        const environmentTag = tagsResult.Tags?.find(
+          (tag) => tag.Key === "Environment",
+        );
+        const projectTag = tagsResult.Tags?.find(
+          (tag) => tag.Key === "Project",
+        );
+
+        expect(environmentTag?.Value).toEqual("test");
+        expect(projectTag?.Value).toEqual("distilled-aws");
+      }),
+  ),
 );
 
 test(
