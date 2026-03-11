@@ -28,6 +28,11 @@
       "bun": "./src/category.ts",
       "default": "./lib/category.js"
     },
+    "./Credentials": {
+      "types": "./lib/credentials.d.ts",
+      "bun": "./src/credentials.ts",
+      "default": "./lib/credentials.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
