@@ -1,26 +1,10 @@
 {
-  "include": ["src/**/*.ts"],
+  "extends": "../../tsconfig.base.json",
+  "include": [
+    "src/**/*.ts"
+  ],
   "compilerOptions": {
-    "lib": ["ESNext"],
-    "target": "ESNext",
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "allowJs": true,
-    "moduleResolution": "bundler",
-    "verbatimModuleSyntax": true,
-    "rewriteRelativeImportExtensions": true,
-    "noEmit": false,
-    "composite": true,
     "outDir": "./lib",
-    "rootDir": "./src",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "rootDir": "./src"
   }
 }

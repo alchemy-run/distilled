@@ -7,7 +7,11 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
-import { HTTP_STATUS_MAP, UnknownTursoError, TursoParseError } from "./errors.ts";
+import {
+  HTTP_STATUS_MAP,
+  UnknownTursoError,
+  TursoParseError,
+} from "./errors.ts";
 
 // Re-export for backwards compatibility
 export { UnknownTursoError } from "./errors.ts";

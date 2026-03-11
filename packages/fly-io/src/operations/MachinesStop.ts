@@ -7,10 +7,17 @@ export const MachinesStopInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   app_name: Schema.String.pipe(T.PathParam()),
   machine_id: Schema.String.pipe(T.PathParam()),
   signal: Schema.optional(Schema.String),
-  timeout: Schema.optional(Schema.Struct({
-    time.Duration: Schema.optional(Schema.Number),
-  })),
-}).pipe(T.Http({ method: "POST", path: "/apps/{app_name}/machines/{machine_id}/stop" }));
+  timeout: Schema.optional(
+    Schema.Struct({
+      "time.Duration": Schema.optional(Schema.Number),
+    }),
+  ),
+}).pipe(
+  T.Http({
+    method: "POST",
+    path: "/apps/{app_name}/machines/{machine_id}/stop",
+  }),
+);
 export type MachinesStopInput = typeof MachinesStopInput.Type;
 
 // Output Schema

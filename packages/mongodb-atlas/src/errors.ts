@@ -28,8 +28,8 @@ import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
 
 // Unknown Mongodb-atlas error - returned when an error code is not recognized
-export class UnknownMongodb-atlasError extends Schema.TaggedErrorClass<UnknownMongodb-atlasError>()(
-  "UnknownMongodb-atlasError",
+export class UnknownMongodbAtlasError extends Schema.TaggedErrorClass<UnknownMongodbAtlasError>()(
+  "UnknownMongodbAtlasError",
   {
     code: Schema.optional(Schema.String),
     message: Schema.optional(Schema.String),
@@ -38,8 +38,8 @@ export class UnknownMongodb-atlasError extends Schema.TaggedErrorClass<UnknownMo
 ).pipe(Category.withServerError) {}
 
 // Schema parse error wrapper
-export class Mongodb-atlasParseError extends Schema.TaggedErrorClass<Mongodb-atlasParseError>()(
-  "Mongodb-atlasParseError",
+export class MongodbAtlasParseError extends Schema.TaggedErrorClass<MongodbAtlasParseError>()(
+  "MongodbAtlasParseError",
   {
     body: Schema.Unknown,
     cause: Schema.Unknown,

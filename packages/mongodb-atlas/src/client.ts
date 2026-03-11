@@ -7,10 +7,14 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
-import { HTTP_STATUS_MAP, UnknownMongodb-atlasError, Mongodb-atlasParseError } from "./errors.ts";
+import {
+  HTTP_STATUS_MAP,
+  UnknownMongodbAtlasError,
+  MongodbAtlasParseError,
+} from "./errors.ts";
 
 // Re-export for backwards compatibility
-export { UnknownMongodb-atlasError } from "./errors.ts";
+export { UnknownMongodbAtlasError } from "./errors.ts";
 import { Credentials } from "./credentials.ts";
 
 // API Error Response Schema
@@ -33,14 +37,14 @@ const matchError = (
       return Effect.fail(new ErrorClass({ message: parsed.message ?? "" }));
     }
     return Effect.fail(
-      new UnknownMongodb-atlasError({
+      new UnknownMongodbAtlasError({
         code: parsed.code,
         message: parsed.message,
         body: errorBody,
       }),
     );
   } catch {
-    return Effect.fail(new UnknownMongodb-atlasError({ body: errorBody }));
+    return Effect.fail(new UnknownMongodbAtlasError({ body: errorBody }));
   }
 };
 
@@ -54,5 +58,5 @@ export const API = makeAPI({
     Authorization: `Bearer ${creds.apiKey}`,
   }),
   matchError,
-  ParseError: Mongodb-atlasParseError as any,
+  ParseError: MongodbAtlasParseError as any,
 });
