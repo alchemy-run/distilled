@@ -25,27 +25,16 @@ permissions:
   id-token: write
 
 jobs:
-  release:
-    runs-on: ubuntu-large-arm
+  # ── Step 1: Bump versions, commit, tag, create GitHub release ──
+  bump:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.bump.outputs.version }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.ref || github.ref }}
           fetch-depth: 0
-
-      - name: Install system dependencies
-        run: sudo apt-get update && sudo apt-get install -y unzip
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          registry-url: https://registry.npmjs.org/
-          node-version: 22
-
-      - name: Upgrade npm for OIDC trusted publishing
-        run: |
-          npm install -g npm@latest && npm --version
-          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
@@ -84,7 +73,6 @@ jobs:
         if: ${{ !inputs.skip-github-release }}
         run: |
           if ! gh release view "v${{ steps.bump.outputs.version }}" >/dev/null 2>&1; then
-            # Use previous tag as --from, or the release commit itself if no prior tags exist
             PREV_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
             if [ -n "$PREV_TAG" ]; then
               bunx changelogithub --from "$PREV_TAG"
@@ -97,36 +85,644 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build all packages
+  # ── Step 2: Build & publish core first (all others depend on it) ──
+  publish-core:
+    needs: bump
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build core
+        run: bun run build
+        working-directory: packages/core
+
+      - name: Publish core
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/core/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/core
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  # ── Step 3: Build & publish all other SDKs in parallel ──
+  publish-aws:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-large-arm
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Install system dependencies
+        run: sudo apt-get update && sudo apt-get install -y unzip
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
         run: bun run build
 
-      - name: Publish to NPM
+      - name: Publish
         run: |
-          VERSION="${{ steps.bump.outputs.version }}"
-          PACKAGES=(core aws cloudflare gcp neon planetscale prisma-postgres stripe supabase mongodb-atlas fly-io turso)
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/aws/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
 
-          for pkg in "${PACKAGES[@]}"; do
-            PKG_NAME=$(node -p "require('./packages/${pkg}/package.json').name")
-            echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
 
-            if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
-              echo "${PKG_NAME}@${VERSION} already published, skipping"
-              continue
-            fi
+          cd packages/aws
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
 
-            # Use bun to pack (resolves catalog: deps), then npm to publish (OIDC auth)
-            cd "packages/${pkg}"
-            bun pm pack --destination .
-            TARBALL=$(ls *.tgz 2>/dev/null | head -1)
-            echo "Publishing tarball: ${TARBALL}"
-            # Use --tag for prerelease versions (e.g. 0.2.0-alpha), otherwise use latest
-            TAG="latest"
-            if echo "${VERSION}" | grep -q '-'; then
-              TAG="next"
-            fi
-            npm publish "${TARBALL}" --access public --tag "${TAG}"
-            rm -f *.tgz
-            cd ../..
+  publish-cloudflare:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
 
-            echo "--- Published ${PKG_NAME}@${VERSION} ---"
-          done
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/cloudflare/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/cloudflare
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-gcp:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/gcp/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/gcp
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-neon:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/neon/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/neon
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-planetscale:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/planetscale/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/planetscale
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-prisma-postgres:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/prisma-postgres/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/prisma-postgres
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-stripe:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/stripe/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/stripe
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-supabase:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/supabase/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/supabase
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-mongodb-atlas:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/mongodb-atlas/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/mongodb-atlas
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-fly-io:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/fly-io/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/fly-io
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
+
+  publish-turso:
+    needs: [bump, publish-core]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v${{ needs.bump.outputs.version }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 22
+
+      - name: Upgrade npm for OIDC trusted publishing
+        run: |
+          npm install -g npm@latest && npm --version
+          sed -i '/always-auth/d' ~/.npmrc 2>/dev/null || true
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Publish
+        run: |
+          VERSION="${{ needs.bump.outputs.version }}"
+          PKG_NAME=$(node -p "require('./packages/turso/package.json').name")
+          echo "--- Publishing ${PKG_NAME}@${VERSION} ---"
+
+          if npm view "${PKG_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PKG_NAME}@${VERSION} already published, skipping"
+            exit 0
+          fi
+
+          cd packages/turso
+          bun pm pack --destination .
+          TARBALL=$(ls *.tgz 2>/dev/null | head -1)
+          echo "Publishing tarball: ${TARBALL}"
+          TAG="latest"
+          if echo "${VERSION}" | grep -q '-'; then
+            TAG="next"
+          fi
+          npm publish "${TARBALL}" --access public --tag "${TAG}"
+          rm -f *.tgz
+          echo "--- Published ${PKG_NAME}@${VERSION} ---"
