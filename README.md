@@ -24,6 +24,7 @@ const bucket = yield* S3.getBucket({
 | [`@distilled.cloud/gcp`](./packages/gcp) | GCP SDK from Discovery Documents |
 | [`@distilled.cloud/neon`](./packages/neon) | Neon serverless Postgres SDK from OpenAPI spec |
 | [`@distilled.cloud/planetscale`](./packages/planetscale) | PlanetScale MySQL SDK from OpenAPI spec |
+| [`@distilled.cloud/prisma-postgres`](./packages/prisma-postgres) | Prisma Postgres SDK from OpenAPI spec |
 
 ## Getting Started
 
@@ -75,6 +76,7 @@ bun run specs:update   # run inside a package directory
 | `gcp` | `distilled-spec-gcp` |
 | `neon` | `distilled-spec-neon` |
 | `planetscale` | `distilled-spec-planetscale` |
+| `prisma-postgres` | `distilled-spec-prisma-postgres` |
 
 ## Scripts
 
