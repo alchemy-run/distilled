@@ -110,7 +110,6 @@ describe("Pipelines", () => {
           accountId: accountId(),
         });
 
-        expect(result.resultInfo).toBeDefined();
         expect(Array.isArray(result.results)).toBe(true);
         for (const pipeline of result.results) {
           expect(typeof pipeline.id).toBe("string");

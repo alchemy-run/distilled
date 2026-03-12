@@ -1,5 +1,5 @@
 {
   "errors": {
-    "InvalidMessageBody": [{ "code": 10207 }]
+    "InvalidMessageBody": [{ "code": 10207 }, { "code": 10013 }]
   }
 }

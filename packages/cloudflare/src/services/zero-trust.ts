@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // AccessAiControlMcpPortal
@@ -1842,7 +1843,7 @@ export const GetAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -1856,7 +1857,7 @@ export const GetAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -2042,7 +2043,7 @@ export const GetAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -2056,7 +2057,7 @@ export const GetAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -2807,7 +2808,7 @@ export const GetAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -2821,7 +2822,7 @@ export const GetAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -3625,7 +3626,7 @@ export const ListAccessApplicationsResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -3639,7 +3640,7 @@ export const ListAccessApplicationsResponse =
                           Schema.Unknown,
                           Schema.Struct({
                             clientId: Schema.String,
-                            clientSecret: Schema.String,
+                            clientSecret: SensitiveString,
                             scheme: Schema.Literal("access_service_token"),
                           }).pipe(
                             Schema.encodeKeys({
@@ -3835,7 +3836,7 @@ export const ListAccessApplicationsResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -3849,7 +3850,7 @@ export const ListAccessApplicationsResponse =
                           Schema.Unknown,
                           Schema.Struct({
                             clientId: Schema.String,
-                            clientSecret: Schema.String,
+                            clientSecret: SensitiveString,
                             scheme: Schema.Literal("access_service_token"),
                           }).pipe(
                             Schema.encodeKeys({
@@ -4639,7 +4640,7 @@ export const ListAccessApplicationsResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -4653,7 +4654,7 @@ export const ListAccessApplicationsResponse =
                           Schema.Unknown,
                           Schema.Struct({
                             clientId: Schema.String,
-                            clientSecret: Schema.String,
+                            clientSecret: SensitiveString,
                             scheme: Schema.Literal("access_service_token"),
                           }).pipe(
                             Schema.encodeKeys({
@@ -5529,7 +5530,7 @@ export const CreateAccessApplicationRequest =
             Schema.Unknown,
             Schema.Struct({
               clientId: Schema.String,
-              clientSecret: Schema.String,
+              clientSecret: SensitiveString,
               scheme: Schema.Literal("access_service_token"),
             }).pipe(
               Schema.encodeKeys({
@@ -5543,7 +5544,7 @@ export const CreateAccessApplicationRequest =
                 Schema.Unknown,
                 Schema.Struct({
                   clientId: Schema.String,
-                  clientSecret: Schema.String,
+                  clientSecret: SensitiveString,
                   scheme: Schema.Literal("access_service_token"),
                 }).pipe(
                   Schema.encodeKeys({
@@ -6274,7 +6275,7 @@ export const CreateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -6288,7 +6289,7 @@ export const CreateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -6474,7 +6475,7 @@ export const CreateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -6488,7 +6489,7 @@ export const CreateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -7239,7 +7240,7 @@ export const CreateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -7253,7 +7254,7 @@ export const CreateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -7647,7 +7648,7 @@ export const UpdateAccessApplicationRequest =
             Schema.Unknown,
             Schema.Struct({
               clientId: Schema.String,
-              clientSecret: Schema.String,
+              clientSecret: SensitiveString,
               scheme: Schema.Literal("access_service_token"),
             }).pipe(
               Schema.encodeKeys({
@@ -7661,7 +7662,7 @@ export const UpdateAccessApplicationRequest =
                 Schema.Unknown,
                 Schema.Struct({
                   clientId: Schema.String,
-                  clientSecret: Schema.String,
+                  clientSecret: SensitiveString,
                   scheme: Schema.Literal("access_service_token"),
                 }).pipe(
                   Schema.encodeKeys({
@@ -8392,7 +8393,7 @@ export const UpdateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -8406,7 +8407,7 @@ export const UpdateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -8592,7 +8593,7 @@ export const UpdateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -8606,7 +8607,7 @@ export const UpdateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -9357,7 +9358,7 @@ export const UpdateAccessApplicationResponse =
                   Schema.Unknown,
                   Schema.Struct({
                     clientId: Schema.String,
-                    clientSecret: Schema.String,
+                    clientSecret: SensitiveString,
                     scheme: Schema.Literal("access_service_token"),
                   }).pipe(
                     Schema.encodeKeys({
@@ -9371,7 +9372,7 @@ export const UpdateAccessApplicationResponse =
                       Schema.Unknown,
                       Schema.Struct({
                         clientId: Schema.String,
-                        clientSecret: Schema.String,
+                        clientSecret: SensitiveString,
                         scheme: Schema.Literal("access_service_token"),
                       }).pipe(
                         Schema.encodeKeys({
@@ -26726,7 +26727,7 @@ export const CreateDevicePostureIntegrationRequest =
         apiUrl: Schema.String,
         authUrl: Schema.String,
         clientId: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
       }).pipe(
         Schema.encodeKeys({
           apiUrl: "api_url",
@@ -26738,7 +26739,7 @@ export const CreateDevicePostureIntegrationRequest =
       Schema.Struct({
         apiUrl: Schema.String,
         clientId: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
         customerId: Schema.String,
       }).pipe(
         Schema.encodeKeys({
@@ -26751,7 +26752,7 @@ export const CreateDevicePostureIntegrationRequest =
       Schema.Struct({
         apiUrl: Schema.String,
         clientKey: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
         customerId: Schema.String,
       }).pipe(
         Schema.encodeKeys({
@@ -26763,7 +26764,7 @@ export const CreateDevicePostureIntegrationRequest =
       ),
       Schema.Struct({
         clientId: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
         customerId: Schema.String,
       }).pipe(
         Schema.encodeKeys({
@@ -26774,7 +26775,7 @@ export const CreateDevicePostureIntegrationRequest =
       ),
       Schema.Struct({
         clientId: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
       }).pipe(
         Schema.encodeKeys({
           clientId: "client_id",
@@ -26783,9 +26784,9 @@ export const CreateDevicePostureIntegrationRequest =
       ),
       Schema.Struct({
         apiUrl: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
         accessClientId: Schema.optional(Schema.String),
-        accessClientSecret: Schema.optional(Schema.String),
+        accessClientSecret: Schema.optional(SensitiveString),
       }).pipe(
         Schema.encodeKeys({
           apiUrl: "api_url",
@@ -26796,13 +26797,13 @@ export const CreateDevicePostureIntegrationRequest =
       ),
       Schema.Struct({
         apiUrl: Schema.String,
-        clientSecret: Schema.String,
+        clientSecret: SensitiveString,
       }).pipe(
         Schema.encodeKeys({ apiUrl: "api_url", clientSecret: "client_secret" }),
       ),
       Schema.Struct({
         accessClientId: Schema.String,
-        accessClientSecret: Schema.String,
+        accessClientSecret: SensitiveString,
         apiUrl: Schema.String,
       }).pipe(
         Schema.encodeKeys({
@@ -26966,7 +26967,7 @@ export const PatchDevicePostureIntegrationRequest =
           apiUrl: Schema.String,
           authUrl: Schema.String,
           clientId: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
         }).pipe(
           Schema.encodeKeys({
             apiUrl: "api_url",
@@ -26978,7 +26979,7 @@ export const PatchDevicePostureIntegrationRequest =
         Schema.Struct({
           apiUrl: Schema.String,
           clientId: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
           customerId: Schema.String,
         }).pipe(
           Schema.encodeKeys({
@@ -26991,7 +26992,7 @@ export const PatchDevicePostureIntegrationRequest =
         Schema.Struct({
           apiUrl: Schema.String,
           clientKey: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
           customerId: Schema.String,
         }).pipe(
           Schema.encodeKeys({
@@ -27003,7 +27004,7 @@ export const PatchDevicePostureIntegrationRequest =
         ),
         Schema.Struct({
           clientId: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
           customerId: Schema.String,
         }).pipe(
           Schema.encodeKeys({
@@ -27014,7 +27015,7 @@ export const PatchDevicePostureIntegrationRequest =
         ),
         Schema.Struct({
           clientId: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
         }).pipe(
           Schema.encodeKeys({
             clientId: "client_id",
@@ -27023,9 +27024,9 @@ export const PatchDevicePostureIntegrationRequest =
         ),
         Schema.Struct({
           apiUrl: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
           accessClientId: Schema.optional(Schema.String),
-          accessClientSecret: Schema.optional(Schema.String),
+          accessClientSecret: Schema.optional(SensitiveString),
         }).pipe(
           Schema.encodeKeys({
             apiUrl: "api_url",
@@ -27036,7 +27037,7 @@ export const PatchDevicePostureIntegrationRequest =
         ),
         Schema.Struct({
           apiUrl: Schema.String,
-          clientSecret: Schema.String,
+          clientSecret: SensitiveString,
         }).pipe(
           Schema.encodeKeys({
             apiUrl: "api_url",
@@ -27045,7 +27046,7 @@ export const PatchDevicePostureIntegrationRequest =
         ),
         Schema.Struct({
           accessClientId: Schema.String,
-          accessClientSecret: Schema.String,
+          accessClientSecret: SensitiveString,
           apiUrl: Schema.String,
         }).pipe(
           Schema.encodeKeys({
@@ -53518,7 +53519,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         conditionalAccessEnabled: Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
@@ -53621,7 +53622,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53701,7 +53702,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53750,7 +53751,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53801,7 +53802,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53864,7 +53865,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53917,7 +53918,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -53969,7 +53970,7 @@ export const GetIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -54422,7 +54423,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             conditionalAccessEnabled: Schema.optional(
               Schema.Union([Schema.Boolean, Schema.Null]),
@@ -54529,7 +54530,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54615,7 +54616,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54670,7 +54671,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54729,7 +54730,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54798,7 +54799,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54855,7 +54856,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -54911,7 +54912,7 @@ export const ListIdentityProvidersResponse =
               Schema.Union([Schema.String, Schema.Null]),
             ),
             clientSecret: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+              Schema.Union([SensitiveString, Schema.Null]),
             ),
             emailClaimName: Schema.optional(
               Schema.Union([Schema.String, Schema.Null]),
@@ -55422,7 +55423,7 @@ export const CreateIdentityProviderRequest =
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
       clientId: Schema.optional(Schema.String),
-      clientSecret: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(SensitiveString),
       conditionalAccessEnabled: Schema.optional(Schema.Boolean),
       directoryId: Schema.optional(Schema.String),
       emailClaimName: Schema.optional(Schema.String),
@@ -55782,7 +55783,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         conditionalAccessEnabled: Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
@@ -55885,7 +55886,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -55965,7 +55966,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56014,7 +56015,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56065,7 +56066,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56128,7 +56129,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56181,7 +56182,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56233,7 +56234,7 @@ export const CreateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56422,7 +56423,7 @@ export const UpdateIdentityProviderRequest =
     config: Schema.Struct({
       claims: Schema.optional(Schema.Array(Schema.String)),
       clientId: Schema.optional(Schema.String),
-      clientSecret: Schema.optional(Schema.String),
+      clientSecret: Schema.optional(SensitiveString),
       conditionalAccessEnabled: Schema.optional(Schema.Boolean),
       directoryId: Schema.optional(Schema.String),
       emailClaimName: Schema.optional(Schema.String),
@@ -56782,7 +56783,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         conditionalAccessEnabled: Schema.optional(
           Schema.Union([Schema.Boolean, Schema.Null]),
@@ -56885,7 +56886,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -56965,7 +56966,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -57014,7 +57015,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -57065,7 +57066,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -57128,7 +57129,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -57181,7 +57182,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
@@ -57233,7 +57234,7 @@ export const UpdateIdentityProviderResponse =
         ),
         clientId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         clientSecret: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
+          Schema.Union([SensitiveString, Schema.Null]),
         ),
         emailClaimName: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),

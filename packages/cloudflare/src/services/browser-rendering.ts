@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Content
@@ -191,7 +192,7 @@ export const CreateContentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -504,7 +505,7 @@ export const CreateJsonRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -854,7 +855,7 @@ export const CreateLinkRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1161,7 +1162,7 @@ export const CreateMarkdownRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1500,7 +1501,7 @@ export const CreatePdfRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1850,7 +1851,7 @@ export const CreateScrapeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -2205,7 +2206,7 @@ export const CreateScreenshotRequest =
     ),
     authenticate: Schema.optional(
       Schema.Struct({
-        password: Schema.String,
+        password: SensitiveString,
         username: Schema.String,
       }),
     ),
@@ -2564,7 +2565,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),

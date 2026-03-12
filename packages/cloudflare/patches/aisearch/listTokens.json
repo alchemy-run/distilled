@@ -4,9 +4,10 @@
   },
   "response": {
     "properties": {
-      "[].account_id": { "optional": true },
-      "[].account_tag": { "optional": true },
-      "[].cf_api_key": { "optional": true }
+      "result_info": { "optional": true },
+      "result[].account_id": { "optional": true },
+      "result[].account_tag": { "optional": true },
+      "result[].cf_api_key": { "optional": true }
     }
   }
 }

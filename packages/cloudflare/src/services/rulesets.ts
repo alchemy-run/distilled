@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Pha
@@ -32,7 +33,7 @@ export interface GetPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -128,7 +129,7 @@ export interface GetPhasResponse {
 
 export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -179,7 +180,7 @@ export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -268,7 +269,7 @@ export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -449,7 +450,7 @@ export const PutPhasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -506,7 +507,7 @@ export const PutPhasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -569,7 +570,7 @@ export interface PutPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -665,7 +666,7 @@ export interface PutPhasResponse {
 
 export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -716,7 +717,7 @@ export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -805,7 +806,7 @@ export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -927,7 +928,7 @@ export interface GetPhasVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -1024,7 +1025,7 @@ export interface GetPhasVersionResponse {
 export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     id: Schema.String,
-    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -1075,7 +1076,7 @@ export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
           exposedCredentialCheck: Schema.optional(
             Schema.Union([
               Schema.Struct({
-                passwordExpression: Schema.String,
+                passwordExpression: SensitiveString,
                 usernameExpression: Schema.String,
               }).pipe(
                 Schema.encodeKeys({
@@ -1166,7 +1167,7 @@ export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
           exposedCredentialCheck: Schema.optional(
             Schema.Union([
               Schema.Struct({
-                passwordExpression: Schema.String,
+                passwordExpression: SensitiveString,
                 usernameExpression: Schema.String,
               }).pipe(
                 Schema.encodeKeys({
@@ -1285,7 +1286,7 @@ export const ListPhasVersionsRequest =
 export interface ListPhasVersionsResponse {
   result: {
     id: string;
-    kind: "managed" | "custom" | "root" | "zone";
+    kind: "zone" | "managed" | "custom" | "root";
     lastUpdated: string;
     name: string;
     phase:
@@ -1322,7 +1323,7 @@ export const ListPhasVersionsResponse =
     result: Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+        kind: Schema.Literals(["zone", "managed", "custom", "root"]),
         lastUpdated: Schema.String,
         name: Schema.String,
         phase: Schema.Literals([
@@ -1386,7 +1387,7 @@ export const listPhasVersions: API.PaginatedOperationMethod<
   items: (input: ListPhasVersionsRequest) => stream.Stream<
     {
       id: string;
-      kind: "managed" | "custom" | "root" | "zone";
+      kind: "zone" | "managed" | "custom" | "root";
       lastUpdated: string;
       name: string;
       phase:
@@ -1504,7 +1505,7 @@ export const CreateRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   exposedCredentialCheck: Schema.optional(
     Schema.Struct({
-      passwordExpression: Schema.String,
+      passwordExpression: SensitiveString,
       usernameExpression: Schema.String,
     }).pipe(
       Schema.encodeKeys({
@@ -1580,7 +1581,7 @@ export interface CreateRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -2399,7 +2400,7 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -2466,7 +2467,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -2584,7 +2585,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -2694,7 +2695,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -2787,7 +2788,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3020,7 +3021,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3135,7 +3136,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3253,7 +3254,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3339,7 +3340,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3532,7 +3533,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3647,7 +3648,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3810,7 +3811,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -3959,7 +3960,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -4108,7 +4109,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -4228,7 +4229,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -4393,7 +4394,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -4817,7 +4818,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -5059,7 +5060,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -5216,7 +5217,7 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -5421,7 +5422,7 @@ export const PatchRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   enabled: Schema.optional(Schema.Boolean),
   exposedCredentialCheck: Schema.optional(
     Schema.Struct({
-      passwordExpression: Schema.String,
+      passwordExpression: SensitiveString,
       usernameExpression: Schema.String,
     }).pipe(
       Schema.encodeKeys({
@@ -5497,7 +5498,7 @@ export interface PatchRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -6316,7 +6317,7 @@ export interface PatchRuleResponse {
 
 export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -6383,7 +6384,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -6501,7 +6502,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -6611,7 +6612,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -6704,7 +6705,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -6937,7 +6938,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7052,7 +7053,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7170,7 +7171,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7256,7 +7257,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7449,7 +7450,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7564,7 +7565,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7727,7 +7728,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -7876,7 +7877,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -8025,7 +8026,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -8145,7 +8146,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -8310,7 +8311,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -8734,7 +8735,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -8976,7 +8977,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -9133,7 +9134,7 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -9284,7 +9285,7 @@ export interface DeleteRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -10103,7 +10104,7 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -10170,7 +10171,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10288,7 +10289,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10398,7 +10399,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10491,7 +10492,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10724,7 +10725,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10839,7 +10840,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -10957,7 +10958,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11043,7 +11044,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11236,7 +11237,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11351,7 +11352,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11514,7 +11515,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11663,7 +11664,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11812,7 +11813,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -11932,7 +11933,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -12097,7 +12098,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -12521,7 +12522,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -12763,7 +12764,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -12920,7 +12921,7 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -13073,7 +13074,7 @@ export interface GetRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -13169,7 +13170,7 @@ export interface GetRulesetResponse {
 
 export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -13220,7 +13221,7 @@ export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -13309,7 +13310,7 @@ export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -13426,7 +13427,7 @@ export const ListRulesetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 export interface ListRulesetsResponse {
   result: {
     id: string;
-    kind: "managed" | "custom" | "root" | "zone";
+    kind: "zone" | "managed" | "custom" | "root";
     lastUpdated: string;
     name: string;
     phase:
@@ -13467,7 +13468,7 @@ export const ListRulesetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   result: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+      kind: Schema.Literals(["zone", "managed", "custom", "root"]),
       lastUpdated: Schema.String,
       name: Schema.String,
       phase: Schema.Literals([
@@ -13542,7 +13543,7 @@ export const listRulesets: API.PaginatedOperationMethod<
   items: (input: ListRulesetsRequest) => stream.Stream<
     {
       id: string;
-      kind: "managed" | "custom" | "root" | "zone";
+      kind: "zone" | "managed" | "custom" | "root";
       lastUpdated: string;
       name: string;
       phase:
@@ -13594,7 +13595,7 @@ export interface CreateRulesetRequest {
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId?: string;
   /** Body param: The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** Body param: The human-readable name of the ruleset. */
   name: string;
   /** Body param: The phase of the ruleset. */
@@ -13681,7 +13682,7 @@ export interface CreateRulesetRequest {
 export const CreateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -13721,7 +13722,7 @@ export const CreateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -13778,7 +13779,7 @@ export const CreateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -13841,7 +13842,7 @@ export interface CreateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -13937,7 +13938,7 @@ export interface CreateRulesetResponse {
 
 export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -13988,7 +13989,7 @@ export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14077,7 +14078,7 @@ export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14189,7 +14190,7 @@ export interface UpdateRulesetRequest {
   /** Body param: An informative description of the ruleset. */
   description?: string;
   /** Body param: The kind of the ruleset. */
-  kind?: "managed" | "custom" | "root" | "zone";
+  kind?: "zone" | "managed" | "custom" | "root";
   /** Body param: The human-readable name of the ruleset. */
   name?: string;
   /** Body param: The phase of the ruleset. */
@@ -14276,7 +14277,7 @@ export const UpdateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["managed", "custom", "root", "zone"])),
+  kind: Schema.optional(Schema.Literals(["zone", "managed", "custom", "root"])),
   name: Schema.optional(Schema.String),
   phase: Schema.optional(
     Schema.Literals([
@@ -14317,7 +14318,7 @@ export const UpdateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14374,7 +14375,7 @@ export const UpdateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           enabled: Schema.optional(Schema.Boolean),
           exposedCredentialCheck: Schema.optional(
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14437,7 +14438,7 @@ export interface UpdateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -14533,7 +14534,7 @@ export interface UpdateRulesetResponse {
 
 export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -14584,7 +14585,7 @@ export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14673,7 +14674,7 @@ export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -14830,7 +14831,7 @@ export interface GetVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -14926,7 +14927,7 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -14977,7 +14978,7 @@ export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -15066,7 +15067,7 @@ export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         exposedCredentialCheck: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              passwordExpression: Schema.String,
+              passwordExpression: SensitiveString,
               usernameExpression: Schema.String,
             }).pipe(
               Schema.encodeKeys({
@@ -15185,7 +15186,7 @@ export const ListVersionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export interface ListVersionsResponse {
   result: {
     id: string;
-    kind: "managed" | "custom" | "root" | "zone";
+    kind: "zone" | "managed" | "custom" | "root";
     lastUpdated: string;
     name: string;
     phase:
@@ -15221,7 +15222,7 @@ export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   result: Schema.Array(
     Schema.Struct({
       id: Schema.String,
-      kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+      kind: Schema.Literals(["zone", "managed", "custom", "root"]),
       lastUpdated: Schema.String,
       name: Schema.String,
       phase: Schema.Literals([
@@ -15283,7 +15284,7 @@ export const listVersions: API.PaginatedOperationMethod<
   items: (input: ListVersionsRequest) => stream.Stream<
     {
       id: string;
-      kind: "managed" | "custom" | "root" | "zone";
+      kind: "zone" | "managed" | "custom" | "root";
       lastUpdated: string;
       name: string;
       phase:

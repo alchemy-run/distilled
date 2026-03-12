@@ -374,6 +374,8 @@ export interface PropertyInfo {
   type: TypeInfo;
   required: boolean;
   description?: string;
+  /** Override the wire key used in Schema.encodeKeys (defaults to name) */
+  wireKey?: string;
 }
 
 export interface ParsedOperation {

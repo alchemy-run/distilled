@@ -27,7 +27,7 @@ export class InstanceNotFound extends Schema.TaggedErrorClass<InstanceNotFound>(
   "InstanceNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InstanceNotFound, [{ code: 10400 }, { code: 10201 }]);
+T.applyErrorMatchers(InstanceNotFound, [{ code: 10201 }, { code: 10400 }]);
 
 export class InvalidBody extends Schema.TaggedErrorClass<InvalidBody>()(
   "InvalidBody",
@@ -398,6 +398,7 @@ export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type ListInstancesError =
   | DefaultErrors
   | WorkflowNotFound
+  | WorkflowInternalError
   | InvalidRoute
   | InvalidBody;
 
@@ -439,7 +440,7 @@ export const listInstances: API.PaginatedOperationMethod<
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
-  errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
+  errors: [WorkflowNotFound, WorkflowInternalError, InvalidRoute, InvalidBody],
   pagination: {
     mode: "page",
     inputToken: "page",

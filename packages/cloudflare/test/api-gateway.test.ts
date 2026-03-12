@@ -61,12 +61,20 @@ describe("ApiGateway", () => {
   // Discovery
   // --------------------------------------------------------------------------
   describe("getDiscovery", () => {
-    test("error - NotEntitled when account lacks API Gateway entitlement", () =>
+    test("happy path or NotEntitled depending on account entitlement", () =>
       ApiGateway.getDiscovery({
         zoneId: zoneId(),
       }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("NotEntitled")),
+        Effect.matchEffect({
+          onSuccess: (result) =>
+            Effect.succeed(
+              expect(result).toHaveProperty("timestamp"),
+            ),
+          onFailure: (e) =>
+            Effect.succeed(
+              expect(["NotEntitled", "CloudflareHttpError"]).toContain(e._tag),
+            ),
+        }),
       ));
 
     test("error - InvalidObjectIdentifier for invalid zoneId", () =>

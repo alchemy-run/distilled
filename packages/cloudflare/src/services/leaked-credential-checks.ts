@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Detection
@@ -90,7 +91,7 @@ export const ListDetectionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     result: Schema.Array(
       Schema.Struct({
         id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        password: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        password: Schema.optional(Schema.Union([SensitiveString, Schema.Null])),
         username: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),

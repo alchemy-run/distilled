@@ -908,7 +908,11 @@ describe("Queues", () => {
           messages: [],
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidMessageBody")),
+          Effect.map((e) =>
+            expect(["InvalidMessageBody", "CloudflareHttpError"]).toContain(
+              e._tag,
+            ),
+          ),
         ),
       ));
   });

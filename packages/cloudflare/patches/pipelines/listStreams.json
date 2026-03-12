@@ -2,7 +2,7 @@
   "errors": {},
   "response": {
     "properties": {
-      "result[].scope": { "type": "unknown" }
+      "result_info": { "optional": true }
     }
   }
 }

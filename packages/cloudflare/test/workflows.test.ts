@@ -1,5 +1,6 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Schedule from "effect/Schedule";
 import { test, getAccountId, testRunId } from "./test.ts";
 import * as Workflows from "~/services/workflows";
 import * as Workers from "~/services/workers";
@@ -684,7 +685,14 @@ describe("Workflows", () => {
             accountId: accountId(),
             workflowName: wfName,
             direction: "desc",
-          });
+          }).pipe(
+            Effect.retry({
+              while: (e) => e._tag === "WorkflowInternalError",
+              schedule: Schedule.recurs(3).pipe(
+                Schedule.addDelay(() => Effect.succeed("2 seconds")),
+              ),
+            }),
+          );
 
           expect(result).toBeDefined();
           expect(Array.isArray(result.result)).toBe(true);

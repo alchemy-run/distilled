@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Errors
@@ -2311,7 +2312,7 @@ export const GetBucketSippyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([
         Schema.Struct({
           accessKeyId: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
+            Schema.Union([SensitiveString, Schema.Null]),
           ),
           account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2386,18 +2387,18 @@ export const PutBucketSippyRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ).pipe(T.HttpHeader("cf-r2-jurisdiction")),
   destination: Schema.optional(
     Schema.Struct({
-      accessKeyId: Schema.optional(Schema.String),
+      accessKeyId: Schema.optional(SensitiveString),
       provider: Schema.optional(Schema.Literal("r2")),
-      secretAccessKey: Schema.optional(Schema.String),
+      secretAccessKey: Schema.optional(SensitiveString),
     }),
   ),
   source: Schema.optional(
     Schema.Struct({
-      accessKeyId: Schema.optional(Schema.String),
+      accessKeyId: Schema.optional(SensitiveString),
       bucket: Schema.optional(Schema.String),
       provider: Schema.optional(Schema.Literal("aws")),
       region: Schema.optional(Schema.String),
-      secretAccessKey: Schema.optional(Schema.String),
+      secretAccessKey: Schema.optional(SensitiveString),
     }),
   ),
 }).pipe(
@@ -2432,7 +2433,7 @@ export const PutBucketSippyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([
         Schema.Struct({
           accessKeyId: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
+            Schema.Union([SensitiveString, Schema.Null]),
           ),
           account: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2554,8 +2555,8 @@ export const SourceSuperSlurperConnectivityPrecheckRequest =
     accountId: Schema.String.pipe(T.HttpPath("account_id")),
     bucket: Schema.String,
     secret: Schema.Struct({
-      accessKeyId: Schema.String,
-      secretAccessKey: Schema.String,
+      accessKeyId: SensitiveString,
+      secretAccessKey: SensitiveString,
     }),
     vendor: Schema.Literal("s3"),
     endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -2612,8 +2613,8 @@ export const TargetSuperSlurperConnectivityPrecheckRequest =
     accountId: Schema.String.pipe(T.HttpPath("account_id")),
     bucket: Schema.String,
     secret: Schema.Struct({
-      accessKeyId: Schema.String,
-      secretAccessKey: Schema.String,
+      accessKeyId: SensitiveString,
+      secretAccessKey: SensitiveString,
     }),
     vendor: Schema.Literal("r2"),
     jurisdiction: Schema.optional(
@@ -3064,8 +3065,8 @@ export const CreateSuperSlurperJobRequest =
         Schema.Struct({
           bucket: Schema.String,
           secret: Schema.Struct({
-            accessKeyId: Schema.String,
-            secretAccessKey: Schema.String,
+            accessKeyId: SensitiveString,
+            secretAccessKey: SensitiveString,
           }),
           vendor: Schema.Literal("s3"),
           endpoint: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
@@ -3078,7 +3079,7 @@ export const CreateSuperSlurperJobRequest =
           bucket: Schema.String,
           secret: Schema.Struct({
             clientEmail: Schema.String,
-            privateKey: Schema.String,
+            privateKey: SensitiveString,
           }),
           vendor: Schema.Literal("gcs"),
           pathPrefix: Schema.optional(
@@ -3088,8 +3089,8 @@ export const CreateSuperSlurperJobRequest =
         Schema.Struct({
           bucket: Schema.String,
           secret: Schema.Struct({
-            accessKeyId: Schema.String,
-            secretAccessKey: Schema.String,
+            accessKeyId: SensitiveString,
+            secretAccessKey: SensitiveString,
           }),
           vendor: Schema.Literal("r2"),
           jurisdiction: Schema.optional(
@@ -3105,8 +3106,8 @@ export const CreateSuperSlurperJobRequest =
       Schema.Struct({
         bucket: Schema.String,
         secret: Schema.Struct({
-          accessKeyId: Schema.String,
-          secretAccessKey: Schema.String,
+          accessKeyId: SensitiveString,
+          secretAccessKey: SensitiveString,
         }),
         vendor: Schema.Literal("r2"),
         jurisdiction: Schema.optional(

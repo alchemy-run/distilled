@@ -438,17 +438,16 @@ describe("Alerting", () => {
   });
 
   describe("deleteSilence", () => {
-    test("error - non-existent silenceId returns null result", () =>
-      Alerting.deleteSilence({
-        accountId: accountId(),
-        silenceId: "00000000-0000-0000-0000-000000000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          // API returns success:true with null result, which causes schema decode failure
-          expect(e._tag).toBe("CloudflareHttpError");
-        }),
-      ));
+    test("happy path - non-existent silenceId returns success envelope", () =>
+      Effect.gen(function* () {
+        // API returns success:true with null result; DeleteSilenceResponse schema
+        // models the envelope directly ({errors, messages, success}), so it decodes fine
+        const result = yield* Alerting.deleteSilence({
+          accountId: accountId(),
+          silenceId: "00000000-0000-0000-0000-000000000000",
+        });
+        expect(result.success).toBe(true);
+      }));
 
     test("error - InvalidRoute for invalid accountId", () =>
       Alerting.deleteSilence({
