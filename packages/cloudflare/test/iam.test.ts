@@ -2,7 +2,6 @@ import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
 import * as IAM from "~/services/iam";
-import { InvalidMember } from "~/services/iam.ts";
 
 const accountId = () => getAccountId();
 
@@ -70,10 +69,10 @@ const withUserGroup = <A, E, R>(
     const groups = yield* IAM.listPermissionGroups({
       accountId: accountId(),
     });
-    if (groups.length === 0) {
+    if (groups.result.length === 0) {
       throw new Error("No permission groups available for testing");
     }
-    const permGroupId = groups[0].id;
+    const permGroupId = groups.result[0].id;
 
     // Create a resource group to use in the policy
     const rg = yield* IAM.createResourceGroup({
@@ -132,11 +131,11 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        expect(result.length).toBeGreaterThan(0);
+        expect(Array.isArray(result.result)).toBe(true);
+        expect(result.result.length).toBeGreaterThan(0);
 
         // Verify structure of first item
-        const first = result[0];
+        const first = result.result[0];
         expect(first.id).toBeDefined();
         expect(typeof first.id).toBe("string");
       }));
@@ -149,7 +148,7 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - returns empty array for non-matching name filter", () =>
@@ -160,8 +159,8 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        expect(result.length).toBe(0);
+        expect(Array.isArray(result.result)).toBe(true);
+        expect(result.result.length).toBe(0);
       }));
 
     test("error - invalid accountId", () =>
@@ -199,15 +198,15 @@ describe("IAM", () => {
         const groups = yield* IAM.listPermissionGroups({
           accountId: accountId(),
         });
-        expect(groups.length).toBeGreaterThan(0);
+        expect(groups.result.length).toBeGreaterThan(0);
 
         const result = yield* IAM.getPermissionGroup({
           accountId: accountId(),
-          permissionGroupId: groups[0].id,
+          permissionGroupId: groups.result[0].id,
         });
 
         expect(result).toBeDefined();
-        expect(result.id).toBe(groups[0].id);
+        expect(result.id).toBe(groups.result[0].id);
         expect(typeof result.id).toBe("string");
         if (result.name) {
           expect(typeof result.name).toBe("string");
@@ -440,7 +439,7 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
         // Account should have at least a default resource group
       }));
 
@@ -453,9 +452,9 @@ describe("IAM", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
           // Should find the resource group we just created
-          const found = result.find((rg) => rg.id === resourceGroupId);
+          const found = result.result.find((rg) => rg.id === resourceGroupId);
           expect(found).toBeDefined();
         }),
       ));
@@ -469,14 +468,14 @@ describe("IAM", () => {
       })
         .pipe(
           Effect.catchTag("CloudflareHttpError", () =>
-            Effect.succeed([] as IAM.ListResourceGroupsResponse),
+            Effect.succeed({ result: [] } as IAM.ListResourceGroupsResponse),
           ),
         )
         .pipe(
           Effect.map((result) => {
             expect(result).toBeDefined();
-            expect(Array.isArray(result)).toBe(true);
-            expect(result.length).toBe(0);
+            expect(Array.isArray(result.result)).toBe(true);
+            expect(result.result.length).toBe(0);
           }),
         ));
 
@@ -675,11 +674,11 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
 
         // Verify structure of items if any exist
-        if (result.length > 0) {
-          const first = result[0];
+        if (result.result.length > 0) {
+          const first = result.result[0];
           if (first.id) {
             expect(typeof first.id).toBe("string");
           }
@@ -728,20 +727,20 @@ describe("IAM", () => {
         });
 
         // Only run the happy path if there's an existing SSO connector
-        if (ssos.length > 0 && ssos[0].id) {
+        if (ssos.result.length > 0 && ssos.result[0].id) {
           const result = yield* IAM.getSso({
             accountId: accountId(),
-            ssoConnectorId: ssos[0].id,
+            ssoConnectorId: ssos.result[0].id,
           });
 
           expect(result).toBeDefined();
           if (result.id) {
-            expect(result.id).toBe(ssos[0].id);
+            expect(result.id).toBe(ssos.result[0].id);
           }
         } else {
           // If no SSO connectors exist, just verify listSsos works
           expect(ssos).toBeDefined();
-          expect(Array.isArray(ssos)).toBe(true);
+          expect(Array.isArray(ssos.result)).toBe(true);
         }
       }));
 
@@ -1047,11 +1046,11 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
 
         // Verify structure of items if any exist
-        if (result.length > 0) {
-          const first = result[0];
+        if (result.result.length > 0) {
+          const first = result.result[0];
           expect(first.id).toBeDefined();
           expect(typeof first.id).toBe("string");
           expect(first.name).toBeDefined();
@@ -1071,7 +1070,7 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - filters by direction", () =>
@@ -1082,7 +1081,7 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - fuzzy name search", () =>
@@ -1093,7 +1092,7 @@ describe("IAM", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - invalid accountId", () =>
@@ -1130,7 +1129,7 @@ describe("IAM", () => {
         const groups = yield* IAM.listPermissionGroups({
           accountId: accountId(),
         });
-        const permGroupId = groups[0].id;
+        const permGroupId = groups.result[0].id;
 
         const rg = yield* IAM.createResourceGroup({
           accountId: accountId(),
@@ -1260,7 +1259,7 @@ describe("IAM", () => {
           accountId: accountId(),
           name,
         });
-        for (const ug of existing) {
+        for (const ug of existing.result) {
           yield* IAM.deleteUserGroup({
             accountId: accountId(),
             userGroupId: ug.id,
@@ -1433,7 +1432,7 @@ describe("IAM", () => {
         const groups = yield* IAM.listPermissionGroups({
           accountId: accountId(),
         });
-        const permGroupId = groups[0].id;
+        const permGroupId = groups.result[0].id;
 
         const rg = yield* IAM.createResourceGroup({
           accountId: accountId(),
@@ -1540,14 +1539,17 @@ describe("IAM", () => {
         })
           .pipe(
             Effect.catchTag("CloudflareHttpError", () =>
-              Effect.succeed([] as IAM.ListUserGroupMembersResponse),
+              Effect.succeed({
+                result: [],
+                resultInfo: {},
+              } as IAM.ListUserGroupMembersResponse),
             ),
           )
           .pipe(
             Effect.map((result) => {
               // Newly created user group has no members — result is empty
-              expect(Array.isArray(result)).toBe(true);
-              expect(result.length).toBe(0);
+              expect(Array.isArray(result.result)).toBe(true);
+              expect(result.result.length).toBe(0);
             }),
           ),
       ));

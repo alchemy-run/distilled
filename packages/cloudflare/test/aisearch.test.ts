@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import { test, getAccountId, testRunId } from "./test.ts";
-import { formatHeaders, resolveFromEnv } from "~/credentials.ts";
+import { formatHeaders, resolveFromEnv } from "~/credentials";
 import * as AISearch from "~/services/aisearch";
 import * as R2 from "~/services/r2";
 
@@ -72,7 +72,7 @@ const cleanupTokenByName = (tokenName: string) =>
       accountId: accountId(),
     });
 
-    for (const token of tokens) {
+    for (const token of tokens.result) {
       if (token.name === tokenName) {
         yield* AISearch.deleteToken({
           accountId: accountId(),

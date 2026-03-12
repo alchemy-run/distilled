@@ -21,7 +21,7 @@ import {
   paginateWithDefaults,
   type PaginationStrategy,
 } from "@distilled.cloud/core/pagination";
-import { getPath } from "@distilled.cloud/core/traits";
+import { getPath, type RequestParts } from "@distilled.cloud/core/traits";
 import {
   CloudflareHttpError,
   HTTP_STATUS_MAP,
@@ -315,12 +315,41 @@ class CloudflareDecodeError extends CloudflareHttpError {
   }
 }
 
+const ASSET_UPLOAD_PATH = "/accounts/{account_id}/workers/assets/upload";
+
+export const transformCloudflareRequestParts = ({
+  pathTemplate,
+  parts,
+}: {
+  pathTemplate: string;
+  parts: RequestParts;
+}): RequestParts => {
+  if (pathTemplate !== ASSET_UPLOAD_PATH) {
+    return parts;
+  }
+
+  const authorization = parts.headers.Authorization;
+  if (!authorization || authorization.startsWith("Bearer ")) {
+    return parts;
+  }
+
+  return {
+    ...parts,
+    headers: {
+      ...parts.headers,
+      Authorization: `Bearer ${authorization}`,
+    },
+  };
+};
+
 const _API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (creds: any) => creds.apiBaseUrl,
   getAuthHeaders: formatHeaders,
   matchError,
   ParseError: CloudflareDecodeError as any,
+  transformRequestParts: ({ pathTemplate, parts }) =>
+    transformCloudflareRequestParts({ pathTemplate, parts }),
 });
 
 const paginatePageByItems: PaginationStrategy = (
