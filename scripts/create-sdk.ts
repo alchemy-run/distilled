@@ -1634,6 +1634,7 @@ Next steps:
   2. Update credentials.ts with correct API base URL and auth scheme
   3. Add API key secrets to GitHub repository settings
   4. Run tests: cd packages/${name} && bun run test
+  5. Update the website: add the new SDK card to www/distilled.cloud/index.html (SDK section)
 `);
 }
 

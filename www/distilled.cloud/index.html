@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/potion.png" />
+    <meta
+      name="description"
+      content="Type-safe, tree-shakeable cloud SDKs with tagged errors. Built for Effect and designed to power AI code generation."
+    />
+    <meta name="theme-color" content="#09090b" />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="distilled.cloud - Effect-native Cloud SDKs"
+    />
+    <meta
+      property="og:description"
+      content="Type-safe, tree-shakeable cloud SDKs with tagged errors. Built for Effect and designed to power AI code generation."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://distilled.cloud" />
+    <meta
+      property="og:image"
+      content="https://distilled.cloud/og-image.svg"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="distilled.cloud - Effect-native Cloud SDKs"
+    />
+    <meta
+      name="twitter:description"
+      content="Type-safe, tree-shakeable cloud SDKs with tagged errors. Built for Effect and designed to power AI code generation."
+    />
+    <meta
+      name="twitter:image"
+      content="https://distilled.cloud/og-image.svg"
+    />
+
+    <title>distilled.cloud - Effect-native Cloud SDKs</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- ================================================================== -->
+    <!-- Hero Section                                                       -->
+    <!-- ================================================================== -->
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="title">
+            distilled<span class="accent">.cloud</span>
+          </h1>
+          <p class="tagline">Effect-native SDKs for cloud providers</p>
+          <p class="subtitle">
+            Tagged errors. Retry policies. Streaming pagination.
+          </p>
+
+          <div class="cta-buttons">
+            <a href="#sdks" class="btn btn-primary">
+              Explore SDKs
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </a>
+            <a
+              href="https://github.com/alchemy-run/distilled"
+              class="btn btn-secondary"
+              target="_blank"
+              rel="noopener"
+            >
+              <img src="/logos/github.svg" alt="" width="20" height="20" />
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="code-preview">
+            <div class="code-header">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="code-content" id="hero-code"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- SDKs Section                                                       -->
+    <!-- ================================================================== -->
+    <section id="sdks" class="sdk-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="gradient-text">SDKs</span>
+          </h2>
+          <p class="section-subtitle">
+            Effect-native clients for major cloud providers, with tagged
+            errors and tree-shakeable imports.
+          </p>
+        </div>
+
+        <div class="sdk-grid">
+          <!-- AWS -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/aws" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/aws.svg" alt="AWS" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/aws <span class="badge" data-package="aws"></span></h3>
+              <p class="card-description">Complete AWS SDK with typed errors for S3, Lambda, DynamoDB, SQS, and 200+ services.</p>
+            </div>
+          </a>
+
+          <!-- Cloudflare -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/cloudflare" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/cloudflare.svg" alt="Cloudflare" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/cloudflare <span class="badge" data-package="cloudflare"></span></h3>
+              <p class="card-description">Cloudflare API client for Workers, R2, KV, D1, Queues, and more with complete error coverage.</p>
+            </div>
+          </a>
+
+          <!-- Coinbase -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/coinbase" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/coinbase.svg" alt="Coinbase" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/coinbase <span class="badge" data-package="coinbase"></span></h3>
+              <p class="card-description">Coinbase API client with typed errors for accounts, transactions, and exchange operations.</p>
+            </div>
+          </a>
+
+          <!-- Fly.io -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/fly-io" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/flyio.svg" alt="Fly.io" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/fly-io <span class="badge" data-package="fly-io"></span></h3>
+              <p class="card-description">Fly.io platform API client for apps, machines, volumes, and secrets management.</p>
+            </div>
+          </a>
+
+          <!-- GCP -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/gcp" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/gcp.svg" alt="Google Cloud" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/gcp <span class="badge" data-package="gcp"></span></h3>
+              <p class="card-description">Google Cloud Platform SDK for Cloud Storage, Functions, BigQuery, and Firestore with typed errors.</p>
+            </div>
+          </a>
+
+          <!-- MongoDB Atlas -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/mongodb-atlas" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/mongodb-atlas.svg" alt="MongoDB Atlas" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/mongodb-atlas <span class="badge" data-package="mongodb-atlas"></span></h3>
+              <p class="card-description">MongoDB Atlas API client for clusters, databases, and project management with typed errors.</p>
+            </div>
+          </a>
+
+          <!-- Neon -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/neon" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/neon.svg" alt="Neon" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/neon <span class="badge" data-package="neon"></span></h3>
+              <p class="card-description">Neon serverless Postgres client with branching, autoscaling, and complete error coverage.</p>
+            </div>
+          </a>
+
+          <!-- PlanetScale -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/planetscale" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/planetscale.svg" alt="PlanetScale" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/planetscale <span class="badge" data-package="planetscale"></span></h3>
+              <p class="card-description">PlanetScale MySQL serverless database client with type-safe queries and error handling.</p>
+            </div>
+          </a>
+
+          <!-- Prisma Postgres -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/prisma-postgres" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/prisma.svg" alt="Prisma Postgres" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/prisma-postgres <span class="badge" data-package="prisma-postgres"></span></h3>
+              <p class="card-description">Prisma Postgres managed database client with typed operations and error handling.</p>
+            </div>
+          </a>
+
+          <!-- Stripe -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/stripe" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/stripe.svg" alt="Stripe" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/stripe <span class="badge" data-package="stripe"></span></h3>
+              <p class="card-description">Stripe payments API client with typed errors for charges, subscriptions, and webhooks.</p>
+            </div>
+          </a>
+
+          <!-- Supabase -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/supabase" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/supabase.svg" alt="Supabase" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/supabase <span class="badge" data-package="supabase"></span></h3>
+              <p class="card-description">Supabase platform API client for projects, databases, auth, and storage with typed errors.</p>
+            </div>
+          </a>
+
+          <!-- Turso -->
+          <a href="https://www.npmjs.com/package/@distilled.cloud/turso" class="sdk-card sdk-card-link" target="_blank" rel="noopener">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/turso.svg" alt="Turso" /></div>
+              <span class="npm-icon"><img src="/logos/npm.svg" alt="npm" /></span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/turso <span class="badge" data-package="turso"></span></h3>
+              <p class="card-description">Turso edge SQLite database client for databases, groups, and organizations with typed errors.</p>
+            </div>
+          </a>
+
+          <!-- Azure (Coming Soon) -->
+          <div class="sdk-card coming-soon">
+            <div class="card-header">
+              <div class="card-icon"><img src="/logos/azure.svg" alt="Azure" /></div>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">@distilled.cloud/azure <span class="badge">Coming Soon</span></h3>
+              <p class="card-description">Azure cloud services SDK. Blob Storage, Functions, Cosmos DB, and more with tagged errors.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Problem Section                                                    -->
+    <!-- ================================================================== -->
+    <section class="problem-section">
+      <div class="container">
+        <div class="section-header">
+          <p class="section-eyebrow purple">The Problem</p>
+          <h2 class="section-title">
+            Cloud APIs are
+            <span class="gradient-text">notoriously under-documented</span>
+          </h2>
+          <p class="section-subtitle">
+            Every cloud provider ships incomplete specs. Errors are
+            discovered at runtime, not compile time.
+          </p>
+        </div>
+
+        <div class="problems-grid">
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </div>
+            <h3 class="problem-title">Missing Error Codes</h3>
+            <p class="problem-description">
+              APIs return cryptic error codes that aren't in the
+              documentation. You only discover them in production.
+            </p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="9" y1="15" x2="15" y2="15"/>
+              </svg>
+            </div>
+            <h3 class="problem-title">Incomplete Specs</h3>
+            <p class="problem-description">
+              OpenAPI and Smithy specs are missing properties, wrong types,
+              or outdated. The docs lie.
+            </p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="4 17 10 11 4 5"/>
+                <line x1="12" y1="19" x2="20" y2="19"/>
+              </svg>
+            </div>
+            <h3 class="problem-title">Runtime Surprises</h3>
+            <p class="problem-description">
+              Errors you can't catch because they're not in the types. Your
+              "exhaustive" switch statement isn't.
+            </p>
+          </div>
+
+          <div class="problem-card">
+            <div class="problem-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <line x1="3" y1="9" x2="21" y2="9"/>
+                <line x1="9" y1="21" x2="9" y2="9"/>
+              </svg>
+            </div>
+            <h3 class="problem-title">Bundle Bloat</h3>
+            <p class="problem-description">
+              Import one function, bundle hundreds. Class-based SDKs can't
+              tree-shake.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Features Section                                                   -->
+    <!-- ================================================================== -->
+    <section class="features-section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            Why <span class="gradient-text">distilled</span>?
+          </h2>
+          <p class="section-subtitle">
+            Effect-native cloud SDKs for modern TypeScript
+          </p>
+        </div>
+
+        <div class="features-list">
+          <!-- Feature 1: Tagged Errors -->
+          <div class="feature">
+            <div class="feature-content">
+              <h3 class="feature-title">Tagged Errors</h3>
+              <p class="feature-description">
+                Every API operation has properly typed, discriminated error
+                unions. No more guessing what went wrong.
+              </p>
+              <ul class="feature-bullets">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Specs patched to include undocumented errors
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Exhaustive error handling with catchTag
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  IDE autocomplete for all error tags
+                </li>
+              </ul>
+            </div>
+            <div class="feature-code">
+              <div class="code-block"><div class="code-content" data-code="tagged-errors"></div></div>
+            </div>
+          </div>
+
+          <!-- Feature 2: Retry Policies (reversed) -->
+          <div class="feature reverse">
+            <div class="feature-content">
+              <h3 class="feature-title">Retry Policies</h3>
+              <p class="feature-description">
+                Declarative, composable retry logic with type-safe
+                schedules. Handle transient failures without callback hell.
+              </p>
+              <ul class="feature-bullets">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Exponential backoff, jitter, and more
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Retry only on specific error tags
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Compose schedules for complex policies
+                </li>
+              </ul>
+            </div>
+            <div class="feature-code">
+              <div class="code-block"><div class="code-content" data-code="retry-policies"></div></div>
+            </div>
+          </div>
+
+          <!-- Feature 3: Streaming Pagination -->
+          <div class="feature">
+            <div class="feature-content">
+              <h3 class="feature-title">Streaming Pagination</h3>
+              <p class="feature-description">
+                Paginated APIs return Effect Streams. No manual token
+                juggling&mdash;just iterate.
+              </p>
+              <ul class="feature-bullets">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  .pages() streams full response objects
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  .items() streams individual items
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Lazy evaluation&mdash;fetch only what you need
+                </li>
+              </ul>
+            </div>
+            <div class="feature-code">
+              <div class="code-block"><div class="code-content" data-code="streaming-pagination"></div></div>
+            </div>
+          </div>
+
+          <!-- Feature 4: Streaming I/O (reversed) -->
+          <div class="feature reverse">
+            <div class="feature-content">
+              <h3 class="feature-title">Streaming I/O</h3>
+              <p class="feature-description">
+                Upload and download with Effect Streams. Process data as it
+                flows without buffering entire payloads.
+              </p>
+              <ul class="feature-bullets">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Stream&lt;Uint8Array&gt; for uploads and downloads
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Composable with all Stream operators
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Backpressure handled automatically
+                </li>
+              </ul>
+            </div>
+            <div class="feature-code">
+              <div class="code-block"><div class="code-content" data-code="streaming-io"></div></div>
+            </div>
+          </div>
+
+          <!-- Feature 5: Tree-Shakeable -->
+          <div class="feature">
+            <div class="feature-content">
+              <h3 class="feature-title">Tree-Shakeable</h3>
+              <p class="feature-description">
+                No monolithic client classes. Import only what you
+                need&mdash;your bundle stays lean.
+              </p>
+              <ul class="feature-bullets">
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Module-scoped functions, not class methods
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Config via Effect Layers, not constructors
+                </li>
+                <li>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Perfect for serverless and edge runtimes
+                </li>
+              </ul>
+            </div>
+            <div class="feature-code">
+              <div class="code-block"><div class="code-content" data-code="tree-shakeable"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Mission Section                                                    -->
+    <!-- ================================================================== -->
+    <section class="mission-section">
+      <div class="container">
+        <div class="mission-content">
+          <p class="section-eyebrow green">The Mission</p>
+          <h2 class="section-title">
+            Documenting the world's APIs
+            <span class="gradient-text">for AI</span>
+          </h2>
+          <p class="mission-description">
+            Type-safe, tagged error specs aren't just good for
+            developers&mdash;they're essential for AI code generation.
+          </p>
+          <p class="mission-description">
+            distilled SDKs are built to power
+            <a
+              href="https://alchemy.run"
+              class="alchemy-link"
+              >alchemy.run</a
+            >&mdash;next-generation Infrastructure-as-Code in native
+            TypeScript. When AI generates infrastructure code, it needs to
+            know every possible error and how to handle it.
+          </p>
+          <p class="mission-description">
+            Proper error tags mean sound, reliable tooling. No more
+            hallucinated error handling. No more runtime surprises.
+          </p>
+
+          <div class="cta-group">
+            <a
+              href="https://alchemy.run"
+              class="btn btn-primary"
+              target="_blank"
+              rel="noopener"
+            >
+              Explore alchemy.run
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M7 17L17 7M17 7H7M17 7V17" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="mission-visual">
+          <div class="visual-box">
+            <div class="visual-header">
+              <span class="visual-title">AI-Ready Specs</span>
+            </div>
+            <div class="visual-content">
+              <div class="visual-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Exhaustive error unions</span>
+              </div>
+              <div class="visual-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Typed request/response schemas</span>
+              </div>
+              <div class="visual-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Patched and verified specs</span>
+              </div>
+              <div class="visual-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>Reliable code generation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================================== -->
+    <!-- Footer                                                             -->
+    <!-- ================================================================== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <span class="logo"
+              >distilled<span class="accent">.cloud</span></span
+            >
+            <p class="tagline">Effect-native cloud SDKs</p>
+          </div>
+
+          <div class="footer-links">
+            <a
+              href="https://github.com/alchemy-run/distilled"
+              target="_blank"
+              rel="noopener"
+              class="link"
+            >
+              <img src="/logos/github.svg" alt="" width="20" height="20" />
+              GitHub
+            </a>
+            <a
+              href="https://discord.gg/jwKw8dBJdN"
+              target="_blank"
+              rel="noopener"
+              class="link"
+            >
+              <img src="/logos/discord.svg" alt="" width="20" height="20" />
+              Discord
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p class="copyright" id="copyright"></p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

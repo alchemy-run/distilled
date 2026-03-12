@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 242" fill="none">
+		<defs>
+			<linearGradient id="azure-a" x1="58.972%" x2="37.191%" y1="7.411%" y2="103.762%">
+				<stop offset="0%" stop-color="#114A8B"/>
+				<stop offset="100%" stop-color="#0669BC"/>
+			</linearGradient>
+			<linearGradient id="azure-b" x1="37.279%" x2="62.473%" y1="4.6%" y2="99.979%">
+				<stop offset="0%" stop-color="#3CCBF4"/>
+				<stop offset="100%" stop-color="#2892DF"/>
+			</linearGradient>
+		</defs>
+		<path fill="url(#azure-a)" d="M85.343.003h75.753L82.457 233a12.08 12.08 0 0 1-11.442 8.216H12.06A12.06 12.06 0 0 1 .633 225.303L73.898 8.219A12.08 12.08 0 0 1 85.343 0z"/>
+		<path fill="#0078D4" d="M195.423 156.282H75.297a5.56 5.56 0 0 0-3.796 9.627l77.19 72.047a12.14 12.14 0 0 0 8.28 3.26h68.02z"/>
+		<path fill="url(#azure-b)" d="M182.098 8.207A12.06 12.06 0 0 0 170.67.003H86.245c5.175 0 9.773 3.301 11.428 8.204L170.94 225.3a12.062 12.062 0 0 1-11.428 15.92h84.429a12.062 12.062 0 0 0 11.425-15.92z"/>
+	</svg>

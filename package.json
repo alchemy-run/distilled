@@ -3,25 +3,26 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "bun --filter '@distilled.cloud/core' build && bun --filter '*' build",
+    "build": "bun --filter '@distilled.cloud/core' build && bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' build",
     "build:clean": "bun install:clean && bun run build",
     "clean": "git clean -fqdx . -e .env",
     "install:clean": "bun clean && bun install",
-    "typecheck": "bun --filter '*' typecheck",
-    "fmt": "bun --filter '*' fmt",
-    "lint": "bun --filter '*' lint",
-    "check": "bun --filter '*' check",
-    "test": "bun --filter '*' test",
-    "generate": "bun --filter '*' generate",
-    "specs:fetch": "bun --filter '*' specs:fetch",
-    "specs:update": "bun --filter '*' specs:update",
+    "typecheck": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' typecheck",
+    "fmt": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' fmt",
+    "lint": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' lint",
+    "check": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' check",
+    "test": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' test",
+    "generate": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' generate",
+    "specs:fetch": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:fetch",
+    "specs:update": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' specs:update",
     "bump": "bun ./scripts/bump.ts",
     "create-sdk": "bun ./scripts/create-sdk.ts",
-    "publish:npm": "bun run --filter '@distilled.cloud/core' publish:npm && bun run --filter '*' publish:npm"
+    "publish:npm": "bun run --filter '@distilled.cloud/core' publish:npm && bun run --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' publish:npm"
   },
   "workspaces": {
     "packages": [
-      "./packages/*"
+      "./packages/*",
+      "./www/*"
     ],
     "catalog": {
       "@aws-crypto/crc32": "^5.2.0",
