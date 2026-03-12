@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service zones
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -36,7 +37,9 @@ export interface TriggerActivationCheckResponse {
 export const TriggerActivationCheckResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<TriggerActivationCheckResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TriggerActivationCheckResponse>;
 
 export type TriggerActivationCheckError = DefaultErrors;
 
@@ -214,24 +217,45 @@ export const PutCustomNameserverRequest =
     T.Http({ method: "PUT", path: "/zones/{zone_id}/custom_ns" }),
   ) as unknown as Schema.Schema<PutCustomNameserverRequest>;
 
-export type PutCustomNameserverResponse = string[];
+export interface PutCustomNameserverResponse {
+  result: string[];
+}
 
 export const PutCustomNameserverResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.String,
-  ) as unknown as Schema.Schema<PutCustomNameserverResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(Schema.String),
+  }) as unknown as Schema.Schema<PutCustomNameserverResponse>;
 
 export type PutCustomNameserverError = DefaultErrors;
 
-export const putCustomNameserver: API.OperationMethod<
+export const putCustomNameserver: API.PaginatedOperationMethod<
   PutCustomNameserverRequest,
   PutCustomNameserverResponse,
   PutCustomNameserverError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: PutCustomNameserverRequest,
+  ) => stream.Stream<
+    PutCustomNameserverResponse,
+    PutCustomNameserverError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: PutCustomNameserverRequest,
+  ) => stream.Stream<
+    string,
+    PutCustomNameserverError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: PutCustomNameserverRequest,
   output: PutCustomNameserverResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -261,13 +285,15 @@ export const GetHoldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeSubdomains: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    hold: "hold",
-    holdAfter: "hold_after",
-    includeSubdomains: "include_subdomains",
-  }),
-) as unknown as Schema.Schema<GetHoldResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      hold: "hold",
+      holdAfter: "hold_after",
+      includeSubdomains: "include_subdomains",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetHoldResponse>;
 
 export type GetHoldError = DefaultErrors;
 
@@ -310,13 +336,17 @@ export const CreateHoldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeSubdomains: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    hold: "hold",
-    holdAfter: "hold_after",
-    includeSubdomains: "include_subdomains",
-  }),
-) as unknown as Schema.Schema<CreateHoldResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      hold: "hold",
+      holdAfter: "hold_after",
+      includeSubdomains: "include_subdomains",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateHoldResponse>;
 
 export type CreateHoldError = DefaultErrors;
 
@@ -364,13 +394,17 @@ export const PatchHoldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeSubdomains: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    hold: "hold",
-    holdAfter: "hold_after",
-    includeSubdomains: "include_subdomains",
-  }),
-) as unknown as Schema.Schema<PatchHoldResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      hold: "hold",
+      holdAfter: "hold_after",
+      includeSubdomains: "include_subdomains",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchHoldResponse>;
 
 export type PatchHoldError = DefaultErrors;
 
@@ -411,13 +445,17 @@ export const DeleteHoldResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   includeSubdomains: Schema.optional(
     Schema.Union([Schema.String, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    hold: "hold",
-    holdAfter: "hold_after",
-    includeSubdomains: "include_subdomains",
-  }),
-) as unknown as Schema.Schema<DeleteHoldResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      hold: "hold",
+      holdAfter: "hold_after",
+      includeSubdomains: "include_subdomains",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteHoldResponse>;
 
 export type DeleteHoldError = DefaultErrors;
 
@@ -493,20 +531,22 @@ export const GetPlanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    canSubscribe: "can_subscribe",
-    currency: "currency",
-    externallyManaged: "externally_managed",
-    frequency: "frequency",
-    isSubscribed: "is_subscribed",
-    legacyDiscount: "legacy_discount",
-    legacyId: "legacy_id",
-    name: "name",
-    price: "price",
-  }),
-) as unknown as Schema.Schema<GetPlanResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      canSubscribe: "can_subscribe",
+      currency: "currency",
+      externallyManaged: "externally_managed",
+      frequency: "frequency",
+      isSubscribed: "is_subscribed",
+      legacyDiscount: "legacy_discount",
+      legacyId: "legacy_id",
+      name: "name",
+      price: "price",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetPlanResponse>;
 
 export type GetPlanError = DefaultErrors;
 
@@ -532,67 +572,103 @@ export const ListPlansRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/available_plans" }),
 ) as unknown as Schema.Schema<ListPlansRequest>;
 
-export type ListPlansResponse = {
-  id?: string | null;
-  canSubscribe?: boolean | null;
-  currency?: string | null;
-  externallyManaged?: boolean | null;
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
-  isSubscribed?: boolean | null;
-  legacyDiscount?: boolean | null;
-  legacyId?: string | null;
-  name?: string | null;
-  price?: number | null;
-}[];
+export interface ListPlansResponse {
+  result: {
+    id?: string | null;
+    canSubscribe?: boolean | null;
+    currency?: string | null;
+    externallyManaged?: boolean | null;
+    frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+    isSubscribed?: boolean | null;
+    legacyDiscount?: boolean | null;
+    legacyId?: string | null;
+    name?: string | null;
+    price?: number | null;
+  }[];
+}
 
-export const ListPlansResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    canSubscribe: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    externallyManaged: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
+export const ListPlansResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      canSubscribe: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      externallyManaged: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      frequency: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+          Schema.Null,
+        ]),
+      ),
+      isSubscribed: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      legacyDiscount: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        canSubscribe: "can_subscribe",
+        currency: "currency",
+        externallyManaged: "externally_managed",
+        frequency: "frequency",
+        isSubscribed: "is_subscribed",
+        legacyDiscount: "legacy_discount",
+        legacyId: "legacy_id",
+        name: "name",
+        price: "price",
+      }),
     ),
-    frequency: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
-        Schema.Null,
-      ]),
-    ),
-    isSubscribed: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    legacyDiscount: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
-    ),
-    legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      canSubscribe: "can_subscribe",
-      currency: "currency",
-      externallyManaged: "externally_managed",
-      frequency: "frequency",
-      isSubscribed: "is_subscribed",
-      legacyDiscount: "legacy_discount",
-      legacyId: "legacy_id",
-      name: "name",
-      price: "price",
-    }),
   ),
-) as unknown as Schema.Schema<ListPlansResponse>;
+}) as unknown as Schema.Schema<ListPlansResponse>;
 
 export type ListPlansError = DefaultErrors;
 
-export const listPlans: API.OperationMethod<
+export const listPlans: API.PaginatedOperationMethod<
   ListPlansRequest,
   ListPlansResponse,
   ListPlansError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPlansRequest,
+  ) => stream.Stream<
+    ListPlansResponse,
+    ListPlansError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPlansRequest) => stream.Stream<
+    {
+      id?: string | null;
+      canSubscribe?: boolean | null;
+      currency?: string | null;
+      externallyManaged?: boolean | null;
+      frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+      isSubscribed?: boolean | null;
+      legacyDiscount?: boolean | null;
+      legacyId?: string | null;
+      name?: string | null;
+      price?: number | null;
+    },
+    ListPlansError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPlansRequest,
   output: ListPlansResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -610,84 +686,123 @@ export const GetRatePlanRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/available_rate_plans" }),
 ) as unknown as Schema.Schema<GetRatePlanRequest>;
 
-export type GetRatePlanResponse = {
-  id?: string | null;
-  components?:
-    | {
-        default?: number | null;
-        name?:
-          | "zones"
-          | "page_rules"
-          | "dedicated_certificates"
-          | "dedicated_certificates_custom"
-          | null;
-        unitPrice?: number | null;
-      }[]
-    | null;
-  currency?: string | null;
-  duration?: number | null;
-  frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
-  name?: string | null;
-}[];
+export interface GetRatePlanResponse {
+  result: {
+    id?: string | null;
+    components?:
+      | {
+          default?: number | null;
+          name?:
+            | "zones"
+            | "page_rules"
+            | "dedicated_certificates"
+            | "dedicated_certificates_custom"
+            | null;
+          unitPrice?: number | null;
+        }[]
+      | null;
+    currency?: string | null;
+    duration?: number | null;
+    frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+    name?: string | null;
+  }[];
+}
 
-export const GetRatePlanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    components: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            default: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            name: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "zones",
-                  "page_rules",
-                  "dedicated_certificates",
-                  "dedicated_certificates_custom",
+export const GetRatePlanResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      components: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              default: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              name: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "zones",
+                    "page_rules",
+                    "dedicated_certificates",
+                    "dedicated_certificates_custom",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
+              ),
+              unitPrice: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                default: "default",
+                name: "name",
+                unitPrice: "unit_price",
+              }),
             ),
-            unitPrice: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              default: "default",
-              name: "name",
-              unitPrice: "unit_price",
-            }),
           ),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    frequency: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
-        Schema.Null,
-      ]),
-    ),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<GetRatePlanResponse>;
+          Schema.Null,
+        ]),
+      ),
+      currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      duration: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      frequency: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["weekly", "monthly", "quarterly", "yearly"]),
+          Schema.Null,
+        ]),
+      ),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<GetRatePlanResponse>;
 
 export type GetRatePlanError = DefaultErrors;
 
-export const getRatePlan: API.OperationMethod<
+export const getRatePlan: API.PaginatedOperationMethod<
   GetRatePlanRequest,
   GetRatePlanResponse,
   GetRatePlanError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetRatePlanRequest,
+  ) => stream.Stream<
+    GetRatePlanResponse,
+    GetRatePlanError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: GetRatePlanRequest) => stream.Stream<
+    {
+      id?: string | null;
+      components?:
+        | {
+            default?: number | null;
+            name?:
+              | "zones"
+              | "page_rules"
+              | "dedicated_certificates"
+              | "dedicated_certificates_custom"
+              | null;
+            unitPrice?: number | null;
+          }[]
+        | null;
+      currency?: string | null;
+      duration?: number | null;
+      frequency?: "weekly" | "monthly" | "quarterly" | "yearly" | null;
+      name?: string | null;
+    },
+    GetRatePlanError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetRatePlanRequest,
   output: GetRatePlanResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -2107,7 +2222,9 @@ export const GetSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       modifiedOn: "modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<GetSettingResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetSettingResponse>;
 
 export type GetSettingError = DefaultErrors;
 
@@ -3538,7 +3655,9 @@ export const PatchSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       modifiedOn: "modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<PatchSettingResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PatchSettingResponse>;
 
 export type PatchSettingError = DefaultErrors;
 
@@ -3641,18 +3760,22 @@ export const GetSubscriptionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      currency: "currency",
-      currentPeriodEnd: "current_period_end",
-      currentPeriodStart: "current_period_start",
-      frequency: "frequency",
-      price: "price",
-      ratePlan: "rate_plan",
-      state: "state",
-    }),
-  ) as unknown as Schema.Schema<GetSubscriptionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        currency: "currency",
+        currentPeriodEnd: "current_period_end",
+        currentPeriodStart: "current_period_start",
+        frequency: "frequency",
+        price: "price",
+        ratePlan: "rate_plan",
+        state: "state",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
 export type GetSubscriptionError = DefaultErrors;
 
@@ -3759,18 +3882,22 @@ export const CreateSubscriptionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      currency: "currency",
-      currentPeriodEnd: "current_period_end",
-      currentPeriodStart: "current_period_start",
-      frequency: "frequency",
-      price: "price",
-      ratePlan: "rate_plan",
-      state: "state",
-    }),
-  ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        currency: "currency",
+        currentPeriodEnd: "current_period_end",
+        currentPeriodStart: "current_period_start",
+        frequency: "frequency",
+        price: "price",
+        ratePlan: "rate_plan",
+        state: "state",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
 export type CreateSubscriptionError = DefaultErrors;
 
@@ -3877,18 +4004,22 @@ export const UpdateSubscriptionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      currency: "currency",
-      currentPeriodEnd: "current_period_end",
-      currentPeriodStart: "current_period_start",
-      frequency: "frequency",
-      price: "price",
-      ratePlan: "rate_plan",
-      state: "state",
-    }),
-  ) as unknown as Schema.Schema<UpdateSubscriptionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        currency: "currency",
+        currentPeriodEnd: "current_period_end",
+        currentPeriodStart: "current_period_start",
+        frequency: "frequency",
+        price: "price",
+        ratePlan: "rate_plan",
+        state: "state",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateSubscriptionResponse>;
 
 export type UpdateSubscriptionError = DefaultErrors;
 
@@ -4096,225 +4227,8 @@ export const GetZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
   verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    account: "account",
-    activatedOn: "activated_on",
-    createdOn: "created_on",
-    developmentMode: "development_mode",
-    meta: "meta",
-    modifiedOn: "modified_on",
-    name: "name",
-    nameServers: "name_servers",
-    originalDnshost: "original_dnshost",
-    originalNameServers: "original_name_servers",
-    originalRegistrar: "original_registrar",
-    owner: "owner",
-    plan: "plan",
-    cnameSuffix: "cname_suffix",
-    paused: "paused",
-    permissions: "permissions",
-    status: "status",
-    tenant: "tenant",
-    tenantUnit: "tenant_unit",
-    type: "type",
-    vanityNameServers: "vanity_name_servers",
-    verificationKey: "verification_key",
-  }),
-) as unknown as Schema.Schema<GetZoneResponse>;
-
-export type GetZoneError = DefaultErrors;
-
-export const getZone: API.OperationMethod<
-  GetZoneRequest,
-  GetZoneResponse,
-  GetZoneError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetZoneRequest,
-  output: GetZoneResponse,
-  errors: [],
-}));
-
-export interface ListZonesRequest {}
-
-export const ListZonesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-  {},
-).pipe(
-  T.Http({ method: "GET", path: "/zones" }),
-) as unknown as Schema.Schema<ListZonesRequest>;
-
-export type ListZonesResponse = {
-  id: string;
-  account: { id?: string | null; name?: string | null };
-  activatedOn: string | null;
-  createdOn: string;
-  developmentMode: number;
-  meta: {
-    cdnOnly?: boolean | null;
-    customCertificateQuota?: number | null;
-    dnsOnly?: boolean | null;
-    foundationDns?: boolean | null;
-    pageRuleQuota?: number | null;
-    phishingDetected?: boolean | null;
-    step?: number | null;
-  };
-  modifiedOn: string;
-  name: string;
-  nameServers: string[];
-  originalDnshost: string | null;
-  originalNameServers: string[] | null;
-  originalRegistrar: string | null;
-  owner: { id?: string | null; name?: string | null; type?: string | null };
-  plan: {
-    id?: string | null;
-    canSubscribe?: boolean | null;
-    currency?: string | null;
-    externallyManaged?: boolean | null;
-    frequency?: string | null;
-    isSubscribed?: boolean | null;
-    legacyDiscount?: boolean | null;
-    legacyId?: string | null;
-    name?: string | null;
-    price?: number | null;
-  };
-  cnameSuffix?: string | null;
-  paused?: boolean | null;
-  permissions?: string[] | null;
-  status?: "initializing" | "pending" | "active" | "moved" | null;
-  tenant?: { id?: string | null; name?: string | null } | null;
-  tenantUnit?: { id?: string | null } | null;
-  type?: "full" | "partial" | "secondary" | "internal" | null;
-  vanityNameServers?: string[] | null;
-  verificationKey?: string | null;
-}[];
-
-export const ListZonesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    account: Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-    activatedOn: Schema.Union([Schema.String, Schema.Null]),
-    createdOn: Schema.String,
-    developmentMode: Schema.Number,
-    meta: Schema.Struct({
-      cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      customCertificateQuota: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      foundationDns: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      pageRuleQuota: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      phishingDetected: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        cdnOnly: "cdn_only",
-        customCertificateQuota: "custom_certificate_quota",
-        dnsOnly: "dns_only",
-        foundationDns: "foundation_dns",
-        pageRuleQuota: "page_rule_quota",
-        phishingDetected: "phishing_detected",
-        step: "step",
-      }),
-    ),
-    modifiedOn: Schema.String,
-    name: Schema.String,
-    nameServers: Schema.Array(Schema.String),
-    originalDnshost: Schema.Union([Schema.String, Schema.Null]),
-    originalNameServers: Schema.Union([
-      Schema.Array(Schema.String),
-      Schema.Null,
-    ]),
-    originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
-    owner: Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-    plan: Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      canSubscribe: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      externallyManaged: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      isSubscribed: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      legacyDiscount: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        canSubscribe: "can_subscribe",
-        currency: "currency",
-        externallyManaged: "externally_managed",
-        frequency: "frequency",
-        isSubscribed: "is_subscribed",
-        legacyDiscount: "legacy_discount",
-        legacyId: "legacy_id",
-        name: "name",
-        price: "price",
-      }),
-    ),
-    cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    permissions: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    status: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["initializing", "pending", "active", "moved"]),
-        Schema.Null,
-      ]),
-    ),
-    tenant: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    tenantUnit: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    type: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["full", "partial", "secondary", "internal"]),
-        Schema.Null,
-      ]),
-    ),
-    vanityNameServers: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    verificationKey: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-  }).pipe(
+})
+  .pipe(
     Schema.encodeKeys({
       id: "id",
       account: "account",
@@ -4340,20 +4254,327 @@ export const ListZonesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       vanityNameServers: "vanity_name_servers",
       verificationKey: "verification_key",
     }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetZoneResponse>;
+
+export type GetZoneError = DefaultErrors;
+
+export const getZone: API.OperationMethod<
+  GetZoneRequest,
+  GetZoneResponse,
+  GetZoneError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetZoneRequest,
+  output: GetZoneResponse,
+  errors: [],
+}));
+
+export interface ListZonesRequest {}
+
+export const ListZonesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {},
+).pipe(
+  T.Http({ method: "GET", path: "/zones" }),
+) as unknown as Schema.Schema<ListZonesRequest>;
+
+export interface ListZonesResponse {
+  result: {
+    id: string;
+    account: { id?: string | null; name?: string | null };
+    activatedOn: string | null;
+    createdOn: string;
+    developmentMode: number;
+    meta: {
+      cdnOnly?: boolean | null;
+      customCertificateQuota?: number | null;
+      dnsOnly?: boolean | null;
+      foundationDns?: boolean | null;
+      pageRuleQuota?: number | null;
+      phishingDetected?: boolean | null;
+      step?: number | null;
+    };
+    modifiedOn: string;
+    name: string;
+    nameServers: string[];
+    originalDnshost: string | null;
+    originalNameServers: string[] | null;
+    originalRegistrar: string | null;
+    owner: { id?: string | null; name?: string | null; type?: string | null };
+    plan: {
+      id?: string | null;
+      canSubscribe?: boolean | null;
+      currency?: string | null;
+      externallyManaged?: boolean | null;
+      frequency?: string | null;
+      isSubscribed?: boolean | null;
+      legacyDiscount?: boolean | null;
+      legacyId?: string | null;
+      name?: string | null;
+      price?: number | null;
+    };
+    cnameSuffix?: string | null;
+    paused?: boolean | null;
+    permissions?: string[] | null;
+    status?: "initializing" | "pending" | "active" | "moved" | null;
+    tenant?: { id?: string | null; name?: string | null } | null;
+    tenantUnit?: { id?: string | null } | null;
+    type?: "full" | "partial" | "secondary" | "internal" | null;
+    vanityNameServers?: string[] | null;
+    verificationKey?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
+
+export const ListZonesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      account: Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      activatedOn: Schema.Union([Schema.String, Schema.Null]),
+      createdOn: Schema.String,
+      developmentMode: Schema.Number,
+      meta: Schema.Struct({
+        cdnOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        customCertificateQuota: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        dnsOnly: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        foundationDns: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        pageRuleQuota: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        phishingDetected: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          cdnOnly: "cdn_only",
+          customCertificateQuota: "custom_certificate_quota",
+          dnsOnly: "dns_only",
+          foundationDns: "foundation_dns",
+          pageRuleQuota: "page_rule_quota",
+          phishingDetected: "phishing_detected",
+          step: "step",
+        }),
+      ),
+      modifiedOn: Schema.String,
+      name: Schema.String,
+      nameServers: Schema.Array(Schema.String),
+      originalDnshost: Schema.Union([Schema.String, Schema.Null]),
+      originalNameServers: Schema.Union([
+        Schema.Array(Schema.String),
+        Schema.Null,
+      ]),
+      originalRegistrar: Schema.Union([Schema.String, Schema.Null]),
+      owner: Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+      plan: Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        canSubscribe: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        currency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        externallyManaged: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        frequency: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        isSubscribed: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        legacyDiscount: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        legacyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        price: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          canSubscribe: "can_subscribe",
+          currency: "currency",
+          externallyManaged: "externally_managed",
+          frequency: "frequency",
+          isSubscribed: "is_subscribed",
+          legacyDiscount: "legacy_discount",
+          legacyId: "legacy_id",
+          name: "name",
+          price: "price",
+        }),
+      ),
+      cnameSuffix: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      permissions: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["initializing", "pending", "active", "moved"]),
+          Schema.Null,
+        ]),
+      ),
+      tenant: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      tenantUnit: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      type: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["full", "partial", "secondary", "internal"]),
+          Schema.Null,
+        ]),
+      ),
+      vanityNameServers: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      verificationKey: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        account: "account",
+        activatedOn: "activated_on",
+        createdOn: "created_on",
+        developmentMode: "development_mode",
+        meta: "meta",
+        modifiedOn: "modified_on",
+        name: "name",
+        nameServers: "name_servers",
+        originalDnshost: "original_dnshost",
+        originalNameServers: "original_name_servers",
+        originalRegistrar: "original_registrar",
+        owner: "owner",
+        plan: "plan",
+        cnameSuffix: "cname_suffix",
+        paused: "paused",
+        permissions: "permissions",
+        status: "status",
+        tenant: "tenant",
+        tenantUnit: "tenant_unit",
+        type: "type",
+        vanityNameServers: "vanity_name_servers",
+        verificationKey: "verification_key",
+      }),
+    ),
   ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListZonesResponse>;
 
 export type ListZonesError = DefaultErrors;
 
-export const listZones: API.OperationMethod<
+export const listZones: API.PaginatedOperationMethod<
   ListZonesRequest,
   ListZonesResponse,
   ListZonesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListZonesRequest,
+  ) => stream.Stream<
+    ListZonesResponse,
+    ListZonesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListZonesRequest) => stream.Stream<
+    {
+      id: string;
+      account: { id?: string | null; name?: string | null };
+      activatedOn: string | null;
+      createdOn: string;
+      developmentMode: number;
+      meta: {
+        cdnOnly?: boolean | null;
+        customCertificateQuota?: number | null;
+        dnsOnly?: boolean | null;
+        foundationDns?: boolean | null;
+        pageRuleQuota?: number | null;
+        phishingDetected?: boolean | null;
+        step?: number | null;
+      };
+      modifiedOn: string;
+      name: string;
+      nameServers: string[];
+      originalDnshost: string | null;
+      originalNameServers: string[] | null;
+      originalRegistrar: string | null;
+      owner: { id?: string | null; name?: string | null; type?: string | null };
+      plan: {
+        id?: string | null;
+        canSubscribe?: boolean | null;
+        currency?: string | null;
+        externallyManaged?: boolean | null;
+        frequency?: string | null;
+        isSubscribed?: boolean | null;
+        legacyDiscount?: boolean | null;
+        legacyId?: string | null;
+        name?: string | null;
+        price?: number | null;
+      };
+      cnameSuffix?: string | null;
+      paused?: boolean | null;
+      permissions?: string[] | null;
+      status?: "initializing" | "pending" | "active" | "moved" | null;
+      tenant?: { id?: string | null; name?: string | null } | null;
+      tenantUnit?: { id?: string | null } | null;
+      type?: "full" | "partial" | "secondary" | "internal" | null;
+      vanityNameServers?: string[] | null;
+      verificationKey?: string | null;
+    },
+    ListZonesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListZonesRequest,
   output: ListZonesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateZoneRequest {
@@ -4554,33 +4775,37 @@ export const CreateZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
   verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    account: "account",
-    activatedOn: "activated_on",
-    createdOn: "created_on",
-    developmentMode: "development_mode",
-    meta: "meta",
-    modifiedOn: "modified_on",
-    name: "name",
-    nameServers: "name_servers",
-    originalDnshost: "original_dnshost",
-    originalNameServers: "original_name_servers",
-    originalRegistrar: "original_registrar",
-    owner: "owner",
-    plan: "plan",
-    cnameSuffix: "cname_suffix",
-    paused: "paused",
-    permissions: "permissions",
-    status: "status",
-    tenant: "tenant",
-    tenantUnit: "tenant_unit",
-    type: "type",
-    vanityNameServers: "vanity_name_servers",
-    verificationKey: "verification_key",
-  }),
-) as unknown as Schema.Schema<CreateZoneResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      account: "account",
+      activatedOn: "activated_on",
+      createdOn: "created_on",
+      developmentMode: "development_mode",
+      meta: "meta",
+      modifiedOn: "modified_on",
+      name: "name",
+      nameServers: "name_servers",
+      originalDnshost: "original_dnshost",
+      originalNameServers: "original_name_servers",
+      originalRegistrar: "original_registrar",
+      owner: "owner",
+      plan: "plan",
+      cnameSuffix: "cname_suffix",
+      paused: "paused",
+      permissions: "permissions",
+      status: "status",
+      tenant: "tenant",
+      tenantUnit: "tenant_unit",
+      type: "type",
+      vanityNameServers: "vanity_name_servers",
+      verificationKey: "verification_key",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateZoneResponse>;
 
 export type CreateZoneError = DefaultErrors;
 
@@ -4800,33 +5025,37 @@ export const PatchZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
   verificationKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    account: "account",
-    activatedOn: "activated_on",
-    createdOn: "created_on",
-    developmentMode: "development_mode",
-    meta: "meta",
-    modifiedOn: "modified_on",
-    name: "name",
-    nameServers: "name_servers",
-    originalDnshost: "original_dnshost",
-    originalNameServers: "original_name_servers",
-    originalRegistrar: "original_registrar",
-    owner: "owner",
-    plan: "plan",
-    cnameSuffix: "cname_suffix",
-    paused: "paused",
-    permissions: "permissions",
-    status: "status",
-    tenant: "tenant",
-    tenantUnit: "tenant_unit",
-    type: "type",
-    vanityNameServers: "vanity_name_servers",
-    verificationKey: "verification_key",
-  }),
-) as unknown as Schema.Schema<PatchZoneResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      account: "account",
+      activatedOn: "activated_on",
+      createdOn: "created_on",
+      developmentMode: "development_mode",
+      meta: "meta",
+      modifiedOn: "modified_on",
+      name: "name",
+      nameServers: "name_servers",
+      originalDnshost: "original_dnshost",
+      originalNameServers: "original_name_servers",
+      originalRegistrar: "original_registrar",
+      owner: "owner",
+      plan: "plan",
+      cnameSuffix: "cname_suffix",
+      paused: "paused",
+      permissions: "permissions",
+      status: "status",
+      tenant: "tenant",
+      tenantUnit: "tenant_unit",
+      type: "type",
+      vanityNameServers: "vanity_name_servers",
+      verificationKey: "verification_key",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchZoneResponse>;
 
 export type PatchZoneError = DefaultErrors;
 
@@ -4859,7 +5088,9 @@ export interface DeleteZoneResponse {
 
 export const DeleteZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteZoneResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteZoneResponse>;
 
 export type DeleteZoneError = DefaultErrors;
 

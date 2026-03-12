@@ -5,6 +5,7 @@
  * error matching and credential handling.
  */
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import { makeAPI } from "@distilled.cloud/core/client";
 import {
@@ -136,7 +137,7 @@ export const API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (creds: any) => creds.apiBaseUrl,
   getAuthHeaders: (creds: any) => ({
-    Authorization: `Bearer ${creds.apiKey}`,
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
   matchError,
   ParseError: StripeParseError as any,

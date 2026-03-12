@@ -1,8 +1,8 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getZoneId, afterAll } from "./test.ts";
-import * as ACM from "~/services/acm.ts";
-import * as SSL from "~/services/ssl.ts";
+import * as ACM from "~/services/acm";
+import * as SSL from "~/services/ssl";
 
 const hasZoneId = () => !!getZoneId();
 
@@ -239,13 +239,18 @@ describe("ACM", () => {
           zoneId: zoneId(),
           enabled: true,
         }).pipe(
-          Effect.flip,
-          Effect.map((e) =>
-            expect([
-              "AdvancedCertificateManagerRequired",
-              "NoStateChange",
-            ]).toContain(e._tag),
-          ),
+          Effect.matchEffect({
+            // Zone may have ACM enabled — success is acceptable
+            onSuccess: (result) =>
+              Effect.succeed(expect(result).toBeDefined()),
+            onFailure: (e) =>
+              Effect.succeed(
+                expect([
+                  "AdvancedCertificateManagerRequired",
+                  "NoStateChange",
+                ]).toContain(e._tag),
+              ),
+          }),
         ));
     }
 

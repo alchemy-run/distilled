@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
-import * as DurableObjects from "~/services/durable-objects.ts";
+import * as DurableObjects from "~/services/durable-objects";
 
 const accountId = () => getAccountId();
 
@@ -21,10 +21,10 @@ describe("DurableObjects", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
 
         // If there are namespaces, verify shape of each entry
-        for (const ns of result) {
+        for (const ns of result.result) {
           if (ns.id !== undefined) {
             expect(typeof ns.id).toBe("string");
           }
@@ -49,9 +49,9 @@ describe("DurableObjects", () => {
           accountId: accountId(),
         });
 
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
         // Length should be >= 0 (could be empty if no DO namespaces exist)
-        expect(result.length).toBeGreaterThanOrEqual(0);
+        expect(result.result.length).toBeGreaterThanOrEqual(0);
       }));
 
     test("error - InvalidIdentifier for invalid accountId", () =>
@@ -94,9 +94,11 @@ describe("DurableObjects", () => {
     test("happy path - lists objects in an existing namespace", () =>
       Effect.gen(function* () {
         // First, get the list of namespaces to find a valid one
-        const namespaces = yield* DurableObjects.listNamespaces({
-          accountId: accountId(),
-        });
+        const namespaces = (
+          yield* DurableObjects.listNamespaces({
+            accountId: accountId(),
+          })
+        ).result;
 
         // Skip if no namespaces exist (can't test without a DO namespace)
         if (namespaces.length === 0 || !namespaces[0].id) {
@@ -110,10 +112,10 @@ describe("DurableObjects", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
 
         // If there are objects, verify shape
-        for (const obj of result) {
+        for (const obj of result.result) {
           if (obj.id !== undefined) {
             expect(typeof obj.id).toBe("string");
           }
@@ -125,9 +127,11 @@ describe("DurableObjects", () => {
 
     test("error - MalformedParameter for limit that is too low", () =>
       Effect.gen(function* () {
-        const namespaces = yield* DurableObjects.listNamespaces({
-          accountId: accountId(),
-        });
+        const namespaces = (
+          yield* DurableObjects.listNamespaces({
+            accountId: accountId(),
+          })
+        ).result;
 
         if (namespaces.length === 0 || !namespaces[0].id) {
           return;
@@ -224,9 +228,11 @@ describe("DurableObjects", () => {
 
     test("error - MalformedParameter for limit of 0", () =>
       Effect.gen(function* () {
-        const namespaces = yield* DurableObjects.listNamespaces({
-          accountId: accountId(),
-        });
+        const namespaces = (
+          yield* DurableObjects.listNamespaces({
+            accountId: accountId(),
+          })
+        ).result;
 
         if (namespaces.length === 0 || !namespaces[0].id) {
           return;

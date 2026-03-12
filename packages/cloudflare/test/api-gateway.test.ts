@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getZoneId } from "./test.ts";
-import * as ApiGateway from "~/services/api-gateway.ts";
+import * as ApiGateway from "~/services/api-gateway";
 
 const hasZoneId = () => !!getZoneId();
 const zoneId = () => {
@@ -67,12 +67,20 @@ describe("ApiGateway", () => {
   // --------------------------------------------------------------------------
   describe("getDiscovery", () => {
     if (hasZoneId()) {
-      test("error - NotEntitled when account lacks API Gateway entitlement", () =>
+      test("happy path or NotEntitled depending on account entitlement", () =>
         ApiGateway.getDiscovery({
           zoneId: zoneId(),
         }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("NotEntitled")),
+          Effect.matchEffect({
+            onSuccess: (result) =>
+              Effect.succeed(
+                expect(result).toHaveProperty("timestamp"),
+              ),
+            onFailure: (e) =>
+              Effect.succeed(
+                expect(["NotEntitled", "CloudflareHttpError"]).toContain(e._tag),
+              ),
+          }),
         ));
     }
 

@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // ActiveLivestreamsForLivestreamIdLivestream
@@ -1683,12 +1684,12 @@ export const CreateMeetingRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
             authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])),
             bucket: Schema.optional(Schema.String),
             host: Schema.optional(Schema.String),
-            password: Schema.optional(Schema.String),
+            password: Schema.optional(SensitiveString),
             path: Schema.optional(Schema.String),
             port: Schema.optional(Schema.Number),
-            privateKey: Schema.optional(Schema.String),
+            privateKey: Schema.optional(SensitiveString),
             region: Schema.optional(Schema.String),
-            secret: Schema.optional(Schema.String),
+            secret: Schema.optional(SensitiveString),
             username: Schema.optional(Schema.String),
           }).pipe(
             Schema.encodeKeys({
@@ -2047,7 +2048,7 @@ export const CreateMeetingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
                       Schema.Union([Schema.String, Schema.Null]),
                     ),
                     password: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
+                      Schema.Union([SensitiveString, Schema.Null]),
                     ),
                     path: Schema.optional(
                       Schema.Union([Schema.String, Schema.Null]),
@@ -2056,13 +2057,13 @@ export const CreateMeetingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
                       Schema.Union([Schema.Number, Schema.Null]),
                     ),
                     privateKey: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
+                      Schema.Union([SensitiveString, Schema.Null]),
                     ),
                     region: Schema.optional(
                       Schema.Union([Schema.String, Schema.Null]),
                     ),
                     secret: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
+                      Schema.Union([SensitiveString, Schema.Null]),
                     ),
                     username: Schema.optional(
                       Schema.Union([Schema.String, Schema.Null]),
@@ -2613,7 +2614,7 @@ export const GetMeetingByIdMeetingResponse =
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       password: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       path: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -2622,13 +2623,13 @@ export const GetMeetingByIdMeetingResponse =
                         Schema.Union([Schema.Number, Schema.Null]),
                       ),
                       privateKey: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       region: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       secret: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       username: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -3191,7 +3192,7 @@ export const UpdateMeetingByIdMeetingResponse =
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       password: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       path: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -3200,13 +3201,13 @@ export const UpdateMeetingByIdMeetingResponse =
                         Schema.Union([Schema.Number, Schema.Null]),
                       ),
                       privateKey: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       region: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       secret: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       username: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -3551,12 +3552,12 @@ export const ReplaceMeetingByIdMeetingRequest =
               authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])),
               bucket: Schema.optional(Schema.String),
               host: Schema.optional(Schema.String),
-              password: Schema.optional(Schema.String),
+              password: Schema.optional(SensitiveString),
               path: Schema.optional(Schema.String),
               port: Schema.optional(Schema.Number),
-              privateKey: Schema.optional(Schema.String),
+              privateKey: Schema.optional(SensitiveString),
               region: Schema.optional(Schema.String),
-              secret: Schema.optional(Schema.String),
+              secret: Schema.optional(SensitiveString),
               username: Schema.optional(Schema.String),
             }).pipe(
               Schema.encodeKeys({
@@ -3919,7 +3920,7 @@ export const ReplaceMeetingByIdMeetingResponse =
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       password: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       path: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -3928,13 +3929,13 @@ export const ReplaceMeetingByIdMeetingResponse =
                         Schema.Union([Schema.Number, Schema.Null]),
                       ),
                       privateKey: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       region: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
                       ),
                       secret: Schema.optional(
-                        Schema.Union([Schema.String, Schema.Null]),
+                        Schema.Union([SensitiveString, Schema.Null]),
                       ),
                       username: Schema.optional(
                         Schema.Union([Schema.String, Schema.Null]),
@@ -4530,7 +4531,7 @@ export const GetOneRecordingRecordingResponse =
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 password: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 path: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
@@ -4539,13 +4540,13 @@ export const GetOneRecordingRecordingResponse =
                   Schema.Union([Schema.Number, Schema.Null]),
                 ),
                 privateKey: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 region: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 secret: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 username: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
@@ -8754,18 +8755,18 @@ export const GetRecordingsRecordingResponse =
               ),
               host: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
               password: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
+                Schema.Union([SensitiveString, Schema.Null]),
               ),
               path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
               port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
               privateKey: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
+                Schema.Union([SensitiveString, Schema.Null]),
               ),
               region: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
               ),
               secret: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
+                Schema.Union([SensitiveString, Schema.Null]),
               ),
               username: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
@@ -8939,12 +8940,12 @@ export const StartRecordingsRecordingRequest =
           authMethod: Schema.optional(Schema.Literals(["KEY", "PASSWORD"])),
           bucket: Schema.optional(Schema.String),
           host: Schema.optional(Schema.String),
-          password: Schema.optional(Schema.String),
+          password: Schema.optional(SensitiveString),
           path: Schema.optional(Schema.String),
           port: Schema.optional(Schema.Number),
-          privateKey: Schema.optional(Schema.String),
+          privateKey: Schema.optional(SensitiveString),
           region: Schema.optional(Schema.String),
-          secret: Schema.optional(Schema.String),
+          secret: Schema.optional(SensitiveString),
           username: Schema.optional(Schema.String),
         }).pipe(
           Schema.encodeKeys({
@@ -9206,7 +9207,7 @@ export const StartRecordingsRecordingResponse =
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 password: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 path: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
@@ -9215,13 +9216,13 @@ export const StartRecordingsRecordingResponse =
                   Schema.Union([Schema.Number, Schema.Null]),
                 ),
                 privateKey: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 region: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 secret: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 username: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
@@ -9492,7 +9493,7 @@ export const PauseResumeStopRecordingRecordingResponse =
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 password: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 path: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
@@ -9501,13 +9502,13 @@ export const PauseResumeStopRecordingRecordingResponse =
                   Schema.Union([Schema.Number, Schema.Null]),
                 ),
                 privateKey: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 region: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
                 secret: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Union([SensitiveString, Schema.Null]),
                 ),
                 username: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),

@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
-import * as AbuseReports from "~/services/abuse-reports.ts";
+import * as AbuseReports from "~/services/abuse-reports";
 
 const accountId = () => getAccountId();
 
@@ -21,9 +21,9 @@ describe("AbuseReports", () => {
         });
 
         expect(result).toBeDefined();
-        // reports is null when no reports exist, or an array of report objects
-        if (result.reports !== null) {
-          expect(Array.isArray(result.reports)).toBe(true);
+        // items is null/undefined when no reports exist.
+        if (result.result.items != null) {
+          expect(Array.isArray(result.result.items)).toBe(true);
         }
       }));
 

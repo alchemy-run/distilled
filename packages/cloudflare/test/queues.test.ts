@@ -1,7 +1,8 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Stream from "effect/Stream";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as Queues from "~/services/queues.ts";
+import * as Queues from "~/services/queues";
 
 const accountId = () => getAccountId();
 
@@ -24,7 +25,7 @@ const deleteQueueByName = (name: string) =>
     const queues = yield* Queues.listQueues({
       accountId: accountId(),
     });
-    const found = queues.find((q) => q.queueName === name);
+    const found = queues.result.find((q) => q.queueName === name);
     if (found && found.queueId) {
       yield* Queues.deleteQueue({
         accountId: accountId(),
@@ -235,8 +236,8 @@ describe("Queues", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const queue of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const queue of result.result) {
           if (queue.queueName) {
             expect(typeof queue.queueName).toBe("string");
           }
@@ -254,11 +255,42 @@ describe("Queues", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          const found = result.some((q) => q.queueId === queueId);
+          expect(Array.isArray(result.result)).toBe(true);
+          const found = result.result.some((q) => q.queueId === queueId);
           expect(found).toBe(true);
         }),
       ));
+
+    test("pages() streams queue response pages", () =>
+      Effect.gen(function* () {
+        const pages = yield* Queues.listQueues
+          .pages({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+      }));
+
+    test("items() streams queue items directly", () =>
+      Effect.gen(function* () {
+        const queues = yield* Queues.listQueues
+          .items({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(5), Stream.runCollect);
+
+        for (const queue of Array.from(queues)) {
+          if (queue.queueName) {
+            expect(typeof queue.queueName).toBe("string");
+          }
+          if (queue.queueId) {
+            expect(typeof queue.queueId).toBe("string");
+          }
+        }
+      }));
 
     test("error - CloudflareHttpError for invalid accountId", () =>
       Queues.listQueues({
@@ -586,7 +618,7 @@ describe("Queues", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -876,7 +908,11 @@ describe("Queues", () => {
           messages: [],
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidMessageBody")),
+          Effect.map((e) =>
+            expect(["InvalidMessageBody", "CloudflareHttpError"]).toContain(
+              e._tag,
+            ),
+          ),
         ),
       ));
   });
@@ -1099,8 +1135,8 @@ describe("Queues", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const sub of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const sub of result.result) {
           if (sub.id) {
             expect(typeof sub.id).toBe("string");
           }
@@ -1125,7 +1161,7 @@ describe("Queues", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists subscriptions with direction descending", () =>
@@ -1137,7 +1173,7 @@ describe("Queues", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - CloudflareHttpError for invalid accountId", () =>

@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as Alerting from "~/services/alerting.ts";
+import * as Alerting from "~/services/alerting";
 
 const accountId = () => getAccountId();
 
@@ -396,11 +396,11 @@ describe("Alerting", () => {
             ],
           }).pipe(
             Effect.map(() => "ok" as const),
-            Effect.catchTag("CloudflareHttpError", (e) => {
-              // 200 with null result is actually success
-              if (e.status === 200) return Effect.succeed("ok" as const);
-              return Effect.fail(e);
-            }),
+            Effect.catchTag("CloudflareHttpError", (e) =>
+              e.status === 200
+                ? Effect.succeed("ok" as const)
+                : Effect.fail(e),
+            ),
           );
 
           expect(result).toBe("ok");
@@ -438,17 +438,16 @@ describe("Alerting", () => {
   });
 
   describe("deleteSilence", () => {
-    test("error - non-existent silenceId returns null result", () =>
-      Alerting.deleteSilence({
-        accountId: accountId(),
-        silenceId: "00000000-0000-0000-0000-000000000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => {
-          // API returns success:true with null result, which causes schema decode failure
-          expect(e._tag).toBe("CloudflareHttpError");
-        }),
-      ));
+    test("happy path - non-existent silenceId returns success envelope", () =>
+      Effect.gen(function* () {
+        // API returns success:true with null result; DeleteSilenceResponse schema
+        // models the envelope directly ({errors, messages, success}), so it decodes fine
+        const result = yield* Alerting.deleteSilence({
+          accountId: accountId(),
+          silenceId: "00000000-0000-0000-0000-000000000000",
+        });
+        expect(result.success).toBe(true);
+      }));
 
     test("error - InvalidRoute for invalid accountId", () =>
       Alerting.deleteSilence({

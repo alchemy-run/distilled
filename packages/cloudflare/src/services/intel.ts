@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service intel
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -212,146 +213,237 @@ export const ListAttackSurfaceReportIssuesRequest =
     }),
   ) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesRequest>;
 
-export type ListAttackSurfaceReportIssuesResponse = {
-  count?: number | null;
-  issues?:
-    | {
-        id?: string | null;
-        dismissed?: boolean | null;
-        issueClass?: string | null;
-        issueType?:
-          | "compliance_violation"
-          | "email_security"
-          | "exposed_infrastructure"
-          | "insecure_configuration"
-          | "weak_authentication"
-          | "configuration_suggestion"
-          | null;
-        payload?: {
-          detectionMethod?: string | null;
-          zoneTag?: string | null;
-        } | null;
-        resolveLink?: string | null;
-        resolveText?: string | null;
-        severity?: "Low" | "Moderate" | "Critical" | null;
-        since?: string | null;
-        subject?: string | null;
-        timestamp?: string | null;
-      }[]
-    | null;
-  page?: number | null;
-  perPage?: number | null;
-}[];
+export interface ListAttackSurfaceReportIssuesResponse {
+  result: {
+    items?:
+      | {
+          count?: number | null;
+          issues?:
+            | {
+                id?: string | null;
+                dismissed?: boolean | null;
+                issueClass?: string | null;
+                issueType?:
+                  | "compliance_violation"
+                  | "email_security"
+                  | "exposed_infrastructure"
+                  | "insecure_configuration"
+                  | "weak_authentication"
+                  | "configuration_suggestion"
+                  | null;
+                payload?: {
+                  detectionMethod?: string | null;
+                  zoneTag?: string | null;
+                } | null;
+                resolveLink?: string | null;
+                resolveText?: string | null;
+                severity?: "Low" | "Moderate" | "Critical" | null;
+                since?: string | null;
+                subject?: string | null;
+                timestamp?: string | null;
+              }[]
+            | null;
+          page?: number | null;
+          perPage?: number | null;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListAttackSurfaceReportIssuesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      issues: Schema.optional(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
         Schema.Union([
           Schema.Array(
             Schema.Struct({
-              id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-              dismissed: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
+              count: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
               ),
-              issueClass: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              issueType: Schema.optional(
+              issues: Schema.optional(
                 Schema.Union([
-                  Schema.Literals([
-                    "compliance_violation",
-                    "email_security",
-                    "exposed_infrastructure",
-                    "insecure_configuration",
-                    "weak_authentication",
-                    "configuration_suggestion",
-                  ]),
-                  Schema.Null,
-                ]),
-              ),
-              payload: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    detectionMethod: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
+                  Schema.Array(
+                    Schema.Struct({
+                      id: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      dismissed: Schema.optional(
+                        Schema.Union([Schema.Boolean, Schema.Null]),
+                      ),
+                      issueClass: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      issueType: Schema.optional(
+                        Schema.Union([
+                          Schema.Literals([
+                            "compliance_violation",
+                            "email_security",
+                            "exposed_infrastructure",
+                            "insecure_configuration",
+                            "weak_authentication",
+                            "configuration_suggestion",
+                          ]),
+                          Schema.Null,
+                        ]),
+                      ),
+                      payload: Schema.optional(
+                        Schema.Union([
+                          Schema.Struct({
+                            detectionMethod: Schema.optional(
+                              Schema.Union([Schema.String, Schema.Null]),
+                            ),
+                            zoneTag: Schema.optional(
+                              Schema.Union([Schema.String, Schema.Null]),
+                            ),
+                          }).pipe(
+                            Schema.encodeKeys({
+                              detectionMethod: "detection_method",
+                              zoneTag: "zone_tag",
+                            }),
+                          ),
+                          Schema.Null,
+                        ]),
+                      ),
+                      resolveLink: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      resolveText: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      severity: Schema.optional(
+                        Schema.Union([
+                          Schema.Literals(["Low", "Moderate", "Critical"]),
+                          Schema.Null,
+                        ]),
+                      ),
+                      since: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      subject: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      timestamp: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        id: "id",
+                        dismissed: "dismissed",
+                        issueClass: "issue_class",
+                        issueType: "issue_type",
+                        payload: "payload",
+                        resolveLink: "resolve_link",
+                        resolveText: "resolve_text",
+                        severity: "severity",
+                        since: "since",
+                        subject: "subject",
+                        timestamp: "timestamp",
+                      }),
                     ),
-                    zoneTag: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      detectionMethod: "detection_method",
-                      zoneTag: "zone_tag",
-                    }),
                   ),
                   Schema.Null,
                 ]),
               ),
-              resolveLink: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              resolveText: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              severity: Schema.optional(
-                Schema.Union([
-                  Schema.Literals(["Low", "Moderate", "Critical"]),
-                  Schema.Null,
-                ]),
-              ),
-              since: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              subject: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              timestamp: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
+              page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+              perPage: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
               ),
             }).pipe(
               Schema.encodeKeys({
-                id: "id",
-                dismissed: "dismissed",
-                issueClass: "issue_class",
-                issueType: "issue_type",
-                payload: "payload",
-                resolveLink: "resolve_link",
-                resolveText: "resolve_text",
-                severity: "severity",
-                since: "since",
-                subject: "subject",
-                timestamp: "timestamp",
+                count: "count",
+                issues: "issues",
+                page: "page",
+                perPage: "per_page",
               }),
             ),
           ),
           Schema.Null,
         ]),
       ),
+    }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         count: "count",
-        issues: "issues",
         page: "page",
         perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListAttackSurfaceReportIssuesResponse>;
 
 export type ListAttackSurfaceReportIssuesError = DefaultErrors;
 
-export const listAttackSurfaceReportIssues: API.OperationMethod<
+export const listAttackSurfaceReportIssues: API.PaginatedOperationMethod<
   ListAttackSurfaceReportIssuesRequest,
   ListAttackSurfaceReportIssuesResponse,
   ListAttackSurfaceReportIssuesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListAttackSurfaceReportIssuesRequest,
+  ) => stream.Stream<
+    ListAttackSurfaceReportIssuesResponse,
+    ListAttackSurfaceReportIssuesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListAttackSurfaceReportIssuesRequest) => stream.Stream<
+    {
+      count?: number | null;
+      issues?:
+        | {
+            id?: string | null;
+            dismissed?: boolean | null;
+            issueClass?: string | null;
+            issueType?:
+              | "compliance_violation"
+              | "email_security"
+              | "exposed_infrastructure"
+              | "insecure_configuration"
+              | "weak_authentication"
+              | "configuration_suggestion"
+              | null;
+            payload?: {
+              detectionMethod?: string | null;
+              zoneTag?: string | null;
+            } | null;
+            resolveLink?: string | null;
+            resolveText?: string | null;
+            severity?: "Low" | "Moderate" | "Critical" | null;
+            since?: string | null;
+            subject?: string | null;
+            timestamp?: string | null;
+          }[]
+        | null;
+      page?: number | null;
+      perPage?: number | null;
+    },
+    ListAttackSurfaceReportIssuesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAttackSurfaceReportIssuesRequest,
   output: ListAttackSurfaceReportIssuesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface ClassAttackSurfaceReportIssueRequest {
@@ -465,6 +557,8 @@ export const ClassAttackSurfaceReportIssueResponse =
       count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<ClassAttackSurfaceReportIssueResponse>;
 
 export type ClassAttackSurfaceReportIssueError = DefaultErrors;
@@ -698,6 +792,8 @@ export const SeverityAttackSurfaceReportIssueResponse =
       count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<SeverityAttackSurfaceReportIssueResponse>;
 
 export type SeverityAttackSurfaceReportIssueError = DefaultErrors;
@@ -824,6 +920,8 @@ export const TypeAttackSurfaceReportIssueResponse =
       count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<TypeAttackSurfaceReportIssueResponse>;
 
 export type TypeAttackSurfaceReportIssueError = DefaultErrors;
@@ -858,24 +956,45 @@ export const GetAttackSurfaceReportIssueTypeRequest =
     }),
   ) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeRequest>;
 
-export type GetAttackSurfaceReportIssueTypeResponse = string[];
+export interface GetAttackSurfaceReportIssueTypeResponse {
+  result: string[];
+}
 
 export const GetAttackSurfaceReportIssueTypeResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.String,
-  ) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(Schema.String),
+  }) as unknown as Schema.Schema<GetAttackSurfaceReportIssueTypeResponse>;
 
 export type GetAttackSurfaceReportIssueTypeError = DefaultErrors;
 
-export const getAttackSurfaceReportIssueType: API.OperationMethod<
+export const getAttackSurfaceReportIssueType: API.PaginatedOperationMethod<
   GetAttackSurfaceReportIssueTypeRequest,
   GetAttackSurfaceReportIssueTypeResponse,
   GetAttackSurfaceReportIssueTypeError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetAttackSurfaceReportIssueTypeRequest,
+  ) => stream.Stream<
+    GetAttackSurfaceReportIssueTypeResponse,
+    GetAttackSurfaceReportIssueTypeError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetAttackSurfaceReportIssueTypeRequest,
+  ) => stream.Stream<
+    string,
+    GetAttackSurfaceReportIssueTypeError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetAttackSurfaceReportIssueTypeRequest,
   output: GetAttackSurfaceReportIssueTypeResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -904,69 +1023,138 @@ export const ListDnsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/dns" }),
 ) as unknown as Schema.Schema<ListDnsRequest>;
 
-export type ListDnsResponse = {
-  count?: number | null;
-  page?: number | null;
-  perPage?: number | null;
-  reverseRecords?:
-    | {
-        firstSeen?: string | null;
-        hostname?: string | null;
-        lastSeen?: string | null;
-      }[]
-    | null;
-}[];
+export interface ListDnsResponse {
+  result: {
+    items?:
+      | {
+          count?: number | null;
+          page?: number | null;
+          perPage?: number | null;
+          reverseRecords?:
+            | {
+                firstSeen?: string | null;
+                hostname?: string | null;
+                lastSeen?: string | null;
+              }[]
+            | null;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListDnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    reverseRecords: Schema.optional(
+export const ListDnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Struct({
+    items: Schema.optional(
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            firstSeen: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+            count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            perPage: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
-            hostname: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            lastSeen: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+            reverseRecords: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    firstSeen: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    hostname: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    lastSeen: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      firstSeen: "first_seen",
+                      hostname: "hostname",
+                      lastSeen: "last_seen",
+                    }),
+                  ),
+                ),
+                Schema.Null,
+              ]),
             ),
           }).pipe(
             Schema.encodeKeys({
-              firstSeen: "first_seen",
-              hostname: "hostname",
-              lastSeen: "last_seen",
+              count: "count",
+              page: "page",
+              perPage: "per_page",
+              reverseRecords: "reverse_records",
             }),
           ),
         ),
         Schema.Null,
       ]),
     ),
+  }),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       count: "count",
       page: "page",
       perPage: "per_page",
-      reverseRecords: "reverse_records",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListDnsResponse>;
 
 export type ListDnsError = DefaultErrors;
 
-export const listDns: API.OperationMethod<
+export const listDns: API.PaginatedOperationMethod<
   ListDnsRequest,
   ListDnsResponse,
   ListDnsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListDnsRequest,
+  ) => stream.Stream<
+    ListDnsResponse,
+    ListDnsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListDnsRequest) => stream.Stream<
+    {
+      count?: number | null;
+      page?: number | null;
+      perPage?: number | null;
+      reverseRecords?:
+        | {
+            firstSeen?: string | null;
+            hostname?: string | null;
+            lastSeen?: string | null;
+          }[]
+        | null;
+    },
+    ListDnsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDnsRequest,
   output: ListDnsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -1150,21 +1338,25 @@ export const GetDomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    additionalInformation: "additional_information",
-    application: "application",
-    contentCategories: "content_categories",
-    domain: "domain",
-    inheritedContentCategories: "inherited_content_categories",
-    inheritedFrom: "inherited_from",
-    inheritedRiskTypes: "inherited_risk_types",
-    popularityRank: "popularity_rank",
-    resolvesToRefs: "resolves_to_refs",
-    riskScore: "risk_score",
-    riskTypes: "risk_types",
-  }),
-) as unknown as Schema.Schema<GetDomainResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      additionalInformation: "additional_information",
+      application: "application",
+      contentCategories: "content_categories",
+      domain: "domain",
+      inheritedContentCategories: "inherited_content_categories",
+      inheritedFrom: "inherited_from",
+      inheritedRiskTypes: "inherited_risk_types",
+      popularityRank: "popularity_rank",
+      resolvesToRefs: "resolves_to_refs",
+      riskScore: "risk_score",
+      riskTypes: "risk_types",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDomainResponse>;
 
 export type GetDomainError = DefaultErrors;
 
@@ -1359,6 +1551,8 @@ export const GetDomainBulkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       riskTypes: "risk_types",
     }),
   ),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetDomainBulkResponse>;
 
 export type GetDomainBulkError = DefaultErrors;
@@ -1440,6 +1634,8 @@ export const GetDomainHistoryResponse =
       ),
       domain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetDomainHistoryResponse>;
 
 export type GetDomainHistoryError = DefaultErrors;
@@ -1537,21 +1733,25 @@ export const GetIndicatorFeedResponse =
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     providerId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     providerName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      description: "description",
-      isAttributable: "is_attributable",
-      isDownloadable: "is_downloadable",
-      isPublic: "is_public",
-      latestUploadStatus: "latest_upload_status",
-      modifiedOn: "modified_on",
-      name: "name",
-      providerId: "provider_id",
-      providerName: "provider_name",
-    }),
-  ) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        description: "description",
+        isAttributable: "is_attributable",
+        isDownloadable: "is_downloadable",
+        isPublic: "is_public",
+        latestUploadStatus: "latest_upload_status",
+        modifiedOn: "modified_on",
+        name: "name",
+        providerId: "provider_id",
+        providerName: "provider_name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetIndicatorFeedResponse>;
 
 export type GetIndicatorFeedError = DefaultErrors;
 
@@ -1581,57 +1781,89 @@ export const ListIndicatorFeedsRequest =
     }),
   ) as unknown as Schema.Schema<ListIndicatorFeedsRequest>;
 
-export type ListIndicatorFeedsResponse = {
-  id?: number | null;
-  createdOn?: string | null;
-  description?: string | null;
-  isAttributable?: boolean | null;
-  isDownloadable?: boolean | null;
-  isPublic?: boolean | null;
-  modifiedOn?: string | null;
-  name?: string | null;
-}[];
+export interface ListIndicatorFeedsResponse {
+  result: {
+    id?: number | null;
+    createdOn?: string | null;
+    description?: string | null;
+    isAttributable?: boolean | null;
+    isDownloadable?: boolean | null;
+    isPublic?: boolean | null;
+    modifiedOn?: string | null;
+    name?: string | null;
+  }[];
+}
 
 export const ListIndicatorFeedsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      isAttributable: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        isAttributable: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        isDownloadable: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          description: "description",
+          isAttributable: "is_attributable",
+          isDownloadable: "is_downloadable",
+          isPublic: "is_public",
+          modifiedOn: "modified_on",
+          name: "name",
+        }),
       ),
-      isDownloadable: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        description: "description",
-        isAttributable: "is_attributable",
-        isDownloadable: "is_downloadable",
-        isPublic: "is_public",
-        modifiedOn: "modified_on",
-        name: "name",
-      }),
     ),
-  ) as unknown as Schema.Schema<ListIndicatorFeedsResponse>;
+  }) as unknown as Schema.Schema<ListIndicatorFeedsResponse>;
 
 export type ListIndicatorFeedsError = DefaultErrors;
 
-export const listIndicatorFeeds: API.OperationMethod<
+export const listIndicatorFeeds: API.PaginatedOperationMethod<
   ListIndicatorFeedsRequest,
   ListIndicatorFeedsResponse,
   ListIndicatorFeedsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListIndicatorFeedsRequest,
+  ) => stream.Stream<
+    ListIndicatorFeedsResponse,
+    ListIndicatorFeedsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListIndicatorFeedsRequest) => stream.Stream<
+    {
+      id?: number | null;
+      createdOn?: string | null;
+      description?: string | null;
+      isAttributable?: boolean | null;
+      isDownloadable?: boolean | null;
+      isPublic?: boolean | null;
+      modifiedOn?: string | null;
+      name?: string | null;
+    },
+    ListIndicatorFeedsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListIndicatorFeedsRequest,
   output: ListIndicatorFeedsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateIndicatorFeedRequest {
@@ -1688,18 +1920,22 @@ export const CreateIndicatorFeedResponse =
     isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      description: "description",
-      isAttributable: "is_attributable",
-      isDownloadable: "is_downloadable",
-      isPublic: "is_public",
-      modifiedOn: "modified_on",
-      name: "name",
-    }),
-  ) as unknown as Schema.Schema<CreateIndicatorFeedResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        description: "description",
+        isAttributable: "is_attributable",
+        isDownloadable: "is_downloadable",
+        isPublic: "is_public",
+        modifiedOn: "modified_on",
+        name: "name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateIndicatorFeedResponse>;
 
 export type CreateIndicatorFeedError = DefaultErrors;
 
@@ -1786,18 +2022,22 @@ export const UpdateIndicatorFeedResponse =
     isPublic: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      description: "description",
-      isAttributable: "is_attributable",
-      isDownloadable: "is_downloadable",
-      isPublic: "is_public",
-      modifiedOn: "modified_on",
-      name: "name",
-    }),
-  ) as unknown as Schema.Schema<UpdateIndicatorFeedResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        description: "description",
+        isAttributable: "is_attributable",
+        isDownloadable: "is_downloadable",
+        isPublic: "is_public",
+        modifiedOn: "modified_on",
+        name: "name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateIndicatorFeedResponse>;
 
 export type UpdateIndicatorFeedError = DefaultErrors;
 
@@ -1898,6 +2138,8 @@ export const ListIndicatorFeedPermissionsResponse =
         name: "name",
       }),
     ),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<ListIndicatorFeedPermissionsResponse>;
 
 export type ListIndicatorFeedPermissionsError = DefaultErrors;
@@ -1943,7 +2185,9 @@ export interface CreateIndicatorFeedPermissionResponse {
 export const CreateIndicatorFeedPermissionResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateIndicatorFeedPermissionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateIndicatorFeedPermissionResponse>;
 
 export type CreateIndicatorFeedPermissionError = DefaultErrors;
 
@@ -1988,7 +2232,9 @@ export interface DeleteIndicatorFeedPermissionResponse {
 export const DeleteIndicatorFeedPermissionResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteIndicatorFeedPermissionResponse>;
 
 export type DeleteIndicatorFeedPermissionError = DefaultErrors;
 
@@ -2042,13 +2288,17 @@ export const PutIndicatorFeedSnapshotResponse =
     fileId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      fileId: "file_id",
-      filename: "filename",
-      status: "status",
-    }),
-  ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        fileId: "file_id",
+        filename: "filename",
+        status: "status",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PutIndicatorFeedSnapshotResponse>;
 
 export type PutIndicatorFeedSnapshotError = DefaultErrors;
 
@@ -2151,7 +2401,7 @@ export const GetIpResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       riskTypes: "risk_types",
     }),
   ),
-) as unknown as Schema.Schema<GetIpResponse>;
+).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetIpResponse>;
 
 export type GetIpError = DefaultErrors;
 
@@ -2181,31 +2431,54 @@ export const GetIpListRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/ip-list" }),
 ) as unknown as Schema.Schema<GetIpListRequest>;
 
-export type GetIpListResponse = {
-  id?: number | null;
-  description?: string | null;
-  name?: string | null;
-}[];
+export interface GetIpListResponse {
+  result: {
+    id?: number | null;
+    description?: string | null;
+    name?: string | null;
+  }[];
+}
 
-export const GetIpListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<GetIpListResponse>;
+export const GetIpListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<GetIpListResponse>;
 
 export type GetIpListError = DefaultErrors;
 
-export const getIpList: API.OperationMethod<
+export const getIpList: API.PaginatedOperationMethod<
   GetIpListRequest,
   GetIpListResponse,
   GetIpListError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetIpListRequest,
+  ) => stream.Stream<
+    GetIpListResponse,
+    GetIpListError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetIpListRequest,
+  ) => stream.Stream<
+    { id?: number | null; description?: string | null; name?: string | null },
+    GetIpListError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetIpListRequest,
   output: GetIpListResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -2361,49 +2634,78 @@ export const ListSinkholesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/intel/sinkholes" }),
 ) as unknown as Schema.Schema<ListSinkholesRequest>;
 
-export type ListSinkholesResponse = {
-  id?: number | null;
-  accountTag?: string | null;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
-  name?: string | null;
-  r2Bucket?: string | null;
-  r2Id?: string | null;
-}[];
+export interface ListSinkholesResponse {
+  result: {
+    id?: number | null;
+    accountTag?: string | null;
+    createdOn?: string | null;
+    modifiedOn?: string | null;
+    name?: string | null;
+    r2Bucket?: string | null;
+    r2Id?: string | null;
+  }[];
+}
 
-export const ListSinkholesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    r2Bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    r2Id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountTag: "account_tag",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      name: "name",
-      r2Bucket: "r2_bucket",
-      r2Id: "r2_id",
-    }),
+export const ListSinkholesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      accountTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      r2Bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      r2Id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountTag: "account_tag",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        name: "name",
+        r2Bucket: "r2_bucket",
+        r2Id: "r2_id",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<ListSinkholesResponse>;
+}) as unknown as Schema.Schema<ListSinkholesResponse>;
 
 export type ListSinkholesError = DefaultErrors;
 
-export const listSinkholes: API.OperationMethod<
+export const listSinkholes: API.PaginatedOperationMethod<
   ListSinkholesRequest,
   ListSinkholesResponse,
   ListSinkholesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSinkholesRequest,
+  ) => stream.Stream<
+    ListSinkholesResponse,
+    ListSinkholesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSinkholesRequest) => stream.Stream<
+    {
+      id?: number | null;
+      accountTag?: string | null;
+      createdOn?: string | null;
+      modifiedOn?: string | null;
+      name?: string | null;
+      r2Bucket?: string | null;
+      r2Id?: string | null;
+    },
+    ListSinkholesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSinkholesRequest,
   output: ListSinkholesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -2662,97 +2964,99 @@ export const GetWhoiResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   updatedDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   updatedDateRaw: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   whoisServer: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    dnssec: "dnssec",
-    domain: "domain",
-    extension: "extension",
-    found: "found",
-    nameservers: "nameservers",
-    punycode: "punycode",
-    registrant: "registrant",
-    registrar: "registrar",
-    id: "id",
-    administrativeCity: "administrative_city",
-    administrativeCountry: "administrative_country",
-    administrativeEmail: "administrative_email",
-    administrativeFax: "administrative_fax",
-    administrativeFaxExt: "administrative_fax_ext",
-    administrativeId: "administrative_id",
-    administrativeName: "administrative_name",
-    administrativeOrg: "administrative_org",
-    administrativePhone: "administrative_phone",
-    administrativePhoneExt: "administrative_phone_ext",
-    administrativePostalCode: "administrative_postal_code",
-    administrativeProvince: "administrative_province",
-    administrativeReferralUrl: "administrative_referral_url",
-    administrativeStreet: "administrative_street",
-    billingCity: "billing_city",
-    billingCountry: "billing_country",
-    billingEmail: "billing_email",
-    billingFax: "billing_fax",
-    billingFaxExt: "billing_fax_ext",
-    billingId: "billing_id",
-    billingName: "billing_name",
-    billingOrg: "billing_org",
-    billingPhone: "billing_phone",
-    billingPhoneExt: "billing_phone_ext",
-    billingPostalCode: "billing_postal_code",
-    billingProvince: "billing_province",
-    billingReferralUrl: "billing_referral_url",
-    billingStreet: "billing_street",
-    createdDate: "created_date",
-    createdDateRaw: "created_date_raw",
-    expirationDate: "expiration_date",
-    expirationDateRaw: "expiration_date_raw",
-    registrantCity: "registrant_city",
-    registrantCountry: "registrant_country",
-    registrantEmail: "registrant_email",
-    registrantFax: "registrant_fax",
-    registrantFaxExt: "registrant_fax_ext",
-    registrantId: "registrant_id",
-    registrantName: "registrant_name",
-    registrantOrg: "registrant_org",
-    registrantPhone: "registrant_phone",
-    registrantPhoneExt: "registrant_phone_ext",
-    registrantPostalCode: "registrant_postal_code",
-    registrantProvince: "registrant_province",
-    registrantReferralUrl: "registrant_referral_url",
-    registrantStreet: "registrant_street",
-    registrarCity: "registrar_city",
-    registrarCountry: "registrar_country",
-    registrarEmail: "registrar_email",
-    registrarFax: "registrar_fax",
-    registrarFaxExt: "registrar_fax_ext",
-    registrarId: "registrar_id",
-    registrarName: "registrar_name",
-    registrarOrg: "registrar_org",
-    registrarPhone: "registrar_phone",
-    registrarPhoneExt: "registrar_phone_ext",
-    registrarPostalCode: "registrar_postal_code",
-    registrarProvince: "registrar_province",
-    registrarReferralUrl: "registrar_referral_url",
-    registrarStreet: "registrar_street",
-    status: "status",
-    technicalCity: "technical_city",
-    technicalCountry: "technical_country",
-    technicalEmail: "technical_email",
-    technicalFax: "technical_fax",
-    technicalFaxExt: "technical_fax_ext",
-    technicalId: "technical_id",
-    technicalName: "technical_name",
-    technicalOrg: "technical_org",
-    technicalPhone: "technical_phone",
-    technicalPhoneExt: "technical_phone_ext",
-    technicalPostalCode: "technical_postal_code",
-    technicalProvince: "technical_province",
-    technicalReferralUrl: "technical_referral_url",
-    technicalStreet: "technical_street",
-    updatedDate: "updated_date",
-    updatedDateRaw: "updated_date_raw",
-    whoisServer: "whois_server",
-  }),
-) as unknown as Schema.Schema<GetWhoiResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      dnssec: "dnssec",
+      domain: "domain",
+      extension: "extension",
+      found: "found",
+      nameservers: "nameservers",
+      punycode: "punycode",
+      registrant: "registrant",
+      registrar: "registrar",
+      id: "id",
+      administrativeCity: "administrative_city",
+      administrativeCountry: "administrative_country",
+      administrativeEmail: "administrative_email",
+      administrativeFax: "administrative_fax",
+      administrativeFaxExt: "administrative_fax_ext",
+      administrativeId: "administrative_id",
+      administrativeName: "administrative_name",
+      administrativeOrg: "administrative_org",
+      administrativePhone: "administrative_phone",
+      administrativePhoneExt: "administrative_phone_ext",
+      administrativePostalCode: "administrative_postal_code",
+      administrativeProvince: "administrative_province",
+      administrativeReferralUrl: "administrative_referral_url",
+      administrativeStreet: "administrative_street",
+      billingCity: "billing_city",
+      billingCountry: "billing_country",
+      billingEmail: "billing_email",
+      billingFax: "billing_fax",
+      billingFaxExt: "billing_fax_ext",
+      billingId: "billing_id",
+      billingName: "billing_name",
+      billingOrg: "billing_org",
+      billingPhone: "billing_phone",
+      billingPhoneExt: "billing_phone_ext",
+      billingPostalCode: "billing_postal_code",
+      billingProvince: "billing_province",
+      billingReferralUrl: "billing_referral_url",
+      billingStreet: "billing_street",
+      createdDate: "created_date",
+      createdDateRaw: "created_date_raw",
+      expirationDate: "expiration_date",
+      expirationDateRaw: "expiration_date_raw",
+      registrantCity: "registrant_city",
+      registrantCountry: "registrant_country",
+      registrantEmail: "registrant_email",
+      registrantFax: "registrant_fax",
+      registrantFaxExt: "registrant_fax_ext",
+      registrantId: "registrant_id",
+      registrantName: "registrant_name",
+      registrantOrg: "registrant_org",
+      registrantPhone: "registrant_phone",
+      registrantPhoneExt: "registrant_phone_ext",
+      registrantPostalCode: "registrant_postal_code",
+      registrantProvince: "registrant_province",
+      registrantReferralUrl: "registrant_referral_url",
+      registrantStreet: "registrant_street",
+      registrarCity: "registrar_city",
+      registrarCountry: "registrar_country",
+      registrarEmail: "registrar_email",
+      registrarFax: "registrar_fax",
+      registrarFaxExt: "registrar_fax_ext",
+      registrarId: "registrar_id",
+      registrarName: "registrar_name",
+      registrarOrg: "registrar_org",
+      registrarPhone: "registrar_phone",
+      registrarPhoneExt: "registrar_phone_ext",
+      registrarPostalCode: "registrar_postal_code",
+      registrarProvince: "registrar_province",
+      registrarReferralUrl: "registrar_referral_url",
+      registrarStreet: "registrar_street",
+      status: "status",
+      technicalCity: "technical_city",
+      technicalCountry: "technical_country",
+      technicalEmail: "technical_email",
+      technicalFax: "technical_fax",
+      technicalFaxExt: "technical_fax_ext",
+      technicalId: "technical_id",
+      technicalName: "technical_name",
+      technicalOrg: "technical_org",
+      technicalPhone: "technical_phone",
+      technicalPhoneExt: "technical_phone_ext",
+      technicalPostalCode: "technical_postal_code",
+      technicalProvince: "technical_province",
+      technicalReferralUrl: "technical_referral_url",
+      technicalStreet: "technical_street",
+      updatedDate: "updated_date",
+      updatedDateRaw: "updated_date_raw",
+      whoisServer: "whois_server",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetWhoiResponse>;
 
 export type GetWhoiError = DefaultErrors;
 

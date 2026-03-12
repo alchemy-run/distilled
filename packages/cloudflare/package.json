@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/cloudflare",
-  "version": "0.2.6",
+  "version": "0.3.0-alpha",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
@@ -52,6 +52,7 @@
   "scripts": {
     "typecheck": "tsgo",
     "build": "tsgo -b",
+    "download:env": "doppler secrets download --no-file --format env > .env",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",

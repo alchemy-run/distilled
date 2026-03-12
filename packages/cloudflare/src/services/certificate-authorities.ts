@@ -45,7 +45,9 @@ export const GetHostnameAssociationResponse =
     hostnames: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHostnameAssociationResponse>;
 
 export type GetHostnameAssociationError = DefaultErrors;
 
@@ -94,7 +96,9 @@ export const PutHostnameAssociationResponse =
     hostnames: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutHostnameAssociationResponse>;
 
 export type PutHostnameAssociationError = DefaultErrors;
 

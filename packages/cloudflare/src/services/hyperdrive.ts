@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Errors
@@ -172,17 +173,17 @@ export const CreateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Struct({
       database: Schema.String,
       host: Schema.String,
-      password: Schema.String,
+      password: SensitiveString,
       port: Schema.Number,
       scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
     Schema.Struct({
       accessClientId: Schema.String,
-      accessClientSecret: Schema.String,
+      accessClientSecret: SensitiveString,
       database: Schema.String,
       host: Schema.String,
-      password: Schema.String,
+      password: SensitiveString,
       scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }).pipe(
@@ -313,17 +314,17 @@ export const UpdateConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Struct({
       database: Schema.String,
       host: Schema.String,
-      password: Schema.String,
+      password: SensitiveString,
       port: Schema.Number,
       scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }),
     Schema.Struct({
       accessClientId: Schema.String,
-      accessClientSecret: Schema.String,
+      accessClientSecret: SensitiveString,
       database: Schema.String,
       host: Schema.String,
-      password: Schema.String,
+      password: SensitiveString,
       scheme: Schema.Literals(["postgres", "postgresql", "mysql"]),
       user: Schema.String,
     }).pipe(
@@ -481,7 +482,7 @@ export const PatchConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([
       Schema.Struct({
         database: Schema.optional(Schema.String),
-        password: Schema.optional(Schema.String),
+        password: Schema.optional(SensitiveString),
         scheme: Schema.optional(
           Schema.Literals(["postgres", "postgresql", "mysql"]),
         ),
@@ -493,7 +494,7 @@ export const PatchConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
       Schema.Struct({
         accessClientId: Schema.String,
-        accessClientSecret: Schema.String,
+        accessClientSecret: SensitiveString,
         host: Schema.String,
       }).pipe(
         Schema.encodeKeys({
@@ -566,7 +567,9 @@ export const DeleteConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteConfigResponse = unknown;
 
 export const DeleteConfigResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export type DeleteConfigError =
   | DefaultErrors

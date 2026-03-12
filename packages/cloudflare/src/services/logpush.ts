@@ -97,7 +97,9 @@ export const GetDatasetFieldRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 export type GetDatasetFieldResponse = unknown;
 
 export const GetDatasetFieldResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetDatasetFieldResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDatasetFieldResponse>;
 
 export type GetDatasetFieldError = DefaultErrors;
 
@@ -282,15 +284,19 @@ export const CreateEdgeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   filter: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   sample: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   sessionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    destinationConf: "destination_conf",
-    fields: "fields",
-    filter: "filter",
-    sample: "sample",
-    sessionId: "session_id",
-  }),
-) as unknown as Schema.Schema<CreateEdgeResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      destinationConf: "destination_conf",
+      fields: "fields",
+      filter: "filter",
+      sample: "sample",
+      sessionId: "session_id",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateEdgeResponse>;
 
 export type CreateEdgeError = DefaultErrors;
 
@@ -338,7 +344,9 @@ export interface DestinationExistsValidateResponse {
 export const DestinationExistsValidateResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     exists: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DestinationExistsValidateResponse>;
 
 export type DestinationExistsValidateError = DefaultErrors;
 
@@ -565,25 +573,27 @@ export const GetJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    dataset: "dataset",
-    destinationConf: "destination_conf",
-    enabled: "enabled",
-    errorMessage: "error_message",
-    frequency: "frequency",
-    kind: "kind",
-    lastComplete: "last_complete",
-    lastError: "last_error",
-    logpullOptions: "logpull_options",
-    maxUploadBytes: "max_upload_bytes",
-    maxUploadIntervalSeconds: "max_upload_interval_seconds",
-    maxUploadRecords: "max_upload_records",
-    name: "name",
-    outputOptions: "output_options",
-  }),
-) as unknown as Schema.Schema<GetJobResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      dataset: "dataset",
+      destinationConf: "destination_conf",
+      enabled: "enabled",
+      errorMessage: "error_message",
+      frequency: "frequency",
+      kind: "kind",
+      lastComplete: "last_complete",
+      lastError: "last_error",
+      logpullOptions: "logpull_options",
+      maxUploadBytes: "max_upload_bytes",
+      maxUploadIntervalSeconds: "max_upload_interval_seconds",
+      maxUploadRecords: "max_upload_records",
+      name: "name",
+      outputOptions: "output_options",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetJobResponse>;
 
 export type GetJobError = DefaultErrors;
 
@@ -1030,25 +1040,29 @@ export const CreateJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    dataset: "dataset",
-    destinationConf: "destination_conf",
-    enabled: "enabled",
-    errorMessage: "error_message",
-    frequency: "frequency",
-    kind: "kind",
-    lastComplete: "last_complete",
-    lastError: "last_error",
-    logpullOptions: "logpull_options",
-    maxUploadBytes: "max_upload_bytes",
-    maxUploadIntervalSeconds: "max_upload_interval_seconds",
-    maxUploadRecords: "max_upload_records",
-    name: "name",
-    outputOptions: "output_options",
-  }),
-) as unknown as Schema.Schema<CreateJobResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      dataset: "dataset",
+      destinationConf: "destination_conf",
+      enabled: "enabled",
+      errorMessage: "error_message",
+      frequency: "frequency",
+      kind: "kind",
+      lastComplete: "last_complete",
+      lastError: "last_error",
+      logpullOptions: "logpull_options",
+      maxUploadBytes: "max_upload_bytes",
+      maxUploadIntervalSeconds: "max_upload_interval_seconds",
+      maxUploadRecords: "max_upload_records",
+      name: "name",
+      outputOptions: "output_options",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateJobResponse>;
 
 export type CreateJobError = DefaultErrors;
 
@@ -1399,25 +1413,29 @@ export const UpdateJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    dataset: "dataset",
-    destinationConf: "destination_conf",
-    enabled: "enabled",
-    errorMessage: "error_message",
-    frequency: "frequency",
-    kind: "kind",
-    lastComplete: "last_complete",
-    lastError: "last_error",
-    logpullOptions: "logpull_options",
-    maxUploadBytes: "max_upload_bytes",
-    maxUploadIntervalSeconds: "max_upload_interval_seconds",
-    maxUploadRecords: "max_upload_records",
-    name: "name",
-    outputOptions: "output_options",
-  }),
-) as unknown as Schema.Schema<UpdateJobResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      dataset: "dataset",
+      destinationConf: "destination_conf",
+      enabled: "enabled",
+      errorMessage: "error_message",
+      frequency: "frequency",
+      kind: "kind",
+      lastComplete: "last_complete",
+      lastError: "last_error",
+      logpullOptions: "logpull_options",
+      maxUploadBytes: "max_upload_bytes",
+      maxUploadIntervalSeconds: "max_upload_interval_seconds",
+      maxUploadRecords: "max_upload_records",
+      name: "name",
+      outputOptions: "output_options",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateJobResponse>;
 
 export type UpdateJobError = DefaultErrors;
 
@@ -1452,7 +1470,9 @@ export interface DeleteJobResponse {
 
 export const DeleteJobResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteJobResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteJobResponse>;
 
 export type DeleteJobError = DefaultErrors;
 
@@ -1505,7 +1525,9 @@ export const CreateOwnershipResponse =
     filename: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateOwnershipResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateOwnershipResponse>;
 
 export type CreateOwnershipError = DefaultErrors;
 
@@ -1555,7 +1577,9 @@ export interface ValidateOwnershipResponse {
 export const ValidateOwnershipResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<ValidateOwnershipResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ValidateOwnershipResponse>;
 
 export type ValidateOwnershipError = DefaultErrors;
 
@@ -1605,7 +1629,9 @@ export const DestinationValidateResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<DestinationValidateResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DestinationValidateResponse>;
 
 export type DestinationValidateError = DefaultErrors;
 
@@ -1651,6 +1677,8 @@ export const OriginValidateResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     valid: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<OriginValidateResponse>;
 
 export type OriginValidateError = DefaultErrors;

@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service radar
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -160,7 +161,9 @@ export const UserAgentAiBotSummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<UserAgentAiBotSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UserAgentAiBotSummaryResponse>;
 
 export type UserAgentAiBotSummaryError = DefaultErrors;
 
@@ -341,7 +344,9 @@ export const UserAgentAiTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<UserAgentAiTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UserAgentAiTimeseriesGroupResponse>;
 
 export type UserAgentAiTimeseriesGroupError = DefaultErrors;
 
@@ -516,7 +521,9 @@ export const TimeseriesAiBotResponse =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<TimeseriesAiBotResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesAiBotResponse>;
 
 export type TimeseriesAiBotError = DefaultErrors;
 
@@ -679,7 +686,9 @@ export const ModelAiInferenceSummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<ModelAiInferenceSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ModelAiInferenceSummaryResponse>;
 
 export type ModelAiInferenceSummaryError = DefaultErrors;
 
@@ -838,7 +847,9 @@ export const TaskAiInferenceSummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<TaskAiInferenceSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TaskAiInferenceSummaryResponse>;
 
 export type TaskAiInferenceSummaryError = DefaultErrors;
 
@@ -1019,7 +1030,9 @@ export const ModelAiInferenceTimeseriesGroupSummaryResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<ModelAiInferenceTimeseriesGroupSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ModelAiInferenceTimeseriesGroupSummaryResponse>;
 
 export type ModelAiInferenceTimeseriesGroupSummaryError = DefaultErrors;
 
@@ -1196,7 +1209,9 @@ export const TaskAiInferenceTimeseriesGroupSummaryResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TaskAiInferenceTimeseriesGroupSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TaskAiInferenceTimeseriesGroupSummaryResponse>;
 
 export type TaskAiInferenceTimeseriesGroupSummaryError = DefaultErrors;
 
@@ -1368,7 +1383,9 @@ export const SummaryAiTimeseriesGroupResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryAiTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryAiTimeseriesGroupResponse>;
 
 export type SummaryAiTimeseriesGroupError = DefaultErrors;
 
@@ -1538,7 +1555,9 @@ export const TimeseriesAiTimeseriesGroupResponse =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<TimeseriesAiTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesAiTimeseriesGroupResponse>;
 
 export type TimeseriesAiTimeseriesGroupError = DefaultErrors;
 
@@ -1569,36 +1588,63 @@ export const CreateAiToMarkdownRequest =
     T.Http({ method: "POST", path: "/accounts/{account_id}/ai/tomarkdown" }),
   ) as unknown as Schema.Schema<CreateAiToMarkdownRequest>;
 
-export type CreateAiToMarkdownResponse = {
-  data: string;
-  format: string;
-  mimeType: string;
-  name: string;
-  tokens: string;
-}[];
+export interface CreateAiToMarkdownResponse {
+  result: {
+    data: string;
+    format: string;
+    mimeType: string;
+    name: string;
+    tokens: string;
+  }[];
+}
 
 export const CreateAiToMarkdownResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      data: Schema.String,
-      format: Schema.String,
-      mimeType: Schema.String,
-      name: Schema.String,
-      tokens: Schema.String,
-    }),
-  ) as unknown as Schema.Schema<CreateAiToMarkdownResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        data: Schema.String,
+        format: Schema.String,
+        mimeType: Schema.String,
+        name: Schema.String,
+        tokens: Schema.String,
+      }),
+    ),
+  }) as unknown as Schema.Schema<CreateAiToMarkdownResponse>;
 
 export type CreateAiToMarkdownError = DefaultErrors;
 
-export const createAiToMarkdown: API.OperationMethod<
+export const createAiToMarkdown: API.PaginatedOperationMethod<
   CreateAiToMarkdownRequest,
   CreateAiToMarkdownResponse,
   CreateAiToMarkdownError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: CreateAiToMarkdownRequest,
+  ) => stream.Stream<
+    CreateAiToMarkdownResponse,
+    CreateAiToMarkdownError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: CreateAiToMarkdownRequest) => stream.Stream<
+    {
+      data: string;
+      format: string;
+      mimeType: string;
+      name: string;
+      tokens: string;
+    },
+    CreateAiToMarkdownError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CreateAiToMarkdownRequest,
   output: CreateAiToMarkdownResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1687,7 +1733,9 @@ export const ListAnnotationsResponse =
         scope: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),
-  }) as unknown as Schema.Schema<ListAnnotationsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListAnnotationsResponse>;
 
 export type ListAnnotationsError = DefaultErrors;
 
@@ -1787,7 +1835,9 @@ export const GetAnnotationOutageResponse =
         scope: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),
-  }) as unknown as Schema.Schema<GetAnnotationOutageResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetAnnotationOutageResponse>;
 
 export type GetAnnotationOutageError = DefaultErrors;
 
@@ -1826,7 +1876,9 @@ export const LocationsAnnotationOutageResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<LocationsAnnotationOutageResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LocationsAnnotationOutageResponse>;
 
 export type LocationsAnnotationOutageError = DefaultErrors;
 
@@ -1992,7 +2044,9 @@ export const MatchingAnswerDnsSummaryResponse =
       negative: Schema.String,
       positive: Schema.String,
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MatchingAnswerDnsSummaryResponse>;
 
 export type MatchingAnswerDnsSummaryError = DefaultErrors;
 
@@ -2174,7 +2228,9 @@ export const MatchingAnswerDnsTimeseriesGroupResponse =
       negative: Schema.Array(Schema.String),
       positive: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MatchingAnswerDnsTimeseriesGroupResponse>;
 
 export type MatchingAnswerDnsTimeseriesGroupError = DefaultErrors;
 
@@ -2349,7 +2405,9 @@ export const TimeseriesAs112Response =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<TimeseriesAs112Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesAs112Response>;
 
 export type TimeseriesAs112Error = DefaultErrors;
 
@@ -2520,7 +2578,9 @@ export const DnssecAs112SummaryResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecAs112SummaryResponse>;
 
 export type DnssecAs112SummaryError = DefaultErrors;
 
@@ -2687,7 +2747,9 @@ export const EdnsAs112SummaryResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EdnsAs112SummaryResponse>;
 
 export type EdnsAs112SummaryError = DefaultErrors;
 
@@ -2853,7 +2915,9 @@ export const ProtocolAs112SummaryResponse =
     }).pipe(
       Schema.encodeKeys({ https: "HTTPS", tcp: "TCP", tls: "TLS", udp: "UDP" }),
     ),
-  }) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolAs112SummaryResponse>;
 
 export type ProtocolAs112SummaryError = DefaultErrors;
 
@@ -3037,7 +3101,9 @@ export const DnssecAs112TimeseriesGroupResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecAs112TimeseriesGroupResponse>;
 
 export type DnssecAs112TimeseriesGroupError = DefaultErrors;
 
@@ -3217,7 +3283,9 @@ export const EdnsAs112TimeseriesGroupResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EdnsAs112TimeseriesGroupResponse>;
 
 export type EdnsAs112TimeseriesGroupError = DefaultErrors;
 
@@ -3396,7 +3464,9 @@ export const ProtocolAs112TimeseriesGroupResponse =
     }).pipe(
       Schema.encodeKeys({ https: "HTTPS", tcp: "TCP", tls: "TLS", udp: "UDP" }),
     ),
-  }) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolAs112TimeseriesGroupResponse>;
 
 export type ProtocolAs112TimeseriesGroupError = DefaultErrors;
 
@@ -3578,6 +3648,8 @@ export const DnssecAs112TopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DnssecAs112TopResponse>;
 
 export type DnssecAs112TopError = DefaultErrors;
@@ -3754,7 +3826,9 @@ export const EdnsAs112TopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       value: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<EdnsAs112TopResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<EdnsAs112TopResponse>;
 
 export type EdnsAs112TopError = DefaultErrors;
 
@@ -3926,7 +4000,9 @@ export const LocationsAs112TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<LocationsAs112TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LocationsAs112TopResponse>;
 
 export type LocationsAs112TopError = DefaultErrors;
 
@@ -4100,7 +4176,9 @@ export const TimeseriesAttackLayer3Response =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<TimeseriesAttackLayer3Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesAttackLayer3Response>;
 
 export type TimeseriesAttackLayer3Error = DefaultErrors;
 
@@ -4283,7 +4361,9 @@ export const BitrateAttackLayer3SummaryResponse =
         under_500MBPS: "UNDER_500_MBPS",
       }),
     ),
-  }) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BitrateAttackLayer3SummaryResponse>;
 
 export type BitrateAttackLayer3SummaryError = DefaultErrors;
 
@@ -4465,7 +4545,9 @@ export const DurationAttackLayer3SummaryResponse =
         under_10MINS: "UNDER_10_MINS",
       }),
     ),
-  }) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DurationAttackLayer3SummaryResponse>;
 
 export type DurationAttackLayer3SummaryError = DefaultErrors;
 
@@ -4624,7 +4706,9 @@ export const IndustryAttackLayer3SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<IndustryAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer3SummaryResponse>;
 
 export type IndustryAttackLayer3SummaryError = DefaultErrors;
 
@@ -4790,7 +4874,9 @@ export const ProtocolAttackLayer3SummaryResponse =
     }).pipe(
       Schema.encodeKeys({ gre: "GRE", icmp: "ICMP", tcp: "TCP", udp: "UDP" }),
     ),
-  }) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolAttackLayer3SummaryResponse>;
 
 export type ProtocolAttackLayer3SummaryError = DefaultErrors;
 
@@ -4949,7 +5035,9 @@ export const VectorAttackLayer3SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<VectorAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VectorAttackLayer3SummaryResponse>;
 
 export type VectorAttackLayer3SummaryError = DefaultErrors;
 
@@ -5108,7 +5196,9 @@ export const VerticalAttackLayer3SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<VerticalAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer3SummaryResponse>;
 
 export type VerticalAttackLayer3SummaryError = DefaultErrors;
 
@@ -5310,7 +5400,9 @@ export const BitrateAttackLayer3TimeseriesGroupResponse =
         under_500MBPS: "UNDER_500_MBPS",
       }),
     ),
-  }) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BitrateAttackLayer3TimeseriesGroupResponse>;
 
 export type BitrateAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -5511,7 +5603,9 @@ export const DurationAttackLayer3TimeseriesGroupResponse =
         under_10MINS: "UNDER_10_MINS",
       }),
     ),
-  }) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DurationAttackLayer3TimeseriesGroupResponse>;
 
 export type DurationAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -5688,7 +5782,9 @@ export const IndustryAttackLayer3TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<IndustryAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer3TimeseriesGroupResponse>;
 
 export type IndustryAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -5883,7 +5979,9 @@ export const ProtocolAttackLayer3TimeseriesGroupResponse =
         udp: "UDP",
       }),
     ),
-  }) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolAttackLayer3TimeseriesGroupResponse>;
 
 export type ProtocolAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -6060,7 +6158,9 @@ export const VectorAttackLayer3TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<VectorAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VectorAttackLayer3TimeseriesGroupResponse>;
 
 export type VectorAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -6237,7 +6337,9 @@ export const VerticalAttackLayer3TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<VerticalAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer3TimeseriesGroupResponse>;
 
 export type VerticalAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -6413,7 +6515,9 @@ export const AttacksAttackLayer3TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<AttacksAttackLayer3TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AttacksAttackLayer3TopResponse>;
 
 export type AttacksAttackLayer3TopError = DefaultErrors;
 
@@ -6580,7 +6684,9 @@ export const IndustryAttackLayer3TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<IndustryAttackLayer3TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer3TopResponse>;
 
 export type IndustryAttackLayer3TopError = DefaultErrors;
 
@@ -6747,7 +6853,9 @@ export const VerticalAttackLayer3TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<VerticalAttackLayer3TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer3TopResponse>;
 
 export type VerticalAttackLayer3TopError = DefaultErrors;
 
@@ -6928,7 +7036,9 @@ export const OriginAttackLayer3TopLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<OriginAttackLayer3TopLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<OriginAttackLayer3TopLocationResponse>;
 
 export type OriginAttackLayer3TopLocationError = DefaultErrors;
 
@@ -7105,7 +7215,9 @@ export const TargetAttackLayer3TopLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<TargetAttackLayer3TopLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TargetAttackLayer3TopLocationResponse>;
 
 export type TargetAttackLayer3TopLocationError = DefaultErrors;
 
@@ -7284,7 +7396,9 @@ export const TimeseriesAttackLayer7Response =
       timestamps: Schema.Array(Schema.String),
       values: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesAttackLayer7Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesAttackLayer7Response>;
 
 export type TimeseriesAttackLayer7Error = DefaultErrors;
 
@@ -7447,7 +7561,9 @@ export const IndustryAttackLayer7SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<IndustryAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer7SummaryResponse>;
 
 export type IndustryAttackLayer7SummaryError = DefaultErrors;
 
@@ -7606,7 +7722,9 @@ export const VerticalAttackLayer7SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<VerticalAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer7SummaryResponse>;
 
 export type VerticalAttackLayer7SummaryError = DefaultErrors;
 
@@ -7787,7 +7905,9 @@ export const IndustryAttackLayer7TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<IndustryAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer7TimeseriesGroupResponse>;
 
 export type IndustryAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -7964,7 +8084,9 @@ export const VerticalAttackLayer7TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<VerticalAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer7TimeseriesGroupResponse>;
 
 export type VerticalAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -8144,7 +8266,9 @@ export const AttacksAttackLayer7TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<AttacksAttackLayer7TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AttacksAttackLayer7TopResponse>;
 
 export type AttacksAttackLayer7TopError = DefaultErrors;
 
@@ -8311,7 +8435,9 @@ export const IndustryAttackLayer7TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<IndustryAttackLayer7TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IndustryAttackLayer7TopResponse>;
 
 export type IndustryAttackLayer7TopError = DefaultErrors;
 
@@ -8478,7 +8604,9 @@ export const VerticalAttackLayer7TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<VerticalAttackLayer7TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerticalAttackLayer7TopResponse>;
 
 export type VerticalAttackLayer7TopError = DefaultErrors;
 
@@ -8656,7 +8784,9 @@ export const OriginAttackLayer7TopAsResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<OriginAttackLayer7TopAsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<OriginAttackLayer7TopAsResponse>;
 
 export type OriginAttackLayer7TopAsError = DefaultErrors;
 
@@ -8837,7 +8967,9 @@ export const OriginAttackLayer7TopLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<OriginAttackLayer7TopLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<OriginAttackLayer7TopLocationResponse>;
 
 export type OriginAttackLayer7TopLocationError = DefaultErrors;
 
@@ -9014,7 +9146,9 @@ export const TargetAttackLayer7TopLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<TargetAttackLayer7TopLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TargetAttackLayer7TopLocationResponse>;
 
 export type TargetAttackLayer7TopLocationError = DefaultErrors;
 
@@ -9185,7 +9319,9 @@ export const DnssecAwareDnsSummaryResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecAwareDnsSummaryResponse>;
 
 export type DnssecAwareDnsSummaryError = DefaultErrors;
 
@@ -9372,7 +9508,9 @@ export const DnssecAwareDnsTimeseriesGroupResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecAwareDnsTimeseriesGroupResponse>;
 
 export type DnssecAwareDnsTimeseriesGroupError = DefaultErrors;
 
@@ -9513,7 +9651,9 @@ export const TimeseriesBgpResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     timestamps: Schema.Array(Schema.String),
     values: Schema.Array(Schema.String),
   }),
-}) as unknown as Schema.Schema<TimeseriesBgpResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<TimeseriesBgpResponse>;
 
 export type TimeseriesBgpError = DefaultErrors;
 
@@ -9539,116 +9679,195 @@ export const ListBgpHijackEventsRequest =
     T.Http({ method: "GET", path: "/radar/bgp/hijacks/events" }),
   ) as unknown as Schema.Schema<ListBgpHijackEventsRequest>;
 
-export type ListBgpHijackEventsResponse = {
-  asnInfo: { asn: number; countryCode: string; orgName: string }[];
-  events: {
-    id: number;
-    confidenceScore: number;
-    duration: number;
-    eventType: number;
-    hijackMsgsCount: number;
-    hijackerAsn: number;
-    hijackerCountry: string;
-    isStale: boolean;
-    maxHijackTs: string;
-    maxMsgTs: string;
-    minHijackTs: string;
-    onGoingCount: number;
-    peerAsns: number[];
-    peerIpCount: number;
-    prefixes: string[];
-    tags: { name: string; score: number }[];
-    victimAsns: number[];
-    victimCountries: string[];
-  }[];
-  totalMonitors: number;
-}[];
+export interface ListBgpHijackEventsResponse {
+  result: {
+    items?:
+      | {
+          asnInfo: { asn: number; countryCode: string; orgName: string }[];
+          events: {
+            id: number;
+            confidenceScore: number;
+            duration: number;
+            eventType: number;
+            hijackMsgsCount: number;
+            hijackerAsn: number;
+            hijackerCountry: string;
+            isStale: boolean;
+            maxHijackTs: string;
+            maxMsgTs: string;
+            minHijackTs: string;
+            onGoingCount: number;
+            peerAsns: number[];
+            peerIpCount: number;
+            prefixes: string[];
+            tags: { name: string; score: number }[];
+            victimAsns: number[];
+            victimCountries: string[];
+          }[];
+          totalMonitors: number;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListBgpHijackEventsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      asnInfo: Schema.Array(
-        Schema.Struct({
-          asn: Schema.Number,
-          countryCode: Schema.String,
-          orgName: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            asn: "asn",
-            countryCode: "country_code",
-            orgName: "org_name",
-          }),
-        ),
-      ),
-      events: Schema.Array(
-        Schema.Struct({
-          id: Schema.Number,
-          confidenceScore: Schema.Number,
-          duration: Schema.Number,
-          eventType: Schema.Number,
-          hijackMsgsCount: Schema.Number,
-          hijackerAsn: Schema.Number,
-          hijackerCountry: Schema.String,
-          isStale: Schema.Boolean,
-          maxHijackTs: Schema.String,
-          maxMsgTs: Schema.String,
-          minHijackTs: Schema.String,
-          onGoingCount: Schema.Number,
-          peerAsns: Schema.Array(Schema.Number),
-          peerIpCount: Schema.Number,
-          prefixes: Schema.Array(Schema.String),
-          tags: Schema.Array(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
+        Schema.Union([
+          Schema.Array(
             Schema.Struct({
-              name: Schema.String,
-              score: Schema.Number,
-            }),
+              asnInfo: Schema.Array(
+                Schema.Struct({
+                  asn: Schema.Number,
+                  countryCode: Schema.String,
+                  orgName: Schema.String,
+                }).pipe(
+                  Schema.encodeKeys({
+                    asn: "asn",
+                    countryCode: "country_code",
+                    orgName: "org_name",
+                  }),
+                ),
+              ),
+              events: Schema.Array(
+                Schema.Struct({
+                  id: Schema.Number,
+                  confidenceScore: Schema.Number,
+                  duration: Schema.Number,
+                  eventType: Schema.Number,
+                  hijackMsgsCount: Schema.Number,
+                  hijackerAsn: Schema.Number,
+                  hijackerCountry: Schema.String,
+                  isStale: Schema.Boolean,
+                  maxHijackTs: Schema.String,
+                  maxMsgTs: Schema.String,
+                  minHijackTs: Schema.String,
+                  onGoingCount: Schema.Number,
+                  peerAsns: Schema.Array(Schema.Number),
+                  peerIpCount: Schema.Number,
+                  prefixes: Schema.Array(Schema.String),
+                  tags: Schema.Array(
+                    Schema.Struct({
+                      name: Schema.String,
+                      score: Schema.Number,
+                    }),
+                  ),
+                  victimAsns: Schema.Array(Schema.Number),
+                  victimCountries: Schema.Array(Schema.String),
+                }).pipe(
+                  Schema.encodeKeys({
+                    id: "id",
+                    confidenceScore: "confidence_score",
+                    duration: "duration",
+                    eventType: "event_type",
+                    hijackMsgsCount: "hijack_msgs_count",
+                    hijackerAsn: "hijacker_asn",
+                    hijackerCountry: "hijacker_country",
+                    isStale: "is_stale",
+                    maxHijackTs: "max_hijack_ts",
+                    maxMsgTs: "max_msg_ts",
+                    minHijackTs: "min_hijack_ts",
+                    onGoingCount: "on_going_count",
+                    peerAsns: "peer_asns",
+                    peerIpCount: "peer_ip_count",
+                    prefixes: "prefixes",
+                    tags: "tags",
+                    victimAsns: "victim_asns",
+                    victimCountries: "victim_countries",
+                  }),
+                ),
+              ),
+              totalMonitors: Schema.Number,
+            }).pipe(
+              Schema.encodeKeys({
+                asnInfo: "asn_info",
+                events: "events",
+                totalMonitors: "total_monitors",
+              }),
+            ),
           ),
-          victimAsns: Schema.Array(Schema.Number),
-          victimCountries: Schema.Array(Schema.String),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            confidenceScore: "confidence_score",
-            duration: "duration",
-            eventType: "event_type",
-            hijackMsgsCount: "hijack_msgs_count",
-            hijackerAsn: "hijacker_asn",
-            hijackerCountry: "hijacker_country",
-            isStale: "is_stale",
-            maxHijackTs: "max_hijack_ts",
-            maxMsgTs: "max_msg_ts",
-            minHijackTs: "min_hijack_ts",
-            onGoingCount: "on_going_count",
-            peerAsns: "peer_asns",
-            peerIpCount: "peer_ip_count",
-            prefixes: "prefixes",
-            tags: "tags",
-            victimAsns: "victim_asns",
-            victimCountries: "victim_countries",
-          }),
-        ),
+          Schema.Null,
+        ]),
       ),
-      totalMonitors: Schema.Number,
+    }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        asnInfo: "asn_info",
-        events: "events",
-        totalMonitors: "total_monitors",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListBgpHijackEventsResponse>;
 
 export type ListBgpHijackEventsError = DefaultErrors;
 
-export const listBgpHijackEvents: API.OperationMethod<
+export const listBgpHijackEvents: API.PaginatedOperationMethod<
   ListBgpHijackEventsRequest,
   ListBgpHijackEventsResponse,
   ListBgpHijackEventsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListBgpHijackEventsRequest,
+  ) => stream.Stream<
+    ListBgpHijackEventsResponse,
+    ListBgpHijackEventsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListBgpHijackEventsRequest) => stream.Stream<
+    {
+      asnInfo: { asn: number; countryCode: string; orgName: string }[];
+      events: {
+        id: number;
+        confidenceScore: number;
+        duration: number;
+        eventType: number;
+        hijackMsgsCount: number;
+        hijackerAsn: number;
+        hijackerCountry: string;
+        isStale: boolean;
+        maxHijackTs: string;
+        maxMsgTs: string;
+        minHijackTs: string;
+        onGoingCount: number;
+        peerAsns: number[];
+        peerIpCount: number;
+        prefixes: string[];
+        tags: { name: string; score: number }[];
+        victimAsns: number[];
+        victimCountries: string[];
+      }[];
+      totalMonitors: number;
+    },
+    ListBgpHijackEventsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBgpHijackEventsRequest,
   output: ListBgpHijackEventsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -9874,7 +10093,9 @@ export const TimeseriesBgpIpResponse =
       ipv6: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesBgpIpResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesBgpIpResponse>;
 
 export type TimeseriesBgpIpError = DefaultErrors;
 
@@ -9900,88 +10121,163 @@ export const ListBgpLeakEventsRequest =
     T.Http({ method: "GET", path: "/radar/bgp/leaks/events" }),
   ) as unknown as Schema.Schema<ListBgpLeakEventsRequest>;
 
-export type ListBgpLeakEventsResponse = {
-  asnInfo: { asn: number; countryCode: string; orgName: string }[];
-  events: {
-    id: number;
-    countries: string[];
-    detectedTs: string;
-    finished: boolean;
-    leakAsn: number;
-    leakCount: number;
-    leakSeg: number[];
-    leakType: number;
-    maxTs: string;
-    minTs: string;
-    originCount: number;
-    peerCount: number;
-    prefixCount: number;
-  }[];
-}[];
+export interface ListBgpLeakEventsResponse {
+  result: {
+    items?:
+      | {
+          asnInfo: { asn: number; countryCode: string; orgName: string }[];
+          events: {
+            id: number;
+            countries: string[];
+            detectedTs: string;
+            finished: boolean;
+            leakAsn: number;
+            leakCount: number;
+            leakSeg: number[];
+            leakType: number;
+            maxTs: string;
+            minTs: string;
+            originCount: number;
+            peerCount: number;
+            prefixCount: number;
+          }[];
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListBgpLeakEventsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      asnInfo: Schema.Array(
-        Schema.Struct({
-          asn: Schema.Number,
-          countryCode: Schema.String,
-          orgName: Schema.String,
-        }).pipe(
-          Schema.encodeKeys({
-            asn: "asn",
-            countryCode: "country_code",
-            orgName: "org_name",
-          }),
-        ),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              asnInfo: Schema.Array(
+                Schema.Struct({
+                  asn: Schema.Number,
+                  countryCode: Schema.String,
+                  orgName: Schema.String,
+                }).pipe(
+                  Schema.encodeKeys({
+                    asn: "asn",
+                    countryCode: "country_code",
+                    orgName: "org_name",
+                  }),
+                ),
+              ),
+              events: Schema.Array(
+                Schema.Struct({
+                  id: Schema.Number,
+                  countries: Schema.Array(Schema.String),
+                  detectedTs: Schema.String,
+                  finished: Schema.Boolean,
+                  leakAsn: Schema.Number,
+                  leakCount: Schema.Number,
+                  leakSeg: Schema.Array(Schema.Number),
+                  leakType: Schema.Number,
+                  maxTs: Schema.String,
+                  minTs: Schema.String,
+                  originCount: Schema.Number,
+                  peerCount: Schema.Number,
+                  prefixCount: Schema.Number,
+                }).pipe(
+                  Schema.encodeKeys({
+                    id: "id",
+                    countries: "countries",
+                    detectedTs: "detected_ts",
+                    finished: "finished",
+                    leakAsn: "leak_asn",
+                    leakCount: "leak_count",
+                    leakSeg: "leak_seg",
+                    leakType: "leak_type",
+                    maxTs: "max_ts",
+                    minTs: "min_ts",
+                    originCount: "origin_count",
+                    peerCount: "peer_count",
+                    prefixCount: "prefix_count",
+                  }),
+                ),
+              ),
+            }).pipe(
+              Schema.encodeKeys({ asnInfo: "asn_info", events: "events" }),
+            ),
+          ),
+          Schema.Null,
+        ]),
       ),
-      events: Schema.Array(
-        Schema.Struct({
-          id: Schema.Number,
-          countries: Schema.Array(Schema.String),
-          detectedTs: Schema.String,
-          finished: Schema.Boolean,
-          leakAsn: Schema.Number,
-          leakCount: Schema.Number,
-          leakSeg: Schema.Array(Schema.Number),
-          leakType: Schema.Number,
-          maxTs: Schema.String,
-          minTs: Schema.String,
-          originCount: Schema.Number,
-          peerCount: Schema.Number,
-          prefixCount: Schema.Number,
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            countries: "countries",
-            detectedTs: "detected_ts",
-            finished: "finished",
-            leakAsn: "leak_asn",
-            leakCount: "leak_count",
-            leakSeg: "leak_seg",
-            leakType: "leak_type",
-            maxTs: "max_ts",
-            minTs: "min_ts",
-            originCount: "origin_count",
-            peerCount: "peer_count",
-            prefixCount: "prefix_count",
-          }),
-        ),
-      ),
-    }).pipe(Schema.encodeKeys({ asnInfo: "asn_info", events: "events" })),
+    }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListBgpLeakEventsResponse>;
 
 export type ListBgpLeakEventsError = DefaultErrors;
 
-export const listBgpLeakEvents: API.OperationMethod<
+export const listBgpLeakEvents: API.PaginatedOperationMethod<
   ListBgpLeakEventsRequest,
   ListBgpLeakEventsResponse,
   ListBgpLeakEventsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListBgpLeakEventsRequest,
+  ) => stream.Stream<
+    ListBgpLeakEventsResponse,
+    ListBgpLeakEventsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListBgpLeakEventsRequest) => stream.Stream<
+    {
+      asnInfo: { asn: number; countryCode: string; orgName: string }[];
+      events: {
+        id: number;
+        countries: string[];
+        detectedTs: string;
+        finished: boolean;
+        leakAsn: number;
+        leakCount: number;
+        leakSeg: number[];
+        leakType: number;
+        maxTs: string;
+        minTs: string;
+        originCount: number;
+        peerCount: number;
+        prefixCount: number;
+      }[];
+    },
+    ListBgpLeakEventsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBgpLeakEventsRequest,
   output: ListBgpLeakEventsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -10032,7 +10328,9 @@ export const AsesBgpRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     queryTime: Schema.String,
     totalPeers: Schema.Number,
   }),
-}) as unknown as Schema.Schema<AsesBgpRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<AsesBgpRouteResponse>;
 
 export type AsesBgpRouteError = DefaultErrors;
 
@@ -10093,7 +10391,9 @@ export const MoasBgpRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       prefix: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<MoasBgpRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<MoasBgpRouteResponse>;
 
 export type MoasBgpRouteError = DefaultErrors;
 
@@ -10155,9 +10455,11 @@ export const Pfx2asBgpRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ),
     ),
   },
-).pipe(
-  Schema.encodeKeys({ meta: "meta", prefixOrigins: "prefix_origins" }),
-) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
+)
+  .pipe(Schema.encodeKeys({ meta: "meta", prefixOrigins: "prefix_origins" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<Pfx2asBgpRouteResponse>;
 
 export type Pfx2asBgpRouteError = DefaultErrors;
 
@@ -10305,7 +10607,9 @@ export const RealtimeBgpRouteResponse =
         }),
       ),
     ),
-  }) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<RealtimeBgpRouteResponse>;
 
 export type RealtimeBgpRouteError = DefaultErrors;
 
@@ -10405,7 +10709,9 @@ export const StatsBgpRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       routesValidIpv6: "routes_valid_ipv6",
     }),
   ),
-}) as unknown as Schema.Schema<StatsBgpRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<StatsBgpRouteResponse>;
 
 export type StatsBgpRouteError = DefaultErrors;
 
@@ -10454,6 +10760,8 @@ export const PrefixesBgpTopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<PrefixesBgpTopResponse>;
 
 export type PrefixesBgpTopError = DefaultErrors;
@@ -10504,7 +10812,9 @@ export const GetBgpTopAsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ asn: "asn", asname: "ASName", value: "value" }),
     ),
   ),
-}) as unknown as Schema.Schema<GetBgpTopAsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetBgpTopAsResponse>;
 
 export type GetBgpTopAsError = DefaultErrors;
 
@@ -10559,7 +10869,9 @@ export const PrefixesBgpTopAsResponse =
         totalPeers: "total_peers",
       }),
     ),
-  }) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PrefixesBgpTopAsResponse>;
 
 export type PrefixesBgpTopAsError = DefaultErrors;
 
@@ -10614,7 +10926,7 @@ export const GetBotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     userAgentPatterns: Schema.Array(Schema.String),
     userAgents: Schema.Array(Schema.String),
   }),
-}) as unknown as Schema.Schema<GetBotResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetBotResponse>;
 
 export type GetBotError = DefaultErrors;
 
@@ -10661,7 +10973,7 @@ export const ListBotsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       userAgentPatterns: Schema.Array(Schema.String),
     }),
   ),
-}) as unknown as Schema.Schema<ListBotsResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<ListBotsResponse>;
 
 export type ListBotsError = DefaultErrors;
 
@@ -10827,7 +11139,9 @@ export const SummaryBotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({}),
-}) as unknown as Schema.Schema<SummaryBotResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<SummaryBotResponse>;
 
 export type SummaryBotError = DefaultErrors;
 
@@ -10997,7 +11311,9 @@ export const TimeseriesBotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   }),
-}) as unknown as Schema.Schema<TimeseriesBotResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<TimeseriesBotResponse>;
 
 export type TimeseriesBotError = DefaultErrors;
 
@@ -11177,7 +11493,9 @@ export const SummaryBotWebCrawlerResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryBotWebCrawlerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryBotWebCrawlerResponse>;
 
 export type SummaryBotWebCrawlerError = DefaultErrors;
 
@@ -11348,7 +11666,9 @@ export const DomainCategoriesRobotsTxtTopResponse =
         value: Schema.Number,
       }),
     ),
-  }) as unknown as Schema.Schema<DomainCategoriesRobotsTxtTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DomainCategoriesRobotsTxtTopResponse>;
 
 export type DomainCategoriesRobotsTxtTopError = DefaultErrors;
 
@@ -11531,7 +11851,9 @@ export const ThreatCategoryEmailSecuritySummaryResponse =
         link: "Link",
       }),
     ),
-  }) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ThreatCategoryEmailSecuritySummaryResponse>;
 
 export type ThreatCategoryEmailSecuritySummaryError = DefaultErrors;
 
@@ -11727,7 +12049,9 @@ export const ThreatCategoryEmailSecurityTimeseriesGroupResponse =
         link: "Link",
       }),
     ),
-  }) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ThreatCategoryEmailSecurityTimeseriesGroupResponse>;
 
 export type ThreatCategoryEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -11893,7 +12217,9 @@ export const BotClassHttpSummaryResponse =
       bot: Schema.String,
       human: Schema.String,
     }),
-  }) as unknown as Schema.Schema<BotClassHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BotClassHttpSummaryResponse>;
 
 export type BotClassHttpSummaryError = DefaultErrors;
 
@@ -12073,7 +12399,9 @@ export const BotClassHttpTimeseriesGroupResponse =
       human: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<BotClassHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BotClassHttpTimeseriesGroupResponse>;
 
 export type BotClassHttpTimeseriesGroupError = DefaultErrors;
 
@@ -12242,7 +12570,9 @@ export const BotClassLeakedCredentialSummaryResponse =
       bot: Schema.String,
       human: Schema.String,
     }),
-  }) as unknown as Schema.Schema<BotClassLeakedCredentialSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BotClassLeakedCredentialSummaryResponse>;
 
 export type BotClassLeakedCredentialSummaryError = DefaultErrors;
 
@@ -12425,7 +12755,9 @@ export const BotClassLeakedCredentialTimeseriesGroupResponse =
       human: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<BotClassLeakedCredentialTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BotClassLeakedCredentialTimeseriesGroupResponse>;
 
 export type BotClassLeakedCredentialTimeseriesGroupError = DefaultErrors;
 
@@ -12588,7 +12920,9 @@ export const ResponseCodeDnsSummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<ResponseCodeDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseCodeDnsSummaryResponse>;
 
 export type ResponseCodeDnsSummaryError = DefaultErrors;
 
@@ -12769,7 +13103,9 @@ export const ResponseCodeDnsTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<ResponseCodeDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseCodeDnsTimeseriesGroupResponse>;
 
 export type ResponseCodeDnsTimeseriesGroupError = DefaultErrors;
 
@@ -12932,7 +13268,9 @@ export const ResponseCodesAs112SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<ResponseCodesAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseCodesAs112SummaryResponse>;
 
 export type ResponseCodesAs112SummaryError = DefaultErrors;
 
@@ -13113,7 +13451,9 @@ export const ResponseCodesAs112TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<ResponseCodesAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseCodesAs112TimeseriesGroupResponse>;
 
 export type ResponseCodesAs112TimeseriesGroupError = DefaultErrors;
 
@@ -13378,7 +13718,9 @@ export const SummaryCtResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       unknown: Schema.String,
     }),
   ]),
-}) as unknown as Schema.Schema<SummaryCtResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<SummaryCtResponse>;
 
 export type SummaryCtError = DefaultErrors;
 
@@ -13548,7 +13890,9 @@ export const TimeseriesCtResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   }),
-}) as unknown as Schema.Schema<TimeseriesCtResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<TimeseriesCtResponse>;
 
 export type TimeseriesCtError = DefaultErrors;
 
@@ -13709,6 +14053,8 @@ export const GetCtAuthorityResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       validTo: Schema.String,
     }),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetCtAuthorityResponse>;
 
 export type GetCtAuthorityError = DefaultErrors;
@@ -13767,7 +14113,9 @@ export const ListCtAuthoritiesResponse =
         sha256Fingerprint: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<ListCtAuthoritiesResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListCtAuthoritiesResponse>;
 
 export type ListCtAuthoritiesError = DefaultErrors;
 
@@ -13910,7 +14258,7 @@ export const GetCtLogResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     submittedCertCount: Schema.Union([Schema.String, Schema.Null]),
     url: Schema.String,
   }),
-}) as unknown as Schema.Schema<GetCtLogResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetCtLogResponse>;
 
 export type GetCtLogError = DefaultErrors;
 
@@ -13974,7 +14322,9 @@ export const ListCtLogsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       url: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<ListCtLogsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListCtLogsResponse>;
 
 export type ListCtLogsError = DefaultErrors;
 
@@ -14051,7 +14401,9 @@ export const ListDatasetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       type: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<ListDatasetsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListDatasetsResponse>;
 
 export type ListDatasetsError = DefaultErrors;
 
@@ -14093,7 +14445,9 @@ export const DownloadDatasetResponse =
     dataset: Schema.Struct({
       url: Schema.String,
     }),
-  }) as unknown as Schema.Schema<DownloadDatasetResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DownloadDatasetResponse>;
 
 export type DownloadDatasetError = DefaultErrors;
 
@@ -14267,7 +14621,9 @@ export const TimeseriesDnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   }),
-}) as unknown as Schema.Schema<TimeseriesDnsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<TimeseriesDnsResponse>;
 
 export type TimeseriesDnsError = DefaultErrors;
 
@@ -14447,7 +14803,9 @@ export const DnssecDnsSummaryResponse =
         secure: "SECURE",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecDnsSummaryResponse>;
 
 export type DnssecDnsSummaryError = DefaultErrors;
 
@@ -14613,7 +14971,9 @@ export const ProtocolDnsSummaryResponse =
     }).pipe(
       Schema.encodeKeys({ https: "HTTPS", tcp: "TCP", tls: "TLS", udp: "UDP" }),
     ),
-  }) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolDnsSummaryResponse>;
 
 export type ProtocolDnsSummaryError = DefaultErrors;
 
@@ -14806,7 +15166,9 @@ export const DnssecDnsTimeseriesGroupResponse =
         secure: "SECURE",
       }),
     ),
-  }) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecDnsTimeseriesGroupResponse>;
 
 export type DnssecDnsTimeseriesGroupError = DefaultErrors;
 
@@ -14985,7 +15347,9 @@ export const ProtocolDnsTimeseriesGroupResponse =
     }).pipe(
       Schema.encodeKeys({ https: "HTTPS", tcp: "TCP", tls: "TLS", udp: "UDP" }),
     ),
-  }) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProtocolDnsTimeseriesGroupResponse>;
 
 export type ProtocolDnsTimeseriesGroupError = DefaultErrors;
 
@@ -15157,7 +15521,9 @@ export const AsesDnsTopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       value: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<AsesDnsTopResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<AsesDnsTopResponse>;
 
 export type AsesDnsTopError = DefaultErrors;
 
@@ -15330,7 +15696,9 @@ export const LocationsDnsTopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<LocationsDnsTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LocationsDnsTopResponse>;
 
 export type LocationsDnsTopError = DefaultErrors;
 
@@ -15496,7 +15864,9 @@ export const DnssecE2EDnsSummaryResponse =
       negative: Schema.String,
       positive: Schema.String,
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecE2EDnsSummaryResponse>;
 
 export type DnssecE2EDnsSummaryError = DefaultErrors;
 
@@ -15675,7 +16045,9 @@ export const DnssecE2EDnsTimeseriesGroupResponse =
       negative: Schema.Array(Schema.String),
       positive: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DnssecE2EDnsTimeseriesGroupResponse>;
 
 export type DnssecE2EDnsTimeseriesGroupError = DefaultErrors;
 
@@ -15838,7 +16210,9 @@ export const ArcEmailRoutingSummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<ArcEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ArcEmailRoutingSummaryResponse>;
 
 export type ArcEmailRoutingSummaryError = DefaultErrors;
 
@@ -15997,7 +16371,9 @@ export const DkimEmailRoutingSummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DkimEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DkimEmailRoutingSummaryResponse>;
 
 export type DkimEmailRoutingSummaryError = DefaultErrors;
 
@@ -16156,7 +16532,9 @@ export const DmarcEmailRoutingSummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DmarcEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DmarcEmailRoutingSummaryResponse>;
 
 export type DmarcEmailRoutingSummaryError = DefaultErrors;
 
@@ -16323,7 +16701,9 @@ export const EncryptedEmailRoutingSummaryResponse =
         notencrypted: "NOT_ENCRYPTED",
       }),
     ),
-  }) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EncryptedEmailRoutingSummaryResponse>;
 
 export type EncryptedEmailRoutingSummaryError = DefaultErrors;
 
@@ -16482,7 +16862,9 @@ export const SpfEmailRoutingSummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<SpfEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpfEmailRoutingSummaryResponse>;
 
 export type SpfEmailRoutingSummaryError = DefaultErrors;
 
@@ -16661,7 +17043,9 @@ export const ArcEmailRoutingTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<ArcEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ArcEmailRoutingTimeseriesGroupResponse>;
 
 export type ArcEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -16836,7 +17220,9 @@ export const DkimEmailRoutingTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DkimEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DkimEmailRoutingTimeseriesGroupResponse>;
 
 export type DkimEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -17011,7 +17397,9 @@ export const DmarcEmailRoutingTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DmarcEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DmarcEmailRoutingTimeseriesGroupResponse>;
 
 export type DmarcEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -17194,7 +17582,9 @@ export const EncryptedEmailRoutingTimeseriesGroupResponse =
         notencrypted: "NOT_ENCRYPTED",
       }),
     ),
-  }) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EncryptedEmailRoutingTimeseriesGroupResponse>;
 
 export type EncryptedEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -17369,7 +17759,9 @@ export const SpfEmailRoutingTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<SpfEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpfEmailRoutingTimeseriesGroupResponse>;
 
 export type SpfEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -17532,7 +17924,9 @@ export const ArcEmailSecuritySummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<ArcEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ArcEmailSecuritySummaryResponse>;
 
 export type ArcEmailSecuritySummaryError = DefaultErrors;
 
@@ -17691,7 +18085,9 @@ export const DkimEmailSecuritySummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DkimEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DkimEmailSecuritySummaryResponse>;
 
 export type DkimEmailSecuritySummaryError = DefaultErrors;
 
@@ -17850,7 +18246,9 @@ export const DmarcEmailSecuritySummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DmarcEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DmarcEmailSecuritySummaryResponse>;
 
 export type DmarcEmailSecuritySummaryError = DefaultErrors;
 
@@ -18017,7 +18415,9 @@ export const MaliciousEmailSecuritySummaryResponse =
         notmalicious: "NOT_MALICIOUS",
       }),
     ),
-  }) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MaliciousEmailSecuritySummaryResponse>;
 
 export type MaliciousEmailSecuritySummaryError = DefaultErrors;
 
@@ -18179,7 +18579,9 @@ export const SpamEmailSecuritySummaryResponse =
       notspam: Schema.String,
       spam: Schema.String,
     }).pipe(Schema.encodeKeys({ notspam: "NOT_SPAM", spam: "SPAM" })),
-  }) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpamEmailSecuritySummaryResponse>;
 
 export type SpamEmailSecuritySummaryError = DefaultErrors;
 
@@ -18338,7 +18740,9 @@ export const SpfEmailSecuritySummaryResponse =
       ),
     }),
     summary_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<SpfEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpfEmailSecuritySummaryResponse>;
 
 export type SpfEmailSecuritySummaryError = DefaultErrors;
 
@@ -18500,7 +18904,9 @@ export const SpoofEmailSecuritySummaryResponse =
       notspoof: Schema.String,
       spoof: Schema.String,
     }).pipe(Schema.encodeKeys({ notspoof: "NOT_SPOOF", spoof: "SPOOF" })),
-  }) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpoofEmailSecuritySummaryResponse>;
 
 export type SpoofEmailSecuritySummaryError = DefaultErrors;
 
@@ -18679,7 +19085,9 @@ export const ArcEmailSecurityTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<ArcEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ArcEmailSecurityTimeseriesGroupResponse>;
 
 export type ArcEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -18854,7 +19262,9 @@ export const DkimEmailSecurityTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DkimEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DkimEmailSecurityTimeseriesGroupResponse>;
 
 export type DkimEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19029,7 +19439,9 @@ export const DmarcEmailSecurityTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<DmarcEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DmarcEmailSecurityTimeseriesGroupResponse>;
 
 export type DmarcEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19212,7 +19624,9 @@ export const MaliciousEmailSecurityTimeseriesGroupResponse =
         notmalicious: "NOT_MALICIOUS",
       }),
     ),
-  }) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MaliciousEmailSecurityTimeseriesGroupResponse>;
 
 export type MaliciousEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19390,7 +19804,9 @@ export const SpamEmailSecurityTimeseriesGroupResponse =
       notspam: Schema.Array(Schema.String),
       spam: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ notspam: "NOT_SPAM", spam: "SPAM" })),
-  }) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpamEmailSecurityTimeseriesGroupResponse>;
 
 export type SpamEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19565,7 +19981,9 @@ export const SpfEmailSecurityTimeseriesGroupResponse =
       ),
     }),
     serie_0: Schema.Unknown,
-  }) as unknown as Schema.Schema<SpfEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpfEmailSecurityTimeseriesGroupResponse>;
 
 export type SpfEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19743,7 +20161,9 @@ export const SpoofEmailSecurityTimeseriesGroupResponse =
       notspoof: Schema.Array(Schema.String),
       spoof: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ notspoof: "NOT_SPOOF", spoof: "SPOOF" })),
-  }) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SpoofEmailSecurityTimeseriesGroupResponse>;
 
 export type SpoofEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -19914,7 +20334,9 @@ export const GetEmailSecurityTopTldResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetEmailSecurityTopTldResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEmailSecurityTopTldResponse>;
 
 export type GetEmailSecurityTopTldError = DefaultErrors;
 
@@ -20094,7 +20516,9 @@ export const GetEmailSecurityTopTldMaliciousResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetEmailSecurityTopTldMaliciousResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEmailSecurityTopTldMaliciousResponse>;
 
 export type GetEmailSecurityTopTldMaliciousError = DefaultErrors;
 
@@ -20272,7 +20696,9 @@ export const GetEmailSecurityTopTldSpamResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpamResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEmailSecurityTopTldSpamResponse>;
 
 export type GetEmailSecurityTopTldSpamError = DefaultErrors;
 
@@ -20450,7 +20876,9 @@ export const GetEmailSecurityTopTldSpoofResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetEmailSecurityTopTldSpoofResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEmailSecurityTopTldSpoofResponse>;
 
 export type GetEmailSecurityTopTldSpoofError = DefaultErrors;
 
@@ -20507,7 +20935,9 @@ export const GetEntityResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     location: Schema.String,
     locationName: Schema.String,
   }),
-}) as unknown as Schema.Schema<GetEntityResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetEntityResponse>;
 
 export type GetEntityError = DefaultErrors;
 
@@ -20600,7 +21030,9 @@ export const GetEntityAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     website: Schema.String,
     aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
-}) as unknown as Schema.Schema<GetEntityAsnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetEntityAsnResponse>;
 
 export type GetEntityAsnError = DefaultErrors;
 
@@ -20649,6 +21081,8 @@ export const ListEntityAsnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<ListEntityAsnsResponse>;
 
 export type ListEntityAsnsError = DefaultErrors;
@@ -20740,7 +21174,9 @@ export const IpEntityAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     website: Schema.String,
     aka: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
-}) as unknown as Schema.Schema<IpEntityAsnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<IpEntityAsnResponse>;
 
 export type IpEntityAsnError = DefaultErrors;
 
@@ -20811,7 +21247,9 @@ export const RelEntityAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   ),
-}) as unknown as Schema.Schema<RelEntityAsnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<RelEntityAsnResponse>;
 
 export type RelEntityAsnError = DefaultErrors;
 
@@ -20864,7 +21302,9 @@ export const GetEntityLocationResponse =
       region: Schema.String,
       subregion: Schema.String,
     }),
-  }) as unknown as Schema.Schema<GetEntityLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEntityLocationResponse>;
 
 export type GetEntityLocationError = DefaultErrors;
 
@@ -20905,7 +21345,9 @@ export const ListEntityLocationsResponse =
         name: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<ListEntityLocationsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListEntityLocationsResponse>;
 
 export type ListEntityLocationsError = DefaultErrors;
 
@@ -21086,7 +21528,9 @@ export const BrowserFamilyHttpTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<BrowserFamilyHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BrowserFamilyHttpTimeseriesGroupResponse>;
 
 export type BrowserFamilyHttpTimeseriesGroupError = DefaultErrors;
 
@@ -21257,7 +21701,9 @@ export const BrowserFamilyHttpTopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<BrowserFamilyHttpTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BrowserFamilyHttpTopResponse>;
 
 export type BrowserFamilyHttpTopError = DefaultErrors;
 
@@ -21334,6 +21780,8 @@ export const GetGeolocationResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
     }),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetGeolocationResponse>;
 
 export type GetGeolocationError = DefaultErrors;
@@ -21405,7 +21853,9 @@ export const ListGeolocationsResponse =
         type: Schema.Literals(["CONTINENT", "COUNTRY", "ADM1"]),
       }),
     ),
-  }) as unknown as Schema.Schema<ListGeolocationsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListGeolocationsResponse>;
 
 export type ListGeolocationsError = DefaultErrors;
 
@@ -21595,7 +22045,9 @@ export const TimeseriesGroupsAiBotResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsAiBotResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsAiBotResponse>;
 
 export type TimeseriesGroupsAiBotError = DefaultErrors;
 
@@ -21785,7 +22237,9 @@ export const TimeseriesGroupsAiTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsAiTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsAiTimeseriesGroupResponse>;
 
 export type TimeseriesGroupsAiTimeseriesGroupError = DefaultErrors;
 
@@ -21975,7 +22429,9 @@ export const TimeseriesGroupsBotResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsBotResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsBotResponse>;
 
 export type TimeseriesGroupsBotError = DefaultErrors;
 
@@ -22173,7 +22629,9 @@ export const TimeseriesGroupsBotWebCrawlerResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsBotWebCrawlerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsBotWebCrawlerResponse>;
 
 export type TimeseriesGroupsBotWebCrawlerError = DefaultErrors;
 
@@ -22457,7 +22915,9 @@ export const TimeseriesGroupsCtResponse =
         unknown: Schema.Array(Schema.String),
       }),
     ]),
-  }) as unknown as Schema.Schema<TimeseriesGroupsCtResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsCtResponse>;
 
 export type TimeseriesGroupsCtError = DefaultErrors;
 
@@ -22644,7 +23104,9 @@ export const TimeseriesGroupsNetflowResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsNetflowResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsNetflowResponse>;
 
 export type TimeseriesGroupsNetflowError = DefaultErrors;
 
@@ -22865,7 +23327,9 @@ export const TimeseriesGroupsQualityIqiResponse =
       p75: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsQualityIqiResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsQualityIqiResponse>;
 
 export type TimeseriesGroupsQualityIqiError = DefaultErrors;
 
@@ -23043,7 +23507,9 @@ export const TimeseriesGroupsRankingResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsRankingResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsRankingResponse>;
 
 export type TimeseriesGroupsRankingError = DefaultErrors;
 
@@ -23224,7 +23690,9 @@ export const TimeseriesGroupsRankingInternetServiceResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsRankingInternetServiceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsRankingInternetServiceResponse>;
 
 export type TimeseriesGroupsRankingInternetServiceError = DefaultErrors;
 
@@ -23426,7 +23894,9 @@ export const TimeseriesGroupsTcpResetsTimeoutResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsTcpResetsTimeoutResponse>;
 
 export type TimeseriesGroupsTcpResetsTimeoutError = DefaultErrors;
 
@@ -23611,7 +24081,9 @@ export const TimeseriesGroupsV2AiInferenceResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2AiInferenceResponse>;
 
 export type TimeseriesGroupsV2AiInferenceError = DefaultErrors;
 
@@ -23809,7 +24281,9 @@ export const TimeseriesGroupsV2As112Response =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2As112Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2As112Response>;
 
 export type TimeseriesGroupsV2As112Error = DefaultErrors;
 
@@ -24009,7 +24483,9 @@ export const TimeseriesGroupsV2AttackLayer3Response =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer3Response>;
 
 export type TimeseriesGroupsV2AttackLayer3Error = DefaultErrors;
 
@@ -24209,7 +24685,9 @@ export const TimeseriesGroupsV2AttackLayer7Response =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2AttackLayer7Response>;
 
 export type TimeseriesGroupsV2AttackLayer7Error = DefaultErrors;
 
@@ -24414,7 +24892,9 @@ export const TimeseriesGroupsV2DnsResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2DnsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2DnsResponse>;
 
 export type TimeseriesGroupsV2DnsError = DefaultErrors;
 
@@ -24606,7 +25086,9 @@ export const TimeseriesGroupsV2EmailRoutingResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2EmailRoutingResponse>;
 
 export type TimeseriesGroupsV2EmailRoutingError = DefaultErrors;
 
@@ -24810,7 +25292,9 @@ export const TimeseriesGroupsV2EmailSecurityResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2EmailSecurityResponse>;
 
 export type TimeseriesGroupsV2EmailSecurityError = DefaultErrors;
 
@@ -25018,7 +25502,9 @@ export const TimeseriesGroupsV2HttpResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2HttpResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2HttpResponse>;
 
 export type TimeseriesGroupsV2HttpError = DefaultErrors;
 
@@ -25205,7 +25691,9 @@ export const TimeseriesGroupsV2LeakedCredentialResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesGroupsV2LeakedCredentialResponse>;
 
 export type TimeseriesGroupsV2LeakedCredentialError = DefaultErrors;
 
@@ -25371,7 +25859,9 @@ export const CacheHitDnsSummaryResponse =
       negative: Schema.String,
       positive: Schema.String,
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CacheHitDnsSummaryResponse>;
 
 export type CacheHitDnsSummaryError = DefaultErrors;
 
@@ -25550,7 +26040,9 @@ export const CacheHitDnsTimeseriesGroupResponse =
       negative: Schema.Array(Schema.String),
       positive: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ negative: "NEGATIVE", positive: "POSITIVE" })),
-  }) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CacheHitDnsTimeseriesGroupResponse>;
 
 export type CacheHitDnsTimeseriesGroupError = DefaultErrors;
 
@@ -25726,6 +26218,8 @@ export const TimeseriesHttpResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ),
     }),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<TimeseriesHttpResponse>;
 
 export type TimeseriesHttpError = DefaultErrors;
@@ -25898,7 +26392,9 @@ export const GetHttpAsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       value: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<GetHttpAsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetHttpAsResponse>;
 
 export type GetHttpAsError = DefaultErrors;
 
@@ -26079,7 +26575,9 @@ export const GetHttpAsBotClassResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsBotClassResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsBotClassResponse>;
 
 export type GetHttpAsBotClassError = DefaultErrors;
 
@@ -26263,7 +26761,9 @@ export const GetHttpAsBrowserFamilyResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsBrowserFamilyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsBrowserFamilyResponse>;
 
 export type GetHttpAsBrowserFamilyError = DefaultErrors;
 
@@ -26444,7 +26944,9 @@ export const GetHttpAsDeviceTypeResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsDeviceTypeResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsDeviceTypeResponse>;
 
 export type GetHttpAsDeviceTypeError = DefaultErrors;
 
@@ -26625,7 +27127,9 @@ export const GetHttpAsHttpMethodResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsHttpMethodResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsHttpMethodResponse>;
 
 export type GetHttpAsHttpMethodError = DefaultErrors;
 
@@ -26806,7 +27310,9 @@ export const GetHttpAsHttpProtocolResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsHttpProtocolResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsHttpProtocolResponse>;
 
 export type GetHttpAsHttpProtocolError = DefaultErrors;
 
@@ -26985,7 +27491,9 @@ export const GetHttpAsIpVersionResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsIpVersionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsIpVersionResponse>;
 
 export type GetHttpAsIpVersionError = DefaultErrors;
 
@@ -27174,7 +27682,9 @@ export const GetHttpAsOsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       value: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<GetHttpAsOsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetHttpAsOsResponse>;
 
 export type GetHttpAsOsError = DefaultErrors;
 
@@ -27359,7 +27869,9 @@ export const GetHttpAsTlsVersionResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpAsTlsVersionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpAsTlsVersionResponse>;
 
 export type GetHttpAsTlsVersionError = DefaultErrors;
 
@@ -27536,7 +28048,9 @@ export const GetHttpLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationResponse>;
 
 export type GetHttpLocationError = DefaultErrors;
 
@@ -27721,7 +28235,9 @@ export const GetHttpLocationBotClassResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationBotClassResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationBotClassResponse>;
 
 export type GetHttpLocationBotClassError = DefaultErrors;
 
@@ -27909,7 +28425,9 @@ export const GetHttpLocationBrowserFamilyResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationBrowserFamilyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationBrowserFamilyResponse>;
 
 export type GetHttpLocationBrowserFamilyError = DefaultErrors;
 
@@ -28094,7 +28612,9 @@ export const GetHttpLocationDeviceTypeResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationDeviceTypeResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationDeviceTypeResponse>;
 
 export type GetHttpLocationDeviceTypeError = DefaultErrors;
 
@@ -28279,7 +28799,9 @@ export const GetHttpLocationHttpMethodResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationHttpMethodResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationHttpMethodResponse>;
 
 export type GetHttpLocationHttpMethodError = DefaultErrors;
 
@@ -28464,7 +28986,9 @@ export const GetHttpLocationHttpProtocolResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationHttpProtocolResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationHttpProtocolResponse>;
 
 export type GetHttpLocationHttpProtocolError = DefaultErrors;
 
@@ -28647,7 +29171,9 @@ export const GetHttpLocationIpVersionResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationIpVersionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationIpVersionResponse>;
 
 export type GetHttpLocationIpVersionError = DefaultErrors;
 
@@ -28842,7 +29368,9 @@ export const GetHttpLocationOsResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationOsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationOsResponse>;
 
 export type GetHttpLocationOsError = DefaultErrors;
 
@@ -29031,7 +29559,9 @@ export const GetHttpLocationTlsVersionResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetHttpLocationTlsVersionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHttpLocationTlsVersionResponse>;
 
 export type GetHttpLocationTlsVersionError = DefaultErrors;
 
@@ -29197,7 +29727,9 @@ export const OsHttpSummaryResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     android: Schema.String,
     ios: Schema.String,
   }).pipe(Schema.encodeKeys({ android: "ANDROID", ios: "IOS" })),
-}) as unknown as Schema.Schema<OsHttpSummaryResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<OsHttpSummaryResponse>;
 
 export type OsHttpSummaryError = DefaultErrors;
 
@@ -29375,7 +29907,9 @@ export const BrowserHttpTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<BrowserHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BrowserHttpTimeseriesGroupResponse>;
 
 export type BrowserHttpTimeseriesGroupError = DefaultErrors;
 
@@ -29549,7 +30083,9 @@ export const OsHttpTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<OsHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<OsHttpTimeseriesGroupResponse>;
 
 export type OsHttpTimeseriesGroupError = DefaultErrors;
 
@@ -29722,6 +30258,8 @@ export const BrowserHttpTopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<BrowserHttpTopResponse>;
 
 export type BrowserHttpTopError = DefaultErrors;
@@ -29891,7 +30429,9 @@ export const CompromisedLeakedCredentialSummaryResponse =
       clean: Schema.String,
       compromised: Schema.String,
     }).pipe(Schema.encodeKeys({ clean: "CLEAN", compromised: "COMPROMISED" })),
-  }) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CompromisedLeakedCredentialSummaryResponse>;
 
 export type CompromisedLeakedCredentialSummaryError = DefaultErrors;
 
@@ -30080,7 +30620,9 @@ export const CompromisedLeakedCredentialTimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CompromisedLeakedCredentialTimeseriesGroupResponse>;
 
 export type CompromisedLeakedCredentialTimeseriesGroupError = DefaultErrors;
 
@@ -30246,7 +30788,9 @@ export const HttpMethodAttackLayer7SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<HttpMethodAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpMethodAttackLayer7SummaryResponse>;
 
 export type HttpMethodAttackLayer7SummaryError = DefaultErrors;
 
@@ -30427,7 +30971,9 @@ export const HttpMethodAttackLayer7TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<HttpMethodAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpMethodAttackLayer7TimeseriesGroupResponse>;
 
 export type HttpMethodAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -30595,6 +31141,8 @@ export const SummaryNetflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       other: Schema.String,
     }).pipe(Schema.encodeKeys({ http: "HTTP", other: "OTHER" })),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<SummaryNetflowResponse>;
 
 export type SummaryNetflowError = DefaultErrors;
@@ -30770,7 +31318,9 @@ export const TimeseriesNetflowResponse =
       timestamps: Schema.Array(Schema.String),
       values: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<TimeseriesNetflowResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TimeseriesNetflowResponse>;
 
 export type TimeseriesNetflowError = DefaultErrors;
 
@@ -30944,6 +31494,8 @@ export const AsesNetflowTopResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<AsesNetflowTopResponse>;
 
 export type AsesNetflowTopError = DefaultErrors;
@@ -31116,7 +31668,9 @@ export const LocationsNetflowTopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<LocationsNetflowTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LocationsNetflowTopResponse>;
 
 export type LocationsNetflowTopError = DefaultErrors;
 
@@ -31282,7 +31836,9 @@ export const MitigationProductAttackLayer7SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<MitigationProductAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MitigationProductAttackLayer7SummaryResponse>;
 
 export type MitigationProductAttackLayer7SummaryError = DefaultErrors;
 
@@ -31463,7 +32019,9 @@ export const MitigationProductAttackLayer7TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<MitigationProductAttackLayer7TimeseriesGroupResponse>;
 
 export type MitigationProductAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -31629,7 +32187,9 @@ export const HttpProtocolHttpSummaryResponse =
       http: Schema.String,
       https: Schema.String,
     }),
-  }) as unknown as Schema.Schema<HttpProtocolHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpProtocolHttpSummaryResponse>;
 
 export type HttpProtocolHttpSummaryError = DefaultErrors;
 
@@ -31812,7 +32372,9 @@ export const HttpProtocolHttpTimeseriesGroupResponse =
       https: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<HttpProtocolHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpProtocolHttpTimeseriesGroupResponse>;
 
 export type HttpProtocolHttpTimeseriesGroupError = DefaultErrors;
 
@@ -32008,7 +32570,9 @@ export const SummaryQualityIqiResponse =
       p50: Schema.String,
       p75: Schema.String,
     }),
-  }) as unknown as Schema.Schema<SummaryQualityIqiResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryQualityIqiResponse>;
 
 export type SummaryQualityIqiError = DefaultErrors;
 
@@ -32183,7 +32747,9 @@ export const HistogramQualitySpeedResponse =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<HistogramQualitySpeedResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HistogramQualitySpeedResponse>;
 
 export type HistogramQualitySpeedError = DefaultErrors;
 
@@ -32358,7 +32924,9 @@ export const SummaryQualitySpeedResponse =
       latencyLoaded: Schema.String,
       packetLoss: Schema.String,
     }),
-  }) as unknown as Schema.Schema<SummaryQualitySpeedResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryQualitySpeedResponse>;
 
 export type SummaryQualitySpeedError = DefaultErrors;
 
@@ -32548,7 +33116,9 @@ export const AsesQualitySpeedTopResponse =
         rankPower: Schema.Number,
       }),
     ),
-  }) as unknown as Schema.Schema<AsesQualitySpeedTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AsesQualitySpeedTopResponse>;
 
 export type AsesQualitySpeedTopError = DefaultErrors;
 
@@ -32734,7 +33304,9 @@ export const LocationsQualitySpeedTopResponse =
         rankPower: Schema.Number,
       }),
     ),
-  }) as unknown as Schema.Schema<LocationsQualitySpeedTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LocationsQualitySpeedTopResponse>;
 
 export type LocationsQualitySpeedTopError = DefaultErrors;
 
@@ -32905,7 +33477,9 @@ export const PostQuantumHttpSummaryResponse =
         supported: "SUPPORTED",
       }),
     ),
-  }) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PostQuantumHttpSummaryResponse>;
 
 export type PostQuantumHttpSummaryError = DefaultErrors;
 
@@ -33098,7 +33672,9 @@ export const PostQuantumHttpTimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PostQuantumHttpTimeseriesGroupResponse>;
 
 export type PostQuantumHttpTimeseriesGroupError = DefaultErrors;
 
@@ -33283,7 +33859,9 @@ export const TopRankingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       ),
     }),
   ),
-}) as unknown as Schema.Schema<TopRankingResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<TopRankingResponse>;
 
 export type TopRankingError = DefaultErrors;
 
@@ -33365,7 +33943,9 @@ export const GetRankingDomainResponse =
         }),
       ),
     }),
-  }) as unknown as Schema.Schema<GetRankingDomainResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetRankingDomainResponse>;
 
 export type GetRankingDomainError = DefaultErrors;
 
@@ -33405,7 +33985,9 @@ export const CategoriesRankingInternetServiceResponse =
         name: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<CategoriesRankingInternetServiceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CategoriesRankingInternetServiceResponse>;
 
 export type CategoriesRankingInternetServiceError = DefaultErrors;
 
@@ -33571,7 +34153,9 @@ export const TopRankingInternetServiceResponse =
         service: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<TopRankingInternetServiceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TopRankingInternetServiceResponse>;
 
 export type TopRankingInternetServiceError = DefaultErrors;
 
@@ -33752,7 +34336,9 @@ export const DirectiveRobotsTxtTopUserAgentResponse =
         partially: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       }),
     ),
-  }) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DirectiveRobotsTxtTopUserAgentResponse>;
 
 export type DirectiveRobotsTxtTopUserAgentError = DefaultErrors;
 
@@ -33918,7 +34504,9 @@ export const ManagedRulesAttackLayer7SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<ManagedRulesAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ManagedRulesAttackLayer7SummaryResponse>;
 
 export type ManagedRulesAttackLayer7SummaryError = DefaultErrors;
 
@@ -34099,7 +34687,9 @@ export const ManagedRulesAttackLayer7TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<ManagedRulesAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ManagedRulesAttackLayer7TimeseriesGroupResponse>;
 
 export type ManagedRulesAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -34216,7 +34806,9 @@ export const GlobalSearchResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       type: Schema.String,
     }),
   ),
-}) as unknown as Schema.Schema<GlobalSearchResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GlobalSearchResponse>;
 
 export type GlobalSearchError = DefaultErrors;
 
@@ -34296,9 +34888,11 @@ export const AsSetEntityAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
     paths: Schema.Array(Schema.Array(Schema.String)),
   },
-).pipe(
-  Schema.encodeKeys({ asSets: "as_sets", paths: "paths" }),
-) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
+)
+  .pipe(Schema.encodeKeys({ asSets: "as_sets", paths: "paths" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AsSetEntityAsnResponse>;
 
 export type AsSetEntityAsnError = DefaultErrors;
 
@@ -34481,7 +35075,9 @@ export const SummaryTcpResetsTimeoutResponse =
         postSyn: "post_syn",
       }),
     ),
-  }) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryTcpResetsTimeoutResponse>;
 
 export type SummaryTcpResetsTimeoutError = DefaultErrors;
 
@@ -34575,7 +35171,9 @@ export const GetTrafficAnomalyResponse =
         ),
       }),
     ),
-  }) as unknown as Schema.Schema<GetTrafficAnomalyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetTrafficAnomalyResponse>;
 
 export type GetTrafficAnomalyError = DefaultErrors;
 
@@ -34618,7 +35216,9 @@ export const GetTrafficAnomalyLocationResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<GetTrafficAnomalyLocationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetTrafficAnomalyLocationResponse>;
 
 export type GetTrafficAnomalyLocationError = DefaultErrors;
 
@@ -34807,7 +35407,9 @@ export const ResponseTTLDnsSummaryResponse =
         lte_1m: "lte_1m",
       }),
     ),
-  }) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseTTLDnsSummaryResponse>;
 
 export type ResponseTTLDnsSummaryError = DefaultErrors;
 
@@ -35012,7 +35614,9 @@ export const ResponseTTLDnsTimeseriesGroupResponse =
         lte_1m: "lte_1m",
       }),
     ),
-  }) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResponseTTLDnsTimeseriesGroupResponse>;
 
 export type ResponseTTLDnsTimeseriesGroupError = DefaultErrors;
 
@@ -35175,7 +35779,9 @@ export const QueryTypeAs112SummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<QueryTypeAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QueryTypeAs112SummaryResponse>;
 
 export type QueryTypeAs112SummaryError = DefaultErrors;
 
@@ -35356,7 +35962,9 @@ export const QueryTypeAs112TimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<QueryTypeAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QueryTypeAs112TimeseriesGroupResponse>;
 
 export type QueryTypeAs112TimeseriesGroupError = DefaultErrors;
 
@@ -35519,7 +36127,9 @@ export const QueryTypeDnsSummaryResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<QueryTypeDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QueryTypeDnsSummaryResponse>;
 
 export type QueryTypeDnsSummaryError = DefaultErrors;
 
@@ -35697,7 +36307,9 @@ export const QueryTypeDnsTimeseriesGroupResponse =
     serie_0: Schema.Struct({
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<QueryTypeDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QueryTypeDnsTimeseriesGroupResponse>;
 
 export type QueryTypeDnsTimeseriesGroupError = DefaultErrors;
 
@@ -35864,7 +36476,9 @@ export const DeviceTypeHttpSummaryResponse =
       mobile: Schema.String,
       other: Schema.String,
     }),
-  }) as unknown as Schema.Schema<DeviceTypeHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeviceTypeHttpSummaryResponse>;
 
 export type DeviceTypeHttpSummaryError = DefaultErrors;
 
@@ -36053,7 +36667,9 @@ export const DeviceTypeHttpTimeseriesGroupResponse =
       other: Schema.Array(Schema.String),
       timestamps: Schema.Array(Schema.String),
     }),
-  }) as unknown as Schema.Schema<DeviceTypeHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeviceTypeHttpTimeseriesGroupResponse>;
 
 export type DeviceTypeHttpTimeseriesGroupError = DefaultErrors;
 
@@ -36225,6 +36841,8 @@ export const SummaryV2AiBotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     }),
     summary_0: Schema.Struct({}),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<SummaryV2AiBotResponse>;
 
 export type SummaryV2AiBotError = DefaultErrors;
@@ -36392,7 +37010,9 @@ export const SummaryV2AiInferenceResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2AiInferenceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2AiInferenceResponse>;
 
 export type SummaryV2AiInferenceError = DefaultErrors;
 
@@ -36572,6 +37192,8 @@ export const SummaryV2As112Response = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     }),
     summary_0: Schema.Struct({}),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<SummaryV2As112Response>;
 
 export type SummaryV2As112Error = DefaultErrors;
@@ -36757,7 +37379,9 @@ export const SummaryV2AttackLayer3Response =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2AttackLayer3Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2AttackLayer3Response>;
 
 export type SummaryV2AttackLayer3Error = DefaultErrors;
 
@@ -36942,7 +37566,9 @@ export const SummaryV2AttackLayer7Response =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2AttackLayer7Response>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2AttackLayer7Response>;
 
 export type SummaryV2AttackLayer7Error = DefaultErrors;
 
@@ -37132,7 +37758,9 @@ export const SummaryV2DnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({}),
-}) as unknown as Schema.Schema<SummaryV2DnsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<SummaryV2DnsResponse>;
 
 export type SummaryV2DnsError = DefaultErrors;
 
@@ -37306,7 +37934,9 @@ export const SummaryV2EmailRoutingResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2EmailRoutingResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2EmailRoutingResponse>;
 
 export type SummaryV2EmailRoutingError = DefaultErrors;
 
@@ -37495,7 +38125,9 @@ export const SummaryV2EmailSecurityResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2EmailSecurityResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2EmailSecurityResponse>;
 
 export type SummaryV2EmailSecurityError = DefaultErrors;
 
@@ -37683,7 +38315,9 @@ export const SummaryV2HttpResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   }),
   summary_0: Schema.Struct({}),
-}) as unknown as Schema.Schema<SummaryV2HttpResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<SummaryV2HttpResponse>;
 
 export type SummaryV2HttpError = DefaultErrors;
 
@@ -37855,7 +38489,9 @@ export const SummaryV2LeakedCredentialResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2LeakedCredentialResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2LeakedCredentialResponse>;
 
 export type SummaryV2LeakedCredentialError = DefaultErrors;
 
@@ -38024,7 +38660,9 @@ export const SummaryV2NetflowResponse =
       ),
     }),
     summary_0: Schema.Struct({}),
-  }) as unknown as Schema.Schema<SummaryV2NetflowResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SummaryV2NetflowResponse>;
 
 export type SummaryV2NetflowError = DefaultErrors;
 
@@ -38202,7 +38840,9 @@ export const BotsVerifiedBotTopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<BotsVerifiedBotTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BotsVerifiedBotTopResponse>;
 
 export type BotsVerifiedBotTopError = DefaultErrors;
 
@@ -38369,7 +39009,9 @@ export const CategoriesVerifiedBotTopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<CategoriesVerifiedBotTopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CategoriesVerifiedBotTopResponse>;
 
 export type CategoriesVerifiedBotTopError = DefaultErrors;
 
@@ -38535,7 +39177,9 @@ export const IpVersionAs112SummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAs112SummaryResponse>;
 
 export type IpVersionAs112SummaryError = DefaultErrors;
 
@@ -38717,7 +39361,9 @@ export const IpVersionAs112TimeseriesGroupResponse =
       ipv4: Schema.Array(Schema.String),
       ipv6: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAs112TimeseriesGroupResponse>;
 
 export type IpVersionAs112TimeseriesGroupError = DefaultErrors;
 
@@ -38900,7 +39546,9 @@ export const IpVersionAs112TopResponse =
         value: Schema.String,
       }),
     ),
-  }) as unknown as Schema.Schema<IpVersionAs112TopResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAs112TopResponse>;
 
 export type IpVersionAs112TopError = DefaultErrors;
 
@@ -39066,7 +39714,9 @@ export const IpVersionAttackLayer3SummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAttackLayer3SummaryResponse>;
 
 export type IpVersionAttackLayer3SummaryError = DefaultErrors;
 
@@ -39255,7 +39905,9 @@ export const IpVersionAttackLayer3TimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAttackLayer3TimeseriesGroupResponse>;
 
 export type IpVersionAttackLayer3TimeseriesGroupError = DefaultErrors;
 
@@ -39431,7 +40083,9 @@ export const HttpVersionAttackLayer7SummaryResponse =
         "http/3": "HTTP/3",
       }),
     ),
-  }) as unknown as Schema.Schema<HttpVersionAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpVersionAttackLayer7SummaryResponse>;
 
 export type HttpVersionAttackLayer7SummaryError = DefaultErrors;
 
@@ -39593,7 +40247,9 @@ export const IpVersionAttackLayer7SummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAttackLayer7SummaryResponse>;
 
 export type IpVersionAttackLayer7SummaryError = DefaultErrors;
 
@@ -39789,7 +40445,9 @@ export const HttpVersionAttackLayer7TimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<HttpVersionAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpVersionAttackLayer7TimeseriesGroupResponse>;
 
 export type HttpVersionAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -39974,7 +40632,9 @@ export const IpVersionAttackLayer7TimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionAttackLayer7TimeseriesGroupResponse>;
 
 export type IpVersionAttackLayer7TimeseriesGroupError = DefaultErrors;
 
@@ -40140,7 +40800,9 @@ export const IpVersionDnsSummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionDnsSummaryResponse>;
 
 export type IpVersionDnsSummaryError = DefaultErrors;
 
@@ -40319,7 +40981,9 @@ export const IpVersionDnsTimeseriesGroupResponse =
       ipv4: Schema.Array(Schema.String),
       ipv6: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionDnsTimeseriesGroupResponse>;
 
 export type IpVersionDnsTimeseriesGroupError = DefaultErrors;
 
@@ -40485,7 +41149,9 @@ export const IpVersionEmailRoutingSummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionEmailRoutingSummaryResponse>;
 
 export type IpVersionEmailRoutingSummaryError = DefaultErrors;
 
@@ -40667,7 +41333,9 @@ export const IpVersionEmailRoutingTimeseriesGroupResponse =
       ipv4: Schema.Array(Schema.String),
       ipv6: Schema.Array(Schema.String),
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionEmailRoutingTimeseriesGroupResponse>;
 
 export type IpVersionEmailRoutingTimeseriesGroupError = DefaultErrors;
 
@@ -40850,7 +41518,9 @@ export const TlsVersionEmailSecuritySummaryResponse =
         "tls 1.3": "TLS 1.3",
       }),
     ),
-  }) as unknown as Schema.Schema<TlsVersionEmailSecuritySummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TlsVersionEmailSecuritySummaryResponse>;
 
 export type TlsVersionEmailSecuritySummaryError = DefaultErrors;
 
@@ -41046,7 +41716,9 @@ export const TlsVersionEmailSecurityTimeseriesGroupResponse =
         "tls 1.3": "TLS 1.3",
       }),
     ),
-  }) as unknown as Schema.Schema<TlsVersionEmailSecurityTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TlsVersionEmailSecurityTimeseriesGroupResponse>;
 
 export type TlsVersionEmailSecurityTimeseriesGroupError = DefaultErrors;
 
@@ -41219,7 +41891,9 @@ export const HttpVersionHttpSummaryResponse =
         "http/3": "HTTP/3",
       }),
     ),
-  }) as unknown as Schema.Schema<HttpVersionHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpVersionHttpSummaryResponse>;
 
 export type HttpVersionHttpSummaryError = DefaultErrors;
 
@@ -41381,7 +42055,9 @@ export const IpVersionHttpSummaryResponse =
       ipv4: Schema.String,
       ipv6: Schema.String,
     }).pipe(Schema.encodeKeys({ ipv4: "IPv4", ipv6: "IPv6" })),
-  }) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionHttpSummaryResponse>;
 
 export type IpVersionHttpSummaryError = DefaultErrors;
 
@@ -41560,7 +42236,9 @@ export const TlsVersionHttpSummaryResponse =
         "tls QUIC": "TLS QUIC",
       }),
     ),
-  }) as unknown as Schema.Schema<TlsVersionHttpSummaryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TlsVersionHttpSummaryResponse>;
 
 export type TlsVersionHttpSummaryError = DefaultErrors;
 
@@ -41756,7 +42434,9 @@ export const HttpVersionHttpTimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<HttpVersionHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<HttpVersionHttpTimeseriesGroupResponse>;
 
 export type HttpVersionHttpTimeseriesGroupError = DefaultErrors;
 
@@ -41938,7 +42618,9 @@ export const IpVersionHttpTimeseriesGroupResponse =
         timestamps: "timestamps",
       }),
     ),
-  }) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<IpVersionHttpTimeseriesGroupResponse>;
 
 export type IpVersionHttpTimeseriesGroupError = DefaultErrors;
 
@@ -42136,7 +42818,9 @@ export const TlsVersionHttpTimeseriesGroupResponse =
         "tls QUIC": "TLS QUIC",
       }),
     ),
-  }) as unknown as Schema.Schema<TlsVersionHttpTimeseriesGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TlsVersionHttpTimeseriesGroupResponse>;
 
 export type TlsVersionHttpTimeseriesGroupError = DefaultErrors;
 

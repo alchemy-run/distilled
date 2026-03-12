@@ -68,6 +68,8 @@ export const GetSecurityTXTResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([Schema.String, Schema.Null]),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetSecurityTXTResponse>;
 
 export type GetSecurityTXTError = DefaultErrors;

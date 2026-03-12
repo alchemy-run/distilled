@@ -236,6 +236,17 @@ export const httpBodySymbol = Symbol.for("@distilled.cloud/http-body");
  */
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
+/** Symbol for response body path transformation */
+export const responsePathSymbol = Symbol.for("@distilled.cloud/response-path");
+
+/**
+ * ResponsePath - decode the response from a nested path within the raw body.
+ * Useful for providers that wrap successful responses in envelopes like
+ * `{ result: <payload>, result_info: ... }`.
+ */
+export const ResponsePath = (path: string) =>
+  makeAnnotation(responsePathSymbol, path);
+
 /** Symbol for form data file annotation */
 export const httpFormDataFileSymbol = Symbol.for(
   "@distilled.cloud/http-form-data-file",
@@ -324,6 +335,9 @@ export const getAnnotation = <T>(
  */
 export const getHttpTrait = (ast: AST.AST): HttpTrait | undefined =>
   getAnnotation<HttpTrait>(ast, httpSymbol);
+
+export const getResponsePath = (ast: AST.AST): string | undefined =>
+  getAnnotation<string>(ast, responsePathSymbol);
 
 /**
  * Check if a PropertySignature has the pathParam annotation.

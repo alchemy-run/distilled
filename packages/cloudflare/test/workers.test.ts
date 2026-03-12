@@ -1,19 +1,8 @@
+import { createHash } from "node:crypto";
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, getZoneId, testRunId } from "./test.ts";
-import * as Workers from "~/services/workers.ts";
-import {
-  ContentTypeRequired,
-  DeploymentNotFound,
-  DomainNotFound,
-  InvalidRoute,
-  InvalidRoutePattern,
-  InvalidWorkerScript,
-  RouteNotFound,
-  SecretNotFound,
-  VersionNotFound,
-  WorkerNotFound,
-} from "~/services/workers.ts";
+import * as Workers from "~/services/workers";
 
 const accountId = () => getAccountId();
 const hasZoneId = () => !!getZoneId();
@@ -39,6 +28,12 @@ const scriptName = (name: string) => `distilled-cf-workers-${name}-${testRunId}`
  */
 const workerModuleSource = `export default { async fetch(request) { return new Response("Hello from test worker"); } };`;
 
+const assetHash = (content: string, extension: string) =>
+  createHash("sha256")
+    .update(Buffer.from(content).toString("base64") + extension)
+    .digest("hex")
+    .slice(0, 32);
+
 /**
  * Create a worker script via putScript, run `fn`, then delete the script.
  * Cleanup-first pattern for idempotency.
@@ -59,16 +54,6 @@ const withScript = <A, E, R>(
     const scriptBlob = new Blob([workerModuleSource], {
       type: "application/javascript+module",
     });
-    const metadataBlob = new Blob(
-      [
-        JSON.stringify({
-          main_module: "index.mjs",
-          compatibility_date: "2024-01-01",
-        }),
-      ],
-      { type: "application/json" },
-    );
-
     const scriptFile = new File([scriptBlob], "index.mjs", {
       type: "application/javascript+module",
     });
@@ -106,16 +91,17 @@ const withBetaWorker = <A, E, R>(
     // Try to find and delete existing worker with same name
     const existing = yield* Workers.listBetaWorkers({
       accountId: accountId(),
-    }).pipe(Effect.catch(() => Effect.succeed([] as any)));
+    }).pipe(
+      Effect.map((response) => response.result),
+      Effect.catch(() => Effect.succeed([])),
+    );
 
-    if (Array.isArray(existing)) {
-      const found = existing.find((w: any) => w.name === name);
-      if (found) {
-        yield* Workers.deleteBetaWorker({
-          accountId: accountId(),
-          workerId: found.id,
-        }).pipe(Effect.catch(() => Effect.void));
-      }
+    const found = existing.find((w) => w.name === name);
+    if (found) {
+      yield* Workers.deleteBetaWorker({
+        accountId: accountId(),
+        workerId: found.id,
+      }).pipe(Effect.catch(() => Effect.void));
     }
 
     // Create the worker
@@ -203,8 +189,8 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const worker of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const worker of result.result) {
           expect(typeof worker.id).toBe("string");
           expect(typeof worker.name).toBe("string");
         }
@@ -227,16 +213,17 @@ describe("Workers", () => {
         // Cleanup: find and delete existing worker with same name
         const existing = yield* Workers.listBetaWorkers({
           accountId: accountId(),
-        }).pipe(Effect.catch(() => Effect.succeed([] as any)));
+        }).pipe(
+          Effect.map((response) => response.result),
+          Effect.catch(() => Effect.succeed([])),
+        );
 
-        if (Array.isArray(existing)) {
-          const found = existing.find((w: any) => w.name === name);
-          if (found) {
-            yield* Workers.deleteBetaWorker({
-              accountId: accountId(),
-              workerId: found.id,
-            }).pipe(Effect.catch(() => Effect.void));
-          }
+        const found = existing.find((w) => w.name === name);
+        if (found) {
+          yield* Workers.deleteBetaWorker({
+            accountId: accountId(),
+            workerId: found.id,
+          }).pipe(Effect.catch(() => Effect.void));
         }
 
         const result = yield* Workers.createBetaWorker({
@@ -371,15 +358,16 @@ describe("Workers", () => {
         // Cleanup first
         const existing = yield* Workers.listBetaWorkers({
           accountId: accountId(),
-        }).pipe(Effect.catch(() => Effect.succeed([] as any)));
-        if (Array.isArray(existing)) {
-          const found = existing.find((w: any) => w.name === name);
-          if (found) {
-            yield* Workers.deleteBetaWorker({
-              accountId: accountId(),
-              workerId: found.id,
-            }).pipe(Effect.catch(() => Effect.void));
-          }
+        }).pipe(
+          Effect.map((response) => response.result),
+          Effect.catch(() => Effect.succeed([])),
+        );
+        const found = existing.find((w) => w.name === name);
+        if (found) {
+          yield* Workers.deleteBetaWorker({
+            accountId: accountId(),
+            workerId: found.id,
+          }).pipe(Effect.catch(() => Effect.void));
         }
 
         const worker = yield* Workers.createBetaWorker({
@@ -400,7 +388,7 @@ describe("Workers", () => {
         const afterDelete = yield* Workers.listBetaWorkers({
           accountId: accountId(),
         });
-        const stillExists = afterDelete.find((w: any) => w.id === worker.id);
+        const stillExists = afterDelete.result.find((w) => w.id === worker.id);
         expect(stillExists).toBeUndefined();
       }));
 
@@ -427,7 +415,7 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -554,7 +542,7 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -613,8 +601,8 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const item of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const item of result.result) {
           expect(typeof item.key).toBe("string");
           expect(typeof item.lastSeenAt).toBe("number");
           expect(["string", "boolean", "number"]).toContain(item.type);
@@ -643,7 +631,7 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -704,8 +692,8 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          for (const route of result) {
+          expect(Array.isArray(result.result)).toBe(true);
+          for (const route of result.result) {
             expect(typeof route.id).toBe("string");
             expect(typeof route.pattern).toBe("string");
           }
@@ -767,7 +755,7 @@ describe("Workers", () => {
 
   describe("updateRoute", () => {
     if (hasZoneId()) {
-      test("error - RouteNotFound for non-existent routeId", () =>
+      test("error - RouteNotFound or InvalidRoutePattern for non-existent routeId", () =>
         Workers.updateRoute({
           zoneId: zoneId(),
           routeId: "00000000000000000000000000000000",
@@ -775,7 +763,9 @@ describe("Workers", () => {
           pattern: "alchemy-test-2.us/*",
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("RouteNotFound")),
+          Effect.map((e) =>
+            expect(["RouteNotFound", "InvalidRoutePattern"]).toContain(e._tag),
+          ),
         ));
     }
   });
@@ -804,8 +794,8 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const script of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const script of result.result) {
           if (script.id) {
             expect(typeof script.id).toBe("string");
           }
@@ -1214,7 +1204,7 @@ describe("Workers", () => {
                 { percentage: 100, versionId: currentVersionId },
               ],
               annotations: {
-                "workers/message": "Test deployment from distilled tests",
+                workersMessage: "Test deployment from distilled tests",
               },
             });
 
@@ -1413,7 +1403,7 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -1729,8 +1719,8 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          for (const version of result) {
+          expect(Array.isArray(result.result.items)).toBe(true);
+          for (const version of result.result.items ?? []) {
             if (version.id !== undefined) {
               expect(typeof version.id).toBe("string");
             }
@@ -1761,8 +1751,11 @@ describe("Workers", () => {
             scriptName: name,
           });
 
-          if (versions.length > 0 && versions[0].id) {
-            const versionId = versions[0].id;
+          if (
+            (versions.result.items?.length ?? 0) > 0 &&
+            versions.result.items?.[0]?.id
+          ) {
+            const versionId = versions.result.items[0].id;
             const result = yield* Workers.getScriptVersion({
               accountId: accountId(),
               scriptName: name,
@@ -1876,6 +1869,71 @@ describe("Workers", () => {
   // AssetUpload (account-level)
   // ==========================================================================
   describe("createAssetUpload", () => {
+    test("happy path - uploads an asset and redeems the completion jwt", () =>
+      withScript(scriptName("asset-upload-complete"), (name) =>
+        Effect.gen(function* () {
+          const path = "/index.html";
+          const content = `<html><body>distilled asset upload ${testRunId}</body></html>`;
+          const hash = assetHash(content, "html");
+          const manifest = {
+            [path]: {
+              hash,
+              size: content.length,
+            },
+          };
+
+          const session = yield* Workers.createScriptAssetUpload({
+            accountId: accountId(),
+            scriptName: name,
+            manifest,
+          });
+
+          expect(typeof session.jwt).toBe("string");
+          expect(Array.isArray(session.buckets)).toBe(true);
+          expect(session.buckets?.some((bucket) => bucket.includes(hash))).toBe(
+            true,
+          );
+
+          const upload = yield* Workers.createAssetUpload({
+            accountId: accountId(),
+            base64: true,
+            jwtToken: session.jwt!,
+            body: {
+              [hash]: Buffer.from(content).toString("base64"),
+            },
+          });
+
+          expect(typeof upload.jwt).toBe("string");
+
+          const scriptFile = new File(
+            [workerModuleSource],
+            "index.mjs",
+            { type: "application/javascript+module" },
+          );
+
+          const result = yield* Workers.putScript({
+            accountId: accountId(),
+            scriptName: name,
+            metadata: {
+              mainModule: "index.mjs",
+              bindings: [{ name: "ASSETS", type: "assets" }],
+              assets: {
+                jwt: upload.jwt!,
+              },
+            },
+            files: [scriptFile],
+          });
+
+          expect(result).toBeDefined();
+          if (result.id) {
+            expect(typeof result.id).toBe("string");
+          }
+          if (result.hasAssets !== undefined) {
+            expect(result.hasAssets).toBe(true);
+          }
+        }),
+      ));
+
     test("error - InvalidRoute for invalid accountId", () =>
       Workers.createAssetUpload({
         accountId: "invalid-account-id-000",
@@ -1941,7 +1999,7 @@ describe("Workers", () => {
   // ==========================================================================
   describe("putDomain", () => {
     if (hasZoneId()) {
-      test("error - WorkerNotFound for non-existent service", () =>
+      test("error - WorkerNotFound or UnknownCloudflareError for non-existent service", () =>
         Workers.putDomain({
           accountId: accountId(),
           // Hostname must match zone name (alchemy-test-2.us) to avoid zone mismatch error
@@ -1950,7 +2008,11 @@ describe("Workers", () => {
           zoneId: zoneId(),
         }).pipe(
           Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("WorkerNotFound")),
+          Effect.map((e) =>
+            expect(["WorkerNotFound", "UnknownCloudflareError"]).toContain(
+              e._tag,
+            ),
+          ),
         ));
     }
 

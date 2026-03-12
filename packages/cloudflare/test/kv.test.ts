@@ -1,7 +1,8 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as KV from "~/services/kv.ts";
+import { Credentials, formatHeaders } from "~/credentials";
+import * as KV from "~/services/kv";
 
 const accountId = () => getAccountId();
 
@@ -21,22 +22,27 @@ const nsTitle = (name: string) => `distilled-cf-kv-${name}-${testRunId}`;
  */
 const findNamespaceByTitle = (
   title: string,
-): Effect.Effect<string | undefined, never, never> =>
-  Effect.tryPromise({
-    try: async () => {
+): Effect.Effect<string | undefined, never, Credentials> =>
+  Effect.gen(function* () {
+    const credentials = yield* yield* Credentials;
+    const headers = formatHeaders(credentials);
+
+    const response = yield* Effect.tryPromise({
+      try: async () => {
       const resp = await fetch(
         `https://api.cloudflare.com/client/v4/accounts/${accountId()}/storage/kv/namespaces?per_page=100`,
         {
-          headers: {
-            Authorization: `Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,
-          },
+          headers,
         },
       );
-      const data = (await resp.json()) as any;
-      const ns = data?.result?.find((n: any) => n.title === title);
-      return ns?.id as string | undefined;
-    },
-    catch: () => undefined,
+        const data = (await resp.json()) as any;
+        const ns = data?.result?.find((n: any) => n.title === title);
+        return ns?.id as string | undefined;
+      },
+      catch: () => undefined,
+    });
+
+    return response;
   }).pipe(Effect.catch(() => Effect.succeed(undefined)));
 
 /**

@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service speed
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -153,7 +154,9 @@ export const ListAvailabilitiesResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ListAvailabilitiesResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListAvailabilitiesResponse>;
 
 export type ListAvailabilitiesError = DefaultErrors;
 
@@ -183,37 +186,63 @@ export const ListPagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/speed_api/pages" }),
 ) as unknown as Schema.Schema<ListPagesRequest>;
 
-export type ListPagesResponse = {
-  region?: unknown | null;
-  scheduleFrequency?: "DAILY" | "WEEKLY" | null;
-  tests?: unknown[] | null;
-  url?: string | null;
-}[];
+export interface ListPagesResponse {
+  result: {
+    region?: unknown | null;
+    scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+    tests?: unknown[] | null;
+    url?: string | null;
+  }[];
+}
 
-export const ListPagesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    scheduleFrequency: Schema.optional(
-      Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
-    ),
-    tests: Schema.optional(
-      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
-    ),
-    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ListPagesResponse>;
+export const ListPagesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      scheduleFrequency: Schema.optional(
+        Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+      ),
+      tests: Schema.optional(
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+      ),
+      url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListPagesResponse>;
 
 export type ListPagesError = DefaultErrors;
 
-export const listPages: API.OperationMethod<
+export const listPages: API.PaginatedOperationMethod<
   ListPagesRequest,
   ListPagesResponse,
   ListPagesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPagesRequest,
+  ) => stream.Stream<
+    ListPagesResponse,
+    ListPagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPagesRequest) => stream.Stream<
+    {
+      region?: unknown | null;
+      scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+      tests?: unknown[] | null;
+      url?: string | null;
+    },
+    ListPagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPagesRequest,
   output: ListPagesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface TrendPageRequest {
@@ -361,7 +390,9 @@ export const GetPageTestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
   ),
   url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetPageTestResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetPageTestResponse>;
 
 export type GetPageTestError = DefaultErrors;
 
@@ -440,41 +471,98 @@ export const ListPageTestsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPageTestsRequest>;
 
-export type ListPageTestsResponse = {
-  id?: string | null;
-  date?: string | null;
-  desktopReport?: unknown | null;
-  mobileReport?: unknown | null;
-  region?: unknown | null;
-  scheduleFrequency?: "DAILY" | "WEEKLY" | null;
-  url?: string | null;
-}[];
+export interface ListPageTestsResponse {
+  result: {
+    id?: string | null;
+    date?: string | null;
+    desktopReport?: unknown | null;
+    mobileReport?: unknown | null;
+    region?: unknown | null;
+    scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+    url?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListPageTestsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    desktopReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    mobileReport: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    scheduleFrequency: Schema.optional(
-      Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
-    ),
-    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
+export const ListPageTestsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      desktopReport: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      mobileReport: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      region: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+      scheduleFrequency: Schema.optional(
+        Schema.Union([Schema.Literals(["DAILY", "WEEKLY"]), Schema.Null]),
+      ),
+      url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListPageTestsResponse>;
 
 export type ListPageTestsError = DefaultErrors;
 
-export const listPageTests: API.OperationMethod<
+export const listPageTests: API.PaginatedOperationMethod<
   ListPageTestsRequest,
   ListPageTestsResponse,
   ListPageTestsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPageTestsRequest,
+  ) => stream.Stream<
+    ListPageTestsResponse,
+    ListPageTestsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPageTestsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      date?: string | null;
+      desktopReport?: unknown | null;
+      mobileReport?: unknown | null;
+      region?: unknown | null;
+      scheduleFrequency?: "DAILY" | "WEEKLY" | null;
+      url?: string | null;
+    },
+    ListPageTestsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPageTestsRequest,
   output: ListPageTestsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreatePageTestRequest {
@@ -569,6 +657,8 @@ export const CreatePageTestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
     url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreatePageTestResponse>;
 
 export type CreatePageTestError = DefaultErrors;
@@ -657,6 +747,8 @@ export const DeletePageTestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeletePageTestResponse>;
 
 export type DeletePageTestError = DefaultErrors;
@@ -801,7 +893,9 @@ export const GetScheduleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetScheduleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetScheduleResponse>;
 
 export type GetScheduleError = DefaultErrors;
 
@@ -952,6 +1046,8 @@ export const CreateScheduleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
     test: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateScheduleResponse>;
 
 export type CreateScheduleError = DefaultErrors;
@@ -1040,6 +1136,8 @@ export const DeleteScheduleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeleteScheduleResponse>;
 
 export type DeleteScheduleError = DefaultErrors;

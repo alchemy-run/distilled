@@ -48,14 +48,18 @@ export const GetConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    defaultSampling: "default_sampling",
-    name: "name",
-    routerIps: "router_ips",
-    warpDevices: "warp_devices",
-  }),
-) as unknown as Schema.Schema<GetConfigResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      defaultSampling: "default_sampling",
+      name: "name",
+      routerIps: "router_ips",
+      warpDevices: "warp_devices",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetConfigResponse>;
 
 export type GetConfigError = DefaultErrors;
 
@@ -131,14 +135,18 @@ export const CreateConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    defaultSampling: "default_sampling",
-    name: "name",
-    routerIps: "router_ips",
-    warpDevices: "warp_devices",
-  }),
-) as unknown as Schema.Schema<CreateConfigResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      defaultSampling: "default_sampling",
+      name: "name",
+      routerIps: "router_ips",
+      warpDevices: "warp_devices",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateConfigResponse>;
 
 export type CreateConfigError = DefaultErrors;
 
@@ -214,14 +222,18 @@ export const UpdateConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    defaultSampling: "default_sampling",
-    name: "name",
-    routerIps: "router_ips",
-    warpDevices: "warp_devices",
-  }),
-) as unknown as Schema.Schema<UpdateConfigResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      defaultSampling: "default_sampling",
+      name: "name",
+      routerIps: "router_ips",
+      warpDevices: "warp_devices",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateConfigResponse>;
 
 export type UpdateConfigError = DefaultErrors;
 
@@ -297,14 +309,18 @@ export const PatchConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    defaultSampling: "default_sampling",
-    name: "name",
-    routerIps: "router_ips",
-    warpDevices: "warp_devices",
-  }),
-) as unknown as Schema.Schema<PatchConfigResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      defaultSampling: "default_sampling",
+      name: "name",
+      routerIps: "router_ips",
+      warpDevices: "warp_devices",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchConfigResponse>;
 
 export type PatchConfigError = DefaultErrors;
 
@@ -351,14 +367,18 @@ export const DeleteConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.encodeKeys({ id: "id", name: "name", routerIp: "router_ip" }),
     ),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    defaultSampling: "default_sampling",
-    name: "name",
-    routerIps: "router_ips",
-    warpDevices: "warp_devices",
-  }),
-) as unknown as Schema.Schema<DeleteConfigResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      defaultSampling: "default_sampling",
+      name: "name",
+      routerIps: "router_ips",
+      warpDevices: "warp_devices",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export type DeleteConfigError = DefaultErrors;
 
@@ -484,21 +504,23 @@ export const GetRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    automaticAdvertisement: "automatic_advertisement",
-    name: "name",
-    prefixes: "prefixes",
-    type: "type",
-    id: "id",
-    bandwidthThreshold: "bandwidth_threshold",
-    duration: "duration",
-    packetThreshold: "packet_threshold",
-    prefixMatch: "prefix_match",
-    zscoreSensitivity: "zscore_sensitivity",
-    zscoreTarget: "zscore_target",
-  }),
-) as unknown as Schema.Schema<GetRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      automaticAdvertisement: "automatic_advertisement",
+      name: "name",
+      prefixes: "prefixes",
+      type: "type",
+      id: "id",
+      bandwidthThreshold: "bandwidth_threshold",
+      duration: "duration",
+      packetThreshold: "packet_threshold",
+      prefixMatch: "prefix_match",
+      zscoreSensitivity: "zscore_sensitivity",
+      zscoreTarget: "zscore_target",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetRuleResponse>;
 
 export type GetRuleError = DefaultErrors;
 
@@ -652,21 +674,25 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    automaticAdvertisement: "automatic_advertisement",
-    name: "name",
-    prefixes: "prefixes",
-    type: "type",
-    id: "id",
-    bandwidthThreshold: "bandwidth_threshold",
-    duration: "duration",
-    packetThreshold: "packet_threshold",
-    prefixMatch: "prefix_match",
-    zscoreSensitivity: "zscore_sensitivity",
-    zscoreTarget: "zscore_target",
-  }),
-) as unknown as Schema.Schema<CreateRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      automaticAdvertisement: "automatic_advertisement",
+      name: "name",
+      prefixes: "prefixes",
+      type: "type",
+      id: "id",
+      bandwidthThreshold: "bandwidth_threshold",
+      duration: "duration",
+      packetThreshold: "packet_threshold",
+      prefixMatch: "prefix_match",
+      zscoreSensitivity: "zscore_sensitivity",
+      zscoreTarget: "zscore_target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export type CreateRuleError = DefaultErrors;
 
@@ -796,21 +822,25 @@ export const UpdateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    automaticAdvertisement: "automatic_advertisement",
-    name: "name",
-    prefixes: "prefixes",
-    type: "type",
-    id: "id",
-    bandwidthThreshold: "bandwidth_threshold",
-    duration: "duration",
-    packetThreshold: "packet_threshold",
-    prefixMatch: "prefix_match",
-    zscoreSensitivity: "zscore_sensitivity",
-    zscoreTarget: "zscore_target",
-  }),
-) as unknown as Schema.Schema<UpdateRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      automaticAdvertisement: "automatic_advertisement",
+      name: "name",
+      prefixes: "prefixes",
+      type: "type",
+      id: "id",
+      bandwidthThreshold: "bandwidth_threshold",
+      duration: "duration",
+      packetThreshold: "packet_threshold",
+      prefixMatch: "prefix_match",
+      zscoreSensitivity: "zscore_sensitivity",
+      zscoreTarget: "zscore_target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
 export type UpdateRuleError = DefaultErrors;
 
@@ -934,21 +964,25 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    automaticAdvertisement: "automatic_advertisement",
-    name: "name",
-    prefixes: "prefixes",
-    type: "type",
-    id: "id",
-    bandwidthThreshold: "bandwidth_threshold",
-    duration: "duration",
-    packetThreshold: "packet_threshold",
-    prefixMatch: "prefix_match",
-    zscoreSensitivity: "zscore_sensitivity",
-    zscoreTarget: "zscore_target",
-  }),
-) as unknown as Schema.Schema<PatchRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      automaticAdvertisement: "automatic_advertisement",
+      name: "name",
+      prefixes: "prefixes",
+      type: "type",
+      id: "id",
+      bandwidthThreshold: "bandwidth_threshold",
+      duration: "duration",
+      packetThreshold: "packet_threshold",
+      prefixMatch: "prefix_match",
+      zscoreSensitivity: "zscore_sensitivity",
+      zscoreTarget: "zscore_target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export type PatchRuleError = DefaultErrors;
 
@@ -1041,21 +1075,25 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    automaticAdvertisement: "automatic_advertisement",
-    name: "name",
-    prefixes: "prefixes",
-    type: "type",
-    id: "id",
-    bandwidthThreshold: "bandwidth_threshold",
-    duration: "duration",
-    packetThreshold: "packet_threshold",
-    prefixMatch: "prefix_match",
-    zscoreSensitivity: "zscore_sensitivity",
-    zscoreTarget: "zscore_target",
-  }),
-) as unknown as Schema.Schema<DeleteRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      automaticAdvertisement: "automatic_advertisement",
+      name: "name",
+      prefixes: "prefixes",
+      type: "type",
+      id: "id",
+      bandwidthThreshold: "bandwidth_threshold",
+      duration: "duration",
+      packetThreshold: "packet_threshold",
+      prefixMatch: "prefix_match",
+      zscoreSensitivity: "zscore_sensitivity",
+      zscoreTarget: "zscore_target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = DefaultErrors;
 
@@ -1102,9 +1140,13 @@ export interface PatchRuleAdvertisementResponse {
 export const PatchRuleAdvertisementResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     automaticAdvertisement: Schema.Union([Schema.Boolean, Schema.Null]),
-  }).pipe(
-    Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
-  ) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({ automaticAdvertisement: "automatic_advertisement" }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchRuleAdvertisementResponse>;
 
 export type PatchRuleAdvertisementError = DefaultErrors;
 
@@ -1140,7 +1182,9 @@ export const CreateVpcFlowTokenRequest =
 export type CreateVpcFlowTokenResponse = string;
 
 export const CreateVpcFlowTokenResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateVpcFlowTokenResponse>;
 
 export type CreateVpcFlowTokenError = DefaultErrors;
 

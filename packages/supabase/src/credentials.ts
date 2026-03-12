@@ -1,12 +1,13 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as ServiceMap from "effect/ServiceMap";
 import { ConfigError } from "@distilled.cloud/core/errors";
 
 export const DEFAULT_API_BASE_URL = "https://api.supabase.com";
 
 export interface Config {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
@@ -25,6 +26,9 @@ export const CredentialsFromEnv = Layer.effect(
       });
     }
 
-    return { accessToken, apiBaseUrl: DEFAULT_API_BASE_URL };
+    return {
+      accessToken: Redacted.make(accessToken),
+      apiBaseUrl: DEFAULT_API_BASE_URL,
+    };
   }),
 );

@@ -1,7 +1,8 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Stream from "effect/Stream";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as SecretsStore from "~/services/secrets-store.ts";
+import * as SecretsStore from "~/services/secrets-store";
 
 const accountId = () => getAccountId();
 
@@ -23,7 +24,7 @@ const getDefaultStoreId = () =>
     const stores = yield* SecretsStore.listStores({
       accountId: accountId(),
     });
-    const defaultStore = stores[0];
+    const defaultStore = stores.result[0];
     if (!defaultStore) {
       throw new Error("No default store found in account");
     }
@@ -39,7 +40,7 @@ const deleteSecretByName = (storeId: string, name: string) =>
       storeId,
       accountId: accountId(),
     });
-    const found = secrets.find((s) => s.name === name);
+    const found = secrets.result.find((s) => s.name === name);
     if (found) {
       yield* SecretsStore.deleteStoreSecret({
         storeId,
@@ -98,7 +99,7 @@ const withDefaultStoreAndSecret = <A, E, R>(
         ],
       });
 
-      const secretId = secrets[0].id;
+      const secretId = secrets.result[0]!.id;
       return yield* fn(storeId, secretId);
     }),
   );
@@ -146,8 +147,8 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const store of result) {
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const store of result.result) {
           expect(typeof store.id).toBe("string");
           expect(typeof store.name).toBe("string");
           expect(typeof store.created).toBe("string");
@@ -163,7 +164,7 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists stores with direction descending", () =>
@@ -174,7 +175,7 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists stores ordered by name", () =>
@@ -185,7 +186,34 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
+      }));
+
+    test("pages() streams store response pages", () =>
+      Effect.gen(function* () {
+        const pages = yield* SecretsStore.listStores
+          .pages({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+      }));
+
+    test("items() streams store items directly", () =>
+      Effect.gen(function* () {
+        const stores = yield* SecretsStore.listStores
+          .items({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(5), Stream.runCollect);
+
+        for (const store of Array.from(stores)) {
+          expect(typeof store.id).toBe("string");
+          expect(typeof store.name).toBe("string");
+        }
       }));
 
     test("error - invalid accountId", () =>
@@ -265,7 +293,7 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists secrets after creating one", () =>
@@ -279,9 +307,9 @@ describe("SecretsStore", () => {
             });
 
             expect(result).toBeDefined();
-            expect(Array.isArray(result)).toBe(true);
-            expect(result.length).toBeGreaterThanOrEqual(1);
-            const found = result.find(
+            expect(Array.isArray(result.result)).toBe(true);
+            expect(result.result.length).toBeGreaterThanOrEqual(1);
+            const found = result.result.find(
               (s) => s.name === secretName("list-check"),
             );
             expect(found).toBeDefined();
@@ -304,7 +332,7 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists secrets ordered by name", () =>
@@ -317,7 +345,7 @@ describe("SecretsStore", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists secrets with search filter", () =>
@@ -332,7 +360,42 @@ describe("SecretsStore", () => {
             });
 
             expect(result).toBeDefined();
-            expect(Array.isArray(result)).toBe(true);
+            expect(Array.isArray(result.result)).toBe(true);
+          }),
+      ));
+
+    test("pages() streams secret response pages", () =>
+      Effect.gen(function* () {
+        const storeId = yield* getDefaultStoreId();
+        const pages = yield* SecretsStore.listStoreSecrets
+          .pages({
+            storeId,
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+      }));
+
+    test("items() streams secret items directly", () =>
+      withDefaultStoreAndSecret(
+        secretName("stream-items"),
+        (storeId, _secretId) =>
+          Effect.gen(function* () {
+            const secrets = yield* SecretsStore.listStoreSecrets
+              .items({
+                storeId,
+                accountId: accountId(),
+              })
+              .pipe(Stream.take(10), Stream.runCollect);
+
+            const found = Array.from(secrets).find(
+              (secret) => secret.name === secretName("stream-items"),
+            );
+            expect(found).toBeDefined();
+            expect(typeof found?.id).toBe("string");
           }),
       ));
 
@@ -376,14 +439,14 @@ describe("SecretsStore", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBe(1);
-          expect(result[0].name).toBe(name);
-          expect(typeof result[0].id).toBe("string");
-          expect(typeof result[0].created).toBe("string");
-          expect(typeof result[0].modified).toBe("string");
-          expect(typeof result[0].storeId).toBe("string");
-          expect(["pending", "active", "deleted"]).toContain(result[0].status);
+          expect(Array.isArray(result.result)).toBe(true);
+          expect(result.result.length).toBe(1);
+          expect(result.result[0]!.name).toBe(name);
+          expect(typeof result.result[0]!.id).toBe("string");
+          expect(typeof result.result[0]!.created).toBe("string");
+          expect(typeof result.result[0]!.modified).toBe("string");
+          expect(typeof result.result[0]!.storeId).toBe("string");
+          expect(["pending", "active", "deleted"]).toContain(result.result[0]!.status);
         }),
       ));
 
@@ -405,9 +468,9 @@ describe("SecretsStore", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBe(1);
-          expect(result[0].name).toBe(name);
+          expect(Array.isArray(result.result)).toBe(true);
+          expect(result.result.length).toBe(1);
+          expect(result.result[0]!.name).toBe(name);
         }),
       ));
 
@@ -428,8 +491,8 @@ describe("SecretsStore", () => {
             });
 
             expect(result).toBeDefined();
-            expect(Array.isArray(result)).toBe(true);
-            expect(result.length).toBe(2);
+            expect(Array.isArray(result.result)).toBe(true);
+            expect(result.result.length).toBe(2);
           }),
       ));
 
@@ -735,7 +798,7 @@ describe("SecretsStore", () => {
             ],
           });
 
-          const secretId = secrets[0].id;
+          const secretId = secrets.result[0]!.id;
 
           // deleteStoreSecret succeeds (API returns null result)
           yield* SecretsStore.deleteStoreSecret({
@@ -749,7 +812,7 @@ describe("SecretsStore", () => {
             storeId,
             accountId: accountId(),
           });
-          const found = remaining.find((s) => s.id === secretId);
+          const found = remaining.result.find((s) => s.id === secretId);
           expect(found).toBeUndefined();
         }),
       ));

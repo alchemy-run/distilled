@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
-import * as Accounts from "~/services/accounts.ts";
+import * as Accounts from "~/services/accounts";
 
 const accountId = () => getAccountId();
 
@@ -352,7 +352,9 @@ describe("Accounts", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        // Schema.Unknown response returns the full Cloudflare envelope
+        const envelope = result as any;
+        expect(Array.isArray(envelope.result)).toBe(true);
       }));
   });
 
@@ -681,7 +683,9 @@ describe("Accounts", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        // Schema.Unknown response returns the full Cloudflare envelope
+        const envelope = result as any;
+        expect(Array.isArray(envelope.result)).toBe(true);
       }));
   });
 

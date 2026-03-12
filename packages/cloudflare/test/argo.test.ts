@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getZoneId } from "./test.ts";
-import * as Argo from "~/services/argo.ts";
+import * as Argo from "~/services/argo";
 
 const hasZoneId = () => !!getZoneId();
 

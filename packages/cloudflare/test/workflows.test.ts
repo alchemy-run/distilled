@@ -1,17 +1,9 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Schedule from "effect/Schedule";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as Workflows from "~/services/workflows.ts";
-import {
-  InstanceCannotTerminate,
-  InstanceNotFound,
-  InvalidBody,
-  InvalidRoute,
-  VersionNotFound,
-  WorkflowInternalError,
-  WorkflowNotFound,
-} from "~/services/workflows.ts";
-import * as Workers from "~/services/workers.ts";
+import * as Workflows from "~/services/workflows";
+import * as Workers from "~/services/workers";
 
 const accountId = () => getAccountId();
 
@@ -161,10 +153,11 @@ describe("Workflows", () => {
         const result = yield* Workflows.listWorkflows({
           accountId: accountId(),
         });
+        const workflows = result.result;
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const wf of result) {
+        expect(Array.isArray(workflows)).toBe(true);
+        for (const wf of workflows) {
           expect(typeof wf.id).toBe("string");
           expect(typeof wf.name).toBe("string");
           expect(typeof wf.className).toBe("string");
@@ -182,7 +175,7 @@ describe("Workflows", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("happy path - lists workflows includes a created workflow", () =>
@@ -191,10 +184,11 @@ describe("Workflows", () => {
           const result = yield* Workflows.listWorkflows({
             accountId: accountId(),
           });
+          const workflows = result.result;
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          const found = result.some((wf) => wf.name === wfName);
+          expect(Array.isArray(workflows)).toBe(true);
+          const found = workflows.some((wf) => wf.name === wfName);
           expect(found).toBe(true);
         }),
       ));
@@ -453,11 +447,12 @@ describe("Workflows", () => {
             accountId: accountId(),
             workflowName: wfName,
           });
+          const versions = result.result;
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBeGreaterThan(0);
-          for (const version of result) {
+          expect(Array.isArray(versions)).toBe(true);
+          expect(versions.length).toBeGreaterThan(0);
+          for (const version of versions) {
             expect(typeof version.id).toBe("string");
             expect(typeof version.className).toBe("string");
             expect(typeof version.createdOn).toBe("string");
@@ -498,17 +493,18 @@ describe("Workflows", () => {
             accountId: accountId(),
             workflowName: wfName,
           });
+          const versionItems = versions.result;
 
-          expect(versions.length).toBeGreaterThan(0);
+          expect(versionItems.length).toBeGreaterThan(0);
 
           const result = yield* Workflows.getVersion({
             accountId: accountId(),
             workflowName: wfName,
-            versionId: versions[0].id,
+            versionId: versionItems[0].id,
           });
 
           expect(result).toBeDefined();
-          expect(result.id).toBe(versions[0].id);
+          expect(result.id).toBe(versionItems[0].id);
           expect(typeof result.className).toBe("string");
           expect(typeof result.createdOn).toBe("string");
           expect(typeof result.modifiedOn).toBe("string");
@@ -646,11 +642,12 @@ describe("Workflows", () => {
             accountId: accountId(),
             workflowName: wfName,
           });
+          const instances = result.result;
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBeGreaterThan(0);
-          for (const instance of result) {
+          expect(Array.isArray(instances)).toBe(true);
+          expect(instances.length).toBeGreaterThan(0);
+          for (const instance of instances) {
             expect(typeof instance.id).toBe("string");
             expect(typeof instance.createdOn).toBe("string");
             expect(typeof instance.modifiedOn).toBe("string");
@@ -677,7 +674,7 @@ describe("Workflows", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -688,10 +685,17 @@ describe("Workflows", () => {
             accountId: accountId(),
             workflowName: wfName,
             direction: "desc",
-          });
+          }).pipe(
+            Effect.retry({
+              while: (e) => e._tag === "WorkflowInternalError",
+              schedule: Schedule.recurs(3).pipe(
+                Schedule.addDelay(() => Effect.succeed("2 seconds")),
+              ),
+            }),
+          );
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -704,7 +708,7 @@ describe("Workflows", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -798,11 +802,12 @@ describe("Workflows", () => {
               { params: { key: "value2" } },
             ],
           });
+          const instances = result.result;
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBe(2);
-          for (const instance of result) {
+          expect(Array.isArray(instances)).toBe(true);
+          expect(instances.length).toBe(2);
+          for (const instance of instances) {
             expect(typeof instance.id).toBe("string");
             expect(typeof instance.status).toBe("string");
             expect(typeof instance.versionId).toBe("string");
@@ -824,8 +829,8 @@ describe("Workflows", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          expect(result.length).toBe(2);
+          expect(Array.isArray(result.result)).toBe(true);
+          expect(result.result.length).toBe(2);
         }),
       ));
 

@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Content
@@ -191,7 +192,7 @@ export const CreateContentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -299,7 +300,9 @@ export const CreateContentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type CreateContentResponse = string;
 
 export const CreateContentResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateContentResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateContentResponse>;
 
 export type CreateContentError = DefaultErrors;
 
@@ -502,7 +505,7 @@ export const CreateJsonRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -652,6 +655,8 @@ export type CreateJsonResponse = Record<string, unknown>;
 
 export const CreateJsonResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {},
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateJsonResponse>;
 
 export type CreateJsonError = DefaultErrors;
@@ -850,7 +855,7 @@ export const CreateLinkRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -961,6 +966,8 @@ export type CreateLinkResponse = string[];
 
 export const CreateLinkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.String,
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateLinkResponse>;
 
 export type CreateLinkError = DefaultErrors;
@@ -1155,7 +1162,7 @@ export const CreateMarkdownRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1263,7 +1270,9 @@ export const CreateMarkdownRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type CreateMarkdownResponse = string;
 
 export const CreateMarkdownResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateMarkdownResponse>;
 
 export type CreateMarkdownError = DefaultErrors;
 
@@ -1492,7 +1501,7 @@ export const CreatePdfRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1842,7 +1851,7 @@ export const CreateScrapeRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -1978,6 +1987,8 @@ export const CreateScrapeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     }),
     selector: Schema.String,
   }),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateScrapeResponse>;
 
 export type CreateScrapeError = DefaultErrors;
@@ -2195,7 +2206,7 @@ export const CreateScreenshotRequest =
     ),
     authenticate: Schema.optional(
       Schema.Struct({
-        password: Schema.String,
+        password: SensitiveString,
         username: Schema.String,
       }),
     ),
@@ -2554,7 +2565,7 @@ export const CreateSnapshotRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   authenticate: Schema.optional(
     Schema.Struct({
-      password: Schema.String,
+      password: SensitiveString,
       username: Schema.String,
     }),
   ),
@@ -2691,6 +2702,8 @@ export const CreateSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     content: Schema.String,
     screenshot: Schema.String,
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateSnapshotResponse>;
 
 export type CreateSnapshotError = DefaultErrors;

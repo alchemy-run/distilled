@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service vectorize
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -39,7 +40,9 @@ export const GetByIdsIndexRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type GetByIdsIndexResponse = unknown;
 
 export const GetByIdsIndexResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<GetByIdsIndexResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetByIdsIndexResponse>;
 
 export type GetByIdsIndexError = DefaultErrors;
 
@@ -82,7 +85,9 @@ export interface DeleteByIdsIndexResponse {
 export const DeleteByIdsIndexResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteByIdsIndexResponse>;
 
 export type DeleteByIdsIndexError = DefaultErrors;
 
@@ -145,15 +150,17 @@ export const GetIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    config: "config",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<GetIndexResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      config: "config",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      name: "name",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetIndexResponse>;
 
 export type GetIndexError = DefaultErrors;
 
@@ -182,54 +189,84 @@ export const ListIndexesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListIndexesRequest>;
 
-export type ListIndexesResponse = {
-  config?: {
-    dimensions: number;
-    metric: "cosine" | "euclidean" | "dot-product";
-  } | null;
-  createdOn?: string | null;
-  description?: string | null;
-  modifiedOn?: string | null;
-  name?: string | null;
-}[];
+export interface ListIndexesResponse {
+  result: {
+    config?: {
+      dimensions: number;
+      metric: "cosine" | "euclidean" | "dot-product";
+    } | null;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    name?: string | null;
+  }[];
+}
 
-export const ListIndexesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    config: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          dimensions: Schema.Number,
-          metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
-        }),
-        Schema.Null,
-      ]),
+export const ListIndexesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      config: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            dimensions: Schema.Number,
+            metric: Schema.Literals(["cosine", "euclidean", "dot-product"]),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        config: "config",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        name: "name",
+      }),
     ),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      config: "config",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      name: "name",
-    }),
   ),
-) as unknown as Schema.Schema<ListIndexesResponse>;
+}) as unknown as Schema.Schema<ListIndexesResponse>;
 
 export type ListIndexesError = DefaultErrors;
 
-export const listIndexes: API.OperationMethod<
+export const listIndexes: API.PaginatedOperationMethod<
   ListIndexesRequest,
   ListIndexesResponse,
   ListIndexesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListIndexesRequest,
+  ) => stream.Stream<
+    ListIndexesResponse,
+    ListIndexesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListIndexesRequest) => stream.Stream<
+    {
+      config?: {
+        dimensions: number;
+        metric: "cosine" | "euclidean" | "dot-product";
+      } | null;
+      createdOn?: string | null;
+      description?: string | null;
+      modifiedOn?: string | null;
+      name?: string | null;
+    },
+    ListIndexesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListIndexesRequest,
   output: ListIndexesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateIndexRequest {
@@ -306,15 +343,19 @@ export const CreateIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    config: "config",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<CreateIndexResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      config: "config",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateIndexResponse>;
 
 export type CreateIndexError = DefaultErrors;
 
@@ -348,7 +389,9 @@ export const DeleteIndexRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteIndexResponse = string;
 
 export const DeleteIndexResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DeleteIndexResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteIndexResponse>;
 
 export type DeleteIndexError = DefaultErrors;
 
@@ -399,7 +442,9 @@ export const InfoIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.String, Schema.Null]),
   ),
   vectorCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}) as unknown as Schema.Schema<InfoIndexResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<InfoIndexResponse>;
 
 export type InfoIndexError = DefaultErrors;
 
@@ -446,7 +491,9 @@ export interface InsertIndexResponse {
 
 export const InsertIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<InsertIndexResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<InsertIndexResponse>;
 
 export type InsertIndexError = DefaultErrors;
 
@@ -527,7 +574,9 @@ export const QueryIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<QueryIndexResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<QueryIndexResponse>;
 
 export type QueryIndexError = DefaultErrors;
 
@@ -574,7 +623,9 @@ export interface UpsertIndexResponse {
 
 export const UpsertIndexResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpsertIndexResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpsertIndexResponse>;
 
 export type UpsertIndexError = DefaultErrors;
 
@@ -640,7 +691,9 @@ export const ListIndexMetadataIndexesResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListIndexMetadataIndexesResponse>;
 
 export type ListIndexMetadataIndexesError = DefaultErrors;
 
@@ -686,7 +739,9 @@ export interface CreateIndexMetadataIndexResponse {
 export const CreateIndexMetadataIndexResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateIndexMetadataIndexResponse>;
 
 export type CreateIndexMetadataIndexError = DefaultErrors;
 
@@ -729,7 +784,9 @@ export interface DeleteIndexMetadataIndexResponse {
 export const DeleteIndexMetadataIndexResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     mutationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteIndexMetadataIndexResponse>;
 
 export type DeleteIndexMetadataIndexError = DefaultErrors;
 
@@ -800,7 +857,9 @@ export const ListVectorsIndexResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     nextCursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<ListVectorsIndexResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListVectorsIndexResponse>;
 
 export type ListVectorsIndexError = DefaultErrors;
 

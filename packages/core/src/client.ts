@@ -35,9 +35,14 @@ import * as HttpClient from "effect/unstable/http/HttpClient";
 import * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as HttpClientRequest from "effect/unstable/http/HttpClientRequest";
 import { SingleShotGen } from "effect/Utils";
+import {
+  extractItems,
+  paginateWithDefaults,
+  type PaginatedTrait,
+  type PaginationStrategy,
+} from "./pagination.ts";
 import * as Traits from "./traits.ts";
 import { getPath } from "./traits.ts";
-import type { PaginatedTrait } from "./pagination.ts";
 
 // ============================================================================
 // Client Types
@@ -58,6 +63,26 @@ export type OperationMethod<I, A, E, R> = Effect.Effect<
 /**
  * A paginated operation that additionally has `.pages()` and `.items()` methods.
  */
+type PaginatedItem<A> =
+  A extends ReadonlyArray<infer Item>
+    ? Item
+    : A extends { result: ReadonlyArray<infer Item> }
+      ? Item
+      : A extends { result?: ReadonlyArray<infer Item> | null | undefined }
+        ? Item
+        : A extends { result: { items: ReadonlyArray<infer Item> } }
+          ? Item
+          : A extends {
+                result?:
+                  | {
+                      items?: ReadonlyArray<infer Item> | null | undefined;
+                    }
+                  | null
+                  | undefined;
+              }
+            ? Item
+            : unknown;
+
 export type PaginatedOperationMethod<I, A, E, R> = OperationMethod<
   I,
   A,
@@ -65,8 +90,18 @@ export type PaginatedOperationMethod<I, A, E, R> = OperationMethod<
   R
 > & {
   pages: (input: I) => Stream.Stream<A, E, R>;
-  items: (input: I) => Stream.Stream<unknown, E, R>;
+  items: (input: I) => Stream.Stream<PaginatedItem<A>, E, R>;
 };
+
+type ResolvedClientCredentials<Creds> =
+  Creds extends Effect.Effect<infer Resolved, any, any> ? Resolved : Creds;
+
+const isEffectLike = (value: unknown): value is Effect.Effect<unknown> =>
+  typeof value === "object" &&
+  value !== null &&
+  typeof (value as { pipe?: unknown }).pipe === "function" &&
+  typeof (value as { [Symbol.iterator]?: unknown })[Symbol.iterator] ===
+    "function";
 
 /**
  * Configuration for the API client factory.
@@ -79,10 +114,12 @@ export interface ClientConfig<Creds> {
   };
 
   /** Get the base URL from credentials */
-  getBaseUrl: (creds: Creds) => string;
+  getBaseUrl: (creds: ResolvedClientCredentials<Creds>) => string;
 
   /** Get authorization header(s) from credentials */
-  getAuthHeaders: (creds: Creds) => Record<string, string>;
+  getAuthHeaders: (
+    creds: ResolvedClientCredentials<Creds>,
+  ) => Record<string, string>;
 
   /** Match an error response body to a typed error.
    *  Should return Effect.fail(error) for known errors,
@@ -103,6 +140,17 @@ export interface ClientConfig<Creds> {
    * For example, Cloudflare wraps responses in `{ result: <data>, ... }`.
    */
   transformResponse?: (body: unknown) => unknown;
+
+  /**
+   * Optional transform applied to encoded request parts before building the
+   * outbound HTTP request.
+   */
+  transformRequestParts?: (input: {
+    input: Record<string, unknown>;
+    method: string;
+    pathTemplate: string;
+    parts: Traits.RequestParts;
+  }) => Traits.RequestParts;
 }
 
 /**
@@ -313,6 +361,7 @@ function buildFormData(body: Record<string, unknown>): FormData {
  */
 export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
   type _ClientErrors = HttpClientError.HttpClientError | HttpBody.HttpBodyError;
+  type ResolvedCreds = ResolvedClientCredentials<Creds>;
 
   return {
     make: <
@@ -326,6 +375,7 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
       // Support both input/output and inputSchema/outputSchema aliases
       const inputSchema = (opConfig.inputSchema ?? opConfig.input)!;
       const outputSchema = (opConfig.outputSchema ?? opConfig.output)!;
+      const responsePath = Traits.getResponsePath(outputSchema.ast);
       type Input = Schema.Schema.Type<I>;
 
       // Read HTTP trait from input schema annotations
@@ -339,19 +389,31 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
 
       const fn = (input: Input): Effect.Effect<any, any, any> =>
         Effect.gen(function* () {
-          const creds = yield* config.credentials as any;
+          const credentials = yield* config.credentials as any;
+          const creds = isEffectLike(credentials)
+            ? yield* credentials
+            : credentials;
           const client = yield* HttpClient.HttpClient;
 
-          const baseUrl = config.getBaseUrl(creds as Creds);
-          const authHeaders = config.getAuthHeaders(creds as Creds);
+          const baseUrl = config.getBaseUrl(creds as ResolvedCreds);
+          const authHeaders = config.getAuthHeaders(creds as ResolvedCreds);
 
           // Use schema-aware request builder for proper camelCase → wire_name mapping
-          const parts = Traits.buildRequestParts(
+          let parts = Traits.buildRequestParts(
             inputSchema.ast,
             httpTrait,
             input as Record<string, unknown>,
             inputSchema,
           );
+
+          if (config.transformRequestParts) {
+            parts = config.transformRequestParts({
+              input: input as Record<string, unknown>,
+              method,
+              pathTemplate: httpTrait.path,
+              parts,
+            });
+          }
 
           let request = HttpClientRequest.make(method)(
             baseUrl + parts.path,
@@ -475,6 +537,14 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
             ? config.transformResponse(rawBody)
             : rawBody;
 
+          if (responsePath) {
+            const nested = getPath(responseBody, responsePath);
+            if (nested !== undefined) {
+              responseBody =
+                responsePath === "result" && nested === null ? {} : nested;
+            }
+          }
+
           // Handle Cloudflare-style paginated responses where result is
           // { items: [...] } but the schema expects an array
           if (
@@ -521,11 +591,7 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
       const E extends readonly ApiErrorClass[] = readonly [],
     >(
       configFn: () => PaginatedOperationConfig<I, O, E>,
-      paginateFn?: (
-        baseFn: (input: any) => Effect.Effect<any, any, any>,
-        input: any,
-        pagination: PaginatedTrait,
-      ) => Stream.Stream<any, any, any>,
+      paginateFn?: PaginationStrategy,
     ): any => {
       const opConfig = configFn();
       const pagination = opConfig.pagination!;
@@ -539,36 +605,7 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
 
       type Input = Schema.Schema.Type<I>;
 
-      // Default pagination: token-based (works for Cloudflare/GCP style)
-      const defaultPaginateFn = (
-        op: (input: any) => Effect.Effect<any, any, any>,
-        input: any,
-        pag: PaginatedTrait,
-      ): Stream.Stream<any, any, any> => {
-        type State = { token: unknown; done: boolean };
-        return Stream.unfold(
-          { token: undefined, done: false } as State,
-          (state: State) =>
-            Effect.gen(function* () {
-              if (state.done) return undefined;
-              const requestPayload =
-                state.token !== undefined
-                  ? { ...input, [pag.inputToken]: state.token }
-                  : input;
-              const response = yield* op(requestPayload);
-              const nextToken = getPath(response, pag.outputToken);
-              return [
-                response,
-                {
-                  token: nextToken,
-                  done: nextToken === undefined || nextToken === null,
-                },
-              ] as const;
-            }),
-        );
-      };
-
-      const paginate = paginateFn ?? defaultPaginateFn;
+      const paginate = paginateFn ?? paginateWithDefaults;
 
       // Stream all pages
       const pagesFn = (input: Omit<Input, string>) =>
@@ -576,15 +613,9 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
 
       // Stream individual items
       const itemsFn = (input: Omit<Input, string>) =>
-        pagesFn(input).pipe(
-          Stream.flatMap((page) => {
-            if (!pagination.items) return Stream.make(page);
-            const items = getPath(page, pagination.items) as
-              | readonly unknown[]
-              | undefined;
-            return Stream.fromIterable(items ?? []);
-          }),
-        );
+        pagination.items
+          ? extractItems(pagesFn(input), pagination.items)
+          : pagesFn(input);
 
       const result = baseFn as typeof baseFn & {
         pages: typeof pagesFn;

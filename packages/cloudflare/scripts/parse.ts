@@ -48,7 +48,7 @@ interface SerializedServiceInfo {
 }
 
 interface CacheData {
-  version: 1;
+  version: 2;
   hash: string;
   timestamp: number;
   services: SerializedServiceInfo[];
@@ -122,7 +122,7 @@ const loadCache = (hash: string) =>
     const content = yield* fs.readFileString(cachePath);
     const data = JSON.parse(content) as CacheData;
 
-    if (data.version !== 1 || data.hash !== hash) {
+    if (data.version !== 2 || data.hash !== hash) {
       return undefined;
     }
 
@@ -143,7 +143,7 @@ const saveCache = (hash: string, services: ServiceInfo[]) =>
     yield* fs.makeDirectory(CACHE_DIR, { recursive: true });
 
     const data: CacheData = {
-      version: 1,
+      version: 2,
       hash,
       timestamp: Date.now(),
       services: serializeServices(services),
@@ -635,6 +635,78 @@ function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefin
   return paginationType;
 }
 
+function detectResponsePath(methodBody: ts.Block): string | undefined {
+  let responsePath: string | undefined;
+
+  const propertyAccessPath = (
+    node: ts.Node,
+    rootName: string,
+  ): string | undefined => {
+    if (ts.isIdentifier(node)) {
+      return node.text === rootName ? "" : undefined;
+    }
+    if (ts.isPropertyAccessExpression(node)) {
+      const prefix = propertyAccessPath(node.expression, rootName);
+      if (prefix === undefined) return undefined;
+      return prefix ? `${prefix}.${node.name.text}` : node.name.text;
+    }
+    return undefined;
+  };
+
+  function visit(node: ts.Node) {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === "_thenUnwrap"
+    ) {
+      const fn = node.arguments[0];
+      if (fn && ts.isArrowFunction(fn) && fn.parameters.length >= 1) {
+        const param = fn.parameters[0]?.name;
+        if (param && ts.isIdentifier(param) && fn.body) {
+          const path = propertyAccessPath(fn.body, param.text);
+          if (path) {
+            responsePath = path;
+            return;
+          }
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+
+  visit(methodBody);
+  return responsePath;
+}
+
+function detectPaginationClassName(methodBody: ts.Block): string | undefined {
+  let className: string | undefined;
+
+  function visit(node: ts.Node) {
+    if (ts.isCallExpression(node)) {
+      const expr = node.expression;
+      if (
+        ts.isPropertyAccessExpression(expr) &&
+        ts.isPropertyAccessExpression(expr.expression)
+      ) {
+        const methodName = expr.name.getText().toUpperCase();
+        if (methodName === "GETAPILIST" || methodName === "POSTAPILIST") {
+          const pageClassArg = node.arguments[1];
+          if (
+            pageClassArg &&
+            (ts.isIdentifier(pageClassArg) || ts.isPropertyAccessExpression(pageClassArg))
+          ) {
+            className = pageClassArg.getText().split(".").pop();
+          }
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+
+  visit(methodBody);
+  return className;
+}
+
 /**
  * Extract URL template from method body
  */
@@ -900,6 +972,8 @@ function parseMethod(
 
   // Detect pagination type (items wrapper vs bare array)
   const paginationType = detectPaginationType(body);
+  const paginationClassName = detectPaginationClassName(body);
+  const responsePath = detectResponsePath(body);
 
   // Find the params type from method signature
   // Also extract leading positional parameters (like `bucketName: string`)
@@ -1034,15 +1108,10 @@ function parseMethod(
     }
   }
 
-  // Parse response type
-  // For paginated (list) operations, wrap the item type in an array
+  // Parse response type. For paginated operations, the generator synthesizes the
+  // page envelope from the pagination class and item type.
   const responseType: TypeInfo = responseTypeName
-    ? isPaginated
-      ? {
-          kind: "array",
-          elementType: { kind: "object", name: responseTypeName },
-        }
-      : { kind: "object", name: responseTypeName }
+    ? { kind: "object", name: responseTypeName }
     : { kind: "unknown" };
 
   // Compute derived identifiers
@@ -1073,10 +1142,12 @@ function parseMethod(
     bodyParams,
     responseType,
     responseTypeName,
+    responsePath,
     sourceFile: sourceFile.fileName,
     registry,
     isMultipart: isMultipart || undefined,
     paginationType,
+    paginationClassName,
   };
 }
 

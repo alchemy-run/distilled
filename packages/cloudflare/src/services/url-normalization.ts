@@ -39,7 +39,9 @@ export const GetURLNormalizationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     scope: Schema.Literals(["incoming", "both", "none"]),
     type: Schema.Literals(["cloudflare", "rfc3986"]),
-  }) as unknown as Schema.Schema<GetURLNormalizationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetURLNormalizationResponse>;
 
 export type GetURLNormalizationError = DefaultErrors;
 
@@ -83,7 +85,9 @@ export const PutURLNormalizationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     scope: Schema.Literals(["incoming", "both", "none"]),
     type: Schema.Literals(["cloudflare", "rfc3986"]),
-  }) as unknown as Schema.Schema<PutURLNormalizationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutURLNormalizationResponse>;
 
 export type PutURLNormalizationError = DefaultErrors;
 

@@ -18,6 +18,7 @@ import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect, FileSystem } from "effect";
 import * as path from "node:path";
 import {
+  type ParamInfo,
   type ParsedOperation,
   type ServiceInfo,
   type TypeInfo,
@@ -28,11 +29,34 @@ import {
 } from "./model.ts";
 import { parseCode } from "./parse.ts";
 
-const annotatePureExportConst = (definition: string) =>
-  definition.replace(
-    /^export const ([^=]+?)\s*=\s*/m,
-    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
-  );
+/**
+ * Field name patterns that indicate sensitive data.
+ */
+const SENSITIVE_FIELD_PATTERNS: RegExp[] = [
+  /password/i,
+  /^secret$/i,
+  /secret[-_]?key/i,
+  /[-_]secret$/i,
+  /^client[-_]?secret$/i,
+  /^access[-_]?token$/i,
+  /^refresh[-_]?token$/i,
+  /^api[-_]?key$/i,
+  /^api[-_]?key[-_]?secret$/i,
+  /^api[-_]?token$/i,
+  /^private[-_]?key$/i,
+  /^secret[-_]?access[-_]?key$/i,
+  /^session[-_]?token$/i,
+  /^access[-_]?key[-_]?id$/i,
+  /^one[-_]?time[-_]?password$/i,
+  /^connection[-_]?string$/i,
+  /^connection[-_]?uri$/i,
+  /^plain[-_]?text$/i,
+  /^plain[-_]?text[-_]?refresh[-_]?token$/i,
+];
+
+function isSensitiveFieldName(name: string): boolean {
+  return SENSITIVE_FIELD_PATTERNS.some((pattern) => pattern.test(name));
+}
 
 /** Returns true if the string is a valid JavaScript identifier (no quoting needed). */
 function isValidIdentifier(name: string): boolean {
@@ -52,6 +76,25 @@ function withTsExtension(specifier: string): string {
   return `${specifier}.ts`;
 }
 
+const isCreateAssetUploadOperation = (op: ParsedOperation): boolean =>
+  op.operationName === "createAssetUpload" &&
+  op.urlTemplate === "/accounts/{account_id}/workers/assets/upload";
+
+const getSyntheticHeaderParams = (op: ParsedOperation): ParamInfo[] =>
+  isCreateAssetUploadOperation(op)
+    ? [
+        {
+          name: "jwtToken",
+          type: { kind: "primitive", value: "string" },
+          location: "header",
+          required: false,
+          description:
+            "Upload session JWT returned by createScriptAssetUpload. This SDK sends it as an Authorization bearer token for this request.",
+          headerName: "Authorization",
+        },
+      ]
+    : [];
+
 /**
  * Patch file structure (mirrors src/expr.ts OperationPatch).
  * Defined here to avoid cross-project imports.
@@ -65,6 +108,8 @@ interface PropertyPatch {
   type?: "string" | "number" | "boolean" | "unknown";
   /** Add literal values to an existing enum */
   addValues?: string[];
+  /** Override the wire key used in Schema.encodeKeys (e.g. rename "results" → "result" on the wire) */
+  wireKey?: string;
 }
 
 interface ResponsePatch {
@@ -89,6 +134,12 @@ interface OperationPatch {
    *   `result` is a single object (e.g., `listAbuseReports` returns `{ reports: [...] }`)
    */
   responseType?: "array" | "object";
+  /**
+   * Decode the response from a nested property path in the raw HTTP body.
+   * This mirrors upstream methods that explicitly unwrap envelopes via
+   * `_thenUnwrap((obj) => obj.result)`.
+   */
+  responsePath?: string;
   /** Request schema modifications */
   request?: ResponsePatch;
   /** Response schema modifications */
@@ -305,6 +356,9 @@ function applyPropertyPatch(
     if (patch.optional) {
       prop.required = false;
     }
+    if (patch.wireKey) {
+      prop.wireKey = patch.wireKey;
+    }
     applyPatchToTypeInfo(prop.type, patch);
   } else {
     // Need to descend further — unwrap the property type
@@ -398,6 +452,250 @@ function unwrapToArray(typeInfo: TypeInfo): TypeInfo | undefined {
     return typeInfo.values.find((v) => v.kind === "array");
   }
   return undefined;
+}
+
+function buildPaginatedResponseType(
+  itemType: TypeInfo,
+  paginationClassName: string,
+): TypeInfo {
+  const paginationKind = paginationClassName.includes("V4PagePaginationArray")
+    ? "V4PagePaginationArray"
+    : paginationClassName.includes("V4PagePagination")
+      ? "V4PagePagination"
+      : paginationClassName.includes("CursorPaginationAfter")
+        ? "CursorPaginationAfter"
+        : paginationClassName.includes("CursorLimitPagination")
+          ? "CursorLimitPagination"
+          : paginationClassName.includes("CursorPagination")
+            ? "CursorPagination"
+            : paginationClassName.includes("SinglePage")
+              ? "SinglePage"
+              : paginationClassName;
+  const arrayOfItems: TypeInfo = {
+    kind: "array",
+    elementType: JSON.parse(JSON.stringify(itemType)) as TypeInfo,
+  };
+
+  switch (paginationKind) {
+    case "V4PagePagination":
+      return {
+        kind: "object",
+        properties: [
+          {
+            name: "result",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                { name: "items", required: false, type: arrayOfItems },
+              ],
+            },
+          },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "total_count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "V4PagePaginationArray":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "total_count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "CursorPagination":
+    case "CursorLimitPagination":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "cursor",
+                  required: false,
+                  type: { kind: "primitive", value: "string" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "CursorPaginationAfter":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "cursors",
+                  required: false,
+                  type: {
+                    kind: "object",
+                    properties: [
+                      {
+                        name: "after",
+                        required: false,
+                        type: { kind: "primitive", value: "string" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "SinglePage":
+    default:
+      return {
+        kind: "object",
+        properties: [{ name: "result", required: true, type: arrayOfItems }],
+      };
+  }
+}
+
+function getPaginationTrait(
+  paginationClassName: string,
+): {
+  mode: "page" | "cursor" | "single";
+  inputToken?: string;
+  outputToken?: string;
+  items: string;
+  pageSize?: string;
+} {
+  const paginationKind = paginationClassName.includes("V4PagePaginationArray")
+    ? "V4PagePaginationArray"
+    : paginationClassName.includes("V4PagePagination")
+      ? "V4PagePagination"
+      : paginationClassName.includes("CursorPaginationAfter")
+        ? "CursorPaginationAfter"
+        : paginationClassName.includes("CursorLimitPagination")
+          ? "CursorLimitPagination"
+          : paginationClassName.includes("CursorPagination")
+            ? "CursorPagination"
+            : paginationClassName.includes("SinglePage")
+              ? "SinglePage"
+              : paginationClassName;
+
+  switch (paginationKind) {
+    case "V4PagePagination":
+      return {
+        mode: "page",
+        inputToken: "page",
+        outputToken: "resultInfo.page",
+        items: "result.items",
+        pageSize: "perPage",
+      };
+    case "V4PagePaginationArray":
+      return {
+        mode: "page",
+        inputToken: "page",
+        outputToken: "resultInfo.page",
+        items: "result",
+        pageSize: "perPage",
+      };
+    case "CursorPagination":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursor",
+        items: "result",
+        pageSize: "perPage",
+      };
+    case "CursorPaginationAfter":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursors.after",
+        items: "result",
+      };
+    case "CursorLimitPagination":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursor",
+        items: "result",
+        pageSize: "limit",
+      };
+    case "SinglePage":
+    default:
+      return { mode: "single", items: "result" };
+  }
 }
 
 /**
@@ -496,14 +794,24 @@ function typeInfoToSchema(
         let hasRenamedKey = false;
         const props = type.properties
           .map((p) => {
-            const wireName = p.name;
-            const propName = toCamelCase(wireName);
-            let propSchema = typeInfoToSchema(
-              p.type,
-              indent + "  ",
-              depth + 1,
-              optionalObjectPropsNullable,
-            );
+            const wireName = p.wireKey ?? p.name;
+            const propName = toCamelCase(p.name);
+            // Auto-detect sensitive fields by name pattern
+            const isSensitiveByName =
+              p.type.kind === "primitive" &&
+              p.type.value === "string" &&
+              isSensitiveFieldName(wireName);
+            let propSchema: string;
+            if (isSensitiveByName) {
+              propSchema = "SensitiveString";
+            } else {
+              propSchema = typeInfoToSchema(
+                p.type,
+                indent + "  ",
+                depth + 1,
+                optionalObjectPropsNullable,
+              );
+            }
             if (!p.required) {
               if (optionalObjectPropsNullable && !typeIncludesNull(p.type)) {
                 propSchema = `Schema.Union([${propSchema}, Schema.Null])`;
@@ -681,11 +989,14 @@ function generateOperationSchema(
     }
   }
 
+  const syntheticHeaderParams = getSyntheticHeaderParams(op);
+
   // Collect property names from path/query/header params to avoid duplicates with body params
   const nonBodyParamNames = new Set([
     ...op.pathParams.map((p) => toCamelCase(p.name)),
     ...op.queryParams.map((p) => toCamelCase(p.name)),
     ...op.headerParams.map((p) => toCamelCase(p.name)),
+    ...syntheticHeaderParams.map((p) => toCamelCase(p.name)),
   ]);
 
   // Filter body params to exclude those that conflict with path/query/header params
@@ -698,6 +1009,7 @@ function generateOperationSchema(
     ...op.pathParams,
     ...op.queryParams,
     ...op.headerParams,
+    ...syntheticHeaderParams,
     ...filteredBodyParams,
   ].map((param) => ({
     ...param,
@@ -713,10 +1025,12 @@ function generateOperationSchema(
     ...p,
     type: resolveTypeInfoDeep(p.type, op.registry),
   }));
-  const resolvedHeaderParams = op.headerParams.map((p) => ({
-    ...p,
-    type: resolveTypeInfoDeep(p.type, op.registry),
-  }));
+  const resolvedHeaderParams = [...op.headerParams, ...syntheticHeaderParams].map(
+    (p) => ({
+      ...p,
+      type: resolveTypeInfoDeep(p.type, op.registry),
+    }),
+  );
   const resolvedBodyParams = filteredBodyParams.map((p) => ({
     ...p,
     type: resolveTypeInfoDeep(p.type, op.registry),
@@ -832,7 +1146,9 @@ function generateOperationSchema(
     // If param is named "body", it IS the entire HTTP body (e.g. raw array),
     // not a named field within a JSON object
     if (wireName === "body") {
-      requestProps.push(`  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpBody())`);
+      requestProps.push(
+        `  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpBody())`,
+      );
     } else {
       // Always collect mapping for encodeKeys
       encodeKeysMap[propName] = wireName;
@@ -846,7 +1162,9 @@ function generateOperationSchema(
   // Convert URL template to OpenAPI style
   const openApiPath = op.urlTemplate.replace(/\{(\w+)\}/g, "{$1}");
 
-  lines.push(`export const ${requestTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
+  lines.push(
+    `export const ${requestTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`,
+  );
   if (requestProps.length > 0) {
     lines.push(requestProps.join(",\n"));
   }
@@ -877,7 +1195,9 @@ function generateOperationSchema(
   // Generate response interface and schema
   // Try to resolve the response type from the SDK registry
   let resolvedResponseType: TypeInfo | undefined;
+  let paginatedItemType: TypeInfo | undefined;
   let isTypeAlias = false;
+  const responsePath = op.responsePath ?? patch?.responsePath;
 
   if (op.responseTypeName) {
     // First check interfaces
@@ -908,19 +1228,15 @@ function generateOperationSchema(
     isTypeAlias = true;
   }
 
-  // Wrap in array for paginated (list) operations detected by the parser
-  // Skip if patch explicitly sets responseType to "object" (for APIs where result is a single object)
-  if (
-    op.responseType.kind === "array" &&
-    resolvedResponseType &&
-    resolvedResponseType.kind !== "array" &&
-    patch?.responseType !== "object"
-  ) {
-    resolvedResponseType = {
-      kind: "array",
-      elementType: resolvedResponseType,
-    };
-    isTypeAlias = true;
+  if (op.paginationClassName && resolvedResponseType) {
+    paginatedItemType = JSON.parse(
+      JSON.stringify(resolvedResponseType),
+    ) as TypeInfo;
+    resolvedResponseType = buildPaginatedResponseType(
+      resolvedResponseType,
+      op.paginationClassName,
+    );
+    isTypeAlias = false;
   }
 
   // Apply response property patches (nullable, optional, addValues, type overrides)
@@ -935,11 +1251,14 @@ function generateOperationSchema(
     // Type alias response (e.g., `type Response = string` or `type Response = unknown`)
     const tsType = typeInfoToTsType(resolvedResponseType, 0, true);
     const schema = typeInfoToSchema(resolvedResponseType, "", 0, true);
+    const responsePathPipe = responsePath
+      ? `.pipe(T.ResponsePath("${responsePath}"))`
+      : "";
 
     lines.push(`export type ${responseTypeName} = ${tsType};`);
     lines.push("");
     lines.push(
-      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ ${schema} as unknown as Schema.Schema<${responseTypeName}>;`,
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ ${schema}${responsePathPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   } else if (
@@ -960,7 +1279,9 @@ function generateOperationSchema(
           `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
         );
       }
-    lines.push(`  ${quotePropKey(propName)}${optMark}: ${tsType}${nullableSuffix};`);
+      lines.push(
+        `  ${quotePropKey(propName)}${optMark}: ${tsType}${nullableSuffix};`,
+      );
     }
     lines.push(`}`);
     lines.push("");
@@ -971,8 +1292,8 @@ function generateOperationSchema(
     const responseEncodeKeysMap: Record<string, string> = {};
     let hasRenamedResponseKey = false;
     const responseProps = resolvedResponseType.properties.map((prop) => {
-      const wireName = prop.name;
-      const propName = toCamelCase(wireName);
+      const wireName = prop.wireKey ?? prop.name;
+      const propName = toCamelCase(prop.name);
       let schema = typeInfoToSchema(prop.type, "", 0, true);
       if (!prop.required) {
         if (!typeIncludesNull(prop.type)) {
@@ -995,13 +1316,18 @@ function generateOperationSchema(
           .map(([k, v]) => `${quotePropKey(k)}: "${v}"`)
           .join(", ")} }))`
       : "";
+    const responsePathPipe = responsePath
+      ? `.pipe(T.ResponsePath("${responsePath}"))`
+      : "";
 
-    lines.push(`export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
+    lines.push(
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`,
+    );
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
     lines.push(
-      `})${responseEncodeKeysPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
+      `})${responseEncodeKeysPipe}${responsePathPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   } else {
@@ -1026,16 +1352,59 @@ function generateOperationSchema(
     `export type ${errorTypeName} =\n  | ${errorUnionMembers.join("\n  | ")};\n`,
   );
 
-  lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
-  lines.push(`  ${requestTypeName},`);
-  lines.push(`  ${responseTypeName},`);
-  lines.push(`  ${errorTypeName},`);
-  lines.push(`  Credentials | HttpClient.HttpClient`);
-  lines.push(`> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`);
-  lines.push(`  input: ${requestTypeName},`);
-  lines.push(`  output: ${responseTypeName},`);
-  lines.push(`  errors: ${errorsArray},`);
-  lines.push(`}));`);
+  if (op.paginationClassName && paginatedItemType) {
+    const pagination = getPaginationTrait(op.paginationClassName);
+    const itemTypeName = typeInfoToTsType(paginatedItemType, 0, true);
+    lines.push(`export const ${normalizedOpName}: API.PaginatedOperationMethod<`);
+    lines.push(`  ${requestTypeName},`);
+    lines.push(`  ${responseTypeName},`);
+    lines.push(`  ${errorTypeName},`);
+    lines.push(`  Credentials | HttpClient.HttpClient`);
+    lines.push(`> & {`);
+    lines.push(`  pages: (`);
+    lines.push(`    input: ${requestTypeName},`);
+    lines.push(`  ) => stream.Stream<`);
+    lines.push(`    ${responseTypeName},`);
+    lines.push(`    ${errorTypeName},`);
+    lines.push(`    Credentials | HttpClient.HttpClient`);
+    lines.push(`  >;`);
+    lines.push(`  items: (`);
+    lines.push(`    input: ${requestTypeName},`);
+    lines.push(`  ) => stream.Stream<`);
+    lines.push(`    ${itemTypeName},`);
+    lines.push(`    ${errorTypeName},`);
+    lines.push(`    Credentials | HttpClient.HttpClient`);
+    lines.push(`  >;`);
+    lines.push(`} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({`);
+    lines.push(`  input: ${requestTypeName},`);
+    lines.push(`  output: ${responseTypeName},`);
+    lines.push(`  errors: ${errorsArray},`);
+    lines.push(`  pagination: {`);
+    lines.push(`    mode: "${pagination.mode}",`);
+    if (pagination.inputToken) {
+      lines.push(`    inputToken: "${pagination.inputToken}",`);
+    }
+    if (pagination.outputToken) {
+      lines.push(`    outputToken: "${pagination.outputToken}",`);
+    }
+    lines.push(`    items: "${pagination.items}",`);
+    if (pagination.pageSize) {
+      lines.push(`    pageSize: "${pagination.pageSize}",`);
+    }
+    lines.push(`  } as const,`);
+    lines.push(`}));`);
+  } else {
+    lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
+    lines.push(`  ${requestTypeName},`);
+    lines.push(`  ${responseTypeName},`);
+    lines.push(`  ${errorTypeName},`);
+    lines.push(`  Credentials | HttpClient.HttpClient`);
+    lines.push(`> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`);
+    lines.push(`  input: ${requestTypeName},`);
+    lines.push(`  output: ${responseTypeName},`);
+    lines.push(`  errors: ${errorsArray},`);
+    lines.push(`}));`);
+  }
   lines.push("");
 
   return lines.join("\n");
@@ -1231,8 +1600,9 @@ function generateServiceFile(
   lines.push(` */`);
   lines.push("");
 
-  // Imports (Effect is conditionally included via placeholder)
+  // Imports (Effect/Stream are conditionally included via placeholders)
   lines.push(`__EFFECT_IMPORT__`);
+  lines.push(`__STREAM_IMPORT__`);
   lines.push(`import * as Schema from "effect/Schema";`);
   lines.push(
     `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
@@ -1251,6 +1621,7 @@ function generateServiceFile(
       `import { UploadableSchema } from "${withTsExtension("../schemas")}";`,
     );
   }
+  lines.push(`__SENSITIVE_IMPORT__`);
   lines.push("");
 
   // Merge all error definitions across patches and emit each class once
@@ -1299,9 +1670,29 @@ T.applyErrorMatchers(${tag}, ${JSON.stringify(matchers)});`);
   let code = lines.join("\n");
   // Only include the Effect import if it's actually used in the generated code
   if (code.includes("Effect.")) {
-    code = code.replace("__EFFECT_IMPORT__", 'import * as Effect from "effect/Effect";');
+    code = code.replace(
+      "__EFFECT_IMPORT__",
+      'import * as Effect from "effect/Effect";',
+    );
   } else {
     code = code.replace("__EFFECT_IMPORT__\n", "");
+  }
+  if (code.includes("stream.Stream<")) {
+    code = code.replace(
+      "__STREAM_IMPORT__",
+      'import * as stream from "effect/Stream";',
+    );
+  } else {
+    code = code.replace("__STREAM_IMPORT__\n", "");
+  }
+  // Only include the SensitiveString import if it's actually used in the generated code
+  if (code.includes("SensitiveString")) {
+    code = code.replace(
+      "__SENSITIVE_IMPORT__",
+      `import { SensitiveString } from "${withTsExtension("../sensitive")}";`,
+    );
+  } else {
+    code = code.replace("__SENSITIVE_IMPORT__\n", "");
   }
   return code;
 }
@@ -1314,7 +1705,7 @@ interface GenerateOptions {
 const generateCode = (services: ServiceInfo[], options: GenerateOptions) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const { outputPath, debug } = options;
+    const { outputPath } = options;
     // Create output directory
     yield* fs.makeDirectory(outputPath, { recursive: true });
 

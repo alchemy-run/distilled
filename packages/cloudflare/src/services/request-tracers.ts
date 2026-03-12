@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Trace
@@ -61,7 +62,7 @@ export const CreateTraceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Struct({
       base64: Schema.optional(Schema.String),
       json: Schema.optional(Schema.Unknown),
-      plainText: Schema.optional(Schema.String),
+      plainText: Schema.optional(SensitiveString),
     }).pipe(
       Schema.encodeKeys({
         base64: "base64",
@@ -140,9 +141,11 @@ export interface CreateTraceResponse {
 export const CreateTraceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   trace: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
-) as unknown as Schema.Schema<CreateTraceResponse>;
+})
+  .pipe(Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateTraceResponse>;
 
 export type CreateTraceError = DefaultErrors;
 

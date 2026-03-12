@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service accounts
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -188,16 +189,20 @@ export const GetAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    type: "type",
-    createdOn: "created_on",
-    managedBy: "managed_by",
-    settings: "settings",
-  }),
-) as unknown as Schema.Schema<GetAccountResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      type: "type",
+      createdOn: "created_on",
+      managedBy: "managed_by",
+      settings: "settings",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetAccountResponse>;
 
 export type GetAccountError = DefaultErrors | InvalidRoute;
 
@@ -220,86 +225,144 @@ export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   T.Http({ method: "GET", path: "/accounts" }),
 ) as unknown as Schema.Schema<ListAccountsRequest>;
 
-export type ListAccountsResponse = {
-  id: string;
-  name: string;
-  type: "standard" | "enterprise";
-  createdOn?: string | null;
-  managedBy?: {
-    parentOrgId?: string | null;
-    parentOrgName?: string | null;
-  } | null;
-  settings?: {
-    abuseContactEmail?: string | null;
-    enforceTwofactor?: boolean | null;
-  } | null;
-}[];
+export interface ListAccountsResponse {
+  result: {
+    id: string;
+    name: string;
+    type: "standard" | "enterprise";
+    createdOn?: string | null;
+    managedBy?: {
+      parentOrgId?: string | null;
+      parentOrgName?: string | null;
+    } | null;
+    settings?: {
+      abuseContactEmail?: string | null;
+      enforceTwofactor?: boolean | null;
+    } | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    name: Schema.String,
-    type: Schema.Literals(["standard", "enterprise"]),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    managedBy: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          parentOrgId: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
+export const ListAccountsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      name: Schema.String,
+      type: Schema.Literals(["standard", "enterprise"]),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      managedBy: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            parentOrgId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            parentOrgName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              parentOrgId: "parent_org_id",
+              parentOrgName: "parent_org_name",
+            }),
           ),
-          parentOrgName: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
+          Schema.Null,
+        ]),
+      ),
+      settings: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            abuseContactEmail: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            enforceTwofactor: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              abuseContactEmail: "abuse_contact_email",
+              enforceTwofactor: "enforce_twofactor",
+            }),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            parentOrgId: "parent_org_id",
-            parentOrgName: "parent_org_name",
-          }),
-        ),
-        Schema.Null,
-      ]),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        type: "type",
+        createdOn: "created_on",
+        managedBy: "managed_by",
+        settings: "settings",
+      }),
     ),
-    settings: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          abuseContactEmail: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          enforceTwofactor: Schema.optional(
-            Schema.Union([Schema.Boolean, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            abuseContactEmail: "abuse_contact_email",
-            enforceTwofactor: "enforce_twofactor",
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      type: "type",
-      createdOn: "created_on",
-      managedBy: "managed_by",
-      settings: "settings",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListAccountsResponse>;
 
 export type ListAccountsError = DefaultErrors;
 
-export const listAccounts: API.OperationMethod<
+export const listAccounts: API.PaginatedOperationMethod<
   ListAccountsRequest,
   ListAccountsResponse,
   ListAccountsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListAccountsRequest,
+  ) => stream.Stream<
+    ListAccountsResponse,
+    ListAccountsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListAccountsRequest) => stream.Stream<
+    {
+      id: string;
+      name: string;
+      type: "standard" | "enterprise";
+      createdOn?: string | null;
+      managedBy?: {
+        parentOrgId?: string | null;
+        parentOrgName?: string | null;
+      } | null;
+      settings?: {
+        abuseContactEmail?: string | null;
+        enforceTwofactor?: boolean | null;
+      } | null;
+    },
+    ListAccountsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsRequest,
   output: ListAccountsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateAccountRequest {
@@ -383,16 +446,20 @@ export const CreateAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    type: "type",
-    createdOn: "created_on",
-    managedBy: "managed_by",
-    settings: "settings",
-  }),
-) as unknown as Schema.Schema<CreateAccountResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      type: "type",
+      createdOn: "created_on",
+      managedBy: "managed_by",
+      settings: "settings",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateAccountResponse>;
 
 export type CreateAccountError =
   | DefaultErrors
@@ -514,16 +581,20 @@ export const UpdateAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    name: "name",
-    type: "type",
-    createdOn: "created_on",
-    managedBy: "managed_by",
-    settings: "settings",
-  }),
-) as unknown as Schema.Schema<UpdateAccountResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      name: "name",
+      type: "type",
+      createdOn: "created_on",
+      managedBy: "managed_by",
+      settings: "settings",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateAccountResponse>;
 
 export type UpdateAccountError =
   | DefaultErrors
@@ -568,7 +639,9 @@ export interface DeleteAccountResponse {
 
 export const DeleteAccountResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteAccountResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteAccountResponse>;
 
 export type DeleteAccountError =
   | DefaultErrors
@@ -791,184 +864,268 @@ export const ListLogAuditsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/logs/audit" }),
 ) as unknown as Schema.Schema<ListLogAuditsRequest>;
 
-export type ListLogAuditsResponse = {
-  id?: string | null;
-  account?: { id?: string | null; name?: string | null } | null;
-  action?: {
-    description?: string | null;
-    result?: string | null;
-    time?: string | null;
-    type?: string | null;
-  } | null;
-  actor?: {
+export interface ListLogAuditsResponse {
+  result: {
     id?: string | null;
-    context?:
-      | "api_key"
-      | "api_token"
-      | "dash"
-      | "oauth"
-      | "origin_ca_key"
-      | null;
-    email?: string | null;
-    ipAddress?: string | null;
-    tokenId?: string | null;
-    tokenName?: string | null;
-    type?: "account" | "cloudflare_admin" | "system" | "user" | null;
-  } | null;
-  raw?: {
-    cfRayId?: string | null;
-    method?: string | null;
-    statusCode?: number | null;
-    uri?: string | null;
-    userAgent?: string | null;
-  } | null;
-  resource?: {
-    id?: string | null;
-    product?: string | null;
-    request?: unknown | null;
-    response?: unknown | null;
-    scope?: unknown | null;
-    type?: string | null;
-  } | null;
-  zone?: { id?: string | null; name?: string | null } | null;
-}[];
+    account?: { id?: string | null; name?: string | null } | null;
+    action?: {
+      description?: string | null;
+      result?: string | null;
+      time?: string | null;
+      type?: string | null;
+    } | null;
+    actor?: {
+      id?: string | null;
+      context?:
+        | "api_key"
+        | "api_token"
+        | "dash"
+        | "oauth"
+        | "origin_ca_key"
+        | null;
+      email?: string | null;
+      ipAddress?: string | null;
+      tokenId?: string | null;
+      tokenName?: string | null;
+      type?: "account" | "cloudflare_admin" | "system" | "user" | null;
+    } | null;
+    raw?: {
+      cfRayId?: string | null;
+      method?: string | null;
+      statusCode?: number | null;
+      uri?: string | null;
+      userAgent?: string | null;
+    } | null;
+    resource?: {
+      id?: string | null;
+      product?: string | null;
+      request?: unknown | null;
+      response?: unknown | null;
+      scope?: unknown | null;
+      type?: string | null;
+    } | null;
+    zone?: { id?: string | null; name?: string | null } | null;
+  }[];
+  resultInfo: { cursors?: { after?: string | null } | null };
+}
 
-export const ListLogAuditsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    account: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          description: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          result: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          time: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    actor: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          context: Schema.optional(
-            Schema.Union([
-              Schema.Literals([
-                "api_key",
-                "api_token",
-                "dash",
-                "oauth",
-                "origin_ca_key",
-              ]),
-              Schema.Null,
-            ]),
-          ),
-          email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          ipAddress: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          tokenId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          tokenName: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          type: Schema.optional(
-            Schema.Union([
-              Schema.Literals([
-                "account",
-                "cloudflare_admin",
-                "system",
-                "user",
-              ]),
-              Schema.Null,
-            ]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            context: "context",
-            email: "email",
-            ipAddress: "ip_address",
-            tokenId: "token_id",
-            tokenName: "token_name",
-            type: "type",
+export const ListLogAuditsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      account: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    raw: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          cfRayId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          method: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          statusCode: Schema.optional(
-            Schema.Union([Schema.Number, Schema.Null]),
-          ),
-          uri: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          userAgent: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            cfRayId: "cf_ray_id",
-            method: "method",
-            statusCode: "status_code",
-            uri: "uri",
-            userAgent: "user_agent",
+          Schema.Null,
+        ]),
+      ),
+      action: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            description: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            result: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            time: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
           }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    resource: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          product: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          request: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          response: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
+          Schema.Null,
+        ]),
+      ),
+      actor: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            context: Schema.optional(
+              Schema.Union([
+                Schema.Literals([
+                  "api_key",
+                  "api_token",
+                  "dash",
+                  "oauth",
+                  "origin_ca_key",
+                ]),
+                Schema.Null,
+              ]),
+            ),
+            email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            ipAddress: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tokenId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            tokenName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([
+                Schema.Literals([
+                  "account",
+                  "cloudflare_admin",
+                  "system",
+                  "user",
+                ]),
+                Schema.Null,
+              ]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              context: "context",
+              email: "email",
+              ipAddress: "ip_address",
+              tokenId: "token_id",
+              tokenName: "token_name",
+              type: "type",
+            }),
           ),
-          scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    zone: Schema.optional(
+          Schema.Null,
+        ]),
+      ),
+      raw: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            cfRayId: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            method: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            statusCode: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
+            ),
+            uri: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            userAgent: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              cfRayId: "cf_ray_id",
+              method: "method",
+              statusCode: "status_code",
+              uri: "uri",
+              userAgent: "user_agent",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      resource: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            product: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            request: Schema.optional(
+              Schema.Union([Schema.Unknown, Schema.Null]),
+            ),
+            response: Schema.optional(
+              Schema.Union([Schema.Unknown, Schema.Null]),
+            ),
+            scope: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+            type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+      zone: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
+      ),
+    }),
+  ),
+  resultInfo: Schema.Struct({
+    cursors: Schema.optional(
       Schema.Union([
         Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          after: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
         }),
         Schema.Null,
       ]),
     ),
   }),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListLogAuditsResponse>;
 
 export type ListLogAuditsError = DefaultErrors;
 
-export const listLogAudits: API.OperationMethod<
+export const listLogAudits: API.PaginatedOperationMethod<
   ListLogAuditsRequest,
   ListLogAuditsResponse,
   ListLogAuditsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListLogAuditsRequest,
+  ) => stream.Stream<
+    ListLogAuditsResponse,
+    ListLogAuditsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListLogAuditsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      account?: { id?: string | null; name?: string | null } | null;
+      action?: {
+        description?: string | null;
+        result?: string | null;
+        time?: string | null;
+        type?: string | null;
+      } | null;
+      actor?: {
+        id?: string | null;
+        context?:
+          | "api_key"
+          | "api_token"
+          | "dash"
+          | "oauth"
+          | "origin_ca_key"
+          | null;
+        email?: string | null;
+        ipAddress?: string | null;
+        tokenId?: string | null;
+        tokenName?: string | null;
+        type?: "account" | "cloudflare_admin" | "system" | "user" | null;
+      } | null;
+      raw?: {
+        cfRayId?: string | null;
+        method?: string | null;
+        statusCode?: number | null;
+        uri?: string | null;
+        userAgent?: string | null;
+      } | null;
+      resource?: {
+        id?: string | null;
+        product?: string | null;
+        request?: unknown | null;
+        response?: unknown | null;
+        scope?: unknown | null;
+        type?: string | null;
+      } | null;
+      zone?: { id?: string | null; name?: string | null } | null;
+    },
+    ListLogAuditsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLogAuditsRequest,
   output: ListLogAuditsResponse,
   errors: [],
+  pagination: {
+    mode: "cursor",
+    inputToken: "cursor",
+    outputToken: "resultInfo.cursors.after",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1155,7 +1312,9 @@ export interface DeleteMemberResponse {
 
 export const DeleteMemberResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteMemberResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteMemberResponse>;
 
 export type DeleteMemberError = DefaultErrors | MemberNotFound | InvalidRoute;
 
@@ -1388,9 +1547,11 @@ export interface DeleteSubscriptionResponse {
 export const DeleteSubscriptionResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     subscriptionId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({ subscriptionId: "subscription_id" }),
-  ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
+  })
+    .pipe(Schema.encodeKeys({ subscriptionId: "subscription_id" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
 export type DeleteSubscriptionError =
   | DefaultErrors
@@ -1583,21 +1744,25 @@ export const CreateTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    condition: "condition",
-    expiresOn: "expires_on",
-    issuedOn: "issued_on",
-    lastUsedOn: "last_used_on",
-    modifiedOn: "modified_on",
-    name: "name",
-    notBefore: "not_before",
-    policies: "policies",
-    status: "status",
-    value: "value",
-  }),
-) as unknown as Schema.Schema<CreateTokenResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      condition: "condition",
+      expiresOn: "expires_on",
+      issuedOn: "issued_on",
+      lastUsedOn: "last_used_on",
+      modifiedOn: "modified_on",
+      name: "name",
+      notBefore: "not_before",
+      policies: "policies",
+      status: "status",
+      value: "value",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateTokenResponse>;
 
 export type CreateTokenError = DefaultErrors | InvalidRoute | InvalidTokenName;
 
@@ -1698,7 +1863,9 @@ export interface DeleteTokenResponse {
 
 export const DeleteTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteTokenResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteTokenResponse>;
 
 export type DeleteTokenError = DefaultErrors | InvalidRoute | MethodNotAllowed;
 
@@ -1740,14 +1907,18 @@ export const VerifyTokenResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   status: Schema.Literals(["active", "disabled", "expired"]),
   expiresOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   notBefore: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    status: "status",
-    expiresOn: "expires_on",
-    notBefore: "not_before",
-  }),
-) as unknown as Schema.Schema<VerifyTokenResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      status: "status",
+      expiresOn: "expires_on",
+      notBefore: "not_before",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<VerifyTokenResponse>;
 
 export type VerifyTokenError =
   | DefaultErrors
@@ -1822,6 +1993,8 @@ export const GetTokenPermissionGroupResponse =
         ]),
       ),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetTokenPermissionGroupResponse>;
 
 export type GetTokenPermissionGroupError = DefaultErrors | InvalidRoute;
@@ -1858,51 +2031,83 @@ export const ListTokenPermissionGroupsRequest =
     }),
   ) as unknown as Schema.Schema<ListTokenPermissionGroupsRequest>;
 
-export type ListTokenPermissionGroupsResponse = {
-  id?: string | null;
-  name?: string | null;
-  scopes?:
-    | (
-        | "com.cloudflare.api.account"
-        | "com.cloudflare.api.account.zone"
-        | "com.cloudflare.api.user"
-        | "com.cloudflare.edge.r2.bucket"
-      )[]
-    | null;
-}[];
+export interface ListTokenPermissionGroupsResponse {
+  result: {
+    id?: string | null;
+    name?: string | null;
+    scopes?:
+      | (
+          | "com.cloudflare.api.account"
+          | "com.cloudflare.api.account.zone"
+          | "com.cloudflare.api.user"
+          | "com.cloudflare.edge.r2.bucket"
+        )[]
+      | null;
+  }[];
+}
 
 export const ListTokenPermissionGroupsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      scopes: Schema.optional(
-        Schema.Union([
-          Schema.Array(
-            Schema.Literals([
-              "com.cloudflare.api.account",
-              "com.cloudflare.api.account.zone",
-              "com.cloudflare.api.user",
-              "com.cloudflare.edge.r2.bucket",
-            ]),
-          ),
-          Schema.Null,
-        ]),
-      ),
-    }),
-  ) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        scopes: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Literals([
+                "com.cloudflare.api.account",
+                "com.cloudflare.api.account.zone",
+                "com.cloudflare.api.user",
+                "com.cloudflare.edge.r2.bucket",
+              ]),
+            ),
+            Schema.Null,
+          ]),
+        ),
+      }),
+    ),
+  }) as unknown as Schema.Schema<ListTokenPermissionGroupsResponse>;
 
 export type ListTokenPermissionGroupsError = DefaultErrors;
 
-export const listTokenPermissionGroups: API.OperationMethod<
+export const listTokenPermissionGroups: API.PaginatedOperationMethod<
   ListTokenPermissionGroupsRequest,
   ListTokenPermissionGroupsResponse,
   ListTokenPermissionGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListTokenPermissionGroupsRequest,
+  ) => stream.Stream<
+    ListTokenPermissionGroupsResponse,
+    ListTokenPermissionGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListTokenPermissionGroupsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      name?: string | null;
+      scopes?:
+        | (
+            | "com.cloudflare.api.account"
+            | "com.cloudflare.api.account.zone"
+            | "com.cloudflare.api.user"
+            | "com.cloudflare.edge.r2.bucket"
+          )[]
+        | null;
+    },
+    ListTokenPermissionGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTokenPermissionGroupsRequest,
   output: ListTokenPermissionGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
