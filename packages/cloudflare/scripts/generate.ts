@@ -18,6 +18,7 @@ import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect, FileSystem } from "effect";
 import * as path from "node:path";
 import {
+  type ParamInfo,
   type ParsedOperation,
   type ServiceInfo,
   type TypeInfo,
@@ -45,6 +46,25 @@ function withTsExtension(specifier: string): string {
   }
   return `${specifier}.ts`;
 }
+
+const isCreateAssetUploadOperation = (op: ParsedOperation): boolean =>
+  op.operationName === "createAssetUpload" &&
+  op.urlTemplate === "/accounts/{account_id}/workers/assets/upload";
+
+const getSyntheticHeaderParams = (op: ParsedOperation): ParamInfo[] =>
+  isCreateAssetUploadOperation(op)
+    ? [
+        {
+          name: "jwtToken",
+          type: { kind: "primitive", value: "string" },
+          location: "header",
+          required: false,
+          description:
+            "Upload session JWT returned by createScriptAssetUpload. This SDK sends it as an Authorization bearer token for this request.",
+          headerName: "Authorization",
+        },
+      ]
+    : [];
 
 /**
  * Patch file structure (mirrors src/expr.ts OperationPatch).
@@ -925,11 +945,14 @@ function generateOperationSchema(
     }
   }
 
+  const syntheticHeaderParams = getSyntheticHeaderParams(op);
+
   // Collect property names from path/query/header params to avoid duplicates with body params
   const nonBodyParamNames = new Set([
     ...op.pathParams.map((p) => toCamelCase(p.name)),
     ...op.queryParams.map((p) => toCamelCase(p.name)),
     ...op.headerParams.map((p) => toCamelCase(p.name)),
+    ...syntheticHeaderParams.map((p) => toCamelCase(p.name)),
   ]);
 
   // Filter body params to exclude those that conflict with path/query/header params
@@ -942,6 +965,7 @@ function generateOperationSchema(
     ...op.pathParams,
     ...op.queryParams,
     ...op.headerParams,
+    ...syntheticHeaderParams,
     ...filteredBodyParams,
   ].map((param) => ({
     ...param,
@@ -957,10 +981,12 @@ function generateOperationSchema(
     ...p,
     type: resolveTypeInfoDeep(p.type, op.registry),
   }));
-  const resolvedHeaderParams = op.headerParams.map((p) => ({
-    ...p,
-    type: resolveTypeInfoDeep(p.type, op.registry),
-  }));
+  const resolvedHeaderParams = [...op.headerParams, ...syntheticHeaderParams].map(
+    (p) => ({
+      ...p,
+      type: resolveTypeInfoDeep(p.type, op.registry),
+    }),
+  );
   const resolvedBodyParams = filteredBodyParams.map((p) => ({
     ...p,
     type: resolveTypeInfoDeep(p.type, op.registry),

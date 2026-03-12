@@ -201,6 +201,8 @@ export interface CreateAssetUploadRequest {
   accountId: string;
   /** Query param: Whether the file contents are base64-encoded. Must be `true`. */
   base64: true;
+  /** Upload session JWT returned by createScriptAssetUpload. This SDK sends it as an Authorization bearer token for this request. */
+  jwtToken?: string;
   /** Body param: */
   body: Record<string, unknown>;
 }
@@ -209,6 +211,9 @@ export const CreateAssetUploadRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     accountId: Schema.String.pipe(T.HttpPath("account_id")),
     base64: Schema.Literal(true).pipe(T.HttpQuery("base64")),
+    jwtToken: Schema.optional(Schema.String).pipe(
+      T.HttpHeader("Authorization"),
+    ),
     body: Schema.Struct({}).pipe(T.HttpBody()),
   }).pipe(
     T.Http({

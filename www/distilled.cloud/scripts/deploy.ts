@@ -8,6 +8,7 @@ import { FetchHttpClient } from "effect/unstable/http";
 import {
   Credentials,
   DEFAULT_API_BASE_URL,
+  fromApiToken,
 } from "@distilled.cloud/cloudflare/Credentials";
 import * as Workers from "@distilled.cloud/cloudflare/workers";
 
@@ -102,14 +103,14 @@ function buildManifest(directory: string): Record<string, ManifestEntry> {
 }
 
 // =============================================================================
-// Asset Upload (using SDK with JWT-based credentials)
+// Asset Upload
 // =============================================================================
 
 /**
  * Upload a bucket of assets using Workers.createAssetUpload.
  *
- * The asset upload endpoint requires a different auth token (the upload JWT)
- * than the regular API token, so we provide a scoped Credentials layer.
+ * The asset upload endpoint requires the upload session JWT from
+ * createScriptAssetUpload, which the SDK maps to the Authorization header.
  */
 function uploadBucket(
   accountId: string,
@@ -120,7 +121,7 @@ function uploadBucket(
 ): Effect.Effect<
   string | undefined,
   Workers.CreateAssetUploadError,
-  HttpClient.HttpClient
+  HttpClient.HttpClient | Credentials
 > {
   // Build the body as Record<hash, File> with correct MIME types
   const body: Record<string, File> = {};
@@ -135,20 +136,13 @@ function uploadBucket(
       type: contentType,
     });
   }
-
-  // The asset upload endpoint uses the upload JWT (not the API token)
-  const uploadCredentials = Layer.succeed(Credentials, {
-    apiToken: uploadJwt,
-    apiBaseUrl: DEFAULT_API_BASE_URL,
-  });
-
   return Workers.createAssetUpload({
     accountId,
     base64: true,
+    jwtToken: uploadJwt,
     body,
   }).pipe(
     Effect.map((res) => res.jwt ?? undefined),
-    Effect.provide(uploadCredentials),
   );
 }
 
@@ -156,7 +150,7 @@ function uploadBucket(
 // Layers
 // =============================================================================
 
-const ApiTokenLayer = Layer.succeed(Credentials, {
+const ApiTokenLayer = fromApiToken({
   apiToken: requireEnv("CLOUDFLARE_API_TOKEN"),
   apiBaseUrl: DEFAULT_API_BASE_URL,
 });
@@ -215,7 +209,7 @@ const deploy = Effect.gen(function* () {
 
   let completionJwt = session.jwt;
 
-  // 4. Upload assets to buckets (using SDK with JWT credentials)
+  // 4. Upload assets to buckets
   const buckets = session.buckets ?? [];
   if (buckets.length === 0) {
     console.log("  No new assets to upload (all cached)");

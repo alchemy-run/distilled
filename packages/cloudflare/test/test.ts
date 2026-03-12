@@ -11,8 +11,8 @@ import { MinimumLogLevel } from "effect/References";
 import * as Scope from "effect/Scope";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as HttpClient from "effect/unstable/http/HttpClient";
-import * as Auth from "~/auth.ts";
-import * as Retry from "~/retry.ts";
+import * as Auth from "~/auth";
+import * as Retry from "~/retry";
 
 type Provided =
   | Scope.Scope
