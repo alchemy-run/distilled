@@ -2,6 +2,7 @@
   "errors": {
     "WorkflowNotFound": [{ "code": 10200 }],
     "InvalidRoute": [{ "code": 7003 }],
-    "InstanceNotFound": [{ "code": 10400 }]
+    "InstanceNotFound": [{ "code": 10400 }],
+    "InstanceCannotTerminate": [{ "code": 10401 }]
   }
 }
