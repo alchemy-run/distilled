@@ -211,9 +211,7 @@ export const listInsights: API.PaginatedOperationMethod<
     ListInsightsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListInsightsRequest,
-  ) => stream.Stream<
+  items: (input: ListInsightsRequest) => stream.Stream<
     {
       count?: number | null;
       issues?:

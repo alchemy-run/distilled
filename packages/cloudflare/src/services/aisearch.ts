@@ -694,9 +694,7 @@ export const listInstances: API.PaginatedOperationMethod<
     ListInstancesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListInstancesRequest,
-  ) => stream.Stream<
+  items: (input: ListInstancesRequest) => stream.Stream<
     {
       id: string;
       accountId: string;
@@ -4358,9 +4356,7 @@ export const listInstanceItems: API.PaginatedOperationMethod<
     ListInstanceItemsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListInstanceItemsRequest,
-  ) => stream.Stream<
+  items: (input: ListInstanceItemsRequest) => stream.Stream<
     {
       id: string;
       key: string;
@@ -4543,9 +4539,7 @@ export const listInstanceJobs: API.PaginatedOperationMethod<
     ListInstanceJobsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListInstanceJobsRequest,
-  ) => stream.Stream<
+  items: (input: ListInstanceJobsRequest) => stream.Stream<
     {
       id: string;
       source: "user" | "schedule";
@@ -4816,9 +4810,7 @@ export const listTokens: API.PaginatedOperationMethod<
     ListTokensError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListTokensRequest,
-  ) => stream.Stream<
+  items: (input: ListTokensRequest) => stream.Stream<
     {
       id: string;
       accountId: string;

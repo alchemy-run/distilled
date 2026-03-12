@@ -250,9 +250,7 @@ export const listConnections: API.PaginatedOperationMethod<
     ListConnectionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListConnectionsRequest,
-  ) => stream.Stream<
+  items: (input: ListConnectionsRequest) => stream.Stream<
     {
       id: string;
       addedAt: string;
@@ -523,9 +521,7 @@ export const listCookies: API.PaginatedOperationMethod<
     ListCookiesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListCookiesRequest,
-  ) => stream.Stream<
+  items: (input: ListCookiesRequest) => stream.Stream<
     {
       id: string;
       firstSeenAt: string;
@@ -788,9 +784,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     ListPoliciesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPoliciesRequest,
-  ) => stream.Stream<
+  items: (input: ListPoliciesRequest) => stream.Stream<
     {
       id: string;
       action: "allow" | "log";
@@ -1339,9 +1333,7 @@ export const listScripts: API.PaginatedOperationMethod<
     ListScriptsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListScriptsRequest,
-  ) => stream.Stream<
+  items: (input: ListScriptsRequest) => stream.Stream<
     {
       id: string;
       addedAt: string;

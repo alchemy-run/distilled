@@ -172,9 +172,7 @@ export const listPermissionGroups: API.PaginatedOperationMethod<
     ListPermissionGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPermissionGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListPermissionGroupsRequest) => stream.Stream<
     {
       id: string;
       meta?: { key?: string | null; value?: string | null } | null;
@@ -335,9 +333,7 @@ export const listResourceGroups: API.PaginatedOperationMethod<
     ListResourceGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListResourceGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListResourceGroupsRequest) => stream.Stream<
     {
       id: string;
       scope: { key: string; objects: { key: string }[] }[];
@@ -710,9 +706,7 @@ export const listSsos: API.PaginatedOperationMethod<
     ListSsosError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListSsosRequest,
-  ) => stream.Stream<
+  items: (input: ListSsosRequest) => stream.Stream<
     {
       id?: string | null;
       createdOn?: string | null;
@@ -1217,9 +1211,7 @@ export const listUserGroups: API.PaginatedOperationMethod<
     ListUserGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListUserGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListUserGroupsRequest) => stream.Stream<
     {
       id: string;
       createdOn: string;
@@ -1653,9 +1645,7 @@ export const listUserGroupMembers: API.PaginatedOperationMethod<
     ListUserGroupMembersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListUserGroupMembersRequest,
-  ) => stream.Stream<
+  items: (input: ListUserGroupMembersRequest) => stream.Stream<
     {
       id: string;
       email?: string | null;
@@ -1794,9 +1784,7 @@ export const updateUserGroupMember: API.PaginatedOperationMethod<
     UpdateUserGroupMemberError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: UpdateUserGroupMemberRequest,
-  ) => stream.Stream<
+  items: (input: UpdateUserGroupMemberRequest) => stream.Stream<
     {
       id: string;
       email?: string | null;

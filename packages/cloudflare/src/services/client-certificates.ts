@@ -335,9 +335,7 @@ export const listClientCertificates: API.PaginatedOperationMethod<
     ListClientCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListClientCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListClientCertificatesRequest) => stream.Stream<
     {
       id?: string | null;
       certificate?: string | null;

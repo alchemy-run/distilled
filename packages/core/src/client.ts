@@ -67,18 +67,21 @@ type PaginatedItem<A> =
   A extends ReadonlyArray<infer Item>
     ? Item
     : A extends { result: ReadonlyArray<infer Item> }
-    ? Item
-    : A extends { result?: ReadonlyArray<infer Item> | null | undefined }
       ? Item
-      : A extends { result: { items: ReadonlyArray<infer Item> } }
+      : A extends { result?: ReadonlyArray<infer Item> | null | undefined }
         ? Item
-        : A extends {
-              result?: {
-                items?: ReadonlyArray<infer Item> | null | undefined;
-              } | null | undefined;
-            }
+        : A extends { result: { items: ReadonlyArray<infer Item> } }
           ? Item
-          : unknown;
+          : A extends {
+                result?:
+                  | {
+                      items?: ReadonlyArray<infer Item> | null | undefined;
+                    }
+                  | null
+                  | undefined;
+              }
+            ? Item
+            : unknown;
 
 export type PaginatedOperationMethod<I, A, E, R> = OperationMethod<
   I,

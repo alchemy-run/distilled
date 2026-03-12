@@ -82,9 +82,7 @@ export const getCustomNameserver: API.PaginatedOperationMethod<
     GetCustomNameserverError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetCustomNameserverRequest,
-  ) => stream.Stream<
+  items: (input: GetCustomNameserverRequest) => stream.Stream<
     {
       dnsRecords: { type?: "A" | "AAAA" | null; value?: string | null }[];
       nsName: string;

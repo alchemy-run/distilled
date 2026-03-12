@@ -473,9 +473,7 @@ export const listHealthchecks: API.PaginatedOperationMethod<
     ListHealthchecksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListHealthchecksRequest,
-  ) => stream.Stream<
+  items: (input: ListHealthchecksRequest) => stream.Stream<
     {
       id?: string | null;
       address?: string | null;

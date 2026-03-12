@@ -334,9 +334,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     ListAccountsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccountsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccountsRequest) => stream.Stream<
     {
       id: string;
       name: string;
@@ -1073,9 +1071,7 @@ export const listLogAudits: API.PaginatedOperationMethod<
     ListLogAuditsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListLogAuditsRequest,
-  ) => stream.Stream<
+  items: (input: ListLogAuditsRequest) => stream.Stream<
     {
       id?: string | null;
       account?: { id?: string | null; name?: string | null } | null;
@@ -2088,9 +2084,7 @@ export const listTokenPermissionGroups: API.PaginatedOperationMethod<
     ListTokenPermissionGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListTokenPermissionGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListTokenPermissionGroupsRequest) => stream.Stream<
     {
       id?: string | null;
       name?: string | null;

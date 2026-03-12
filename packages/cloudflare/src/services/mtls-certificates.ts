@@ -238,9 +238,7 @@ export const listMtlsCertificates: API.PaginatedOperationMethod<
     ListMtlsCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListMtlsCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListMtlsCertificatesRequest) => stream.Stream<
     {
       id?: string | null;
       ca?: boolean | null;

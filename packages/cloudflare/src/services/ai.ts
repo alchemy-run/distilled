@@ -550,9 +550,7 @@ export const listFinetunePublics: API.PaginatedOperationMethod<
     ListFinetunePublicsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListFinetunePublicsRequest,
-  ) => stream.Stream<
+  items: (input: ListFinetunePublicsRequest) => stream.Stream<
     {
       id: string;
       createdAt: string;
@@ -881,9 +879,7 @@ export const transformToMarkdown: API.PaginatedOperationMethod<
     TransformToMarkdownError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: TransformToMarkdownRequest,
-  ) => stream.Stream<
+  items: (input: TransformToMarkdownRequest) => stream.Stream<
     {
       data: string;
       format: string;

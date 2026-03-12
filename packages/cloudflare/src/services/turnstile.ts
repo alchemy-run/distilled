@@ -325,9 +325,7 @@ export const listWidgets: API.PaginatedOperationMethod<
     ListWidgetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListWidgetsRequest,
-  ) => stream.Stream<
+  items: (input: ListWidgetsRequest) => stream.Stream<
     {
       botFightMode: boolean;
       clearanceLevel:

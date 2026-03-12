@@ -174,9 +174,7 @@ export const listDispatchNamespaces: API.PaginatedOperationMethod<
     ListDispatchNamespacesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDispatchNamespacesRequest,
-  ) => stream.Stream<
+  items: (input: ListDispatchNamespacesRequest) => stream.Stream<
     {
       createdBy?: string | null;
       createdOn?: string | null;
@@ -1811,9 +1809,7 @@ export const getDispatchNamespaceScriptBinding: API.PaginatedOperationMethod<
     GetDispatchNamespaceScriptBindingError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetDispatchNamespaceScriptBindingRequest,
-  ) => stream.Stream<
+  items: (input: GetDispatchNamespaceScriptBindingRequest) => stream.Stream<
     | { name: string; type: "ai" }
     | { dataset: string; name: string; type: "analytics_engine" }
     | { name: string; type: "assets" }
@@ -2193,9 +2189,7 @@ export const listDispatchNamespaceScriptSecrets: API.PaginatedOperationMethod<
     ListDispatchNamespaceScriptSecretsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDispatchNamespaceScriptSecretsRequest,
-  ) => stream.Stream<
+  items: (input: ListDispatchNamespaceScriptSecretsRequest) => stream.Stream<
     | { name: string; type: "secret_text" }
     | {
         algorithm: unknown;

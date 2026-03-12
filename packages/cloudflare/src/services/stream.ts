@@ -73,9 +73,7 @@ export const getAudioTrack: API.PaginatedOperationMethod<
     GetAudioTrackError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetAudioTrackRequest,
-  ) => stream.Stream<
+  items: (input: GetAudioTrackRequest) => stream.Stream<
     {
       default?: boolean | null;
       label?: string | null;
@@ -321,9 +319,7 @@ export const getCaption: API.PaginatedOperationMethod<
     GetCaptionError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetCaptionRequest,
-  ) => stream.Stream<
+  items: (input: GetCaptionRequest) => stream.Stream<
     {
       generated?: boolean | null;
       label?: string | null;
@@ -1601,9 +1597,7 @@ export const listLiveInputOutputs: API.PaginatedOperationMethod<
     ListLiveInputOutputsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListLiveInputOutputsRequest,
-  ) => stream.Stream<
+  items: (input: ListLiveInputOutputsRequest) => stream.Stream<
     {
       enabled?: boolean | null;
       streamKey?: string | null;
@@ -2150,9 +2144,7 @@ export const listStreams: API.PaginatedOperationMethod<
     ListStreamsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListStreamsRequest,
-  ) => stream.Stream<
+  items: (input: ListStreamsRequest) => stream.Stream<
     {
       allowedOrigins?: string[] | null;
       created?: string | null;
@@ -2760,9 +2752,7 @@ export const listWatermarks: API.PaginatedOperationMethod<
     ListWatermarksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListWatermarksRequest,
-  ) => stream.Stream<
+  items: (input: ListWatermarksRequest) => stream.Stream<
     {
       created?: string | null;
       downloadedFrom?: string | null;

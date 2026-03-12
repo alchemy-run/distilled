@@ -56,14 +56,15 @@ export type PaginationStrategy = <
   pagination: PaginatedTrait,
 ) => Stream.Stream<Output, E, R>;
 
-const missingPaginationConfig = (kind: string) =>
-  Stream.die(new Error(kind));
+const missingPaginationConfig = (kind: string) => Stream.die(new Error(kind));
 
 /**
  * Creates a stream for single-shot list endpoints that still expose the paginated API surface.
  */
 export const paginateSingle: PaginationStrategy = (operation, input) =>
-  Stream.make(input).pipe(Stream.mapEffect((requestPayload) => operation(requestPayload)));
+  Stream.make(input).pipe(
+    Stream.mapEffect((requestPayload) => operation(requestPayload)),
+  );
 
 // ============================================================================
 // Page-based Pagination (PlanetScale style)
@@ -192,10 +193,7 @@ export const paginateCursor = <
       return [response, nextState] as const;
     });
 
-  return Stream.unfold(
-    { cursor: startCursor, done: false } as State,
-    unfoldFn,
-  );
+  return Stream.unfold({ cursor: startCursor, done: false } as State, unfoldFn);
 };
 
 // ============================================================================

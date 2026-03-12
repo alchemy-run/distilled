@@ -908,9 +908,7 @@ export const listLoadBalancers: API.PaginatedOperationMethod<
     ListLoadBalancersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListLoadBalancersRequest,
-  ) => stream.Stream<
+  items: (input: ListLoadBalancersRequest) => stream.Stream<
     {
       id?: string | null;
       adaptiveRouting?: { failoverAcrossPools?: boolean | null } | null;
@@ -3458,9 +3456,7 @@ export const listMonitors: API.PaginatedOperationMethod<
     ListMonitorsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListMonitorsRequest,
-  ) => stream.Stream<
+  items: (input: ListMonitorsRequest) => stream.Stream<
     {
       id?: string | null;
       allowInsecure?: boolean | null;
@@ -4308,9 +4304,7 @@ export const listMonitorGroups: API.PaginatedOperationMethod<
     ListMonitorGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListMonitorGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListMonitorGroupsRequest) => stream.Stream<
     {
       id: string;
       description: string;
@@ -4974,9 +4968,7 @@ export const getMonitorReference: API.PaginatedOperationMethod<
     GetMonitorReferenceError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetMonitorReferenceRequest,
-  ) => stream.Stream<
+  items: (input: GetMonitorReferenceRequest) => stream.Stream<
     {
       referenceType?: "*" | "referral" | "referrer" | null;
       resourceId?: string | null;
@@ -5317,9 +5309,7 @@ export const listPools: API.PaginatedOperationMethod<
     ListPoolsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPoolsRequest,
-  ) => stream.Stream<
+  items: (input: ListPoolsRequest) => stream.Stream<
     {
       id?: string | null;
       checkRegions?:
@@ -6312,9 +6302,7 @@ export const bulkPatchPools: API.PaginatedOperationMethod<
     BulkPatchPoolsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: BulkPatchPoolsRequest,
-  ) => stream.Stream<
+  items: (input: BulkPatchPoolsRequest) => stream.Stream<
     {
       id?: string | null;
       checkRegions?:
@@ -6663,9 +6651,7 @@ export const getPoolReference: API.PaginatedOperationMethod<
     GetPoolReferenceError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetPoolReferenceRequest,
-  ) => stream.Stream<
+  items: (input: GetPoolReferenceRequest) => stream.Stream<
     {
       referenceType?: "*" | "referral" | "referrer" | null;
       resourceId?: string | null;
@@ -6978,9 +6964,7 @@ export const listSearches: API.PaginatedOperationMethod<
     ListSearchesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListSearchesRequest,
-  ) => stream.Stream<
+  items: (input: ListSearchesRequest) => stream.Stream<
     {
       resources?:
         | {

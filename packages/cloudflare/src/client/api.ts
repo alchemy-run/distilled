@@ -323,7 +323,11 @@ const _API = makeAPI({
   ParseError: CloudflareDecodeError as any,
 });
 
-const paginatePageByItems: PaginationStrategy = (operation, input, pagination) => {
+const paginatePageByItems: PaginationStrategy = (
+  operation,
+  input,
+  pagination,
+) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
     return Stream.die(
@@ -343,7 +347,9 @@ const paginatePageByItems: PaginationStrategy = (operation, input, pagination) =
       const response = yield* operation(requestPayload);
       const items =
         pagination.items !== undefined
-          ? (getPath(response, pagination.items) as readonly unknown[] | undefined)
+          ? (getPath(response, pagination.items) as
+              | readonly unknown[]
+              | undefined)
           : undefined;
 
       return [
@@ -357,7 +363,11 @@ const paginatePageByItems: PaginationStrategy = (operation, input, pagination) =
   );
 };
 
-const cloudflarePaginate: PaginationStrategy = (operation, input, pagination) => {
+const cloudflarePaginate: PaginationStrategy = (
+  operation,
+  input,
+  pagination,
+) => {
   switch (pagination.mode) {
     case "single":
       return paginateSingle(operation, input, pagination);
@@ -372,5 +382,11 @@ const cloudflarePaginate: PaginationStrategy = (operation, input, pagination) =>
 };
 
 export const make = _API.make;
-export const makePaginated = ((configFn: any, paginateFn?: PaginationStrategy) =>
-  _API.makePaginated(configFn, paginateFn ?? cloudflarePaginate)) as typeof _API.makePaginated;
+export const makePaginated = ((
+  configFn: any,
+  paginateFn?: PaginationStrategy,
+) =>
+  _API.makePaginated(
+    configFn,
+    paginateFn ?? cloudflarePaginate,
+  )) as typeof _API.makePaginated;

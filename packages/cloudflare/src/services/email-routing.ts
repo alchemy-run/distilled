@@ -158,9 +158,7 @@ export const listAddresses: API.PaginatedOperationMethod<
     ListAddressesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAddressesRequest,
-  ) => stream.Stream<
+  items: (input: ListAddressesRequest) => stream.Stream<
     {
       id?: string | null;
       created?: string | null;
@@ -735,9 +733,7 @@ export const deleteDns: API.PaginatedOperationMethod<
     DeleteDnsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: DeleteDnsRequest,
-  ) => stream.Stream<
+  items: (input: DeleteDnsRequest) => stream.Stream<
     {
       content?: string | null;
       name?: string | null;
@@ -1264,9 +1260,7 @@ export const listRules: API.PaginatedOperationMethod<
     ListRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRulesRequest,
-  ) => stream.Stream<
+  items: (input: ListRulesRequest) => stream.Stream<
     {
       id?: string | null;
       actions?:

@@ -121,9 +121,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
     ListNamespacesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListNamespacesRequest,
-  ) => stream.Stream<
+  items: (input: ListNamespacesRequest) => stream.Stream<
     {
       id?: string | null;
       class?: string | null;

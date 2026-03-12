@@ -89,9 +89,7 @@ export const listRules: API.PaginatedOperationMethod<
     ListRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRulesRequest,
-  ) => stream.Stream<
+  items: (input: ListRulesRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -222,9 +220,7 @@ export const putRule: API.PaginatedOperationMethod<
     PutRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: PutRuleRequest,
-  ) => stream.Stream<
+  items: (input: PutRuleRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;

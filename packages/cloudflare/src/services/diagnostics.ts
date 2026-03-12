@@ -625,9 +625,7 @@ export const createTraceroute: API.PaginatedOperationMethod<
     CreateTracerouteError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: CreateTracerouteRequest,
-  ) => stream.Stream<
+  items: (input: CreateTracerouteRequest) => stream.Stream<
     {
       colos?:
         | {

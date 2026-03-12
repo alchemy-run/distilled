@@ -313,9 +313,7 @@ export const listEvents: API.PaginatedOperationMethod<
     ListEventsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListEventsRequest,
-  ) => stream.Stream<
+  items: (input: ListEventsRequest) => stream.Stream<
     {
       id?: string | null;
       createdOn?: string | null;
@@ -1312,9 +1310,7 @@ export const getRule: API.PaginatedOperationMethod<
     GetRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetRuleRequest,
-  ) => stream.Stream<
+  items: (input: GetRuleRequest) => stream.Stream<
     {
       id?: string | null;
       action?: "bypass_waiting_room" | null;
@@ -1419,9 +1415,7 @@ export const createRule: API.PaginatedOperationMethod<
     CreateRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: CreateRuleRequest,
-  ) => stream.Stream<
+  items: (input: CreateRuleRequest) => stream.Stream<
     {
       id?: string | null;
       action?: "bypass_waiting_room" | null;
@@ -1528,9 +1522,7 @@ export const updateRule: API.PaginatedOperationMethod<
     UpdateRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: UpdateRuleRequest,
-  ) => stream.Stream<
+  items: (input: UpdateRuleRequest) => stream.Stream<
     {
       id?: string | null;
       action?: "bypass_waiting_room" | null;
@@ -1651,9 +1643,7 @@ export const patchRule: API.PaginatedOperationMethod<
     PatchRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: PatchRuleRequest,
-  ) => stream.Stream<
+  items: (input: PatchRuleRequest) => stream.Stream<
     {
       id?: string | null;
       action?: "bypass_waiting_room" | null;
@@ -1747,9 +1737,7 @@ export const deleteRule: API.PaginatedOperationMethod<
     DeleteRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: DeleteRuleRequest,
-  ) => stream.Stream<
+  items: (input: DeleteRuleRequest) => stream.Stream<
     {
       id?: string | null;
       action?: "bypass_waiting_room" | null;
@@ -2603,9 +2591,7 @@ export const listWaitingRooms: API.PaginatedOperationMethod<
     ListWaitingRoomsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListWaitingRoomsRequest,
-  ) => stream.Stream<
+  items: (input: ListWaitingRoomsRequest) => stream.Stream<
     {
       id?: string | null;
       additionalRoutes?:

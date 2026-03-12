@@ -113,9 +113,7 @@ export const listAccessAiControlMcpPortals: API.PaginatedOperationMethod<
     ListAccessAiControlMcpPortalsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessAiControlMcpPortalsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessAiControlMcpPortalsRequest) => stream.Stream<
     {
       id: string;
       hostname: string;
@@ -715,9 +713,7 @@ export const listAccessAiControlMcpServers: API.PaginatedOperationMethod<
     ListAccessAiControlMcpServersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessAiControlMcpServersRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessAiControlMcpServersRequest) => stream.Stream<
     {
       id: string;
       authType: "oauth" | "bearer" | "unauthenticated";
@@ -4778,9 +4774,7 @@ export const listAccessApplications: API.PaginatedOperationMethod<
     ListAccessApplicationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessApplicationsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessApplicationsRequest) => stream.Stream<
     | {
         domain: string;
         type:
@@ -11448,9 +11442,7 @@ export const listAccessApplicationPolicies: API.PaginatedOperationMethod<
     ListAccessApplicationPoliciesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessApplicationPoliciesRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessApplicationPoliciesRequest) => stream.Stream<
     {
       id?: string | null;
       approvalGroups?: unknown[] | null;
@@ -13704,9 +13696,7 @@ export const listAccessApplicationPolicyTestUsers: API.PaginatedOperationMethod<
     ListAccessApplicationPolicyTestUsersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessApplicationPolicyTestUsersRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessApplicationPolicyTestUsersRequest) => stream.Stream<
     {
       id?: string | null;
       email?: string | null;
@@ -14117,9 +14107,7 @@ export const listAccessBookmarks: API.PaginatedOperationMethod<
     ListAccessBookmarksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessBookmarksRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessBookmarksRequest) => stream.Stream<
     {
       id?: string | null;
       appLauncherVisible?: boolean | null;
@@ -14466,9 +14454,7 @@ export const listAccessCertificates: API.PaginatedOperationMethod<
     ListAccessCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessCertificatesRequest) => stream.Stream<
     {
       id?: string | null;
       associatedHostnames?: string[] | null;
@@ -14743,9 +14729,7 @@ export const getAccessCertificateSetting: API.PaginatedOperationMethod<
     GetAccessCertificateSettingError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetAccessCertificateSettingRequest,
-  ) => stream.Stream<
+  items: (input: GetAccessCertificateSettingRequest) => stream.Stream<
     {
       chinaNetwork: boolean;
       clientCertificateForwarding: boolean;
@@ -14841,9 +14825,7 @@ export const putAccessCertificateSetting: API.PaginatedOperationMethod<
     PutAccessCertificateSettingError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: PutAccessCertificateSettingRequest,
-  ) => stream.Stream<
+  items: (input: PutAccessCertificateSettingRequest) => stream.Stream<
     {
       chinaNetwork: boolean;
       clientCertificateForwarding: boolean;
@@ -14996,9 +14978,7 @@ export const listAccessCustomPages: API.PaginatedOperationMethod<
     ListAccessCustomPagesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessCustomPagesRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessCustomPagesRequest) => stream.Stream<
     {
       name: string;
       type: "identity_denied" | "forbidden";
@@ -15498,9 +15478,7 @@ export const listAccessGroups: API.PaginatedOperationMethod<
     ListAccessGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessGroupsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessGroupsRequest) => stream.Stream<
     {
       id?: string | null;
       exclude?: unknown[] | null;
@@ -16084,9 +16062,7 @@ export const listAccessInfrastructureTargets: API.PaginatedOperationMethod<
     ListAccessInfrastructureTargetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessInfrastructureTargetsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessInfrastructureTargetsRequest) => stream.Stream<
     {
       id: string;
       createdAt: string;
@@ -16867,9 +16843,7 @@ export const listAccessLogScimUpdates: API.PaginatedOperationMethod<
     ListAccessLogScimUpdatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessLogScimUpdatesRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessLogScimUpdatesRequest) => stream.Stream<
     {
       cfResourceId?: string | null;
       errorDescription?: string | null;
@@ -17221,9 +17195,7 @@ export const listAccessPolicies: API.PaginatedOperationMethod<
     ListAccessPoliciesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessPoliciesRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessPoliciesRequest) => stream.Stream<
     {
       id?: string | null;
       appCount?: number | null;
@@ -17880,9 +17852,7 @@ export const listAccessServiceTokens: API.PaginatedOperationMethod<
     ListAccessServiceTokensError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessServiceTokensRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessServiceTokensRequest) => stream.Stream<
     {
       id?: string | null;
       clientId?: string | null;
@@ -18640,9 +18610,7 @@ export const listAccessUsers: API.PaginatedOperationMethod<
     ListAccessUsersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessUsersRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessUsersRequest) => stream.Stream<
     {
       id?: string | null;
       accessSeat?: boolean | null;
@@ -18902,9 +18870,7 @@ export const listAccessUserActiveSessions: API.PaginatedOperationMethod<
     ListAccessUserActiveSessionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAccessUserActiveSessionsRequest,
-  ) => stream.Stream<
+  items: (input: ListAccessUserActiveSessionsRequest) => stream.Stream<
     {
       expiration?: number | null;
       metadata?: {
@@ -19554,9 +19520,7 @@ export const listDevices: API.PaginatedOperationMethod<
     ListDevicesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDevicesRequest,
-  ) => stream.Stream<
+  items: (input: ListDevicesRequest) => stream.Stream<
     {
       id?: string | null;
       created?: string | null;
@@ -20007,9 +19971,7 @@ export const listDeviceDevices: API.PaginatedOperationMethod<
     ListDeviceDevicesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDeviceDevicesRequest,
-  ) => stream.Stream<
+  items: (input: ListDeviceDevicesRequest) => stream.Stream<
     {
       id: string;
       activeRegistrations: number;
@@ -20324,9 +20286,7 @@ export const listDeviceDexTests: API.PaginatedOperationMethod<
     ListDeviceDexTestsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDeviceDexTestsRequest,
-  ) => stream.Stream<
+  items: (input: ListDeviceDexTestsRequest) => stream.Stream<
     {
       data: {
         host?: string | null;
@@ -21362,9 +21322,7 @@ export const listDeviceNetworks: API.PaginatedOperationMethod<
     ListDeviceNetworksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDeviceNetworksRequest,
-  ) => stream.Stream<
+  items: (input: ListDeviceNetworksRequest) => stream.Stream<
     {
       config?: { tlsSockaddr: string; sha256?: string | null } | null;
       name?: string | null;
@@ -21625,9 +21583,7 @@ export const deleteDeviceNetwork: API.PaginatedOperationMethod<
     DeleteDeviceNetworkError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: DeleteDeviceNetworkRequest,
-  ) => stream.Stream<
+  items: (input: DeleteDeviceNetworkRequest) => stream.Stream<
     {
       config?: { tlsSockaddr: string; sha256?: string | null } | null;
       name?: string | null;
@@ -24199,9 +24155,7 @@ export const listDevicePostures: API.PaginatedOperationMethod<
     ListDevicePosturesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDevicePosturesRequest,
-  ) => stream.Stream<
+  items: (input: ListDevicePosturesRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -26685,9 +26639,7 @@ export const listDevicePostureIntegrations: API.PaginatedOperationMethod<
     ListDevicePostureIntegrationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDevicePostureIntegrationsRequest,
-  ) => stream.Stream<
+  items: (input: ListDevicePostureIntegrationsRequest) => stream.Stream<
     {
       id?: string | null;
       config?: { apiUrl: string; authUrl: string; clientId: string } | null;
@@ -27586,9 +27538,7 @@ export const listDeviceRegistrations: API.PaginatedOperationMethod<
     ListDeviceRegistrationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDeviceRegistrationsRequest,
-  ) => stream.Stream<
+  items: (input: ListDeviceRegistrationsRequest) => stream.Stream<
     {
       id: string;
       createdAt: string;
@@ -28633,9 +28583,7 @@ export const listDexCommands: API.PaginatedOperationMethod<
     ListDexCommandsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDexCommandsRequest,
-  ) => stream.Stream<
+  items: (input: ListDexCommandsRequest) => stream.Stream<
     {
       commands?:
         | {
@@ -28928,9 +28876,7 @@ export const listDexCommandDevices: API.PaginatedOperationMethod<
     ListDexCommandDevicesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDexCommandDevicesRequest,
-  ) => stream.Stream<
+  items: (input: ListDexCommandDevicesRequest) => stream.Stream<
     {
       devices?:
         | {
@@ -29734,9 +29680,7 @@ export const listDexFleetStatusDevices: API.PaginatedOperationMethod<
     ListDexFleetStatusDevicesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDexFleetStatusDevicesRequest,
-  ) => stream.Stream<
+  items: (input: ListDexFleetStatusDevicesRequest) => stream.Stream<
     {
       colo: string;
       deviceId: string;
@@ -30464,9 +30408,7 @@ export const listDexTests: API.PaginatedOperationMethod<
     ListDexTestsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDexTestsRequest,
-  ) => stream.Stream<
+  items: (input: ListDexTestsRequest) => stream.Stream<
     {
       overviewMetrics: {
         testsTotal: number;
@@ -31502,9 +31444,7 @@ export const listDlpDatasets: API.PaginatedOperationMethod<
     ListDlpDatasetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpDatasetsRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpDatasetsRequest) => stream.Stream<
     {
       id: string;
       columns: {
@@ -32331,9 +32271,7 @@ export const createDlpDatasetVersion: API.PaginatedOperationMethod<
     CreateDlpDatasetVersionError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: CreateDlpDatasetVersionRequest,
-  ) => stream.Stream<
+  items: (input: CreateDlpDatasetVersionRequest) => stream.Stream<
     {
       entryId: string;
       headerName: string;
@@ -32767,9 +32705,7 @@ export const listDlpEmailRules: API.PaginatedOperationMethod<
     ListDlpEmailRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpEmailRulesRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpEmailRulesRequest) => stream.Stream<
     {
       action: { action: "Block"; message?: string | null };
       conditions: {
@@ -34051,9 +33987,7 @@ export const listDlpEntries: API.PaginatedOperationMethod<
     ListDlpEntriesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpEntriesRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpEntriesRequest) => stream.Stream<
     | {
         id: string;
         createdAt: string;
@@ -35375,9 +35309,7 @@ export const listDlpEntryCustoms: API.PaginatedOperationMethod<
     ListDlpEntryCustomsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpEntryCustomsRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpEntryCustomsRequest) => stream.Stream<
     | {
         id: string;
         createdAt: string;
@@ -36523,9 +36455,7 @@ export const listDlpEntryIntegrations: API.PaginatedOperationMethod<
     ListDlpEntryIntegrationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpEntryIntegrationsRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpEntryIntegrationsRequest) => stream.Stream<
     | {
         id: string;
         createdAt: string;
@@ -37658,9 +37588,7 @@ export const listDlpEntryPredefineds: API.PaginatedOperationMethod<
     ListDlpEntryPredefinedsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpEntryPredefinedsRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpEntryPredefinedsRequest) => stream.Stream<
     | {
         id: string;
         createdAt: string;
@@ -39845,9 +39773,7 @@ export const listDlpProfiles: API.PaginatedOperationMethod<
     ListDlpProfilesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDlpProfilesRequest,
-  ) => stream.Stream<
+  items: (input: ListDlpProfilesRequest) => stream.Stream<
     | {
         id: string;
         allowedMatchCount: number;
@@ -44206,9 +44132,7 @@ export const listGatewayAppTypes: API.PaginatedOperationMethod<
     ListGatewayAppTypesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayAppTypesRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayAppTypesRequest) => stream.Stream<
     | {
         id?: number | null;
         applicationTypeId?: number | null;
@@ -44475,9 +44399,7 @@ export const listGatewayCategories: API.PaginatedOperationMethod<
     ListGatewayCategoriesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayCategoriesRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayCategoriesRequest) => stream.Stream<
     {
       id?: number | null;
       beta?: boolean | null;
@@ -44735,9 +44657,7 @@ export const listGatewayCertificates: API.PaginatedOperationMethod<
     ListGatewayCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayCertificatesRequest) => stream.Stream<
     {
       id?: string | null;
       bindingStatus?:
@@ -47343,9 +47263,7 @@ export const listGatewayLists: API.PaginatedOperationMethod<
     ListGatewayListsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayListsRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayListsRequest) => stream.Stream<
     {
       id?: string | null;
       count?: number | null;
@@ -48287,9 +48205,7 @@ export const listGatewayLocations: API.PaginatedOperationMethod<
     ListGatewayLocationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayLocationsRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayLocationsRequest) => stream.Stream<
     {
       id?: string | null;
       clientDefault?: boolean | null;
@@ -49411,9 +49327,7 @@ export const listGatewayProxyEndpoints: API.PaginatedOperationMethod<
     ListGatewayProxyEndpointsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayProxyEndpointsRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayProxyEndpointsRequest) => stream.Stream<
     | {
         ips: string[];
         name: string;
@@ -50955,9 +50869,7 @@ export const listGatewayRules: API.PaginatedOperationMethod<
     ListGatewayRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListGatewayRulesRequest,
-  ) => stream.Stream<
+  items: (input: ListGatewayRulesRequest) => stream.Stream<
     {
       action:
         | "on"
@@ -55161,9 +55073,7 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     ListIdentityProvidersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListIdentityProvidersRequest,
-  ) => stream.Stream<
+  items: (input: ListIdentityProvidersRequest) => stream.Stream<
     | {
         config: {
           claims?: string[] | null;
@@ -57791,9 +57701,7 @@ export const listNetworkHostnameRoutes: API.PaginatedOperationMethod<
     ListNetworkHostnameRoutesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListNetworkHostnameRoutesRequest,
-  ) => stream.Stream<
+  items: (input: ListNetworkHostnameRoutesRequest) => stream.Stream<
     {
       id?: string | null;
       comment?: string | null;
@@ -58312,9 +58220,7 @@ export const listNetworkRoutes: API.PaginatedOperationMethod<
     ListNetworkRoutesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListNetworkRoutesRequest,
-  ) => stream.Stream<
+  items: (input: ListNetworkRoutesRequest) => stream.Stream<
     {
       id?: string | null;
       comment?: string | null;
@@ -58935,9 +58841,7 @@ export const listNetworkSubnets: API.PaginatedOperationMethod<
     ListNetworkSubnetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListNetworkSubnetsRequest,
-  ) => stream.Stream<
+  items: (input: ListNetworkSubnetsRequest) => stream.Stream<
     {
       id?: string | null;
       comment?: string | null;
@@ -59212,9 +59116,7 @@ export const listNetworkVirtualNetworks: API.PaginatedOperationMethod<
     ListNetworkVirtualNetworksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListNetworkVirtualNetworksRequest,
-  ) => stream.Stream<
+  items: (input: ListNetworkVirtualNetworksRequest) => stream.Stream<
     {
       id: string;
       comment: string;
@@ -60407,9 +60309,7 @@ export const bulkPutAccessInfrastructureTargets: API.PaginatedOperationMethod<
     BulkPutAccessInfrastructureTargetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: BulkPutAccessInfrastructureTargetsRequest,
-  ) => stream.Stream<
+  items: (input: BulkPutAccessInfrastructureTargetsRequest) => stream.Stream<
     {
       id: string;
       createdAt: string;
@@ -60794,9 +60694,7 @@ export const listRiskScoringIntegrations: API.PaginatedOperationMethod<
     ListRiskScoringIntegrationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRiskScoringIntegrationsRequest,
-  ) => stream.Stream<
+  items: (input: ListRiskScoringIntegrationsRequest) => stream.Stream<
     {
       id: string;
       accountTag: string;
@@ -61252,9 +61150,7 @@ export const patchSeat: API.PaginatedOperationMethod<
     PatchSeatError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: PatchSeatRequest,
-  ) => stream.Stream<
+  items: (input: PatchSeatRequest) => stream.Stream<
     {
       accessSeat?: boolean | null;
       createdAt?: string | null;
@@ -61984,9 +61880,7 @@ export const listTenantGatewayRule: API.PaginatedOperationMethod<
     ListTenantGatewayRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListTenantGatewayRuleRequest,
-  ) => stream.Stream<
+  items: (input: ListTenantGatewayRuleRequest) => stream.Stream<
     {
       action:
         | "on"
@@ -62467,9 +62361,7 @@ export const listTunnels: API.PaginatedOperationMethod<
     ListTunnelsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListTunnelsRequest,
-  ) => stream.Stream<
+  items: (input: ListTunnelsRequest) => stream.Stream<
     | unknown
     | {
         id?: string | null;
@@ -63506,9 +63398,7 @@ export const getTunnelCloudflaredConnection: API.PaginatedOperationMethod<
     GetTunnelCloudflaredConnectionError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetTunnelCloudflaredConnectionRequest,
-  ) => stream.Stream<
+  items: (input: GetTunnelCloudflaredConnectionRequest) => stream.Stream<
     {
       id?: string | null;
       arch?: string | null;
@@ -64094,9 +63984,7 @@ export const listTunnelWarpConnectors: API.PaginatedOperationMethod<
     ListTunnelWarpConnectorsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListTunnelWarpConnectorsRequest,
-  ) => stream.Stream<
+  items: (input: ListTunnelWarpConnectorsRequest) => stream.Stream<
     {
       id?: string | null;
       accountTag?: string | null;

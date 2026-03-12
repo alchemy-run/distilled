@@ -437,9 +437,7 @@ export const listAiGateways: API.PaginatedOperationMethod<
     ListAiGatewaysError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAiGatewaysRequest,
-  ) => stream.Stream<
+  items: (input: ListAiGatewaysRequest) => stream.Stream<
     {
       id: string;
       accountId: string;
@@ -1530,9 +1528,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     ListDatasetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListDatasetsRequest,
-  ) => stream.Stream<
+  items: (input: ListDatasetsRequest) => stream.Stream<
     {
       id: string;
       accountId: string;
@@ -2410,9 +2406,7 @@ export const listEvaluations: API.PaginatedOperationMethod<
     ListEvaluationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListEvaluationsRequest,
-  ) => stream.Stream<
+  items: (input: ListEvaluationsRequest) => stream.Stream<
     {
       id: string;
       accountId: string;
@@ -2967,9 +2961,7 @@ export const listEvaluationTypes: API.PaginatedOperationMethod<
     ListEvaluationTypesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListEvaluationTypesRequest,
-  ) => stream.Stream<
+  items: (input: ListEvaluationTypesRequest) => stream.Stream<
     {
       id: string;
       createdAt: string;
@@ -3440,9 +3432,7 @@ export const listLogs: API.PaginatedOperationMethod<
     ListLogsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListLogsRequest,
-  ) => stream.Stream<
+  items: (input: ListLogsRequest) => stream.Stream<
     {
       id: string;
       cached: boolean;
