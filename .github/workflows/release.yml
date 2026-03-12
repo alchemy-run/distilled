@@ -30,6 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.bump.outputs.version }}
+      sha: ${{ steps.sha.outputs.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -63,6 +64,10 @@ jobs:
           git add -A
           git diff --cached --quiet && echo "No changes to commit" || (git commit -m "chore(release): ${{ steps.bump.outputs.version }}" && git push)
 
+      - name: Capture commit SHA
+        id: sha
+        run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
+
       - name: Create and push tag
         if: ${{ !inputs.skip-github-release }}
         run: |
@@ -92,7 +97,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -147,7 +152,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y unzip
@@ -208,7 +213,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -266,7 +271,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -324,7 +329,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -382,7 +387,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -440,7 +445,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -498,7 +503,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -556,7 +561,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -614,7 +619,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -672,7 +677,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -730,7 +735,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -788,7 +793,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: v${{ needs.bump.outputs.version }}
+          ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
