@@ -6,6 +6,7 @@
  * are all accessible as namespace members.
  */
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import {
   makeAPI,
   type OperationMethod,
@@ -46,7 +47,7 @@ const _API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (_creds: any) => "", // Set per-service via Http trait
   getAuthHeaders: (creds: any) => ({
-    Authorization: `Bearer ${creds.accessToken}`,
+    Authorization: `Bearer ${Redacted.value(creds.accessToken)}`,
   }),
   matchError,
   ParseError: GCPParseError as any,

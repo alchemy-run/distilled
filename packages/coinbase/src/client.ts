@@ -31,6 +31,7 @@
  * Errors are dispatched first by `errorType`, then by HTTP status code.
  */
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import * as crypto from "node:crypto";
 import { makeAPI } from "@distilled.cloud/core/client";
@@ -280,7 +281,7 @@ export const API = makeAPI({
   getBaseUrl: (creds: any) => (creds as Config).apiBaseUrl,
   getAuthHeaders: (creds: any) => {
     const c = creds as Config;
-    const jwt = generateJwt(c.apiKeyId, c.apiKeySecret);
+    const jwt = generateJwt(c.apiKeyId, Redacted.value(c.apiKeySecret));
     return {
       Authorization: `Bearer ${jwt}`,
     };
