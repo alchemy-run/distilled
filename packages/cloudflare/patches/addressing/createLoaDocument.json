@@ -4,7 +4,8 @@
       { "code": 7003, "message": { "includes": "Could not route" } }
     ],
     "InvalidLoaForm": [
-      { "code": 1001, "message": { "includes": "invalid_loa_form" } }
+      { "code": 1001, "message": { "includes": "invalid_loa_form" } },
+      { "code": 1001 }
     ]
   }
 }
