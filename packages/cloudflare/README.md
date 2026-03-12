@@ -14,14 +14,24 @@ npm install @distilled.cloud/cloudflare effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as R2 from "@distilled.cloud/cloudflare/r2";
-import { Auth } from "@distilled.cloud/cloudflare";
+import { CredentialsFromEnv } from "@distilled.cloud/cloudflare";
 
 const program = R2.listBuckets({ account_id: "your-account-id" });
 
-const CloudflareLive = Layer.mergeAll(FetchHttpClient.layer, Auth.fromEnv());
+const CloudflareLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
 
 program.pipe(Effect.provide(CloudflareLive), Effect.runPromise);
 ```
+
+## Configuration
+
+Set the following environment variable:
+
+```bash
+CLOUDFLARE_API_TOKEN=your-api-token
+```
+
+Create an API token in the [Cloudflare dashboard](https://dash.cloudflare.com/profile/api-tokens) under **My Profile > API Tokens**. Use a custom token scoped to the resources you need (e.g. R2 read/write, DNS edit, Workers edit).
 
 ## Error Handling
 

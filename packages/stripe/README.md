@@ -13,11 +13,11 @@ npm install @distilled.cloud/stripe effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { getCustomersSearch } from "@distilled.cloud/stripe/operations";
+import { GetCustomersSearch } from "@distilled.cloud/stripe/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/stripe";
 
 const program = Effect.gen(function* () {
-  const results = yield* getCustomersSearch({ query: "email:'test@example.com'" });
+  const results = yield* GetCustomersSearch({ query: "email:'test@example.com'" });
   return results;
 });
 
@@ -34,14 +34,16 @@ Set the following environment variable:
 STRIPE_API_KEY=sk_test_...
 ```
 
+Find your API keys in the [Stripe dashboard](https://dashboard.stripe.com/apikeys) under **Developers > API keys**. Use `sk_test_...` for test mode and `sk_live_...` for production. Restricted keys with specific permissions are also supported.
+
 ## Error Handling
 
 Stripe errors are dispatched by `error.type` first, then HTTP status. Typed error classes include:
 
 ```typescript
-import { postPaymentIntents } from "@distilled.cloud/stripe/operations";
+import { PostPaymentIntents } from "@distilled.cloud/stripe/Operations";
 
-postPaymentIntents({ amount: 1000, currency: "usd" }).pipe(
+PostPaymentIntents({ amount: 1000, currency: "usd" }).pipe(
   Effect.catchTags({
     CardError: (e) => Effect.fail(new Error(`Card declined: ${e.message}`)),
     InvalidRequestError: (e) => Effect.fail(new Error(`Invalid: ${e.message}`)),

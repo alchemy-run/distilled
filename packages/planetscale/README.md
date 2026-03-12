@@ -13,7 +13,8 @@ npm install @distilled.cloud/planetscale effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { listDatabases, CredentialsFromEnv, Credentials } from "@distilled.cloud/planetscale";
+import { listDatabases } from "@distilled.cloud/planetscale/Operations";
+import { CredentialsFromEnv, Credentials } from "@distilled.cloud/planetscale";
 
 const program = Effect.gen(function* () {
   const { organization } = yield* Credentials;
@@ -31,15 +32,16 @@ program.pipe(Effect.provide(PlanetScaleLive), Effect.runPromise);
 Set the following environment variables:
 
 ```bash
-# Format: SERVICE_TOKEN_ID:SERVICE_TOKEN
-PLANETSCALE_API_TOKEN=pscale_tkn_xxxxx:pscale_tok_xxxxx
+PLANETSCALE_API_TOKEN=your-service-token
 PLANETSCALE_ORGANIZATION=my-org-name
 ```
+
+Create a service token in the [PlanetScale dashboard](https://app.planetscale.com/) under **Settings > Service tokens**. Grant the token access to the databases and permissions it needs. `PLANETSCALE_ORGANIZATION` is your organization's URL slug.
 
 ## Error Handling
 
 ```typescript
-import { getDatabase } from "@distilled.cloud/planetscale";
+import { getDatabase } from "@distilled.cloud/planetscale/Operations";
 
 getDatabase({ organization: "my-org", database: "missing" }).pipe(
   Effect.catchTags({

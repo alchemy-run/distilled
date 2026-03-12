@@ -279,7 +279,7 @@ const getProjectName = (suffix?: string): string =>
 Sub-resources within a shared project/database also use `testRunId`:
 
 ```typescript
-import { testRunId } from "./setup";
+import { testRunId } from "./setup.ts";
 
 const branchName = `test-branch-${testRunId}`;
 ```

@@ -13,11 +13,11 @@ npm install @distilled.cloud/mongodb-atlas effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { listClusters } from "@distilled.cloud/mongodb-atlas/operations";
+import { listGroupClusters } from "@distilled.cloud/mongodb-atlas/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/mongodb-atlas";
 
 const program = Effect.gen(function* () {
-  const clusters = yield* listClusters({ groupId: "my-project-id" });
+  const clusters = yield* listGroupClusters({ groupId: "my-project-id" });
   return clusters;
 });
 
@@ -34,12 +34,14 @@ Set the following environment variable:
 MONGODB_ATLAS_API_KEY=your-api-key
 ```
 
+Create an API key in the [MongoDB Atlas console](https://cloud.mongodb.com/) under **Organization Settings > API Keys** or **Project Settings > API Keys**. Grant the key an appropriate role (e.g. Organization Member, Project Owner).
+
 ## Error Handling
 
 ```typescript
-import { getCluster } from "@distilled.cloud/mongodb-atlas/operations";
+import { getGroupCluster } from "@distilled.cloud/mongodb-atlas/Operations";
 
-getCluster({ groupId: "my-project", clusterName: "missing" }).pipe(
+getGroupCluster({ groupId: "my-project", clusterName: "missing" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
     UnknownMongodbAtlasError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),

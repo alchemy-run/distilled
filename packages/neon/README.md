@@ -13,7 +13,7 @@ npm install @distilled.cloud/neon effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { listProjects } from "@distilled.cloud/neon";
+import { listProjects } from "@distilled.cloud/neon/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/neon";
 
 const program = Effect.gen(function* () {
@@ -34,10 +34,12 @@ Set the following environment variable:
 NEON_API_KEY=your-api-key
 ```
 
+Create an API key in the [Neon console](https://console.neon.tech/app/settings/api-keys) under **Settings > API Keys**.
+
 ## Error Handling
 
 ```typescript
-import { getProject } from "@distilled.cloud/neon";
+import { getProject } from "@distilled.cloud/neon/Operations";
 
 getProject({ project_id: "missing" }).pipe(
   Effect.catchTags({

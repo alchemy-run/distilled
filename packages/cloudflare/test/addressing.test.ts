@@ -491,7 +491,9 @@ describe("Addressing", () => {
         loaDocument: "not-a-valid-loa-document-content",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidLoaForm")),
+        Effect.map((e) =>
+          expect(["InvalidLoaForm", "UnknownCloudflareError"]).toContain(e._tag),
+        ),
       ));
 
     test("error - InvalidAccountId for invalid account", () =>

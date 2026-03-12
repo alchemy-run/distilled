@@ -28,6 +28,8 @@ Set the following environment variable:
 TURSO_API_KEY=your-api-token
 ```
 
+Create an API token with `turso auth api-tokens mint` or in the [Turso dashboard](https://app.turso.tech/) under **Settings > API Tokens**.
+
 ## License
 
 MIT
