@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test } from "./test.ts";
-import * as Accounts from "~/services/accounts.ts";
+import * as Accounts from "~/services/accounts";
 
 const assertNoReq = <T extends Effect.Effect<any, any, never>>(eff: T) => {};
 

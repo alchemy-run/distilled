@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as Workflows from "~/services/workflows.ts";
+import * as Workflows from "~/services/workflows";
 import {
   InstanceNotFound,
   InvalidBody,
@@ -10,7 +10,7 @@ import {
   WorkflowInternalError,
   WorkflowNotFound,
 } from "~/services/workflows.ts";
-import * as Workers from "~/services/workers.ts";
+import * as Workers from "~/services/workers";
 
 const accountId = () => getAccountId();
 

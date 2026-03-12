@@ -1,0 +1,13 @@
+{
+    "files": [],
+    "references": [
+        { "path": "./packages/core/tsconfig.json" },
+        { "path": "./packages/cloudflare/tsconfig.json" },
+        { "path": "./packages/cloudflare/tsconfig.test.json" },
+        { "path": "./packages/turso/tsconfig.json" },
+        { "path": "./packages/neon/tsconfig.json" },
+        { "path": "./packages/supabase/tsconfig.json" },
+        { "path": "./packages/coinbase/tsconfig.json" },
+        { "path": "./packages/planetscale/tsconfig.json" },
+    ]
+}

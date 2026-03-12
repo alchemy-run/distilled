@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service firewall
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -136,18 +137,22 @@ export const GetAccessRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    allowedModes: "allowed_modes",
-    configuration: "configuration",
-    mode: "mode",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    notes: "notes",
-    scope: "scope",
-  }),
-) as unknown as Schema.Schema<GetAccessRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      allowedModes: "allowed_modes",
+      configuration: "configuration",
+      mode: "mode",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      notes: "notes",
+      scope: "scope",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetAccessRuleResponse>;
 
 export type GetAccessRuleError = DefaultErrors;
 
@@ -173,131 +178,210 @@ export const ListAccessRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListAccessRulesRequest>;
 
-export type ListAccessRulesResponse = {
-  id: string;
-  allowedModes: (
-    | "block"
-    | "challenge"
-    | "whitelist"
-    | "js_challenge"
-    | "managed_challenge"
-  )[];
-  configuration:
-    | { target?: "ip" | null; value?: string | null }
-    | { target?: "ip6" | null; value?: string | null }
-    | { target?: "ip_range" | null; value?: string | null }
-    | { target?: "asn" | null; value?: string | null }
-    | { target?: "country" | null; value?: string | null };
-  mode:
-    | "block"
-    | "challenge"
-    | "whitelist"
-    | "js_challenge"
-    | "managed_challenge";
-  createdOn?: string | null;
-  modifiedOn?: string | null;
-  notes?: string | null;
-  scope?: {
-    id?: string | null;
-    email?: string | null;
-    type?: "user" | "organization" | null;
-  } | null;
-}[];
+export interface ListAccessRulesResponse {
+  result: {
+    id: string;
+    allowedModes: (
+      | "block"
+      | "challenge"
+      | "whitelist"
+      | "js_challenge"
+      | "managed_challenge"
+    )[];
+    configuration:
+      | { target?: "ip" | null; value?: string | null }
+      | { target?: "ip6" | null; value?: string | null }
+      | { target?: "ip_range" | null; value?: string | null }
+      | { target?: "asn" | null; value?: string | null }
+      | { target?: "country" | null; value?: string | null };
+    mode:
+      | "block"
+      | "challenge"
+      | "whitelist"
+      | "js_challenge"
+      | "managed_challenge";
+    createdOn?: string | null;
+    modifiedOn?: string | null;
+    notes?: string | null;
+    scope?: {
+      id?: string | null;
+      email?: string | null;
+      type?: "user" | "organization" | null;
+    } | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListAccessRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    allowedModes: Schema.Array(
-      Schema.Literals([
-        "block",
-        "challenge",
-        "whitelist",
-        "js_challenge",
-        "managed_challenge",
-      ]),
-    ),
-    configuration: Schema.Union([
+export const ListAccessRulesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
       Schema.Struct({
-        target: Schema.optional(
-          Schema.Union([Schema.Literal("ip"), Schema.Null]),
+        id: Schema.String,
+        allowedModes: Schema.Array(
+          Schema.Literals([
+            "block",
+            "challenge",
+            "whitelist",
+            "js_challenge",
+            "managed_challenge",
+          ]),
         ),
-        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Struct({
-        target: Schema.optional(
-          Schema.Union([Schema.Literal("ip6"), Schema.Null]),
+        configuration: Schema.Union([
+          Schema.Struct({
+            target: Schema.optional(
+              Schema.Union([Schema.Literal("ip"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Struct({
+            target: Schema.optional(
+              Schema.Union([Schema.Literal("ip6"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Struct({
+            target: Schema.optional(
+              Schema.Union([Schema.Literal("ip_range"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Struct({
+            target: Schema.optional(
+              Schema.Union([Schema.Literal("asn"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Struct({
+            target: Schema.optional(
+              Schema.Union([Schema.Literal("country"), Schema.Null]),
+            ),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+        ]),
+        mode: Schema.Literals([
+          "block",
+          "challenge",
+          "whitelist",
+          "js_challenge",
+          "managed_challenge",
+        ]),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        notes: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        scope: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              email: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              type: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["user", "organization"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
         ),
-        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Struct({
-        target: Schema.optional(
-          Schema.Union([Schema.Literal("ip_range"), Schema.Null]),
-        ),
-        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Struct({
-        target: Schema.optional(
-          Schema.Union([Schema.Literal("asn"), Schema.Null]),
-        ),
-        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-      Schema.Struct({
-        target: Schema.optional(
-          Schema.Union([Schema.Literal("country"), Schema.Null]),
-        ),
-        value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }),
-    ]),
-    mode: Schema.Literals([
-      "block",
-      "challenge",
-      "whitelist",
-      "js_challenge",
-      "managed_challenge",
-    ]),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    notes: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    scope: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          type: Schema.optional(
-            Schema.Union([
-              Schema.Literals(["user", "organization"]),
-              Schema.Null,
-            ]),
-          ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          allowedModes: "allowed_modes",
+          configuration: "configuration",
+          mode: "mode",
+          createdOn: "created_on",
+          modifiedOn: "modified_on",
+          notes: "notes",
+          scope: "scope",
         }),
-        Schema.Null,
-      ]),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowedModes: "allowed_modes",
-      configuration: "configuration",
-      mode: "mode",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      notes: "notes",
-      scope: "scope",
-    }),
-  ),
-) as unknown as Schema.Schema<ListAccessRulesResponse>;
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListAccessRulesResponse>;
 
 export type ListAccessRulesError = DefaultErrors;
 
-export const listAccessRules: API.OperationMethod<
+export const listAccessRules: API.PaginatedOperationMethod<
   ListAccessRulesRequest,
   ListAccessRulesResponse,
   ListAccessRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListAccessRulesRequest,
+  ) => stream.Stream<
+    ListAccessRulesResponse,
+    ListAccessRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAccessRulesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      allowedModes: (
+        | "block"
+        | "challenge"
+        | "whitelist"
+        | "js_challenge"
+        | "managed_challenge"
+      )[];
+      configuration:
+        | { target?: "ip" | null; value?: string | null }
+        | { target?: "ip6" | null; value?: string | null }
+        | { target?: "ip_range" | null; value?: string | null }
+        | { target?: "asn" | null; value?: string | null }
+        | { target?: "country" | null; value?: string | null };
+      mode:
+        | "block"
+        | "challenge"
+        | "whitelist"
+        | "js_challenge"
+        | "managed_challenge";
+      createdOn?: string | null;
+      modifiedOn?: string | null;
+      notes?: string | null;
+      scope?: {
+        id?: string | null;
+        email?: string | null;
+        type?: "user" | "organization" | null;
+      } | null;
+    },
+    ListAccessRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAccessRulesRequest,
   output: ListAccessRulesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateAccessRuleRequest {
@@ -472,18 +556,22 @@ export const CreateAccessRuleResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowedModes: "allowed_modes",
-      configuration: "configuration",
-      mode: "mode",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      notes: "notes",
-      scope: "scope",
-    }),
-  ) as unknown as Schema.Schema<CreateAccessRuleResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        allowedModes: "allowed_modes",
+        configuration: "configuration",
+        mode: "mode",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        notes: "notes",
+        scope: "scope",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateAccessRuleResponse>;
 
 export type CreateAccessRuleError = DefaultErrors;
 
@@ -673,18 +761,22 @@ export const PatchAccessRuleResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowedModes: "allowed_modes",
-      configuration: "configuration",
-      mode: "mode",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      notes: "notes",
-      scope: "scope",
-    }),
-  ) as unknown as Schema.Schema<PatchAccessRuleResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        allowedModes: "allowed_modes",
+        configuration: "configuration",
+        mode: "mode",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        notes: "notes",
+        scope: "scope",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchAccessRuleResponse>;
 
 export type PatchAccessRuleError = DefaultErrors;
 
@@ -721,7 +813,9 @@ export interface DeleteAccessRuleResponse {
 export const DeleteAccessRuleResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-  }) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteAccessRuleResponse>;
 
 export type DeleteAccessRuleError = DefaultErrors;
 
@@ -781,17 +875,21 @@ export const GetLockdownResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modifiedOn: Schema.String,
   paused: Schema.Boolean,
   urls: Schema.Array(Schema.String),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    configurations: "configurations",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    paused: "paused",
-    urls: "urls",
-  }),
-) as unknown as Schema.Schema<GetLockdownResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      configurations: "configurations",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      paused: "paused",
+      urls: "urls",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetLockdownResponse>;
 
 export type GetLockdownError = DefaultErrors;
 
@@ -848,49 +946,104 @@ export const ListLockdownsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/lockdowns" }),
 ) as unknown as Schema.Schema<ListLockdownsRequest>;
 
-export type ListLockdownsResponse = {
-  id: string;
-  configurations: unknown;
-  createdOn: string;
-  description: string;
-  modifiedOn: string;
-  paused: boolean;
-  urls: string[];
-}[];
+export interface ListLockdownsResponse {
+  result: {
+    id: string;
+    configurations: unknown;
+    createdOn: string;
+    description: string;
+    modifiedOn: string;
+    paused: boolean;
+    urls: string[];
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListLockdownsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    configurations: Schema.Unknown,
-    createdOn: Schema.String,
-    description: Schema.String,
-    modifiedOn: Schema.String,
-    paused: Schema.Boolean,
-    urls: Schema.Array(Schema.String),
+export const ListLockdownsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      configurations: Schema.Unknown,
+      createdOn: Schema.String,
+      description: Schema.String,
+      modifiedOn: Schema.String,
+      paused: Schema.Boolean,
+      urls: Schema.Array(Schema.String),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        configurations: "configurations",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        paused: "paused",
+        urls: "urls",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      configurations: "configurations",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      paused: "paused",
-      urls: "urls",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListLockdownsResponse>;
 
 export type ListLockdownsError = DefaultErrors;
 
-export const listLockdowns: API.OperationMethod<
+export const listLockdowns: API.PaginatedOperationMethod<
   ListLockdownsRequest,
   ListLockdownsResponse,
   ListLockdownsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListLockdownsRequest,
+  ) => stream.Stream<
+    ListLockdownsResponse,
+    ListLockdownsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLockdownsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      configurations: unknown;
+      createdOn: string;
+      description: string;
+      modifiedOn: string;
+      paused: boolean;
+      urls: string[];
+    },
+    ListLockdownsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLockdownsRequest,
   output: ListLockdownsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateLockdownRequest {
@@ -946,17 +1099,21 @@ export const CreateLockdownResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     paused: Schema.Boolean,
     urls: Schema.Array(Schema.String),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    configurations: "configurations",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    paused: "paused",
-    urls: "urls",
-  }),
-) as unknown as Schema.Schema<CreateLockdownResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      configurations: "configurations",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      paused: "paused",
+      urls: "urls",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateLockdownResponse>;
 
 export type CreateLockdownError = DefaultErrors;
 
@@ -1020,17 +1177,21 @@ export const UpdateLockdownResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     paused: Schema.Boolean,
     urls: Schema.Array(Schema.String),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    configurations: "configurations",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    paused: "paused",
-    urls: "urls",
-  }),
-) as unknown as Schema.Schema<UpdateLockdownResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      configurations: "configurations",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      paused: "paused",
+      urls: "urls",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateLockdownResponse>;
 
 export type UpdateLockdownError = DefaultErrors;
 
@@ -1070,6 +1231,8 @@ export const DeleteLockdownResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeleteLockdownResponse>;
 
 export type DeleteLockdownError = DefaultErrors;
@@ -1103,98 +1266,148 @@ export const BulkPutRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "PUT", path: "/zones/{zone_id}/firewall/rules" }),
 ) as unknown as Schema.Schema<BulkPutRulesRequest>;
 
-export type BulkPutRulesResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface BulkPutRulesResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+}
 
-export const BulkPutRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
+export const BulkPutRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      action: Schema.optional(
         Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
           Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+            "block",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+            "allow",
+            "log",
+            "bypass",
           ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<BulkPutRulesResponse>;
+          Schema.Null,
+        ]),
+      ),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      filter: Schema.optional(
+        Schema.Union([
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              id: Schema.String,
+              deleted: Schema.Boolean,
+            }),
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      products: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "zoneLockdown",
+              "uaBlock",
+              "bic",
+              "hot",
+              "securityLevel",
+              "rateLimit",
+              "waf",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<BulkPutRulesResponse>;
 
 export type BulkPutRulesError = DefaultErrors;
 
-export const bulkPutRules: API.OperationMethod<
+export const bulkPutRules: API.PaginatedOperationMethod<
   BulkPutRulesRequest,
   BulkPutRulesResponse,
   BulkPutRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkPutRulesRequest,
+  ) => stream.Stream<
+    BulkPutRulesResponse,
+    BulkPutRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkPutRulesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    BulkPutRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkPutRulesRequest,
   output: BulkPutRulesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1297,7 +1510,7 @@ export const GetRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetRuleResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetRuleResponse>;
 
 export type GetRuleError = DefaultErrors;
 
@@ -1335,98 +1548,172 @@ export const ListRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/rules" }),
 ) as unknown as Schema.Schema<ListRulesRequest>;
 
-export type ListRulesResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface ListRulesResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
+export const ListRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      action: Schema.optional(
         Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
           Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+            "block",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+            "allow",
+            "log",
+            "bypass",
           ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
+          Schema.Null,
+        ]),
+      ),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      filter: Schema.optional(
+        Schema.Union([
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              id: Schema.String,
+              deleted: Schema.Boolean,
+            }),
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      products: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "zoneLockdown",
+              "uaBlock",
+              "bic",
+              "hot",
+              "securityLevel",
+              "rateLimit",
+              "waf",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListRulesResponse>;
 
 export type ListRulesError = DefaultErrors;
 
-export const listRules: API.OperationMethod<
+export const listRules: API.PaginatedOperationMethod<
   ListRulesRequest,
   ListRulesResponse,
   ListRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRulesRequest,
+  ) => stream.Stream<
+    ListRulesResponse,
+    ListRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRulesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    ListRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateRuleRequest {
@@ -1472,98 +1759,148 @@ export const CreateRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "POST", path: "/zones/{zone_id}/firewall/rules" }),
 ) as unknown as Schema.Schema<CreateRuleRequest>;
 
-export type CreateRuleResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface CreateRuleResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+}
 
-export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
+export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      action: Schema.optional(
         Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
           Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+            "block",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+            "allow",
+            "log",
+            "bypass",
           ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<CreateRuleResponse>;
+          Schema.Null,
+        ]),
+      ),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      filter: Schema.optional(
+        Schema.Union([
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              id: Schema.String,
+              deleted: Schema.Boolean,
+            }),
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      products: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "zoneLockdown",
+              "uaBlock",
+              "bic",
+              "hot",
+              "securityLevel",
+              "rateLimit",
+              "waf",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export type CreateRuleError = DefaultErrors;
 
-export const createRule: API.OperationMethod<
+export const createRule: API.PaginatedOperationMethod<
   CreateRuleRequest,
   CreateRuleResponse,
   CreateRuleError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: CreateRuleRequest,
+  ) => stream.Stream<
+    CreateRuleResponse,
+    CreateRuleError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: CreateRuleRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    CreateRuleError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CreateRuleRequest,
   output: CreateRuleResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface UpdateRuleRequest {
@@ -1694,7 +2031,9 @@ export const UpdateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateRuleResponse>;
 
 export type UpdateRuleError = DefaultErrors;
 
@@ -1722,98 +2061,148 @@ export const PatchRuleRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/firewall/rules/{ruleId}" }),
 ) as unknown as Schema.Schema<PatchRuleRequest>;
 
-export type PatchRuleResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface PatchRuleResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+}
 
-export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
+export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      action: Schema.optional(
         Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
           Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+            "block",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+            "allow",
+            "log",
+            "bypass",
           ]),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<PatchRuleResponse>;
+          Schema.Null,
+        ]),
+      ),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      filter: Schema.optional(
+        Schema.Union([
+          Schema.Union([
+            Schema.Unknown,
+            Schema.Struct({
+              id: Schema.String,
+              deleted: Schema.Boolean,
+            }),
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      products: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "zoneLockdown",
+              "uaBlock",
+              "bic",
+              "hot",
+              "securityLevel",
+              "rateLimit",
+              "waf",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export type PatchRuleError = DefaultErrors;
 
-export const patchRule: API.OperationMethod<
+export const patchRule: API.PaginatedOperationMethod<
   PatchRuleRequest,
   PatchRuleResponse,
   PatchRuleError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: PatchRuleRequest,
+  ) => stream.Stream<
+    PatchRuleResponse,
+    PatchRuleError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: PatchRuleRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    PatchRuleError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: PatchRuleRequest,
   output: PatchRuleResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface DeleteRuleRequest {
@@ -1915,7 +2304,9 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = DefaultErrors;
 
@@ -1944,98 +2335,152 @@ export const BulkPatchRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "PATCH", path: "/zones/{zone_id}/firewall/rules" }),
 ) as unknown as Schema.Schema<BulkPatchRulesRequest>;
 
-export type BulkPatchRulesResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface BulkPatchRulesResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+}
 
-export const BulkPatchRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
-        Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+export const BulkPatchRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        action: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "block",
+              "challenge",
+              "js_challenge",
+              "managed_challenge",
+              "allow",
+              "log",
+              "bypass",
+            ]),
+            Schema.Null,
           ]),
         ),
-        Schema.Null,
-      ]),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        filter: Schema.optional(
+          Schema.Union([
+            Schema.Union([
+              Schema.Unknown,
+              Schema.Struct({
+                id: Schema.String,
+                deleted: Schema.Boolean,
+              }),
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        products: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Literals([
+                "zoneLockdown",
+                "uaBlock",
+                "bic",
+                "hot",
+                "securityLevel",
+                "rateLimit",
+                "waf",
+              ]),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
     ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
+  },
 ) as unknown as Schema.Schema<BulkPatchRulesResponse>;
 
 export type BulkPatchRulesError = DefaultErrors;
 
-export const bulkPatchRules: API.OperationMethod<
+export const bulkPatchRules: API.PaginatedOperationMethod<
   BulkPatchRulesRequest,
   BulkPatchRulesResponse,
   BulkPatchRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkPatchRulesRequest,
+  ) => stream.Stream<
+    BulkPatchRulesResponse,
+    BulkPatchRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkPatchRulesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    BulkPatchRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkPatchRulesRequest,
   output: BulkPatchRulesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface BulkDeleteRulesRequest {
@@ -2051,98 +2496,151 @@ export const BulkDeleteRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   T.Http({ method: "DELETE", path: "/zones/{zone_id}/firewall/rules" }),
 ) as unknown as Schema.Schema<BulkDeleteRulesRequest>;
 
-export type BulkDeleteRulesResponse = {
-  id?: string | null;
-  action?:
-    | "block"
-    | "challenge"
-    | "js_challenge"
-    | "managed_challenge"
-    | "allow"
-    | "log"
-    | "bypass"
-    | null;
-  description?: string | null;
-  filter?: unknown | { id: string; deleted: boolean } | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  products?:
-    | (
-        | "zoneLockdown"
-        | "uaBlock"
-        | "bic"
-        | "hot"
-        | "securityLevel"
-        | "rateLimit"
-        | "waf"
-      )[]
-    | null;
-  ref?: string | null;
-}[];
+export interface BulkDeleteRulesResponse {
+  result: {
+    id?: string | null;
+    action?:
+      | "block"
+      | "challenge"
+      | "js_challenge"
+      | "managed_challenge"
+      | "allow"
+      | "log"
+      | "bypass"
+      | null;
+    description?: string | null;
+    filter?: unknown | { id: string; deleted: boolean } | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    products?:
+      | (
+          | "zoneLockdown"
+          | "uaBlock"
+          | "bic"
+          | "hot"
+          | "securityLevel"
+          | "rateLimit"
+          | "waf"
+        )[]
+      | null;
+    ref?: string | null;
+  }[];
+}
 
-export const BulkDeleteRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
-          "allow",
-          "log",
-          "bypass",
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    filter: Schema.optional(
-      Schema.Union([
-        Schema.Union([
-          Schema.Unknown,
-          Schema.Struct({
-            id: Schema.String,
-            deleted: Schema.Boolean,
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    products: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "zoneLockdown",
-            "uaBlock",
-            "bic",
-            "hot",
-            "securityLevel",
-            "rateLimit",
-            "waf",
+export const BulkDeleteRulesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        action: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "block",
+              "challenge",
+              "js_challenge",
+              "managed_challenge",
+              "allow",
+              "log",
+              "bypass",
+            ]),
+            Schema.Null,
           ]),
         ),
-        Schema.Null,
-      ]),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        filter: Schema.optional(
+          Schema.Union([
+            Schema.Union([
+              Schema.Unknown,
+              Schema.Struct({
+                id: Schema.String,
+                deleted: Schema.Boolean,
+              }),
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        products: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Literals([
+                "zoneLockdown",
+                "uaBlock",
+                "bic",
+                "hot",
+                "securityLevel",
+                "rateLimit",
+                "waf",
+              ]),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
     ),
-    ref: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<BulkDeleteRulesResponse>;
+  }) as unknown as Schema.Schema<BulkDeleteRulesResponse>;
 
 export type BulkDeleteRulesError = DefaultErrors;
 
-export const bulkDeleteRules: API.OperationMethod<
+export const bulkDeleteRules: API.PaginatedOperationMethod<
   BulkDeleteRulesRequest,
   BulkDeleteRulesResponse,
   BulkDeleteRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkDeleteRulesRequest,
+  ) => stream.Stream<
+    BulkDeleteRulesResponse,
+    BulkDeleteRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkDeleteRulesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      action?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | "allow"
+        | "log"
+        | "bypass"
+        | null;
+      description?: string | null;
+      filter?: unknown | { id: string; deleted: boolean } | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      products?:
+        | (
+            | "zoneLockdown"
+            | "uaBlock"
+            | "bic"
+            | "hot"
+            | "securityLevel"
+            | "rateLimit"
+            | "waf"
+          )[]
+        | null;
+      ref?: string | null;
+    },
+    BulkDeleteRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkDeleteRulesRequest,
   output: BulkDeleteRulesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -2202,7 +2700,9 @@ export const GetUaRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<GetUaRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetUaRuleResponse>;
 
 export type GetUaRuleError = DefaultErrors;
 
@@ -2237,53 +2737,111 @@ export const ListUaRulesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/ua_rules" }),
 ) as unknown as Schema.Schema<ListUaRulesRequest>;
 
-export type ListUaRulesResponse = {
-  id?: string | null;
-  configuration?: { target?: string | null; value?: string | null } | null;
-  description?: string | null;
-  mode?: "block" | "challenge" | "js_challenge" | "managed_challenge" | null;
-  paused?: boolean | null;
-}[];
+export interface ListUaRulesResponse {
+  result: {
+    id?: string | null;
+    configuration?: { target?: string | null; value?: string | null } | null;
+    description?: string | null;
+    mode?: "block" | "challenge" | "js_challenge" | "managed_challenge" | null;
+    paused?: boolean | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListUaRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    configuration: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          target: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    mode: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "block",
-          "challenge",
-          "js_challenge",
-          "managed_challenge",
+export const ListUaRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      configuration: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            target: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
-    ),
-    paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }),
+      ),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      mode: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "block",
+            "challenge",
+            "js_challenge",
+            "managed_challenge",
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+    }),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListUaRulesResponse>;
 
 export type ListUaRulesError = DefaultErrors;
 
-export const listUaRules: API.OperationMethod<
+export const listUaRules: API.PaginatedOperationMethod<
   ListUaRulesRequest,
   ListUaRulesResponse,
   ListUaRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListUaRulesRequest,
+  ) => stream.Stream<
+    ListUaRulesResponse,
+    ListUaRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListUaRulesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      configuration?: { target?: string | null; value?: string | null } | null;
+      description?: string | null;
+      mode?:
+        | "block"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
+        | null;
+      paused?: boolean | null;
+    },
+    ListUaRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUaRulesRequest,
   output: ListUaRulesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateUaRuleRequest {
@@ -2360,7 +2918,9 @@ export const CreateUaRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<CreateUaRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateUaRuleResponse>;
 
 export type CreateUaRuleError = DefaultErrors;
 
@@ -2451,7 +3011,9 @@ export const UpdateUaRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateUaRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateUaRuleResponse>;
 
 export type UpdateUaRuleError = DefaultErrors;
 
@@ -2519,7 +3081,9 @@ export const DeleteUaRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteUaRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteUaRuleResponse>;
 
 export type DeleteUaRuleError = DefaultErrors;
 
@@ -2670,18 +3234,22 @@ export const GetWafOverrideResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    description: "description",
-    groups: "groups",
-    paused: "paused",
-    priority: "priority",
-    rewriteAction: "rewrite_action",
-    rules: "rules",
-    urls: "urls",
-  }),
-) as unknown as Schema.Schema<GetWafOverrideResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      description: "description",
+      groups: "groups",
+      paused: "paused",
+      priority: "priority",
+      rewriteAction: "rewrite_action",
+      rules: "rules",
+      urls: "urls",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetWafOverrideResponse>;
 
 export type GetWafOverrideError = DefaultErrors;
 
@@ -2708,139 +3276,245 @@ export const ListWafOverridesRequest =
     T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/waf/overrides" }),
   ) as unknown as Schema.Schema<ListWafOverridesRequest>;
 
-export type ListWafOverridesResponse = {
-  id?: string | null;
-  description?: string | null;
-  groups?: Record<string, unknown> | null;
-  paused?: boolean | null;
-  priority?: number | null;
-  rewriteAction?: {
-    block?: "challenge" | "block" | "simulate" | "disable" | "default" | null;
-    challenge?:
-      | "challenge"
-      | "block"
-      | "simulate"
-      | "disable"
-      | "default"
-      | null;
-    default?: "challenge" | "block" | "simulate" | "disable" | "default" | null;
-    disable?: "challenge" | "block" | "simulate" | "disable" | "default" | null;
-    simulate?:
-      | "challenge"
-      | "block"
-      | "simulate"
-      | "disable"
-      | "default"
-      | null;
-  } | null;
-  rules?: unknown | null;
-  urls?: string[] | null;
-}[];
+export interface ListWafOverridesResponse {
+  result: {
+    id?: string | null;
+    description?: string | null;
+    groups?: Record<string, unknown> | null;
+    paused?: boolean | null;
+    priority?: number | null;
+    rewriteAction?: {
+      block?: "challenge" | "block" | "simulate" | "disable" | "default" | null;
+      challenge?:
+        | "challenge"
+        | "block"
+        | "simulate"
+        | "disable"
+        | "default"
+        | null;
+      default?:
+        | "challenge"
+        | "block"
+        | "simulate"
+        | "disable"
+        | "default"
+        | null;
+      disable?:
+        | "challenge"
+        | "block"
+        | "simulate"
+        | "disable"
+        | "default"
+        | null;
+      simulate?:
+        | "challenge"
+        | "block"
+        | "simulate"
+        | "disable"
+        | "default"
+        | null;
+    } | null;
+    rules?: unknown | null;
+    urls?: string[] | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListWafOverridesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      groups: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-      paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      rewriteAction: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            block: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "challenge",
-                  "block",
-                  "simulate",
-                  "disable",
-                  "default",
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        groups: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+        paused: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        rewriteAction: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              block: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "challenge",
+                    "block",
+                    "simulate",
+                    "disable",
+                    "default",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-            challenge: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "challenge",
-                  "block",
-                  "simulate",
-                  "disable",
-                  "default",
+              ),
+              challenge: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "challenge",
+                    "block",
+                    "simulate",
+                    "disable",
+                    "default",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-            default: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "challenge",
-                  "block",
-                  "simulate",
-                  "disable",
-                  "default",
+              ),
+              default: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "challenge",
+                    "block",
+                    "simulate",
+                    "disable",
+                    "default",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-            disable: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "challenge",
-                  "block",
-                  "simulate",
-                  "disable",
-                  "default",
+              ),
+              disable: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "challenge",
+                    "block",
+                    "simulate",
+                    "disable",
+                    "default",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-            simulate: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "challenge",
-                  "block",
-                  "simulate",
-                  "disable",
-                  "default",
+              ),
+              simulate: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "challenge",
+                    "block",
+                    "simulate",
+                    "disable",
+                    "default",
+                  ]),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
-        ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        rules: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        urls: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          description: "description",
+          groups: "groups",
+          paused: "paused",
+          priority: "priority",
+          rewriteAction: "rewrite_action",
+          rules: "rules",
+          urls: "urls",
+        }),
       ),
-      rules: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-      urls: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        description: "description",
-        groups: "groups",
-        paused: "paused",
-        priority: "priority",
-        rewriteAction: "rewrite_action",
-        rules: "rules",
-        urls: "urls",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListWafOverridesResponse>;
 
 export type ListWafOverridesError = DefaultErrors;
 
-export const listWafOverrides: API.OperationMethod<
+export const listWafOverrides: API.PaginatedOperationMethod<
   ListWafOverridesRequest,
   ListWafOverridesResponse,
   ListWafOverridesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListWafOverridesRequest,
+  ) => stream.Stream<
+    ListWafOverridesResponse,
+    ListWafOverridesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWafOverridesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      description?: string | null;
+      groups?: Record<string, unknown> | null;
+      paused?: boolean | null;
+      priority?: number | null;
+      rewriteAction?: {
+        block?:
+          | "challenge"
+          | "block"
+          | "simulate"
+          | "disable"
+          | "default"
+          | null;
+        challenge?:
+          | "challenge"
+          | "block"
+          | "simulate"
+          | "disable"
+          | "default"
+          | null;
+        default?:
+          | "challenge"
+          | "block"
+          | "simulate"
+          | "disable"
+          | "default"
+          | null;
+        disable?:
+          | "challenge"
+          | "block"
+          | "simulate"
+          | "disable"
+          | "default"
+          | null;
+        simulate?:
+          | "challenge"
+          | "block"
+          | "simulate"
+          | "disable"
+          | "default"
+          | null;
+      } | null;
+      rules?: unknown | null;
+      urls?: string[] | null;
+    },
+    ListWafOverridesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWafOverridesRequest,
   output: ListWafOverridesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateWafOverrideRequest {
@@ -2973,18 +3647,22 @@ export const CreateWafOverrideResponse =
     urls: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      groups: "groups",
-      paused: "paused",
-      priority: "priority",
-      rewriteAction: "rewrite_action",
-      rules: "rules",
-      urls: "urls",
-    }),
-  ) as unknown as Schema.Schema<CreateWafOverrideResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        groups: "groups",
+        paused: "paused",
+        priority: "priority",
+        rewriteAction: "rewrite_action",
+        rules: "rules",
+        urls: "urls",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateWafOverrideResponse>;
 
 export type CreateWafOverrideError = DefaultErrors;
 
@@ -3201,18 +3879,22 @@ export const UpdateWafOverrideResponse =
     urls: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      groups: "groups",
-      paused: "paused",
-      priority: "priority",
-      rewriteAction: "rewrite_action",
-      rules: "rules",
-      urls: "urls",
-    }),
-  ) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        groups: "groups",
+        paused: "paused",
+        priority: "priority",
+        rewriteAction: "rewrite_action",
+        rules: "rules",
+        urls: "urls",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateWafOverrideResponse>;
 
 export type UpdateWafOverrideError = DefaultErrors;
 
@@ -3252,7 +3934,9 @@ export interface DeleteWafOverrideResponse {
 export const DeleteWafOverrideResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteWafOverrideResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteWafOverrideResponse>;
 
 export type DeleteWafOverrideError = DefaultErrors;
 
@@ -3350,23 +4034,69 @@ export const ListWafPackagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   T.Http({ method: "GET", path: "/zones/{zone_id}/firewall/waf/packages" }),
 ) as unknown as Schema.Schema<ListWafPackagesRequest>;
 
-export type ListWafPackagesResponse = unknown[];
+export interface ListWafPackagesResponse {
+  result: unknown[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListWafPackagesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Unknown,
-) as unknown as Schema.Schema<ListWafPackagesResponse>;
+export const ListWafPackagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(Schema.Unknown),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListWafPackagesResponse>;
 
 export type ListWafPackagesError = DefaultErrors;
 
-export const listWafPackages: API.OperationMethod<
+export const listWafPackages: API.PaginatedOperationMethod<
   ListWafPackagesRequest,
   ListWafPackagesResponse,
   ListWafPackagesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListWafPackagesRequest,
+  ) => stream.Stream<
+    ListWafPackagesResponse,
+    ListWafPackagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWafPackagesRequest,
+  ) => stream.Stream<
+    unknown,
+    ListWafPackagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWafPackagesRequest,
   output: ListWafPackagesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -3395,10 +4125,9 @@ export const GetWafPackageGroupRequest =
 export type GetWafPackageGroupResponse = string | null;
 
 export const GetWafPackageGroupResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
-    Schema.String,
-    Schema.Null,
-  ]) as unknown as Schema.Schema<GetWafPackageGroupResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetWafPackageGroupResponse>;
 
 export type GetWafPackageGroupError = DefaultErrors;
 
@@ -3456,60 +4185,116 @@ export const ListWafPackageGroupsRequest =
     }),
   ) as unknown as Schema.Schema<ListWafPackageGroupsRequest>;
 
-export type ListWafPackageGroupsResponse = {
-  id: string;
-  description: string | null;
-  mode: "on" | "off";
-  name: string;
-  rulesCount: number;
-  allowedModes?: ("on" | "off")[] | null;
-  modifiedRulesCount?: number | null;
-  packageId?: string | null;
-}[];
+export interface ListWafPackageGroupsResponse {
+  result: {
+    id: string;
+    description: string | null;
+    mode: "on" | "off";
+    name: string;
+    rulesCount: number;
+    allowedModes?: ("on" | "off")[] | null;
+    modifiedRulesCount?: number | null;
+    packageId?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListWafPackageGroupsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      description: Schema.Union([Schema.String, Schema.Null]),
-      mode: Schema.Literals(["on", "off"]),
-      name: Schema.String,
-      rulesCount: Schema.Number,
-      allowedModes: Schema.optional(
-        Schema.Union([
-          Schema.Array(Schema.Literals(["on", "off"])),
-          Schema.Null,
-        ]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        description: Schema.Union([Schema.String, Schema.Null]),
+        mode: Schema.Literals(["on", "off"]),
+        name: Schema.String,
+        rulesCount: Schema.Number,
+        allowedModes: Schema.optional(
+          Schema.Union([
+            Schema.Array(Schema.Literals(["on", "off"])),
+            Schema.Null,
+          ]),
+        ),
+        modifiedRulesCount: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        packageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          description: "description",
+          mode: "mode",
+          name: "name",
+          rulesCount: "rules_count",
+          allowedModes: "allowed_modes",
+          modifiedRulesCount: "modified_rules_count",
+          packageId: "package_id",
+        }),
       ),
-      modifiedRulesCount: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      packageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        description: "description",
-        mode: "mode",
-        name: "name",
-        rulesCount: "rules_count",
-        allowedModes: "allowed_modes",
-        modifiedRulesCount: "modified_rules_count",
-        packageId: "package_id",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListWafPackageGroupsResponse>;
 
 export type ListWafPackageGroupsError = DefaultErrors;
 
-export const listWafPackageGroups: API.OperationMethod<
+export const listWafPackageGroups: API.PaginatedOperationMethod<
   ListWafPackageGroupsRequest,
   ListWafPackageGroupsResponse,
   ListWafPackageGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListWafPackageGroupsRequest,
+  ) => stream.Stream<
+    ListWafPackageGroupsResponse,
+    ListWafPackageGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWafPackageGroupsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      description: string | null;
+      mode: "on" | "off";
+      name: string;
+      rulesCount: number;
+      allowedModes?: ("on" | "off")[] | null;
+      modifiedRulesCount?: number | null;
+      packageId?: string | null;
+    },
+    ListWafPackageGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWafPackageGroupsRequest,
   output: ListWafPackageGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PatchWafPackageGroupRequest {
@@ -3537,10 +4322,9 @@ export const PatchWafPackageGroupRequest =
 export type PatchWafPackageGroupResponse = string | null;
 
 export const PatchWafPackageGroupResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
-    Schema.String,
-    Schema.Null,
-  ]) as unknown as Schema.Schema<PatchWafPackageGroupResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchWafPackageGroupResponse>;
 
 export type PatchWafPackageGroupError = DefaultErrors;
 
@@ -3581,10 +4365,9 @@ export const GetWafPackageRuleRequest =
 export type GetWafPackageRuleResponse = string | null;
 
 export const GetWafPackageRuleResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
-    Schema.String,
-    Schema.Null,
-  ]) as unknown as Schema.Schema<GetWafPackageRuleResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Union([Schema.String, Schema.Null]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetWafPackageRuleResponse>;
 
 export type GetWafPackageRuleError = DefaultErrors;
 
@@ -3647,110 +4430,181 @@ export const ListWafPackageRulesRequest =
     }),
   ) as unknown as Schema.Schema<ListWafPackageRulesRequest>;
 
-export type ListWafPackageRulesResponse = (
-  | {
-      id: string;
-      allowedModes: ("on" | "off")[];
-      description: string;
-      group: unknown;
-      mode: "on" | "off";
-      packageId: string;
-      priority: string;
-    }
-  | {
-      id: string;
-      allowedModes: (
-        | "default"
-        | "disable"
-        | "simulate"
-        | "block"
-        | "challenge"
-      )[];
-      defaultMode: "disable" | "simulate" | "block" | "challenge";
-      description: string;
-      group: unknown;
-      mode: "default" | "disable" | "simulate" | "block" | "challenge";
-      packageId: string;
-      priority: string;
-    }
-)[];
+export interface ListWafPackageRulesResponse {
+  result: (
+    | {
+        id: string;
+        allowedModes: ("on" | "off")[];
+        description: string;
+        group: unknown;
+        mode: "on" | "off";
+        packageId: string;
+        priority: string;
+      }
+    | {
+        id: string;
+        allowedModes: (
+          | "default"
+          | "disable"
+          | "simulate"
+          | "block"
+          | "challenge"
+        )[];
+        defaultMode: "disable" | "simulate" | "block" | "challenge";
+        description: string;
+        group: unknown;
+        mode: "default" | "disable" | "simulate" | "block" | "challenge";
+        packageId: string;
+        priority: string;
+      }
+  )[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListWafPackageRulesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Union([
-      Schema.Struct({
-        id: Schema.String,
-        allowedModes: Schema.Array(Schema.Literals(["on", "off"])),
-        description: Schema.String,
-        group: Schema.Unknown,
-        mode: Schema.Literals(["on", "off"]),
-        packageId: Schema.String,
-        priority: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          allowedModes: "allowed_modes",
-          description: "description",
-          group: "group",
-          mode: "mode",
-          packageId: "package_id",
-          priority: "priority",
-        }),
-      ),
-      Schema.Struct({
-        id: Schema.String,
-        allowedModes: Schema.Array(
-          Schema.Literals([
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.String,
+          allowedModes: Schema.Array(Schema.Literals(["on", "off"])),
+          description: Schema.String,
+          group: Schema.Unknown,
+          mode: Schema.Literals(["on", "off"]),
+          packageId: Schema.String,
+          priority: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            allowedModes: "allowed_modes",
+            description: "description",
+            group: "group",
+            mode: "mode",
+            packageId: "package_id",
+            priority: "priority",
+          }),
+        ),
+        Schema.Struct({
+          id: Schema.String,
+          allowedModes: Schema.Array(
+            Schema.Literals([
+              "default",
+              "disable",
+              "simulate",
+              "block",
+              "challenge",
+            ]),
+          ),
+          defaultMode: Schema.Literals([
+            "disable",
+            "simulate",
+            "block",
+            "challenge",
+          ]),
+          description: Schema.String,
+          group: Schema.Unknown,
+          mode: Schema.Literals([
             "default",
             "disable",
             "simulate",
             "block",
             "challenge",
           ]),
+          packageId: Schema.String,
+          priority: Schema.String,
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            allowedModes: "allowed_modes",
+            defaultMode: "default_mode",
+            description: "description",
+            group: "group",
+            mode: "mode",
+            packageId: "package_id",
+            priority: "priority",
+          }),
         ),
-        defaultMode: Schema.Literals([
-          "disable",
-          "simulate",
-          "block",
-          "challenge",
-        ]),
-        description: Schema.String,
-        group: Schema.Unknown,
-        mode: Schema.Literals([
-          "default",
-          "disable",
-          "simulate",
-          "block",
-          "challenge",
-        ]),
-        packageId: Schema.String,
-        priority: Schema.String,
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          allowedModes: "allowed_modes",
-          defaultMode: "default_mode",
-          description: "description",
-          group: "group",
-          mode: "mode",
-          packageId: "package_id",
-          priority: "priority",
-        }),
-      ),
-    ]),
+      ]),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListWafPackageRulesResponse>;
 
 export type ListWafPackageRulesError = DefaultErrors;
 
-export const listWafPackageRules: API.OperationMethod<
+export const listWafPackageRules: API.PaginatedOperationMethod<
   ListWafPackageRulesRequest,
   ListWafPackageRulesResponse,
   ListWafPackageRulesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListWafPackageRulesRequest,
+  ) => stream.Stream<
+    ListWafPackageRulesResponse,
+    ListWafPackageRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWafPackageRulesRequest,
+  ) => stream.Stream<
+    | {
+        id: string;
+        allowedModes: ("on" | "off")[];
+        description: string;
+        group: unknown;
+        mode: "on" | "off";
+        packageId: string;
+        priority: string;
+      }
+    | {
+        id: string;
+        allowedModes: (
+          | "default"
+          | "disable"
+          | "simulate"
+          | "block"
+          | "challenge"
+        )[];
+        defaultMode: "disable" | "simulate" | "block" | "challenge";
+        description: string;
+        group: unknown;
+        mode: "default" | "disable" | "simulate" | "block" | "challenge";
+        packageId: string;
+        priority: string;
+      },
+    ListWafPackageRulesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWafPackageRulesRequest,
   output: ListWafPackageRulesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PatchWafPackageRuleRequest {
@@ -3880,7 +4734,9 @@ export const PatchWafPackageRuleResponse =
         priority: "priority",
       }),
     ),
-  ]) as unknown as Schema.Schema<PatchWafPackageRuleResponse>;
+  ]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchWafPackageRuleResponse>;
 
 export type PatchWafPackageRuleError = DefaultErrors;
 

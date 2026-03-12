@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service spectrum
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -54,6 +55,8 @@ export const GetAnalyticAggregateCurrentResponse =
       connections: Schema.Number,
       durationAvg: Schema.Number,
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetAnalyticAggregateCurrentResponse>;
 
 export type GetAnalyticAggregateCurrentError = DefaultErrors;
@@ -250,18 +253,22 @@ export const GetAnalyticEventBytimeResponse =
     timeIntervals: Schema.optional(
       Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      data: "data",
-      dataLag: "data_lag",
-      max: "max",
-      min: "min",
-      query: "query",
-      rows: "rows",
-      totals: "totals",
-      timeIntervals: "time_intervals",
-    }),
-  ) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        data: "data",
+        dataLag: "data_lag",
+        max: "max",
+        min: "min",
+        query: "query",
+        rows: "rows",
+        totals: "totals",
+        timeIntervals: "time_intervals",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetAnalyticEventBytimeResponse>;
 
 export type GetAnalyticEventBytimeError = DefaultErrors;
 
@@ -437,18 +444,22 @@ export const GetAnalyticEventSummaryResponse =
     timeIntervals: Schema.optional(
       Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      data: "data",
-      dataLag: "data_lag",
-      max: "max",
-      min: "min",
-      query: "query",
-      rows: "rows",
-      totals: "totals",
-      timeIntervals: "time_intervals",
-    }),
-  ) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        data: "data",
+        dataLag: "data_lag",
+        max: "max",
+        min: "min",
+        query: "query",
+        rows: "rows",
+        totals: "totals",
+        timeIntervals: "time_intervals",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetAnalyticEventSummaryResponse>;
 
 export type GetAnalyticEventSummaryError = DefaultErrors;
 
@@ -575,7 +586,7 @@ export const GetAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       originDirect: "origin_direct",
     }),
   ),
-]) as unknown as Schema.Schema<GetAppResponse>;
+]).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetAppResponse>;
 
 export type GetAppError = DefaultErrors;
 
@@ -611,120 +622,192 @@ export const ListAppsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/spectrum/apps" }),
 ) as unknown as Schema.Schema<ListAppsRequest>;
 
-export type ListAppsResponse = (
-  | {
-      id: string;
-      createdOn: string;
-      dns: unknown;
-      modifiedOn: string;
-      protocol: string;
-      trafficType: "direct" | "http" | "https";
-      argoSmartRouting?: boolean | null;
-      edgeIps?: unknown | null;
-      ipFirewall?: boolean | null;
-      originDirect?: string[] | null;
-      originDns?: unknown | null;
-      originPort?: string | number | null;
-      proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
-      tls?: "off" | "flexible" | "full" | "strict" | null;
-    }
-  | {
-      id: string;
-      createdOn: string;
-      dns: unknown;
-      modifiedOn: string;
-      protocol: string;
-      originDirect?: string[] | null;
-    }
-)[];
+export interface ListAppsResponse {
+  result: (
+    | {
+        id: string;
+        createdOn: string;
+        dns: unknown;
+        modifiedOn: string;
+        protocol: string;
+        trafficType: "direct" | "http" | "https";
+        argoSmartRouting?: boolean | null;
+        edgeIps?: unknown | null;
+        ipFirewall?: boolean | null;
+        originDirect?: string[] | null;
+        originDns?: unknown | null;
+        originPort?: string | number | null;
+        proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+        tls?: "off" | "flexible" | "full" | "strict" | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        dns: unknown;
+        modifiedOn: string;
+        protocol: string;
+        originDirect?: string[] | null;
+      }
+  )[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListAppsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Union([
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      dns: Schema.Unknown,
-      modifiedOn: Schema.String,
-      protocol: Schema.String,
-      trafficType: Schema.Literals(["direct", "http", "https"]),
-      argoSmartRouting: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
+export const ListAppsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        dns: Schema.Unknown,
+        modifiedOn: Schema.String,
+        protocol: Schema.String,
+        trafficType: Schema.Literals(["direct", "http", "https"]),
+        argoSmartRouting: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        ipFirewall: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        originDirect: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        originPort: Schema.optional(
+          Schema.Union([
+            Schema.Union([Schema.String, Schema.Number]),
+            Schema.Null,
+          ]),
+        ),
+        proxyProtocol: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["off", "v1", "v2", "simple"]),
+            Schema.Null,
+          ]),
+        ),
+        tls: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["off", "flexible", "full", "strict"]),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          dns: "dns",
+          modifiedOn: "modified_on",
+          protocol: "protocol",
+          trafficType: "traffic_type",
+          argoSmartRouting: "argo_smart_routing",
+          edgeIps: "edge_ips",
+          ipFirewall: "ip_firewall",
+          originDirect: "origin_direct",
+          originDns: "origin_dns",
+          originPort: "origin_port",
+          proxyProtocol: "proxy_protocol",
+          tls: "tls",
+        }),
       ),
-      edgeIps: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-      ipFirewall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      originDirect: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        dns: Schema.Unknown,
+        modifiedOn: Schema.String,
+        protocol: Schema.String,
+        originDirect: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          dns: "dns",
+          modifiedOn: "modified_on",
+          protocol: "protocol",
+          originDirect: "origin_direct",
+        }),
       ),
-      originDns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-      originPort: Schema.optional(
-        Schema.Union([
-          Schema.Union([Schema.String, Schema.Number]),
-          Schema.Null,
-        ]),
-      ),
-      proxyProtocol: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["off", "v1", "v2", "simple"]),
-          Schema.Null,
-        ]),
-      ),
-      tls: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["off", "flexible", "full", "strict"]),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        dns: "dns",
-        modifiedOn: "modified_on",
-        protocol: "protocol",
-        trafficType: "traffic_type",
-        argoSmartRouting: "argo_smart_routing",
-        edgeIps: "edge_ips",
-        ipFirewall: "ip_firewall",
-        originDirect: "origin_direct",
-        originDns: "origin_dns",
-        originPort: "origin_port",
-        proxyProtocol: "proxy_protocol",
-        tls: "tls",
-      }),
-    ),
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      dns: Schema.Unknown,
-      modifiedOn: Schema.String,
-      protocol: Schema.String,
-      originDirect: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        dns: "dns",
-        modifiedOn: "modified_on",
-        protocol: "protocol",
-        originDirect: "origin_direct",
-      }),
-    ),
-  ]),
+    ]),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListAppsResponse>;
 
 export type ListAppsError = DefaultErrors;
 
-export const listApps: API.OperationMethod<
+export const listApps: API.PaginatedOperationMethod<
   ListAppsRequest,
   ListAppsResponse,
   ListAppsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListAppsRequest,
+  ) => stream.Stream<
+    ListAppsResponse,
+    ListAppsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAppsRequest,
+  ) => stream.Stream<
+    | {
+        id: string;
+        createdOn: string;
+        dns: unknown;
+        modifiedOn: string;
+        protocol: string;
+        trafficType: "direct" | "http" | "https";
+        argoSmartRouting?: boolean | null;
+        edgeIps?: unknown | null;
+        ipFirewall?: boolean | null;
+        originDirect?: string[] | null;
+        originDns?: unknown | null;
+        originPort?: string | number | null;
+        proxyProtocol?: "off" | "v1" | "v2" | "simple" | null;
+        tls?: "off" | "flexible" | "full" | "strict" | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        dns: unknown;
+        modifiedOn: string;
+        protocol: string;
+        originDirect?: string[] | null;
+      },
+    ListAppsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAppsRequest,
   output: ListAppsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateAppRequest {
@@ -881,7 +964,9 @@ export const CreateAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       originDirect: "origin_direct",
     }),
   ),
-]) as unknown as Schema.Schema<CreateAppResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateAppResponse>;
 
 export type CreateAppError = DefaultErrors;
 
@@ -1052,7 +1137,9 @@ export const UpdateAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       originDirect: "origin_direct",
     }),
   ),
-]) as unknown as Schema.Schema<UpdateAppResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateAppResponse>;
 
 export type UpdateAppError = DefaultErrors;
 
@@ -1087,7 +1174,9 @@ export interface DeleteAppResponse {
 
 export const DeleteAppResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteAppResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteAppResponse>;
 
 export type DeleteAppError = DefaultErrors;
 

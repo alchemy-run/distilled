@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service hostnames
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -34,48 +35,77 @@ export const GetSettingTlsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSettingTlsRequest>;
 
-export type GetSettingTlsResponse = {
-  createdAt?: string | null;
-  hostname?: string | null;
-  status?: string | null;
-  updatedAt?: string | null;
-  value?: string | number | unknown | null;
-}[];
+export interface GetSettingTlsResponse {
+  result: {
+    createdAt?: string | null;
+    hostname?: string | null;
+    status?: string | null;
+    updatedAt?: string | null;
+    value?: string | number | unknown | null;
+  }[];
+}
 
-export const GetSettingTlsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    value: Schema.optional(
-      Schema.Union([
-        Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
-        Schema.Null,
-      ]),
+export const GetSettingTlsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      value: Schema.optional(
+        Schema.Union([
+          Schema.Union([Schema.String, Schema.Number, Schema.Unknown]),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        createdAt: "created_at",
+        hostname: "hostname",
+        status: "status",
+        updatedAt: "updated_at",
+        value: "value",
+      }),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      createdAt: "created_at",
-      hostname: "hostname",
-      status: "status",
-      updatedAt: "updated_at",
-      value: "value",
-    }),
   ),
-) as unknown as Schema.Schema<GetSettingTlsResponse>;
+}) as unknown as Schema.Schema<GetSettingTlsResponse>;
 
 export type GetSettingTlsError = DefaultErrors;
 
-export const getSettingTls: API.OperationMethod<
+export const getSettingTls: API.PaginatedOperationMethod<
   GetSettingTlsRequest,
   GetSettingTlsResponse,
   GetSettingTlsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetSettingTlsRequest,
+  ) => stream.Stream<
+    GetSettingTlsResponse,
+    GetSettingTlsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetSettingTlsRequest,
+  ) => stream.Stream<
+    {
+      createdAt?: string | null;
+      hostname?: string | null;
+      status?: string | null;
+      updatedAt?: string | null;
+      value?: string | number | unknown | null;
+    },
+    GetSettingTlsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetSettingTlsRequest,
   output: GetSettingTlsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutSettingTlsRequest {
@@ -125,15 +155,19 @@ export const PutSettingTlsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    hostname: "hostname",
-    status: "status",
-    updatedAt: "updated_at",
-    value: "value",
-  }),
-) as unknown as Schema.Schema<PutSettingTlsResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      hostname: "hostname",
+      status: "status",
+      updatedAt: "updated_at",
+      value: "value",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutSettingTlsResponse>;
 
 export type PutSettingTlsError = DefaultErrors;
 
@@ -194,15 +228,19 @@ export const DeleteSettingTlsResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      createdAt: "created_at",
-      hostname: "hostname",
-      status: "status",
-      updatedAt: "updated_at",
-      value: "value",
-    }),
-  ) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        createdAt: "created_at",
+        hostname: "hostname",
+        status: "status",
+        updatedAt: "updated_at",
+        value: "value",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteSettingTlsResponse>;
 
 export type DeleteSettingTlsError = DefaultErrors;
 

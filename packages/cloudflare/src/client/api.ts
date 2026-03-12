@@ -8,6 +8,7 @@
 import * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
+import * as Stream from "effect/Stream";
 import {
   makeAPI,
   type ApiErrorClass,
@@ -15,13 +16,20 @@ import {
   type PaginatedOperationMethod,
 } from "@distilled.cloud/core/client";
 import {
+  paginateCursor,
+  paginateSingle,
+  paginateWithDefaults,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
+import { getPath } from "@distilled.cloud/core/traits";
+import {
   CloudflareHttpError,
   HTTP_STATUS_MAP,
   InternalServerError,
   TooManyRequests,
   UnknownCloudflareError,
 } from "../errors.ts";
-import { Credentials } from "../credentials.ts";
+import { Credentials, formatHeaders } from "../credentials.ts";
 import { type ErrorMatcher, getErrorMatchers } from "../traits.ts";
 
 // ============================================================================
@@ -310,20 +318,59 @@ class CloudflareDecodeError extends CloudflareHttpError {
 const _API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (creds: any) => creds.apiBaseUrl,
-  getAuthHeaders: (creds: any) => ({
-    Authorization: `Bearer ${creds.apiToken}`,
-  }),
+  getAuthHeaders: formatHeaders,
   matchError,
   ParseError: CloudflareDecodeError as any,
-  transformResponse: (body: unknown) => {
-    // Cloudflare API wraps responses in { result: <data>, success, errors, messages }
-    if (typeof body === "object" && body !== null && "result" in body) {
-      // result: null is common for delete operations — treat as empty object
-      return (body as any).result ?? {};
-    }
-    return body;
-  },
 });
 
+const paginatePageByItems: PaginationStrategy = (operation, input, pagination) => {
+  const inputToken = pagination.inputToken;
+  if (!inputToken) {
+    return Stream.die(
+      new Error("Cloudflare page pagination requires an inputToken"),
+    );
+  }
+
+  type State = { page: number; done: boolean };
+  const startPage =
+    typeof input[inputToken] === "number" ? (input[inputToken] as number) : 1;
+
+  return Stream.unfold({ page: startPage, done: false } as State, (state) =>
+    Effect.gen(function* () {
+      if (state.done) return undefined;
+
+      const requestPayload = { ...input, [inputToken]: state.page };
+      const response = yield* operation(requestPayload);
+      const items =
+        pagination.items !== undefined
+          ? (getPath(response, pagination.items) as readonly unknown[] | undefined)
+          : undefined;
+
+      return [
+        response,
+        {
+          page: state.page + 1,
+          done: (items ?? []).length === 0,
+        },
+      ] as const;
+    }),
+  );
+};
+
+const cloudflarePaginate: PaginationStrategy = (operation, input, pagination) => {
+  switch (pagination.mode) {
+    case "single":
+      return paginateSingle(operation, input, pagination);
+    case "page":
+      return paginatePageByItems(operation, input, pagination);
+    case "cursor":
+      return paginateCursor(operation, input, pagination);
+    case "token":
+    default:
+      return paginateWithDefaults(operation, input, pagination);
+  }
+};
+
 export const make = _API.make;
-export const makePaginated = _API.makePaginated;
+export const makePaginated = ((configFn: any, paginateFn?: PaginationStrategy) =>
+  _API.makePaginated(configFn, paginateFn ?? cloudflarePaginate)) as typeof _API.makePaginated;

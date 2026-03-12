@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service email-security
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -331,38 +332,42 @@ export const GetInvestigateResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ]),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    actionLog: "action_log",
-    clientRecipients: "client_recipients",
-    detectionReasons: "detection_reasons",
-    isPhishSubmission: "is_phish_submission",
-    isQuarantined: "is_quarantined",
-    postfixId: "postfix_id",
-    properties: "properties",
-    ts: "ts",
-    alertId: "alert_id",
-    deliveryMode: "delivery_mode",
-    edfHash: "edf_hash",
-    envelopeFrom: "envelope_from",
-    envelopeTo: "envelope_to",
-    finalDisposition: "final_disposition",
-    findings: "findings",
-    from: "from",
-    fromName: "from_name",
-    htmltextStructureHash: "htmltext_structure_hash",
-    messageId: "message_id",
-    postfixIdOutbound: "postfix_id_outbound",
-    replyto: "replyto",
-    sentDate: "sent_date",
-    subject: "subject",
-    threatCategories: "threat_categories",
-    to: "to",
-    toName: "to_name",
-    validation: "validation",
-  }),
-) as unknown as Schema.Schema<GetInvestigateResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      actionLog: "action_log",
+      clientRecipients: "client_recipients",
+      detectionReasons: "detection_reasons",
+      isPhishSubmission: "is_phish_submission",
+      isQuarantined: "is_quarantined",
+      postfixId: "postfix_id",
+      properties: "properties",
+      ts: "ts",
+      alertId: "alert_id",
+      deliveryMode: "delivery_mode",
+      edfHash: "edf_hash",
+      envelopeFrom: "envelope_from",
+      envelopeTo: "envelope_to",
+      finalDisposition: "final_disposition",
+      findings: "findings",
+      from: "from",
+      fromName: "from_name",
+      htmltextStructureHash: "htmltext_structure_hash",
+      messageId: "message_id",
+      postfixIdOutbound: "postfix_id_outbound",
+      replyto: "replyto",
+      sentDate: "sent_date",
+      subject: "subject",
+      threatCategories: "threat_categories",
+      to: "to",
+      toName: "to_name",
+      validation: "validation",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetInvestigateResponse>;
 
 export type GetInvestigateError = DefaultErrors;
 
@@ -456,361 +461,516 @@ export const ListInvestigatesRequest =
     }),
   ) as unknown as Schema.Schema<ListInvestigatesRequest>;
 
-export type ListInvestigatesResponse = {
-  id: string;
-  actionLog: unknown;
-  clientRecipients: string[];
-  detectionReasons: string[];
-  isPhishSubmission: boolean;
-  isQuarantined: boolean;
-  postfixId: string;
-  properties: {
-    allowlistedPattern?: string | null;
-    allowlistedPatternType?:
-      | "quarantine_release"
-      | "acceptable_sender"
-      | "allowed_sender"
-      | "allowed_recipient"
-      | "domain_similarity"
-      | "domain_recency"
-      | "managed_acceptable_sender"
-      | "outbound_ndr"
+export interface ListInvestigatesResponse {
+  result: {
+    id: string;
+    actionLog: unknown;
+    clientRecipients: string[];
+    detectionReasons: string[];
+    isPhishSubmission: boolean;
+    isQuarantined: boolean;
+    postfixId: string;
+    properties: {
+      allowlistedPattern?: string | null;
+      allowlistedPatternType?:
+        | "quarantine_release"
+        | "acceptable_sender"
+        | "allowed_sender"
+        | "allowed_recipient"
+        | "domain_similarity"
+        | "domain_recency"
+        | "managed_acceptable_sender"
+        | "outbound_ndr"
+        | null;
+      blocklistedMessage?: boolean | null;
+      blocklistedPattern?: string | null;
+      whitelistedPatternType?:
+        | "quarantine_release"
+        | "acceptable_sender"
+        | "allowed_sender"
+        | "allowed_recipient"
+        | "domain_similarity"
+        | "domain_recency"
+        | "managed_acceptable_sender"
+        | "outbound_ndr"
+        | null;
+    };
+    ts: string;
+    alertId?: string | null;
+    deliveryMode?:
+      | "DIRECT"
+      | "BCC"
+      | "JOURNAL"
+      | "REVIEW_SUBMISSION"
+      | "DMARC_UNVERIFIED"
+      | "DMARC_FAILURE_REPORT"
+      | "DMARC_AGGREGATE_REPORT"
+      | "THREAT_INTEL_SUBMISSION"
+      | "SIMULATION_SUBMISSION"
+      | "API"
+      | "RETRO_SCAN"
       | null;
-    blocklistedMessage?: boolean | null;
-    blocklistedPattern?: string | null;
-    whitelistedPatternType?:
-      | "quarantine_release"
-      | "acceptable_sender"
-      | "allowed_sender"
-      | "allowed_recipient"
-      | "domain_similarity"
-      | "domain_recency"
-      | "managed_acceptable_sender"
-      | "outbound_ndr"
+    edfHash?: string | null;
+    envelopeFrom?: string | null;
+    envelopeTo?: string[] | null;
+    finalDisposition?:
+      | "MALICIOUS"
+      | "MALICIOUS-BEC"
+      | "SUSPICIOUS"
+      | "SPOOF"
+      | "SPAM"
+      | "BULK"
+      | "ENCRYPTED"
+      | "EXTERNAL"
+      | "UNKNOWN"
+      | "NONE"
       | null;
+    findings?:
+      | {
+          attachment?: string | null;
+          detail?: string | null;
+          detection?:
+            | "MALICIOUS"
+            | "MALICIOUS-BEC"
+            | "SUSPICIOUS"
+            | "SPOOF"
+            | "SPAM"
+            | "BULK"
+            | "ENCRYPTED"
+            | "EXTERNAL"
+            | "UNKNOWN"
+            | "NONE"
+            | null;
+          field?: string | null;
+          name?: string | null;
+          portion?: string | null;
+          reason?: string | null;
+          score?: number | null;
+          value?: string | null;
+        }[]
+      | null;
+    from?: string | null;
+    fromName?: string | null;
+    htmltextStructureHash?: string | null;
+    messageId?: string | null;
+    postfixIdOutbound?: string | null;
+    replyto?: string | null;
+    sentDate?: string | null;
+    subject?: string | null;
+    threatCategories?: string[] | null;
+    to?: string[] | null;
+    toName?: string[] | null;
+    validation?: {
+      comment?: string | null;
+      dkim?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+      dmarc?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+      spf?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+    } | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
   };
-  ts: string;
-  alertId?: string | null;
-  deliveryMode?:
-    | "DIRECT"
-    | "BCC"
-    | "JOURNAL"
-    | "REVIEW_SUBMISSION"
-    | "DMARC_UNVERIFIED"
-    | "DMARC_FAILURE_REPORT"
-    | "DMARC_AGGREGATE_REPORT"
-    | "THREAT_INTEL_SUBMISSION"
-    | "SIMULATION_SUBMISSION"
-    | "API"
-    | "RETRO_SCAN"
-    | null;
-  edfHash?: string | null;
-  envelopeFrom?: string | null;
-  envelopeTo?: string[] | null;
-  finalDisposition?:
-    | "MALICIOUS"
-    | "MALICIOUS-BEC"
-    | "SUSPICIOUS"
-    | "SPOOF"
-    | "SPAM"
-    | "BULK"
-    | "ENCRYPTED"
-    | "EXTERNAL"
-    | "UNKNOWN"
-    | "NONE"
-    | null;
-  findings?:
-    | {
-        attachment?: string | null;
-        detail?: string | null;
-        detection?:
-          | "MALICIOUS"
-          | "MALICIOUS-BEC"
-          | "SUSPICIOUS"
-          | "SPOOF"
-          | "SPAM"
-          | "BULK"
-          | "ENCRYPTED"
-          | "EXTERNAL"
-          | "UNKNOWN"
-          | "NONE"
-          | null;
-        field?: string | null;
-        name?: string | null;
-        portion?: string | null;
-        reason?: string | null;
-        score?: number | null;
-        value?: string | null;
-      }[]
-    | null;
-  from?: string | null;
-  fromName?: string | null;
-  htmltextStructureHash?: string | null;
-  messageId?: string | null;
-  postfixIdOutbound?: string | null;
-  replyto?: string | null;
-  sentDate?: string | null;
-  subject?: string | null;
-  threatCategories?: string[] | null;
-  to?: string[] | null;
-  toName?: string[] | null;
-  validation?: {
-    comment?: string | null;
-    dkim?: "pass" | "neutral" | "fail" | "error" | "none" | null;
-    dmarc?: "pass" | "neutral" | "fail" | "error" | "none" | null;
-    spf?: "pass" | "neutral" | "fail" | "error" | "none" | null;
-  } | null;
-}[];
+}
 
 export const ListInvestigatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      actionLog: Schema.Unknown,
-      clientRecipients: Schema.Array(Schema.String),
-      detectionReasons: Schema.Array(Schema.String),
-      isPhishSubmission: Schema.Boolean,
-      isQuarantined: Schema.Boolean,
-      postfixId: Schema.String,
-      properties: Schema.Struct({
-        allowlistedPattern: Schema.optional(
-          Schema.Union([Schema.String, Schema.Null]),
-        ),
-        allowlistedPatternType: Schema.optional(
-          Schema.Union([
-            Schema.Literals([
-              "quarantine_release",
-              "acceptable_sender",
-              "allowed_sender",
-              "allowed_recipient",
-              "domain_similarity",
-              "domain_recency",
-              "managed_acceptable_sender",
-              "outbound_ndr",
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        actionLog: Schema.Unknown,
+        clientRecipients: Schema.Array(Schema.String),
+        detectionReasons: Schema.Array(Schema.String),
+        isPhishSubmission: Schema.Boolean,
+        isQuarantined: Schema.Boolean,
+        postfixId: Schema.String,
+        properties: Schema.Struct({
+          allowlistedPattern: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          allowlistedPatternType: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "quarantine_release",
+                "acceptable_sender",
+                "allowed_sender",
+                "allowed_recipient",
+                "domain_similarity",
+                "domain_recency",
+                "managed_acceptable_sender",
+                "outbound_ndr",
+              ]),
+              Schema.Null,
             ]),
+          ),
+          blocklistedMessage: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          blocklistedPattern: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          whitelistedPatternType: Schema.optional(
+            Schema.Union([
+              Schema.Literals([
+                "quarantine_release",
+                "acceptable_sender",
+                "allowed_sender",
+                "allowed_recipient",
+                "domain_similarity",
+                "domain_recency",
+                "managed_acceptable_sender",
+                "outbound_ndr",
+              ]),
+              Schema.Null,
+            ]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            allowlistedPattern: "allowlisted_pattern",
+            allowlistedPatternType: "allowlisted_pattern_type",
+            blocklistedMessage: "blocklisted_message",
+            blocklistedPattern: "blocklisted_pattern",
+            whitelistedPatternType: "whitelisted_pattern_type",
+          }),
+        ),
+        ts: Schema.String,
+        alertId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        deliveryMode: Schema.optional(
+          Schema.Union([
+            Schema.Literal("DIRECT"),
+            Schema.Literal("BCC"),
+            Schema.Literal("JOURNAL"),
+            Schema.Literal("REVIEW_SUBMISSION"),
+            Schema.Literal("DMARC_UNVERIFIED"),
+            Schema.Literal("DMARC_FAILURE_REPORT"),
+            Schema.Literal("DMARC_AGGREGATE_REPORT"),
+            Schema.Literal("THREAT_INTEL_SUBMISSION"),
+            Schema.Literal("SIMULATION_SUBMISSION"),
+            Schema.Literal("API"),
+            Schema.Literal("RETRO_SCAN"),
             Schema.Null,
           ]),
         ),
-        blocklistedMessage: Schema.optional(
-          Schema.Union([Schema.Boolean, Schema.Null]),
-        ),
-        blocklistedPattern: Schema.optional(
+        edfHash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        envelopeFrom: Schema.optional(
           Schema.Union([Schema.String, Schema.Null]),
         ),
-        whitelistedPatternType: Schema.optional(
+        envelopeTo: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        finalDisposition: Schema.optional(
           Schema.Union([
-            Schema.Literals([
-              "quarantine_release",
-              "acceptable_sender",
-              "allowed_sender",
-              "allowed_recipient",
-              "domain_similarity",
-              "domain_recency",
-              "managed_acceptable_sender",
-              "outbound_ndr",
-            ]),
+            Schema.Literal("MALICIOUS"),
+            Schema.Literal("MALICIOUS-BEC"),
+            Schema.Literal("SUSPICIOUS"),
+            Schema.Literal("SPOOF"),
+            Schema.Literal("SPAM"),
+            Schema.Literal("BULK"),
+            Schema.Literal("ENCRYPTED"),
+            Schema.Literal("EXTERNAL"),
+            Schema.Literal("UNKNOWN"),
+            Schema.Literal("NONE"),
+            Schema.Null,
+          ]),
+        ),
+        findings: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                attachment: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                detail: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                detection: Schema.optional(
+                  Schema.Union([
+                    Schema.Literal("MALICIOUS"),
+                    Schema.Literal("MALICIOUS-BEC"),
+                    Schema.Literal("SUSPICIOUS"),
+                    Schema.Literal("SPOOF"),
+                    Schema.Literal("SPAM"),
+                    Schema.Literal("BULK"),
+                    Schema.Literal("ENCRYPTED"),
+                    Schema.Literal("EXTERNAL"),
+                    Schema.Literal("UNKNOWN"),
+                    Schema.Literal("NONE"),
+                    Schema.Null,
+                  ]),
+                ),
+                field: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                name: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                portion: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                reason: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                score: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                value: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        from: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        fromName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        htmltextStructureHash: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        postfixIdOutbound: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        replyto: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        sentDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        subject: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        threatCategories: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        to: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        toName: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        validation: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              comment: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              dkim: Schema.optional(
+                Schema.Union([
+                  Schema.Literal("pass"),
+                  Schema.Literal("neutral"),
+                  Schema.Literal("fail"),
+                  Schema.Literal("error"),
+                  Schema.Literal("none"),
+                  Schema.Null,
+                ]),
+              ),
+              dmarc: Schema.optional(
+                Schema.Union([
+                  Schema.Literal("pass"),
+                  Schema.Literal("neutral"),
+                  Schema.Literal("fail"),
+                  Schema.Literal("error"),
+                  Schema.Literal("none"),
+                  Schema.Null,
+                ]),
+              ),
+              spf: Schema.optional(
+                Schema.Union([
+                  Schema.Literal("pass"),
+                  Schema.Literal("neutral"),
+                  Schema.Literal("fail"),
+                  Schema.Literal("error"),
+                  Schema.Literal("none"),
+                  Schema.Null,
+                ]),
+              ),
+            }),
             Schema.Null,
           ]),
         ),
       }).pipe(
         Schema.encodeKeys({
-          allowlistedPattern: "allowlisted_pattern",
-          allowlistedPatternType: "allowlisted_pattern_type",
-          blocklistedMessage: "blocklisted_message",
-          blocklistedPattern: "blocklisted_pattern",
-          whitelistedPatternType: "whitelisted_pattern_type",
+          id: "id",
+          actionLog: "action_log",
+          clientRecipients: "client_recipients",
+          detectionReasons: "detection_reasons",
+          isPhishSubmission: "is_phish_submission",
+          isQuarantined: "is_quarantined",
+          postfixId: "postfix_id",
+          properties: "properties",
+          ts: "ts",
+          alertId: "alert_id",
+          deliveryMode: "delivery_mode",
+          edfHash: "edf_hash",
+          envelopeFrom: "envelope_from",
+          envelopeTo: "envelope_to",
+          finalDisposition: "final_disposition",
+          findings: "findings",
+          from: "from",
+          fromName: "from_name",
+          htmltextStructureHash: "htmltext_structure_hash",
+          messageId: "message_id",
+          postfixIdOutbound: "postfix_id_outbound",
+          replyto: "replyto",
+          sentDate: "sent_date",
+          subject: "subject",
+          threatCategories: "threat_categories",
+          to: "to",
+          toName: "to_name",
+          validation: "validation",
         }),
       ),
-      ts: Schema.String,
-      alertId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      deliveryMode: Schema.optional(
-        Schema.Union([
-          Schema.Literal("DIRECT"),
-          Schema.Literal("BCC"),
-          Schema.Literal("JOURNAL"),
-          Schema.Literal("REVIEW_SUBMISSION"),
-          Schema.Literal("DMARC_UNVERIFIED"),
-          Schema.Literal("DMARC_FAILURE_REPORT"),
-          Schema.Literal("DMARC_AGGREGATE_REPORT"),
-          Schema.Literal("THREAT_INTEL_SUBMISSION"),
-          Schema.Literal("SIMULATION_SUBMISSION"),
-          Schema.Literal("API"),
-          Schema.Literal("RETRO_SCAN"),
-          Schema.Null,
-        ]),
-      ),
-      edfHash: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      envelopeFrom: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      envelopeTo: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      finalDisposition: Schema.optional(
-        Schema.Union([
-          Schema.Literal("MALICIOUS"),
-          Schema.Literal("MALICIOUS-BEC"),
-          Schema.Literal("SUSPICIOUS"),
-          Schema.Literal("SPOOF"),
-          Schema.Literal("SPAM"),
-          Schema.Literal("BULK"),
-          Schema.Literal("ENCRYPTED"),
-          Schema.Literal("EXTERNAL"),
-          Schema.Literal("UNKNOWN"),
-          Schema.Literal("NONE"),
-          Schema.Null,
-        ]),
-      ),
-      findings: Schema.optional(
-        Schema.Union([
-          Schema.Array(
-            Schema.Struct({
-              attachment: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              detail: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              detection: Schema.optional(
-                Schema.Union([
-                  Schema.Literal("MALICIOUS"),
-                  Schema.Literal("MALICIOUS-BEC"),
-                  Schema.Literal("SUSPICIOUS"),
-                  Schema.Literal("SPOOF"),
-                  Schema.Literal("SPAM"),
-                  Schema.Literal("BULK"),
-                  Schema.Literal("ENCRYPTED"),
-                  Schema.Literal("EXTERNAL"),
-                  Schema.Literal("UNKNOWN"),
-                  Schema.Literal("NONE"),
-                  Schema.Null,
-                ]),
-              ),
-              field: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-              portion: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              reason: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              score: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              value: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-            }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      from: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      fromName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      htmltextStructureHash: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      postfixIdOutbound: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      replyto: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      sentDate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      subject: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      threatCategories: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      to: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      toName: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      validation: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            comment: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            dkim: Schema.optional(
-              Schema.Union([
-                Schema.Literal("pass"),
-                Schema.Literal("neutral"),
-                Schema.Literal("fail"),
-                Schema.Literal("error"),
-                Schema.Literal("none"),
-                Schema.Null,
-              ]),
-            ),
-            dmarc: Schema.optional(
-              Schema.Union([
-                Schema.Literal("pass"),
-                Schema.Literal("neutral"),
-                Schema.Literal("fail"),
-                Schema.Literal("error"),
-                Schema.Literal("none"),
-                Schema.Null,
-              ]),
-            ),
-            spf: Schema.optional(
-              Schema.Union([
-                Schema.Literal("pass"),
-                Schema.Literal("neutral"),
-                Schema.Literal("fail"),
-                Schema.Literal("error"),
-                Schema.Literal("none"),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        actionLog: "action_log",
-        clientRecipients: "client_recipients",
-        detectionReasons: "detection_reasons",
-        isPhishSubmission: "is_phish_submission",
-        isQuarantined: "is_quarantined",
-        postfixId: "postfix_id",
-        properties: "properties",
-        ts: "ts",
-        alertId: "alert_id",
-        deliveryMode: "delivery_mode",
-        edfHash: "edf_hash",
-        envelopeFrom: "envelope_from",
-        envelopeTo: "envelope_to",
-        finalDisposition: "final_disposition",
-        findings: "findings",
-        from: "from",
-        fromName: "from_name",
-        htmltextStructureHash: "htmltext_structure_hash",
-        messageId: "message_id",
-        postfixIdOutbound: "postfix_id_outbound",
-        replyto: "replyto",
-        sentDate: "sent_date",
-        subject: "subject",
-        threatCategories: "threat_categories",
-        to: "to",
-        toName: "to_name",
-        validation: "validation",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListInvestigatesResponse>;
 
 export type ListInvestigatesError = DefaultErrors;
 
-export const listInvestigates: API.OperationMethod<
+export const listInvestigates: API.PaginatedOperationMethod<
   ListInvestigatesRequest,
   ListInvestigatesResponse,
   ListInvestigatesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListInvestigatesRequest,
+  ) => stream.Stream<
+    ListInvestigatesResponse,
+    ListInvestigatesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInvestigatesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      actionLog: unknown;
+      clientRecipients: string[];
+      detectionReasons: string[];
+      isPhishSubmission: boolean;
+      isQuarantined: boolean;
+      postfixId: string;
+      properties: {
+        allowlistedPattern?: string | null;
+        allowlistedPatternType?:
+          | "quarantine_release"
+          | "acceptable_sender"
+          | "allowed_sender"
+          | "allowed_recipient"
+          | "domain_similarity"
+          | "domain_recency"
+          | "managed_acceptable_sender"
+          | "outbound_ndr"
+          | null;
+        blocklistedMessage?: boolean | null;
+        blocklistedPattern?: string | null;
+        whitelistedPatternType?:
+          | "quarantine_release"
+          | "acceptable_sender"
+          | "allowed_sender"
+          | "allowed_recipient"
+          | "domain_similarity"
+          | "domain_recency"
+          | "managed_acceptable_sender"
+          | "outbound_ndr"
+          | null;
+      };
+      ts: string;
+      alertId?: string | null;
+      deliveryMode?:
+        | "DIRECT"
+        | "BCC"
+        | "JOURNAL"
+        | "REVIEW_SUBMISSION"
+        | "DMARC_UNVERIFIED"
+        | "DMARC_FAILURE_REPORT"
+        | "DMARC_AGGREGATE_REPORT"
+        | "THREAT_INTEL_SUBMISSION"
+        | "SIMULATION_SUBMISSION"
+        | "API"
+        | "RETRO_SCAN"
+        | null;
+      edfHash?: string | null;
+      envelopeFrom?: string | null;
+      envelopeTo?: string[] | null;
+      finalDisposition?:
+        | "MALICIOUS"
+        | "MALICIOUS-BEC"
+        | "SUSPICIOUS"
+        | "SPOOF"
+        | "SPAM"
+        | "BULK"
+        | "ENCRYPTED"
+        | "EXTERNAL"
+        | "UNKNOWN"
+        | "NONE"
+        | null;
+      findings?:
+        | {
+            attachment?: string | null;
+            detail?: string | null;
+            detection?:
+              | "MALICIOUS"
+              | "MALICIOUS-BEC"
+              | "SUSPICIOUS"
+              | "SPOOF"
+              | "SPAM"
+              | "BULK"
+              | "ENCRYPTED"
+              | "EXTERNAL"
+              | "UNKNOWN"
+              | "NONE"
+              | null;
+            field?: string | null;
+            name?: string | null;
+            portion?: string | null;
+            reason?: string | null;
+            score?: number | null;
+            value?: string | null;
+          }[]
+        | null;
+      from?: string | null;
+      fromName?: string | null;
+      htmltextStructureHash?: string | null;
+      messageId?: string | null;
+      postfixIdOutbound?: string | null;
+      replyto?: string | null;
+      sentDate?: string | null;
+      subject?: string | null;
+      threatCategories?: string[] | null;
+      to?: string[] | null;
+      toName?: string[] | null;
+      validation?: {
+        comment?: string | null;
+        dkim?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+        dmarc?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+        spf?: "pass" | "neutral" | "fail" | "error" | "none" | null;
+      } | null;
+    },
+    ListInvestigatesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInvestigatesRequest,
   output: ListInvestigatesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -1008,18 +1168,22 @@ export const GetInvestigateDetectionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      action: "action",
-      attachments: "attachments",
-      headers: "headers",
-      links: "links",
-      senderInfo: "sender_info",
-      threatCategories: "threat_categories",
-      validation: "validation",
-      finalDisposition: "final_disposition",
-    }),
-  ) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        action: "action",
+        attachments: "attachments",
+        headers: "headers",
+        links: "links",
+        senderInfo: "sender_info",
+        threatCategories: "threat_categories",
+        validation: "validation",
+        finalDisposition: "final_disposition",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetInvestigateDetectionResponse>;
 
 export type GetInvestigateDetectionError = DefaultErrors;
 
@@ -1069,53 +1233,87 @@ export const CreateInvestigateMoveRequest =
     }),
   ) as unknown as Schema.Schema<CreateInvestigateMoveRequest>;
 
-export type CreateInvestigateMoveResponse = {
-  completedTimestamp: string;
-  itemCount: number;
-  success: boolean;
-  destination?: string | null;
-  messageId?: string | null;
-  operation?: string | null;
-  recipient?: string | null;
-  status?: string | null;
-}[];
+export interface CreateInvestigateMoveResponse {
+  result: {
+    completedTimestamp: string;
+    itemCount: number;
+    success: boolean;
+    destination?: string | null;
+    messageId?: string | null;
+    operation?: string | null;
+    recipient?: string | null;
+    status?: string | null;
+  }[];
+}
 
 export const CreateInvestigateMoveResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      completedTimestamp: Schema.String,
-      itemCount: Schema.Number,
-      success: Schema.Boolean,
-      destination: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      operation: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      recipient: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        completedTimestamp: "completed_timestamp",
-        itemCount: "item_count",
-        success: "success",
-        destination: "destination",
-        messageId: "message_id",
-        operation: "operation",
-        recipient: "recipient",
-        status: "status",
-      }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        completedTimestamp: Schema.String,
+        itemCount: Schema.Number,
+        success: Schema.Boolean,
+        destination: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        operation: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        recipient: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          completedTimestamp: "completed_timestamp",
+          itemCount: "item_count",
+          success: "success",
+          destination: "destination",
+          messageId: "message_id",
+          operation: "operation",
+          recipient: "recipient",
+          status: "status",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<CreateInvestigateMoveResponse>;
+  }) as unknown as Schema.Schema<CreateInvestigateMoveResponse>;
 
 export type CreateInvestigateMoveError = DefaultErrors;
 
-export const createInvestigateMove: API.OperationMethod<
+export const createInvestigateMove: API.PaginatedOperationMethod<
   CreateInvestigateMoveRequest,
   CreateInvestigateMoveResponse,
   CreateInvestigateMoveError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: CreateInvestigateMoveRequest,
+  ) => stream.Stream<
+    CreateInvestigateMoveResponse,
+    CreateInvestigateMoveError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: CreateInvestigateMoveRequest,
+  ) => stream.Stream<
+    {
+      completedTimestamp: string;
+      itemCount: number;
+      success: boolean;
+      destination?: string | null;
+      messageId?: string | null;
+      operation?: string | null;
+      recipient?: string | null;
+      status?: string | null;
+    },
+    CreateInvestigateMoveError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CreateInvestigateMoveRequest,
   output: CreateInvestigateMoveResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface BulkInvestigateMoveRequest {
@@ -1154,53 +1352,87 @@ export const BulkInvestigateMoveRequest =
     }),
   ) as unknown as Schema.Schema<BulkInvestigateMoveRequest>;
 
-export type BulkInvestigateMoveResponse = {
-  completedTimestamp: string;
-  itemCount: number;
-  success: boolean;
-  destination?: string | null;
-  messageId?: string | null;
-  operation?: string | null;
-  recipient?: string | null;
-  status?: string | null;
-}[];
+export interface BulkInvestigateMoveResponse {
+  result: {
+    completedTimestamp: string;
+    itemCount: number;
+    success: boolean;
+    destination?: string | null;
+    messageId?: string | null;
+    operation?: string | null;
+    recipient?: string | null;
+    status?: string | null;
+  }[];
+}
 
 export const BulkInvestigateMoveResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      completedTimestamp: Schema.String,
-      itemCount: Schema.Number,
-      success: Schema.Boolean,
-      destination: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      operation: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      recipient: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        completedTimestamp: "completed_timestamp",
-        itemCount: "item_count",
-        success: "success",
-        destination: "destination",
-        messageId: "message_id",
-        operation: "operation",
-        recipient: "recipient",
-        status: "status",
-      }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        completedTimestamp: Schema.String,
+        itemCount: Schema.Number,
+        success: Schema.Boolean,
+        destination: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        messageId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        operation: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        recipient: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          completedTimestamp: "completed_timestamp",
+          itemCount: "item_count",
+          success: "success",
+          destination: "destination",
+          messageId: "message_id",
+          operation: "operation",
+          recipient: "recipient",
+          status: "status",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<BulkInvestigateMoveResponse>;
+  }) as unknown as Schema.Schema<BulkInvestigateMoveResponse>;
 
 export type BulkInvestigateMoveError = DefaultErrors;
 
-export const bulkInvestigateMove: API.OperationMethod<
+export const bulkInvestigateMove: API.PaginatedOperationMethod<
   BulkInvestigateMoveRequest,
   BulkInvestigateMoveResponse,
   BulkInvestigateMoveError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkInvestigateMoveRequest,
+  ) => stream.Stream<
+    BulkInvestigateMoveResponse,
+    BulkInvestigateMoveError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkInvestigateMoveRequest,
+  ) => stream.Stream<
+    {
+      completedTimestamp: string;
+      itemCount: number;
+      success: boolean;
+      destination?: string | null;
+      messageId?: string | null;
+      operation?: string | null;
+      recipient?: string | null;
+      status?: string | null;
+    },
+    BulkInvestigateMoveError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkInvestigateMoveRequest,
   output: BulkInvestigateMoveResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1232,7 +1464,9 @@ export interface GetInvestigatePreviewResponse {
 export const GetInvestigatePreviewResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     screenshot: Schema.String,
-  }) as unknown as Schema.Schema<GetInvestigatePreviewResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetInvestigatePreviewResponse>;
 
 export type GetInvestigatePreviewError = DefaultErrors;
 
@@ -1274,7 +1508,9 @@ export interface CreateInvestigatePreviewResponse {
 export const CreateInvestigatePreviewResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     screenshot: Schema.String,
-  }) as unknown as Schema.Schema<CreateInvestigatePreviewResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateInvestigatePreviewResponse>;
 
 export type CreateInvestigatePreviewError = DefaultErrors;
 
@@ -1318,7 +1554,9 @@ export interface GetInvestigateRawResponse {
 export const GetInvestigateRawResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     raw: Schema.String,
-  }) as unknown as Schema.Schema<GetInvestigateRawResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetInvestigateRawResponse>;
 
 export type GetInvestigateRawError = DefaultErrors;
 
@@ -1384,7 +1622,9 @@ export const CreateInvestigateReclassifyRequest =
 export type CreateInvestigateReclassifyResponse = unknown;
 
 export const CreateInvestigateReclassifyResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateInvestigateReclassifyResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateInvestigateReclassifyResponse>;
 
 export type CreateInvestigateReclassifyError = DefaultErrors;
 
@@ -1421,47 +1661,75 @@ export const BulkInvestigateReleaseRequest =
     }),
   ) as unknown as Schema.Schema<BulkInvestigateReleaseRequest>;
 
-export type BulkInvestigateReleaseResponse = {
-  postfixId: string;
-  delivered?: string[] | null;
-  failed?: string[] | null;
-  undelivered?: string[] | null;
-}[];
+export interface BulkInvestigateReleaseResponse {
+  result: {
+    postfixId: string;
+    delivered?: string[] | null;
+    failed?: string[] | null;
+    undelivered?: string[] | null;
+  }[];
+}
 
 export const BulkInvestigateReleaseResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      postfixId: Schema.String,
-      delivered: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        postfixId: Schema.String,
+        delivered: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        failed: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        undelivered: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          postfixId: "postfix_id",
+          delivered: "delivered",
+          failed: "failed",
+          undelivered: "undelivered",
+        }),
       ),
-      failed: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      undelivered: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        postfixId: "postfix_id",
-        delivered: "delivered",
-        failed: "failed",
-        undelivered: "undelivered",
-      }),
     ),
-  ) as unknown as Schema.Schema<BulkInvestigateReleaseResponse>;
+  }) as unknown as Schema.Schema<BulkInvestigateReleaseResponse>;
 
 export type BulkInvestigateReleaseError = DefaultErrors;
 
-export const bulkInvestigateRelease: API.OperationMethod<
+export const bulkInvestigateRelease: API.PaginatedOperationMethod<
   BulkInvestigateReleaseRequest,
   BulkInvestigateReleaseResponse,
   BulkInvestigateReleaseError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkInvestigateReleaseRequest,
+  ) => stream.Stream<
+    BulkInvestigateReleaseResponse,
+    BulkInvestigateReleaseError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkInvestigateReleaseRequest,
+  ) => stream.Stream<
+    {
+      postfixId: string;
+      delivered?: string[] | null;
+      failed?: string[] | null;
+      undelivered?: string[] | null;
+    },
+    BulkInvestigateReleaseError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkInvestigateReleaseRequest,
   output: BulkInvestigateReleaseResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1528,7 +1796,9 @@ export const GetInvestigateTraceResponse =
       ),
       pending: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     }),
-  }) as unknown as Schema.Schema<GetInvestigateTraceResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetInvestigateTraceResponse>;
 
 export type GetInvestigateTraceError = DefaultErrors;
 
@@ -1605,24 +1875,28 @@ export const GetSettingAllowPolicyResponse =
     isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isAcceptableSender: "is_acceptable_sender",
-      isExemptRecipient: "is_exempt_recipient",
-      isRegex: "is_regex",
-      isTrustedSender: "is_trusted_sender",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      verifySender: "verify_sender",
-      comments: "comments",
-      isRecipient: "is_recipient",
-      isSender: "is_sender",
-      isSpoof: "is_spoof",
-    }),
-  ) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isAcceptableSender: "is_acceptable_sender",
+        isExemptRecipient: "is_exempt_recipient",
+        isRegex: "is_regex",
+        isTrustedSender: "is_trusted_sender",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        verifySender: "verify_sender",
+        comments: "comments",
+        isRecipient: "is_recipient",
+        isSender: "is_sender",
+        isSpoof: "is_spoof",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingAllowPolicyResponse>;
 
 export type GetSettingAllowPolicyError = DefaultErrors;
 
@@ -1704,71 +1978,135 @@ export const ListSettingAllowPoliciesRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingAllowPoliciesRequest>;
 
-export type ListSettingAllowPoliciesResponse = {
-  id: number;
-  createdAt: string;
-  isAcceptableSender: boolean;
-  isExemptRecipient: boolean;
-  isRegex: boolean;
-  isTrustedSender: boolean;
-  lastModified: string;
-  pattern: string;
-  patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
-  verifySender: boolean;
-  comments?: string | null;
-  isRecipient?: boolean | null;
-  isSender?: boolean | null;
-  isSpoof?: boolean | null;
-}[];
+export interface ListSettingAllowPoliciesResponse {
+  result: {
+    id: number;
+    createdAt: string;
+    isAcceptableSender: boolean;
+    isExemptRecipient: boolean;
+    isRegex: boolean;
+    isTrustedSender: boolean;
+    lastModified: string;
+    pattern: string;
+    patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
+    verifySender: boolean;
+    comments?: string | null;
+    isRecipient?: boolean | null;
+    isSender?: boolean | null;
+    isSpoof?: boolean | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingAllowPoliciesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      createdAt: Schema.String,
-      isAcceptableSender: Schema.Boolean,
-      isExemptRecipient: Schema.Boolean,
-      isRegex: Schema.Boolean,
-      isTrustedSender: Schema.Boolean,
-      lastModified: Schema.String,
-      pattern: Schema.String,
-      patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-      verifySender: Schema.Boolean,
-      comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        createdAt: Schema.String,
+        isAcceptableSender: Schema.Boolean,
+        isExemptRecipient: Schema.Boolean,
+        isRegex: Schema.Boolean,
+        isTrustedSender: Schema.Boolean,
+        lastModified: Schema.String,
+        pattern: Schema.String,
+        patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+        verifySender: Schema.Boolean,
+        comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        isRecipient: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          isAcceptableSender: "is_acceptable_sender",
+          isExemptRecipient: "is_exempt_recipient",
+          isRegex: "is_regex",
+          isTrustedSender: "is_trusted_sender",
+          lastModified: "last_modified",
+          pattern: "pattern",
+          patternType: "pattern_type",
+          verifySender: "verify_sender",
+          comments: "comments",
+          isRecipient: "is_recipient",
+          isSender: "is_sender",
+          isSpoof: "is_spoof",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        isAcceptableSender: "is_acceptable_sender",
-        isExemptRecipient: "is_exempt_recipient",
-        isRegex: "is_regex",
-        isTrustedSender: "is_trusted_sender",
-        lastModified: "last_modified",
-        pattern: "pattern",
-        patternType: "pattern_type",
-        verifySender: "verify_sender",
-        comments: "comments",
-        isRecipient: "is_recipient",
-        isSender: "is_sender",
-        isSpoof: "is_spoof",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingAllowPoliciesResponse>;
 
 export type ListSettingAllowPoliciesError = DefaultErrors;
 
-export const listSettingAllowPolicies: API.OperationMethod<
+export const listSettingAllowPolicies: API.PaginatedOperationMethod<
   ListSettingAllowPoliciesRequest,
   ListSettingAllowPoliciesResponse,
   ListSettingAllowPoliciesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingAllowPoliciesRequest,
+  ) => stream.Stream<
+    ListSettingAllowPoliciesResponse,
+    ListSettingAllowPoliciesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingAllowPoliciesRequest,
+  ) => stream.Stream<
+    {
+      id: number;
+      createdAt: string;
+      isAcceptableSender: boolean;
+      isExemptRecipient: boolean;
+      isRegex: boolean;
+      isTrustedSender: boolean;
+      lastModified: string;
+      pattern: string;
+      patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
+      verifySender: boolean;
+      comments?: string | null;
+      isRecipient?: boolean | null;
+      isSender?: boolean | null;
+      isSpoof?: boolean | null;
+    },
+    ListSettingAllowPoliciesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingAllowPoliciesRequest,
   output: ListSettingAllowPoliciesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSettingAllowPolicyRequest {
@@ -1873,24 +2211,28 @@ export const CreateSettingAllowPolicyResponse =
     isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isAcceptableSender: "is_acceptable_sender",
-      isExemptRecipient: "is_exempt_recipient",
-      isRegex: "is_regex",
-      isTrustedSender: "is_trusted_sender",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      verifySender: "verify_sender",
-      comments: "comments",
-      isRecipient: "is_recipient",
-      isSender: "is_sender",
-      isSpoof: "is_spoof",
-    }),
-  ) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isAcceptableSender: "is_acceptable_sender",
+        isExemptRecipient: "is_exempt_recipient",
+        isRegex: "is_regex",
+        isTrustedSender: "is_trusted_sender",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        verifySender: "verify_sender",
+        comments: "comments",
+        isRecipient: "is_recipient",
+        isSender: "is_sender",
+        isSpoof: "is_spoof",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateSettingAllowPolicyResponse>;
 
 export type CreateSettingAllowPolicyError = DefaultErrors;
 
@@ -2011,24 +2353,28 @@ export const PatchSettingAllowPolicyResponse =
     isRecipient: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSender: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     isSpoof: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isAcceptableSender: "is_acceptable_sender",
-      isExemptRecipient: "is_exempt_recipient",
-      isRegex: "is_regex",
-      isTrustedSender: "is_trusted_sender",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      verifySender: "verify_sender",
-      comments: "comments",
-      isRecipient: "is_recipient",
-      isSender: "is_sender",
-      isSpoof: "is_spoof",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isAcceptableSender: "is_acceptable_sender",
+        isExemptRecipient: "is_exempt_recipient",
+        isRegex: "is_regex",
+        isTrustedSender: "is_trusted_sender",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        verifySender: "verify_sender",
+        comments: "comments",
+        isRecipient: "is_recipient",
+        isSender: "is_sender",
+        isSpoof: "is_spoof",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingAllowPolicyResponse>;
 
 export type PatchSettingAllowPolicyError = DefaultErrors;
 
@@ -2068,7 +2414,9 @@ export interface DeleteSettingAllowPolicyResponse {
 export const DeleteSettingAllowPolicyResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.Number,
-  }) as unknown as Schema.Schema<DeleteSettingAllowPolicyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingAllowPolicyResponse>;
 
 export type DeleteSettingAllowPolicyError = DefaultErrors;
 
@@ -2124,17 +2472,21 @@ export const GetSettingBlockSenderResponse =
     pattern: Schema.String,
     patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isRegex: "is_regex",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      comments: "comments",
-    }),
-  ) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isRegex: "is_regex",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        comments: "comments",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingBlockSenderResponse>;
 
 export type GetSettingBlockSenderError = DefaultErrors;
 
@@ -2185,50 +2537,105 @@ export const ListSettingBlockSendersRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingBlockSendersRequest>;
 
-export type ListSettingBlockSendersResponse = {
-  id: number;
-  createdAt: string;
-  isRegex: boolean;
-  lastModified: string;
-  pattern: string;
-  patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
-  comments?: string | null;
-}[];
+export interface ListSettingBlockSendersResponse {
+  result: {
+    id: number;
+    createdAt: string;
+    isRegex: boolean;
+    lastModified: string;
+    pattern: string;
+    patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
+    comments?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingBlockSendersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      createdAt: Schema.String,
-      isRegex: Schema.Boolean,
-      lastModified: Schema.String,
-      pattern: Schema.String,
-      patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
-      comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        createdAt: Schema.String,
+        isRegex: Schema.Boolean,
+        lastModified: Schema.String,
+        pattern: Schema.String,
+        patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
+        comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          isRegex: "is_regex",
+          lastModified: "last_modified",
+          pattern: "pattern",
+          patternType: "pattern_type",
+          comments: "comments",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        isRegex: "is_regex",
-        lastModified: "last_modified",
-        pattern: "pattern",
-        patternType: "pattern_type",
-        comments: "comments",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingBlockSendersResponse>;
 
 export type ListSettingBlockSendersError = DefaultErrors;
 
-export const listSettingBlockSenders: API.OperationMethod<
+export const listSettingBlockSenders: API.PaginatedOperationMethod<
   ListSettingBlockSendersRequest,
   ListSettingBlockSendersResponse,
   ListSettingBlockSendersError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingBlockSendersRequest,
+  ) => stream.Stream<
+    ListSettingBlockSendersResponse,
+    ListSettingBlockSendersError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingBlockSendersRequest,
+  ) => stream.Stream<
+    {
+      id: number;
+      createdAt: string;
+      isRegex: boolean;
+      lastModified: string;
+      pattern: string;
+      patternType: "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
+      comments?: string | null;
+    },
+    ListSettingBlockSendersError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingBlockSendersRequest,
   output: ListSettingBlockSendersResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSettingBlockSenderRequest {
@@ -2284,17 +2691,21 @@ export const CreateSettingBlockSenderResponse =
     pattern: Schema.String,
     patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isRegex: "is_regex",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      comments: "comments",
-    }),
-  ) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isRegex: "is_regex",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        comments: "comments",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateSettingBlockSenderResponse>;
 
 export type CreateSettingBlockSenderError = DefaultErrors;
 
@@ -2372,17 +2783,21 @@ export const PatchSettingBlockSenderResponse =
     pattern: Schema.String,
     patternType: Schema.Literals(["EMAIL", "DOMAIN", "IP", "UNKNOWN"]),
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isRegex: "is_regex",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      patternType: "pattern_type",
-      comments: "comments",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isRegex: "is_regex",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        patternType: "pattern_type",
+        comments: "comments",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingBlockSenderResponse>;
 
 export type PatchSettingBlockSenderError = DefaultErrors;
 
@@ -2422,7 +2837,9 @@ export interface DeleteSettingBlockSenderResponse {
 export const DeleteSettingBlockSenderResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.Number,
-  }) as unknown as Schema.Schema<DeleteSettingBlockSenderResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingBlockSenderResponse>;
 
 export type DeleteSettingBlockSenderError = DefaultErrors;
 
@@ -2602,30 +3019,34 @@ export const GetSettingDomainResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowedDeliveryModes: "allowed_delivery_modes",
-      createdAt: "created_at",
-      domain: "domain",
-      dropDispositions: "drop_dispositions",
-      ipRestrictions: "ip_restrictions",
-      lastModified: "last_modified",
-      lookbackHops: "lookback_hops",
-      regions: "regions",
-      transport: "transport",
-      authorization: "authorization",
-      dmarcStatus: "dmarc_status",
-      emailsProcessed: "emails_processed",
-      folder: "folder",
-      inboxProvider: "inbox_provider",
-      integrationId: "integration_id",
-      o365TenantId: "o365_tenant_id",
-      requireTlsInbound: "require_tls_inbound",
-      requireTlsOutbound: "require_tls_outbound",
-      spfStatus: "spf_status",
-    }),
-  ) as unknown as Schema.Schema<GetSettingDomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        allowedDeliveryModes: "allowed_delivery_modes",
+        createdAt: "created_at",
+        domain: "domain",
+        dropDispositions: "drop_dispositions",
+        ipRestrictions: "ip_restrictions",
+        lastModified: "last_modified",
+        lookbackHops: "lookback_hops",
+        regions: "regions",
+        transport: "transport",
+        authorization: "authorization",
+        dmarcStatus: "dmarc_status",
+        emailsProcessed: "emails_processed",
+        folder: "folder",
+        inboxProvider: "inbox_provider",
+        integrationId: "integration_id",
+        o365TenantId: "o365_tenant_id",
+        requireTlsInbound: "require_tls_inbound",
+        requireTlsOutbound: "require_tls_outbound",
+        spfStatus: "spf_status",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingDomainResponse>;
 
 export type GetSettingDomainError = DefaultErrors;
 
@@ -2688,191 +3109,292 @@ export const ListSettingDomainsRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingDomainsRequest>;
 
-export type ListSettingDomainsResponse = {
-  id: number;
-  allowedDeliveryModes: ("DIRECT" | "BCC" | "JOURNAL" | "API" | "RETRO_SCAN")[];
-  createdAt: string;
-  domain: string;
-  dropDispositions: (
-    | "MALICIOUS"
-    | "MALICIOUS-BEC"
-    | "SUSPICIOUS"
-    | "SPOOF"
-    | "SPAM"
-    | "BULK"
-    | "ENCRYPTED"
-    | "EXTERNAL"
-    | "UNKNOWN"
-    | "NONE"
-  )[];
-  ipRestrictions: string[];
-  lastModified: string;
-  lookbackHops: number;
-  regions: ("GLOBAL" | "AU" | "DE" | "IN" | "US")[];
-  transport: string;
-  authorization?: {
-    authorized: boolean;
-    timestamp: string;
-    statusMessage?: string | null;
-  } | null;
-  dmarcStatus?: "none" | "good" | "invalid" | null;
-  emailsProcessed?: {
-    timestamp: string;
-    totalEmailsProcessed: number;
-    totalEmailsProcessedPrevious: number;
-  } | null;
-  folder?: "AllItems" | "Inbox" | null;
-  inboxProvider?: "Microsoft" | "Google" | null;
-  integrationId?: string | null;
-  o365TenantId?: string | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: "none" | "good" | "neutral" | "open" | "invalid" | null;
-}[];
+export interface ListSettingDomainsResponse {
+  result: {
+    id: number;
+    allowedDeliveryModes: (
+      | "DIRECT"
+      | "BCC"
+      | "JOURNAL"
+      | "API"
+      | "RETRO_SCAN"
+    )[];
+    createdAt: string;
+    domain: string;
+    dropDispositions: (
+      | "MALICIOUS"
+      | "MALICIOUS-BEC"
+      | "SUSPICIOUS"
+      | "SPOOF"
+      | "SPAM"
+      | "BULK"
+      | "ENCRYPTED"
+      | "EXTERNAL"
+      | "UNKNOWN"
+      | "NONE"
+    )[];
+    ipRestrictions: string[];
+    lastModified: string;
+    lookbackHops: number;
+    regions: ("GLOBAL" | "AU" | "DE" | "IN" | "US")[];
+    transport: string;
+    authorization?: {
+      authorized: boolean;
+      timestamp: string;
+      statusMessage?: string | null;
+    } | null;
+    dmarcStatus?: "none" | "good" | "invalid" | null;
+    emailsProcessed?: {
+      timestamp: string;
+      totalEmailsProcessed: number;
+      totalEmailsProcessedPrevious: number;
+    } | null;
+    folder?: "AllItems" | "Inbox" | null;
+    inboxProvider?: "Microsoft" | "Google" | null;
+    integrationId?: string | null;
+    o365TenantId?: string | null;
+    requireTlsInbound?: boolean | null;
+    requireTlsOutbound?: boolean | null;
+    spfStatus?: "none" | "good" | "neutral" | "open" | "invalid" | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingDomainsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      allowedDeliveryModes: Schema.Array(
-        Schema.Literals(["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"]),
-      ),
-      createdAt: Schema.String,
-      domain: Schema.String,
-      dropDispositions: Schema.Array(
-        Schema.Literals([
-          "MALICIOUS",
-          "MALICIOUS-BEC",
-          "SUSPICIOUS",
-          "SPOOF",
-          "SPAM",
-          "BULK",
-          "ENCRYPTED",
-          "EXTERNAL",
-          "UNKNOWN",
-          "NONE",
-        ]),
-      ),
-      ipRestrictions: Schema.Array(Schema.String),
-      lastModified: Schema.String,
-      lookbackHops: Schema.Number,
-      regions: Schema.Array(
-        Schema.Literals(["GLOBAL", "AU", "DE", "IN", "US"]),
-      ),
-      transport: Schema.String,
-      authorization: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            authorized: Schema.Boolean,
-            timestamp: Schema.String,
-            statusMessage: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        allowedDeliveryModes: Schema.Array(
+          Schema.Literals(["DIRECT", "BCC", "JOURNAL", "API", "RETRO_SCAN"]),
+        ),
+        createdAt: Schema.String,
+        domain: Schema.String,
+        dropDispositions: Schema.Array(
+          Schema.Literals([
+            "MALICIOUS",
+            "MALICIOUS-BEC",
+            "SUSPICIOUS",
+            "SPOOF",
+            "SPAM",
+            "BULK",
+            "ENCRYPTED",
+            "EXTERNAL",
+            "UNKNOWN",
+            "NONE",
+          ]),
+        ),
+        ipRestrictions: Schema.Array(Schema.String),
+        lastModified: Schema.String,
+        lookbackHops: Schema.Number,
+        regions: Schema.Array(
+          Schema.Literals(["GLOBAL", "AU", "DE", "IN", "US"]),
+        ),
+        transport: Schema.String,
+        authorization: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              authorized: Schema.Boolean,
+              timestamp: Schema.String,
+              statusMessage: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                authorized: "authorized",
+                timestamp: "timestamp",
+                statusMessage: "status_message",
+              }),
             ),
-          }).pipe(
-            Schema.encodeKeys({
-              authorized: "authorized",
-              timestamp: "timestamp",
-              statusMessage: "status_message",
-            }),
-          ),
-          Schema.Null,
-        ]),
+            Schema.Null,
+          ]),
+        ),
+        dmarcStatus: Schema.optional(
+          Schema.Union([
+            Schema.Literal("none"),
+            Schema.Literal("good"),
+            Schema.Literal("invalid"),
+            Schema.Null,
+          ]),
+        ),
+        emailsProcessed: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              timestamp: Schema.String,
+              totalEmailsProcessed: Schema.Number,
+              totalEmailsProcessedPrevious: Schema.Number,
+            }).pipe(
+              Schema.encodeKeys({
+                timestamp: "timestamp",
+                totalEmailsProcessed: "total_emails_processed",
+                totalEmailsProcessedPrevious: "total_emails_processed_previous",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        folder: Schema.optional(
+          Schema.Union([
+            Schema.Literal("AllItems"),
+            Schema.Literal("Inbox"),
+            Schema.Null,
+          ]),
+        ),
+        inboxProvider: Schema.optional(
+          Schema.Union([
+            Schema.Literal("Microsoft"),
+            Schema.Literal("Google"),
+            Schema.Null,
+          ]),
+        ),
+        integrationId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        o365TenantId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        requireTlsInbound: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        requireTlsOutbound: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        spfStatus: Schema.optional(
+          Schema.Union([
+            Schema.Literal("none"),
+            Schema.Literal("good"),
+            Schema.Literal("neutral"),
+            Schema.Literal("open"),
+            Schema.Literal("invalid"),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          allowedDeliveryModes: "allowed_delivery_modes",
+          createdAt: "created_at",
+          domain: "domain",
+          dropDispositions: "drop_dispositions",
+          ipRestrictions: "ip_restrictions",
+          lastModified: "last_modified",
+          lookbackHops: "lookback_hops",
+          regions: "regions",
+          transport: "transport",
+          authorization: "authorization",
+          dmarcStatus: "dmarc_status",
+          emailsProcessed: "emails_processed",
+          folder: "folder",
+          inboxProvider: "inbox_provider",
+          integrationId: "integration_id",
+          o365TenantId: "o365_tenant_id",
+          requireTlsInbound: "require_tls_inbound",
+          requireTlsOutbound: "require_tls_outbound",
+          spfStatus: "spf_status",
+        }),
       ),
-      dmarcStatus: Schema.optional(
-        Schema.Union([
-          Schema.Literal("none"),
-          Schema.Literal("good"),
-          Schema.Literal("invalid"),
-          Schema.Null,
-        ]),
-      ),
-      emailsProcessed: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            timestamp: Schema.String,
-            totalEmailsProcessed: Schema.Number,
-            totalEmailsProcessedPrevious: Schema.Number,
-          }).pipe(
-            Schema.encodeKeys({
-              timestamp: "timestamp",
-              totalEmailsProcessed: "total_emails_processed",
-              totalEmailsProcessedPrevious: "total_emails_processed_previous",
-            }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      folder: Schema.optional(
-        Schema.Union([
-          Schema.Literal("AllItems"),
-          Schema.Literal("Inbox"),
-          Schema.Null,
-        ]),
-      ),
-      inboxProvider: Schema.optional(
-        Schema.Union([
-          Schema.Literal("Microsoft"),
-          Schema.Literal("Google"),
-          Schema.Null,
-        ]),
-      ),
-      integrationId: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      o365TenantId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      requireTlsInbound: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      requireTlsOutbound: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
-      ),
-      spfStatus: Schema.optional(
-        Schema.Union([
-          Schema.Literal("none"),
-          Schema.Literal("good"),
-          Schema.Literal("neutral"),
-          Schema.Literal("open"),
-          Schema.Literal("invalid"),
-          Schema.Null,
-        ]),
-      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        allowedDeliveryModes: "allowed_delivery_modes",
-        createdAt: "created_at",
-        domain: "domain",
-        dropDispositions: "drop_dispositions",
-        ipRestrictions: "ip_restrictions",
-        lastModified: "last_modified",
-        lookbackHops: "lookback_hops",
-        regions: "regions",
-        transport: "transport",
-        authorization: "authorization",
-        dmarcStatus: "dmarc_status",
-        emailsProcessed: "emails_processed",
-        folder: "folder",
-        inboxProvider: "inbox_provider",
-        integrationId: "integration_id",
-        o365TenantId: "o365_tenant_id",
-        requireTlsInbound: "require_tls_inbound",
-        requireTlsOutbound: "require_tls_outbound",
-        spfStatus: "spf_status",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingDomainsResponse>;
 
 export type ListSettingDomainsError = DefaultErrors;
 
-export const listSettingDomains: API.OperationMethod<
+export const listSettingDomains: API.PaginatedOperationMethod<
   ListSettingDomainsRequest,
   ListSettingDomainsResponse,
   ListSettingDomainsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingDomainsRequest,
+  ) => stream.Stream<
+    ListSettingDomainsResponse,
+    ListSettingDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingDomainsRequest,
+  ) => stream.Stream<
+    {
+      id: number;
+      allowedDeliveryModes: (
+        | "DIRECT"
+        | "BCC"
+        | "JOURNAL"
+        | "API"
+        | "RETRO_SCAN"
+      )[];
+      createdAt: string;
+      domain: string;
+      dropDispositions: (
+        | "MALICIOUS"
+        | "MALICIOUS-BEC"
+        | "SUSPICIOUS"
+        | "SPOOF"
+        | "SPAM"
+        | "BULK"
+        | "ENCRYPTED"
+        | "EXTERNAL"
+        | "UNKNOWN"
+        | "NONE"
+      )[];
+      ipRestrictions: string[];
+      lastModified: string;
+      lookbackHops: number;
+      regions: ("GLOBAL" | "AU" | "DE" | "IN" | "US")[];
+      transport: string;
+      authorization?: {
+        authorized: boolean;
+        timestamp: string;
+        statusMessage?: string | null;
+      } | null;
+      dmarcStatus?: "none" | "good" | "invalid" | null;
+      emailsProcessed?: {
+        timestamp: string;
+        totalEmailsProcessed: number;
+        totalEmailsProcessedPrevious: number;
+      } | null;
+      folder?: "AllItems" | "Inbox" | null;
+      inboxProvider?: "Microsoft" | "Google" | null;
+      integrationId?: string | null;
+      o365TenantId?: string | null;
+      requireTlsInbound?: boolean | null;
+      requireTlsOutbound?: boolean | null;
+      spfStatus?: "none" | "good" | "neutral" | "open" | "invalid" | null;
+    },
+    ListSettingDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingDomainsRequest,
   output: ListSettingDomainsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PatchSettingDomainRequest {
@@ -3120,30 +3642,34 @@ export const PatchSettingDomainResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowedDeliveryModes: "allowed_delivery_modes",
-      createdAt: "created_at",
-      domain: "domain",
-      dropDispositions: "drop_dispositions",
-      ipRestrictions: "ip_restrictions",
-      lastModified: "last_modified",
-      lookbackHops: "lookback_hops",
-      regions: "regions",
-      transport: "transport",
-      authorization: "authorization",
-      dmarcStatus: "dmarc_status",
-      emailsProcessed: "emails_processed",
-      folder: "folder",
-      inboxProvider: "inbox_provider",
-      integrationId: "integration_id",
-      o365TenantId: "o365_tenant_id",
-      requireTlsInbound: "require_tls_inbound",
-      requireTlsOutbound: "require_tls_outbound",
-      spfStatus: "spf_status",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingDomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        allowedDeliveryModes: "allowed_delivery_modes",
+        createdAt: "created_at",
+        domain: "domain",
+        dropDispositions: "drop_dispositions",
+        ipRestrictions: "ip_restrictions",
+        lastModified: "last_modified",
+        lookbackHops: "lookback_hops",
+        regions: "regions",
+        transport: "transport",
+        authorization: "authorization",
+        dmarcStatus: "dmarc_status",
+        emailsProcessed: "emails_processed",
+        folder: "folder",
+        inboxProvider: "inbox_provider",
+        integrationId: "integration_id",
+        o365TenantId: "o365_tenant_id",
+        requireTlsInbound: "require_tls_inbound",
+        requireTlsOutbound: "require_tls_outbound",
+        spfStatus: "spf_status",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingDomainResponse>;
 
 export type PatchSettingDomainError = DefaultErrors;
 
@@ -3183,7 +3709,9 @@ export interface DeleteSettingDomainResponse {
 export const DeleteSettingDomainResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.Number,
-  }) as unknown as Schema.Schema<DeleteSettingDomainResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingDomainResponse>;
 
 export type DeleteSettingDomainError = DefaultErrors;
 
@@ -3213,26 +3741,49 @@ export const BulkDeleteSettingDomainsRequest =
     }),
   ) as unknown as Schema.Schema<BulkDeleteSettingDomainsRequest>;
 
-export type BulkDeleteSettingDomainsResponse = { id: number }[];
+export interface BulkDeleteSettingDomainsResponse {
+  result: { id: number }[];
+}
 
 export const BulkDeleteSettingDomainsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-    }),
-  ) as unknown as Schema.Schema<BulkDeleteSettingDomainsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+      }),
+    ),
+  }) as unknown as Schema.Schema<BulkDeleteSettingDomainsResponse>;
 
 export type BulkDeleteSettingDomainsError = DefaultErrors;
 
-export const bulkDeleteSettingDomains: API.OperationMethod<
+export const bulkDeleteSettingDomains: API.PaginatedOperationMethod<
   BulkDeleteSettingDomainsRequest,
   BulkDeleteSettingDomainsResponse,
   BulkDeleteSettingDomainsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkDeleteSettingDomainsRequest,
+  ) => stream.Stream<
+    BulkDeleteSettingDomainsResponse,
+    BulkDeleteSettingDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkDeleteSettingDomainsRequest,
+  ) => stream.Stream<
+    { id: number },
+    BulkDeleteSettingDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkDeleteSettingDomainsRequest,
   output: BulkDeleteSettingDomainsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -3288,21 +3839,25 @@ export const GetSettingImpersonationRegistryResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      email: "email",
-      isEmailRegex: "is_email_regex",
-      lastModified: "last_modified",
-      name: "name",
-      comments: "comments",
-      directoryId: "directory_id",
-      directoryNodeId: "directory_node_id",
-      externalDirectoryNodeId: "external_directory_node_id",
-      provenance: "provenance",
-    }),
-  ) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        email: "email",
+        isEmailRegex: "is_email_regex",
+        lastModified: "last_modified",
+        name: "name",
+        comments: "comments",
+        directoryId: "directory_id",
+        directoryNodeId: "directory_node_id",
+        externalDirectoryNodeId: "external_directory_node_id",
+        provenance: "provenance",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingImpersonationRegistryResponse>;
 
 export type GetSettingImpersonationRegistryError = DefaultErrors;
 
@@ -3359,66 +3914,127 @@ export const ListSettingImpersonationRegistriesRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingImpersonationRegistriesRequest>;
 
-export type ListSettingImpersonationRegistriesResponse = {
-  id: number;
-  createdAt: string;
-  email: string;
-  isEmailRegex: boolean;
-  lastModified: string;
-  name: string;
-  comments?: string | null;
-  directoryId?: number | null;
-  directoryNodeId?: number | null;
-  externalDirectoryNodeId?: string | null;
-  provenance?: string | null;
-}[];
+export interface ListSettingImpersonationRegistriesResponse {
+  result: {
+    id: number;
+    createdAt: string;
+    email: string;
+    isEmailRegex: boolean;
+    lastModified: string;
+    name: string;
+    comments?: string | null;
+    directoryId?: number | null;
+    directoryNodeId?: number | null;
+    externalDirectoryNodeId?: string | null;
+    provenance?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingImpersonationRegistriesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      createdAt: Schema.String,
-      email: Schema.String,
-      isEmailRegex: Schema.Boolean,
-      lastModified: Schema.String,
-      name: Schema.String,
-      comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      directoryId: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      directoryNodeId: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        createdAt: Schema.String,
+        email: Schema.String,
+        isEmailRegex: Schema.Boolean,
+        lastModified: Schema.String,
+        name: Schema.String,
+        comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        directoryId: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        directoryNodeId: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        externalDirectoryNodeId: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          email: "email",
+          isEmailRegex: "is_email_regex",
+          lastModified: "last_modified",
+          name: "name",
+          comments: "comments",
+          directoryId: "directory_id",
+          directoryNodeId: "directory_node_id",
+          externalDirectoryNodeId: "external_directory_node_id",
+          provenance: "provenance",
+        }),
       ),
-      externalDirectoryNodeId: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        email: "email",
-        isEmailRegex: "is_email_regex",
-        lastModified: "last_modified",
-        name: "name",
-        comments: "comments",
-        directoryId: "directory_id",
-        directoryNodeId: "directory_node_id",
-        externalDirectoryNodeId: "external_directory_node_id",
-        provenance: "provenance",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingImpersonationRegistriesResponse>;
 
 export type ListSettingImpersonationRegistriesError = DefaultErrors;
 
-export const listSettingImpersonationRegistries: API.OperationMethod<
+export const listSettingImpersonationRegistries: API.PaginatedOperationMethod<
   ListSettingImpersonationRegistriesRequest,
   ListSettingImpersonationRegistriesResponse,
   ListSettingImpersonationRegistriesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingImpersonationRegistriesRequest,
+  ) => stream.Stream<
+    ListSettingImpersonationRegistriesResponse,
+    ListSettingImpersonationRegistriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingImpersonationRegistriesRequest,
+  ) => stream.Stream<
+    {
+      id: number;
+      createdAt: string;
+      email: string;
+      isEmailRegex: boolean;
+      lastModified: string;
+      name: string;
+      comments?: string | null;
+      directoryId?: number | null;
+      directoryNodeId?: number | null;
+      externalDirectoryNodeId?: string | null;
+      provenance?: string | null;
+    },
+    ListSettingImpersonationRegistriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingImpersonationRegistriesRequest,
   output: ListSettingImpersonationRegistriesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSettingImpersonationRegistryRequest {
@@ -3482,21 +4098,25 @@ export const CreateSettingImpersonationRegistryResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      email: "email",
-      isEmailRegex: "is_email_regex",
-      lastModified: "last_modified",
-      name: "name",
-      comments: "comments",
-      directoryId: "directory_id",
-      directoryNodeId: "directory_node_id",
-      externalDirectoryNodeId: "external_directory_node_id",
-      provenance: "provenance",
-    }),
-  ) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        email: "email",
+        isEmailRegex: "is_email_regex",
+        lastModified: "last_modified",
+        name: "name",
+        comments: "comments",
+        directoryId: "directory_id",
+        directoryNodeId: "directory_node_id",
+        externalDirectoryNodeId: "external_directory_node_id",
+        provenance: "provenance",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateSettingImpersonationRegistryResponse>;
 
 export type CreateSettingImpersonationRegistryError = DefaultErrors;
 
@@ -3574,21 +4194,25 @@ export const PatchSettingImpersonationRegistryResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     provenance: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      email: "email",
-      isEmailRegex: "is_email_regex",
-      lastModified: "last_modified",
-      name: "name",
-      comments: "comments",
-      directoryId: "directory_id",
-      directoryNodeId: "directory_node_id",
-      externalDirectoryNodeId: "external_directory_node_id",
-      provenance: "provenance",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        email: "email",
+        isEmailRegex: "is_email_regex",
+        lastModified: "last_modified",
+        name: "name",
+        comments: "comments",
+        directoryId: "directory_id",
+        directoryNodeId: "directory_node_id",
+        externalDirectoryNodeId: "external_directory_node_id",
+        provenance: "provenance",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingImpersonationRegistryResponse>;
 
 export type PatchSettingImpersonationRegistryError = DefaultErrors;
 
@@ -3627,7 +4251,9 @@ export interface DeleteSettingImpersonationRegistryResponse {
 export const DeleteSettingImpersonationRegistryResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.Number,
-  }) as unknown as Schema.Schema<DeleteSettingImpersonationRegistryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingImpersonationRegistryResponse>;
 
 export type DeleteSettingImpersonationRegistryError = DefaultErrors;
 
@@ -3687,18 +4313,22 @@ export const GetSettingTrustedDomainResponse =
     lastModified: Schema.String,
     pattern: Schema.String,
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isRecent: "is_recent",
-      isRegex: "is_regex",
-      isSimilarity: "is_similarity",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      comments: "comments",
-    }),
-  ) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isRecent: "is_recent",
+        isRegex: "is_regex",
+        isSimilarity: "is_similarity",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        comments: "comments",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingTrustedDomainResponse>;
 
 export type GetSettingTrustedDomainError = DefaultErrors;
 
@@ -3752,53 +4382,109 @@ export const ListSettingTrustedDomainsRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingTrustedDomainsRequest>;
 
-export type ListSettingTrustedDomainsResponse = {
-  id: number;
-  createdAt: string;
-  isRecent: boolean;
-  isRegex: boolean;
-  isSimilarity: boolean;
-  lastModified: string;
-  pattern: string;
-  comments?: string | null;
-}[];
+export interface ListSettingTrustedDomainsResponse {
+  result: {
+    id: number;
+    createdAt: string;
+    isRecent: boolean;
+    isRegex: boolean;
+    isSimilarity: boolean;
+    lastModified: string;
+    pattern: string;
+    comments?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingTrustedDomainsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      createdAt: Schema.String,
-      isRecent: Schema.Boolean,
-      isRegex: Schema.Boolean,
-      isSimilarity: Schema.Boolean,
-      lastModified: Schema.String,
-      pattern: Schema.String,
-      comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        createdAt: Schema.String,
+        isRecent: Schema.Boolean,
+        isRegex: Schema.Boolean,
+        isSimilarity: Schema.Boolean,
+        lastModified: Schema.String,
+        pattern: Schema.String,
+        comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          isRecent: "is_recent",
+          isRegex: "is_regex",
+          isSimilarity: "is_similarity",
+          lastModified: "last_modified",
+          pattern: "pattern",
+          comments: "comments",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        isRecent: "is_recent",
-        isRegex: "is_regex",
-        isSimilarity: "is_similarity",
-        lastModified: "last_modified",
-        pattern: "pattern",
-        comments: "comments",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingTrustedDomainsResponse>;
 
 export type ListSettingTrustedDomainsError = DefaultErrors;
 
-export const listSettingTrustedDomains: API.OperationMethod<
+export const listSettingTrustedDomains: API.PaginatedOperationMethod<
   ListSettingTrustedDomainsRequest,
   ListSettingTrustedDomainsResponse,
   ListSettingTrustedDomainsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingTrustedDomainsRequest,
+  ) => stream.Stream<
+    ListSettingTrustedDomainsResponse,
+    ListSettingTrustedDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingTrustedDomainsRequest,
+  ) => stream.Stream<
+    {
+      id: number;
+      createdAt: string;
+      isRecent: boolean;
+      isRegex: boolean;
+      isSimilarity: boolean;
+      lastModified: string;
+      pattern: string;
+      comments?: string | null;
+    },
+    ListSettingTrustedDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingTrustedDomainsRequest,
   output: ListSettingTrustedDomainsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSettingTrustedDomainRequest {
@@ -3906,7 +4592,9 @@ export const CreateSettingTrustedDomainResponse =
         }),
       ),
     ),
-  ]) as unknown as Schema.Schema<CreateSettingTrustedDomainResponse>;
+  ]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateSettingTrustedDomainResponse>;
 
 export type CreateSettingTrustedDomainError = DefaultErrors;
 
@@ -3984,18 +4672,22 @@ export const PatchSettingTrustedDomainResponse =
     lastModified: Schema.String,
     pattern: Schema.String,
     comments: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      isRecent: "is_recent",
-      isRegex: "is_regex",
-      isSimilarity: "is_similarity",
-      lastModified: "last_modified",
-      pattern: "pattern",
-      comments: "comments",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        isRecent: "is_recent",
+        isRegex: "is_regex",
+        isSimilarity: "is_similarity",
+        lastModified: "last_modified",
+        pattern: "pattern",
+        comments: "comments",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingTrustedDomainResponse>;
 
 export type PatchSettingTrustedDomainError = DefaultErrors;
 
@@ -4035,7 +4727,9 @@ export interface DeleteSettingTrustedDomainResponse {
 export const DeleteSettingTrustedDomainResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.Number,
-  }) as unknown as Schema.Schema<DeleteSettingTrustedDomainResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingTrustedDomainResponse>;
 
 export type DeleteSettingTrustedDomainError = DefaultErrors;
 
@@ -4148,136 +4842,231 @@ export const ListSubmissionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListSubmissionsRequest>;
 
-export type ListSubmissionsResponse = {
-  requestedTs: string;
-  submissionId: string;
-  originalDisposition?:
-    | "MALICIOUS"
-    | "MALICIOUS-BEC"
-    | "SUSPICIOUS"
-    | "SPOOF"
-    | "SPAM"
-    | "BULK"
-    | "ENCRYPTED"
-    | "EXTERNAL"
-    | "UNKNOWN"
-    | "NONE"
-    | null;
-  originalEdfHash?: string | null;
-  outcome?: string | null;
-  outcomeDisposition?:
-    | "MALICIOUS"
-    | "MALICIOUS-BEC"
-    | "SUSPICIOUS"
-    | "SPOOF"
-    | "SPAM"
-    | "BULK"
-    | "ENCRYPTED"
-    | "EXTERNAL"
-    | "UNKNOWN"
-    | "NONE"
-    | null;
-  requestedBy?: string | null;
-  requestedDisposition?:
-    | "MALICIOUS"
-    | "MALICIOUS-BEC"
-    | "SUSPICIOUS"
-    | "SPOOF"
-    | "SPAM"
-    | "BULK"
-    | "ENCRYPTED"
-    | "EXTERNAL"
-    | "UNKNOWN"
-    | "NONE"
-    | null;
-  status?: string | null;
-  subject?: string | null;
-  type?: string | null;
-}[];
+export interface ListSubmissionsResponse {
+  result: {
+    requestedTs: string;
+    submissionId: string;
+    originalDisposition?:
+      | "MALICIOUS"
+      | "MALICIOUS-BEC"
+      | "SUSPICIOUS"
+      | "SPOOF"
+      | "SPAM"
+      | "BULK"
+      | "ENCRYPTED"
+      | "EXTERNAL"
+      | "UNKNOWN"
+      | "NONE"
+      | null;
+    originalEdfHash?: string | null;
+    outcome?: string | null;
+    outcomeDisposition?:
+      | "MALICIOUS"
+      | "MALICIOUS-BEC"
+      | "SUSPICIOUS"
+      | "SPOOF"
+      | "SPAM"
+      | "BULK"
+      | "ENCRYPTED"
+      | "EXTERNAL"
+      | "UNKNOWN"
+      | "NONE"
+      | null;
+    requestedBy?: string | null;
+    requestedDisposition?:
+      | "MALICIOUS"
+      | "MALICIOUS-BEC"
+      | "SUSPICIOUS"
+      | "SPOOF"
+      | "SPAM"
+      | "BULK"
+      | "ENCRYPTED"
+      | "EXTERNAL"
+      | "UNKNOWN"
+      | "NONE"
+      | null;
+    status?: string | null;
+    subject?: string | null;
+    type?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListSubmissionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    requestedTs: Schema.String,
-    submissionId: Schema.String,
-    originalDisposition: Schema.optional(
-      Schema.Union([
-        Schema.Literal("MALICIOUS"),
-        Schema.Literal("MALICIOUS-BEC"),
-        Schema.Literal("SUSPICIOUS"),
-        Schema.Literal("SPOOF"),
-        Schema.Literal("SPAM"),
-        Schema.Literal("BULK"),
-        Schema.Literal("ENCRYPTED"),
-        Schema.Literal("EXTERNAL"),
-        Schema.Literal("UNKNOWN"),
-        Schema.Literal("NONE"),
-        Schema.Null,
-      ]),
+export const ListSubmissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        requestedTs: Schema.String,
+        submissionId: Schema.String,
+        originalDisposition: Schema.optional(
+          Schema.Union([
+            Schema.Literal("MALICIOUS"),
+            Schema.Literal("MALICIOUS-BEC"),
+            Schema.Literal("SUSPICIOUS"),
+            Schema.Literal("SPOOF"),
+            Schema.Literal("SPAM"),
+            Schema.Literal("BULK"),
+            Schema.Literal("ENCRYPTED"),
+            Schema.Literal("EXTERNAL"),
+            Schema.Literal("UNKNOWN"),
+            Schema.Literal("NONE"),
+            Schema.Null,
+          ]),
+        ),
+        originalEdfHash: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        outcome: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        outcomeDisposition: Schema.optional(
+          Schema.Union([
+            Schema.Literal("MALICIOUS"),
+            Schema.Literal("MALICIOUS-BEC"),
+            Schema.Literal("SUSPICIOUS"),
+            Schema.Literal("SPOOF"),
+            Schema.Literal("SPAM"),
+            Schema.Literal("BULK"),
+            Schema.Literal("ENCRYPTED"),
+            Schema.Literal("EXTERNAL"),
+            Schema.Literal("UNKNOWN"),
+            Schema.Literal("NONE"),
+            Schema.Null,
+          ]),
+        ),
+        requestedBy: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        requestedDisposition: Schema.optional(
+          Schema.Union([
+            Schema.Literal("MALICIOUS"),
+            Schema.Literal("MALICIOUS-BEC"),
+            Schema.Literal("SUSPICIOUS"),
+            Schema.Literal("SPOOF"),
+            Schema.Literal("SPAM"),
+            Schema.Literal("BULK"),
+            Schema.Literal("ENCRYPTED"),
+            Schema.Literal("EXTERNAL"),
+            Schema.Literal("UNKNOWN"),
+            Schema.Literal("NONE"),
+            Schema.Null,
+          ]),
+        ),
+        status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        subject: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          requestedTs: "requested_ts",
+          submissionId: "submission_id",
+          originalDisposition: "original_disposition",
+          originalEdfHash: "original_edf_hash",
+          outcome: "outcome",
+          outcomeDisposition: "outcome_disposition",
+          requestedBy: "requested_by",
+          requestedDisposition: "requested_disposition",
+          status: "status",
+          subject: "subject",
+          type: "type",
+        }),
+      ),
     ),
-    originalEdfHash: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
-    outcome: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    outcomeDisposition: Schema.optional(
-      Schema.Union([
-        Schema.Literal("MALICIOUS"),
-        Schema.Literal("MALICIOUS-BEC"),
-        Schema.Literal("SUSPICIOUS"),
-        Schema.Literal("SPOOF"),
-        Schema.Literal("SPAM"),
-        Schema.Literal("BULK"),
-        Schema.Literal("ENCRYPTED"),
-        Schema.Literal("EXTERNAL"),
-        Schema.Literal("UNKNOWN"),
-        Schema.Literal("NONE"),
-        Schema.Null,
-      ]),
-    ),
-    requestedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    requestedDisposition: Schema.optional(
-      Schema.Union([
-        Schema.Literal("MALICIOUS"),
-        Schema.Literal("MALICIOUS-BEC"),
-        Schema.Literal("SUSPICIOUS"),
-        Schema.Literal("SPOOF"),
-        Schema.Literal("SPAM"),
-        Schema.Literal("BULK"),
-        Schema.Literal("ENCRYPTED"),
-        Schema.Literal("EXTERNAL"),
-        Schema.Literal("UNKNOWN"),
-        Schema.Literal("NONE"),
-        Schema.Null,
-      ]),
-    ),
-    status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    subject: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    type: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }).pipe(
-    Schema.encodeKeys({
-      requestedTs: "requested_ts",
-      submissionId: "submission_id",
-      originalDisposition: "original_disposition",
-      originalEdfHash: "original_edf_hash",
-      outcome: "outcome",
-      outcomeDisposition: "outcome_disposition",
-      requestedBy: "requested_by",
-      requestedDisposition: "requested_disposition",
-      status: "status",
-      subject: "subject",
-      type: "type",
-    }),
-  ),
-) as unknown as Schema.Schema<ListSubmissionsResponse>;
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListSubmissionsResponse>;
 
 export type ListSubmissionsError = DefaultErrors;
 
-export const listSubmissions: API.OperationMethod<
+export const listSubmissions: API.PaginatedOperationMethod<
   ListSubmissionsRequest,
   ListSubmissionsResponse,
   ListSubmissionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSubmissionsRequest,
+  ) => stream.Stream<
+    ListSubmissionsResponse,
+    ListSubmissionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSubmissionsRequest,
+  ) => stream.Stream<
+    {
+      requestedTs: string;
+      submissionId: string;
+      originalDisposition?:
+        | "MALICIOUS"
+        | "MALICIOUS-BEC"
+        | "SUSPICIOUS"
+        | "SPOOF"
+        | "SPAM"
+        | "BULK"
+        | "ENCRYPTED"
+        | "EXTERNAL"
+        | "UNKNOWN"
+        | "NONE"
+        | null;
+      originalEdfHash?: string | null;
+      outcome?: string | null;
+      outcomeDisposition?:
+        | "MALICIOUS"
+        | "MALICIOUS-BEC"
+        | "SUSPICIOUS"
+        | "SPOOF"
+        | "SPAM"
+        | "BULK"
+        | "ENCRYPTED"
+        | "EXTERNAL"
+        | "UNKNOWN"
+        | "NONE"
+        | null;
+      requestedBy?: string | null;
+      requestedDisposition?:
+        | "MALICIOUS"
+        | "MALICIOUS-BEC"
+        | "SUSPICIOUS"
+        | "SPOOF"
+        | "SPAM"
+        | "BULK"
+        | "ENCRYPTED"
+        | "EXTERNAL"
+        | "UNKNOWN"
+        | "NONE"
+        | null;
+      status?: string | null;
+      subject?: string | null;
+      type?: string | null;
+    },
+    ListSubmissionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSubmissionsRequest,
   output: ListSubmissionsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));

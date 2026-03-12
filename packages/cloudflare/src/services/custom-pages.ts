@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service custom-pages
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -76,18 +77,22 @@ export const GetCustomPageResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
   ),
   url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    previewTarget: "preview_target",
-    requiredTokens: "required_tokens",
-    state: "state",
-    url: "url",
-  }),
-) as unknown as Schema.Schema<GetCustomPageResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      previewTarget: "preview_target",
+      requiredTokens: "required_tokens",
+      state: "state",
+      url: "url",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetCustomPageResponse>;
 
 export type GetCustomPageError = DefaultErrors;
 
@@ -113,56 +118,96 @@ export const ListCustomPagesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListCustomPagesRequest>;
 
-export type ListCustomPagesResponse = {
-  id?: string | null;
-  createdOn?: string | null;
-  description?: string | null;
-  modifiedOn?: string | null;
-  previewTarget?: string | null;
-  requiredTokens?: string[] | null;
-  state?: "default" | "customized" | null;
-  url?: string | null;
-}[];
+export interface ListCustomPagesResponse {
+  result: {
+    id?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    modifiedOn?: string | null;
+    previewTarget?: string | null;
+    requiredTokens?: string[] | null;
+    state?: "default" | "customized" | null;
+    url?: string | null;
+  }[];
+}
 
-export const ListCustomPagesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    previewTarget: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    requiredTokens: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+export const ListCustomPagesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        previewTarget: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        requiredTokens: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        state: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["default", "customized"]),
+            Schema.Null,
+          ]),
+        ),
+        url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          description: "description",
+          modifiedOn: "modified_on",
+          previewTarget: "preview_target",
+          requiredTokens: "required_tokens",
+          state: "state",
+          url: "url",
+        }),
+      ),
     ),
-    state: Schema.optional(
-      Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
-    ),
-    url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      previewTarget: "preview_target",
-      requiredTokens: "required_tokens",
-      state: "state",
-      url: "url",
-    }),
-  ),
-) as unknown as Schema.Schema<ListCustomPagesResponse>;
+  }) as unknown as Schema.Schema<ListCustomPagesResponse>;
 
 export type ListCustomPagesError = DefaultErrors;
 
-export const listCustomPages: API.OperationMethod<
+export const listCustomPages: API.PaginatedOperationMethod<
   ListCustomPagesRequest,
   ListCustomPagesResponse,
   ListCustomPagesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListCustomPagesRequest,
+  ) => stream.Stream<
+    ListCustomPagesResponse,
+    ListCustomPagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomPagesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      createdOn?: string | null;
+      description?: string | null;
+      modifiedOn?: string | null;
+      previewTarget?: string | null;
+      requiredTokens?: string[] | null;
+      state?: "default" | "customized" | null;
+      url?: string | null;
+    },
+    ListCustomPagesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomPagesRequest,
   output: ListCustomPagesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutCustomPageRequest {
@@ -237,18 +282,22 @@ export const PutCustomPageResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Literals(["default", "customized"]), Schema.Null]),
   ),
   url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    modifiedOn: "modified_on",
-    previewTarget: "preview_target",
-    requiredTokens: "required_tokens",
-    state: "state",
-    url: "url",
-  }),
-) as unknown as Schema.Schema<PutCustomPageResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      modifiedOn: "modified_on",
+      previewTarget: "preview_target",
+      requiredTokens: "required_tokens",
+      state: "state",
+      url: "url",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutCustomPageResponse>;
 
 export type PutCustomPageError = DefaultErrors;
 

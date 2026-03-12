@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service content-scanning
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -42,7 +43,9 @@ export const GetContentScanningResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<GetContentScanningResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetContentScanningResponse>;
 
 export type GetContentScanningError = DefaultErrors;
 
@@ -86,7 +89,9 @@ export const CreateContentScanningResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateContentScanningResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateContentScanningResponse>;
 
 export type CreateContentScanningError = DefaultErrors;
 
@@ -130,7 +135,9 @@ export const PutContentScanningResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<PutContentScanningResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutContentScanningResponse>;
 
 export type PutContentScanningError = DefaultErrors;
 
@@ -163,7 +170,9 @@ export const EnableContentScanningRequest =
 export type EnableContentScanningResponse = unknown;
 
 export const EnableContentScanningResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<EnableContentScanningResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EnableContentScanningResponse>;
 
 export type EnableContentScanningError = DefaultErrors;
 
@@ -196,7 +205,9 @@ export const DisableContentScanningRequest =
 export type DisableContentScanningResponse = unknown;
 
 export const DisableContentScanningResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DisableContentScanningResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DisableContentScanningResponse>;
 
 export type DisableContentScanningError = DefaultErrors;
 
@@ -229,29 +240,49 @@ export const ListPayloadsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPayloadsRequest>;
 
-export type ListPayloadsResponse = {
-  id?: string | null;
-  payload?: string | null;
-}[];
+export interface ListPayloadsResponse {
+  result: { id?: string | null; payload?: string | null }[];
+}
 
-export const ListPayloadsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ListPayloadsResponse>;
+export const ListPayloadsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListPayloadsResponse>;
 
 export type ListPayloadsError = DefaultErrors;
 
-export const listPayloads: API.OperationMethod<
+export const listPayloads: API.PaginatedOperationMethod<
   ListPayloadsRequest,
   ListPayloadsResponse,
   ListPayloadsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPayloadsRequest,
+  ) => stream.Stream<
+    ListPayloadsResponse,
+    ListPayloadsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListPayloadsRequest,
+  ) => stream.Stream<
+    { id?: string | null; payload?: string | null },
+    ListPayloadsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPayloadsRequest,
   output: ListPayloadsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreatePayloadRequest {
@@ -275,29 +306,49 @@ export const CreatePayloadRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreatePayloadRequest>;
 
-export type CreatePayloadResponse = {
-  id?: string | null;
-  payload?: string | null;
-}[];
+export interface CreatePayloadResponse {
+  result: { id?: string | null; payload?: string | null }[];
+}
 
-export const CreatePayloadResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<CreatePayloadResponse>;
+export const CreatePayloadResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<CreatePayloadResponse>;
 
 export type CreatePayloadError = DefaultErrors;
 
-export const createPayload: API.OperationMethod<
+export const createPayload: API.PaginatedOperationMethod<
   CreatePayloadRequest,
   CreatePayloadResponse,
   CreatePayloadError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: CreatePayloadRequest,
+  ) => stream.Stream<
+    CreatePayloadResponse,
+    CreatePayloadError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: CreatePayloadRequest,
+  ) => stream.Stream<
+    { id?: string | null; payload?: string | null },
+    CreatePayloadError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CreatePayloadRequest,
   output: CreatePayloadResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface DeletePayloadRequest {
@@ -316,29 +367,49 @@ export const DeletePayloadRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeletePayloadRequest>;
 
-export type DeletePayloadResponse = {
-  id?: string | null;
-  payload?: string | null;
-}[];
+export interface DeletePayloadResponse {
+  result: { id?: string | null; payload?: string | null }[];
+}
 
-export const DeletePayloadResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<DeletePayloadResponse>;
+export const DeletePayloadResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      payload: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<DeletePayloadResponse>;
 
 export type DeletePayloadError = DefaultErrors;
 
-export const deletePayload: API.OperationMethod<
+export const deletePayload: API.PaginatedOperationMethod<
   DeletePayloadRequest,
   DeletePayloadResponse,
   DeletePayloadError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: DeletePayloadRequest,
+  ) => stream.Stream<
+    DeletePayloadResponse,
+    DeletePayloadError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: DeletePayloadRequest,
+  ) => stream.Stream<
+    { id?: string | null; payload?: string | null },
+    DeletePayloadError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: DeletePayloadRequest,
   output: DeletePayloadResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -369,7 +440,9 @@ export interface GetSettingResponse {
 export const GetSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetSettingResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetSettingResponse>;
 
 export type GetSettingError = DefaultErrors;
 

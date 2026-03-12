@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service abuse-reports
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -147,20 +148,24 @@ export const GetAbuseReportResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    cdate: "cdate",
-    domain: "domain",
-    mitigationSummary: "mitigation_summary",
-    status: "status",
-    type: "type",
-    justification: "justification",
-    originalWork: "original_work",
-    submitter: "submitter",
-    urls: "urls",
-  }),
-) as unknown as Schema.Schema<GetAbuseReportResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cdate: "cdate",
+      domain: "domain",
+      mitigationSummary: "mitigation_summary",
+      status: "status",
+      type: "type",
+      justification: "justification",
+      originalWork: "original_work",
+      submitter: "submitter",
+      urls: "urls",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetAbuseReportResponse>;
 
 export type GetAbuseReportError =
   | DefaultErrors
@@ -252,8 +257,177 @@ export const ListAbuseReportsRequest =
   ) as unknown as Schema.Schema<ListAbuseReportsRequest>;
 
 export interface ListAbuseReportsResponse {
-  reports:
-    | {
+  result: {
+    items?:
+      | {
+          reports: {
+            id: string;
+            cdate: string;
+            domain: string;
+            mitigationSummary: {
+              acceptedUrlCount: number;
+              activeCount: number;
+              externalHostNotified: boolean;
+              inReviewCount: number;
+              pendingCount: number;
+            };
+            status: "accepted" | "in_review";
+            type:
+              | "PHISH"
+              | "GEN"
+              | "THREAT"
+              | "DMCA"
+              | "EMER"
+              | "TM"
+              | "REG_WHO"
+              | "NCSEI"
+              | "NETWORK";
+            justification?: string | null;
+            originalWork?: string | null;
+            submitter?: {
+              company?: string | null;
+              email?: string | null;
+              name?: string | null;
+              telephone?: string | null;
+            } | null;
+            urls?: string[] | null;
+          }[];
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
+
+export const ListAbuseReportsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              reports: Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                  cdate: Schema.String,
+                  domain: Schema.String,
+                  mitigationSummary: Schema.Struct({
+                    acceptedUrlCount: Schema.Number,
+                    activeCount: Schema.Number,
+                    externalHostNotified: Schema.Boolean,
+                    inReviewCount: Schema.Number,
+                    pendingCount: Schema.Number,
+                  }).pipe(
+                    Schema.encodeKeys({
+                      acceptedUrlCount: "accepted_url_count",
+                      activeCount: "active_count",
+                      externalHostNotified: "external_host_notified",
+                      inReviewCount: "in_review_count",
+                      pendingCount: "pending_count",
+                    }),
+                  ),
+                  status: Schema.Literals(["accepted", "in_review"]),
+                  type: Schema.Literals([
+                    "PHISH",
+                    "GEN",
+                    "THREAT",
+                    "DMCA",
+                    "EMER",
+                    "TM",
+                    "REG_WHO",
+                    "NCSEI",
+                    "NETWORK",
+                  ]),
+                  justification: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  originalWork: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  submitter: Schema.optional(
+                    Schema.Union([
+                      Schema.Struct({
+                        company: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        email: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        name: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                        telephone: Schema.optional(
+                          Schema.Union([Schema.String, Schema.Null]),
+                        ),
+                      }),
+                      Schema.Null,
+                    ]),
+                  ),
+                  urls: Schema.optional(
+                    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    id: "id",
+                    cdate: "cdate",
+                    domain: "domain",
+                    mitigationSummary: "mitigation_summary",
+                    status: "status",
+                    type: "type",
+                    justification: "justification",
+                    originalWork: "original_work",
+                    submitter: "submitter",
+                    urls: "urls",
+                  }),
+                ),
+              ),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListAbuseReportsResponse>;
+
+export type ListAbuseReportsError = DefaultErrors | InvalidAccountId;
+
+export const listAbuseReports: API.PaginatedOperationMethod<
+  ListAbuseReportsRequest,
+  ListAbuseReportsResponse,
+  ListAbuseReportsError,
+  Credentials | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListAbuseReportsRequest,
+  ) => stream.Stream<
+    ListAbuseReportsResponse,
+    ListAbuseReportsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAbuseReportsRequest,
+  ) => stream.Stream<
+    {
+      reports: {
         id: string;
         cdate: string;
         domain: string;
@@ -284,103 +458,22 @@ export interface ListAbuseReportsResponse {
           telephone?: string | null;
         } | null;
         urls?: string[] | null;
-      }[]
-    | null;
-}
-
-export const ListAbuseReportsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    reports: Schema.Union([
-      Schema.Array(
-        Schema.Struct({
-          id: Schema.String,
-          cdate: Schema.String,
-          domain: Schema.String,
-          mitigationSummary: Schema.Struct({
-            acceptedUrlCount: Schema.Number,
-            activeCount: Schema.Number,
-            externalHostNotified: Schema.Boolean,
-            inReviewCount: Schema.Number,
-            pendingCount: Schema.Number,
-          }).pipe(
-            Schema.encodeKeys({
-              acceptedUrlCount: "accepted_url_count",
-              activeCount: "active_count",
-              externalHostNotified: "external_host_notified",
-              inReviewCount: "in_review_count",
-              pendingCount: "pending_count",
-            }),
-          ),
-          status: Schema.Literals(["accepted", "in_review"]),
-          type: Schema.Literals([
-            "PHISH",
-            "GEN",
-            "THREAT",
-            "DMCA",
-            "EMER",
-            "TM",
-            "REG_WHO",
-            "NCSEI",
-            "NETWORK",
-          ]),
-          justification: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          originalWork: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-          submitter: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                company: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                email: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                name: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                telephone: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }),
-              Schema.Null,
-            ]),
-          ),
-          urls: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            cdate: "cdate",
-            domain: "domain",
-            mitigationSummary: "mitigation_summary",
-            status: "status",
-            type: "type",
-            justification: "justification",
-            originalWork: "original_work",
-            submitter: "submitter",
-            urls: "urls",
-          }),
-        ),
-      ),
-      Schema.Null,
-    ]),
-  }) as unknown as Schema.Schema<ListAbuseReportsResponse>;
-
-export type ListAbuseReportsError = DefaultErrors | InvalidAccountId;
-
-export const listAbuseReports: API.OperationMethod<
-  ListAbuseReportsRequest,
-  ListAbuseReportsResponse,
-  ListAbuseReportsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+      }[];
+    },
+    ListAbuseReportsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAbuseReportsRequest,
   output: ListAbuseReportsResponse,
   errors: [InvalidAccountId],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateAbuseReportRequest {
@@ -489,7 +582,9 @@ export const CreateAbuseReportRequest =
 export type CreateAbuseReportResponse = string;
 
 export const CreateAbuseReportResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateAbuseReportResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateAbuseReportResponse>;
 
 export type CreateAbuseReportError = DefaultErrors | InvalidRequest;
 
@@ -592,8 +687,183 @@ export const ListMitigationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListMitigationsRequest>;
 
-export type ListMitigationsResponse = {
-  mitigations: {
+export interface ListMitigationsResponse {
+  result: {
+    items?:
+      | {
+          mitigations: {
+            id: string;
+            effectiveDate: string;
+            entityId: string;
+            entityType: "url_pattern" | "account" | "zone";
+            status:
+              | "pending"
+              | "active"
+              | "in_review"
+              | "cancelled"
+              | "removed";
+            type:
+              | "legal_block"
+              | "phishing_interstitial"
+              | "network_block"
+              | "rate_limit_cache"
+              | "account_suspend"
+              | "redirect_video_stream";
+          }[];
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
+
+export const ListMitigationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              mitigations: Schema.Array(
+                Schema.Struct({
+                  id: Schema.String,
+                  effectiveDate: Schema.String,
+                  entityId: Schema.String,
+                  entityType: Schema.Literals([
+                    "url_pattern",
+                    "account",
+                    "zone",
+                  ]),
+                  status: Schema.Literals([
+                    "pending",
+                    "active",
+                    "in_review",
+                    "cancelled",
+                    "removed",
+                  ]),
+                  type: Schema.Literals([
+                    "legal_block",
+                    "phishing_interstitial",
+                    "network_block",
+                    "rate_limit_cache",
+                    "account_suspend",
+                    "redirect_video_stream",
+                  ]),
+                }).pipe(
+                  Schema.encodeKeys({
+                    id: "id",
+                    effectiveDate: "effective_date",
+                    entityId: "entity_id",
+                    entityType: "entity_type",
+                    status: "status",
+                    type: "type",
+                  }),
+                ),
+              ),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+    }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListMitigationsResponse>;
+
+export type ListMitigationsError = DefaultErrors;
+
+export const listMitigations: API.PaginatedOperationMethod<
+  ListMitigationsRequest,
+  ListMitigationsResponse,
+  ListMitigationsError,
+  Credentials | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListMitigationsRequest,
+  ) => stream.Stream<
+    ListMitigationsResponse,
+    ListMitigationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListMitigationsRequest,
+  ) => stream.Stream<
+    {
+      mitigations: {
+        id: string;
+        effectiveDate: string;
+        entityId: string;
+        entityType: "url_pattern" | "account" | "zone";
+        status: "pending" | "active" | "in_review" | "cancelled" | "removed";
+        type:
+          | "legal_block"
+          | "phishing_interstitial"
+          | "network_block"
+          | "rate_limit_cache"
+          | "account_suspend"
+          | "redirect_video_stream";
+      }[];
+    },
+    ListMitigationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListMitigationsRequest,
+  output: ListMitigationsResponse,
+  errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
+}));
+
+export interface ReviewMitigationRequest {
+  reportId: string;
+  /** Path param: Cloudflare Account ID */
+  accountId: string;
+  /** Body param: List of mitigations to appeal. */
+  appeals: { id: string; reason: "removed" | "misclassified" }[];
+}
+
+export const ReviewMitigationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    reportId: Schema.String.pipe(T.HttpPath("reportId")),
+    accountId: Schema.String.pipe(T.HttpPath("account_id")),
+    appeals: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        reason: Schema.Literals(["removed", "misclassified"]),
+      }),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "/accounts/{account_id}/abuse-reports/{reportId}/mitigations/appeal",
+    }),
+  ) as unknown as Schema.Schema<ReviewMitigationRequest>;
+
+export interface ReviewMitigationResponse {
+  result: {
     id: string;
     effectiveDate: string;
     entityId: string;
@@ -607,11 +877,11 @@ export type ListMitigationsResponse = {
       | "account_suspend"
       | "redirect_video_stream";
   }[];
-}[];
+}
 
-export const ListMitigationsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    mitigations: Schema.Array(
+export const ReviewMitigationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
       Schema.Struct({
         id: Schema.String,
         effectiveDate: Schema.String,
@@ -643,105 +913,49 @@ export const ListMitigationsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
         }),
       ),
     ),
-  }),
-) as unknown as Schema.Schema<ListMitigationsResponse>;
-
-export type ListMitigationsError = DefaultErrors;
-
-export const listMitigations: API.OperationMethod<
-  ListMitigationsRequest,
-  ListMitigationsResponse,
-  ListMitigationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ListMitigationsRequest,
-  output: ListMitigationsResponse,
-  errors: [],
-}));
-
-export interface ReviewMitigationRequest {
-  reportId: string;
-  /** Path param: Cloudflare Account ID */
-  accountId: string;
-  /** Body param: List of mitigations to appeal. */
-  appeals: { id: string; reason: "removed" | "misclassified" }[];
-}
-
-export const ReviewMitigationRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    reportId: Schema.String.pipe(T.HttpPath("reportId")),
-    accountId: Schema.String.pipe(T.HttpPath("account_id")),
-    appeals: Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        reason: Schema.Literals(["removed", "misclassified"]),
-      }),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "/accounts/{account_id}/abuse-reports/{reportId}/mitigations/appeal",
-    }),
-  ) as unknown as Schema.Schema<ReviewMitigationRequest>;
-
-export type ReviewMitigationResponse = {
-  id: string;
-  effectiveDate: string;
-  entityId: string;
-  entityType: "url_pattern" | "account" | "zone";
-  status: "pending" | "active" | "in_review" | "cancelled" | "removed";
-  type:
-    | "legal_block"
-    | "phishing_interstitial"
-    | "network_block"
-    | "rate_limit_cache"
-    | "account_suspend"
-    | "redirect_video_stream";
-}[];
-
-export const ReviewMitigationResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      effectiveDate: Schema.String,
-      entityId: Schema.String,
-      entityType: Schema.Literals(["url_pattern", "account", "zone"]),
-      status: Schema.Literals([
-        "pending",
-        "active",
-        "in_review",
-        "cancelled",
-        "removed",
-      ]),
-      type: Schema.Literals([
-        "legal_block",
-        "phishing_interstitial",
-        "network_block",
-        "rate_limit_cache",
-        "account_suspend",
-        "redirect_video_stream",
-      ]),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        effectiveDate: "effective_date",
-        entityId: "entity_id",
-        entityType: "entity_type",
-        status: "status",
-        type: "type",
-      }),
-    ),
-  ) as unknown as Schema.Schema<ReviewMitigationResponse>;
+  }) as unknown as Schema.Schema<ReviewMitigationResponse>;
 
 export type ReviewMitigationError = DefaultErrors;
 
-export const reviewMitigation: API.OperationMethod<
+export const reviewMitigation: API.PaginatedOperationMethod<
   ReviewMitigationRequest,
   ReviewMitigationResponse,
   ReviewMitigationError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ReviewMitigationRequest,
+  ) => stream.Stream<
+    ReviewMitigationResponse,
+    ReviewMitigationError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ReviewMitigationRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      effectiveDate: string;
+      entityId: string;
+      entityType: "url_pattern" | "account" | "zone";
+      status: "pending" | "active" | "in_review" | "cancelled" | "removed";
+      type:
+        | "legal_block"
+        | "phishing_interstitial"
+        | "network_block"
+        | "rate_limit_cache"
+        | "account_suspend"
+        | "redirect_video_stream";
+    },
+    ReviewMitigationError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ReviewMitigationRequest,
   output: ReviewMitigationResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));

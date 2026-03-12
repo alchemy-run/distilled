@@ -36,7 +36,9 @@ export interface PurgeCacheResponse {
 
 export const PurgeCacheResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<PurgeCacheResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PurgeCacheResponse>;
 
 export type PurgeCacheError = DefaultErrors;
 
@@ -85,14 +87,18 @@ export const GetCacheReserveResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetCacheReserveResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetCacheReserveResponse>;
 
 export type GetCacheReserveError = DefaultErrors;
 
@@ -139,14 +145,18 @@ export const PatchCacheReserveResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PatchCacheReserveResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchCacheReserveResponse>;
 
 export type PatchCacheReserveError = DefaultErrors;
 
@@ -196,15 +206,19 @@ export const StatusCacheReserveResponse =
     state: Schema.Literals(["In-progress", "Completed"]),
     endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      startTs: "start_ts",
-      state: "state",
-      endTs: "end_ts",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<StatusCacheReserveResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        startTs: "start_ts",
+        state: "state",
+        endTs: "end_ts",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<StatusCacheReserveResponse>;
 
 export type StatusCacheReserveError = DefaultErrors;
 
@@ -257,15 +271,19 @@ export const ClearCacheReserveResponse =
     state: Schema.Literals(["In-progress", "Completed"]),
     endTs: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      startTs: "start_ts",
-      state: "state",
-      endTs: "end_ts",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<ClearCacheReserveResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        startTs: "start_ts",
+        state: "state",
+        endTs: "end_ts",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<ClearCacheReserveResponse>;
 
 export type ClearCacheReserveError = DefaultErrors;
 
@@ -316,14 +334,18 @@ export const GetRegionalTieredCacheResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetRegionalTieredCacheResponse>;
 
 export type GetRegionalTieredCacheError = DefaultErrors;
 
@@ -373,14 +395,18 @@ export const PatchRegionalTieredCacheResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchRegionalTieredCacheResponse>;
 
 export type PatchRegionalTieredCacheError = DefaultErrors;
 
@@ -431,14 +457,18 @@ export const GetSmartTieredCacheResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSmartTieredCacheResponse>;
 
 export type GetSmartTieredCacheError = DefaultErrors;
 
@@ -488,14 +518,18 @@ export const PatchSmartTieredCacheResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSmartTieredCacheResponse>;
 
 export type PatchSmartTieredCacheError = DefaultErrors;
 
@@ -539,13 +573,17 @@ export const DeleteSmartTieredCacheResponse =
     id: Schema.Literal("tiered_cache_smart_topology_enable"),
     editable: Schema.Boolean,
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteSmartTieredCacheResponse>;
 
 export type DeleteSmartTieredCacheError = DefaultErrors;
 
@@ -637,14 +675,18 @@ export const GetVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<GetVariantResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetVariantResponse>;
 
 export type GetVariantError = DefaultErrors;
 
@@ -759,14 +801,18 @@ export const PatchVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   }),
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    value: "value",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<PatchVariantResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      value: "value",
+      modifiedOn: "modified_on",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchVariantResponse>;
 
 export type PatchVariantError = DefaultErrors;
 
@@ -805,13 +851,17 @@ export const DeleteVariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.Literal("variants"),
   editable: Schema.Boolean,
   modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    editable: "editable",
-    modifiedOn: "modified_on",
-  }),
-) as unknown as Schema.Schema<DeleteVariantResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      editable: "editable",
+      modifiedOn: "modified_on",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteVariantResponse>;
 
 export type DeleteVariantError = DefaultErrors;
 

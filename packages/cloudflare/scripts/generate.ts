@@ -28,12 +28,6 @@ import {
 } from "./model.ts";
 import { parseCode } from "./parse.ts";
 
-const annotatePureExportConst = (definition: string) =>
-  definition.replace(
-    /^export const ([^=]+?)\s*=\s*/m,
-    "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
-  );
-
 /** Returns true if the string is a valid JavaScript identifier (no quoting needed). */
 function isValidIdentifier(name: string): boolean {
   return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
@@ -89,6 +83,12 @@ interface OperationPatch {
    *   `result` is a single object (e.g., `listAbuseReports` returns `{ reports: [...] }`)
    */
   responseType?: "array" | "object";
+  /**
+   * Decode the response from a nested property path in the raw HTTP body.
+   * This mirrors upstream methods that explicitly unwrap envelopes via
+   * `_thenUnwrap((obj) => obj.result)`.
+   */
+  responsePath?: string;
   /** Request schema modifications */
   request?: ResponsePatch;
   /** Response schema modifications */
@@ -398,6 +398,250 @@ function unwrapToArray(typeInfo: TypeInfo): TypeInfo | undefined {
     return typeInfo.values.find((v) => v.kind === "array");
   }
   return undefined;
+}
+
+function buildPaginatedResponseType(
+  itemType: TypeInfo,
+  paginationClassName: string,
+): TypeInfo {
+  const paginationKind = paginationClassName.includes("V4PagePaginationArray")
+    ? "V4PagePaginationArray"
+    : paginationClassName.includes("V4PagePagination")
+      ? "V4PagePagination"
+      : paginationClassName.includes("CursorPaginationAfter")
+        ? "CursorPaginationAfter"
+        : paginationClassName.includes("CursorLimitPagination")
+          ? "CursorLimitPagination"
+          : paginationClassName.includes("CursorPagination")
+            ? "CursorPagination"
+            : paginationClassName.includes("SinglePage")
+              ? "SinglePage"
+              : paginationClassName;
+  const arrayOfItems: TypeInfo = {
+    kind: "array",
+    elementType: JSON.parse(JSON.stringify(itemType)) as TypeInfo,
+  };
+
+  switch (paginationKind) {
+    case "V4PagePagination":
+      return {
+        kind: "object",
+        properties: [
+          {
+            name: "result",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                { name: "items", required: false, type: arrayOfItems },
+              ],
+            },
+          },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "total_count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "V4PagePaginationArray":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "total_count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "CursorPagination":
+    case "CursorLimitPagination":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "count",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+                {
+                  name: "cursor",
+                  required: false,
+                  type: { kind: "primitive", value: "string" },
+                },
+                {
+                  name: "per_page",
+                  required: false,
+                  type: { kind: "primitive", value: "number" },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "CursorPaginationAfter":
+      return {
+        kind: "object",
+        properties: [
+          { name: "result", required: true, type: arrayOfItems },
+          {
+            name: "result_info",
+            required: true,
+            type: {
+              kind: "object",
+              properties: [
+                {
+                  name: "cursors",
+                  required: false,
+                  type: {
+                    kind: "object",
+                    properties: [
+                      {
+                        name: "after",
+                        required: false,
+                        type: { kind: "primitive", value: "string" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      };
+    case "SinglePage":
+    default:
+      return {
+        kind: "object",
+        properties: [{ name: "result", required: true, type: arrayOfItems }],
+      };
+  }
+}
+
+function getPaginationTrait(
+  paginationClassName: string,
+): {
+  mode: "page" | "cursor" | "single";
+  inputToken?: string;
+  outputToken?: string;
+  items: string;
+  pageSize?: string;
+} {
+  const paginationKind = paginationClassName.includes("V4PagePaginationArray")
+    ? "V4PagePaginationArray"
+    : paginationClassName.includes("V4PagePagination")
+      ? "V4PagePagination"
+      : paginationClassName.includes("CursorPaginationAfter")
+        ? "CursorPaginationAfter"
+        : paginationClassName.includes("CursorLimitPagination")
+          ? "CursorLimitPagination"
+          : paginationClassName.includes("CursorPagination")
+            ? "CursorPagination"
+            : paginationClassName.includes("SinglePage")
+              ? "SinglePage"
+              : paginationClassName;
+
+  switch (paginationKind) {
+    case "V4PagePagination":
+      return {
+        mode: "page",
+        inputToken: "page",
+        outputToken: "resultInfo.page",
+        items: "result.items",
+        pageSize: "perPage",
+      };
+    case "V4PagePaginationArray":
+      return {
+        mode: "page",
+        inputToken: "page",
+        outputToken: "resultInfo.page",
+        items: "result",
+        pageSize: "perPage",
+      };
+    case "CursorPagination":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursor",
+        items: "result",
+        pageSize: "perPage",
+      };
+    case "CursorPaginationAfter":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursors.after",
+        items: "result",
+      };
+    case "CursorLimitPagination":
+      return {
+        mode: "cursor",
+        inputToken: "cursor",
+        outputToken: "resultInfo.cursor",
+        items: "result",
+        pageSize: "limit",
+      };
+    case "SinglePage":
+    default:
+      return { mode: "single", items: "result" };
+  }
 }
 
 /**
@@ -832,7 +1076,9 @@ function generateOperationSchema(
     // If param is named "body", it IS the entire HTTP body (e.g. raw array),
     // not a named field within a JSON object
     if (wireName === "body") {
-      requestProps.push(`  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpBody())`);
+      requestProps.push(
+        `  ${quotePropKey(propName)}: ${schema}.pipe(T.HttpBody())`,
+      );
     } else {
       // Always collect mapping for encodeKeys
       encodeKeysMap[propName] = wireName;
@@ -846,7 +1092,9 @@ function generateOperationSchema(
   // Convert URL template to OpenAPI style
   const openApiPath = op.urlTemplate.replace(/\{(\w+)\}/g, "{$1}");
 
-  lines.push(`export const ${requestTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
+  lines.push(
+    `export const ${requestTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`,
+  );
   if (requestProps.length > 0) {
     lines.push(requestProps.join(",\n"));
   }
@@ -877,7 +1125,9 @@ function generateOperationSchema(
   // Generate response interface and schema
   // Try to resolve the response type from the SDK registry
   let resolvedResponseType: TypeInfo | undefined;
+  let paginatedItemType: TypeInfo | undefined;
   let isTypeAlias = false;
+  const responsePath = op.responsePath ?? patch?.responsePath;
 
   if (op.responseTypeName) {
     // First check interfaces
@@ -908,19 +1158,15 @@ function generateOperationSchema(
     isTypeAlias = true;
   }
 
-  // Wrap in array for paginated (list) operations detected by the parser
-  // Skip if patch explicitly sets responseType to "object" (for APIs where result is a single object)
-  if (
-    op.responseType.kind === "array" &&
-    resolvedResponseType &&
-    resolvedResponseType.kind !== "array" &&
-    patch?.responseType !== "object"
-  ) {
-    resolvedResponseType = {
-      kind: "array",
-      elementType: resolvedResponseType,
-    };
-    isTypeAlias = true;
+  if (op.paginationClassName && resolvedResponseType) {
+    paginatedItemType = JSON.parse(
+      JSON.stringify(resolvedResponseType),
+    ) as TypeInfo;
+    resolvedResponseType = buildPaginatedResponseType(
+      resolvedResponseType,
+      op.paginationClassName,
+    );
+    isTypeAlias = false;
   }
 
   // Apply response property patches (nullable, optional, addValues, type overrides)
@@ -935,11 +1181,14 @@ function generateOperationSchema(
     // Type alias response (e.g., `type Response = string` or `type Response = unknown`)
     const tsType = typeInfoToTsType(resolvedResponseType, 0, true);
     const schema = typeInfoToSchema(resolvedResponseType, "", 0, true);
+    const responsePathPipe = responsePath
+      ? `.pipe(T.ResponsePath("${responsePath}"))`
+      : "";
 
     lines.push(`export type ${responseTypeName} = ${tsType};`);
     lines.push("");
     lines.push(
-      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ ${schema} as unknown as Schema.Schema<${responseTypeName}>;`,
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ ${schema}${responsePathPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   } else if (
@@ -960,7 +1209,9 @@ function generateOperationSchema(
           `  /** ${prop.description.replace(/\n/g, " ").slice(0, 200)} */`,
         );
       }
-    lines.push(`  ${quotePropKey(propName)}${optMark}: ${tsType}${nullableSuffix};`);
+      lines.push(
+        `  ${quotePropKey(propName)}${optMark}: ${tsType}${nullableSuffix};`,
+      );
     }
     lines.push(`}`);
     lines.push("");
@@ -995,13 +1246,18 @@ function generateOperationSchema(
           .map(([k, v]) => `${quotePropKey(k)}: "${v}"`)
           .join(", ")} }))`
       : "";
+    const responsePathPipe = responsePath
+      ? `.pipe(T.ResponsePath("${responsePath}"))`
+      : "";
 
-    lines.push(`export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`);
+    lines.push(
+      `export const ${responseTypeName} = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({`,
+    );
     if (responseProps.length > 0) {
       lines.push(responseProps.join(",\n"));
     }
     lines.push(
-      `})${responseEncodeKeysPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
+      `})${responseEncodeKeysPipe}${responsePathPipe} as unknown as Schema.Schema<${responseTypeName}>;`,
     );
     lines.push("");
   } else {
@@ -1026,16 +1282,59 @@ function generateOperationSchema(
     `export type ${errorTypeName} =\n  | ${errorUnionMembers.join("\n  | ")};\n`,
   );
 
-  lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
-  lines.push(`  ${requestTypeName},`);
-  lines.push(`  ${responseTypeName},`);
-  lines.push(`  ${errorTypeName},`);
-  lines.push(`  Credentials | HttpClient.HttpClient`);
-  lines.push(`> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`);
-  lines.push(`  input: ${requestTypeName},`);
-  lines.push(`  output: ${responseTypeName},`);
-  lines.push(`  errors: ${errorsArray},`);
-  lines.push(`}));`);
+  if (op.paginationClassName && paginatedItemType) {
+    const pagination = getPaginationTrait(op.paginationClassName);
+    const itemTypeName = typeInfoToTsType(paginatedItemType, 0, true);
+    lines.push(`export const ${normalizedOpName}: API.PaginatedOperationMethod<`);
+    lines.push(`  ${requestTypeName},`);
+    lines.push(`  ${responseTypeName},`);
+    lines.push(`  ${errorTypeName},`);
+    lines.push(`  Credentials | HttpClient.HttpClient`);
+    lines.push(`> & {`);
+    lines.push(`  pages: (`);
+    lines.push(`    input: ${requestTypeName},`);
+    lines.push(`  ) => stream.Stream<`);
+    lines.push(`    ${responseTypeName},`);
+    lines.push(`    ${errorTypeName},`);
+    lines.push(`    Credentials | HttpClient.HttpClient`);
+    lines.push(`  >;`);
+    lines.push(`  items: (`);
+    lines.push(`    input: ${requestTypeName},`);
+    lines.push(`  ) => stream.Stream<`);
+    lines.push(`    ${itemTypeName},`);
+    lines.push(`    ${errorTypeName},`);
+    lines.push(`    Credentials | HttpClient.HttpClient`);
+    lines.push(`  >;`);
+    lines.push(`} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({`);
+    lines.push(`  input: ${requestTypeName},`);
+    lines.push(`  output: ${responseTypeName},`);
+    lines.push(`  errors: ${errorsArray},`);
+    lines.push(`  pagination: {`);
+    lines.push(`    mode: "${pagination.mode}",`);
+    if (pagination.inputToken) {
+      lines.push(`    inputToken: "${pagination.inputToken}",`);
+    }
+    if (pagination.outputToken) {
+      lines.push(`    outputToken: "${pagination.outputToken}",`);
+    }
+    lines.push(`    items: "${pagination.items}",`);
+    if (pagination.pageSize) {
+      lines.push(`    pageSize: "${pagination.pageSize}",`);
+    }
+    lines.push(`  } as const,`);
+    lines.push(`}));`);
+  } else {
+    lines.push(`export const ${normalizedOpName}: API.OperationMethod<`);
+    lines.push(`  ${requestTypeName},`);
+    lines.push(`  ${responseTypeName},`);
+    lines.push(`  ${errorTypeName},`);
+    lines.push(`  Credentials | HttpClient.HttpClient`);
+    lines.push(`> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({`);
+    lines.push(`  input: ${requestTypeName},`);
+    lines.push(`  output: ${responseTypeName},`);
+    lines.push(`  errors: ${errorsArray},`);
+    lines.push(`}));`);
+  }
   lines.push("");
 
   return lines.join("\n");
@@ -1231,8 +1530,9 @@ function generateServiceFile(
   lines.push(` */`);
   lines.push("");
 
-  // Imports (Effect is conditionally included via placeholder)
+  // Imports (Effect/Stream are conditionally included via placeholders)
   lines.push(`__EFFECT_IMPORT__`);
+  lines.push(`__STREAM_IMPORT__`);
   lines.push(`import * as Schema from "effect/Schema";`);
   lines.push(
     `import type * as HttpClient from "effect/unstable/http/HttpClient";`,
@@ -1299,9 +1599,20 @@ T.applyErrorMatchers(${tag}, ${JSON.stringify(matchers)});`);
   let code = lines.join("\n");
   // Only include the Effect import if it's actually used in the generated code
   if (code.includes("Effect.")) {
-    code = code.replace("__EFFECT_IMPORT__", 'import * as Effect from "effect/Effect";');
+    code = code.replace(
+      "__EFFECT_IMPORT__",
+      'import * as Effect from "effect/Effect";',
+    );
   } else {
     code = code.replace("__EFFECT_IMPORT__\n", "");
+  }
+  if (code.includes("stream.Stream<")) {
+    code = code.replace(
+      "__STREAM_IMPORT__",
+      'import * as stream from "effect/Stream";',
+    );
+  } else {
+    code = code.replace("__STREAM_IMPORT__\n", "");
   }
   return code;
 }
@@ -1314,7 +1625,7 @@ interface GenerateOptions {
 const generateCode = (services: ServiceInfo[], options: GenerateOptions) =>
   Effect.gen(function* () {
     const fs = yield* FileSystem.FileSystem;
-    const { outputPath, debug } = options;
+    const { outputPath } = options;
     // Create output directory
     yield* fs.makeDirectory(outputPath, { recursive: true });
 

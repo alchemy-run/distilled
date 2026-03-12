@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service custom-certificates
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -96,24 +97,28 @@ export const GetCustomCertificateResponse =
     ),
     keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
     policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      bundleMethod: "bundle_method",
-      expiresOn: "expires_on",
-      hosts: "hosts",
-      issuer: "issuer",
-      modifiedOn: "modified_on",
-      priority: "priority",
-      signature: "signature",
-      status: "status",
-      uploadedOn: "uploaded_on",
-      zoneId: "zone_id",
-      geoRestrictions: "geo_restrictions",
-      keylessServer: "keyless_server",
-      policy: "policy",
-    }),
-  ) as unknown as Schema.Schema<GetCustomCertificateResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        bundleMethod: "bundle_method",
+        expiresOn: "expires_on",
+        hosts: "hosts",
+        issuer: "issuer",
+        modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
+        status: "status",
+        uploadedOn: "uploaded_on",
+        zoneId: "zone_id",
+        geoRestrictions: "geo_restrictions",
+        keylessServer: "keyless_server",
+        policy: "policy",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetCustomCertificateResponse>;
 
 export type GetCustomCertificateError = DefaultErrors;
 
@@ -156,91 +161,157 @@ export const ListCustomCertificatesRequest =
     T.Http({ method: "GET", path: "/zones/{zone_id}/custom_certificates" }),
   ) as unknown as Schema.Schema<ListCustomCertificatesRequest>;
 
-export type ListCustomCertificatesResponse = {
-  id: string;
-  bundleMethod: "ubiquitous" | "optimal" | "force";
-  expiresOn: string;
-  hosts: string[];
-  issuer: string;
-  modifiedOn: string;
-  priority: number;
-  signature: string;
-  status: "active" | "expired" | "deleted" | "pending" | "initializing";
-  uploadedOn: string;
-  zoneId: string;
-  geoRestrictions?: { label?: "us" | "eu" | "highest_security" | null } | null;
-  keylessServer?: unknown | null;
-  policy?: string | null;
-}[];
+export interface ListCustomCertificatesResponse {
+  result: {
+    id: string;
+    bundleMethod: "ubiquitous" | "optimal" | "force";
+    expiresOn: string;
+    hosts: string[];
+    issuer: string;
+    modifiedOn: string;
+    priority: number;
+    signature: string;
+    status: "active" | "expired" | "deleted" | "pending" | "initializing";
+    uploadedOn: string;
+    zoneId: string;
+    geoRestrictions?: {
+      label?: "us" | "eu" | "highest_security" | null;
+    } | null;
+    keylessServer?: unknown | null;
+    policy?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListCustomCertificatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]),
-      expiresOn: Schema.String,
-      hosts: Schema.Array(Schema.String),
-      issuer: Schema.String,
-      modifiedOn: Schema.String,
-      priority: Schema.Number,
-      signature: Schema.String,
-      status: Schema.Literals([
-        "active",
-        "expired",
-        "deleted",
-        "pending",
-        "initializing",
-      ]),
-      uploadedOn: Schema.String,
-      zoneId: Schema.String,
-      geoRestrictions: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            label: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["us", "eu", "highest_security"]),
-                Schema.Null,
-              ]),
-            ),
-          }),
-          Schema.Null,
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        bundleMethod: Schema.Literals(["ubiquitous", "optimal", "force"]),
+        expiresOn: Schema.String,
+        hosts: Schema.Array(Schema.String),
+        issuer: Schema.String,
+        modifiedOn: Schema.String,
+        priority: Schema.Number,
+        signature: Schema.String,
+        status: Schema.Literals([
+          "active",
+          "expired",
+          "deleted",
+          "pending",
+          "initializing",
         ]),
+        uploadedOn: Schema.String,
+        zoneId: Schema.String,
+        geoRestrictions: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              label: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["us", "eu", "highest_security"]),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        keylessServer: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          bundleMethod: "bundle_method",
+          expiresOn: "expires_on",
+          hosts: "hosts",
+          issuer: "issuer",
+          modifiedOn: "modified_on",
+          priority: "priority",
+          signature: "signature",
+          status: "status",
+          uploadedOn: "uploaded_on",
+          zoneId: "zone_id",
+          geoRestrictions: "geo_restrictions",
+          keylessServer: "keyless_server",
+          policy: "policy",
+        }),
       ),
-      keylessServer: Schema.optional(
-        Schema.Union([Schema.Unknown, Schema.Null]),
-      ),
-      policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        bundleMethod: "bundle_method",
-        expiresOn: "expires_on",
-        hosts: "hosts",
-        issuer: "issuer",
-        modifiedOn: "modified_on",
-        priority: "priority",
-        signature: "signature",
-        status: "status",
-        uploadedOn: "uploaded_on",
-        zoneId: "zone_id",
-        geoRestrictions: "geo_restrictions",
-        keylessServer: "keyless_server",
-        policy: "policy",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListCustomCertificatesResponse>;
 
 export type ListCustomCertificatesError = DefaultErrors;
 
-export const listCustomCertificates: API.OperationMethod<
+export const listCustomCertificates: API.PaginatedOperationMethod<
   ListCustomCertificatesRequest,
   ListCustomCertificatesResponse,
   ListCustomCertificatesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListCustomCertificatesRequest,
+  ) => stream.Stream<
+    ListCustomCertificatesResponse,
+    ListCustomCertificatesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListCustomCertificatesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      bundleMethod: "ubiquitous" | "optimal" | "force";
+      expiresOn: string;
+      hosts: string[];
+      issuer: string;
+      modifiedOn: string;
+      priority: number;
+      signature: string;
+      status: "active" | "expired" | "deleted" | "pending" | "initializing";
+      uploadedOn: string;
+      zoneId: string;
+      geoRestrictions?: {
+        label?: "us" | "eu" | "highest_security" | null;
+      } | null;
+      keylessServer?: unknown | null;
+      policy?: string | null;
+    },
+    ListCustomCertificatesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListCustomCertificatesRequest,
   output: ListCustomCertificatesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateCustomCertificateRequest {
@@ -352,24 +423,28 @@ export const CreateCustomCertificateResponse =
     ),
     keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
     policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      bundleMethod: "bundle_method",
-      expiresOn: "expires_on",
-      hosts: "hosts",
-      issuer: "issuer",
-      modifiedOn: "modified_on",
-      priority: "priority",
-      signature: "signature",
-      status: "status",
-      uploadedOn: "uploaded_on",
-      zoneId: "zone_id",
-      geoRestrictions: "geo_restrictions",
-      keylessServer: "keyless_server",
-      policy: "policy",
-    }),
-  ) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        bundleMethod: "bundle_method",
+        expiresOn: "expires_on",
+        hosts: "hosts",
+        issuer: "issuer",
+        modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
+        status: "status",
+        uploadedOn: "uploaded_on",
+        zoneId: "zone_id",
+        geoRestrictions: "geo_restrictions",
+        keylessServer: "keyless_server",
+        policy: "policy",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateCustomCertificateResponse>;
 
 export type CreateCustomCertificateError = DefaultErrors;
 
@@ -494,24 +569,28 @@ export const PatchCustomCertificateResponse =
     ),
     keylessServer: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
     policy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      bundleMethod: "bundle_method",
-      expiresOn: "expires_on",
-      hosts: "hosts",
-      issuer: "issuer",
-      modifiedOn: "modified_on",
-      priority: "priority",
-      signature: "signature",
-      status: "status",
-      uploadedOn: "uploaded_on",
-      zoneId: "zone_id",
-      geoRestrictions: "geo_restrictions",
-      keylessServer: "keyless_server",
-      policy: "policy",
-    }),
-  ) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        bundleMethod: "bundle_method",
+        expiresOn: "expires_on",
+        hosts: "hosts",
+        issuer: "issuer",
+        modifiedOn: "modified_on",
+        priority: "priority",
+        signature: "signature",
+        status: "status",
+        uploadedOn: "uploaded_on",
+        zoneId: "zone_id",
+        geoRestrictions: "geo_restrictions",
+        keylessServer: "keyless_server",
+        policy: "policy",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchCustomCertificateResponse>;
 
 export type PatchCustomCertificateError = DefaultErrors;
 
@@ -551,7 +630,9 @@ export interface DeleteCustomCertificateResponse {
 export const DeleteCustomCertificateResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteCustomCertificateResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteCustomCertificateResponse>;
 
 export type DeleteCustomCertificateError = DefaultErrors;
 

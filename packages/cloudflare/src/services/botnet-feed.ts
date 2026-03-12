@@ -36,7 +36,9 @@ export interface GetConfigAsnResponse {
 
 export const GetConfigAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}) as unknown as Schema.Schema<GetConfigAsnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetConfigAsnResponse>;
 
 export type GetConfigAsnError = DefaultErrors;
 
@@ -76,7 +78,9 @@ export interface DeleteConfigAsnResponse {
 export const DeleteConfigAsnResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     asn: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteConfigAsnResponse>;
 
 export type DeleteConfigAsnError = DefaultErrors;
 
@@ -124,13 +128,17 @@ export const DayReportAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    cidr: "cidr",
-    date: "date",
-    offenseCount: "offense_count",
-  }),
-) as unknown as Schema.Schema<DayReportAsnResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      cidr: "cidr",
+      date: "date",
+      offenseCount: "offense_count",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DayReportAsnResponse>;
 
 export type DayReportAsnError = DefaultErrors;
 
@@ -171,13 +179,17 @@ export const FullReportAsnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   cidr: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   date: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   offenseCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    cidr: "cidr",
-    date: "date",
-    offenseCount: "offense_count",
-  }),
-) as unknown as Schema.Schema<FullReportAsnResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      cidr: "cidr",
+      date: "date",
+      offenseCount: "offense_count",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<FullReportAsnResponse>;
 
 export type FullReportAsnError = DefaultErrors;
 

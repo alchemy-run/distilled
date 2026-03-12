@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service resource-sharing
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -95,16 +96,20 @@ export const GetRecipientResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    associationStatus: "association_status",
-    created: "created",
-    modified: "modified",
-    resources: "resources",
-  }),
-) as unknown as Schema.Schema<GetRecipientResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      associationStatus: "association_status",
+      created: "created",
+      modified: "modified",
+      resources: "resources",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetRecipientResponse>;
 
 export type GetRecipientError = DefaultErrors;
 
@@ -140,81 +145,148 @@ export const ListRecipientsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListRecipientsRequest>;
 
-export type ListRecipientsResponse = {
-  id: string;
-  accountId: string;
-  associationStatus:
-    | "associating"
-    | "associated"
-    | "disassociating"
-    | "disassociated";
-  created: string;
-  modified: string;
-  resources?:
-    | {
-        error: string;
-        resourceId: string;
-        resourceVersion: number;
-        terminal: boolean;
-      }[]
-    | null;
-}[];
+export interface ListRecipientsResponse {
+  result: {
+    id: string;
+    accountId: string;
+    associationStatus:
+      | "associating"
+      | "associated"
+      | "disassociating"
+      | "disassociated";
+    created: string;
+    modified: string;
+    resources?:
+      | {
+          error: string;
+          resourceId: string;
+          resourceVersion: number;
+          terminal: boolean;
+        }[]
+      | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListRecipientsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    accountId: Schema.String,
-    associationStatus: Schema.Literals([
-      "associating",
-      "associated",
-      "disassociating",
-      "disassociated",
-    ]),
-    created: Schema.String,
-    modified: Schema.String,
-    resources: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            error: Schema.String,
-            resourceId: Schema.String,
-            resourceVersion: Schema.Number,
-            terminal: Schema.Boolean,
-          }).pipe(
-            Schema.encodeKeys({
-              error: "error",
-              resourceId: "resource_id",
-              resourceVersion: "resource_version",
-              terminal: "terminal",
-            }),
-          ),
+export const ListRecipientsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        accountId: Schema.String,
+        associationStatus: Schema.Literals([
+          "associating",
+          "associated",
+          "disassociating",
+          "disassociated",
+        ]),
+        created: Schema.String,
+        modified: Schema.String,
+        resources: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                error: Schema.String,
+                resourceId: Schema.String,
+                resourceVersion: Schema.Number,
+                terminal: Schema.Boolean,
+              }).pipe(
+                Schema.encodeKeys({
+                  error: "error",
+                  resourceId: "resource_id",
+                  resourceVersion: "resource_version",
+                  terminal: "terminal",
+                }),
+              ),
+            ),
+            Schema.Null,
+          ]),
         ),
-        Schema.Null,
-      ]),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          accountId: "account_id",
+          associationStatus: "association_status",
+          created: "created",
+          modified: "modified",
+          resources: "resources",
+        }),
+      ),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      associationStatus: "association_status",
-      created: "created",
-      modified: "modified",
-      resources: "resources",
-    }),
-  ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  },
+).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListRecipientsResponse>;
 
 export type ListRecipientsError = DefaultErrors;
 
-export const listRecipients: API.OperationMethod<
+export const listRecipients: API.PaginatedOperationMethod<
   ListRecipientsRequest,
   ListRecipientsResponse,
   ListRecipientsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRecipientsRequest,
+  ) => stream.Stream<
+    ListRecipientsResponse,
+    ListRecipientsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecipientsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      associationStatus:
+        | "associating"
+        | "associated"
+        | "disassociating"
+        | "disassociated";
+      created: string;
+      modified: string;
+      resources?:
+        | {
+            error: string;
+            resourceId: string;
+            resourceVersion: number;
+            terminal: boolean;
+          }[]
+        | null;
+    },
+    ListRecipientsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRecipientsRequest,
   output: ListRecipientsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateRecipientRequest {
@@ -302,16 +374,20 @@ export const CreateRecipientResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      associationStatus: "association_status",
-      created: "created",
-      modified: "modified",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<CreateRecipientResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        associationStatus: "association_status",
+        created: "created",
+        modified: "modified",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateRecipientResponse>;
 
 export type CreateRecipientError = DefaultErrors;
 
@@ -403,16 +479,20 @@ export const DeleteRecipientResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      associationStatus: "association_status",
-      created: "created",
-      modified: "modified",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<DeleteRecipientResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        associationStatus: "association_status",
+        created: "created",
+        modified: "modified",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteRecipientResponse>;
 
 export type DeleteRecipientError = DefaultErrors;
 
@@ -493,19 +573,23 @@ export const GetResourceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ]),
   resourceVersion: Schema.Number,
   status: Schema.Literals(["active", "deleting", "deleted"]),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    meta: "meta",
-    modified: "modified",
-    resourceAccountId: "resource_account_id",
-    resourceId: "resource_id",
-    resourceType: "resource_type",
-    resourceVersion: "resource_version",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<GetResourceResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      meta: "meta",
+      modified: "modified",
+      resourceAccountId: "resource_account_id",
+      resourceId: "resource_id",
+      resourceType: "resource_type",
+      resourceVersion: "resource_version",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetResourceResponse>;
 
 export type GetResourceError = DefaultErrors;
 
@@ -559,68 +643,131 @@ export const ListResourcesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListResourcesRequest>;
 
-export type ListResourcesResponse = {
-  id: string;
-  created: string;
-  meta: unknown;
-  modified: string;
-  resourceAccountId: string;
-  resourceId: string;
-  resourceType:
-    | "custom-ruleset"
-    | "widget"
-    | "gateway-policy"
-    | "gateway-destination-ip"
-    | "gateway-block-page-settings"
-    | "gateway-extended-email-matching";
-  resourceVersion: number;
-  status: "active" | "deleting" | "deleted";
-}[];
+export interface ListResourcesResponse {
+  result: {
+    id: string;
+    created: string;
+    meta: unknown;
+    modified: string;
+    resourceAccountId: string;
+    resourceId: string;
+    resourceType:
+      | "custom-ruleset"
+      | "widget"
+      | "gateway-policy"
+      | "gateway-destination-ip"
+      | "gateway-block-page-settings"
+      | "gateway-extended-email-matching";
+    resourceVersion: number;
+    status: "active" | "deleting" | "deleted";
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListResourcesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    created: Schema.String,
-    meta: Schema.Unknown,
-    modified: Schema.String,
-    resourceAccountId: Schema.String,
-    resourceId: Schema.String,
-    resourceType: Schema.Literals([
-      "custom-ruleset",
-      "widget",
-      "gateway-policy",
-      "gateway-destination-ip",
-      "gateway-block-page-settings",
-      "gateway-extended-email-matching",
-    ]),
-    resourceVersion: Schema.Number,
-    status: Schema.Literals(["active", "deleting", "deleted"]),
+export const ListResourcesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      created: Schema.String,
+      meta: Schema.Unknown,
+      modified: Schema.String,
+      resourceAccountId: Schema.String,
+      resourceId: Schema.String,
+      resourceType: Schema.Literals([
+        "custom-ruleset",
+        "widget",
+        "gateway-policy",
+        "gateway-destination-ip",
+        "gateway-block-page-settings",
+        "gateway-extended-email-matching",
+      ]),
+      resourceVersion: Schema.Number,
+      status: Schema.Literals(["active", "deleting", "deleted"]),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        created: "created",
+        meta: "meta",
+        modified: "modified",
+        resourceAccountId: "resource_account_id",
+        resourceId: "resource_id",
+        resourceType: "resource_type",
+        resourceVersion: "resource_version",
+        status: "status",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      created: "created",
-      meta: "meta",
-      modified: "modified",
-      resourceAccountId: "resource_account_id",
-      resourceId: "resource_id",
-      resourceType: "resource_type",
-      resourceVersion: "resource_version",
-      status: "status",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListResourcesResponse>;
 
 export type ListResourcesError = DefaultErrors;
 
-export const listResources: API.OperationMethod<
+export const listResources: API.PaginatedOperationMethod<
   ListResourcesRequest,
   ListResourcesResponse,
   ListResourcesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListResourcesRequest,
+  ) => stream.Stream<
+    ListResourcesResponse,
+    ListResourcesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourcesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      created: string;
+      meta: unknown;
+      modified: string;
+      resourceAccountId: string;
+      resourceId: string;
+      resourceType:
+        | "custom-ruleset"
+        | "widget"
+        | "gateway-policy"
+        | "gateway-destination-ip"
+        | "gateway-block-page-settings"
+        | "gateway-extended-email-matching";
+      resourceVersion: number;
+      status: "active" | "deleting" | "deleted";
+    },
+    ListResourcesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListResourcesRequest,
   output: ListResourcesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateResourceRequest {
@@ -716,19 +863,23 @@ export const CreateResourceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     resourceVersion: Schema.Number,
     status: Schema.Literals(["active", "deleting", "deleted"]),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    meta: "meta",
-    modified: "modified",
-    resourceAccountId: "resource_account_id",
-    resourceId: "resource_id",
-    resourceType: "resource_type",
-    resourceVersion: "resource_version",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<CreateResourceResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      meta: "meta",
+      modified: "modified",
+      resourceAccountId: "resource_account_id",
+      resourceId: "resource_id",
+      resourceType: "resource_type",
+      resourceVersion: "resource_version",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateResourceResponse>;
 
 export type CreateResourceError = DefaultErrors;
 
@@ -810,19 +961,23 @@ export const UpdateResourceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     resourceVersion: Schema.Number,
     status: Schema.Literals(["active", "deleting", "deleted"]),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    meta: "meta",
-    modified: "modified",
-    resourceAccountId: "resource_account_id",
-    resourceId: "resource_id",
-    resourceType: "resource_type",
-    resourceVersion: "resource_version",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<UpdateResourceResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      meta: "meta",
+      modified: "modified",
+      resourceAccountId: "resource_account_id",
+      resourceId: "resource_id",
+      resourceType: "resource_type",
+      resourceVersion: "resource_version",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateResourceResponse>;
 
 export type UpdateResourceError = DefaultErrors;
 
@@ -901,19 +1056,23 @@ export const DeleteResourceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     resourceVersion: Schema.Number,
     status: Schema.Literals(["active", "deleting", "deleted"]),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    meta: "meta",
-    modified: "modified",
-    resourceAccountId: "resource_account_id",
-    resourceId: "resource_id",
-    resourceType: "resource_type",
-    resourceVersion: "resource_version",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<DeleteResourceResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      meta: "meta",
+      modified: "modified",
+      resourceAccountId: "resource_account_id",
+      resourceId: "resource_id",
+      resourceType: "resource_type",
+      resourceVersion: "resource_version",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteResourceResponse>;
 
 export type DeleteResourceError = DefaultErrors;
 
@@ -1067,25 +1226,29 @@ export const GetResourceSharingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountName: "account_name",
-      created: "created",
-      modified: "modified",
-      name: "name",
-      organizationId: "organization_id",
-      status: "status",
-      targetType: "target_type",
-      associatedRecipientCount: "associated_recipient_count",
-      associatingRecipientCount: "associating_recipient_count",
-      disassociatedRecipientCount: "disassociated_recipient_count",
-      disassociatingRecipientCount: "disassociating_recipient_count",
-      kind: "kind",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<GetResourceSharingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountName: "account_name",
+        created: "created",
+        modified: "modified",
+        name: "name",
+        organizationId: "organization_id",
+        status: "status",
+        targetType: "target_type",
+        associatedRecipientCount: "associated_recipient_count",
+        associatingRecipientCount: "associating_recipient_count",
+        disassociatedRecipientCount: "disassociated_recipient_count",
+        disassociatingRecipientCount: "disassociating_recipient_count",
+        kind: "kind",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetResourceSharingResponse>;
 
 export type GetResourceSharingError = DefaultErrors;
 
@@ -1168,138 +1331,219 @@ export const ListResourceSharingsRequest =
     T.Http({ method: "GET", path: "/accounts/{account_id}/shares" }),
   ) as unknown as Schema.Schema<ListResourceSharingsRequest>;
 
-export type ListResourceSharingsResponse = {
-  id: string;
-  accountId: string;
-  accountName: string;
-  created: string;
-  modified: string;
-  name: string;
-  organizationId: string;
-  status: "active" | "deleting" | "deleted";
-  targetType: "account" | "organization";
-  associatedRecipientCount?: number | null;
-  associatingRecipientCount?: number | null;
-  disassociatedRecipientCount?: number | null;
-  disassociatingRecipientCount?: number | null;
-  kind?: "sent" | "received" | null;
-  resources?:
-    | {
-        id: string;
-        created: string;
-        meta: unknown;
-        modified: string;
-        resourceAccountId: string;
-        resourceId: string;
-        resourceType:
-          | "custom-ruleset"
-          | "widget"
-          | "gateway-policy"
-          | "gateway-destination-ip"
-          | "gateway-block-page-settings"
-          | "gateway-extended-email-matching";
-        resourceVersion: number;
-        status: "active" | "deleting" | "deleted";
-      }[]
-    | null;
-}[];
+export interface ListResourceSharingsResponse {
+  result: {
+    id: string;
+    accountId: string;
+    accountName: string;
+    created: string;
+    modified: string;
+    name: string;
+    organizationId: string;
+    status: "active" | "deleting" | "deleted";
+    targetType: "account" | "organization";
+    associatedRecipientCount?: number | null;
+    associatingRecipientCount?: number | null;
+    disassociatedRecipientCount?: number | null;
+    disassociatingRecipientCount?: number | null;
+    kind?: "sent" | "received" | null;
+    resources?:
+      | {
+          id: string;
+          created: string;
+          meta: unknown;
+          modified: string;
+          resourceAccountId: string;
+          resourceId: string;
+          resourceType:
+            | "custom-ruleset"
+            | "widget"
+            | "gateway-policy"
+            | "gateway-destination-ip"
+            | "gateway-block-page-settings"
+            | "gateway-extended-email-matching";
+          resourceVersion: number;
+          status: "active" | "deleting" | "deleted";
+        }[]
+      | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListResourceSharingsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      accountId: Schema.String,
-      accountName: Schema.String,
-      created: Schema.String,
-      modified: Schema.String,
-      name: Schema.String,
-      organizationId: Schema.String,
-      status: Schema.Literals(["active", "deleting", "deleted"]),
-      targetType: Schema.Literals(["account", "organization"]),
-      associatedRecipientCount: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      associatingRecipientCount: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      disassociatedRecipientCount: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      disassociatingRecipientCount: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      kind: Schema.optional(
-        Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
-      ),
-      resources: Schema.optional(
-        Schema.Union([
-          Schema.Array(
-            Schema.Struct({
-              id: Schema.String,
-              created: Schema.String,
-              meta: Schema.Unknown,
-              modified: Schema.String,
-              resourceAccountId: Schema.String,
-              resourceId: Schema.String,
-              resourceType: Schema.Literals([
-                "custom-ruleset",
-                "widget",
-                "gateway-policy",
-                "gateway-destination-ip",
-                "gateway-block-page-settings",
-                "gateway-extended-email-matching",
-              ]),
-              resourceVersion: Schema.Number,
-              status: Schema.Literals(["active", "deleting", "deleted"]),
-            }).pipe(
-              Schema.encodeKeys({
-                id: "id",
-                created: "created",
-                meta: "meta",
-                modified: "modified",
-                resourceAccountId: "resource_account_id",
-                resourceId: "resource_id",
-                resourceType: "resource_type",
-                resourceVersion: "resource_version",
-                status: "status",
-              }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        accountId: Schema.String,
+        accountName: Schema.String,
+        created: Schema.String,
+        modified: Schema.String,
+        name: Schema.String,
+        organizationId: Schema.String,
+        status: Schema.Literals(["active", "deleting", "deleted"]),
+        targetType: Schema.Literals(["account", "organization"]),
+        associatedRecipientCount: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        associatingRecipientCount: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        disassociatedRecipientCount: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        disassociatingRecipientCount: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        kind: Schema.optional(
+          Schema.Union([Schema.Literals(["sent", "received"]), Schema.Null]),
+        ),
+        resources: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.String,
+                created: Schema.String,
+                meta: Schema.Unknown,
+                modified: Schema.String,
+                resourceAccountId: Schema.String,
+                resourceId: Schema.String,
+                resourceType: Schema.Literals([
+                  "custom-ruleset",
+                  "widget",
+                  "gateway-policy",
+                  "gateway-destination-ip",
+                  "gateway-block-page-settings",
+                  "gateway-extended-email-matching",
+                ]),
+                resourceVersion: Schema.Number,
+                status: Schema.Literals(["active", "deleting", "deleted"]),
+              }).pipe(
+                Schema.encodeKeys({
+                  id: "id",
+                  created: "created",
+                  meta: "meta",
+                  modified: "modified",
+                  resourceAccountId: "resource_account_id",
+                  resourceId: "resource_id",
+                  resourceType: "resource_type",
+                  resourceVersion: "resource_version",
+                  status: "status",
+                }),
+              ),
             ),
-          ),
-          Schema.Null,
-        ]),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          accountId: "account_id",
+          accountName: "account_name",
+          created: "created",
+          modified: "modified",
+          name: "name",
+          organizationId: "organization_id",
+          status: "status",
+          targetType: "target_type",
+          associatedRecipientCount: "associated_recipient_count",
+          associatingRecipientCount: "associating_recipient_count",
+          disassociatedRecipientCount: "disassociated_recipient_count",
+          disassociatingRecipientCount: "disassociating_recipient_count",
+          kind: "kind",
+          resources: "resources",
+        }),
       ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        accountId: "account_id",
-        accountName: "account_name",
-        created: "created",
-        modified: "modified",
-        name: "name",
-        organizationId: "organization_id",
-        status: "status",
-        targetType: "target_type",
-        associatedRecipientCount: "associated_recipient_count",
-        associatingRecipientCount: "associating_recipient_count",
-        disassociatedRecipientCount: "disassociated_recipient_count",
-        disassociatingRecipientCount: "disassociating_recipient_count",
-        kind: "kind",
-        resources: "resources",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListResourceSharingsResponse>;
 
 export type ListResourceSharingsError = DefaultErrors;
 
-export const listResourceSharings: API.OperationMethod<
+export const listResourceSharings: API.PaginatedOperationMethod<
   ListResourceSharingsRequest,
   ListResourceSharingsResponse,
   ListResourceSharingsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListResourceSharingsRequest,
+  ) => stream.Stream<
+    ListResourceSharingsResponse,
+    ListResourceSharingsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListResourceSharingsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      accountName: string;
+      created: string;
+      modified: string;
+      name: string;
+      organizationId: string;
+      status: "active" | "deleting" | "deleted";
+      targetType: "account" | "organization";
+      associatedRecipientCount?: number | null;
+      associatingRecipientCount?: number | null;
+      disassociatedRecipientCount?: number | null;
+      disassociatingRecipientCount?: number | null;
+      kind?: "sent" | "received" | null;
+      resources?:
+        | {
+            id: string;
+            created: string;
+            meta: unknown;
+            modified: string;
+            resourceAccountId: string;
+            resourceId: string;
+            resourceType:
+              | "custom-ruleset"
+              | "widget"
+              | "gateway-policy"
+              | "gateway-destination-ip"
+              | "gateway-block-page-settings"
+              | "gateway-extended-email-matching";
+            resourceVersion: number;
+            status: "active" | "deleting" | "deleted";
+          }[]
+        | null;
+    },
+    ListResourceSharingsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListResourceSharingsRequest,
   output: ListResourceSharingsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateResourceSharingRequest {
@@ -1476,25 +1720,29 @@ export const CreateResourceSharingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountName: "account_name",
-      created: "created",
-      modified: "modified",
-      name: "name",
-      organizationId: "organization_id",
-      status: "status",
-      targetType: "target_type",
-      associatedRecipientCount: "associated_recipient_count",
-      associatingRecipientCount: "associating_recipient_count",
-      disassociatedRecipientCount: "disassociated_recipient_count",
-      disassociatingRecipientCount: "disassociating_recipient_count",
-      kind: "kind",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<CreateResourceSharingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountName: "account_name",
+        created: "created",
+        modified: "modified",
+        name: "name",
+        organizationId: "organization_id",
+        status: "status",
+        targetType: "target_type",
+        associatedRecipientCount: "associated_recipient_count",
+        associatingRecipientCount: "associating_recipient_count",
+        disassociatedRecipientCount: "disassociated_recipient_count",
+        disassociatingRecipientCount: "disassociating_recipient_count",
+        kind: "kind",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateResourceSharingResponse>;
 
 export type CreateResourceSharingError = DefaultErrors;
 
@@ -1637,25 +1885,29 @@ export const UpdateResourceSharingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountName: "account_name",
-      created: "created",
-      modified: "modified",
-      name: "name",
-      organizationId: "organization_id",
-      status: "status",
-      targetType: "target_type",
-      associatedRecipientCount: "associated_recipient_count",
-      associatingRecipientCount: "associating_recipient_count",
-      disassociatedRecipientCount: "disassociated_recipient_count",
-      disassociatingRecipientCount: "disassociating_recipient_count",
-      kind: "kind",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<UpdateResourceSharingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountName: "account_name",
+        created: "created",
+        modified: "modified",
+        name: "name",
+        organizationId: "organization_id",
+        status: "status",
+        targetType: "target_type",
+        associatedRecipientCount: "associated_recipient_count",
+        associatingRecipientCount: "associating_recipient_count",
+        disassociatedRecipientCount: "disassociated_recipient_count",
+        disassociatingRecipientCount: "disassociating_recipient_count",
+        kind: "kind",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateResourceSharingResponse>;
 
 export type UpdateResourceSharingError = DefaultErrors;
 
@@ -1798,25 +2050,29 @@ export const DeleteResourceSharingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountName: "account_name",
-      created: "created",
-      modified: "modified",
-      name: "name",
-      organizationId: "organization_id",
-      status: "status",
-      targetType: "target_type",
-      associatedRecipientCount: "associated_recipient_count",
-      associatingRecipientCount: "associating_recipient_count",
-      disassociatedRecipientCount: "disassociated_recipient_count",
-      disassociatingRecipientCount: "disassociating_recipient_count",
-      kind: "kind",
-      resources: "resources",
-    }),
-  ) as unknown as Schema.Schema<DeleteResourceSharingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountName: "account_name",
+        created: "created",
+        modified: "modified",
+        name: "name",
+        organizationId: "organization_id",
+        status: "status",
+        targetType: "target_type",
+        associatedRecipientCount: "associated_recipient_count",
+        associatingRecipientCount: "associating_recipient_count",
+        disassociatedRecipientCount: "disassociated_recipient_count",
+        disassociatingRecipientCount: "disassociating_recipient_count",
+        kind: "kind",
+        resources: "resources",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteResourceSharingResponse>;
 
 export type DeleteResourceSharingError = DefaultErrors;
 

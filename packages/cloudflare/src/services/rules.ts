@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service rules
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -60,18 +61,20 @@ export const GetListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    kind: "kind",
-    modifiedOn: "modified_on",
-    name: "name",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<GetListResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      kind: "kind",
+      modifiedOn: "modified_on",
+      name: "name",
+      numItems: "num_items",
+      numReferencingFilters: "num_referencing_filters",
+      description: "description",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetListResponse>;
 
 export type GetListError = DefaultErrors;
 
@@ -97,52 +100,84 @@ export const ListListsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/rules/lists" }),
 ) as unknown as Schema.Schema<ListListsRequest>;
 
-export type ListListsResponse = {
-  id: string;
-  createdOn: string;
-  kind: "ip" | "redirect" | "hostname" | "asn";
-  modifiedOn: string;
-  name: string;
-  numItems: number;
-  numReferencingFilters: number;
-  description?: string | null;
-}[];
+export interface ListListsResponse {
+  result: {
+    id: string;
+    createdOn: string;
+    kind: "ip" | "redirect" | "hostname" | "asn";
+    modifiedOn: string;
+    name: string;
+    numItems: number;
+    numReferencingFilters: number;
+    description?: string | null;
+  }[];
+}
 
-export const ListListsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    createdOn: Schema.String,
-    kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
-    modifiedOn: Schema.String,
-    name: Schema.String,
-    numItems: Schema.Number,
-    numReferencingFilters: Schema.Number,
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      kind: "kind",
-      modifiedOn: "modified_on",
-      name: "name",
-      numItems: "num_items",
-      numReferencingFilters: "num_referencing_filters",
-      description: "description",
-    }),
+export const ListListsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      createdOn: Schema.String,
+      kind: Schema.Literals(["ip", "redirect", "hostname", "asn"]),
+      modifiedOn: Schema.String,
+      name: Schema.String,
+      numItems: Schema.Number,
+      numReferencingFilters: Schema.Number,
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        kind: "kind",
+        modifiedOn: "modified_on",
+        name: "name",
+        numItems: "num_items",
+        numReferencingFilters: "num_referencing_filters",
+        description: "description",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<ListListsResponse>;
+}) as unknown as Schema.Schema<ListListsResponse>;
 
 export type ListListsError = DefaultErrors;
 
-export const listLists: API.OperationMethod<
+export const listLists: API.PaginatedOperationMethod<
   ListListsRequest,
   ListListsResponse,
   ListListsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListListsRequest,
+  ) => stream.Stream<
+    ListListsResponse,
+    ListListsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListListsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      createdOn: string;
+      kind: "ip" | "redirect" | "hostname" | "asn";
+      modifiedOn: string;
+      name: string;
+      numItems: number;
+      numReferencingFilters: number;
+      description?: string | null;
+    },
+    ListListsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListListsRequest,
   output: ListListsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateListRequest {
@@ -193,18 +228,22 @@ export const CreateListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    kind: "kind",
-    modifiedOn: "modified_on",
-    name: "name",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<CreateListResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      kind: "kind",
+      modifiedOn: "modified_on",
+      name: "name",
+      numItems: "num_items",
+      numReferencingFilters: "num_referencing_filters",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateListResponse>;
 
 export type CreateListError = DefaultErrors;
 
@@ -266,18 +305,22 @@ export const UpdateListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   numItems: Schema.Number,
   numReferencingFilters: Schema.Number,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    kind: "kind",
-    modifiedOn: "modified_on",
-    name: "name",
-    numItems: "num_items",
-    numReferencingFilters: "num_referencing_filters",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<UpdateListResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      kind: "kind",
+      modifiedOn: "modified_on",
+      name: "name",
+      numItems: "num_items",
+      numReferencingFilters: "num_referencing_filters",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateListResponse>;
 
 export type UpdateListError = DefaultErrors;
 
@@ -315,7 +358,9 @@ export interface DeleteListResponse {
 
 export const DeleteListResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteListResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteListResponse>;
 
 export type DeleteListError = DefaultErrors;
 
@@ -373,7 +418,9 @@ export const GetListBulkOperationResponse =
       error: Schema.String,
       status: Schema.Literal("failed"),
     }),
-  ]) as unknown as Schema.Schema<GetListBulkOperationResponse>;
+  ]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetListBulkOperationResponse>;
 
 export type GetListBulkOperationError = DefaultErrors;
 
@@ -501,7 +548,9 @@ export const GetListItemResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       comment: "comment",
     }),
   ),
-]) as unknown as Schema.Schema<GetListItemResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetListItemResponse>;
 
 export type GetListItemError = DefaultErrors;
 
@@ -538,113 +587,178 @@ export const ListListItemsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListListItemsRequest>;
 
-export type ListListItemsResponse = (
-  | {
-      id: string;
-      createdOn: string;
-      ip: string;
-      modifiedOn: string;
-      comment?: string | null;
-    }
-  | {
-      id: string;
-      createdOn: string;
-      hostname: unknown;
-      modifiedOn: string;
-      comment?: string | null;
-    }
-  | {
-      id: string;
-      createdOn: string;
-      modifiedOn: string;
-      redirect: unknown;
-      comment?: string | null;
-    }
-  | {
-      id: string;
-      asn: number;
-      createdOn: string;
-      modifiedOn: string;
-      comment?: string | null;
-    }
-)[];
+export interface ListListItemsResponse {
+  result: (
+    | {
+        id: string;
+        createdOn: string;
+        ip: string;
+        modifiedOn: string;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        hostname: unknown;
+        modifiedOn: string;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        modifiedOn: string;
+        redirect: unknown;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        asn: number;
+        createdOn: string;
+        modifiedOn: string;
+        comment?: string | null;
+      }
+  )[];
+  resultInfo: { cursors?: { after?: string | null } | null };
+}
 
-export const ListListItemsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Union([
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      ip: Schema.String,
-      modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        ip: "ip",
-        modifiedOn: "modified_on",
-        comment: "comment",
-      }),
+export const ListListItemsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        ip: Schema.String,
+        modifiedOn: Schema.String,
+        comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          ip: "ip",
+          modifiedOn: "modified_on",
+          comment: "comment",
+        }),
+      ),
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        hostname: Schema.Unknown,
+        modifiedOn: Schema.String,
+        comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          hostname: "hostname",
+          modifiedOn: "modified_on",
+          comment: "comment",
+        }),
+      ),
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        modifiedOn: Schema.String,
+        redirect: Schema.Unknown,
+        comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          modifiedOn: "modified_on",
+          redirect: "redirect",
+          comment: "comment",
+        }),
+      ),
+      Schema.Struct({
+        id: Schema.String,
+        asn: Schema.Number,
+        createdOn: Schema.String,
+        modifiedOn: Schema.String,
+        comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          asn: "asn",
+          createdOn: "created_on",
+          modifiedOn: "modified_on",
+          comment: "comment",
+        }),
+      ),
+    ]),
+  ),
+  resultInfo: Schema.Struct({
+    cursors: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          after: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        }),
+        Schema.Null,
+      ]),
     ),
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      hostname: Schema.Unknown,
-      modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        hostname: "hostname",
-        modifiedOn: "modified_on",
-        comment: "comment",
-      }),
-    ),
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      modifiedOn: Schema.String,
-      redirect: Schema.Unknown,
-      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        modifiedOn: "modified_on",
-        redirect: "redirect",
-        comment: "comment",
-      }),
-    ),
-    Schema.Struct({
-      id: Schema.String,
-      asn: Schema.Number,
-      createdOn: Schema.String,
-      modifiedOn: Schema.String,
-      comment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        asn: "asn",
-        createdOn: "created_on",
-        modifiedOn: "modified_on",
-        comment: "comment",
-      }),
-    ),
-  ]),
+  }),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListListItemsResponse>;
 
 export type ListListItemsError = DefaultErrors;
 
-export const listListItems: API.OperationMethod<
+export const listListItems: API.PaginatedOperationMethod<
   ListListItemsRequest,
   ListListItemsResponse,
   ListListItemsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListListItemsRequest,
+  ) => stream.Stream<
+    ListListItemsResponse,
+    ListListItemsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListListItemsRequest,
+  ) => stream.Stream<
+    | {
+        id: string;
+        createdOn: string;
+        ip: string;
+        modifiedOn: string;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        hostname: unknown;
+        modifiedOn: string;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        createdOn: string;
+        modifiedOn: string;
+        redirect: unknown;
+        comment?: string | null;
+      }
+    | {
+        id: string;
+        asn: number;
+        createdOn: string;
+        modifiedOn: string;
+        comment?: string | null;
+      },
+    ListListItemsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListListItemsRequest,
   output: ListListItemsResponse,
   errors: [],
+  pagination: {
+    mode: "cursor",
+    inputToken: "cursor",
+    outputToken: "resultInfo.cursors.after",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateListItemRequest {
@@ -699,9 +813,11 @@ export const CreateListItemResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     operationId: Schema.String,
   },
-).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<CreateListItemResponse>;
+)
+  .pipe(Schema.encodeKeys({ operationId: "operation_id" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateListItemResponse>;
 
 export type CreateListItemError = DefaultErrors;
 
@@ -768,9 +884,11 @@ export const UpdateListItemResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     operationId: Schema.String,
   },
-).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<UpdateListItemResponse>;
+)
+  .pipe(Schema.encodeKeys({ operationId: "operation_id" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateListItemResponse>;
 
 export type UpdateListItemError = DefaultErrors;
 
@@ -819,9 +937,11 @@ export const DeleteListItemResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     operationId: Schema.String,
   },
-).pipe(
-  Schema.encodeKeys({ operationId: "operation_id" }),
-) as unknown as Schema.Schema<DeleteListItemResponse>;
+)
+  .pipe(Schema.encodeKeys({ operationId: "operation_id" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteListItemResponse>;
 
 export type DeleteListItemError = DefaultErrors;
 

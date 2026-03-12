@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service r2
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -85,7 +86,9 @@ export const AbortAllSuperSlurperJobRequest =
 export type AbortAllSuperSlurperJobResponse = string;
 
 export const AbortAllSuperSlurperJobResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<AbortAllSuperSlurperJobResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AbortAllSuperSlurperJobResponse>;
 
 export type AbortAllSuperSlurperJobError = DefaultErrors;
 
@@ -182,15 +185,19 @@ export const GetBucketResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    jurisdiction: "jurisdiction",
-    location: "location",
-    name: "name",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<GetBucketResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      creationDate: "creation_date",
+      jurisdiction: "jurisdiction",
+      location: "location",
+      name: "name",
+      storageClass: "storage_class",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetBucketResponse>;
 
 export type GetBucketError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -321,7 +328,9 @@ export const ListBucketsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<ListBucketsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListBucketsResponse>;
 
 export type ListBucketsError = DefaultErrors | InvalidRoute;
 
@@ -422,15 +431,19 @@ export const CreateBucketResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    jurisdiction: "jurisdiction",
-    location: "location",
-    name: "name",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<CreateBucketResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      creationDate: "creation_date",
+      jurisdiction: "jurisdiction",
+      location: "location",
+      name: "name",
+      storageClass: "storage_class",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateBucketResponse>;
 
 export type CreateBucketError =
   | DefaultErrors
@@ -532,15 +545,19 @@ export const PatchBucketResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    creationDate: "creation_date",
-    jurisdiction: "jurisdiction",
-    location: "location",
-    name: "name",
-    storageClass: "storage_class",
-  }),
-) as unknown as Schema.Schema<PatchBucketResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      creationDate: "creation_date",
+      jurisdiction: "jurisdiction",
+      location: "location",
+      name: "name",
+      storageClass: "storage_class",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchBucketResponse>;
 
 export type PatchBucketError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -579,7 +596,9 @@ export const DeleteBucketRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteBucketResponse = unknown;
 
 export const DeleteBucketResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteBucketResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteBucketResponse>;
 
 export type DeleteBucketError =
   | DefaultErrors
@@ -664,7 +683,9 @@ export const GetBucketCorsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<GetBucketCorsResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetBucketCorsResponse>;
 
 export type GetBucketCorsError =
   | DefaultErrors
@@ -734,7 +755,9 @@ export const PutBucketCorsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type PutBucketCorsResponse = unknown;
 
 export const PutBucketCorsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutBucketCorsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBucketCorsResponse>;
 
 export type PutBucketCorsError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -774,7 +797,9 @@ export const DeleteBucketCorsRequest =
 export type DeleteBucketCorsResponse = unknown;
 
 export const DeleteBucketCorsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteBucketCorsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteBucketCorsResponse>;
 
 export type DeleteBucketCorsError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -881,7 +906,9 @@ export const GetBucketDomainCustomResponse =
     ),
     zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<GetBucketDomainCustomResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetBucketDomainCustomResponse>;
 
 export type GetBucketDomainCustomError = DefaultErrors;
 
@@ -982,7 +1009,9 @@ export const ListBucketDomainCustomsResponse =
         zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),
-  }) as unknown as Schema.Schema<ListBucketDomainCustomsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListBucketDomainCustomsResponse>;
 
 export type ListBucketDomainCustomsError =
   | DefaultErrors
@@ -1061,7 +1090,9 @@ export const CreateBucketDomainCustomResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<CreateBucketDomainCustomResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateBucketDomainCustomResponse>;
 
 export type CreateBucketDomainCustomError =
   | DefaultErrors
@@ -1136,7 +1167,9 @@ export const UpdateBucketDomainCustomResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<UpdateBucketDomainCustomResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateBucketDomainCustomResponse>;
 
 export type UpdateBucketDomainCustomError = DefaultErrors;
 
@@ -1183,7 +1216,9 @@ export interface DeleteBucketDomainCustomResponse {
 export const DeleteBucketDomainCustomResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     domain: Schema.String,
-  }) as unknown as Schema.Schema<DeleteBucketDomainCustomResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteBucketDomainCustomResponse>;
 
 export type DeleteBucketDomainCustomError = DefaultErrors;
 
@@ -1238,7 +1273,9 @@ export const ListBucketDomainManagedsResponse =
     bucketId: Schema.String,
     domain: Schema.String,
     enabled: Schema.Boolean,
-  }) as unknown as Schema.Schema<ListBucketDomainManagedsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListBucketDomainManagedsResponse>;
 
 export type ListBucketDomainManagedsError =
   | DefaultErrors
@@ -1295,7 +1332,9 @@ export const PutBucketDomainManagedResponse =
     bucketId: Schema.String,
     domain: Schema.String,
     enabled: Schema.Boolean,
-  }) as unknown as Schema.Schema<PutBucketDomainManagedResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBucketDomainManagedResponse>;
 
 export type PutBucketDomainManagedError =
   | DefaultErrors
@@ -1395,7 +1434,9 @@ export const GetBucketEventNotificationResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<GetBucketEventNotificationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetBucketEventNotificationResponse>;
 
 export type GetBucketEventNotificationError = DefaultErrors;
 
@@ -1511,7 +1552,9 @@ export const ListBucketEventNotificationsResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ListBucketEventNotificationsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListBucketEventNotificationsResponse>;
 
 export type ListBucketEventNotificationsError =
   | DefaultErrors
@@ -1592,7 +1635,9 @@ export const PutBucketEventNotificationRequest =
 export type PutBucketEventNotificationResponse = unknown;
 
 export const PutBucketEventNotificationResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutBucketEventNotificationResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBucketEventNotificationResponse>;
 
 export type PutBucketEventNotificationError = DefaultErrors;
 
@@ -1634,7 +1679,9 @@ export const DeleteBucketEventNotificationRequest =
 export type DeleteBucketEventNotificationResponse = unknown;
 
 export const DeleteBucketEventNotificationResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteBucketEventNotificationResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteBucketEventNotificationResponse>;
 
 export type DeleteBucketEventNotificationError = DefaultErrors;
 
@@ -1778,7 +1825,9 @@ export const GetBucketLifecycleResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<GetBucketLifecycleResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetBucketLifecycleResponse>;
 
 export type GetBucketLifecycleError =
   | DefaultErrors
@@ -1895,7 +1944,9 @@ export const PutBucketLifecycleRequest =
 export type PutBucketLifecycleResponse = unknown;
 
 export const PutBucketLifecycleResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutBucketLifecycleResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBucketLifecycleResponse>;
 
 export type PutBucketLifecycleError =
   | DefaultErrors
@@ -1978,7 +2029,9 @@ export const GetBucketLockResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<GetBucketLockResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetBucketLockResponse>;
 
 export type GetBucketLockError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -2049,7 +2102,9 @@ export const PutBucketLockRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type PutBucketLockResponse = unknown;
 
 export const PutBucketLockResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PutBucketLockResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBucketLockResponse>;
 
 export type PutBucketLockError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -2189,7 +2244,9 @@ export const ListBucketMetricsResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ListBucketMetricsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListBucketMetricsResponse>;
 
 export type ListBucketMetricsError = DefaultErrors | InvalidRoute;
 
@@ -2282,6 +2339,8 @@ export const GetBucketSippyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ]),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetBucketSippyResponse>;
 
 export type GetBucketSippyError = DefaultErrors | NoSuchBucket | InvalidRoute;
@@ -2401,6 +2460,8 @@ export const PutBucketSippyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ]),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<PutBucketSippyResponse>;
 
 export type PutBucketSippyError = DefaultErrors;
@@ -2447,7 +2508,9 @@ export const DeleteBucketSippyResponse =
     enabled: Schema.optional(
       Schema.Union([Schema.Literal(false), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<DeleteBucketSippyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteBucketSippyResponse>;
 
 export type DeleteBucketSippyError =
   | DefaultErrors
@@ -2514,7 +2577,9 @@ export const SourceSuperSlurperConnectivityPrecheckResponse =
     connectivityStatus: Schema.optional(
       Schema.Union([Schema.Literals(["success", "error"]), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<SourceSuperSlurperConnectivityPrecheckResponse>;
 
 export type SourceSuperSlurperConnectivityPrecheckError = DefaultErrors;
 
@@ -2570,7 +2635,9 @@ export const TargetSuperSlurperConnectivityPrecheckResponse =
     connectivityStatus: Schema.optional(
       Schema.Union([Schema.Literals(["success", "error"]), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<TargetSuperSlurperConnectivityPrecheckResponse>;
 
 export type TargetSuperSlurperConnectivityPrecheckError = DefaultErrors;
 
@@ -2721,7 +2788,9 @@ export const GetSuperSlurperJobResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<GetSuperSlurperJobResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSuperSlurperJobResponse>;
 
 export type GetSuperSlurperJobError = DefaultErrors;
 
@@ -2754,82 +2823,117 @@ export const ListSuperSlurperJobsRequest =
     T.Http({ method: "GET", path: "/accounts/{account_id}/slurper/jobs" }),
   ) as unknown as Schema.Schema<ListSuperSlurperJobsRequest>;
 
-export type ListSuperSlurperJobsResponse = {
-  id?: string | null;
-  createdAt?: string | null;
-  finishedAt?: string | null;
-  overwrite?: boolean | null;
-  source?:
-    | {
-        bucket?: string | null;
-        endpoint?: string | null;
-        keys?: string[] | null;
-        pathPrefix?: string | null;
-        vendor?: "s3" | null;
-      }
-    | {
-        bucket?: string | null;
-        keys?: string[] | null;
-        pathPrefix?: string | null;
-        vendor?: "gcs" | null;
-      }
-    | {
-        bucket?: string | null;
-        jurisdiction?: "default" | "eu" | "fedramp" | null;
-        keys?: string[] | null;
-        pathPrefix?: string | null;
-        vendor?: "r2" | null;
-      }
-    | null;
-  status?: "running" | "paused" | "aborted" | "completed" | null;
-  target?: {
-    bucket?: string | null;
-    jurisdiction?: "default" | "eu" | "fedramp" | null;
-    vendor?: "r2" | null;
-  } | null;
-}[];
+export interface ListSuperSlurperJobsResponse {
+  result: {
+    id?: string | null;
+    createdAt?: string | null;
+    finishedAt?: string | null;
+    overwrite?: boolean | null;
+    source?:
+      | {
+          bucket?: string | null;
+          endpoint?: string | null;
+          keys?: string[] | null;
+          pathPrefix?: string | null;
+          vendor?: "s3" | null;
+        }
+      | {
+          bucket?: string | null;
+          keys?: string[] | null;
+          pathPrefix?: string | null;
+          vendor?: "gcs" | null;
+        }
+      | {
+          bucket?: string | null;
+          jurisdiction?: "default" | "eu" | "fedramp" | null;
+          keys?: string[] | null;
+          pathPrefix?: string | null;
+          vendor?: "r2" | null;
+        }
+      | null;
+    status?: "running" | "paused" | "aborted" | "completed" | null;
+    target?: {
+      bucket?: string | null;
+      jurisdiction?: "default" | "eu" | "fedramp" | null;
+      vendor?: "r2" | null;
+    } | null;
+  }[];
+}
 
 export const ListSuperSlurperJobsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      finishedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      overwrite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      source: Schema.optional(
-        Schema.Union([
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        finishedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        overwrite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        source: Schema.optional(
           Schema.Union([
-            Schema.Struct({
-              bucket: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              endpoint: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              keys: Schema.optional(
-                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-              ),
-              pathPrefix: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              vendor: Schema.optional(
-                Schema.Union([Schema.Literal("s3"), Schema.Null]),
-              ),
-            }),
-            Schema.Struct({
-              bucket: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              keys: Schema.optional(
-                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-              ),
-              pathPrefix: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              vendor: Schema.optional(
-                Schema.Union([Schema.Literal("gcs"), Schema.Null]),
-              ),
-            }),
+            Schema.Union([
+              Schema.Struct({
+                bucket: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                endpoint: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                keys: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                pathPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                vendor: Schema.optional(
+                  Schema.Union([Schema.Literal("s3"), Schema.Null]),
+                ),
+              }),
+              Schema.Struct({
+                bucket: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                keys: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                pathPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                vendor: Schema.optional(
+                  Schema.Union([Schema.Literal("gcs"), Schema.Null]),
+                ),
+              }),
+              Schema.Struct({
+                bucket: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                jurisdiction: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["default", "eu", "fedramp"]),
+                    Schema.Null,
+                  ]),
+                ),
+                keys: Schema.optional(
+                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                ),
+                pathPrefix: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                vendor: Schema.optional(
+                  Schema.Union([Schema.Literal("r2"), Schema.Null]),
+                ),
+              }),
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["running", "paused", "aborted", "completed"]),
+            Schema.Null,
+          ]),
+        ),
+        target: Schema.optional(
+          Schema.Union([
             Schema.Struct({
               bucket: Schema.optional(
                 Schema.Union([Schema.String, Schema.Null]),
@@ -2840,57 +2944,80 @@ export const ListSuperSlurperJobsResponse =
                   Schema.Null,
                 ]),
               ),
-              keys: Schema.optional(
-                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-              ),
-              pathPrefix: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
               vendor: Schema.optional(
                 Schema.Union([Schema.Literal("r2"), Schema.Null]),
               ),
             }),
+            Schema.Null,
           ]),
-          Schema.Null,
-        ]),
-      ),
-      status: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["running", "paused", "aborted", "completed"]),
-          Schema.Null,
-        ]),
-      ),
-      target: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            bucket: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            jurisdiction: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["default", "eu", "fedramp"]),
-                Schema.Null,
-              ]),
-            ),
-            vendor: Schema.optional(
-              Schema.Union([Schema.Literal("r2"), Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }),
-  ) as unknown as Schema.Schema<ListSuperSlurperJobsResponse>;
+        ),
+      }),
+    ),
+  }) as unknown as Schema.Schema<ListSuperSlurperJobsResponse>;
 
 export type ListSuperSlurperJobsError = DefaultErrors;
 
-export const listSuperSlurperJobs: API.OperationMethod<
+export const listSuperSlurperJobs: API.PaginatedOperationMethod<
   ListSuperSlurperJobsRequest,
   ListSuperSlurperJobsResponse,
   ListSuperSlurperJobsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSuperSlurperJobsRequest,
+  ) => stream.Stream<
+    ListSuperSlurperJobsResponse,
+    ListSuperSlurperJobsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuperSlurperJobsRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      createdAt?: string | null;
+      finishedAt?: string | null;
+      overwrite?: boolean | null;
+      source?:
+        | {
+            bucket?: string | null;
+            endpoint?: string | null;
+            keys?: string[] | null;
+            pathPrefix?: string | null;
+            vendor?: "s3" | null;
+          }
+        | {
+            bucket?: string | null;
+            keys?: string[] | null;
+            pathPrefix?: string | null;
+            vendor?: "gcs" | null;
+          }
+        | {
+            bucket?: string | null;
+            jurisdiction?: "default" | "eu" | "fedramp" | null;
+            keys?: string[] | null;
+            pathPrefix?: string | null;
+            vendor?: "r2" | null;
+          }
+        | null;
+      status?: "running" | "paused" | "aborted" | "completed" | null;
+      target?: {
+        bucket?: string | null;
+        jurisdiction?: "default" | "eu" | "fedramp" | null;
+        vendor?: "r2" | null;
+      } | null;
+    },
+    ListSuperSlurperJobsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSuperSlurperJobsRequest,
   output: ListSuperSlurperJobsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateSuperSlurperJobRequest {
@@ -3000,7 +3127,9 @@ export interface CreateSuperSlurperJobResponse {
 export const CreateSuperSlurperJobResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateSuperSlurperJobResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateSuperSlurperJobResponse>;
 
 export type CreateSuperSlurperJobError = DefaultErrors;
 
@@ -3034,7 +3163,9 @@ export const AbortSuperSlurperJobRequest =
 export type AbortSuperSlurperJobResponse = string;
 
 export const AbortSuperSlurperJobResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<AbortSuperSlurperJobResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<AbortSuperSlurperJobResponse>;
 
 export type AbortSuperSlurperJobError = DefaultErrors;
 
@@ -3068,7 +3199,9 @@ export const PauseSuperSlurperJobRequest =
 export type PauseSuperSlurperJobResponse = string;
 
 export const PauseSuperSlurperJobResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<PauseSuperSlurperJobResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PauseSuperSlurperJobResponse>;
 
 export type PauseSuperSlurperJobError = DefaultErrors;
 
@@ -3125,7 +3258,9 @@ export const ProgressSuperSlurperJobResponse =
     transferredObjects: Schema.optional(
       Schema.Union([Schema.Number, Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<ProgressSuperSlurperJobResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ProgressSuperSlurperJobResponse>;
 
 export type ProgressSuperSlurperJobError = DefaultErrors;
 
@@ -3159,7 +3294,9 @@ export const ResumeSuperSlurperJobRequest =
 export type ResumeSuperSlurperJobResponse = string;
 
 export const ResumeSuperSlurperJobResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<ResumeSuperSlurperJobResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ResumeSuperSlurperJobResponse>;
 
 export type ResumeSuperSlurperJobError = DefaultErrors;
 
@@ -3201,73 +3338,118 @@ export const ListSuperSlurperJobLogsRequest =
     }),
   ) as unknown as Schema.Schema<ListSuperSlurperJobLogsRequest>;
 
-export type ListSuperSlurperJobLogsResponse = {
-  createdAt?: string | null;
-  job?: string | null;
-  logType?:
-    | "migrationStart"
-    | "migrationComplete"
-    | "migrationAbort"
-    | "migrationError"
-    | "migrationPause"
-    | "migrationResume"
-    | "migrationErrorFailedContinuation"
-    | "importErrorRetryExhaustion"
-    | "importSkippedStorageClass"
-    | "importSkippedOversized"
-    | "importSkippedEmptyObject"
-    | "importSkippedUnsupportedContentType"
-    | "importSkippedExcludedContentType"
-    | "importSkippedInvalidMedia"
-    | "importSkippedRequiresRetrieval"
-    | null;
-  message?: string | null;
-  objectKey?: string | null;
-}[];
+export interface ListSuperSlurperJobLogsResponse {
+  result: {
+    createdAt?: string | null;
+    job?: string | null;
+    logType?:
+      | "migrationStart"
+      | "migrationComplete"
+      | "migrationAbort"
+      | "migrationError"
+      | "migrationPause"
+      | "migrationResume"
+      | "migrationErrorFailedContinuation"
+      | "importErrorRetryExhaustion"
+      | "importSkippedStorageClass"
+      | "importSkippedOversized"
+      | "importSkippedEmptyObject"
+      | "importSkippedUnsupportedContentType"
+      | "importSkippedExcludedContentType"
+      | "importSkippedInvalidMedia"
+      | "importSkippedRequiresRetrieval"
+      | null;
+    message?: string | null;
+    objectKey?: string | null;
+  }[];
+}
 
 export const ListSuperSlurperJobLogsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      job: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      logType: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "migrationStart",
-            "migrationComplete",
-            "migrationAbort",
-            "migrationError",
-            "migrationPause",
-            "migrationResume",
-            "migrationErrorFailedContinuation",
-            "importErrorRetryExhaustion",
-            "importSkippedStorageClass",
-            "importSkippedOversized",
-            "importSkippedEmptyObject",
-            "importSkippedUnsupportedContentType",
-            "importSkippedExcludedContentType",
-            "importSkippedInvalidMedia",
-            "importSkippedRequiresRetrieval",
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        job: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        logType: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "migrationStart",
+              "migrationComplete",
+              "migrationAbort",
+              "migrationError",
+              "migrationPause",
+              "migrationResume",
+              "migrationErrorFailedContinuation",
+              "importErrorRetryExhaustion",
+              "importSkippedStorageClass",
+              "importSkippedOversized",
+              "importSkippedEmptyObject",
+              "importSkippedUnsupportedContentType",
+              "importSkippedExcludedContentType",
+              "importSkippedInvalidMedia",
+              "importSkippedRequiresRetrieval",
+            ]),
+            Schema.Null,
           ]),
-          Schema.Null,
-        ]),
-      ),
-      message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      objectKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-  ) as unknown as Schema.Schema<ListSuperSlurperJobLogsResponse>;
+        ),
+        message: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        objectKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+    ),
+  }) as unknown as Schema.Schema<ListSuperSlurperJobLogsResponse>;
 
 export type ListSuperSlurperJobLogsError = DefaultErrors;
 
-export const listSuperSlurperJobLogs: API.OperationMethod<
+export const listSuperSlurperJobLogs: API.PaginatedOperationMethod<
   ListSuperSlurperJobLogsRequest,
   ListSuperSlurperJobLogsResponse,
   ListSuperSlurperJobLogsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSuperSlurperJobLogsRequest,
+  ) => stream.Stream<
+    ListSuperSlurperJobLogsResponse,
+    ListSuperSlurperJobLogsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSuperSlurperJobLogsRequest,
+  ) => stream.Stream<
+    {
+      createdAt?: string | null;
+      job?: string | null;
+      logType?:
+        | "migrationStart"
+        | "migrationComplete"
+        | "migrationAbort"
+        | "migrationError"
+        | "migrationPause"
+        | "migrationResume"
+        | "migrationErrorFailedContinuation"
+        | "importErrorRetryExhaustion"
+        | "importSkippedStorageClass"
+        | "importSkippedOversized"
+        | "importSkippedEmptyObject"
+        | "importSkippedUnsupportedContentType"
+        | "importSkippedExcludedContentType"
+        | "importSkippedInvalidMedia"
+        | "importSkippedRequiresRetrieval"
+        | null;
+      message?: string | null;
+      objectKey?: string | null;
+    },
+    ListSuperSlurperJobLogsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSuperSlurperJobLogsRequest,
   output: ListSuperSlurperJobLogsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -3332,7 +3514,9 @@ export const CreateTemporaryCredentialResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     sessionToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateTemporaryCredentialResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateTemporaryCredentialResponse>;
 
 export type CreateTemporaryCredentialError = DefaultErrors;
 

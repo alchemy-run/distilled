@@ -62,14 +62,18 @@ export const GetSmartRoutingResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetSmartRoutingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSmartRoutingResponse>;
 
 export type GetSmartRoutingError =
   | DefaultErrors
@@ -119,14 +123,18 @@ export const PatchSmartRoutingResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSmartRoutingResponse>;
 
 export type PatchSmartRoutingError =
   | DefaultErrors
@@ -177,14 +185,18 @@ export const GetTieredCachingResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetTieredCachingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetTieredCachingResponse>;
 
 export type GetTieredCachingError = DefaultErrors | InvalidObjectIdentifier;
 
@@ -231,14 +243,18 @@ export const PatchTieredCachingResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["on", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PatchTieredCachingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchTieredCachingResponse>;
 
 export type PatchTieredCachingError = DefaultErrors | InvalidObjectIdentifier;
 

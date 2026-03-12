@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getZoneId } from "./test.ts";
-import * as ACM from "~/services/acm.ts";
+import * as ACM from "~/services/acm";
 
 const hasZoneId = () => !!getZoneId();
 

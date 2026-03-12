@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as AiGateway from "~/services/ai-gateway.ts";
+import * as AiGateway from "~/services/ai-gateway";
 
 const accountId = () => getAccountId();
 

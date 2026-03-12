@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service images
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -105,7 +106,7 @@ export const GetV1Response = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   variants: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-}) as unknown as Schema.Schema<GetV1Response>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetV1Response>;
 
 export type GetV1Error = DefaultErrors | ImagesAccessNotEnabled | ImageNotFound;
 
@@ -136,42 +137,67 @@ export const ListV1sRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/images/v1" }),
 ) as unknown as Schema.Schema<ListV1sRequest>;
 
-export type ListV1sResponse = {
-  images?:
-    | {
-        id?: string | null;
-        creator?: string | null;
-        filename?: string | null;
-        meta?: unknown | null;
-        requireSignedURLs?: boolean | null;
-        uploaded?: string | null;
-        variants?: string[] | null;
-      }[]
-    | null;
-}[];
+export interface ListV1sResponse {
+  result: {
+    items?:
+      | {
+          images?:
+            | {
+                id?: string | null;
+                creator?: string | null;
+                filename?: string | null;
+                meta?: unknown | null;
+                requireSignedURLs?: boolean | null;
+                uploaded?: string | null;
+                variants?: string[] | null;
+              }[]
+            | null;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListV1sResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    images: Schema.optional(
+export const ListV1sResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Struct({
+    items: Schema.optional(
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            creator: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            filename: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            meta: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-            requireSignedURLs: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-            uploaded: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            variants: Schema.optional(
-              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            images: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    creator: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    filename: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    meta: Schema.optional(
+                      Schema.Union([Schema.Unknown, Schema.Null]),
+                    ),
+                    requireSignedURLs: Schema.optional(
+                      Schema.Union([Schema.Boolean, Schema.Null]),
+                    ),
+                    uploaded: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    variants: Schema.optional(
+                      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                    ),
+                  }),
+                ),
+                Schema.Null,
+              ]),
             ),
           }),
         ),
@@ -179,19 +205,68 @@ export const ListV1sResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       ]),
     ),
   }),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListV1sResponse>;
 
 export type ListV1sError = DefaultErrors | ImagesAccessNotEnabled;
 
-export const listV1s: API.OperationMethod<
+export const listV1s: API.PaginatedOperationMethod<
   ListV1sRequest,
   ListV1sResponse,
   ListV1sError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListV1sRequest,
+  ) => stream.Stream<
+    ListV1sResponse,
+    ListV1sError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListV1sRequest,
+  ) => stream.Stream<
+    {
+      images?:
+        | {
+            id?: string | null;
+            creator?: string | null;
+            filename?: string | null;
+            meta?: unknown | null;
+            requireSignedURLs?: boolean | null;
+            uploaded?: string | null;
+            variants?: string[] | null;
+          }[]
+        | null;
+    },
+    ListV1sError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListV1sRequest,
   output: ListV1sResponse,
   errors: [ImagesAccessNotEnabled],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateV1Request {
@@ -256,7 +331,7 @@ export const CreateV1Response = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   variants: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-}) as unknown as Schema.Schema<CreateV1Response>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<CreateV1Response>;
 
 export type CreateV1Error = DefaultErrors | ImagesAccessNotEnabled;
 
@@ -325,7 +400,7 @@ export const PatchV1Response = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   variants: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
-}) as unknown as Schema.Schema<PatchV1Response>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<PatchV1Response>;
 
 export type PatchV1Error =
   | DefaultErrors
@@ -361,8 +436,9 @@ export const DeleteV1Request = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 
 export type DeleteV1Response = string;
 
-export const DeleteV1Response =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DeleteV1Response>;
+export const DeleteV1Response = /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteV1Response>;
 
 export type DeleteV1Error =
   | DefaultErrors
@@ -452,7 +528,9 @@ export const ListV1KeysResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<ListV1KeysResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListV1KeysResponse>;
 
 export type ListV1KeysError = DefaultErrors | ImagesAccessNotEnabled;
 
@@ -499,7 +577,7 @@ export const PutV1KeyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<PutV1KeyResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<PutV1KeyResponse>;
 
 export type PutV1KeyError = DefaultErrors | ImagesAccessNotEnabled;
 
@@ -546,7 +624,9 @@ export const DeleteV1KeyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<DeleteV1KeyResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
 export type DeleteV1KeyError =
   | DefaultErrors
@@ -593,7 +673,9 @@ export const GetV1StatResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<GetV1StatResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetV1StatResponse>;
 
 export type GetV1StatError = DefaultErrors | ImagesAccessNotEnabled;
 
@@ -665,7 +747,9 @@ export const GetV1VariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<GetV1VariantResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetV1VariantResponse>;
 
 export type GetV1VariantError =
   | DefaultErrors
@@ -721,6 +805,8 @@ export const ListV1VariantsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       Schema.Union([Schema.Boolean, Schema.Null]),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
 export type ListV1VariantsError = DefaultErrors | ImagesAccessNotEnabled;
@@ -806,7 +892,9 @@ export const CreateV1VariantResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<CreateV1VariantResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
 export type CreateV1VariantError =
   | DefaultErrors
@@ -895,6 +983,8 @@ export const PatchV1VariantResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ]),
     ),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
 export type PatchV1VariantError =
@@ -935,7 +1025,9 @@ export const DeleteV1VariantRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
 export type DeleteV1VariantResponse = string;
 
 export const DeleteV1VariantResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteV1VariantResponse>;
 
 export type DeleteV1VariantError =
   | DefaultErrors
@@ -1000,12 +1092,14 @@ export const ListV2sResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   images: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    continuationToken: "continuation_token",
-    images: "images",
-  }),
-) as unknown as Schema.Schema<ListV2sResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      continuationToken: "continuation_token",
+      images: "images",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<ListV2sResponse>;
 
 export type ListV2sError = DefaultErrors | ImagesAccessNotEnabled;
 
@@ -1066,7 +1160,9 @@ export const CreateV2DirectUploadResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     uploadURL: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
 export type CreateV2DirectUploadError =
   | DefaultErrors

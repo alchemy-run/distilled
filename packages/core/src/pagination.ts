@@ -33,15 +33,37 @@ import { getPath } from "./traits.ts";
  * Pagination trait describing how to navigate between pages.
  */
 export interface PaginatedTrait {
+  /** Pagination strategy */
+  mode?: "token" | "page" | "cursor" | "single";
   /** The name of the input member containing the page/cursor token */
-  inputToken: string;
+  inputToken?: string;
   /** The path to the output member containing the next page/cursor token */
-  outputToken: string;
+  outputToken?: string;
   /** The path to the output member containing the paginated items */
   items?: string;
   /** The name of the input member that limits page size */
   pageSize?: string;
 }
+
+export type PaginationStrategy = <
+  Input extends Record<string, unknown>,
+  Output,
+  E,
+  R,
+>(
+  operation: (input: Input) => Effect.Effect<Output, E, R>,
+  input: Input,
+  pagination: PaginatedTrait,
+) => Stream.Stream<Output, E, R>;
+
+const missingPaginationConfig = (kind: string) =>
+  Stream.die(new Error(kind));
+
+/**
+ * Creates a stream for single-shot list endpoints that still expose the paginated API surface.
+ */
+export const paginateSingle: PaginationStrategy = (operation, input) =>
+  Stream.make(input).pipe(Stream.mapEffect((requestPayload) => operation(requestPayload)));
 
 // ============================================================================
 // Page-based Pagination (PlanetScale style)
@@ -65,7 +87,19 @@ export const paginatePageNumber = <
   input: Omit<Input, string>,
   pagination: PaginatedTrait,
 ): Stream.Stream<Output, E, R> => {
+  const inputToken = pagination.inputToken;
+  const outputToken = pagination.outputToken;
+  const inputRecord = input as Record<string, unknown>;
+  if (!inputToken || !outputToken) {
+    return missingPaginationConfig(
+      "Page-number pagination requires inputToken and outputToken",
+    );
+  }
   type State = { page: number; done: boolean };
+  const startPage =
+    typeof inputRecord[inputToken] === "number"
+      ? (inputRecord[inputToken] as number)
+      : 1;
 
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
@@ -75,12 +109,12 @@ export const paginatePageNumber = <
 
       const requestPayload = {
         ...input,
-        [pagination.inputToken]: state.page,
+        [inputToken]: state.page,
       } as Input;
 
       const response = yield* operation(requestPayload);
 
-      const nextPage = getPath(response, pagination.outputToken) as
+      const nextPage = getPath(response, outputToken) as
         | number
         | null
         | undefined;
@@ -93,7 +127,7 @@ export const paginatePageNumber = <
       return [response, nextState] as const;
     });
 
-  return Stream.unfold({ page: 1, done: false } as State, unfoldFn);
+  return Stream.unfold({ page: startPage, done: false } as State, unfoldFn);
 };
 
 // ============================================================================
@@ -118,7 +152,19 @@ export const paginateCursor = <
   input: Omit<Input, string>,
   pagination: PaginatedTrait,
 ): Stream.Stream<Output, E, R> => {
+  const inputToken = pagination.inputToken;
+  const outputToken = pagination.outputToken;
+  const inputRecord = input as Record<string, unknown>;
+  if (!inputToken || !outputToken) {
+    return missingPaginationConfig(
+      "Cursor pagination requires inputToken and outputToken",
+    );
+  }
   type State = { cursor: string | undefined; done: boolean };
+  const startCursor =
+    typeof inputRecord[inputToken] === "string"
+      ? (inputRecord[inputToken] as string)
+      : undefined;
 
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
@@ -128,12 +174,12 @@ export const paginateCursor = <
 
       const requestPayload = {
         ...input,
-        ...(state.cursor ? { [pagination.inputToken]: state.cursor } : {}),
+        ...(state.cursor ? { [inputToken]: state.cursor } : {}),
       } as Input;
 
       const response = yield* operation(requestPayload);
 
-      const nextCursor = getPath(response, pagination.outputToken) as
+      const nextCursor = getPath(response, outputToken) as
         | string
         | null
         | undefined;
@@ -146,7 +192,10 @@ export const paginateCursor = <
       return [response, nextState] as const;
     });
 
-  return Stream.unfold({ cursor: undefined, done: false } as State, unfoldFn);
+  return Stream.unfold(
+    { cursor: startCursor, done: false } as State,
+    unfoldFn,
+  );
 };
 
 // ============================================================================
@@ -171,7 +220,16 @@ export const paginateToken = <
   input: Input,
   pagination: PaginatedTrait,
 ): Stream.Stream<Output, E, R> => {
+  const inputToken = pagination.inputToken;
+  const outputToken = pagination.outputToken;
+  const inputRecord = input as Record<string, unknown>;
+  if (!inputToken || !outputToken) {
+    return missingPaginationConfig(
+      "Token pagination requires inputToken and outputToken",
+    );
+  }
   type State = { token: unknown; done: boolean };
+  const startToken = inputRecord[inputToken];
 
   const unfoldFn = (state: State) =>
     Effect.gen(function* () {
@@ -181,12 +239,12 @@ export const paginateToken = <
 
       const requestPayload =
         state.token !== undefined
-          ? { ...input, [pagination.inputToken]: state.token }
+          ? { ...input, [inputToken]: state.token }
           : input;
 
       const response = yield* operation(requestPayload as Input);
 
-      const nextToken = getPath(response, pagination.outputToken);
+      const nextToken = getPath(response, outputToken);
 
       const nextState: State = {
         token: nextToken,
@@ -196,7 +254,32 @@ export const paginateToken = <
       return [response, nextState] as const;
     });
 
-  return Stream.unfold({ token: undefined, done: false } as State, unfoldFn);
+  return Stream.unfold({ token: startToken, done: false } as State, unfoldFn);
+};
+
+/**
+ * Shared default pagination dispatcher for SDKs that use generic token/cursor/page traversal.
+ */
+export const paginateWithDefaults: PaginationStrategy = (
+  operation,
+  input,
+  pagination,
+) => {
+  const mode = pagination.mode ?? "token";
+
+  switch (mode) {
+    case "page":
+      return paginatePageNumber(operation, input, pagination);
+    case "cursor":
+      return paginateCursor(operation, input, pagination);
+    case "single":
+      return missingPaginationConfig(
+        "Single-page pagination requires a provider-specific pagination strategy",
+      );
+    case "token":
+    default:
+      return paginateToken(operation, input, pagination);
+  }
 };
 
 // ============================================================================

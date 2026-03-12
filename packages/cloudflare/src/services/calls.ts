@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service calls
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -45,7 +46,7 @@ export const GetSfuResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetSfuResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetSfuResponse>;
 
 export type GetSfuError = DefaultErrors;
 
@@ -93,7 +94,9 @@ export const CreateSfuResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   secret: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<CreateSfuResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateSfuResponse>;
 
 export type CreateSfuError = DefaultErrors;
 
@@ -140,7 +143,9 @@ export const UpdateSfuResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateSfuResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateSfuResponse>;
 
 export type UpdateSfuError = DefaultErrors;
 
@@ -187,7 +192,9 @@ export const DeleteSfuResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteSfuResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteSfuResponse>;
 
 export type DeleteSfuError = DefaultErrors;
 
@@ -217,33 +224,61 @@ export const ListSfusRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/calls/apps" }),
 ) as unknown as Schema.Schema<ListSfusRequest>;
 
-export type ListSfusResponse = {
-  created?: string | null;
-  modified?: string | null;
-  name?: string | null;
-  uid?: string | null;
-}[];
+export interface ListSfusResponse {
+  result: {
+    created?: string | null;
+    modified?: string | null;
+    name?: string | null;
+    uid?: string | null;
+  }[];
+}
 
-export const ListSfusResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ListSfusResponse>;
+export const ListSfusResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListSfusResponse>;
 
 export type ListSfusError = DefaultErrors;
 
-export const listSfus: API.OperationMethod<
+export const listSfus: API.PaginatedOperationMethod<
   ListSfusRequest,
   ListSfusResponse,
   ListSfusError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSfusRequest,
+  ) => stream.Stream<
+    ListSfusResponse,
+    ListSfusError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSfusRequest,
+  ) => stream.Stream<
+    {
+      created?: string | null;
+      modified?: string | null;
+      name?: string | null;
+      uid?: string | null;
+    },
+    ListSfusError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSfusRequest,
   output: ListSfusResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -282,7 +317,7 @@ export const GetTurnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetTurnResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetTurnResponse>;
 
 export type GetTurnError = DefaultErrors;
 
@@ -308,33 +343,61 @@ export const ListTurnsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/calls/turn_keys" }),
 ) as unknown as Schema.Schema<ListTurnsRequest>;
 
-export type ListTurnsResponse = {
-  created?: string | null;
-  modified?: string | null;
-  name?: string | null;
-  uid?: string | null;
-}[];
+export interface ListTurnsResponse {
+  result: {
+    created?: string | null;
+    modified?: string | null;
+    name?: string | null;
+    uid?: string | null;
+  }[];
+}
 
-export const ListTurnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ListTurnsResponse>;
+export const ListTurnsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListTurnsResponse>;
 
 export type ListTurnsError = DefaultErrors;
 
-export const listTurns: API.OperationMethod<
+export const listTurns: API.PaginatedOperationMethod<
   ListTurnsRequest,
   ListTurnsResponse,
   ListTurnsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListTurnsRequest,
+  ) => stream.Stream<
+    ListTurnsResponse,
+    ListTurnsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListTurnsRequest,
+  ) => stream.Stream<
+    {
+      created?: string | null;
+      modified?: string | null;
+      name?: string | null;
+      uid?: string | null;
+    },
+    ListTurnsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListTurnsRequest,
   output: ListTurnsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateTurnRequest {
@@ -370,7 +433,9 @@ export const CreateTurnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<CreateTurnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateTurnResponse>;
 
 export type CreateTurnError = DefaultErrors;
 
@@ -420,7 +485,9 @@ export const UpdateTurnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateTurnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateTurnResponse>;
 
 export type UpdateTurnError = DefaultErrors;
 
@@ -467,7 +534,9 @@ export const DeleteTurnResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   uid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteTurnResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteTurnResponse>;
 
 export type DeleteTurnError = DefaultErrors;
 

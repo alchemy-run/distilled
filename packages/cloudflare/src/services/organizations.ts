@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service organizations
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -109,16 +110,20 @@ export const GetOrganizationResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createTime: "create_time",
-      meta: "meta",
-      name: "name",
-      parent: "parent",
-      profile: "profile",
-    }),
-  ) as unknown as Schema.Schema<GetOrganizationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createTime: "create_time",
+        meta: "meta",
+        name: "name",
+        parent: "parent",
+        profile: "profile",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetOrganizationResponse>;
 
 export type GetOrganizationError = DefaultErrors;
 
@@ -140,111 +145,158 @@ export const ListOrganizationsRequest =
     T.Http({ method: "GET", path: "/organizations" }),
   ) as unknown as Schema.Schema<ListOrganizationsRequest>;
 
-export type ListOrganizationsResponse = {
-  id: string;
-  createTime: string;
-  meta: {
-    flags?: {
-      accountCreation: string;
-      accountDeletion: string;
-      accountMigration: string;
-      accountMobility: string;
-      subOrgCreation: string;
+export interface ListOrganizationsResponse {
+  result: {
+    id: string;
+    createTime: string;
+    meta: {
+      flags?: {
+        accountCreation: string;
+        accountDeletion: string;
+        accountMigration: string;
+        accountMobility: string;
+        subOrgCreation: string;
+      } | null;
+      managedBy?: string | null;
+    };
+    name: string;
+    parent?: { id: string; name: string } | null;
+    profile?: {
+      businessAddress: string;
+      businessEmail: string;
+      businessName: string;
+      businessPhone: string;
+      externalMetadata: string;
     } | null;
-    managedBy?: string | null;
-  };
-  name: string;
-  parent?: { id: string; name: string } | null;
-  profile?: {
-    businessAddress: string;
-    businessEmail: string;
-    businessName: string;
-    businessPhone: string;
-    externalMetadata: string;
-  } | null;
-}[];
+  }[];
+}
 
 export const ListOrganizationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      createTime: Schema.String,
-      meta: Schema.Struct({
-        flags: Schema.optional(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        createTime: Schema.String,
+        meta: Schema.Struct({
+          flags: Schema.optional(
+            Schema.Union([
+              Schema.Struct({
+                accountCreation: Schema.String,
+                accountDeletion: Schema.String,
+                accountMigration: Schema.String,
+                accountMobility: Schema.String,
+                subOrgCreation: Schema.String,
+              }).pipe(
+                Schema.encodeKeys({
+                  accountCreation: "account_creation",
+                  accountDeletion: "account_deletion",
+                  accountMigration: "account_migration",
+                  accountMobility: "account_mobility",
+                  subOrgCreation: "sub_org_creation",
+                }),
+              ),
+              Schema.Null,
+            ]),
+          ),
+          managedBy: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
+        name: Schema.String,
+        parent: Schema.optional(
           Schema.Union([
             Schema.Struct({
-              accountCreation: Schema.String,
-              accountDeletion: Schema.String,
-              accountMigration: Schema.String,
-              accountMobility: Schema.String,
-              subOrgCreation: Schema.String,
+              id: Schema.String,
+              name: Schema.String,
+            }),
+            Schema.Null,
+          ]),
+        ),
+        profile: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              businessAddress: Schema.String,
+              businessEmail: Schema.String,
+              businessName: Schema.String,
+              businessPhone: Schema.String,
+              externalMetadata: Schema.String,
             }).pipe(
               Schema.encodeKeys({
-                accountCreation: "account_creation",
-                accountDeletion: "account_deletion",
-                accountMigration: "account_migration",
-                accountMobility: "account_mobility",
-                subOrgCreation: "sub_org_creation",
+                businessAddress: "business_address",
+                businessEmail: "business_email",
+                businessName: "business_name",
+                businessPhone: "business_phone",
+                externalMetadata: "external_metadata",
               }),
             ),
             Schema.Null,
           ]),
         ),
-        managedBy: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      }).pipe(Schema.encodeKeys({ flags: "flags", managedBy: "managed_by" })),
-      name: Schema.String,
-      parent: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            id: Schema.String,
-            name: Schema.String,
-          }),
-          Schema.Null,
-        ]),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createTime: "create_time",
+          meta: "meta",
+          name: "name",
+          parent: "parent",
+          profile: "profile",
+        }),
       ),
-      profile: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            businessAddress: Schema.String,
-            businessEmail: Schema.String,
-            businessName: Schema.String,
-            businessPhone: Schema.String,
-            externalMetadata: Schema.String,
-          }).pipe(
-            Schema.encodeKeys({
-              businessAddress: "business_address",
-              businessEmail: "business_email",
-              businessName: "business_name",
-              businessPhone: "business_phone",
-              externalMetadata: "external_metadata",
-            }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createTime: "create_time",
-        meta: "meta",
-        name: "name",
-        parent: "parent",
-        profile: "profile",
-      }),
     ),
-  ) as unknown as Schema.Schema<ListOrganizationsResponse>;
+  }) as unknown as Schema.Schema<ListOrganizationsResponse>;
 
 export type ListOrganizationsError = DefaultErrors;
 
-export const listOrganizations: API.OperationMethod<
+export const listOrganizations: API.PaginatedOperationMethod<
   ListOrganizationsRequest,
   ListOrganizationsResponse,
   ListOrganizationsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListOrganizationsRequest,
+  ) => stream.Stream<
+    ListOrganizationsResponse,
+    ListOrganizationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListOrganizationsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      createTime: string;
+      meta: {
+        flags?: {
+          accountCreation: string;
+          accountDeletion: string;
+          accountMigration: string;
+          accountMobility: string;
+          subOrgCreation: string;
+        } | null;
+        managedBy?: string | null;
+      };
+      name: string;
+      parent?: { id: string; name: string } | null;
+      profile?: {
+        businessAddress: string;
+        businessEmail: string;
+        businessName: string;
+        businessPhone: string;
+        externalMetadata: string;
+      } | null;
+    },
+    ListOrganizationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListOrganizationsRequest,
   output: ListOrganizationsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateOrganizationRequest {
@@ -369,16 +421,20 @@ export const CreateOrganizationResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createTime: "create_time",
-      meta: "meta",
-      name: "name",
-      parent: "parent",
-      profile: "profile",
-    }),
-  ) as unknown as Schema.Schema<CreateOrganizationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createTime: "create_time",
+        meta: "meta",
+        name: "name",
+        parent: "parent",
+        profile: "profile",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateOrganizationResponse>;
 
 export type CreateOrganizationError = DefaultErrors;
 
@@ -517,16 +573,20 @@ export const UpdateOrganizationResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createTime: "create_time",
-      meta: "meta",
-      name: "name",
-      parent: "parent",
-      profile: "profile",
-    }),
-  ) as unknown as Schema.Schema<UpdateOrganizationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createTime: "create_time",
+        meta: "meta",
+        name: "name",
+        parent: "parent",
+        profile: "profile",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateOrganizationResponse>;
 
 export type UpdateOrganizationError = DefaultErrors;
 
@@ -559,7 +619,9 @@ export interface DeleteOrganizationResponse {
 export const DeleteOrganizationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-  }) as unknown as Schema.Schema<DeleteOrganizationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteOrganizationResponse>;
 
 export type DeleteOrganizationError = DefaultErrors;
 
@@ -604,15 +666,19 @@ export const GetOrganizationProfileResponse =
     businessName: Schema.String,
     businessPhone: Schema.String,
     externalMetadata: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      businessAddress: "business_address",
-      businessEmail: "business_email",
-      businessName: "business_name",
-      businessPhone: "business_phone",
-      externalMetadata: "external_metadata",
-    }),
-  ) as unknown as Schema.Schema<GetOrganizationProfileResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        businessAddress: "business_address",
+        businessEmail: "business_email",
+        businessName: "business_name",
+        businessPhone: "business_phone",
+        externalMetadata: "external_metadata",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetOrganizationProfileResponse>;
 
 export type GetOrganizationProfileError = DefaultErrors;
 

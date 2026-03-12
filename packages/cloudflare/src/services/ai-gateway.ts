@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service ai-gateway
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -169,33 +170,37 @@ export const GetAiGatewayResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    cacheInvalidateOnUpdate: "cache_invalidate_on_update",
-    cacheTtl: "cache_ttl",
-    collectLogs: "collect_logs",
-    createdAt: "created_at",
-    internalId: "internal_id",
-    modifiedAt: "modified_at",
-    rateLimitingInterval: "rate_limiting_interval",
-    rateLimitingLimit: "rate_limiting_limit",
-    rateLimitingTechnique: "rate_limiting_technique",
-    authentication: "authentication",
-    dlp: "dlp",
-    isDefault: "is_default",
-    logManagement: "log_management",
-    logManagementStrategy: "log_management_strategy",
-    logpush: "logpush",
-    logpushPublicKey: "logpush_public_key",
-    otel: "otel",
-    storeId: "store_id",
-    stripe: "stripe",
-    zdr: "zdr",
-  }),
-) as unknown as Schema.Schema<GetAiGatewayResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      cacheInvalidateOnUpdate: "cache_invalidate_on_update",
+      cacheTtl: "cache_ttl",
+      collectLogs: "collect_logs",
+      createdAt: "created_at",
+      internalId: "internal_id",
+      modifiedAt: "modified_at",
+      rateLimitingInterval: "rate_limiting_interval",
+      rateLimitingLimit: "rate_limiting_limit",
+      rateLimitingTechnique: "rate_limiting_technique",
+      authentication: "authentication",
+      dlp: "dlp",
+      isDefault: "is_default",
+      logManagement: "log_management",
+      logManagementStrategy: "log_management_strategy",
+      logpush: "logpush",
+      logpushPublicKey: "logpush_public_key",
+      otel: "otel",
+      storeId: "store_id",
+      stripe: "stripe",
+      zdr: "zdr",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetAiGatewayResponse>;
 
 export type GetAiGatewayError = DefaultErrors | GatewayNotFound;
 
@@ -224,172 +229,277 @@ export const ListAiGatewaysRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/ai-gateway/gateways" }),
 ) as unknown as Schema.Schema<ListAiGatewaysRequest>;
 
-export type ListAiGatewaysResponse = {
-  id: string;
-  accountId: string;
-  accountTag: string;
-  cacheInvalidateOnUpdate: boolean;
-  cacheTtl: number | null;
-  collectLogs: boolean;
-  createdAt: string;
-  internalId: string;
-  modifiedAt: string;
-  rateLimitingInterval: number | null;
-  rateLimitingLimit: number | null;
-  rateLimitingTechnique: "fixed" | "sliding";
-  authentication?: boolean | null;
-  dlp?:
-    | { action: "BLOCK" | "FLAG"; enabled: boolean; profiles: string[] }
-    | {
-        enabled: boolean;
-        policies: {
-          id: string;
-          action: "FLAG" | "BLOCK";
-          check: ("REQUEST" | "RESPONSE")[];
+export interface ListAiGatewaysResponse {
+  result: {
+    id: string;
+    accountId: string;
+    accountTag: string;
+    cacheInvalidateOnUpdate: boolean;
+    cacheTtl: number | null;
+    collectLogs: boolean;
+    createdAt: string;
+    internalId: string;
+    modifiedAt: string;
+    rateLimitingInterval: number | null;
+    rateLimitingLimit: number | null;
+    rateLimitingTechnique: "fixed" | "sliding";
+    authentication?: boolean | null;
+    dlp?:
+      | { action: "BLOCK" | "FLAG"; enabled: boolean; profiles: string[] }
+      | {
           enabled: boolean;
-          profiles: string[];
-        }[];
-      }
-    | null;
-  isDefault?: boolean | null;
-  logManagement?: number | null;
-  logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
-  logpush?: boolean | null;
-  logpushPublicKey?: string | null;
-  otel?:
-    | { authorization: string; headers: Record<string, unknown>; url: string }[]
-    | null;
-  storeId?: string | null;
-  stripe?: { authorization: string; usageEvents: { payload: string }[] } | null;
-  zdr?: boolean | null;
-}[];
+          policies: {
+            id: string;
+            action: "FLAG" | "BLOCK";
+            check: ("REQUEST" | "RESPONSE")[];
+            enabled: boolean;
+            profiles: string[];
+          }[];
+        }
+      | null;
+    isDefault?: boolean | null;
+    logManagement?: number | null;
+    logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
+    logpush?: boolean | null;
+    logpushPublicKey?: string | null;
+    otel?:
+      | {
+          authorization: string;
+          headers: Record<string, unknown>;
+          url: string;
+        }[]
+      | null;
+    storeId?: string | null;
+    stripe?: {
+      authorization: string;
+      usageEvents: { payload: string }[];
+    } | null;
+    zdr?: boolean | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListAiGatewaysResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    accountId: Schema.String,
-    accountTag: Schema.String,
-    cacheInvalidateOnUpdate: Schema.Boolean,
-    cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
-    collectLogs: Schema.Boolean,
-    createdAt: Schema.String,
-    internalId: Schema.String,
-    modifiedAt: Schema.String,
-    rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
-    rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
-    rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
-    authentication: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
-    ),
-    dlp: Schema.optional(
-      Schema.Union([
-        Schema.Union([
-          Schema.Struct({
-            action: Schema.Literals(["BLOCK", "FLAG"]),
-            enabled: Schema.Boolean,
-            profiles: Schema.Array(Schema.String),
-          }),
-          Schema.Struct({
-            enabled: Schema.Boolean,
-            policies: Schema.Array(
+export const ListAiGatewaysResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        accountId: Schema.String,
+        accountTag: Schema.String,
+        cacheInvalidateOnUpdate: Schema.Boolean,
+        cacheTtl: Schema.Union([Schema.Number, Schema.Null]),
+        collectLogs: Schema.Boolean,
+        createdAt: Schema.String,
+        internalId: Schema.String,
+        modifiedAt: Schema.String,
+        rateLimitingInterval: Schema.Union([Schema.Number, Schema.Null]),
+        rateLimitingLimit: Schema.Union([Schema.Number, Schema.Null]),
+        rateLimitingTechnique: Schema.Literals(["fixed", "sliding"]),
+        authentication: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        dlp: Schema.optional(
+          Schema.Union([
+            Schema.Union([
               Schema.Struct({
-                id: Schema.String,
-                action: Schema.Literals(["FLAG", "BLOCK"]),
-                check: Schema.Array(Schema.Literals(["REQUEST", "RESPONSE"])),
+                action: Schema.Literals(["BLOCK", "FLAG"]),
                 enabled: Schema.Boolean,
                 profiles: Schema.Array(Schema.String),
               }),
+              Schema.Struct({
+                enabled: Schema.Boolean,
+                policies: Schema.Array(
+                  Schema.Struct({
+                    id: Schema.String,
+                    action: Schema.Literals(["FLAG", "BLOCK"]),
+                    check: Schema.Array(
+                      Schema.Literals(["REQUEST", "RESPONSE"]),
+                    ),
+                    enabled: Schema.Boolean,
+                    profiles: Schema.Array(Schema.String),
+                  }),
+                ),
+              }),
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        logManagement: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        logManagementStrategy: Schema.optional(
+          Schema.Union([
+            Schema.Literal("STOP_INSERTING"),
+            Schema.Literal("DELETE_OLDEST"),
+            Schema.Null,
+          ]),
+        ),
+        logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        logpushPublicKey: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        otel: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                authorization: Schema.String,
+                headers: Schema.Struct({}),
+                url: Schema.String,
+              }),
             ),
-          }),
-        ]),
-        Schema.Null,
-      ]),
-    ),
-    isDefault: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    logManagement: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    logManagementStrategy: Schema.optional(
-      Schema.Union([
-        Schema.Literal("STOP_INSERTING"),
-        Schema.Literal("DELETE_OLDEST"),
-        Schema.Null,
-      ]),
-    ),
-    logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    logpushPublicKey: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    otel: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            authorization: Schema.String,
-            headers: Schema.Struct({}),
-            url: Schema.String,
-          }),
+            Schema.Null,
+          ]),
         ),
-        Schema.Null,
-      ]),
-    ),
-    storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    stripe: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          authorization: Schema.String,
-          usageEvents: Schema.Array(
+        storeId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        stripe: Schema.optional(
+          Schema.Union([
             Schema.Struct({
-              payload: Schema.String,
-            }),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            authorization: "authorization",
-            usageEvents: "usage_events",
-          }),
+              authorization: Schema.String,
+              usageEvents: Schema.Array(
+                Schema.Struct({
+                  payload: Schema.String,
+                }),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                authorization: "authorization",
+                usageEvents: "usage_events",
+              }),
+            ),
+            Schema.Null,
+          ]),
         ),
-        Schema.Null,
-      ]),
+        zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          accountId: "account_id",
+          accountTag: "account_tag",
+          cacheInvalidateOnUpdate: "cache_invalidate_on_update",
+          cacheTtl: "cache_ttl",
+          collectLogs: "collect_logs",
+          createdAt: "created_at",
+          internalId: "internal_id",
+          modifiedAt: "modified_at",
+          rateLimitingInterval: "rate_limiting_interval",
+          rateLimitingLimit: "rate_limiting_limit",
+          rateLimitingTechnique: "rate_limiting_technique",
+          authentication: "authentication",
+          dlp: "dlp",
+          isDefault: "is_default",
+          logManagement: "log_management",
+          logManagementStrategy: "log_management_strategy",
+          logpush: "logpush",
+          logpushPublicKey: "logpush_public_key",
+          otel: "otel",
+          storeId: "store_id",
+          stripe: "stripe",
+          zdr: "zdr",
+        }),
+      ),
     ),
-    zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      cacheInvalidateOnUpdate: "cache_invalidate_on_update",
-      cacheTtl: "cache_ttl",
-      collectLogs: "collect_logs",
-      createdAt: "created_at",
-      internalId: "internal_id",
-      modifiedAt: "modified_at",
-      rateLimitingInterval: "rate_limiting_interval",
-      rateLimitingLimit: "rate_limiting_limit",
-      rateLimitingTechnique: "rate_limiting_technique",
-      authentication: "authentication",
-      dlp: "dlp",
-      isDefault: "is_default",
-      logManagement: "log_management",
-      logManagementStrategy: "log_management_strategy",
-      logpush: "logpush",
-      logpushPublicKey: "logpush_public_key",
-      otel: "otel",
-      storeId: "store_id",
-      stripe: "stripe",
-      zdr: "zdr",
-    }),
-  ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  },
+).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListAiGatewaysResponse>;
 
 export type ListAiGatewaysError = DefaultErrors;
 
-export const listAiGateways: API.OperationMethod<
+export const listAiGateways: API.PaginatedOperationMethod<
   ListAiGatewaysRequest,
   ListAiGatewaysResponse,
   ListAiGatewaysError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListAiGatewaysRequest,
+  ) => stream.Stream<
+    ListAiGatewaysResponse,
+    ListAiGatewaysError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAiGatewaysRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      accountTag: string;
+      cacheInvalidateOnUpdate: boolean;
+      cacheTtl: number | null;
+      collectLogs: boolean;
+      createdAt: string;
+      internalId: string;
+      modifiedAt: string;
+      rateLimitingInterval: number | null;
+      rateLimitingLimit: number | null;
+      rateLimitingTechnique: "fixed" | "sliding";
+      authentication?: boolean | null;
+      dlp?:
+        | { action: "BLOCK" | "FLAG"; enabled: boolean; profiles: string[] }
+        | {
+            enabled: boolean;
+            policies: {
+              id: string;
+              action: "FLAG" | "BLOCK";
+              check: ("REQUEST" | "RESPONSE")[];
+              enabled: boolean;
+              profiles: string[];
+            }[];
+          }
+        | null;
+      isDefault?: boolean | null;
+      logManagement?: number | null;
+      logManagementStrategy?: "STOP_INSERTING" | "DELETE_OLDEST" | null;
+      logpush?: boolean | null;
+      logpushPublicKey?: string | null;
+      otel?:
+        | {
+            authorization: string;
+            headers: Record<string, unknown>;
+            url: string;
+          }[]
+        | null;
+      storeId?: string | null;
+      stripe?: {
+        authorization: string;
+        usageEvents: { payload: string }[];
+      } | null;
+      zdr?: boolean | null;
+    },
+    ListAiGatewaysError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListAiGatewaysRequest,
   output: ListAiGatewaysResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateAiGatewayRequest {
@@ -601,33 +711,37 @@ export const CreateAiGatewayResponse =
       ]),
     ),
     zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      cacheInvalidateOnUpdate: "cache_invalidate_on_update",
-      cacheTtl: "cache_ttl",
-      collectLogs: "collect_logs",
-      createdAt: "created_at",
-      internalId: "internal_id",
-      modifiedAt: "modified_at",
-      rateLimitingInterval: "rate_limiting_interval",
-      rateLimitingLimit: "rate_limiting_limit",
-      rateLimitingTechnique: "rate_limiting_technique",
-      authentication: "authentication",
-      dlp: "dlp",
-      isDefault: "is_default",
-      logManagement: "log_management",
-      logManagementStrategy: "log_management_strategy",
-      logpush: "logpush",
-      logpushPublicKey: "logpush_public_key",
-      otel: "otel",
-      storeId: "store_id",
-      stripe: "stripe",
-      zdr: "zdr",
-    }),
-  ) as unknown as Schema.Schema<CreateAiGatewayResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        cacheInvalidateOnUpdate: "cache_invalidate_on_update",
+        cacheTtl: "cache_ttl",
+        collectLogs: "collect_logs",
+        createdAt: "created_at",
+        internalId: "internal_id",
+        modifiedAt: "modified_at",
+        rateLimitingInterval: "rate_limiting_interval",
+        rateLimitingLimit: "rate_limiting_limit",
+        rateLimitingTechnique: "rate_limiting_technique",
+        authentication: "authentication",
+        dlp: "dlp",
+        isDefault: "is_default",
+        logManagement: "log_management",
+        logManagementStrategy: "log_management_strategy",
+        logpush: "logpush",
+        logpushPublicKey: "logpush_public_key",
+        otel: "otel",
+        storeId: "store_id",
+        stripe: "stripe",
+        zdr: "zdr",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateAiGatewayResponse>;
 
 export type CreateAiGatewayError = DefaultErrors | GatewayAlreadyExists;
 
@@ -926,33 +1040,37 @@ export const UpdateAiGatewayResponse =
       ]),
     ),
     zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      cacheInvalidateOnUpdate: "cache_invalidate_on_update",
-      cacheTtl: "cache_ttl",
-      collectLogs: "collect_logs",
-      createdAt: "created_at",
-      internalId: "internal_id",
-      modifiedAt: "modified_at",
-      rateLimitingInterval: "rate_limiting_interval",
-      rateLimitingLimit: "rate_limiting_limit",
-      rateLimitingTechnique: "rate_limiting_technique",
-      authentication: "authentication",
-      dlp: "dlp",
-      isDefault: "is_default",
-      logManagement: "log_management",
-      logManagementStrategy: "log_management_strategy",
-      logpush: "logpush",
-      logpushPublicKey: "logpush_public_key",
-      otel: "otel",
-      storeId: "store_id",
-      stripe: "stripe",
-      zdr: "zdr",
-    }),
-  ) as unknown as Schema.Schema<UpdateAiGatewayResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        cacheInvalidateOnUpdate: "cache_invalidate_on_update",
+        cacheTtl: "cache_ttl",
+        collectLogs: "collect_logs",
+        createdAt: "created_at",
+        internalId: "internal_id",
+        modifiedAt: "modified_at",
+        rateLimitingInterval: "rate_limiting_interval",
+        rateLimitingLimit: "rate_limiting_limit",
+        rateLimitingTechnique: "rate_limiting_technique",
+        authentication: "authentication",
+        dlp: "dlp",
+        isDefault: "is_default",
+        logManagement: "log_management",
+        logManagementStrategy: "log_management_strategy",
+        logpush: "logpush",
+        logpushPublicKey: "logpush_public_key",
+        otel: "otel",
+        storeId: "store_id",
+        stripe: "stripe",
+        zdr: "zdr",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateAiGatewayResponse>;
 
 export type UpdateAiGatewayError = DefaultErrors | GatewayNotFound;
 
@@ -1111,33 +1229,37 @@ export const DeleteAiGatewayResponse =
       ]),
     ),
     zdr: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      cacheInvalidateOnUpdate: "cache_invalidate_on_update",
-      cacheTtl: "cache_ttl",
-      collectLogs: "collect_logs",
-      createdAt: "created_at",
-      internalId: "internal_id",
-      modifiedAt: "modified_at",
-      rateLimitingInterval: "rate_limiting_interval",
-      rateLimitingLimit: "rate_limiting_limit",
-      rateLimitingTechnique: "rate_limiting_technique",
-      authentication: "authentication",
-      dlp: "dlp",
-      isDefault: "is_default",
-      logManagement: "log_management",
-      logManagementStrategy: "log_management_strategy",
-      logpush: "logpush",
-      logpushPublicKey: "logpush_public_key",
-      otel: "otel",
-      storeId: "store_id",
-      stripe: "stripe",
-      zdr: "zdr",
-    }),
-  ) as unknown as Schema.Schema<DeleteAiGatewayResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        cacheInvalidateOnUpdate: "cache_invalidate_on_update",
+        cacheTtl: "cache_ttl",
+        collectLogs: "collect_logs",
+        createdAt: "created_at",
+        internalId: "internal_id",
+        modifiedAt: "modified_at",
+        rateLimitingInterval: "rate_limiting_interval",
+        rateLimitingLimit: "rate_limiting_limit",
+        rateLimitingTechnique: "rate_limiting_technique",
+        authentication: "authentication",
+        dlp: "dlp",
+        isDefault: "is_default",
+        logManagement: "log_management",
+        logManagementStrategy: "log_management_strategy",
+        logpush: "logpush",
+        logpushPublicKey: "logpush_public_key",
+        otel: "otel",
+        storeId: "store_id",
+        stripe: "stripe",
+        zdr: "zdr",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteAiGatewayResponse>;
 
 export type DeleteAiGatewayError = DefaultErrors | GatewayNotFound;
 
@@ -1235,19 +1357,23 @@ export const GetDatasetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   gatewayId: Schema.String,
   modifiedAt: Schema.String,
   name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    createdAt: "created_at",
-    enable: "enable",
-    filters: "filters",
-    gatewayId: "gateway_id",
-    modifiedAt: "modified_at",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<GetDatasetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      createdAt: "created_at",
+      enable: "enable",
+      filters: "filters",
+      gatewayId: "gateway_id",
+      modifiedAt: "modified_at",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDatasetResponse>;
 
 export type GetDatasetError = DefaultErrors;
 
@@ -1287,94 +1413,168 @@ export const ListDatasetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListDatasetsRequest>;
 
-export type ListDatasetsResponse = {
-  id: string;
-  accountId: string;
-  accountTag: string;
-  createdAt: string;
-  enable: boolean;
-  filters: {
-    key:
-      | "created_at"
-      | "request_content_type"
-      | "response_content_type"
-      | "success"
-      | "cached"
-      | "provider"
-      | "model"
-      | "cost"
-      | "tokens"
-      | "tokens_in"
-      | "tokens_out"
-      | "duration"
-      | "feedback";
-    operator: "eq" | "contains" | "lt" | "gt";
-    value: (string | number | boolean)[];
+export interface ListDatasetsResponse {
+  result: {
+    id: string;
+    accountId: string;
+    accountTag: string;
+    createdAt: string;
+    enable: boolean;
+    filters: {
+      key:
+        | "created_at"
+        | "request_content_type"
+        | "response_content_type"
+        | "success"
+        | "cached"
+        | "provider"
+        | "model"
+        | "cost"
+        | "tokens"
+        | "tokens_in"
+        | "tokens_out"
+        | "duration"
+        | "feedback";
+      operator: "eq" | "contains" | "lt" | "gt";
+      value: (string | number | boolean)[];
+    }[];
+    gatewayId: string;
+    modifiedAt: string;
+    name: string;
   }[];
-  gatewayId: string;
-  modifiedAt: string;
-  name: string;
-}[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListDatasetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    accountId: Schema.String,
-    accountTag: Schema.String,
-    createdAt: Schema.String,
-    enable: Schema.Boolean,
-    filters: Schema.Array(
-      Schema.Struct({
-        key: Schema.Literals([
-          "created_at",
-          "request_content_type",
-          "response_content_type",
-          "success",
-          "cached",
-          "provider",
-          "model",
-          "cost",
-          "tokens",
-          "tokens_in",
-          "tokens_out",
-          "duration",
-          "feedback",
-        ]),
-        operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
-        value: Schema.Array(
-          Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
-        ),
+export const ListDatasetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      accountId: Schema.String,
+      accountTag: Schema.String,
+      createdAt: Schema.String,
+      enable: Schema.Boolean,
+      filters: Schema.Array(
+        Schema.Struct({
+          key: Schema.Literals([
+            "created_at",
+            "request_content_type",
+            "response_content_type",
+            "success",
+            "cached",
+            "provider",
+            "model",
+            "cost",
+            "tokens",
+            "tokens_in",
+            "tokens_out",
+            "duration",
+            "feedback",
+          ]),
+          operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
+          value: Schema.Array(
+            Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
+          ),
+        }),
+      ),
+      gatewayId: Schema.String,
+      modifiedAt: Schema.String,
+      name: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        createdAt: "created_at",
+        enable: "enable",
+        filters: "filters",
+        gatewayId: "gateway_id",
+        modifiedAt: "modified_at",
+        name: "name",
       }),
     ),
-    gatewayId: Schema.String,
-    modifiedAt: Schema.String,
-    name: Schema.String,
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      createdAt: "created_at",
-      enable: "enable",
-      filters: "filters",
-      gatewayId: "gateway_id",
-      modifiedAt: "modified_at",
-      name: "name",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListDatasetsResponse>;
 
 export type ListDatasetsError = DefaultErrors;
 
-export const listDatasets: API.OperationMethod<
+export const listDatasets: API.PaginatedOperationMethod<
   ListDatasetsRequest,
   ListDatasetsResponse,
   ListDatasetsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListDatasetsRequest,
+  ) => stream.Stream<
+    ListDatasetsResponse,
+    ListDatasetsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListDatasetsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      accountTag: string;
+      createdAt: string;
+      enable: boolean;
+      filters: {
+        key:
+          | "created_at"
+          | "request_content_type"
+          | "response_content_type"
+          | "success"
+          | "cached"
+          | "provider"
+          | "model"
+          | "cost"
+          | "tokens"
+          | "tokens_in"
+          | "tokens_out"
+          | "duration"
+          | "feedback";
+        operator: "eq" | "contains" | "lt" | "gt";
+        value: (string | number | boolean)[];
+      }[];
+      gatewayId: string;
+      modifiedAt: string;
+      name: string;
+    },
+    ListDatasetsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDatasetsRequest,
   output: ListDatasetsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateDatasetRequest {
@@ -1503,19 +1703,23 @@ export const CreateDatasetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   gatewayId: Schema.String,
   modifiedAt: Schema.String,
   name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    createdAt: "created_at",
-    enable: "enable",
-    filters: "filters",
-    gatewayId: "gateway_id",
-    modifiedAt: "modified_at",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<CreateDatasetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      createdAt: "created_at",
+      enable: "enable",
+      filters: "filters",
+      gatewayId: "gateway_id",
+      modifiedAt: "modified_at",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateDatasetResponse>;
 
 export type CreateDatasetError = DefaultErrors;
 
@@ -1658,19 +1862,23 @@ export const UpdateDatasetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   gatewayId: Schema.String,
   modifiedAt: Schema.String,
   name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    createdAt: "created_at",
-    enable: "enable",
-    filters: "filters",
-    gatewayId: "gateway_id",
-    modifiedAt: "modified_at",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<UpdateDatasetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      createdAt: "created_at",
+      enable: "enable",
+      filters: "filters",
+      gatewayId: "gateway_id",
+      modifiedAt: "modified_at",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateDatasetResponse>;
 
 export type UpdateDatasetError = DefaultErrors;
 
@@ -1764,19 +1972,23 @@ export const DeleteDatasetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   gatewayId: Schema.String,
   modifiedAt: Schema.String,
   name: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    createdAt: "created_at",
-    enable: "enable",
-    filters: "filters",
-    gatewayId: "gateway_id",
-    modifiedAt: "modified_at",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<DeleteDatasetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      createdAt: "created_at",
+      enable: "enable",
+      filters: "filters",
+      gatewayId: "gateway_id",
+      modifiedAt: "modified_at",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteDatasetResponse>;
 
 export type DeleteDatasetError = DefaultErrors;
 
@@ -1946,21 +2158,25 @@ export const GetEvaluationResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ),
   ),
   totalLogs: Schema.Number,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    accountId: "account_id",
-    accountTag: "account_tag",
-    createdAt: "created_at",
-    datasets: "datasets",
-    gatewayId: "gateway_id",
-    modifiedAt: "modified_at",
-    name: "name",
-    processed: "processed",
-    results: "results",
-    totalLogs: "total_logs",
-  }),
-) as unknown as Schema.Schema<GetEvaluationResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      accountId: "account_id",
+      accountTag: "account_tag",
+      createdAt: "created_at",
+      datasets: "datasets",
+      gatewayId: "gateway_id",
+      modifiedAt: "modified_at",
+      name: "name",
+      processed: "processed",
+      results: "results",
+      totalLogs: "total_logs",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetEvaluationResponse>;
 
 export type GetEvaluationError = DefaultErrors;
 
@@ -2002,168 +2218,265 @@ export const ListEvaluationsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListEvaluationsRequest>;
 
-export type ListEvaluationsResponse = {
-  id: string;
-  accountId: string;
-  accountTag: string;
-  createdAt: string;
-  datasets: {
+export interface ListEvaluationsResponse {
+  result: {
     id: string;
     accountId: string;
     accountTag: string;
     createdAt: string;
-    enable: boolean;
-    filters: {
-      key:
-        | "created_at"
-        | "request_content_type"
-        | "response_content_type"
-        | "success"
-        | "cached"
-        | "provider"
-        | "model"
-        | "cost"
-        | "tokens"
-        | "tokens_in"
-        | "tokens_out"
-        | "duration"
-        | "feedback";
-      operator: "eq" | "contains" | "lt" | "gt";
-      value: (string | number | boolean)[];
+    datasets: {
+      id: string;
+      accountId: string;
+      accountTag: string;
+      createdAt: string;
+      enable: boolean;
+      filters: {
+        key:
+          | "created_at"
+          | "request_content_type"
+          | "response_content_type"
+          | "success"
+          | "cached"
+          | "provider"
+          | "model"
+          | "cost"
+          | "tokens"
+          | "tokens_in"
+          | "tokens_out"
+          | "duration"
+          | "feedback";
+        operator: "eq" | "contains" | "lt" | "gt";
+        value: (string | number | boolean)[];
+      }[];
+      gatewayId: string;
+      modifiedAt: string;
+      name: string;
     }[];
     gatewayId: string;
     modifiedAt: string;
     name: string;
-  }[];
-  gatewayId: string;
-  modifiedAt: string;
-  name: string;
-  processed: boolean;
-  results: {
-    id: string;
-    createdAt: string;
-    evaluationId: string;
-    evaluationTypeId: string;
-    modifiedAt: string;
-    result: string;
-    status: number;
-    statusDescription: string;
+    processed: boolean;
+    results: {
+      id: string;
+      createdAt: string;
+      evaluationId: string;
+      evaluationTypeId: string;
+      modifiedAt: string;
+      result: string;
+      status: number;
+      statusDescription: string;
+      totalLogs: number;
+    }[];
     totalLogs: number;
   }[];
-  totalLogs: number;
-}[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListEvaluationsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    accountId: Schema.String,
-    accountTag: Schema.String,
-    createdAt: Schema.String,
-    datasets: Schema.Array(
+export const ListEvaluationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
       Schema.Struct({
         id: Schema.String,
         accountId: Schema.String,
         accountTag: Schema.String,
         createdAt: Schema.String,
-        enable: Schema.Boolean,
-        filters: Schema.Array(
+        datasets: Schema.Array(
           Schema.Struct({
-            key: Schema.Literals([
-              "created_at",
-              "request_content_type",
-              "response_content_type",
-              "success",
-              "cached",
-              "provider",
-              "model",
-              "cost",
-              "tokens",
-              "tokens_in",
-              "tokens_out",
-              "duration",
-              "feedback",
-            ]),
-            operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
-            value: Schema.Array(
-              Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
+            id: Schema.String,
+            accountId: Schema.String,
+            accountTag: Schema.String,
+            createdAt: Schema.String,
+            enable: Schema.Boolean,
+            filters: Schema.Array(
+              Schema.Struct({
+                key: Schema.Literals([
+                  "created_at",
+                  "request_content_type",
+                  "response_content_type",
+                  "success",
+                  "cached",
+                  "provider",
+                  "model",
+                  "cost",
+                  "tokens",
+                  "tokens_in",
+                  "tokens_out",
+                  "duration",
+                  "feedback",
+                ]),
+                operator: Schema.Literals(["eq", "contains", "lt", "gt"]),
+                value: Schema.Array(
+                  Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
+                ),
+              }),
             ),
-          }),
+            gatewayId: Schema.String,
+            modifiedAt: Schema.String,
+            name: Schema.String,
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              accountId: "account_id",
+              accountTag: "account_tag",
+              createdAt: "created_at",
+              enable: "enable",
+              filters: "filters",
+              gatewayId: "gateway_id",
+              modifiedAt: "modified_at",
+              name: "name",
+            }),
+          ),
         ),
         gatewayId: Schema.String,
         modifiedAt: Schema.String,
         name: Schema.String,
+        processed: Schema.Boolean,
+        results: Schema.Array(
+          Schema.Struct({
+            id: Schema.String,
+            createdAt: Schema.String,
+            evaluationId: Schema.String,
+            evaluationTypeId: Schema.String,
+            modifiedAt: Schema.String,
+            result: Schema.String,
+            status: Schema.Number,
+            statusDescription: Schema.String,
+            totalLogs: Schema.Number,
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              createdAt: "created_at",
+              evaluationId: "evaluation_id",
+              evaluationTypeId: "evaluation_type_id",
+              modifiedAt: "modified_at",
+              result: "result",
+              status: "status",
+              statusDescription: "status_description",
+              totalLogs: "total_logs",
+            }),
+          ),
+        ),
+        totalLogs: Schema.Number,
       }).pipe(
         Schema.encodeKeys({
           id: "id",
           accountId: "account_id",
           accountTag: "account_tag",
           createdAt: "created_at",
-          enable: "enable",
-          filters: "filters",
+          datasets: "datasets",
           gatewayId: "gateway_id",
           modifiedAt: "modified_at",
           name: "name",
-        }),
-      ),
-    ),
-    gatewayId: Schema.String,
-    modifiedAt: Schema.String,
-    name: Schema.String,
-    processed: Schema.Boolean,
-    results: Schema.Array(
-      Schema.Struct({
-        id: Schema.String,
-        createdAt: Schema.String,
-        evaluationId: Schema.String,
-        evaluationTypeId: Schema.String,
-        modifiedAt: Schema.String,
-        result: Schema.String,
-        status: Schema.Number,
-        statusDescription: Schema.String,
-        totalLogs: Schema.Number,
-      }).pipe(
-        Schema.encodeKeys({
-          id: "id",
-          createdAt: "created_at",
-          evaluationId: "evaluation_id",
-          evaluationTypeId: "evaluation_type_id",
-          modifiedAt: "modified_at",
-          result: "result",
-          status: "status",
-          statusDescription: "status_description",
+          processed: "processed",
+          results: "results",
           totalLogs: "total_logs",
         }),
       ),
     ),
-    totalLogs: Schema.Number,
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
   }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      createdAt: "created_at",
-      datasets: "datasets",
-      gatewayId: "gateway_id",
-      modifiedAt: "modified_at",
-      name: "name",
-      processed: "processed",
-      results: "results",
-      totalLogs: "total_logs",
-    }),
-  ),
-) as unknown as Schema.Schema<ListEvaluationsResponse>;
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListEvaluationsResponse>;
 
 export type ListEvaluationsError = DefaultErrors;
 
-export const listEvaluations: API.OperationMethod<
+export const listEvaluations: API.PaginatedOperationMethod<
   ListEvaluationsRequest,
   ListEvaluationsResponse,
   ListEvaluationsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListEvaluationsRequest,
+  ) => stream.Stream<
+    ListEvaluationsResponse,
+    ListEvaluationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluationsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      accountTag: string;
+      createdAt: string;
+      datasets: {
+        id: string;
+        accountId: string;
+        accountTag: string;
+        createdAt: string;
+        enable: boolean;
+        filters: {
+          key:
+            | "created_at"
+            | "request_content_type"
+            | "response_content_type"
+            | "success"
+            | "cached"
+            | "provider"
+            | "model"
+            | "cost"
+            | "tokens"
+            | "tokens_in"
+            | "tokens_out"
+            | "duration"
+            | "feedback";
+          operator: "eq" | "contains" | "lt" | "gt";
+          value: (string | number | boolean)[];
+        }[];
+        gatewayId: string;
+        modifiedAt: string;
+        name: string;
+      }[];
+      gatewayId: string;
+      modifiedAt: string;
+      name: string;
+      processed: boolean;
+      results: {
+        id: string;
+        createdAt: string;
+        evaluationId: string;
+        evaluationTypeId: string;
+        modifiedAt: string;
+        result: string;
+        status: number;
+        statusDescription: string;
+        totalLogs: number;
+      }[];
+      totalLogs: number;
+    },
+    ListEvaluationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEvaluationsRequest,
   output: ListEvaluationsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateEvaluationRequest {
@@ -2332,21 +2645,25 @@ export const CreateEvaluationResponse =
       ),
     ),
     totalLogs: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      createdAt: "created_at",
-      datasets: "datasets",
-      gatewayId: "gateway_id",
-      modifiedAt: "modified_at",
-      name: "name",
-      processed: "processed",
-      results: "results",
-      totalLogs: "total_logs",
-    }),
-  ) as unknown as Schema.Schema<CreateEvaluationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        createdAt: "created_at",
+        datasets: "datasets",
+        gatewayId: "gateway_id",
+        modifiedAt: "modified_at",
+        name: "name",
+        processed: "processed",
+        results: "results",
+        totalLogs: "total_logs",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateEvaluationResponse>;
 
 export type CreateEvaluationError = DefaultErrors;
 
@@ -2514,21 +2831,25 @@ export const DeleteEvaluationResponse =
       ),
     ),
     totalLogs: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      accountTag: "account_tag",
-      createdAt: "created_at",
-      datasets: "datasets",
-      gatewayId: "gateway_id",
-      modifiedAt: "modified_at",
-      name: "name",
-      processed: "processed",
-      results: "results",
-      totalLogs: "total_logs",
-    }),
-  ) as unknown as Schema.Schema<DeleteEvaluationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        accountTag: "account_tag",
+        createdAt: "created_at",
+        datasets: "datasets",
+        gatewayId: "gateway_id",
+        modifiedAt: "modified_at",
+        name: "name",
+        processed: "processed",
+        results: "results",
+        totalLogs: "total_logs",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteEvaluationResponse>;
 
 export type DeleteEvaluationError = DefaultErrors;
 
@@ -2570,53 +2891,109 @@ export const ListEvaluationTypesRequest =
     }),
   ) as unknown as Schema.Schema<ListEvaluationTypesRequest>;
 
-export type ListEvaluationTypesResponse = {
-  id: string;
-  createdAt: string;
-  description: string;
-  enable: boolean;
-  mandatory: boolean;
-  modifiedAt: string;
-  name: string;
-  type: string;
-}[];
+export interface ListEvaluationTypesResponse {
+  result: {
+    id: string;
+    createdAt: string;
+    description: string;
+    enable: boolean;
+    mandatory: boolean;
+    modifiedAt: string;
+    name: string;
+    type: string;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListEvaluationTypesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      createdAt: Schema.String,
-      description: Schema.String,
-      enable: Schema.Boolean,
-      mandatory: Schema.Boolean,
-      modifiedAt: Schema.String,
-      name: Schema.String,
-      type: Schema.String,
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        createdAt: Schema.String,
+        description: Schema.String,
+        enable: Schema.Boolean,
+        mandatory: Schema.Boolean,
+        modifiedAt: Schema.String,
+        name: Schema.String,
+        type: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          description: "description",
+          enable: "enable",
+          mandatory: "mandatory",
+          modifiedAt: "modified_at",
+          name: "name",
+          type: "type",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        description: "description",
-        enable: "enable",
-        mandatory: "mandatory",
-        modifiedAt: "modified_at",
-        name: "name",
-        type: "type",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListEvaluationTypesResponse>;
 
 export type ListEvaluationTypesError = DefaultErrors;
 
-export const listEvaluationTypes: API.OperationMethod<
+export const listEvaluationTypes: API.PaginatedOperationMethod<
   ListEvaluationTypesRequest,
   ListEvaluationTypesResponse,
   ListEvaluationTypesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListEvaluationTypesRequest,
+  ) => stream.Stream<
+    ListEvaluationTypesResponse,
+    ListEvaluationTypesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListEvaluationTypesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      createdAt: string;
+      description: string;
+      enable: boolean;
+      mandatory: boolean;
+      modifiedAt: string;
+      name: string;
+      type: string;
+    },
+    ListEvaluationTypesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListEvaluationTypesRequest,
   output: ListEvaluationTypesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -2702,35 +3079,37 @@ export const GetLogResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   responseSize: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    cached: "cached",
-    createdAt: "created_at",
-    duration: "duration",
-    model: "model",
-    path: "path",
-    provider: "provider",
-    success: "success",
-    tokensIn: "tokens_in",
-    tokensOut: "tokens_out",
-    cost: "cost",
-    customCost: "custom_cost",
-    metadata: "metadata",
-    modelType: "model_type",
-    requestContentType: "request_content_type",
-    requestHead: "request_head",
-    requestHeadComplete: "request_head_complete",
-    requestSize: "request_size",
-    requestType: "request_type",
-    responseContentType: "response_content_type",
-    responseHead: "response_head",
-    responseHeadComplete: "response_head_complete",
-    responseSize: "response_size",
-    statusCode: "status_code",
-    step: "step",
-  }),
-) as unknown as Schema.Schema<GetLogResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      cached: "cached",
+      createdAt: "created_at",
+      duration: "duration",
+      model: "model",
+      path: "path",
+      provider: "provider",
+      success: "success",
+      tokensIn: "tokens_in",
+      tokensOut: "tokens_out",
+      cost: "cost",
+      customCost: "custom_cost",
+      metadata: "metadata",
+      modelType: "model_type",
+      requestContentType: "request_content_type",
+      requestHead: "request_head",
+      requestHeadComplete: "request_head_complete",
+      requestSize: "request_size",
+      requestType: "request_type",
+      responseContentType: "response_content_type",
+      responseHead: "response_head",
+      responseHeadComplete: "response_head_complete",
+      responseSize: "response_size",
+      statusCode: "status_code",
+      step: "step",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetLogResponse>;
 
 export type GetLogError = DefaultErrors;
 
@@ -2949,89 +3328,156 @@ export const ListLogsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListLogsRequest>;
 
-export type ListLogsResponse = {
-  id: string;
-  cached: boolean;
-  createdAt: string;
-  duration: number;
-  model: string;
-  path: string;
-  provider: string;
-  success: boolean;
-  tokensIn: number | null;
-  tokensOut: number | null;
-  cost?: number | null;
-  customCost?: boolean | null;
-  metadata?: string | null;
-  modelType?: string | null;
-  requestContentType?: string | null;
-  requestType?: string | null;
-  responseContentType?: string | null;
-  statusCode?: number | null;
-  step?: number | null;
-}[];
+export interface ListLogsResponse {
+  result: {
+    id: string;
+    cached: boolean;
+    createdAt: string;
+    duration: number;
+    model: string;
+    path: string;
+    provider: string;
+    success: boolean;
+    tokensIn: number | null;
+    tokensOut: number | null;
+    cost?: number | null;
+    customCost?: boolean | null;
+    metadata?: string | null;
+    modelType?: string | null;
+    requestContentType?: string | null;
+    requestType?: string | null;
+    responseContentType?: string | null;
+    statusCode?: number | null;
+    step?: number | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListLogsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    cached: Schema.Boolean,
-    createdAt: Schema.String,
-    duration: Schema.Number,
-    model: Schema.String,
-    path: Schema.String,
-    provider: Schema.String,
-    success: Schema.Boolean,
-    tokensIn: Schema.Union([Schema.Number, Schema.Null]),
-    tokensOut: Schema.Union([Schema.Number, Schema.Null]),
-    cost: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    customCost: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    metadata: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    requestContentType: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
+export const ListLogsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      cached: Schema.Boolean,
+      createdAt: Schema.String,
+      duration: Schema.Number,
+      model: Schema.String,
+      path: Schema.String,
+      provider: Schema.String,
+      success: Schema.Boolean,
+      tokensIn: Schema.Union([Schema.Number, Schema.Null]),
+      tokensOut: Schema.Union([Schema.Number, Schema.Null]),
+      cost: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      customCost: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      metadata: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modelType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      requestContentType: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      requestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      responseContentType: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        cached: "cached",
+        createdAt: "created_at",
+        duration: "duration",
+        model: "model",
+        path: "path",
+        provider: "provider",
+        success: "success",
+        tokensIn: "tokens_in",
+        tokensOut: "tokens_out",
+        cost: "cost",
+        customCost: "custom_cost",
+        metadata: "metadata",
+        modelType: "model_type",
+        requestContentType: "request_content_type",
+        requestType: "request_type",
+        responseContentType: "response_content_type",
+        statusCode: "status_code",
+        step: "step",
+      }),
     ),
-    requestType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    responseContentType: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    step: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      cached: "cached",
-      createdAt: "created_at",
-      duration: "duration",
-      model: "model",
-      path: "path",
-      provider: "provider",
-      success: "success",
-      tokensIn: "tokens_in",
-      tokensOut: "tokens_out",
-      cost: "cost",
-      customCost: "custom_cost",
-      metadata: "metadata",
-      modelType: "model_type",
-      requestContentType: "request_content_type",
-      requestType: "request_type",
-      responseContentType: "response_content_type",
-      statusCode: "status_code",
-      step: "step",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListLogsResponse>;
 
 export type ListLogsError = DefaultErrors;
 
-export const listLogs: API.OperationMethod<
+export const listLogs: API.PaginatedOperationMethod<
   ListLogsRequest,
   ListLogsResponse,
   ListLogsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListLogsRequest,
+  ) => stream.Stream<
+    ListLogsResponse,
+    ListLogsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListLogsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      cached: boolean;
+      createdAt: string;
+      duration: number;
+      model: string;
+      path: string;
+      provider: string;
+      success: boolean;
+      tokensIn: number | null;
+      tokensOut: number | null;
+      cost?: number | null;
+      customCost?: boolean | null;
+      metadata?: string | null;
+      modelType?: string | null;
+      requestContentType?: string | null;
+      requestType?: string | null;
+      responseContentType?: string | null;
+      statusCode?: number | null;
+      step?: number | null;
+    },
+    ListLogsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLogsRequest,
   output: ListLogsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PatchLogRequest {
@@ -3063,8 +3509,9 @@ export const PatchLogRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 
 export type PatchLogResponse = unknown;
 
-export const PatchLogResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<PatchLogResponse>;
+export const PatchLogResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PatchLogResponse>;
 
 export type PatchLogError = DefaultErrors;
 
@@ -3318,8 +3765,9 @@ export const GetUrlRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 
 export type GetUrlResponse = string;
 
-export const GetUrlResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<GetUrlResponse>;
+export const GetUrlResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetUrlResponse>;
 
 export type GetUrlError = DefaultErrors;
 

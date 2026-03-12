@@ -79,7 +79,9 @@ export const CreateCredentialRequest =
 export type CreateCredentialResponse = unknown;
 
 export const CreateCredentialResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateCredentialResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateCredentialResponse>;
 
 export type CreateCredentialError =
   | DefaultErrors
@@ -175,12 +177,16 @@ export const GetMaintenanceConfigResponse =
         snapshotExpiration: "snapshot_expiration",
       }),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      credentialStatus: "credential_status",
-      maintenanceConfig: "maintenance_config",
-    }),
-  ) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        credentialStatus: "credential_status",
+        maintenanceConfig: "maintenance_config",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetMaintenanceConfigResponse>;
 
 export type GetMaintenanceConfigError =
   | DefaultErrors
@@ -297,12 +303,16 @@ export const UpdateMaintenanceConfigResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      compaction: "compaction",
-      snapshotExpiration: "snapshot_expiration",
-    }),
-  ) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        compaction: "compaction",
+        snapshotExpiration: "snapshot_expiration",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateMaintenanceConfigResponse>;
 
 export type UpdateMaintenanceConfigError =
   | DefaultErrors
@@ -409,14 +419,18 @@ export const ListNamespacesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
     nextPageToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
-).pipe(
-  Schema.encodeKeys({
-    namespaces: "namespaces",
-    details: "details",
-    namespaceUuids: "namespace_uuids",
-    nextPageToken: "next_page_token",
-  }),
-) as unknown as Schema.Schema<ListNamespacesResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      namespaces: "namespaces",
+      details: "details",
+      namespaceUuids: "namespace_uuids",
+      nextPageToken: "next_page_token",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
 export type ListNamespacesError =
   | DefaultErrors
@@ -541,14 +555,18 @@ export const ListNamespaceTablesResponse =
     tableUuids: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      identifiers: "identifiers",
-      details: "details",
-      nextPageToken: "next_page_token",
-      tableUuids: "table_uuids",
-    }),
-  ) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        identifiers: "identifiers",
+        details: "details",
+        nextPageToken: "next_page_token",
+        tableUuids: "table_uuids",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<ListNamespaceTablesResponse>;
 
 export type ListNamespaceTablesError =
   | DefaultErrors
@@ -645,9 +663,11 @@ export const GetNamespaceTableMaintenanceConfigResponse =
         snapshotExpiration: "snapshot_expiration",
       }),
     ),
-  }).pipe(
-    Schema.encodeKeys({ maintenanceConfig: "maintenance_config" }),
-  ) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
+  })
+    .pipe(Schema.encodeKeys({ maintenanceConfig: "maintenance_config" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetNamespaceTableMaintenanceConfigResponse>;
 
 export type GetNamespaceTableMaintenanceConfigError =
   | DefaultErrors
@@ -768,12 +788,16 @@ export const UpdateNamespaceTableMaintenanceConfigResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      compaction: "compaction",
-      snapshotExpiration: "snapshot_expiration",
-    }),
-  ) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        compaction: "compaction",
+        snapshotExpiration: "snapshot_expiration",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateNamespaceTableMaintenanceConfigResponse>;
 
 export type UpdateNamespaceTableMaintenanceConfigError =
   | DefaultErrors
@@ -893,16 +917,20 @@ export const GetR2DataCatalogResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      bucket: "bucket",
-      name: "name",
-      status: "status",
-      credentialStatus: "credential_status",
-      maintenanceConfig: "maintenance_config",
-    }),
-  ) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        bucket: "bucket",
+        name: "name",
+        status: "status",
+        credentialStatus: "credential_status",
+        maintenanceConfig: "maintenance_config",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetR2DataCatalogResponse>;
 
 export type GetR2DataCatalogError = DefaultErrors | NoSuchBucket | InvalidRoute;
 
@@ -1019,7 +1047,9 @@ export const ListR2DataCatalogsResponse =
         }),
       ),
     ),
-  }) as unknown as Schema.Schema<ListR2DataCatalogsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListR2DataCatalogsResponse>;
 
 export type ListR2DataCatalogsError = DefaultErrors | InvalidRoute;
 
@@ -1062,7 +1092,9 @@ export const EnableR2DataCatalogResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     name: Schema.String,
-  }) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EnableR2DataCatalogResponse>;
 
 export type EnableR2DataCatalogError =
   | DefaultErrors

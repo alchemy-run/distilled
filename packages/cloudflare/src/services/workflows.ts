@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service workflows
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -20,7 +21,7 @@ export class InstanceNotFound extends Schema.TaggedErrorClass<InstanceNotFound>(
   "InstanceNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InstanceNotFound, [{ code: 10201 }, { code: 10400 }]);
+T.applyErrorMatchers(InstanceNotFound, [{ code: 10400 }, { code: 10201 }]);
 
 export class InvalidBody extends Schema.TaggedErrorClass<InvalidBody>()(
   "InvalidBody",
@@ -238,7 +239,9 @@ export const GetInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     source: Schema.Literals(["unknown", "api", "binding", "event", "cron"]),
   }),
   versionId: Schema.String,
-}) as unknown as Schema.Schema<GetInstanceResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetInstanceResponse>;
 
 export type GetInstanceError =
   | DefaultErrors
@@ -309,56 +312,81 @@ export const ListInstancesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListInstancesRequest>;
 
-export type ListInstancesResponse = {
-  id: string;
-  createdOn: string;
-  endedOn: string | null;
-  modifiedOn: string;
-  startedOn: string | null;
-  status:
-    | "queued"
-    | "running"
-    | "paused"
-    | "errored"
-    | "terminated"
-    | "complete"
-    | "waitingForPause"
-    | "waiting";
-  versionId: string;
-  workflowId: string;
-}[];
+export interface ListInstancesResponse {
+  result: {
+    id: string;
+    createdOn: string;
+    endedOn: string | null;
+    modifiedOn: string;
+    startedOn: string | null;
+    status:
+      | "queued"
+      | "running"
+      | "paused"
+      | "errored"
+      | "terminated"
+      | "complete"
+      | "waitingForPause"
+      | "waiting";
+    versionId: string;
+    workflowId: string;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    createdOn: Schema.String,
-    endedOn: Schema.Union([Schema.String, Schema.Null]),
-    modifiedOn: Schema.String,
-    startedOn: Schema.Union([Schema.String, Schema.Null]),
-    status: Schema.Literals([
-      "queued",
-      "running",
-      "paused",
-      "errored",
-      "terminated",
-      "complete",
-      "waitingForPause",
-      "waiting",
-    ]),
-    versionId: Schema.String,
-    workflowId: Schema.String,
+export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      createdOn: Schema.String,
+      endedOn: Schema.Union([Schema.String, Schema.Null]),
+      modifiedOn: Schema.String,
+      startedOn: Schema.Union([Schema.String, Schema.Null]),
+      status: Schema.Literals([
+        "queued",
+        "running",
+        "paused",
+        "errored",
+        "terminated",
+        "complete",
+        "waitingForPause",
+        "waiting",
+      ]),
+      versionId: Schema.String,
+      workflowId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        endedOn: "ended_on",
+        modifiedOn: "modified_on",
+        startedOn: "started_on",
+        status: "status",
+        versionId: "version_id",
+        workflowId: "workflow_id",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      endedOn: "ended_on",
-      modifiedOn: "modified_on",
-      startedOn: "started_on",
-      status: "status",
-      versionId: "version_id",
-      workflowId: "workflow_id",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListInstancesResponse>;
 
 export type ListInstancesError =
@@ -367,15 +395,54 @@ export type ListInstancesError =
   | InvalidRoute
   | InvalidBody;
 
-export const listInstances: API.OperationMethod<
+export const listInstances: API.PaginatedOperationMethod<
   ListInstancesRequest,
   ListInstancesResponse,
   ListInstancesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListInstancesRequest,
+  ) => stream.Stream<
+    ListInstancesResponse,
+    ListInstancesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListInstancesRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      createdOn: string;
+      endedOn: string | null;
+      modifiedOn: string;
+      startedOn: string | null;
+      status:
+        | "queued"
+        | "running"
+        | "paused"
+        | "errored"
+        | "terminated"
+        | "complete"
+        | "waitingForPause"
+        | "waiting";
+      versionId: string;
+      workflowId: string;
+    },
+    ListInstancesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
   errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateInstanceRequest {
@@ -456,14 +523,18 @@ export const CreateInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     versionId: Schema.String,
     workflowId: Schema.String,
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    status: "status",
-    versionId: "version_id",
-    workflowId: "workflow_id",
-  }),
-) as unknown as Schema.Schema<CreateInstanceResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      status: "status",
+      versionId: "version_id",
+      workflowId: "workflow_id",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateInstanceResponse>;
 
 export type CreateInstanceError =
   | DefaultErrors
@@ -536,45 +607,49 @@ export const BulkInstanceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkInstanceRequest>;
 
-export type BulkInstanceResponse = {
-  id: string;
-  status:
-    | "queued"
-    | "running"
-    | "paused"
-    | "errored"
-    | "terminated"
-    | "complete"
-    | "waitingForPause"
-    | "waiting";
-  versionId: string;
-  workflowId: string;
-}[];
+export interface BulkInstanceResponse {
+  result: {
+    id: string;
+    status:
+      | "queued"
+      | "running"
+      | "paused"
+      | "errored"
+      | "terminated"
+      | "complete"
+      | "waitingForPause"
+      | "waiting";
+    versionId: string;
+    workflowId: string;
+  }[];
+}
 
-export const BulkInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    status: Schema.Literals([
-      "queued",
-      "running",
-      "paused",
-      "errored",
-      "terminated",
-      "complete",
-      "waitingForPause",
-      "waiting",
-    ]),
-    versionId: Schema.String,
-    workflowId: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      status: "status",
-      versionId: "version_id",
-      workflowId: "workflow_id",
-    }),
+export const BulkInstanceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      status: Schema.Literals([
+        "queued",
+        "running",
+        "paused",
+        "errored",
+        "terminated",
+        "complete",
+        "waitingForPause",
+        "waiting",
+      ]),
+      versionId: Schema.String,
+      workflowId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        status: "status",
+        versionId: "version_id",
+        workflowId: "workflow_id",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<BulkInstanceResponse>;
+}) as unknown as Schema.Schema<BulkInstanceResponse>;
 
 export type BulkInstanceError =
   | DefaultErrors
@@ -582,15 +657,47 @@ export type BulkInstanceError =
   | InvalidRoute
   | InvalidBody;
 
-export const bulkInstance: API.OperationMethod<
+export const bulkInstance: API.PaginatedOperationMethod<
   BulkInstanceRequest,
   BulkInstanceResponse,
   BulkInstanceError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkInstanceRequest,
+  ) => stream.Stream<
+    BulkInstanceResponse,
+    BulkInstanceError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: BulkInstanceRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      status:
+        | "queued"
+        | "running"
+        | "paused"
+        | "errored"
+        | "terminated"
+        | "complete"
+        | "waitingForPause"
+        | "waiting";
+      versionId: string;
+      workflowId: string;
+    },
+    BulkInstanceError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkInstanceRequest,
   output: BulkInstanceResponse,
   errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -624,7 +731,9 @@ export const CreateInstanceEventRequest =
 export type CreateInstanceEventResponse = unknown;
 
 export const CreateInstanceEventResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<CreateInstanceEventResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateInstanceEventResponse>;
 
 export type CreateInstanceEventError =
   | DefaultErrors
@@ -697,7 +806,9 @@ export const PatchInstanceStatusResponse =
       "waiting",
     ]),
     timestamp: Schema.String,
-  }) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchInstanceStatusResponse>;
 
 export type PatchInstanceStatusError =
   | DefaultErrors
@@ -751,15 +862,19 @@ export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   createdOn: Schema.String,
   modifiedOn: Schema.String,
   workflowId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    className: "class_name",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    workflowId: "workflow_id",
-  }),
-) as unknown as Schema.Schema<GetVersionResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      className: "class_name",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      workflowId: "workflow_id",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetVersionResponse>;
 
 export type GetVersionError =
   | DefaultErrors
@@ -794,43 +909,96 @@ export const ListVersionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListVersionsRequest>;
 
-export type ListVersionsResponse = {
-  id: string;
-  className: string;
-  createdOn: string;
-  modifiedOn: string;
-  workflowId: string;
-}[];
+export interface ListVersionsResponse {
+  result: {
+    id: string;
+    className: string;
+    createdOn: string;
+    modifiedOn: string;
+    workflowId: string;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    className: Schema.String,
-    createdOn: Schema.String,
-    modifiedOn: Schema.String,
-    workflowId: Schema.String,
+export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      className: Schema.String,
+      createdOn: Schema.String,
+      modifiedOn: Schema.String,
+      workflowId: Schema.String,
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        className: "class_name",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        workflowId: "workflow_id",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      className: "class_name",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      workflowId: "workflow_id",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListVersionsResponse>;
 
 export type ListVersionsError = DefaultErrors | WorkflowNotFound | InvalidRoute;
 
-export const listVersions: API.OperationMethod<
+export const listVersions: API.PaginatedOperationMethod<
   ListVersionsRequest,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
+    ListVersionsResponse,
+    ListVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      className: string;
+      createdOn: string;
+      modifiedOn: string;
+      workflowId: string;
+    },
+    ListVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
   errors: [WorkflowNotFound, InvalidRoute],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -892,18 +1060,22 @@ export const GetWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   name: Schema.String,
   scriptName: Schema.String,
   triggeredOn: Schema.Union([Schema.String, Schema.Null]),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    className: "class_name",
-    createdOn: "created_on",
-    instances: "instances",
-    modifiedOn: "modified_on",
-    name: "name",
-    scriptName: "script_name",
-    triggeredOn: "triggered_on",
-  }),
-) as unknown as Schema.Schema<GetWorkflowResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      className: "class_name",
+      createdOn: "created_on",
+      instances: "instances",
+      modifiedOn: "modified_on",
+      name: "name",
+      scriptName: "script_name",
+      triggeredOn: "triggered_on",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetWorkflowResponse>;
 
 export type GetWorkflowError = DefaultErrors | WorkflowNotFound | InvalidRoute;
 
@@ -932,72 +1104,137 @@ export const ListWorkflowsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/workflows" }),
 ) as unknown as Schema.Schema<ListWorkflowsRequest>;
 
-export type ListWorkflowsResponse = {
-  id: string;
-  className: string;
-  createdOn: string;
-  instances: {
-    complete?: number | null;
-    errored?: number | null;
-    paused?: number | null;
-    queued?: number | null;
-    running?: number | null;
-    terminated?: number | null;
-    waiting?: number | null;
-    waitingForPause?: number | null;
+export interface ListWorkflowsResponse {
+  result: {
+    id: string;
+    className: string;
+    createdOn: string;
+    instances: {
+      complete?: number | null;
+      errored?: number | null;
+      paused?: number | null;
+      queued?: number | null;
+      running?: number | null;
+      terminated?: number | null;
+      waiting?: number | null;
+      waitingForPause?: number | null;
+    };
+    modifiedOn: string;
+    name: string;
+    scriptName: string;
+    triggeredOn: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
   };
-  modifiedOn: string;
-  name: string;
-  scriptName: string;
-  triggeredOn: string | null;
-}[];
+}
 
-export const ListWorkflowsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    className: Schema.String,
-    createdOn: Schema.String,
-    instances: Schema.Struct({
-      complete: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      errored: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      paused: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      queued: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      running: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      terminated: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      waiting: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      waitingForPause: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-    }),
-    modifiedOn: Schema.String,
-    name: Schema.String,
-    scriptName: Schema.String,
-    triggeredOn: Schema.Union([Schema.String, Schema.Null]),
+export const ListWorkflowsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      className: Schema.String,
+      createdOn: Schema.String,
+      instances: Schema.Struct({
+        complete: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        errored: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        paused: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        queued: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        running: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        terminated: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        waiting: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        waitingForPause: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+      }),
+      modifiedOn: Schema.String,
+      name: Schema.String,
+      scriptName: Schema.String,
+      triggeredOn: Schema.Union([Schema.String, Schema.Null]),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        className: "class_name",
+        createdOn: "created_on",
+        instances: "instances",
+        modifiedOn: "modified_on",
+        name: "name",
+        scriptName: "script_name",
+        triggeredOn: "triggered_on",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      className: "class_name",
-      createdOn: "created_on",
-      instances: "instances",
-      modifiedOn: "modified_on",
-      name: "name",
-      scriptName: "script_name",
-      triggeredOn: "triggered_on",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListWorkflowsResponse>;
 
 export type ListWorkflowsError = DefaultErrors | InvalidRoute;
 
-export const listWorkflows: API.OperationMethod<
+export const listWorkflows: API.PaginatedOperationMethod<
   ListWorkflowsRequest,
   ListWorkflowsResponse,
   ListWorkflowsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListWorkflowsRequest,
+  ) => stream.Stream<
+    ListWorkflowsResponse,
+    ListWorkflowsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListWorkflowsRequest,
+  ) => stream.Stream<
+    {
+      id: string;
+      className: string;
+      createdOn: string;
+      instances: {
+        complete?: number | null;
+        errored?: number | null;
+        paused?: number | null;
+        queued?: number | null;
+        running?: number | null;
+        terminated?: number | null;
+        waiting?: number | null;
+        waitingForPause?: number | null;
+      };
+      modifiedOn: string;
+      name: string;
+      scriptName: string;
+      triggeredOn: string | null;
+    },
+    ListWorkflowsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListWorkflowsRequest,
   output: ListWorkflowsResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PutWorkflowRequest {
@@ -1049,20 +1286,24 @@ export const PutWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   triggeredOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   versionId: Schema.String,
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    className: "class_name",
-    createdOn: "created_on",
-    isDeleted: "is_deleted",
-    modifiedOn: "modified_on",
-    name: "name",
-    scriptName: "script_name",
-    terminatorRunning: "terminator_running",
-    triggeredOn: "triggered_on",
-    versionId: "version_id",
-  }),
-) as unknown as Schema.Schema<PutWorkflowResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      className: "class_name",
+      createdOn: "created_on",
+      isDeleted: "is_deleted",
+      modifiedOn: "modified_on",
+      name: "name",
+      scriptName: "script_name",
+      terminatorRunning: "terminator_running",
+      triggeredOn: "triggered_on",
+      versionId: "version_id",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutWorkflowResponse>;
 
 export type PutWorkflowError =
   | DefaultErrors
@@ -1105,6 +1346,8 @@ export const DeleteWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     status: Schema.Literal("ok"),
     success: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeleteWorkflowResponse>;
 
 export type DeleteWorkflowError =

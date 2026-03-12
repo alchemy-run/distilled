@@ -1,7 +1,8 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Stream from "effect/Stream";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as Pipelines from "~/services/pipelines.ts";
+import * as Pipelines from "~/services/pipelines";
 
 const accountId = () => getAccountId();
 
@@ -28,7 +29,7 @@ const deleteStreamByName = (name: string) =>
     const streams = yield* Pipelines.listStreams({
       accountId: accountId(),
     });
-    const found = streams.find((s) => s.name === name);
+    const found = streams.result.find((s) => s.name === name);
     if (found) {
       yield* Pipelines.deleteStream({
         accountId: accountId(),
@@ -76,12 +77,12 @@ const withStream = <A, E, R>(
  * Delete a v1 pipeline by name. Looks it up by listing, then deletes by ID.
  * Silently succeeds if the pipeline doesn't exist.
  */
-const deleteV1PipelineByName = (name: string) =>
+const _deleteV1PipelineByName = (name: string) =>
   Effect.gen(function* () {
     const pipelines = yield* Pipelines.listV1Pipeline({
       accountId: accountId(),
     });
-    const found = pipelines.find((p) => p.name === name);
+    const found = pipelines.result.find((p) => p.name === name);
     if (found) {
       yield* Pipelines.deleteV1Pipeline({
         accountId: accountId(),
@@ -103,24 +104,17 @@ describe("Pipelines", () => {
   // listPipelines
   // --------------------------------------------------------------------------
   describe("listPipelines", () => {
-    // NOTE: The listPipelines response schema is a Struct modeling the Cloudflare
-    // envelope (resultInfo, results, success), but the response parser already
-    // unwraps the envelope and passes the raw `result` array. This causes a schema
-    // decode failure. These tests document the expected behavior once the generator
-    // is fixed to produce an Array schema instead of a Struct schema.
     test("happy path - lists pipelines in account", () =>
       Effect.gen(function* () {
         const result = yield* Pipelines.listPipelines({
           accountId: accountId(),
         });
 
-        expect(result).toBeDefined();
-        if (result.results) {
-          expect(Array.isArray(result.results)).toBe(true);
-          for (const pipeline of result.results) {
-            expect(typeof pipeline.id).toBe("string");
-            expect(typeof pipeline.name).toBe("string");
-          }
+        expect(result.resultInfo).toBeDefined();
+        expect(Array.isArray(result.results)).toBe(true);
+        for (const pipeline of result.results) {
+          expect(typeof pipeline.id).toBe("string");
+          expect(typeof pipeline.name).toBe("string");
         }
       }));
 
@@ -132,7 +126,7 @@ describe("Pipelines", () => {
           perPage: "5",
         });
 
-        expect(result).toBeDefined();
+        expect(Array.isArray(result.results)).toBe(true);
       }));
 
     test("happy path - lists pipelines with search filter", () =>
@@ -142,7 +136,7 @@ describe("Pipelines", () => {
           search: "distilled_cf_pipelines",
         });
 
-        expect(result).toBeDefined();
+        expect(Array.isArray(result.results)).toBe(true);
       }));
 
     test("error - CloudflareHttpError for invalid accountId", () =>
@@ -473,8 +467,9 @@ describe("Pipelines", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const stream of result) {
+        expect(result.resultInfo).toBeDefined();
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const stream of result.result) {
           expect(typeof stream.id).toBe("string");
           expect(typeof stream.name).toBe("string");
           expect(typeof stream.createdAt).toBe("string");
@@ -493,11 +488,39 @@ describe("Pipelines", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
-          const found = result.some((s) => s.id === streamId);
+          expect(Array.isArray(result.result)).toBe(true);
+          const found = result.result.some((s) => s.id === streamId);
           expect(found).toBe(true);
         }),
       ));
+
+    test("pages() streams listStreams response pages", () =>
+      Effect.gen(function* () {
+        const pages = yield* Pipelines.listStreams
+          .pages({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+        expect(pagesArray[0]?.resultInfo).toBeDefined();
+      }));
+
+    test("items() streams stream items directly", () =>
+      Effect.gen(function* () {
+        const streams = yield* Pipelines.listStreams
+          .items({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(5), Stream.runCollect);
+
+        for (const stream of Array.from(streams)) {
+          expect(typeof stream.id).toBe("string");
+          expect(typeof stream.name).toBe("string");
+        }
+      }));
 
     test("error - for invalid accountId", () =>
       Pipelines.listStreams({
@@ -658,8 +681,9 @@ describe("Pipelines", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const sink of result) {
+        expect(result.resultInfo).toBeDefined();
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const sink of result.result) {
           expect(typeof sink.id).toBe("string");
           expect(typeof sink.name).toBe("string");
           expect(typeof sink.createdAt).toBe("string");
@@ -679,6 +703,34 @@ describe("Pipelines", () => {
           ),
         ),
       ));
+
+    test("pages() streams listSinks response pages", () =>
+      Effect.gen(function* () {
+        const pages = yield* Pipelines.listSinks
+          .pages({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+        expect(pagesArray[0]?.resultInfo).toBeDefined();
+      }));
+
+    test("items() streams sink items directly", () =>
+      Effect.gen(function* () {
+        const sinks = yield* Pipelines.listSinks
+          .items({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(5), Stream.runCollect);
+
+        for (const sink of Array.from(sinks)) {
+          expect(typeof sink.id).toBe("string");
+          expect(typeof sink.name).toBe("string");
+        }
+      }));
   });
 
   // --------------------------------------------------------------------------
@@ -877,14 +929,43 @@ describe("Pipelines", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
-        for (const pipeline of result) {
+        expect(result.resultInfo).toBeDefined();
+        expect(Array.isArray(result.result)).toBe(true);
+        for (const pipeline of result.result) {
           expect(typeof pipeline.id).toBe("string");
           expect(typeof pipeline.name).toBe("string");
           expect(typeof pipeline.createdAt).toBe("string");
           expect(typeof pipeline.modifiedAt).toBe("string");
           expect(typeof pipeline.sql).toBe("string");
           expect(typeof pipeline.status).toBe("string");
+        }
+      }));
+
+    test("pages() streams listV1Pipeline response pages", () =>
+      Effect.gen(function* () {
+        const pages = yield* Pipelines.listV1Pipeline
+          .pages({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(1), Stream.runCollect);
+
+        const pagesArray = Array.from(pages);
+        expect(pagesArray.length).toBe(1);
+        expect(Array.isArray(pagesArray[0]?.result)).toBe(true);
+        expect(pagesArray[0]?.resultInfo).toBeDefined();
+      }));
+
+    test("items() streams v1 pipeline items directly", () =>
+      Effect.gen(function* () {
+        const pipelines = yield* Pipelines.listV1Pipeline
+          .items({
+            accountId: accountId(),
+          })
+          .pipe(Stream.take(5), Stream.runCollect);
+
+        for (const pipeline of Array.from(pipelines)) {
+          expect(typeof pipeline.id).toBe("string");
+          expect(typeof pipeline.name).toBe("string");
         }
       }));
 

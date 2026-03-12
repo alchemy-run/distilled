@@ -72,7 +72,7 @@ export const ListIPsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       jdcloudCidrs: "jdcloud_cidrs",
     }),
   ),
-]) as unknown as Schema.Schema<ListIPsResponse>;
+]).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<ListIPsResponse>;
 
 export type ListIPsError = DefaultErrors;
 

@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service durable-objects
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -52,43 +53,98 @@ export const ListNamespacesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListNamespacesRequest>;
 
-export type ListNamespacesResponse = {
-  id?: string | null;
-  class?: string | null;
-  name?: string | null;
-  script?: string | null;
-  useSqlite?: boolean | null;
-}[];
+export interface ListNamespacesResponse {
+  result: {
+    id?: string | null;
+    class?: string | null;
+    name?: string | null;
+    script?: string | null;
+    useSqlite?: boolean | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListNamespacesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    class: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    useSqlite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      class: "class",
-      name: "name",
-      script: "script",
-      useSqlite: "use_sqlite",
-    }),
-  ),
+export const ListNamespacesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        class: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        useSqlite: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          class: "class",
+          name: "name",
+          script: "script",
+          useSqlite: "use_sqlite",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  },
+).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListNamespacesResponse>;
 
 export type ListNamespacesError = DefaultErrors | InvalidIdentifier;
 
-export const listNamespaces: API.OperationMethod<
+export const listNamespaces: API.PaginatedOperationMethod<
   ListNamespacesRequest,
   ListNamespacesResponse,
   ListNamespacesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListNamespacesRequest,
+  ) => stream.Stream<
+    ListNamespacesResponse,
+    ListNamespacesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespacesRequest,
+  ) => stream.Stream<
+    {
+      id?: string | null;
+      class?: string | null;
+      name?: string | null;
+      script?: string | null;
+      useSqlite?: boolean | null;
+    },
+    ListNamespacesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNamespacesRequest,
   output: ListNamespacesResponse,
   errors: [InvalidIdentifier],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -115,19 +171,33 @@ export const ListNamespaceObjectsRequest =
     }),
   ) as unknown as Schema.Schema<ListNamespaceObjectsRequest>;
 
-export type ListNamespaceObjectsResponse = {
-  id?: string | null;
-  hasStoredData?: boolean | null;
-}[];
+export interface ListNamespaceObjectsResponse {
+  result: { id?: string | null; hasStoredData?: boolean | null }[];
+  resultInfo: { cursors?: { after?: string | null } | null };
+}
 
 export const ListNamespaceObjectsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      hasStoredData: Schema.optional(
-        Schema.Union([Schema.Boolean, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        hasStoredData: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+      }),
+    ),
+    resultInfo: Schema.Struct({
+      cursors: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            after: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+          }),
+          Schema.Null,
+        ]),
       ),
     }),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListNamespaceObjectsResponse>;
 
 export type ListNamespaceObjectsError =
@@ -136,13 +206,34 @@ export type ListNamespaceObjectsError =
   | InvalidIdentifier
   | MalformedParameter;
 
-export const listNamespaceObjects: API.OperationMethod<
+export const listNamespaceObjects: API.PaginatedOperationMethod<
   ListNamespaceObjectsRequest,
   ListNamespaceObjectsResponse,
   ListNamespaceObjectsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListNamespaceObjectsRequest,
+  ) => stream.Stream<
+    ListNamespaceObjectsResponse,
+    ListNamespaceObjectsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListNamespaceObjectsRequest,
+  ) => stream.Stream<
+    { id?: string | null; hasStoredData?: boolean | null },
+    ListNamespaceObjectsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListNamespaceObjectsRequest,
   output: ListNamespaceObjectsResponse,
   errors: [NamespaceNotFound, InvalidIdentifier, MalformedParameter],
+  pagination: {
+    mode: "cursor",
+    inputToken: "cursor",
+    outputToken: "resultInfo.cursors.after",
+    items: "result",
+  } as const,
 }));
