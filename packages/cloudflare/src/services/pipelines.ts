@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Errors
@@ -218,12 +219,12 @@ export const ListPipelinesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 ) as unknown as Schema.Schema<ListPipelinesRequest>;
 
 export interface ListPipelinesResponse {
-  resultInfo: {
+  resultInfo?: {
     count: number;
     page: number;
     perPage: number;
     totalCount: number;
-  };
+  } | null;
   results: {
     id: string;
     destination: {
@@ -260,18 +261,23 @@ export interface ListPipelinesResponse {
 }
 
 export const ListPipelinesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  resultInfo: Schema.Struct({
-    count: Schema.Number,
-    page: Schema.Number,
-    perPage: Schema.Number,
-    totalCount: Schema.Number,
-  }).pipe(
-    Schema.encodeKeys({
-      count: "count",
-      page: "page",
-      perPage: "per_page",
-      totalCount: "total_count",
-    }),
+  resultInfo: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        count: Schema.Number,
+        page: Schema.Number,
+        perPage: Schema.Number,
+        totalCount: Schema.Number,
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
   results: Schema.Array(
     Schema.Struct({
@@ -341,7 +347,7 @@ export const ListPipelinesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 }).pipe(
   Schema.encodeKeys({
     resultInfo: "result_info",
-    results: "results",
+    results: "result",
     success: "success",
   }),
 ) as unknown as Schema.Schema<ListPipelinesResponse>;
@@ -412,9 +418,9 @@ export const CreatePipelineRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       type: Schema.optional(Schema.Literals(["none", "gzip", "deflate"])),
     }),
     credentials: Schema.Struct({
-      accessKeyId: Schema.String,
+      accessKeyId: SensitiveString,
       endpoint: Schema.String,
-      secretAccessKey: Schema.String,
+      secretAccessKey: SensitiveString,
     }).pipe(
       Schema.encodeKeys({
         accessKeyId: "access_key_id",
@@ -634,9 +640,9 @@ export const UpdatePipelineRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     type: Schema.Literal("r2"),
     credentials: Schema.optional(
       Schema.Struct({
-        accessKeyId: Schema.String,
+        accessKeyId: SensitiveString,
         endpoint: Schema.String,
-        secretAccessKey: Schema.String,
+        secretAccessKey: SensitiveString,
       }).pipe(
         Schema.encodeKeys({
           accessKeyId: "access_key_id",
@@ -1013,8 +1019,8 @@ export const GetSinkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           accountId: Schema.String,
           bucket: Schema.String,
           credentials: Schema.Struct({
-            accessKeyId: Schema.String,
-            secretAccessKey: Schema.String,
+            accessKeyId: SensitiveString,
+            secretAccessKey: SensitiveString,
           }).pipe(
             Schema.encodeKeys({
               accessKeyId: "access_key_id",
@@ -1679,12 +1685,12 @@ export interface ListSinksResponse {
       inferred?: boolean | null;
     } | null;
   }[];
-  resultInfo: {
+  resultInfo?: {
     count?: number | null;
     page?: number | null;
     perPage?: number | null;
     totalCount?: number | null;
-  };
+  } | null;
 }
 
 export const ListSinksResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
@@ -1702,8 +1708,8 @@ export const ListSinksResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
               accountId: Schema.String,
               bucket: Schema.String,
               credentials: Schema.Struct({
-                accessKeyId: Schema.String,
-                secretAccessKey: Schema.String,
+                accessKeyId: SensitiveString,
+                secretAccessKey: SensitiveString,
               }).pipe(
                 Schema.encodeKeys({
                   accessKeyId: "access_key_id",
@@ -2187,18 +2193,23 @@ export const ListSinksResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   ),
-  resultInfo: Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      count: "count",
-      page: "page",
-      perPage: "per_page",
-      totalCount: "total_count",
-    }),
+  resultInfo: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
@@ -2535,8 +2546,8 @@ export const CreateSinkRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         accountId: Schema.String,
         bucket: Schema.String,
         credentials: Schema.Struct({
-          accessKeyId: Schema.String,
-          secretAccessKey: Schema.String,
+          accessKeyId: SensitiveString,
+          secretAccessKey: SensitiveString,
         }).pipe(
           Schema.encodeKeys({
             accessKeyId: "access_key_id",
@@ -3042,8 +3053,8 @@ export const CreateSinkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
           accountId: Schema.String,
           bucket: Schema.String,
           credentials: Schema.Struct({
-            accessKeyId: Schema.String,
-            secretAccessKey: Schema.String,
+            accessKeyId: SensitiveString,
+            secretAccessKey: SensitiveString,
           }).pipe(
             Schema.encodeKeys({
               accessKeyId: "access_key_id",
@@ -4386,12 +4397,12 @@ export interface ListStreamsResponse {
       inferred?: boolean | null;
     } | null;
   }[];
-  resultInfo: {
+  resultInfo?: {
     count?: number | null;
     page?: number | null;
     perPage?: number | null;
     totalCount?: number | null;
-  };
+  } | null;
 }
 
 export const ListStreamsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
@@ -4788,18 +4799,23 @@ export const ListStreamsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       }),
     ),
   ),
-  resultInfo: Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      count: "count",
-      page: "page",
-      perPage: "per_page",
-      totalCount: "total_count",
-    }),
+  resultInfo: Schema.optional(
+    Schema.Union([
+      Schema.Struct({
+        count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          count: "count",
+          page: "page",
+          perPage: "per_page",
+          totalCount: "total_count",
+        }),
+      ),
+      Schema.Null,
+    ]),
   ),
 }).pipe(
   Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
@@ -6239,12 +6255,12 @@ export interface ListV1PipelineResponse {
     sql: string;
     status: string;
   }[];
-  resultInfo: {
+  resultInfo?: {
     count?: number | null;
     page?: number | null;
     perPage?: number | null;
     totalCount?: number | null;
-  };
+  } | null;
 }
 
 export const ListV1PipelineResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
@@ -6268,18 +6284,25 @@ export const ListV1PipelineResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
         }),
       ),
     ),
-    resultInfo: Schema.Struct({
-      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   },
 ).pipe(

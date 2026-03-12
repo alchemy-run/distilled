@@ -113,12 +113,12 @@ export interface ListPermissionGroupsResponse {
     meta?: { key?: string | null; value?: string | null } | null;
     name?: string | null;
   }[];
-  resultInfo: {
+  resultInfo?: {
     count?: number | null;
     page?: number | null;
     perPage?: number | null;
     totalCount?: number | null;
-  };
+  } | null;
 }
 
 export const ListPermissionGroupsResponse =
@@ -140,18 +140,25 @@ export const ListPermissionGroupsResponse =
         name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       }),
     ),
-    resultInfo: Schema.Struct({
-      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
@@ -281,7 +288,7 @@ export const ListResourceGroupsRequest =
 export interface ListResourceGroupsResponse {
   result: {
     id: string;
-    scope: { key: string; objects: { key: string }[] }[];
+    scope: unknown;
     meta?: { key?: string | null; value?: string | null } | null;
     name?: string | null;
   }[];
@@ -292,16 +299,7 @@ export const ListResourceGroupsResponse =
     result: Schema.Array(
       Schema.Struct({
         id: Schema.String,
-        scope: Schema.Array(
-          Schema.Struct({
-            key: Schema.String,
-            objects: Schema.Array(
-              Schema.Struct({
-                key: Schema.String,
-              }),
-            ),
-          }),
-        ),
+        scope: Schema.Unknown,
         meta: Schema.optional(
           Schema.Union([
             Schema.Struct({
@@ -1594,12 +1592,12 @@ export interface ListUserGroupMembersResponse {
     email?: string | null;
     status?: "accepted" | "pending" | null;
   }[];
-  resultInfo: {
+  resultInfo?: {
     count?: number | null;
     page?: number | null;
     perPage?: number | null;
     totalCount?: number | null;
-  };
+  } | null;
 }
 
 export const ListUserGroupMembersResponse =
@@ -1613,18 +1611,25 @@ export const ListUserGroupMembersResponse =
         ),
       }),
     ),
-    resultInfo: Schema.Struct({
-      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        count: "count",
-        page: "page",
-        perPage: "per_page",
-        totalCount: "total_count",
-      }),
+    resultInfo: Schema.optional(
+      Schema.Union([
+        Schema.Struct({
+          count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+          totalCount: Schema.optional(
+            Schema.Union([Schema.Number, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            count: "count",
+            page: "page",
+            perPage: "per_page",
+            totalCount: "total_count",
+          }),
+        ),
+        Schema.Null,
+      ]),
     ),
   }).pipe(
     Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),

@@ -197,7 +197,7 @@ describe("AISearch", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -220,7 +220,7 @@ describe("AISearch", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>

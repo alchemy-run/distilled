@@ -21,7 +21,7 @@ export class InvalidMessageBody extends Schema.TaggedErrorClass<InvalidMessageBo
   "InvalidMessageBody",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InvalidMessageBody, [{ code: 10207 }]);
+T.applyErrorMatchers(InvalidMessageBody, [{ code: 10207 }, { code: 10013 }]);
 
 export class InvalidQueueName extends Schema.TaggedErrorClass<InvalidQueueName>()(
   "InvalidQueueName",

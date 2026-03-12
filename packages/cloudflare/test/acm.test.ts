@@ -239,13 +239,18 @@ describe("ACM", () => {
           zoneId: zoneId(),
           enabled: true,
         }).pipe(
-          Effect.flip,
-          Effect.map((e) =>
-            expect([
-              "AdvancedCertificateManagerRequired",
-              "NoStateChange",
-            ]).toContain(e._tag),
-          ),
+          Effect.matchEffect({
+            // Zone may have ACM enabled — success is acceptable
+            onSuccess: (result) =>
+              Effect.succeed(expect(result).toBeDefined()),
+            onFailure: (e) =>
+              Effect.succeed(
+                expect([
+                  "AdvancedCertificateManagerRequired",
+                  "NoStateChange",
+                ]).toContain(e._tag),
+              ),
+          }),
         ));
     }
 

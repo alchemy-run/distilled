@@ -11,6 +11,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Trace
@@ -61,7 +62,7 @@ export const CreateTraceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Struct({
       base64: Schema.optional(Schema.String),
       json: Schema.optional(Schema.Unknown),
-      plainText: Schema.optional(Schema.String),
+      plainText: Schema.optional(SensitiveString),
     }).pipe(
       Schema.encodeKeys({
         base64: "base64",

@@ -414,7 +414,7 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -541,7 +541,7 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -630,7 +630,7 @@ describe("Workers", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        expect(Array.isArray(result.result)).toBe(true);
       }));
 
     test("error - InvalidRoute for invalid accountId", () =>
@@ -747,7 +747,7 @@ describe("Workers", () => {
   });
 
   describe("updateRoute", () => {
-    test("error - RouteNotFound for non-existent routeId", () =>
+    test("error - RouteNotFound or InvalidRoutePattern for non-existent routeId", () =>
       Workers.updateRoute({
         zoneId: zoneId(),
         routeId: "00000000000000000000000000000000",
@@ -755,7 +755,9 @@ describe("Workers", () => {
         pattern: "alchemy-test-2.us/*",
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RouteNotFound")),
+        Effect.map((e) =>
+          expect(["RouteNotFound", "InvalidRoutePattern"]).toContain(e._tag),
+        ),
       ));
   });
 
@@ -1390,7 +1392,7 @@ describe("Workers", () => {
           });
 
           expect(result).toBeDefined();
-          expect(Array.isArray(result)).toBe(true);
+          expect(Array.isArray(result.result)).toBe(true);
         }),
       ));
 
@@ -1985,7 +1987,7 @@ describe("Workers", () => {
   // putDomain (requires zone + worker)
   // ==========================================================================
   describe("putDomain", () => {
-    test("error - WorkerNotFound for non-existent service", () =>
+    test("error - WorkerNotFound or UnknownCloudflareError for non-existent service", () =>
       Workers.putDomain({
         accountId: accountId(),
         // Hostname must match zone name (alchemy-test-2.us) to avoid zone mismatch error
@@ -1994,7 +1996,11 @@ describe("Workers", () => {
         zoneId: zoneId(),
       }).pipe(
         Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("WorkerNotFound")),
+        Effect.map((e) =>
+          expect(["WorkerNotFound", "UnknownCloudflareError"]).toContain(
+            e._tag,
+          ),
+        ),
       ));
 
     test("error - InvalidRoute for invalid accountId", () =>

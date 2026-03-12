@@ -27,7 +27,7 @@ export class InstanceNotFound extends Schema.TaggedErrorClass<InstanceNotFound>(
   "InstanceNotFound",
   { code: Schema.Number, message: Schema.String },
 ) {}
-T.applyErrorMatchers(InstanceNotFound, [{ code: 10400 }, { code: 10201 }]);
+T.applyErrorMatchers(InstanceNotFound, [{ code: 10201 }, { code: 10400 }]);
 
 export class InvalidBody extends Schema.TaggedErrorClass<InvalidBody>()(
   "InvalidBody",

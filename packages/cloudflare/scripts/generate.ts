@@ -108,6 +108,8 @@ interface PropertyPatch {
   type?: "string" | "number" | "boolean" | "unknown";
   /** Add literal values to an existing enum */
   addValues?: string[];
+  /** Override the wire key used in Schema.encodeKeys (e.g. rename "results" → "result" on the wire) */
+  wireKey?: string;
 }
 
 interface ResponsePatch {
@@ -353,6 +355,9 @@ function applyPropertyPatch(
     // This is the target property — apply the patch
     if (patch.optional) {
       prop.required = false;
+    }
+    if (patch.wireKey) {
+      prop.wireKey = patch.wireKey;
     }
     applyPatchToTypeInfo(prop.type, patch);
   } else {
@@ -789,8 +794,8 @@ function typeInfoToSchema(
         let hasRenamedKey = false;
         const props = type.properties
           .map((p) => {
-            const wireName = p.name;
-            const propName = toCamelCase(wireName);
+            const wireName = p.wireKey ?? p.name;
+            const propName = toCamelCase(p.name);
             // Auto-detect sensitive fields by name pattern
             const isSensitiveByName =
               p.type.kind === "primitive" &&
@@ -1287,8 +1292,8 @@ function generateOperationSchema(
     const responseEncodeKeysMap: Record<string, string> = {};
     let hasRenamedResponseKey = false;
     const responseProps = resolvedResponseType.properties.map((prop) => {
-      const wireName = prop.name;
-      const propName = toCamelCase(wireName);
+      const wireName = prop.wireKey ?? prop.name;
+      const propName = toCamelCase(prop.name);
       let schema = typeInfoToSchema(prop.type, "", 0, true);
       if (!prop.required) {
         if (!typeIncludesNull(prop.type)) {

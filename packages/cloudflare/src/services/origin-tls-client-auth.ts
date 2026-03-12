@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // Hostname
@@ -205,7 +206,7 @@ export const PutHostnameResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       certificate: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
       enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
       hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      privateKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      privateKey: Schema.optional(Schema.Union([SensitiveString, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
         id: "id",
@@ -394,7 +395,9 @@ export const ListHostnameCertificatesResponse =
         ),
         enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
         hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        privateKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        privateKey: Schema.optional(
+          Schema.Union([SensitiveString, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           id: "id",
@@ -741,7 +744,9 @@ export const ListOriginTlsClientAuthsResponse =
           Schema.Union([Schema.String, Schema.Null]),
         ),
         enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        privateKey: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        privateKey: Schema.optional(
+          Schema.Union([SensitiveString, Schema.Null]),
+        ),
       }).pipe(
         Schema.encodeKeys({
           id: "id",

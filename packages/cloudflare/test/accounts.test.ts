@@ -352,7 +352,9 @@ describe("Accounts", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        // Schema.Unknown response returns the full Cloudflare envelope
+        const envelope = result as any;
+        expect(Array.isArray(envelope.result)).toBe(true);
       }));
   });
 
@@ -681,7 +683,9 @@ describe("Accounts", () => {
         });
 
         expect(result).toBeDefined();
-        expect(Array.isArray(result)).toBe(true);
+        // Schema.Unknown response returns the full Cloudflare envelope
+        const envelope = result as any;
+        expect(Array.isArray(envelope.result)).toBe(true);
       }));
   });
 

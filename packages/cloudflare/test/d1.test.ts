@@ -17,6 +17,15 @@ const accountId = () => getAccountId();
 const dbName = (name: string) => `distilled-cf-d1-${name}-${testRunId}`;
 
 /**
+ * Unwrap the Cloudflare envelope for Schema.Unknown responses.
+ * Schema.Unknown responses return the full `{result, success, errors, messages}` envelope.
+ */
+const unwrap = (envelope: unknown): any =>
+  typeof envelope === "object" && envelope !== null && "result" in envelope
+    ? (envelope as any).result
+    : envelope;
+
+/**
  * Create a D1 database, run `fn`, then delete the database.
  * Cleanup-first pattern for idempotency.
  */
@@ -25,12 +34,14 @@ const withDatabase = <A, E, R>(
   fn: (databaseId: string) => Effect.Effect<A, E, R>,
 ): Effect.Effect<A, E | any, R | any> =>
   Effect.gen(function* () {
-    const db = yield* D1.createDatabase({
-      accountId: accountId(),
-      name,
-    });
+    const db = unwrap(
+      yield* D1.createDatabase({
+        accountId: accountId(),
+        name,
+      }),
+    );
 
-    const databaseId = (db as any).uuid ?? (db as any).id;
+    const databaseId = db.uuid ?? db.id;
 
     return yield* fn(databaseId).pipe(
       Effect.ensuring(
@@ -54,13 +65,14 @@ describe("D1", () => {
     test("happy path - creates a new D1 database", () =>
       Effect.gen(function* () {
         const name = dbName("create-happy");
-        const db = yield* D1.createDatabase({
-          accountId: accountId(),
-          name,
-        });
+        const result = unwrap(
+          yield* D1.createDatabase({
+            accountId: accountId(),
+            name,
+          }),
+        );
 
-        expect(db).toBeDefined();
-        const result = db as any;
+        expect(result).toBeDefined();
         expect(result.uuid ?? result.id).toBeDefined();
         expect(typeof (result.uuid ?? result.id)).toBe("string");
         expect(result.name).toBe(name);
@@ -76,14 +88,15 @@ describe("D1", () => {
     test("happy path - creates a D1 database with primary location hint", () =>
       Effect.gen(function* () {
         const name = dbName("create-location");
-        const db = yield* D1.createDatabase({
-          accountId: accountId(),
-          name,
-          primaryLocationHint: "enam",
-        });
+        const result = unwrap(
+          yield* D1.createDatabase({
+            accountId: accountId(),
+            name,
+            primaryLocationHint: "enam",
+          }),
+        );
 
-        expect(db).toBeDefined();
-        const result = db as any;
+        expect(result).toBeDefined();
         expect(result.uuid ?? result.id).toBeDefined();
 
         // Cleanup
@@ -120,13 +133,14 @@ describe("D1", () => {
     test("happy path - retrieves an existing database", () =>
       withDatabase(dbName("get-happy"), (databaseId) =>
         Effect.gen(function* () {
-          const db = yield* D1.getDatabase({
-            accountId: accountId(),
-            databaseId,
-          });
+          const result = unwrap(
+            yield* D1.getDatabase({
+              accountId: accountId(),
+              databaseId,
+            }),
+          );
 
-          expect(db).toBeDefined();
-          const result = db as any;
+          expect(result).toBeDefined();
           expect(result.uuid ?? result.id).toBe(databaseId);
           expect(result.name).toBe(dbName("get-happy"));
         }),
@@ -261,12 +275,14 @@ describe("D1", () => {
   describe("deleteDatabase", () => {
     test("happy path - deletes an existing database", () =>
       Effect.gen(function* () {
-        const db = yield* D1.createDatabase({
-          accountId: accountId(),
-          name: dbName("delete-happy"),
-        });
+        const created = unwrap(
+          yield* D1.createDatabase({
+            accountId: accountId(),
+            name: dbName("delete-happy"),
+          }),
+        );
 
-        const databaseId = (db as any).uuid ?? (db as any).id;
+        const databaseId = created.uuid ?? created.id;
 
         const result = yield* D1.deleteDatabase({
           accountId: accountId(),

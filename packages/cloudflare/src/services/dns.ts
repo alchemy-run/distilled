@@ -12,6 +12,7 @@ import * as API from "../client/api.ts";
 import * as T from "../traits.ts";
 import type { Credentials } from "../credentials.ts";
 import { type DefaultErrors } from "../errors.ts";
+import { SensitiveString } from "../sensitive.ts";
 
 // =============================================================================
 // AnalyticReport
@@ -9082,7 +9083,7 @@ export const ListZoneTransferTsigsResponse =
         id: Schema.String,
         algo: Schema.String,
         name: Schema.String,
-        secret: Schema.String,
+        secret: SensitiveString,
       }),
     ),
   }) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
