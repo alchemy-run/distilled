@@ -18,7 +18,7 @@ export {
   DEFAULT_ERRORS,
   API_ERRORS,
 } from "@distilled.cloud/core/errors";
-export type { DefaultErrors } from "@distilled.cloud/core/errors";
+import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Schema from "effect/Schema";
 import * as Category from "@distilled.cloud/core/category";
@@ -55,3 +55,19 @@ export class CloudflareHttpError extends Schema.TaggedErrorClass<CloudflareHttpE
     body: Schema.optional(Schema.String),
   },
 ) {}
+
+/**
+ * Errors that any Cloudflare operation may surface in addition to status/code-
+ * matched API errors declared per endpoint.
+ */
+export type ClientErrors =
+  | CloudflareHttpError
+  | CloudflareParseError
+  | UnknownCloudflareError;
+
+/**
+ * Default Cloudflare operation errors include the shared HTTP status errors from
+ * core plus the client-level fallback/decode errors that the Cloudflare client
+ * can emit at runtime.
+ */
+export type DefaultErrors = CoreDefaultErrors | ClientErrors;

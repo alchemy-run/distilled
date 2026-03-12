@@ -396,11 +396,11 @@ describe("Alerting", () => {
             ],
           }).pipe(
             Effect.map(() => "ok" as const),
-            Effect.catchTag("CloudflareHttpError", (e) => {
-              // 200 with null result is actually success
-              if (e.status === 200) return Effect.succeed("ok" as const);
-              return Effect.fail(e);
-            }),
+            Effect.catchTag("CloudflareHttpError", (e) =>
+              e.status === 200
+                ? Effect.succeed("ok" as const)
+                : Effect.fail(e),
+            ),
           );
 
           expect(result).toBe("ok");

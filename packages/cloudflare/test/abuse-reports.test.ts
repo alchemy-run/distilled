@@ -21,9 +21,9 @@ describe("AbuseReports", () => {
         });
 
         expect(result).toBeDefined();
-        // reports is null when no reports exist, or an array of report objects
-        if (result.reports !== null) {
-          expect(Array.isArray(result.reports)).toBe(true);
+        // items is null/undefined when no reports exist.
+        if (result.result.items != null) {
+          expect(Array.isArray(result.result.items)).toBe(true);
         }
       }));
 

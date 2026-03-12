@@ -140,6 +140,17 @@ export interface ClientConfig<Creds> {
    * For example, Cloudflare wraps responses in `{ result: <data>, ... }`.
    */
   transformResponse?: (body: unknown) => unknown;
+
+  /**
+   * Optional transform applied to encoded request parts before building the
+   * outbound HTTP request.
+   */
+  transformRequestParts?: (input: {
+    input: Record<string, unknown>;
+    method: string;
+    pathTemplate: string;
+    parts: Traits.RequestParts;
+  }) => Traits.RequestParts;
 }
 
 /**
@@ -388,12 +399,21 @@ export const makeAPI = <Creds>(config: ClientConfig<Creds>) => {
           const authHeaders = config.getAuthHeaders(creds as ResolvedCreds);
 
           // Use schema-aware request builder for proper camelCase → wire_name mapping
-          const parts = Traits.buildRequestParts(
+          let parts = Traits.buildRequestParts(
             inputSchema.ast,
             httpTrait,
             input as Record<string, unknown>,
             inputSchema,
           );
+
+          if (config.transformRequestParts) {
+            parts = config.transformRequestParts({
+              input: input as Record<string, unknown>,
+              method,
+              pathTemplate: httpTrait.path,
+              parts,
+            });
+          }
 
           let request = HttpClientRequest.make(method)(
             baseUrl + parts.path,
