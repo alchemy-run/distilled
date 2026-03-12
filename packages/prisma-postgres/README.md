@@ -13,7 +13,7 @@ npm install @distilled.cloud/prisma-postgres effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { getV1Databases } from "@distilled.cloud/prisma-postgres";
+import { getV1Databases } from "@distilled.cloud/prisma-postgres/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/prisma-postgres";
 
 const program = Effect.gen(function* () {
@@ -37,10 +37,12 @@ Set the following environment variable:
 PRISMA_POSTGRES_API_TOKEN=your-api-token
 ```
 
+Generate an API token in the [Prisma Data Platform](https://console.prisma.io/) under your workspace settings.
+
 ## Error Handling
 
 ```typescript
-import { getV1ProjectsById } from "@distilled.cloud/prisma-postgres";
+import { getV1ProjectsById } from "@distilled.cloud/prisma-postgres/Operations";
 
 getV1ProjectsById({ id: "missing" }).pipe(
   Effect.catchTags({

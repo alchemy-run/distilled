@@ -13,35 +13,37 @@ npm install @distilled.cloud/gcp effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import * as Storage from "@distilled.cloud/gcp/storage";
-import { Auth } from "@distilled.cloud/gcp";
+import * as Storage from "@distilled.cloud/gcp/storage-v1";
+import { CredentialsFromEnv } from "@distilled.cloud/gcp";
 
 const program = Storage.listBuckets({ project: "my-project" });
 
-const GCPLive = Layer.mergeAll(FetchHttpClient.layer, Auth.fromADC());
+const GCPLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
 
 program.pipe(Effect.provide(GCPLive), Effect.runPromise);
 ```
 
-## Authentication
+## Configuration
 
-```typescript
-import { Auth } from "@distilled.cloud/gcp";
+Set the following environment variables:
 
-// Application Default Credentials (recommended for development)
-Auth.fromADC()
-
-// Service account JSON key file
-Auth.fromServiceAccountFile("./service-account.json")
-
-// Environment variable (GOOGLE_ACCESS_TOKEN)
-Auth.fromEnv()
+```bash
+GOOGLE_ACCESS_TOKEN=your-access-token
+GOOGLE_PROJECT_ID=my-project  # optional, used by operations that require a project
 ```
+
+Generate an access token using the `gcloud` CLI:
+
+```bash
+gcloud auth print-access-token
+```
+
+For service accounts, use workload identity or a service account key to obtain an OAuth2 access token. Access tokens are short-lived (typically 1 hour) — refresh as needed.
 
 ## Error Handling
 
 ```typescript
-Storage.getBucket({ bucket: "missing-bucket" }).pipe(
+Storage.getBuckets({ bucket: "missing-bucket" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
     UnknownGCPError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),

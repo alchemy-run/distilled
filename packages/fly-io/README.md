@@ -13,7 +13,7 @@ npm install @distilled.cloud/fly-io effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { AppsList } from "@distilled.cloud/fly-io/operations";
+import { AppsList } from "@distilled.cloud/fly-io/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/fly-io";
 
 const program = Effect.gen(function* () {
@@ -34,10 +34,12 @@ Set the following environment variable:
 FLY_IO_API_KEY=your-api-token
 ```
 
+Create a personal access token with `flyctl tokens create` or in the [Fly.io dashboard](https://fly.io/dashboard/) under **Account > Access Tokens**. For deploy tokens scoped to a single app, use `flyctl tokens create deploy`.
+
 ## Error Handling
 
 ```typescript
-import { AppsShow } from "@distilled.cloud/fly-io/operations";
+import { AppsShow } from "@distilled.cloud/fly-io/Operations";
 
 AppsShow({ app_name: "missing-app" }).pipe(
   Effect.catchTags({

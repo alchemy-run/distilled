@@ -13,7 +13,7 @@ npm install @distilled.cloud/coinbase effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { listEvmAccounts } from "@distilled.cloud/coinbase/operations";
+import { listEvmAccounts } from "@distilled.cloud/coinbase/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/coinbase";
 
 const program = Effect.gen(function* () {
@@ -31,19 +31,21 @@ program.pipe(Effect.provide(CoinbaseLive), Effect.runPromise);
 Set the following environment variables:
 
 ```bash
-CDP_API_KEY_ID=your-api-key-id        # or CDP_API_KEY_NAME
-CDP_API_KEY_SECRET=your-api-key-secret # ES256 PEM or Ed25519 base64 key
-CDP_WALLET_SECRET=your-wallet-secret   # optional
+CDP_API_KEY_ID=your-api-key-id        # UUID or organizations/.../apiKeys/... format
+CDP_API_KEY_SECRET=your-api-key-secret # ES256 PEM or Ed25519 base64 private key
+CDP_WALLET_SECRET=your-wallet-secret   # optional, for sensitive wallet operations
 ```
 
-Authentication uses JWT bearer tokens signed with your CDP API Key Secret (supports both ES256 PEM and Ed25519 key formats).
+Create an API key in the [Coinbase Developer Platform](https://portal.cdp.coinbase.com/) under **API Keys**. The SDK automatically signs each request with a short-lived JWT (120s) using your private key. Both **ES256** (ECDSA P-256 PEM) and **Ed25519** (base64) key formats are supported.
+
+`CDP_WALLET_SECRET` is only required for operations that modify wallet accounts (create, import, delete). If omitted, those operations will fail.
 
 ## Error Handling
 
 Coinbase returns structured errors with an `errorType` field. All 40+ error types are mapped to typed error classes:
 
 ```typescript
-import { createEvmAccount } from "@distilled.cloud/coinbase/operations";
+import { createEvmAccount } from "@distilled.cloud/coinbase/Operations";
 
 createEvmAccount({ name: "my-wallet" }).pipe(
   Effect.catchTags({

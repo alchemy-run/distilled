@@ -13,11 +13,11 @@ npm install @distilled.cloud/supabase effect
 ```typescript
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
-import { getProjects } from "@distilled.cloud/supabase/operations";
+import { v1ListAllProjects } from "@distilled.cloud/supabase/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/supabase";
 
 const program = Effect.gen(function* () {
-  const projects = yield* getProjects({});
+  const projects = yield* v1ListAllProjects({});
   return projects;
 });
 
@@ -34,12 +34,14 @@ Set the following environment variable:
 SUPABASE_ACCESS_TOKEN=sbp_...
 ```
 
+Generate an access token in the [Supabase dashboard](https://supabase.com/dashboard/account/tokens) under **Account > Access Tokens**.
+
 ## Error Handling
 
 ```typescript
-import { getProjectById } from "@distilled.cloud/supabase/operations";
+import { v1GetProject } from "@distilled.cloud/supabase/Operations";
 
-getProjectById({ ref: "missing-project" }).pipe(
+v1GetProject({ ref: "missing-project" }).pipe(
   Effect.catchTags({
     NotFound: () => Effect.succeed(null),
     UnknownSupabaseError: (e) => Effect.fail(new Error(`Unknown: ${e.message}`)),

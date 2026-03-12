@@ -11,7 +11,7 @@ npm install @distilled.cloud/aws effect
 ## Quick Start
 
 ```typescript
-import { Effect } from "effect";
+import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as S3 from "@distilled.cloud/aws/s3";
 import { Credentials, Region } from "@distilled.cloud/aws";
@@ -31,13 +31,56 @@ const program = Effect.gen(function* () {
   return result.ContentType;
 });
 
-program.pipe(
-  Effect.provide(FetchHttpClient.layer),
-  Effect.provideService(Region, "us-east-1"),
-  Effect.provide(Credentials.fromChain()),
-  Effect.runPromise,
+const AwsLive = Layer.mergeAll(
+  FetchHttpClient.layer,
+  Region.fromEnv(),
+  Credentials.fromChain(),
 );
+
+program.pipe(Effect.provide(AwsLive), Effect.runPromise);
 ```
+
+## Configuration
+
+### Region
+
+`Region.fromEnv()` reads from the `AWS_REGION` environment variable (falls back to `AWS_DEFAULT_REGION`):
+
+```bash
+AWS_REGION=us-east-1
+```
+
+### Credentials
+
+`Credentials.fromChain()` uses the standard AWS credential provider chain, which tries each source in order until one succeeds:
+
+1. **Environment variables** — `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and optionally `AWS_SESSION_TOKEN`
+2. **Shared credentials file** — `~/.aws/credentials` (supports multiple profiles via `AWS_PROFILE`)
+3. **SSO** — `aws sso login --profile your-profile` (reads cached SSO tokens)
+4. **Container metadata** — ECS task role credentials
+5. **EC2 instance metadata** — IMDS instance profile credentials
+6. **Token file** — `AWS_WEB_IDENTITY_TOKEN_FILE` for OIDC federation (EKS)
+
+You can also use a specific provider directly:
+
+```typescript
+// Environment variables only
+Credentials.fromEnv()
+
+// SSO profile (run `aws sso login` first)
+Credentials.fromSSO("my-profile")
+
+// Shared credentials file (~/.aws/credentials)
+Credentials.fromIni()
+
+// Static credentials
+Credentials.fromCredentials({
+  accessKeyId: "AKIA...",
+  secretAccessKey: "...",
+})
+```
+
+Credentials are cached and automatically refreshed 5 minutes before expiration.
 
 ## Error Handling
 
