@@ -3,6 +3,9 @@
 Effect-native SDKs for cloud providers with exhaustive error typing, retry policies, and streaming pagination.
 
 ```typescript
+import * as Effect from "effect/Effect"
+import * as Stream from "effect/Stream"
+import * as Lambda from "@distilled.cloud/aws/lambda"
 import * as S3 from "@distilled.cloud/aws/s3"
 
 const bucket = yield* S3.getBucket({
@@ -12,6 +15,10 @@ const bucket = yield* S3.getBucket({
     Effect.void
   )
 )
+
+const functions = yield* Lambda.listFunctions
+  .items({})
+  .pipe(Stream.take(10), Stream.runCollect)
 ```
 
 ## Packages
