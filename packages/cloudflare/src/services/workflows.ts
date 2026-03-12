@@ -398,6 +398,7 @@ export const ListInstancesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type ListInstancesError =
   | DefaultErrors
   | WorkflowNotFound
+  | WorkflowInternalError
   | InvalidRoute
   | InvalidBody;
 
@@ -439,7 +440,7 @@ export const listInstances: API.PaginatedOperationMethod<
 } = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInstancesRequest,
   output: ListInstancesResponse,
-  errors: [WorkflowNotFound, InvalidRoute, InvalidBody],
+  errors: [WorkflowNotFound, WorkflowInternalError, InvalidRoute, InvalidBody],
   pagination: {
     mode: "page",
     inputToken: "page",
