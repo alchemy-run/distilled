@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/prisma-postgres",
-  "version": "0.4.0",
+  "version": "0.0.0-john",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
