@@ -10,7 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       core: ${{ steps.changes.outputs.core }}
+      aws: ${{ steps.changes.outputs.aws }}
       cloudflare: ${{ steps.changes.outputs.cloudflare }}
+      gcp: ${{ steps.changes.outputs.gcp }}
       neon: ${{ steps.changes.outputs.neon }}
       planetscale: ${{ steps.changes.outputs.planetscale }}
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
@@ -28,26 +30,42 @@ jobs:
           filters: |
             core:
               - 'packages/core/**'
+            aws:
+              - 'packages/aws/**'
+              - 'packages/core/**'
             cloudflare:
               - 'packages/cloudflare/**'
+              - 'packages/core/**'
+            gcp:
+              - 'packages/gcp/**'
+              - 'packages/core/**'
             neon:
               - 'packages/neon/**'
+              - 'packages/core/**'
             planetscale:
               - 'packages/planetscale/**'
+              - 'packages/core/**'
             prisma-postgres:
               - 'packages/prisma-postgres/**'
+              - 'packages/core/**'
             stripe:
               - 'packages/stripe/**'
+              - 'packages/core/**'
             supabase:
               - 'packages/supabase/**'
+              - 'packages/core/**'
             coinbase:
               - 'packages/coinbase/**'
+              - 'packages/core/**'
             mongodb-atlas:
               - 'packages/mongodb-atlas/**'
+              - 'packages/core/**'
             fly-io:
               - 'packages/fly-io/**'
+              - 'packages/core/**'
             turso:
               - 'packages/turso/**'
+              - 'packages/core/**'
 
   pkg-pr-core:
     needs: detect-changes
@@ -63,6 +81,23 @@ jobs:
         working-directory: packages/core
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/core
+
+  pkg-pr-aws:
+    needs: [detect-changes, pkg-pr-core]
+    if: ${{ !failure() && needs.detect-changes.outputs.aws == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/aws
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/aws
 
   pkg-pr-cloudflare:
     needs: [detect-changes, pkg-pr-core]
@@ -81,8 +116,25 @@ jobs:
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
 
+  pkg-pr-gcp:
+    needs: [detect-changes, pkg-pr-core]
+    if: ${{ !failure() && needs.detect-changes.outputs.gcp == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/gcp
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/gcp
+
   pkg-pr-neon:
-    needs: [detect-changes, pkg-pr-cloudflare]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.neon == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -99,7 +151,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
 
   pkg-pr-planetscale:
-    needs: [detect-changes, pkg-pr-neon]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.planetscale == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -116,7 +168,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/planetscale
 
   pkg-pr-prisma-postgres:
-    needs: [detect-changes, pkg-pr-planetscale]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.prisma-postgres == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -133,7 +185,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/prisma-postgres
 
   pkg-pr-stripe:
-    needs: [detect-changes, pkg-pr-prisma-postgres]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.stripe == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -150,7 +202,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/stripe
 
   pkg-pr-supabase:
-    needs: [detect-changes, pkg-pr-stripe]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.supabase == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -167,7 +219,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/supabase
 
   pkg-pr-mongodb-atlas:
-    needs: [detect-changes, pkg-pr-supabase]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.mongodb-atlas == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -184,7 +236,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/mongodb-atlas
 
   pkg-pr-fly-io:
-    needs: [detect-changes, pkg-pr-supabase]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.fly-io == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -201,7 +253,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/fly-io
 
   pkg-pr-turso:
-    needs: [detect-changes, pkg-pr-supabase]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.turso == 'true' }}
     runs-on: ubuntu-latest
     steps:
@@ -218,7 +270,7 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/turso
 
   pkg-pr-coinbase:
-    needs: [detect-changes, pkg-pr-supabase]
+    needs: [detect-changes, pkg-pr-core]
     if: ${{ !failure() && needs.detect-changes.outputs.coinbase == 'true' }}
     runs-on: ubuntu-latest
     steps:
