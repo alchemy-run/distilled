@@ -5,6 +5,7 @@ import { test, getAccountId, getZoneId, testRunId } from "./test.ts";
 import * as Workers from "~/services/workers";
 
 const accountId = () => getAccountId();
+const hasZoneId = () => !!getZoneId();
 const zoneId = () => {
   const z = getZoneId();
   if (!z) throw new Error("CLOUDFLARE_ZONE_ID environment variable is not set");
@@ -682,20 +683,22 @@ describe("Workers", () => {
   // Route (zone-scoped)
   // ==========================================================================
   describe("listRoutes", () => {
-    test("happy path - lists worker routes in a zone", () =>
-      Effect.gen(function* () {
-        const zone = zoneId();
-        const result = yield* Workers.listRoutes({
-          zoneId: zone,
-        });
+    if (hasZoneId()) {
+      test("happy path - lists worker routes in a zone", () =>
+        Effect.gen(function* () {
+          const zone = zoneId();
+          const result = yield* Workers.listRoutes({
+            zoneId: zone,
+          });
 
-        expect(result).toBeDefined();
-        expect(Array.isArray(result.result)).toBe(true);
-        for (const route of result.result) {
-          expect(typeof route.id).toBe("string");
-          expect(typeof route.pattern).toBe("string");
-        }
-      }));
+          expect(result).toBeDefined();
+          expect(Array.isArray(result.result)).toBe(true);
+          for (const route of result.result) {
+            expect(typeof route.id).toBe("string");
+            expect(typeof route.pattern).toBe("string");
+          }
+        }));
+    }
 
     test("error - InvalidRoute for invalid zoneId", () =>
       Workers.listRoutes({
@@ -707,14 +710,16 @@ describe("Workers", () => {
   });
 
   describe("getRoute", () => {
-    test("error - WorkerNotFound for non-existent routeId", () =>
-      Workers.getRoute({
-        zoneId: zoneId(),
-        routeId: "00000000000000000000000000000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("WorkerNotFound")),
-      ));
+    if (hasZoneId()) {
+      test("error - WorkerNotFound for non-existent routeId", () =>
+        Workers.getRoute({
+          zoneId: zoneId(),
+          routeId: "00000000000000000000000000000000",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("WorkerNotFound")),
+        ));
+    }
 
     test("error - InvalidRoute for invalid zoneId", () =>
       Workers.getRoute({
@@ -727,14 +732,16 @@ describe("Workers", () => {
   });
 
   describe("createRoute", () => {
-    test("error - InvalidRoutePattern for invalid pattern", () =>
-      Workers.createRoute({
-        zoneId: zoneId(),
-        pattern: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidRoutePattern")),
-      ));
+    if (hasZoneId()) {
+      test("error - InvalidRoutePattern for invalid pattern", () =>
+        Workers.createRoute({
+          zoneId: zoneId(),
+          pattern: "",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("InvalidRoutePattern")),
+        ));
+    }
 
     test("error - InvalidRoute for invalid zoneId", () =>
       Workers.createRoute({
@@ -747,29 +754,33 @@ describe("Workers", () => {
   });
 
   describe("updateRoute", () => {
-    test("error - RouteNotFound or InvalidRoutePattern for non-existent routeId", () =>
-      Workers.updateRoute({
-        zoneId: zoneId(),
-        routeId: "00000000000000000000000000000000",
-        // Pattern must include zone name to avoid InvalidRoutePattern
-        pattern: "alchemy-test-2.us/*",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) =>
-          expect(["RouteNotFound", "InvalidRoutePattern"]).toContain(e._tag),
-        ),
-      ));
+    if (hasZoneId()) {
+      test("error - RouteNotFound or InvalidRoutePattern for non-existent routeId", () =>
+        Workers.updateRoute({
+          zoneId: zoneId(),
+          routeId: "00000000000000000000000000000000",
+          // Pattern must include zone name to avoid InvalidRoutePattern
+          pattern: "alchemy-test-2.us/*",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) =>
+            expect(["RouteNotFound", "InvalidRoutePattern"]).toContain(e._tag),
+          ),
+        ));
+    }
   });
 
   describe("deleteRoute", () => {
-    test("error - RouteNotFound for non-existent routeId", () =>
-      Workers.deleteRoute({
-        zoneId: zoneId(),
-        routeId: "00000000000000000000000000000000",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RouteNotFound")),
-      ));
+    if (hasZoneId()) {
+      test("error - RouteNotFound for non-existent routeId", () =>
+        Workers.deleteRoute({
+          zoneId: zoneId(),
+          routeId: "00000000000000000000000000000000",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RouteNotFound")),
+        ));
+    }
   });
 
   // ==========================================================================
@@ -1987,21 +1998,23 @@ describe("Workers", () => {
   // putDomain (requires zone + worker)
   // ==========================================================================
   describe("putDomain", () => {
-    test("error - WorkerNotFound or UnknownCloudflareError for non-existent service", () =>
-      Workers.putDomain({
-        accountId: accountId(),
-        // Hostname must match zone name (alchemy-test-2.us) to avoid zone mismatch error
-        hostname: "distilled-test.alchemy-test-2.us",
-        service: "distilled-cf-workers-nonexistent-svc-xyz",
-        zoneId: zoneId(),
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) =>
-          expect(["WorkerNotFound", "UnknownCloudflareError"]).toContain(
-            e._tag,
+    if (hasZoneId()) {
+      test("error - WorkerNotFound or UnknownCloudflareError for non-existent service", () =>
+        Workers.putDomain({
+          accountId: accountId(),
+          // Hostname must match zone name (alchemy-test-2.us) to avoid zone mismatch error
+          hostname: "distilled-test.alchemy-test-2.us",
+          service: "distilled-cf-workers-nonexistent-svc-xyz",
+          zoneId: zoneId(),
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) =>
+            expect(["WorkerNotFound", "UnknownCloudflareError"]).toContain(
+              e._tag,
+            ),
           ),
-        ),
-      ));
+        ));
+    }
 
     test("error - InvalidRoute for invalid accountId", () =>
       Workers.putDomain({
