@@ -4,6 +4,7 @@ import { test, getAccountId, getZoneId } from "./test.ts";
 import * as Addressing from "~/services/addressing.ts";
 
 const accountId = () => getAccountId();
+const hasZoneId = () => !!getZoneId();
 const zoneId = () => {
   const id = getZoneId();
   if (!id)
@@ -380,16 +381,18 @@ describe("Addressing", () => {
   // putAddressMapZone
   // --------------------------------------------------------------------------
   describe("putAddressMapZone", () => {
-    test("error - MethodNotAllowed for non-existent address map with zone", () =>
-      Addressing.putAddressMapZone({
-        accountId: accountId(),
-        addressMapId: fakeUuid,
-        zoneId: zoneId(),
-        body: {},
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
-      ));
+    if (hasZoneId()) {
+      test("error - MethodNotAllowed for non-existent address map with zone", () =>
+        Addressing.putAddressMapZone({
+          accountId: accountId(),
+          addressMapId: fakeUuid,
+          zoneId: zoneId(),
+          body: {},
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
+        ));
+    }
 
     test("error - InvalidAccountId for invalid account", () =>
       Addressing.putAddressMapZone({
@@ -418,15 +421,17 @@ describe("Addressing", () => {
   // deleteAddressMapZone
   // --------------------------------------------------------------------------
   describe("deleteAddressMapZone", () => {
-    test("error - MethodNotAllowed for non-existent address map with zone", () =>
-      Addressing.deleteAddressMapZone({
-        accountId: accountId(),
-        addressMapId: fakeUuid,
-        zoneId: zoneId(),
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
-      ));
+    if (hasZoneId()) {
+      test("error - MethodNotAllowed for non-existent address map with zone", () =>
+        Addressing.deleteAddressMapZone({
+          accountId: accountId(),
+          addressMapId: fakeUuid,
+          zoneId: zoneId(),
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
+        ));
+    }
 
     test("error - InvalidAccountId for invalid account", () =>
       Addressing.deleteAddressMapZone({
@@ -1012,14 +1017,25 @@ describe("Addressing", () => {
   // getRegionalHostname
   // --------------------------------------------------------------------------
   describe("getRegionalHostname", () => {
-    test("error - returns error for non-existent regional hostname", () =>
-      Addressing.getRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "distilled-cf-addressing-nonexistent.example.com",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
-      ));
+    if (hasZoneId()) {
+      test("error - returns error for non-existent regional hostname", () =>
+        Addressing.getRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "distilled-cf-addressing-nonexistent.example.com",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
+        ));
+
+      test("error - returns error for empty hostname", () =>
+        Addressing.getRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RegionalHostnameEmpty")),
+        ));
+    }
 
     test("error - InvalidZoneId for invalid zone", () =>
       Addressing.getRegionalHostname({
@@ -1028,15 +1044,6 @@ describe("Addressing", () => {
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidZoneId")),
-      ));
-
-    test("error - returns error for empty hostname", () =>
-      Addressing.getRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameEmpty")),
       ));
   });
 
@@ -1044,15 +1051,37 @@ describe("Addressing", () => {
   // createRegionalHostname
   // --------------------------------------------------------------------------
   describe("createRegionalHostname", () => {
-    test("error - returns error for invalid hostname (not a subdomain of zone)", () =>
-      Addressing.createRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "not-a-valid-subdomain-of-zone.invalid.tld",
-        regionKey: "eu",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
-      ));
+    if (hasZoneId()) {
+      test("error - returns error for invalid hostname (not a subdomain of zone)", () =>
+        Addressing.createRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "not-a-valid-subdomain-of-zone.invalid.tld",
+          regionKey: "eu",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
+        ));
+
+      test("error - returns error for empty hostname", () =>
+        Addressing.createRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "",
+          regionKey: "eu",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
+        ));
+
+      test("error - returns error for empty regionKey", () =>
+        Addressing.createRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "test.example.com",
+          regionKey: "",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
+        ));
+    }
 
     test("error - InvalidZoneId for invalid zone", () =>
       Addressing.createRegionalHostname({
@@ -1062,26 +1091,6 @@ describe("Addressing", () => {
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidZoneId")),
-      ));
-
-    test("error - returns error for empty hostname", () =>
-      Addressing.createRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "",
-        regionKey: "eu",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
-      ));
-
-    test("error - returns error for empty regionKey", () =>
-      Addressing.createRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "test.example.com",
-        regionKey: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("InvalidHostname")),
       ));
   });
 
@@ -1089,15 +1098,27 @@ describe("Addressing", () => {
   // patchRegionalHostname
   // --------------------------------------------------------------------------
   describe("patchRegionalHostname", () => {
-    test("error - returns error for non-existent regional hostname", () =>
-      Addressing.patchRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "distilled-cf-addressing-nonexistent.example.com",
-        regionKey: "eu",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
-      ));
+    if (hasZoneId()) {
+      test("error - returns error for non-existent regional hostname", () =>
+        Addressing.patchRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "distilled-cf-addressing-nonexistent.example.com",
+          regionKey: "eu",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
+        ));
+
+      test("error - returns error for empty regionKey", () =>
+        Addressing.patchRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "test.example.com",
+          regionKey: "",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
+        ));
+    }
 
     test("error - InvalidZoneId for invalid zone", () =>
       Addressing.patchRegionalHostname({
@@ -1107,16 +1128,6 @@ describe("Addressing", () => {
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidZoneId")),
-      ));
-
-    test("error - returns error for empty regionKey", () =>
-      Addressing.patchRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "test.example.com",
-        regionKey: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
       ));
   });
 
@@ -1124,14 +1135,25 @@ describe("Addressing", () => {
   // deleteRegionalHostname
   // --------------------------------------------------------------------------
   describe("deleteRegionalHostname", () => {
-    test("error - returns error for non-existent regional hostname", () =>
-      Addressing.deleteRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "distilled-cf-addressing-nonexistent.example.com",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
-      ));
+    if (hasZoneId()) {
+      test("error - returns error for non-existent regional hostname", () =>
+        Addressing.deleteRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "distilled-cf-addressing-nonexistent.example.com",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("RegionalHostnameNotFound")),
+        ));
+
+      test("error - MethodNotAllowed for empty hostname", () =>
+        Addressing.deleteRegionalHostname({
+          zoneId: zoneId(),
+          hostname: "",
+        }).pipe(
+          Effect.flip,
+          Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
+        ));
+    }
 
     test("error - InvalidZoneId for invalid zone", () =>
       Addressing.deleteRegionalHostname({
@@ -1140,15 +1162,6 @@ describe("Addressing", () => {
       }).pipe(
         Effect.flip,
         Effect.map((e) => expect(e._tag).toBe("InvalidZoneId")),
-      ));
-
-    test("error - MethodNotAllowed for empty hostname", () =>
-      Addressing.deleteRegionalHostname({
-        zoneId: zoneId(),
-        hostname: "",
-      }).pipe(
-        Effect.flip,
-        Effect.map((e) => expect(e._tag).toBe("MethodNotAllowed")),
       ));
   });
 });
