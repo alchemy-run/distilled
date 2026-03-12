@@ -26,6 +26,9 @@ export const CredentialsFromEnv = Layer.effect(
       });
     }
 
-    return { accessToken: Redacted.make(accessToken), apiBaseUrl: DEFAULT_API_BASE_URL };
+    return {
+      accessToken: Redacted.make(accessToken),
+      apiBaseUrl: DEFAULT_API_BASE_URL,
+    };
   }),
 );
