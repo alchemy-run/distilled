@@ -1,5 +1,6 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as ServiceMap from "effect/ServiceMap";
 import { ConfigError } from "@distilled.cloud/core/errors";
 
@@ -15,14 +16,14 @@ export interface Config {
    * CDP API Key Secret (Ed25519 base64 or EC PEM private key).
    * Used to sign JWT bearer tokens for API authentication.
    */
-  readonly apiKeySecret: string;
+  readonly apiKeySecret: Redacted.Redacted<string>;
 
   /**
    * CDP Wallet Secret (base64-encoded DER EC private key).
    * Required only for sensitive wallet operations (POST/DELETE/PUT to account endpoints).
    * If not provided, wallet-auth-requiring operations will fail.
    */
-  readonly walletSecret?: string | undefined;
+  readonly walletSecret?: Redacted.Redacted<string> | undefined;
 
   /**
    * Base URL for the Coinbase CDP API.
@@ -57,8 +58,8 @@ export const CredentialsFromEnv = Layer.effect(
 
     return {
       apiKeyId,
-      apiKeySecret,
-      walletSecret,
+      apiKeySecret: Redacted.make(apiKeySecret),
+      walletSecret: walletSecret ? Redacted.make(walletSecret) : undefined,
       apiBaseUrl: DEFAULT_API_BASE_URL,
     };
   }),

@@ -287,6 +287,43 @@ function getBaseType(prop: SchemaObject): string | undefined {
 }
 
 // ============================================================================
+// Sensitive Field Detection
+// ============================================================================
+
+/**
+ * Field name patterns that indicate sensitive data.
+ * These patterns match common credential/secret field names across APIs.
+ */
+const SENSITIVE_FIELD_PATTERNS: RegExp[] = [
+  /password/i,
+  /^secret$/i,
+  /secret[-_]?key/i,
+  /[-_]secret$/i,
+  /^client[-_]?secret$/i,
+  /^access[-_]?token$/i,
+  /^refresh[-_]?token$/i,
+  /^api[-_]?key$/i,
+  /^api[-_]?key[-_]?secret$/i,
+  /^api[-_]?token$/i,
+  /^private[-_]?key$/i,
+  /^secret[-_]?access[-_]?key$/i,
+  /^session[-_]?token$/i,
+  /^access[-_]?key[-_]?id$/i,
+  /^one[-_]?time[-_]?password$/i,
+  /^connection[-_]?string$/i,
+  /^connection[-_]?uri$/i,
+  /^plain[-_]?text$/i,
+  /^plain[-_]?text[-_]?refresh[-_]?token$/i,
+];
+
+/**
+ * Check if a field name matches known sensitive data patterns.
+ */
+function isSensitiveFieldName(name: string): boolean {
+  return SENSITIVE_FIELD_PATTERNS.some((pattern) => pattern.test(name));
+}
+
+// ============================================================================
 // Effect Schema Generation
 // ============================================================================
 
@@ -444,8 +481,19 @@ function generateStructSchema(
   const lines: string[] = [];
 
   for (const [key, value] of Object.entries(schema.properties)) {
+    // Auto-detect sensitive fields by name pattern (only for string types without explicit x-sensitive)
+    const baseType = getBaseType(value);
+    const isSensitiveByName =
+      baseType === "string" &&
+      !value["x-sensitive"] &&
+      !value.enum &&
+      isSensitiveFieldName(key);
+    const effectiveValue = isSensitiveByName
+      ? { ...value, "x-sensitive": true }
+      : value;
+
     const fieldSchema = openApiTypeToEffectSchema(
-      value,
+      effectiveValue,
       spec,
       indent + "  ",
       seenRefs,
@@ -582,6 +630,7 @@ function generateInputSchemaSwagger(
   pathTemplate: string,
   parameters: Parameter2[],
   spec: Swagger2Spec,
+  ctx?: SchemaGenerationContext,
 ): { inputSchemaCode: string; inputSchemaName: string } {
   const inputSchemaName = `${toPascalCase(operationId)}Input`;
   const pathParams = parameters.filter((p) => p.in === "path");
@@ -623,7 +672,18 @@ function generateInputSchemaSwagger(
     if (bodySchema.properties) {
       const required = new Set(bodySchema.required || []);
       for (const [key, value] of Object.entries(bodySchema.properties)) {
-        let fieldSchema = openApiTypeToEffectSchema(value, spec, "  ");
+        // Auto-detect sensitive fields by name pattern
+        const bType = getBaseType(value);
+        const isSensitiveByName =
+          bType === "string" &&
+          !value["x-sensitive"] &&
+          !value.enum &&
+          isSensitiveFieldName(key);
+        const effectiveValue = isSensitiveByName
+          ? { ...value, "x-sensitive": true }
+          : value;
+
+        let fieldSchema = openApiTypeToEffectSchema(effectiveValue, spec, "  ", new Set(), ctx);
         if (!required.has(key)) {
           fieldSchema = `Schema.optional(${fieldSchema})`;
         }
@@ -683,6 +743,7 @@ function generateInputSchema3(
   parameters: ParameterObject3[],
   requestBody: RequestBody3 | undefined,
   spec: OpenAPI3Spec,
+  ctx?: SchemaGenerationContext,
 ): { inputSchemaCode: string; inputSchemaName: string } {
   const inputSchemaName = `${toPascalCase(operationId)}Input`;
   const pathParams = parameters.filter((p) => p.in === "path");
@@ -749,7 +810,18 @@ function generateInputSchema3(
         for (const [key, value] of Object.entries(bodySchema.properties)) {
           if (usedNames.has(key)) continue;
           usedNames.add(key);
-          let fieldSchema = openApiTypeToEffectSchema(value, spec, "  ");
+          // Auto-detect sensitive fields by name pattern
+          const bType = getBaseType(value);
+          const isSensitiveByName =
+            bType === "string" &&
+            !value["x-sensitive"] &&
+            !value.enum &&
+            isSensitiveFieldName(key);
+          const effectiveValue = isSensitiveByName
+            ? { ...value, "x-sensitive": true }
+            : value;
+
+          let fieldSchema = openApiTypeToEffectSchema(effectiveValue, spec, "  ", new Set(), ctx);
           if (!required.has(key)) {
             fieldSchema = `Schema.optional(${fieldSchema})`;
           }
@@ -1034,6 +1106,11 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             parameters.find((p) => p.in === "body")?.schema?.properties,
           );
 
+          const sensitiveCtx: SchemaGenerationContext = {
+            usesSensitiveString: false,
+            usesSensitiveNullableString: false,
+          };
+
           const { inputSchemaCode, inputSchemaName } =
             generateInputSchemaSwagger(
               operation.operationId,
@@ -1041,6 +1118,7 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
               pathTemplate,
               parameters,
               swagger,
+              sensitiveCtx,
             );
 
           const responseSchema = getResponseSchema(
@@ -1048,12 +1126,16 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             version,
             operation.responses,
           );
-          const { outputSchemaCode, outputSchemaName, sensitiveImports } =
+          const { outputSchemaCode, outputSchemaName, sensitiveImports: outputSensitiveImports } =
             generateOutputSchema(
               operation.operationId,
               responseSchema,
               swagger,
             );
+          const sensitiveImports = {
+            usesSensitiveString: sensitiveCtx.usesSensitiveString || outputSensitiveImports.usesSensitiveString,
+            usesSensitiveNullableString: sensitiveCtx.usesSensitiveNullableString || outputSensitiveImports.usesSensitiveNullableString,
+          };
 
           // Get operation-specific errors
           let operationErrors: string[] = [];
@@ -1123,6 +1205,11 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             })),
           );
 
+          const sensitiveCtx: SchemaGenerationContext = {
+            usesSensitiveString: false,
+            usesSensitiveNullableString: false,
+          };
+
           const { inputSchemaCode, inputSchemaName } = generateInputSchema3(
             operation.operationId,
             method,
@@ -1130,6 +1217,7 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             parameters,
             operation.requestBody,
             oas,
+            sensitiveCtx,
           );
 
           const responseSchema = getResponseSchema(
@@ -1137,8 +1225,12 @@ export function generateFromOpenAPI(config: GeneratorConfig): void {
             version,
             operation.responses,
           );
-          const { outputSchemaCode, outputSchemaName, sensitiveImports } =
+          const { outputSchemaCode, outputSchemaName, sensitiveImports: outputSensitiveImports } =
             generateOutputSchema(operation.operationId, responseSchema, oas);
+          const sensitiveImports = {
+            usesSensitiveString: sensitiveCtx.usesSensitiveString || outputSensitiveImports.usesSensitiveString,
+            usesSensitiveNullableString: sensitiveCtx.usesSensitiveNullableString || outputSensitiveImports.usesSensitiveNullableString,
+          };
 
           // Get operation-specific errors
           let operationErrors: string[] = [];

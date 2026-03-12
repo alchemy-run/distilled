@@ -1,10 +1,11 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 import * as ServiceMap from "effect/ServiceMap";
 import { ConfigError } from "@distilled.cloud/core/errors";
 
 export interface Config {
-  readonly accessToken: string;
+  readonly accessToken: Redacted.Redacted<string>;
   readonly project?: string;
 }
 
@@ -24,7 +25,7 @@ export const CredentialsFromEnv = Layer.effect(
     }
 
     return {
-      accessToken,
+      accessToken: Redacted.make(accessToken),
       project: process.env.GOOGLE_PROJECT_ID,
     };
   }),
