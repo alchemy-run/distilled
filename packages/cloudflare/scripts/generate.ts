@@ -34,6 +34,35 @@ const annotatePureExportConst = (definition: string) =>
     "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
   );
 
+/**
+ * Field name patterns that indicate sensitive data.
+ */
+const SENSITIVE_FIELD_PATTERNS: RegExp[] = [
+  /password/i,
+  /^secret$/i,
+  /secret[-_]?key/i,
+  /[-_]secret$/i,
+  /^client[-_]?secret$/i,
+  /^access[-_]?token$/i,
+  /^refresh[-_]?token$/i,
+  /^api[-_]?key$/i,
+  /^api[-_]?key[-_]?secret$/i,
+  /^api[-_]?token$/i,
+  /^private[-_]?key$/i,
+  /^secret[-_]?access[-_]?key$/i,
+  /^session[-_]?token$/i,
+  /^access[-_]?key[-_]?id$/i,
+  /^one[-_]?time[-_]?password$/i,
+  /^connection[-_]?string$/i,
+  /^connection[-_]?uri$/i,
+  /^plain[-_]?text$/i,
+  /^plain[-_]?text[-_]?refresh[-_]?token$/i,
+];
+
+function isSensitiveFieldName(name: string): boolean {
+  return SENSITIVE_FIELD_PATTERNS.some((pattern) => pattern.test(name));
+}
+
 /** Returns true if the string is a valid JavaScript identifier (no quoting needed). */
 function isValidIdentifier(name: string): boolean {
   return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
@@ -494,16 +523,28 @@ function typeInfoToSchema(
       if (type.properties && type.properties.length > 0) {
         const encodeKeysMap: Record<string, string> = {};
         let hasRenamedKey = false;
+        let usesSensitive = false;
         const props = type.properties
           .map((p) => {
             const wireName = p.name;
             const propName = toCamelCase(wireName);
-            let propSchema = typeInfoToSchema(
-              p.type,
-              indent + "  ",
-              depth + 1,
-              optionalObjectPropsNullable,
-            );
+            // Auto-detect sensitive fields by name pattern
+            const isSensitiveByName =
+              p.type.kind === "primitive" &&
+              p.type.value === "string" &&
+              isSensitiveFieldName(wireName);
+            let propSchema: string;
+            if (isSensitiveByName) {
+              propSchema = "SensitiveString";
+              usesSensitive = true;
+            } else {
+              propSchema = typeInfoToSchema(
+                p.type,
+                indent + "  ",
+                depth + 1,
+                optionalObjectPropsNullable,
+              );
+            }
             if (!p.required) {
               if (optionalObjectPropsNullable && !typeIncludesNull(p.type)) {
                 propSchema = `Schema.Union([${propSchema}, Schema.Null])`;
@@ -1251,6 +1292,7 @@ function generateServiceFile(
       `import { UploadableSchema } from "${withTsExtension("../schemas")}";`,
     );
   }
+  lines.push(`__SENSITIVE_IMPORT__`);
   lines.push("");
 
   // Merge all error definitions across patches and emit each class once
@@ -1302,6 +1344,12 @@ T.applyErrorMatchers(${tag}, ${JSON.stringify(matchers)});`);
     code = code.replace("__EFFECT_IMPORT__", 'import * as Effect from "effect/Effect";');
   } else {
     code = code.replace("__EFFECT_IMPORT__\n", "");
+  }
+  // Only include the SensitiveString import if it's actually used in the generated code
+  if (code.includes("SensitiveString")) {
+    code = code.replace("__SENSITIVE_IMPORT__", `import { SensitiveString } from "${withTsExtension("../sensitive")}";`);
+  } else {
+    code = code.replace("__SENSITIVE_IMPORT__\n", "");
   }
   return code;
 }
