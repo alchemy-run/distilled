@@ -299,7 +299,9 @@ export const CreateContentRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type CreateContentResponse = string;
 
 export const CreateContentResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateContentResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateContentResponse>;
 
 export type CreateContentError = DefaultErrors;
 
@@ -652,6 +654,8 @@ export type CreateJsonResponse = Record<string, unknown>;
 
 export const CreateJsonResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {},
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateJsonResponse>;
 
 export type CreateJsonError = DefaultErrors;
@@ -961,6 +965,8 @@ export type CreateLinkResponse = string[];
 
 export const CreateLinkResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
   Schema.String,
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateLinkResponse>;
 
 export type CreateLinkError = DefaultErrors;
@@ -1263,7 +1269,9 @@ export const CreateMarkdownRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type CreateMarkdownResponse = string;
 
 export const CreateMarkdownResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateMarkdownResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateMarkdownResponse>;
 
 export type CreateMarkdownError = DefaultErrors;
 
@@ -1978,6 +1986,8 @@ export const CreateScrapeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     }),
     selector: Schema.String,
   }),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateScrapeResponse>;
 
 export type CreateScrapeError = DefaultErrors;
@@ -2691,6 +2701,8 @@ export const CreateSnapshotResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     content: Schema.String,
     screenshot: Schema.String,
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<CreateSnapshotResponse>;
 
 export type CreateSnapshotError = DefaultErrors;

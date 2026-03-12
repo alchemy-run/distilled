@@ -81,12 +81,16 @@ export const ListManagedTransformsResponse =
         }),
       ),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      managedRequestHeaders: "managed_request_headers",
-      managedResponseHeaders: "managed_response_headers",
-    }),
-  ) as unknown as Schema.Schema<ListManagedTransformsResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        managedRequestHeaders: "managed_request_headers",
+        managedResponseHeaders: "managed_response_headers",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<ListManagedTransformsResponse>;
 
 export type ListManagedTransformsError = DefaultErrors;
 
@@ -186,12 +190,16 @@ export const PatchManagedTransformResponse =
         }),
       ),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      managedRequestHeaders: "managed_request_headers",
-      managedResponseHeaders: "managed_response_headers",
-    }),
-  ) as unknown as Schema.Schema<PatchManagedTransformResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        managedRequestHeaders: "managed_request_headers",
+        managedResponseHeaders: "managed_response_headers",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchManagedTransformResponse>;
 
 export type PatchManagedTransformError = DefaultErrors;
 

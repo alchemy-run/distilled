@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, getZoneId, testRunId } from "./test.ts";
-import * as Workers from "~/services/workers.ts";
+import * as Workers from "~/services/workers";
 import {
   ContentTypeRequired,
   DeploymentNotFound,

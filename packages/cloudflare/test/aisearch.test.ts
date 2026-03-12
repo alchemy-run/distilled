@@ -1,9 +1,11 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
+import * as Redacted from "effect/Redacted";
 import * as Schedule from "effect/Schedule";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as AISearch from "~/services/aisearch.ts";
-import * as R2 from "~/services/r2.ts";
+import { formatHeaders, resolveFromEnv } from "~/credentials.ts";
+import * as AISearch from "~/services/aisearch";
+import * as R2 from "~/services/r2";
 
 const accountId = () => getAccountId();
 
@@ -19,14 +21,13 @@ const getTokenCredentials = async (): Promise<{
 }> => {
   if (_cachedTokenCreds) return _cachedTokenCreds;
 
-  const apiToken = process.env.CLOUDFLARE_API_TOKEN;
+  const credentials = await Effect.runPromise(resolveFromEnv);
 
-  if (apiToken) {
-    // API Token auth — fetch token ID from verify endpoint
-    const resp = await fetch(
-      "https://api.cloudflare.com/client/v4/user/tokens/verify",
-      { headers: { Authorization: `Bearer ${apiToken}` } },
-    );
+  if (credentials.type === "apiToken" || credentials.type === "oauth") {
+    // Bearer auth — fetch token ID from verify endpoint
+    const resp = await fetch("https://api.cloudflare.com/client/v4/user/tokens/verify", {
+      headers: formatHeaders(credentials),
+    });
     const data = (await resp.json()) as {
       result: { id: string };
       success: boolean;
@@ -34,22 +35,21 @@ const getTokenCredentials = async (): Promise<{
     if (!data.success || !data.result?.id) {
       throw new Error("Failed to verify API token for AI Search credentials");
     }
-    _cachedTokenCreds = { cfApiId: data.result.id, cfApiKey: apiToken };
+    _cachedTokenCreds = {
+      cfApiId: data.result.id,
+      cfApiKey:
+        credentials.type === "apiToken"
+          ? Redacted.value(credentials.apiToken)
+          : Redacted.value(credentials.accessToken),
+    };
     return _cachedTokenCreds;
   }
 
-  const apiKey = process.env.CLOUDFLARE_API_KEY;
-  const email = process.env.CLOUDFLARE_EMAIL;
-
-  if (apiKey && email) {
-    // Global API Key auth fallback
-    _cachedTokenCreds = { cfApiId: email, cfApiKey: apiKey };
-    return _cachedTokenCreds;
-  }
-
-  throw new Error(
-    "Either CLOUDFLARE_API_TOKEN or CLOUDFLARE_API_KEY+CLOUDFLARE_EMAIL must be set",
-  );
+  _cachedTokenCreds = {
+    cfApiId: credentials.email,
+    cfApiKey: Redacted.value(credentials.apiKey),
+  };
+  return _cachedTokenCreds;
 };
 
 // ============================================================================

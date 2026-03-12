@@ -140,9 +140,11 @@ export interface CreateTraceResponse {
 export const CreateTraceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   statusCode: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   trace: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }),
-) as unknown as Schema.Schema<CreateTraceResponse>;
+})
+  .pipe(Schema.encodeKeys({ statusCode: "status_code", trace: "trace" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateTraceResponse>;
 
 export type CreateTraceError = DefaultErrors;
 

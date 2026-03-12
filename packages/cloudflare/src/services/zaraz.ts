@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service zaraz
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -179,7 +180,9 @@ export const GetConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   historyChange: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<GetConfigResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetConfigResponse>;
 
 export type GetConfigError = DefaultErrors;
 
@@ -466,7 +469,9 @@ export const PutConfigResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   historyChange: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-}) as unknown as Schema.Schema<PutConfigResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PutConfigResponse>;
 
 export type PutConfigError = DefaultErrors;
 
@@ -584,35 +589,62 @@ export const ListHistoriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/settings/zaraz/history" }),
 ) as unknown as Schema.Schema<ListHistoriesRequest>;
 
-export type ListHistoriesResponse = {
-  id: number;
-  createdAt: string;
-  description: string;
-  updatedAt: string;
-  userId: string;
-}[];
+export interface ListHistoriesResponse {
+  result: {
+    id: number;
+    createdAt: string;
+    description: string;
+    updatedAt: string;
+    userId: string;
+  }[];
+}
 
-export const ListHistoriesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.Number,
-    createdAt: Schema.String,
-    description: Schema.String,
-    updatedAt: Schema.String,
-    userId: Schema.String,
-  }),
-) as unknown as Schema.Schema<ListHistoriesResponse>;
+export const ListHistoriesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.Number,
+      createdAt: Schema.String,
+      description: Schema.String,
+      updatedAt: Schema.String,
+      userId: Schema.String,
+    }),
+  ),
+}) as unknown as Schema.Schema<ListHistoriesResponse>;
 
 export type ListHistoriesError = DefaultErrors;
 
-export const listHistories: API.OperationMethod<
+export const listHistories: API.PaginatedOperationMethod<
   ListHistoriesRequest,
   ListHistoriesResponse,
   ListHistoriesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListHistoriesRequest,
+  ) => stream.Stream<
+    ListHistoriesResponse,
+    ListHistoriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListHistoriesRequest) => stream.Stream<
+    {
+      id: number;
+      createdAt: string;
+      description: string;
+      updatedAt: string;
+      userId: string;
+    },
+    ListHistoriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListHistoriesRequest,
   output: ListHistoriesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutHistoryRequest {
@@ -672,8 +704,8 @@ export const GetHistoryConfigRequest =
 export type GetHistoryConfigResponse = Record<string, unknown>;
 
 export const GetHistoryConfigResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetHistoryConfigResponse>;
 
 export type GetHistoryConfigError = DefaultErrors;
@@ -710,7 +742,9 @@ export const CreatePublishRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type CreatePublishResponse = string;
 
 export const CreatePublishResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreatePublishResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreatePublishResponse>;
 
 export type CreatePublishError = DefaultErrors;
 
@@ -745,7 +779,9 @@ export type GetWorkflowResponse = "realtime" | "preview";
 export const GetWorkflowResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Literals([
   "realtime",
   "preview",
-]) as unknown as Schema.Schema<GetWorkflowResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetWorkflowResponse>;
 
 export type GetWorkflowError = DefaultErrors;
 

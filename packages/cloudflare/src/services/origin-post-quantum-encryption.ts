@@ -48,14 +48,18 @@ export const GetOriginPostQuantumEncryptionResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["preferred", "supported", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetOriginPostQuantumEncryptionResponse>;
 
 export type GetOriginPostQuantumEncryptionError = DefaultErrors;
 
@@ -105,14 +109,18 @@ export const PutOriginPostQuantumEncryptionResponse =
     editable: Schema.Boolean,
     value: Schema.Literals(["preferred", "supported", "off"]),
     modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      editable: "editable",
-      value: "value",
-      modifiedOn: "modified_on",
-    }),
-  ) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        editable: "editable",
+        value: "value",
+        modifiedOn: "modified_on",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PutOriginPostQuantumEncryptionResponse>;
 
 export type PutOriginPostQuantumEncryptionError = DefaultErrors;
 

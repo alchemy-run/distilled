@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
-import * as DurableObjects from "~/services/durable-objects.ts";
+import * as DurableObjects from "~/services/durable-objects";
 
 const accountId = () => getAccountId();
 

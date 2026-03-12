@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service dns
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -97,17 +98,21 @@ export const GetAnalyticReportResponse =
     }),
     rows: Schema.Number,
     totals: Schema.Unknown,
-  }).pipe(
-    Schema.encodeKeys({
-      data: "data",
-      dataLag: "data_lag",
-      max: "max",
-      min: "min",
-      query: "query",
-      rows: "rows",
-      totals: "totals",
-    }),
-  ) as unknown as Schema.Schema<GetAnalyticReportResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        data: "data",
+        dataLag: "data_lag",
+        max: "max",
+        min: "min",
+        query: "query",
+        rows: "rows",
+        totals: "totals",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetAnalyticReportResponse>;
 
 export type GetAnalyticReportError = DefaultErrors;
 
@@ -273,18 +278,22 @@ export const GetAnalyticReportBytimeResponse =
     rows: Schema.Number,
     timeIntervals: Schema.Array(Schema.Array(Schema.String)),
     totals: Schema.Unknown,
-  }).pipe(
-    Schema.encodeKeys({
-      data: "data",
-      dataLag: "data_lag",
-      max: "max",
-      min: "min",
-      query: "query",
-      rows: "rows",
-      timeIntervals: "time_intervals",
-      totals: "totals",
-    }),
-  ) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        data: "data",
+        dataLag: "data_lag",
+        max: "max",
+        min: "min",
+        query: "query",
+        rows: "rows",
+        timeIntervals: "time_intervals",
+        totals: "totals",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetAnalyticReportBytimeResponse>;
 
 export type GetAnalyticReportBytimeError = DefaultErrors;
 
@@ -379,24 +388,28 @@ export const GetDnssecResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    algorithm: "algorithm",
-    digest: "digest",
-    digestAlgorithm: "digest_algorithm",
-    digestType: "digest_type",
-    dnssecMultiSigner: "dnssec_multi_signer",
-    dnssecPresigned: "dnssec_presigned",
-    dnssecUseNsec3: "dnssec_use_nsec3",
-    ds: "ds",
-    flags: "flags",
-    keyTag: "key_tag",
-    keyType: "key_type",
-    modifiedOn: "modified_on",
-    publicKey: "public_key",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<GetDnssecResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      algorithm: "algorithm",
+      digest: "digest",
+      digestAlgorithm: "digest_algorithm",
+      digestType: "digest_type",
+      dnssecMultiSigner: "dnssec_multi_signer",
+      dnssecPresigned: "dnssec_presigned",
+      dnssecUseNsec3: "dnssec_use_nsec3",
+      ds: "ds",
+      flags: "flags",
+      keyTag: "key_tag",
+      keyType: "key_type",
+      modifiedOn: "modified_on",
+      publicKey: "public_key",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDnssecResponse>;
 
 export type GetDnssecError = DefaultErrors;
 
@@ -505,24 +518,28 @@ export const PatchDnssecResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    algorithm: "algorithm",
-    digest: "digest",
-    digestAlgorithm: "digest_algorithm",
-    digestType: "digest_type",
-    dnssecMultiSigner: "dnssec_multi_signer",
-    dnssecPresigned: "dnssec_presigned",
-    dnssecUseNsec3: "dnssec_use_nsec3",
-    ds: "ds",
-    flags: "flags",
-    keyTag: "key_tag",
-    keyType: "key_type",
-    modifiedOn: "modified_on",
-    publicKey: "public_key",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<PatchDnssecResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      algorithm: "algorithm",
+      digest: "digest",
+      digestAlgorithm: "digest_algorithm",
+      digestType: "digest_type",
+      dnssecMultiSigner: "dnssec_multi_signer",
+      dnssecPresigned: "dnssec_presigned",
+      dnssecUseNsec3: "dnssec_use_nsec3",
+      ds: "ds",
+      flags: "flags",
+      keyTag: "key_tag",
+      keyType: "key_type",
+      modifiedOn: "modified_on",
+      publicKey: "public_key",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchDnssecResponse>;
 
 export type PatchDnssecError = DefaultErrors;
 
@@ -551,7 +568,9 @@ export const DeleteDnssecRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteDnssecResponse = string;
 
 export const DeleteDnssecResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DeleteDnssecResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteDnssecResponse>;
 
 export type DeleteDnssecError = DefaultErrors;
 
@@ -581,118 +600,170 @@ export const ScanListRecordRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/dns_records/scan/review" }),
 ) as unknown as Schema.Schema<ScanListRecordRequest>;
 
-export type ScanListRecordResponse = (
-  | {
-      id: string;
-      createdOn: string;
-      meta: unknown;
-      modifiedOn: string;
-      proxiable: boolean;
-      commentModifiedOn?: string | null;
-      tagsModifiedOn?: string | null;
-    }
-  | {
-      id: string;
-      comment: string;
-      content: string;
-      createdOn: string;
-      meta: unknown;
-      modifiedOn: string;
-      name: string;
-      proxiable: boolean;
-      proxied: boolean;
-      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
-      tags: string[];
-      ttl: number;
-      type: "OPENPGPKEY";
-      commentModifiedOn?: string | null;
-      tagsModifiedOn?: string | null;
-    }
-)[];
+export interface ScanListRecordResponse {
+  result: (
+    | {
+        id: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        proxiable: boolean;
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+    | {
+        id: string;
+        comment: string;
+        content: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        name: string;
+        proxiable: boolean;
+        proxied: boolean;
+        settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+        tags: string[];
+        ttl: number;
+        type: "OPENPGPKEY";
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+  )[];
+}
 
-export const ScanListRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Union([
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      meta: Schema.Unknown,
-      modifiedOn: Schema.String,
-      proxiable: Schema.Boolean,
-      commentModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      tagsModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        meta: "meta",
-        modifiedOn: "modified_on",
-        proxiable: "proxiable",
-        commentModifiedOn: "comment_modified_on",
-        tagsModifiedOn: "tags_modified_on",
-      }),
+export const ScanListRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          id: Schema.String,
+          createdOn: Schema.String,
+          meta: Schema.Unknown,
+          modifiedOn: Schema.String,
+          proxiable: Schema.Boolean,
+          commentModifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          tagsModifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            createdOn: "created_on",
+            meta: "meta",
+            modifiedOn: "modified_on",
+            proxiable: "proxiable",
+            commentModifiedOn: "comment_modified_on",
+            tagsModifiedOn: "tags_modified_on",
+          }),
+        ),
+        Schema.Struct({
+          id: Schema.String,
+          comment: Schema.String,
+          content: Schema.String,
+          createdOn: Schema.String,
+          meta: Schema.Unknown,
+          modifiedOn: Schema.String,
+          name: Schema.String,
+          proxiable: Schema.Boolean,
+          proxied: Schema.Boolean,
+          settings: Schema.Struct({
+            ipv4Only: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            ipv6Only: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+          ),
+          tags: Schema.Array(Schema.String),
+          ttl: Schema.Number,
+          type: Schema.Literal("OPENPGPKEY"),
+          commentModifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+          tagsModifiedOn: Schema.optional(
+            Schema.Union([Schema.String, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({
+            id: "id",
+            comment: "comment",
+            content: "content",
+            createdOn: "created_on",
+            meta: "meta",
+            modifiedOn: "modified_on",
+            name: "name",
+            proxiable: "proxiable",
+            proxied: "proxied",
+            settings: "settings",
+            tags: "tags",
+            ttl: "ttl",
+            type: "type",
+            commentModifiedOn: "comment_modified_on",
+            tagsModifiedOn: "tags_modified_on",
+          }),
+        ),
+      ]),
     ),
-    Schema.Struct({
-      id: Schema.String,
-      comment: Schema.String,
-      content: Schema.String,
-      createdOn: Schema.String,
-      meta: Schema.Unknown,
-      modifiedOn: Schema.String,
-      name: Schema.String,
-      proxiable: Schema.Boolean,
-      proxied: Schema.Boolean,
-      settings: Schema.Struct({
-        ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      }).pipe(
-        Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
-      ),
-      tags: Schema.Array(Schema.String),
-      ttl: Schema.Number,
-      type: Schema.Literal("OPENPGPKEY"),
-      commentModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      tagsModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        comment: "comment",
-        content: "content",
-        createdOn: "created_on",
-        meta: "meta",
-        modifiedOn: "modified_on",
-        name: "name",
-        proxiable: "proxiable",
-        proxied: "proxied",
-        settings: "settings",
-        tags: "tags",
-        ttl: "ttl",
-        type: "type",
-        commentModifiedOn: "comment_modified_on",
-        tagsModifiedOn: "tags_modified_on",
-      }),
-    ),
-  ]),
+  },
 ) as unknown as Schema.Schema<ScanListRecordResponse>;
 
 export type ScanListRecordError = DefaultErrors;
 
-export const scanListRecord: API.OperationMethod<
+export const scanListRecord: API.PaginatedOperationMethod<
   ScanListRecordRequest,
   ScanListRecordResponse,
   ScanListRecordError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ScanListRecordRequest,
+  ) => stream.Stream<
+    ScanListRecordResponse,
+    ScanListRecordError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ScanListRecordRequest) => stream.Stream<
+    | {
+        id: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        proxiable: boolean;
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+    | {
+        id: string;
+        comment: string;
+        content: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        name: string;
+        proxiable: boolean;
+        proxied: boolean;
+        settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+        tags: string[];
+        ttl: number;
+        type: "OPENPGPKEY";
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      },
+    ScanListRecordError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ScanListRecordRequest,
   output: ScanListRecordResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -720,7 +791,9 @@ export const ForceNotifyZoneTransferOutgoingRequest =
 export type ForceNotifyZoneTransferOutgoingResponse = string;
 
 export const ForceNotifyZoneTransferOutgoingResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ForceNotifyZoneTransferOutgoingResponse>;
 
 export type ForceNotifyZoneTransferOutgoingError = DefaultErrors;
 
@@ -844,7 +917,9 @@ export const GetRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<GetRecordResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetRecordResponse>;
 
 export type GetRecordError = DefaultErrors;
 
@@ -1012,118 +1087,192 @@ export const ListRecordsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/dns_records" }),
 ) as unknown as Schema.Schema<ListRecordsRequest>;
 
-export type ListRecordsResponse = (
-  | {
-      id: string;
-      createdOn: string;
-      meta: unknown;
-      modifiedOn: string;
-      proxiable: boolean;
-      commentModifiedOn?: string | null;
-      tagsModifiedOn?: string | null;
-    }
-  | {
-      id: string;
-      comment: string;
-      content: string;
-      createdOn: string;
-      meta: unknown;
-      modifiedOn: string;
-      name: string;
-      proxiable: boolean;
-      proxied: boolean;
-      settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
-      tags: string[];
-      ttl: number;
-      type: "OPENPGPKEY";
-      commentModifiedOn?: string | null;
-      tagsModifiedOn?: string | null;
-    }
-)[];
+export interface ListRecordsResponse {
+  result: (
+    | {
+        id: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        proxiable: boolean;
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+    | {
+        id: string;
+        comment: string;
+        content: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        name: string;
+        proxiable: boolean;
+        proxied: boolean;
+        settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+        tags: string[];
+        ttl: number;
+        type: "OPENPGPKEY";
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+  )[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListRecordsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Union([
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      meta: Schema.Unknown,
-      modifiedOn: Schema.String,
-      proxiable: Schema.Boolean,
-      commentModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      tagsModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        meta: "meta",
-        modifiedOn: "modified_on",
-        proxiable: "proxiable",
-        commentModifiedOn: "comment_modified_on",
-        tagsModifiedOn: "tags_modified_on",
-      }),
-    ),
-    Schema.Struct({
-      id: Schema.String,
-      comment: Schema.String,
-      content: Schema.String,
-      createdOn: Schema.String,
-      meta: Schema.Unknown,
-      modifiedOn: Schema.String,
-      name: Schema.String,
-      proxiable: Schema.Boolean,
-      proxied: Schema.Boolean,
-      settings: Schema.Struct({
-        ipv4Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-        ipv6Only: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+export const ListRecordsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Union([
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        meta: Schema.Unknown,
+        modifiedOn: Schema.String,
+        proxiable: Schema.Boolean,
+        commentModifiedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        tagsModifiedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
       }).pipe(
-        Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          meta: "meta",
+          modifiedOn: "modified_on",
+          proxiable: "proxiable",
+          commentModifiedOn: "comment_modified_on",
+          tagsModifiedOn: "tags_modified_on",
+        }),
       ),
-      tags: Schema.Array(Schema.String),
-      ttl: Schema.Number,
-      type: Schema.Literal("OPENPGPKEY"),
-      commentModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+      Schema.Struct({
+        id: Schema.String,
+        comment: Schema.String,
+        content: Schema.String,
+        createdOn: Schema.String,
+        meta: Schema.Unknown,
+        modifiedOn: Schema.String,
+        name: Schema.String,
+        proxiable: Schema.Boolean,
+        proxied: Schema.Boolean,
+        settings: Schema.Struct({
+          ipv4Only: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+          ipv6Only: Schema.optional(
+            Schema.Union([Schema.Boolean, Schema.Null]),
+          ),
+        }).pipe(
+          Schema.encodeKeys({ ipv4Only: "ipv4_only", ipv6Only: "ipv6_only" }),
+        ),
+        tags: Schema.Array(Schema.String),
+        ttl: Schema.Number,
+        type: Schema.Literal("OPENPGPKEY"),
+        commentModifiedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        tagsModifiedOn: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          comment: "comment",
+          content: "content",
+          createdOn: "created_on",
+          meta: "meta",
+          modifiedOn: "modified_on",
+          name: "name",
+          proxiable: "proxiable",
+          proxied: "proxied",
+          settings: "settings",
+          tags: "tags",
+          ttl: "ttl",
+          type: "type",
+          commentModifiedOn: "comment_modified_on",
+          tagsModifiedOn: "tags_modified_on",
+        }),
       ),
-      tagsModifiedOn: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        comment: "comment",
-        content: "content",
-        createdOn: "created_on",
-        meta: "meta",
-        modifiedOn: "modified_on",
-        name: "name",
-        proxiable: "proxiable",
-        proxied: "proxied",
-        settings: "settings",
-        tags: "tags",
-        ttl: "ttl",
-        type: "type",
-        commentModifiedOn: "comment_modified_on",
-        tagsModifiedOn: "tags_modified_on",
-      }),
-    ),
-  ]),
+    ]),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListRecordsResponse>;
 
 export type ListRecordsError = DefaultErrors;
 
-export const listRecords: API.OperationMethod<
+export const listRecords: API.PaginatedOperationMethod<
   ListRecordsRequest,
   ListRecordsResponse,
   ListRecordsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRecordsRequest,
+  ) => stream.Stream<
+    ListRecordsResponse,
+    ListRecordsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListRecordsRequest) => stream.Stream<
+    | {
+        id: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        proxiable: boolean;
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      }
+    | {
+        id: string;
+        comment: string;
+        content: string;
+        createdOn: string;
+        meta: unknown;
+        modifiedOn: string;
+        name: string;
+        proxiable: boolean;
+        proxied: boolean;
+        settings: { ipv4Only?: boolean | null; ipv6Only?: boolean | null };
+        tags: string[];
+        ttl: number;
+        type: "OPENPGPKEY";
+        commentModifiedOn?: string | null;
+        tagsModifiedOn?: string | null;
+      },
+    ListRecordsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRecordsRequest,
   output: ListRecordsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateRecordRequest {
@@ -1260,7 +1409,9 @@ export const CreateRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<CreateRecordResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateRecordResponse>;
 
 export type CreateRecordError = DefaultErrors;
 
@@ -1411,7 +1562,9 @@ export const UpdateRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<UpdateRecordResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateRecordResponse>;
 
 export type UpdateRecordError = DefaultErrors;
 
@@ -1565,7 +1718,9 @@ export const PatchRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
       tagsModifiedOn: "tags_modified_on",
     }),
   ),
-]) as unknown as Schema.Schema<PatchRecordResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PatchRecordResponse>;
 
 export type PatchRecordError = DefaultErrors;
 
@@ -1603,7 +1758,9 @@ export interface DeleteRecordResponse {
 
 export const DeleteRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteRecordResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteRecordResponse>;
 
 export type DeleteRecordError = DefaultErrors;
 
@@ -5194,7 +5351,9 @@ export const BatchRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<BatchRecordResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<BatchRecordResponse>;
 
 export type BatchRecordError = DefaultErrors;
 
@@ -5271,12 +5430,16 @@ export const ImportRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   totalRecordsParsed: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    recsAdded: "recs_added",
-    totalRecordsParsed: "total_records_parsed",
-  }),
-) as unknown as Schema.Schema<ImportRecordResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      recsAdded: "recs_added",
+      totalRecordsParsed: "total_records_parsed",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ImportRecordResponse>;
 
 export type ImportRecordError = DefaultErrors;
 
@@ -5317,12 +5480,16 @@ export const ScanRecordResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   totalRecordsParsed: Schema.optional(
     Schema.Union([Schema.Number, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    recsAdded: "recs_added",
-    totalRecordsParsed: "total_records_parsed",
-  }),
-) as unknown as Schema.Schema<ScanRecordResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      recsAdded: "recs_added",
+      totalRecordsParsed: "total_records_parsed",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ScanRecordResponse>;
 
 export type ScanRecordError = DefaultErrors;
 
@@ -6331,7 +6498,9 @@ export const ScanReviewRecordResponse =
     rejects: Schema.optional(
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<ScanReviewRecordResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ScanReviewRecordResponse>;
 
 export type ScanReviewRecordError = DefaultErrors;
 
@@ -6450,9 +6619,11 @@ export const GetSettingAccountResponse =
         zoneMode: "zone_mode",
       }),
     ),
-  }).pipe(
-    Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
-  ) as unknown as Schema.Schema<GetSettingAccountResponse>;
+  })
+    .pipe(Schema.encodeKeys({ zoneDefaults: "zone_defaults" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingAccountResponse>;
 
 export type GetSettingAccountError = DefaultErrors;
 
@@ -6656,9 +6827,11 @@ export const PatchSettingAccountResponse =
         zoneMode: "zone_mode",
       }),
     ),
-  }).pipe(
-    Schema.encodeKeys({ zoneDefaults: "zone_defaults" }),
-  ) as unknown as Schema.Schema<PatchSettingAccountResponse>;
+  })
+    .pipe(Schema.encodeKeys({ zoneDefaults: "zone_defaults" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingAccountResponse>;
 
 export type PatchSettingAccountError = DefaultErrors;
 
@@ -6714,15 +6887,19 @@ export const GetSettingAccountViewResponse =
     modifiedTime: Schema.String,
     name: Schema.String,
     zones: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      zones: "zones",
-    }),
-  ) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        zones: "zones",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingAccountViewResponse>;
 
 export type GetSettingAccountViewError = DefaultErrors;
 
@@ -6788,44 +6965,95 @@ export const ListSettingAccountViewsRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingAccountViewsRequest>;
 
-export type ListSettingAccountViewsResponse = {
-  id: string;
-  createdTime: string;
-  modifiedTime: string;
-  name: string;
-  zones: string[];
-}[];
+export interface ListSettingAccountViewsResponse {
+  result: {
+    id: string;
+    createdTime: string;
+    modifiedTime: string;
+    name: string;
+    zones: string[];
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingAccountViewsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      createdTime: Schema.String,
-      modifiedTime: Schema.String,
-      name: Schema.String,
-      zones: Schema.Array(Schema.String),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        createdTime: Schema.String,
+        modifiedTime: Schema.String,
+        name: Schema.String,
+        zones: Schema.Array(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdTime: "created_time",
+          modifiedTime: "modified_time",
+          name: "name",
+          zones: "zones",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdTime: "created_time",
-        modifiedTime: "modified_time",
-        name: "name",
-        zones: "zones",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingAccountViewsResponse>;
 
 export type ListSettingAccountViewsError = DefaultErrors;
 
-export const listSettingAccountViews: API.OperationMethod<
+export const listSettingAccountViews: API.PaginatedOperationMethod<
   ListSettingAccountViewsRequest,
   ListSettingAccountViewsResponse,
   ListSettingAccountViewsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingAccountViewsRequest,
+  ) => stream.Stream<
+    ListSettingAccountViewsResponse,
+    ListSettingAccountViewsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSettingAccountViewsRequest) => stream.Stream<
+    {
+      id: string;
+      createdTime: string;
+      modifiedTime: string;
+      name: string;
+      zones: string[];
+    },
+    ListSettingAccountViewsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingAccountViewsRequest,
   output: ListSettingAccountViewsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSettingAccountViewRequest {
@@ -6869,15 +7097,19 @@ export const CreateSettingAccountViewResponse =
     modifiedTime: Schema.String,
     name: Schema.String,
     zones: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      zones: "zones",
-    }),
-  ) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        zones: "zones",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateSettingAccountViewResponse>;
 
 export type CreateSettingAccountViewError = DefaultErrors;
 
@@ -6935,15 +7167,19 @@ export const PatchSettingAccountViewResponse =
     modifiedTime: Schema.String,
     name: Schema.String,
     zones: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      zones: "zones",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        zones: "zones",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingAccountViewResponse>;
 
 export type PatchSettingAccountViewError = DefaultErrors;
 
@@ -6983,7 +7219,9 @@ export interface DeleteSettingAccountViewResponse {
 export const DeleteSettingAccountViewResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSettingAccountViewResponse>;
 
 export type DeleteSettingAccountViewError = DefaultErrors;
 
@@ -7091,19 +7329,23 @@ export const GetSettingZoneResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ),
     zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
   },
-).pipe(
-  Schema.encodeKeys({
-    flattenAllCnames: "flatten_all_cnames",
-    foundationDns: "foundation_dns",
-    internalDns: "internal_dns",
-    multiProvider: "multi_provider",
-    nameservers: "nameservers",
-    nsTtl: "ns_ttl",
-    secondaryOverrides: "secondary_overrides",
-    soa: "soa",
-    zoneMode: "zone_mode",
-  }),
-) as unknown as Schema.Schema<GetSettingZoneResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      flattenAllCnames: "flatten_all_cnames",
+      foundationDns: "foundation_dns",
+      internalDns: "internal_dns",
+      multiProvider: "multi_provider",
+      nameservers: "nameservers",
+      nsTtl: "ns_ttl",
+      secondaryOverrides: "secondary_overrides",
+      soa: "soa",
+      zoneMode: "zone_mode",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSettingZoneResponse>;
 
 export type GetSettingZoneError = DefaultErrors;
 
@@ -7298,19 +7540,23 @@ export const PatchSettingZoneResponse =
       }),
     ),
     zoneMode: Schema.Literals(["standard", "cdn_only", "dns_only"]),
-  }).pipe(
-    Schema.encodeKeys({
-      flattenAllCnames: "flatten_all_cnames",
-      foundationDns: "foundation_dns",
-      internalDns: "internal_dns",
-      multiProvider: "multi_provider",
-      nameservers: "nameservers",
-      nsTtl: "ns_ttl",
-      secondaryOverrides: "secondary_overrides",
-      soa: "soa",
-      zoneMode: "zone_mode",
-    }),
-  ) as unknown as Schema.Schema<PatchSettingZoneResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        flattenAllCnames: "flatten_all_cnames",
+        foundationDns: "foundation_dns",
+        internalDns: "internal_dns",
+        multiProvider: "multi_provider",
+        nameservers: "nameservers",
+        nsTtl: "ns_ttl",
+        secondaryOverrides: "secondary_overrides",
+        soa: "soa",
+        zoneMode: "zone_mode",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchSettingZoneResponse>;
 
 export type PatchSettingZoneError = DefaultErrors;
 
@@ -7464,9 +7710,11 @@ export const GetZoneTransferAclResponse =
     id: Schema.String,
     ipRange: Schema.String,
     name: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-  ) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
+  })
+    .pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetZoneTransferAclResponse>;
 
 export type GetZoneTransferAclError = DefaultErrors;
 
@@ -7495,32 +7743,53 @@ export const ListZoneTransferAclsRequest =
     }),
   ) as unknown as Schema.Schema<ListZoneTransferAclsRequest>;
 
-export type ListZoneTransferAclsResponse = {
-  id: string;
-  ipRange: string;
-  name: string;
-}[];
+export interface ListZoneTransferAclsResponse {
+  result: { id: string; ipRange: string; name: string }[];
+}
 
 export const ListZoneTransferAclsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      ipRange: Schema.String,
-      name: Schema.String,
-    }).pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" })),
-  ) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        ipRange: Schema.String,
+        name: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
+      ),
+    ),
+  }) as unknown as Schema.Schema<ListZoneTransferAclsResponse>;
 
 export type ListZoneTransferAclsError = DefaultErrors;
 
-export const listZoneTransferAcls: API.OperationMethod<
+export const listZoneTransferAcls: API.PaginatedOperationMethod<
   ListZoneTransferAclsRequest,
   ListZoneTransferAclsResponse,
   ListZoneTransferAclsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListZoneTransferAclsRequest,
+  ) => stream.Stream<
+    ListZoneTransferAclsResponse,
+    ListZoneTransferAclsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListZoneTransferAclsRequest,
+  ) => stream.Stream<
+    { id: string; ipRange: string; name: string },
+    ListZoneTransferAclsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListZoneTransferAclsRequest,
   output: ListZoneTransferAclsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateZoneTransferAclRequest {
@@ -7558,9 +7827,11 @@ export const CreateZoneTransferAclResponse =
     id: Schema.String,
     ipRange: Schema.String,
     name: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-  ) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
+  })
+    .pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateZoneTransferAclResponse>;
 
 export type CreateZoneTransferAclError = DefaultErrors;
 
@@ -7612,9 +7883,11 @@ export const UpdateZoneTransferAclResponse =
     id: Schema.String,
     ipRange: Schema.String,
     name: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }),
-  ) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
+  })
+    .pipe(Schema.encodeKeys({ id: "id", ipRange: "ip_range", name: "name" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateZoneTransferAclResponse>;
 
 export type UpdateZoneTransferAclError = DefaultErrors;
 
@@ -7652,7 +7925,9 @@ export interface DeleteZoneTransferAclResponse {
 export const DeleteZoneTransferAclResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteZoneTransferAclResponse>;
 
 export type DeleteZoneTransferAclError = DefaultErrors;
 
@@ -7692,7 +7967,9 @@ export const CreateZoneTransferForceAxfrRequest =
 export type CreateZoneTransferForceAxfrResponse = string;
 
 export const CreateZoneTransferForceAxfrResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateZoneTransferForceAxfrResponse>;
 
 export type CreateZoneTransferForceAxfrError = DefaultErrors;
 
@@ -7754,18 +8031,22 @@ export const GetZoneTransferIncomingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      autoRefreshSeconds: "auto_refresh_seconds",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        autoRefreshSeconds: "auto_refresh_seconds",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetZoneTransferIncomingResponse>;
 
 export type GetZoneTransferIncomingError = DefaultErrors;
 
@@ -7838,18 +8119,22 @@ export const CreateZoneTransferIncomingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      autoRefreshSeconds: "auto_refresh_seconds",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        autoRefreshSeconds: "auto_refresh_seconds",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateZoneTransferIncomingResponse>;
 
 export type CreateZoneTransferIncomingError = DefaultErrors;
 
@@ -7922,18 +8207,22 @@ export const UpdateZoneTransferIncomingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      autoRefreshSeconds: "auto_refresh_seconds",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      modifiedTime: "modified_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        autoRefreshSeconds: "auto_refresh_seconds",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        modifiedTime: "modified_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateZoneTransferIncomingResponse>;
 
 export type UpdateZoneTransferIncomingError = DefaultErrors;
 
@@ -7969,7 +8258,9 @@ export interface DeleteZoneTransferIncomingResponse {
 export const DeleteZoneTransferIncomingResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteZoneTransferIncomingResponse>;
 
 export type DeleteZoneTransferIncomingError = DefaultErrors;
 
@@ -8028,17 +8319,21 @@ export const GetZoneTransferOutgoingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      lastTransferredTime: "last_transferred_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        lastTransferredTime: "last_transferred_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetZoneTransferOutgoingResponse>;
 
 export type GetZoneTransferOutgoingError = DefaultErrors;
 
@@ -8100,17 +8395,21 @@ export const CreateZoneTransferOutgoingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      lastTransferredTime: "last_transferred_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        lastTransferredTime: "last_transferred_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateZoneTransferOutgoingResponse>;
 
 export type CreateZoneTransferOutgoingError = DefaultErrors;
 
@@ -8172,17 +8471,21 @@ export const UpdateZoneTransferOutgoingResponse =
       Schema.Union([Schema.Array(Schema.String), Schema.Null]),
     ),
     soaSerial: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      checkedTime: "checked_time",
-      createdTime: "created_time",
-      lastTransferredTime: "last_transferred_time",
-      name: "name",
-      peers: "peers",
-      soaSerial: "soa_serial",
-    }),
-  ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        checkedTime: "checked_time",
+        createdTime: "created_time",
+        lastTransferredTime: "last_transferred_time",
+        name: "name",
+        peers: "peers",
+        soaSerial: "soa_serial",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateZoneTransferOutgoingResponse>;
 
 export type UpdateZoneTransferOutgoingError = DefaultErrors;
 
@@ -8218,7 +8521,9 @@ export interface DeleteZoneTransferOutgoingResponse {
 export const DeleteZoneTransferOutgoingResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteZoneTransferOutgoingResponse>;
 
 export type DeleteZoneTransferOutgoingError = DefaultErrors;
 
@@ -8254,7 +8559,9 @@ export const EnableZoneTransferOutgoingRequest =
 export type EnableZoneTransferOutgoingResponse = string;
 
 export const EnableZoneTransferOutgoingResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<EnableZoneTransferOutgoingResponse>;
 
 export type EnableZoneTransferOutgoingError = DefaultErrors;
 
@@ -8290,7 +8597,9 @@ export const DisableZoneTransferOutgoingRequest =
 export type DisableZoneTransferOutgoingResponse = string;
 
 export const DisableZoneTransferOutgoingResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.String as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.String.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DisableZoneTransferOutgoingResponse>;
 
 export type DisableZoneTransferOutgoingError = DefaultErrors;
 
@@ -8383,16 +8692,20 @@ export const GetZoneTransferPeerResponse =
     ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      ip: "ip",
-      ixfrEnable: "ixfr_enable",
-      port: "port",
-      tsigId: "tsig_id",
-    }),
-  ) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        ip: "ip",
+        ixfrEnable: "ixfr_enable",
+        port: "port",
+        tsigId: "tsig_id",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetZoneTransferPeerResponse>;
 
 export type GetZoneTransferPeerError = DefaultErrors;
 
@@ -8421,47 +8734,77 @@ export const ListZoneTransferPeersRequest =
     }),
   ) as unknown as Schema.Schema<ListZoneTransferPeersRequest>;
 
-export type ListZoneTransferPeersResponse = {
-  id: string;
-  name: string;
-  ip?: string | null;
-  ixfrEnable?: boolean | null;
-  port?: number | null;
-  tsigId?: string | null;
-}[];
+export interface ListZoneTransferPeersResponse {
+  result: {
+    id: string;
+    name: string;
+    ip?: string | null;
+    ixfrEnable?: boolean | null;
+    port?: number | null;
+    tsigId?: string | null;
+  }[];
+}
 
 export const ListZoneTransferPeersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      name: Schema.String,
-      ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        name: "name",
-        ip: "ip",
-        ixfrEnable: "ixfr_enable",
-        port: "port",
-        tsigId: "tsig_id",
-      }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+        ip: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        ixfrEnable: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
+        ),
+        port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          ip: "ip",
+          ixfrEnable: "ixfr_enable",
+          port: "port",
+          tsigId: "tsig_id",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
+  }) as unknown as Schema.Schema<ListZoneTransferPeersResponse>;
 
 export type ListZoneTransferPeersError = DefaultErrors;
 
-export const listZoneTransferPeers: API.OperationMethod<
+export const listZoneTransferPeers: API.PaginatedOperationMethod<
   ListZoneTransferPeersRequest,
   ListZoneTransferPeersResponse,
   ListZoneTransferPeersError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListZoneTransferPeersRequest,
+  ) => stream.Stream<
+    ListZoneTransferPeersResponse,
+    ListZoneTransferPeersError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListZoneTransferPeersRequest) => stream.Stream<
+    {
+      id: string;
+      name: string;
+      ip?: string | null;
+      ixfrEnable?: boolean | null;
+      port?: number | null;
+      tsigId?: string | null;
+    },
+    ListZoneTransferPeersError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListZoneTransferPeersRequest,
   output: ListZoneTransferPeersResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateZoneTransferPeerRequest {
@@ -8504,16 +8847,20 @@ export const CreateZoneTransferPeerResponse =
     ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      ip: "ip",
-      ixfrEnable: "ixfr_enable",
-      port: "port",
-      tsigId: "tsig_id",
-    }),
-  ) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        ip: "ip",
+        ixfrEnable: "ixfr_enable",
+        port: "port",
+        tsigId: "tsig_id",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateZoneTransferPeerResponse>;
 
 export type CreateZoneTransferPeerError = DefaultErrors;
 
@@ -8589,16 +8936,20 @@ export const UpdateZoneTransferPeerResponse =
     ixfrEnable: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
     port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     tsigId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      ip: "ip",
-      ixfrEnable: "ixfr_enable",
-      port: "port",
-      tsigId: "tsig_id",
-    }),
-  ) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        ip: "ip",
+        ixfrEnable: "ixfr_enable",
+        port: "port",
+        tsigId: "tsig_id",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateZoneTransferPeerResponse>;
 
 export type UpdateZoneTransferPeerError = DefaultErrors;
 
@@ -8636,7 +8987,9 @@ export interface DeleteZoneTransferPeerResponse {
 export const DeleteZoneTransferPeerResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteZoneTransferPeerResponse>;
 
 export type DeleteZoneTransferPeerError = DefaultErrors;
 
@@ -8687,7 +9040,9 @@ export const GetZoneTransferTsigResponse =
     algo: Schema.String,
     name: Schema.String,
     secret: Schema.String,
-  }) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetZoneTransferTsigResponse>;
 
 export type GetZoneTransferTsigError = DefaultErrors;
 
@@ -8716,34 +9071,52 @@ export const ListZoneTransferTsigsRequest =
     }),
   ) as unknown as Schema.Schema<ListZoneTransferTsigsRequest>;
 
-export type ListZoneTransferTsigsResponse = {
-  id: string;
-  algo: string;
-  name: string;
-  secret: string;
-}[];
+export interface ListZoneTransferTsigsResponse {
+  result: { id: string; algo: string; name: string; secret: string }[];
+}
 
 export const ListZoneTransferTsigsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      algo: Schema.String,
-      name: Schema.String,
-      secret: Schema.String,
-    }),
-  ) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        algo: Schema.String,
+        name: Schema.String,
+        secret: Schema.String,
+      }),
+    ),
+  }) as unknown as Schema.Schema<ListZoneTransferTsigsResponse>;
 
 export type ListZoneTransferTsigsError = DefaultErrors;
 
-export const listZoneTransferTsigs: API.OperationMethod<
+export const listZoneTransferTsigs: API.PaginatedOperationMethod<
   ListZoneTransferTsigsRequest,
   ListZoneTransferTsigsResponse,
   ListZoneTransferTsigsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListZoneTransferTsigsRequest,
+  ) => stream.Stream<
+    ListZoneTransferTsigsResponse,
+    ListZoneTransferTsigsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListZoneTransferTsigsRequest,
+  ) => stream.Stream<
+    { id: string; algo: string; name: string; secret: string },
+    ListZoneTransferTsigsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListZoneTransferTsigsRequest,
   output: ListZoneTransferTsigsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateZoneTransferTsigRequest {
@@ -8786,7 +9159,9 @@ export const CreateZoneTransferTsigResponse =
     algo: Schema.String,
     name: Schema.String,
     secret: Schema.String,
-  }) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateZoneTransferTsigResponse>;
 
 export type CreateZoneTransferTsigError = DefaultErrors;
 
@@ -8843,7 +9218,9 @@ export const UpdateZoneTransferTsigResponse =
     algo: Schema.String,
     name: Schema.String,
     secret: Schema.String,
-  }) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateZoneTransferTsigResponse>;
 
 export type UpdateZoneTransferTsigError = DefaultErrors;
 
@@ -8881,7 +9258,9 @@ export interface DeleteZoneTransferTsigResponse {
 export const DeleteZoneTransferTsigResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteZoneTransferTsigResponse>;
 
 export type DeleteZoneTransferTsigError = DefaultErrors;
 

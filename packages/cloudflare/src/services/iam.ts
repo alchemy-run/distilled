@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service iam
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -65,7 +66,9 @@ export const GetPermissionGroupResponse =
       ]),
     ),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<GetPermissionGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetPermissionGroupResponse>;
 
 export type GetPermissionGroupError = DefaultErrors;
 
@@ -104,40 +107,91 @@ export const ListPermissionGroupsRequest =
     }),
   ) as unknown as Schema.Schema<ListPermissionGroupsRequest>;
 
-export type ListPermissionGroupsResponse = {
-  id: string;
-  meta?: { key?: string | null; value?: string | null } | null;
-  name?: string | null;
-}[];
+export interface ListPermissionGroupsResponse {
+  result: {
+    id: string;
+    meta?: { key?: string | null; value?: string | null } | null;
+    name?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListPermissionGroupsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      meta: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        meta: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              value: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListPermissionGroupsResponse>;
 
 export type ListPermissionGroupsError = DefaultErrors;
 
-export const listPermissionGroups: API.OperationMethod<
+export const listPermissionGroups: API.PaginatedOperationMethod<
   ListPermissionGroupsRequest,
   ListPermissionGroupsResponse,
   ListPermissionGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPermissionGroupsRequest,
+  ) => stream.Stream<
+    ListPermissionGroupsResponse,
+    ListPermissionGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPermissionGroupsRequest) => stream.Stream<
+    {
+      id: string;
+      meta?: { key?: string | null; value?: string | null } | null;
+      name?: string | null;
+    },
+    ListPermissionGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPermissionGroupsRequest,
   output: ListPermissionGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -186,7 +240,9 @@ export const GetResourceGroupResponse =
       ]),
     ),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<GetResourceGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetResourceGroupResponse>;
 
 export type GetResourceGroupError = DefaultErrors;
 
@@ -222,42 +278,79 @@ export const ListResourceGroupsRequest =
     }),
   ) as unknown as Schema.Schema<ListResourceGroupsRequest>;
 
-export type ListResourceGroupsResponse = {
-  id: string;
-  scope: unknown;
-  meta?: { key?: string | null; value?: string | null } | null;
-  name?: string | null;
-}[];
+export interface ListResourceGroupsResponse {
+  result: {
+    id: string;
+    scope: { key: string; objects: { key: string }[] }[];
+    meta?: { key?: string | null; value?: string | null } | null;
+    name?: string | null;
+  }[];
+}
 
 export const ListResourceGroupsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      scope: Schema.Unknown,
-      meta: Schema.optional(
-        Schema.Union([
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        scope: Schema.Array(
           Schema.Struct({
-            key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            key: Schema.String,
+            objects: Schema.Array(
+              Schema.Struct({
+                key: Schema.String,
+              }),
+            ),
           }),
-          Schema.Null,
-        ]),
-      ),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-  ) as unknown as Schema.Schema<ListResourceGroupsResponse>;
+        ),
+        meta: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              key: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              value: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+    ),
+  }) as unknown as Schema.Schema<ListResourceGroupsResponse>;
 
 export type ListResourceGroupsError = DefaultErrors;
 
-export const listResourceGroups: API.OperationMethod<
+export const listResourceGroups: API.PaginatedOperationMethod<
   ListResourceGroupsRequest,
   ListResourceGroupsResponse,
   ListResourceGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListResourceGroupsRequest,
+  ) => stream.Stream<
+    ListResourceGroupsResponse,
+    ListResourceGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListResourceGroupsRequest) => stream.Stream<
+    {
+      id: string;
+      scope: { key: string; objects: { key: string }[] }[];
+      meta?: { key?: string | null; value?: string | null } | null;
+      name?: string | null;
+    },
+    ListResourceGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListResourceGroupsRequest,
   output: ListResourceGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateResourceGroupRequest {
@@ -313,7 +406,9 @@ export const CreateResourceGroupResponse =
       ]),
     ),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateResourceGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateResourceGroupResponse>;
 
 export type CreateResourceGroupError = DefaultErrors;
 
@@ -385,7 +480,9 @@ export const UpdateResourceGroupResponse =
       ]),
     ),
     name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<UpdateResourceGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateResourceGroupResponse>;
 
 export type UpdateResourceGroupError = DefaultErrors;
 
@@ -425,7 +522,9 @@ export interface DeleteResourceGroupResponse {
 export const DeleteResourceGroupResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-  }) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteResourceGroupResponse>;
 
 export type DeleteResourceGroupError = DefaultErrors;
 
@@ -500,17 +599,19 @@ export const GetSsoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    enabled: "enabled",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-    verification: "verification",
-  }),
-) as unknown as Schema.Schema<GetSsoResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      emailDomain: "email_domain",
+      enabled: "enabled",
+      updatedOn: "updated_on",
+      useFedrampLanguage: "use_fedramp_language",
+      verification: "verification",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetSsoResponse>;
 
 export type GetSsoError = DefaultErrors;
 
@@ -536,67 +637,99 @@ export const ListSsosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/sso_connectors" }),
 ) as unknown as Schema.Schema<ListSsosRequest>;
 
-export type ListSsosResponse = {
-  id?: string | null;
-  createdOn?: string | null;
-  emailDomain?: string | null;
-  enabled?: boolean | null;
-  updatedOn?: string | null;
-  useFedrampLanguage?: boolean | null;
-  verification?: {
-    code?: string | null;
-    status?: "awaiting" | "pending" | "failed" | "verified" | null;
-  } | null;
-}[];
+export interface ListSsosResponse {
+  result: {
+    id?: string | null;
+    createdOn?: string | null;
+    emailDomain?: string | null;
+    enabled?: boolean | null;
+    updatedOn?: string | null;
+    useFedrampLanguage?: boolean | null;
+    verification?: {
+      code?: string | null;
+      status?: "awaiting" | "pending" | "failed" | "verified" | null;
+    } | null;
+  }[];
+}
 
-export const ListSsosResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    useFedrampLanguage: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
+export const ListSsosResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      emailDomain: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      updatedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      useFedrampLanguage: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      verification: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            status: Schema.optional(
+              Schema.Union([
+                Schema.Literals(["awaiting", "pending", "failed", "verified"]),
+                Schema.Null,
+              ]),
+            ),
+          }),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        emailDomain: "email_domain",
+        enabled: "enabled",
+        updatedOn: "updated_on",
+        useFedrampLanguage: "use_fedramp_language",
+        verification: "verification",
+      }),
     ),
-    verification: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          code: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          status: Schema.optional(
-            Schema.Union([
-              Schema.Literals(["awaiting", "pending", "failed", "verified"]),
-              Schema.Null,
-            ]),
-          ),
-        }),
-        Schema.Null,
-      ]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      emailDomain: "email_domain",
-      enabled: "enabled",
-      updatedOn: "updated_on",
-      useFedrampLanguage: "use_fedramp_language",
-      verification: "verification",
-    }),
   ),
-) as unknown as Schema.Schema<ListSsosResponse>;
+}) as unknown as Schema.Schema<ListSsosResponse>;
 
 export type ListSsosError = DefaultErrors;
 
-export const listSsos: API.OperationMethod<
+export const listSsos: API.PaginatedOperationMethod<
   ListSsosRequest,
   ListSsosResponse,
   ListSsosError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSsosRequest,
+  ) => stream.Stream<
+    ListSsosResponse,
+    ListSsosError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSsosRequest) => stream.Stream<
+    {
+      id?: string | null;
+      createdOn?: string | null;
+      emailDomain?: string | null;
+      enabled?: boolean | null;
+      updatedOn?: string | null;
+      useFedrampLanguage?: boolean | null;
+      verification?: {
+        code?: string | null;
+        status?: "awaiting" | "pending" | "failed" | "verified" | null;
+      } | null;
+    },
+    ListSsosError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSsosRequest,
   output: ListSsosResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateSsoRequest {
@@ -664,17 +797,21 @@ export const CreateSsoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    enabled: "enabled",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-    verification: "verification",
-  }),
-) as unknown as Schema.Schema<CreateSsoResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      emailDomain: "email_domain",
+      enabled: "enabled",
+      updatedOn: "updated_on",
+      useFedrampLanguage: "use_fedramp_language",
+      verification: "verification",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateSsoResponse>;
 
 export type CreateSsoError = DefaultErrors;
 
@@ -755,17 +892,19 @@ export const PatchSsoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    emailDomain: "email_domain",
-    enabled: "enabled",
-    updatedOn: "updated_on",
-    useFedrampLanguage: "use_fedramp_language",
-    verification: "verification",
-  }),
-) as unknown as Schema.Schema<PatchSsoResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      emailDomain: "email_domain",
+      enabled: "enabled",
+      updatedOn: "updated_on",
+      useFedrampLanguage: "use_fedramp_language",
+      verification: "verification",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<PatchSsoResponse>;
 
 export type PatchSsoError = DefaultErrors;
 
@@ -803,7 +942,9 @@ export interface DeleteSsoResponse {
 
 export const DeleteSsoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteSsoResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteSsoResponse>;
 
 export type DeleteSsoError = DefaultErrors;
 
@@ -903,15 +1044,19 @@ export const GetUserGroupResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    name: "name",
-    policies: "policies",
-  }),
-) as unknown as Schema.Schema<GetUserGroupResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      name: "name",
+      policies: "policies",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetUserGroupResponse>;
 
 export type GetUserGroupError = DefaultErrors;
 
@@ -949,89 +1094,152 @@ export const ListUserGroupsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/iam/user_groups" }),
 ) as unknown as Schema.Schema<ListUserGroupsRequest>;
 
-export type ListUserGroupsResponse = {
-  id: string;
-  createdOn: string;
-  modifiedOn: string;
-  name: string;
-  policies?:
-    | {
-        id?: string | null;
-        access?: "allow" | "deny" | null;
-        permissionGroups?: { id: string }[] | null;
-        resourceGroups?: { id: string }[] | null;
-      }[]
-    | null;
-}[];
+export interface ListUserGroupsResponse {
+  result: {
+    id: string;
+    createdOn: string;
+    modifiedOn: string;
+    name: string;
+    policies?:
+      | {
+          id?: string | null;
+          access?: "allow" | "deny" | null;
+          permissionGroups?: { id: string }[] | null;
+          resourceGroups?: { id: string }[] | null;
+        }[]
+      | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListUserGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    createdOn: Schema.String,
-    modifiedOn: Schema.String,
-    name: Schema.String,
-    policies: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            access: Schema.optional(
-              Schema.Union([Schema.Literals(["allow", "deny"]), Schema.Null]),
-            ),
-            permissionGroups: Schema.optional(
-              Schema.Union([
-                Schema.Array(
-                  Schema.Struct({
-                    id: Schema.String,
-                  }),
+export const ListUserGroupsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        modifiedOn: Schema.String,
+        name: Schema.String,
+        policies: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+                access: Schema.optional(
+                  Schema.Union([
+                    Schema.Literals(["allow", "deny"]),
+                    Schema.Null,
+                  ]),
                 ),
-                Schema.Null,
-              ]),
-            ),
-            resourceGroups: Schema.optional(
-              Schema.Union([
-                Schema.Array(
-                  Schema.Struct({
-                    id: Schema.String,
-                  }),
+                permissionGroups: Schema.optional(
+                  Schema.Union([
+                    Schema.Array(
+                      Schema.Struct({
+                        id: Schema.String,
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
                 ),
-                Schema.Null,
-              ]),
+                resourceGroups: Schema.optional(
+                  Schema.Union([
+                    Schema.Array(
+                      Schema.Struct({
+                        id: Schema.String,
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  id: "id",
+                  access: "access",
+                  permissionGroups: "permission_groups",
+                  resourceGroups: "resource_groups",
+                }),
+              ),
             ),
-          }).pipe(
-            Schema.encodeKeys({
-              id: "id",
-              access: "access",
-              permissionGroups: "permission_groups",
-              resourceGroups: "resource_groups",
-            }),
-          ),
+            Schema.Null,
+          ]),
         ),
-        Schema.Null,
-      ]),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          modifiedOn: "modified_on",
+          name: "name",
+          policies: "policies",
+        }),
+      ),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      name: "name",
-      policies: "policies",
-    }),
-  ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  },
+).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListUserGroupsResponse>;
 
 export type ListUserGroupsError = DefaultErrors;
 
-export const listUserGroups: API.OperationMethod<
+export const listUserGroups: API.PaginatedOperationMethod<
   ListUserGroupsRequest,
   ListUserGroupsResponse,
   ListUserGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListUserGroupsRequest,
+  ) => stream.Stream<
+    ListUserGroupsResponse,
+    ListUserGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListUserGroupsRequest) => stream.Stream<
+    {
+      id: string;
+      createdOn: string;
+      modifiedOn: string;
+      name: string;
+      policies?:
+        | {
+            id?: string | null;
+            access?: "allow" | "deny" | null;
+            permissionGroups?: { id: string }[] | null;
+            resourceGroups?: { id: string }[] | null;
+          }[]
+        | null;
+    },
+    ListUserGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUserGroupsRequest,
   output: ListUserGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateUserGroupRequest {
@@ -1143,15 +1351,19 @@ export const CreateUserGroupResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      name: "name",
-      policies: "policies",
-    }),
-  ) as unknown as Schema.Schema<CreateUserGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        name: "name",
+        policies: "policies",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateUserGroupResponse>;
 
 export type CreateUserGroupError = DefaultErrors;
 
@@ -1285,15 +1497,19 @@ export const UpdateUserGroupResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      modifiedOn: "modified_on",
-      name: "name",
-      policies: "policies",
-    }),
-  ) as unknown as Schema.Schema<UpdateUserGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        modifiedOn: "modified_on",
+        name: "name",
+        policies: "policies",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateUserGroupResponse>;
 
 export type UpdateUserGroupError = DefaultErrors;
 
@@ -1334,7 +1550,9 @@ export interface DeleteUserGroupResponse {
 export const DeleteUserGroupResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-  }) as unknown as Schema.Schema<DeleteUserGroupResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteUserGroupResponse>;
 
 export type DeleteUserGroupError = DefaultErrors;
 
@@ -1370,34 +1588,83 @@ export const ListUserGroupMembersRequest =
     }),
   ) as unknown as Schema.Schema<ListUserGroupMembersRequest>;
 
-export type ListUserGroupMembersResponse = {
-  id: string;
-  email?: string | null;
-  status?: "accepted" | "pending" | null;
-}[];
+export interface ListUserGroupMembersResponse {
+  result: {
+    id: string;
+    email?: string | null;
+    status?: "accepted" | "pending" | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListUserGroupMembersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      status: Schema.optional(
-        Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
-      ),
-    }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(
+          Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+        ),
+      }),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListUserGroupMembersResponse>;
 
 export type ListUserGroupMembersError = DefaultErrors;
 
-export const listUserGroupMembers: API.OperationMethod<
+export const listUserGroupMembers: API.PaginatedOperationMethod<
   ListUserGroupMembersRequest,
   ListUserGroupMembersResponse,
   ListUserGroupMembersError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListUserGroupMembersRequest,
+  ) => stream.Stream<
+    ListUserGroupMembersResponse,
+    ListUserGroupMembersError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListUserGroupMembersRequest) => stream.Stream<
+    {
+      id: string;
+      email?: string | null;
+      status?: "accepted" | "pending" | null;
+    },
+    ListUserGroupMembersError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListUserGroupMembersRequest,
   output: ListUserGroupMembersResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateUserGroupMemberRequest {
@@ -1440,7 +1707,9 @@ export const CreateUserGroupMemberResponse =
     status: Schema.optional(
       Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
 export type CreateUserGroupMemberError = DefaultErrors | InvalidMember;
 
@@ -1479,34 +1748,59 @@ export const UpdateUserGroupMemberRequest =
     }),
   ) as unknown as Schema.Schema<UpdateUserGroupMemberRequest>;
 
-export type UpdateUserGroupMemberResponse = {
-  id: string;
-  email?: string | null;
-  status?: "accepted" | "pending" | null;
-}[];
+export interface UpdateUserGroupMemberResponse {
+  result: {
+    id: string;
+    email?: string | null;
+    status?: "accepted" | "pending" | null;
+  }[];
+}
 
 export const UpdateUserGroupMemberResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      status: Schema.optional(
-        Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
-      ),
-    }),
-  ) as unknown as Schema.Schema<UpdateUserGroupMemberResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        email: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        status: Schema.optional(
+          Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
+        ),
+      }),
+    ),
+  }) as unknown as Schema.Schema<UpdateUserGroupMemberResponse>;
 
 export type UpdateUserGroupMemberError = DefaultErrors;
 
-export const updateUserGroupMember: API.OperationMethod<
+export const updateUserGroupMember: API.PaginatedOperationMethod<
   UpdateUserGroupMemberRequest,
   UpdateUserGroupMemberResponse,
   UpdateUserGroupMemberError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: UpdateUserGroupMemberRequest,
+  ) => stream.Stream<
+    UpdateUserGroupMemberResponse,
+    UpdateUserGroupMemberError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: UpdateUserGroupMemberRequest) => stream.Stream<
+    {
+      id: string;
+      email?: string | null;
+      status?: "accepted" | "pending" | null;
+    },
+    UpdateUserGroupMemberError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: UpdateUserGroupMemberRequest,
   output: UpdateUserGroupMemberResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface DeleteUserGroupMemberRequest {
@@ -1544,7 +1838,9 @@ export const DeleteUserGroupMemberResponse =
     status: Schema.optional(
       Schema.Union([Schema.Literals(["accepted", "pending"]), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
 export type DeleteUserGroupMemberError = DefaultErrors | InvalidMember;
 

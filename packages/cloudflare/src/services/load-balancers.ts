@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service load-balancers
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -419,427 +420,8 @@ export const GetLoadBalancerResponse =
     ),
     ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      adaptiveRouting: "adaptive_routing",
-      countryPools: "country_pools",
-      createdOn: "created_on",
-      defaultPools: "default_pools",
-      description: "description",
-      enabled: "enabled",
-      fallbackPool: "fallback_pool",
-      locationStrategy: "location_strategy",
-      modifiedOn: "modified_on",
-      name: "name",
-      networks: "networks",
-      popPools: "pop_pools",
-      proxied: "proxied",
-      randomSteering: "random_steering",
-      regionPools: "region_pools",
-      rules: "rules",
-      sessionAffinity: "session_affinity",
-      sessionAffinityAttributes: "session_affinity_attributes",
-      sessionAffinityTtl: "session_affinity_ttl",
-      steeringPolicy: "steering_policy",
-      ttl: "ttl",
-      zoneName: "zone_name",
-    }),
-  ) as unknown as Schema.Schema<GetLoadBalancerResponse>;
-
-export type GetLoadBalancerError = DefaultErrors;
-
-export const getLoadBalancer: API.OperationMethod<
-  GetLoadBalancerRequest,
-  GetLoadBalancerResponse,
-  GetLoadBalancerError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetLoadBalancerRequest,
-  output: GetLoadBalancerResponse,
-  errors: [],
-}));
-
-export interface ListLoadBalancersRequest {
-  zoneId: string;
-}
-
-export const ListLoadBalancersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  }).pipe(
-    T.Http({ method: "GET", path: "/zones/{zone_id}/load_balancers" }),
-  ) as unknown as Schema.Schema<ListLoadBalancersRequest>;
-
-export type ListLoadBalancersResponse = {
-  id?: string | null;
-  adaptiveRouting?: { failoverAcrossPools?: boolean | null } | null;
-  countryPools?: Record<string, unknown> | null;
-  createdOn?: string | null;
-  defaultPools?: string[] | null;
-  description?: string | null;
-  enabled?: boolean | null;
-  fallbackPool?: string | null;
-  locationStrategy?: {
-    mode?: "pop" | "resolver_ip" | null;
-    preferEcs?: "always" | "never" | "proximity" | "geo" | null;
-  } | null;
-  modifiedOn?: string | null;
-  name?: string | null;
-  networks?: string[] | null;
-  popPools?: Record<string, unknown> | null;
-  proxied?: boolean | null;
-  randomSteering?: {
-    defaultWeight?: number | null;
-    poolWeights?: Record<string, unknown> | null;
-  } | null;
-  regionPools?: Record<string, unknown> | null;
-  rules?:
-    | {
-        condition?: string | null;
-        disabled?: boolean | null;
-        fixedResponse?: {
-          contentType?: string | null;
-          location?: string | null;
-          messageBody?: string | null;
-          statusCode?: number | null;
-        } | null;
-        name?: string | null;
-        overrides?: {
-          adaptiveRouting?: unknown | null;
-          countryPools?: Record<string, unknown> | null;
-          defaultPools?: string[] | null;
-          fallbackPool?: string | null;
-          locationStrategy?: unknown | null;
-          popPools?: Record<string, unknown> | null;
-          randomSteering?: unknown | null;
-          regionPools?: Record<string, unknown> | null;
-          sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header" | null;
-          sessionAffinityAttributes?: unknown | null;
-          sessionAffinityTtl?: number | null;
-          steeringPolicy?:
-            | ""
-            | "off"
-            | "geo"
-            | "random"
-            | "dynamic_latency"
-            | "proximity"
-            | "least_outstanding_requests"
-            | "least_connections"
-            | null;
-          ttl?: number | null;
-        } | null;
-        priority?: number | null;
-        terminates?: boolean | null;
-      }[]
-    | null;
-  sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header" | null;
-  sessionAffinityAttributes?: {
-    drainDuration?: number | null;
-    headers?: string[] | null;
-    requireAllHeaders?: boolean | null;
-    samesite?: "Auto" | "Lax" | "None" | "Strict" | null;
-    secure?: "Auto" | "Always" | "Never" | null;
-    zeroDowntimeFailover?: "none" | "temporary" | "sticky" | null;
-  } | null;
-  sessionAffinityTtl?: number | null;
-  steeringPolicy?:
-    | ""
-    | "off"
-    | "geo"
-    | "random"
-    | "dynamic_latency"
-    | "proximity"
-    | "least_outstanding_requests"
-    | "least_connections"
-    | null;
-  ttl?: number | null;
-  zoneName?: string | null;
-}[];
-
-export const ListLoadBalancersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      adaptiveRouting: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            failoverAcrossPools: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({ failoverAcrossPools: "failover_across_pools" }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      countryPools: Schema.optional(
-        Schema.Union([Schema.Struct({}), Schema.Null]),
-      ),
-      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      defaultPools: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      fallbackPool: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      locationStrategy: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            mode: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["pop", "resolver_ip"]),
-                Schema.Null,
-              ]),
-            ),
-            preferEcs: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["always", "never", "proximity", "geo"]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" })),
-          Schema.Null,
-        ]),
-      ),
-      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      networks: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      popPools: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-      proxied: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-      randomSteering: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            defaultWeight: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            poolWeights: Schema.optional(
-              Schema.Union([Schema.Struct({}), Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              defaultWeight: "default_weight",
-              poolWeights: "pool_weights",
-            }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      regionPools: Schema.optional(
-        Schema.Union([Schema.Struct({}), Schema.Null]),
-      ),
-      rules: Schema.optional(
-        Schema.Union([
-          Schema.Array(
-            Schema.Struct({
-              condition: Schema.optional(
-                Schema.Union([Schema.String, Schema.Null]),
-              ),
-              disabled: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-              fixedResponse: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    contentType: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    location: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    messageBody: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    statusCode: Schema.optional(
-                      Schema.Union([Schema.Number, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      contentType: "content_type",
-                      location: "location",
-                      messageBody: "message_body",
-                      statusCode: "status_code",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-              name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-              overrides: Schema.optional(
-                Schema.Union([
-                  Schema.Struct({
-                    adaptiveRouting: Schema.optional(
-                      Schema.Union([Schema.Unknown, Schema.Null]),
-                    ),
-                    countryPools: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    defaultPools: Schema.optional(
-                      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-                    ),
-                    fallbackPool: Schema.optional(
-                      Schema.Union([Schema.String, Schema.Null]),
-                    ),
-                    locationStrategy: Schema.optional(
-                      Schema.Union([Schema.Unknown, Schema.Null]),
-                    ),
-                    popPools: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    randomSteering: Schema.optional(
-                      Schema.Union([Schema.Unknown, Schema.Null]),
-                    ),
-                    regionPools: Schema.optional(
-                      Schema.Union([Schema.Struct({}), Schema.Null]),
-                    ),
-                    sessionAffinity: Schema.optional(
-                      Schema.Union([
-                        Schema.Literals([
-                          "none",
-                          "cookie",
-                          "ip_cookie",
-                          "header",
-                        ]),
-                        Schema.Null,
-                      ]),
-                    ),
-                    sessionAffinityAttributes: Schema.optional(
-                      Schema.Union([Schema.Unknown, Schema.Null]),
-                    ),
-                    sessionAffinityTtl: Schema.optional(
-                      Schema.Union([Schema.Number, Schema.Null]),
-                    ),
-                    steeringPolicy: Schema.optional(
-                      Schema.Union([
-                        Schema.Literals([
-                          "",
-                          "off",
-                          "geo",
-                          "random",
-                          "dynamic_latency",
-                          "proximity",
-                          "least_outstanding_requests",
-                          "least_connections",
-                        ]),
-                        Schema.Null,
-                      ]),
-                    ),
-                    ttl: Schema.optional(
-                      Schema.Union([Schema.Number, Schema.Null]),
-                    ),
-                  }).pipe(
-                    Schema.encodeKeys({
-                      adaptiveRouting: "adaptive_routing",
-                      countryPools: "country_pools",
-                      defaultPools: "default_pools",
-                      fallbackPool: "fallback_pool",
-                      locationStrategy: "location_strategy",
-                      popPools: "pop_pools",
-                      randomSteering: "random_steering",
-                      regionPools: "region_pools",
-                      sessionAffinity: "session_affinity",
-                      sessionAffinityAttributes: "session_affinity_attributes",
-                      sessionAffinityTtl: "session_affinity_ttl",
-                      steeringPolicy: "steering_policy",
-                      ttl: "ttl",
-                    }),
-                  ),
-                  Schema.Null,
-                ]),
-              ),
-              priority: Schema.optional(
-                Schema.Union([Schema.Number, Schema.Null]),
-              ),
-              terminates: Schema.optional(
-                Schema.Union([Schema.Boolean, Schema.Null]),
-              ),
-            }).pipe(
-              Schema.encodeKeys({
-                condition: "condition",
-                disabled: "disabled",
-                fixedResponse: "fixed_response",
-                name: "name",
-                overrides: "overrides",
-                priority: "priority",
-                terminates: "terminates",
-              }),
-            ),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      sessionAffinity: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
-          Schema.Null,
-        ]),
-      ),
-      sessionAffinityAttributes: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            drainDuration: Schema.optional(
-              Schema.Union([Schema.Number, Schema.Null]),
-            ),
-            headers: Schema.optional(
-              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-            ),
-            requireAllHeaders: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-            samesite: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["Auto", "Lax", "None", "Strict"]),
-                Schema.Null,
-              ]),
-            ),
-            secure: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["Auto", "Always", "Never"]),
-                Schema.Null,
-              ]),
-            ),
-            zeroDowntimeFailover: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["none", "temporary", "sticky"]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              drainDuration: "drain_duration",
-              headers: "headers",
-              requireAllHeaders: "require_all_headers",
-              samesite: "samesite",
-              secure: "secure",
-              zeroDowntimeFailover: "zero_downtime_failover",
-            }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      sessionAffinityTtl: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      steeringPolicy: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "",
-            "off",
-            "geo",
-            "random",
-            "dynamic_latency",
-            "proximity",
-            "least_outstanding_requests",
-            "least_connections",
-          ]),
-          Schema.Null,
-        ]),
-      ),
-      ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
+  })
+    .pipe(
       Schema.encodeKeys({
         id: "id",
         adaptiveRouting: "adaptive_routing",
@@ -865,20 +447,569 @@ export const ListLoadBalancersResponse =
         ttl: "ttl",
         zoneName: "zone_name",
       }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetLoadBalancerResponse>;
+
+export type GetLoadBalancerError = DefaultErrors;
+
+export const getLoadBalancer: API.OperationMethod<
+  GetLoadBalancerRequest,
+  GetLoadBalancerResponse,
+  GetLoadBalancerError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetLoadBalancerRequest,
+  output: GetLoadBalancerResponse,
+  errors: [],
+}));
+
+export interface ListLoadBalancersRequest {
+  zoneId: string;
+}
+
+export const ListLoadBalancersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
+  }).pipe(
+    T.Http({ method: "GET", path: "/zones/{zone_id}/load_balancers" }),
+  ) as unknown as Schema.Schema<ListLoadBalancersRequest>;
+
+export interface ListLoadBalancersResponse {
+  result: {
+    id?: string | null;
+    adaptiveRouting?: { failoverAcrossPools?: boolean | null } | null;
+    countryPools?: Record<string, unknown> | null;
+    createdOn?: string | null;
+    defaultPools?: string[] | null;
+    description?: string | null;
+    enabled?: boolean | null;
+    fallbackPool?: string | null;
+    locationStrategy?: {
+      mode?: "pop" | "resolver_ip" | null;
+      preferEcs?: "always" | "never" | "proximity" | "geo" | null;
+    } | null;
+    modifiedOn?: string | null;
+    name?: string | null;
+    networks?: string[] | null;
+    popPools?: Record<string, unknown> | null;
+    proxied?: boolean | null;
+    randomSteering?: {
+      defaultWeight?: number | null;
+      poolWeights?: Record<string, unknown> | null;
+    } | null;
+    regionPools?: Record<string, unknown> | null;
+    rules?:
+      | {
+          condition?: string | null;
+          disabled?: boolean | null;
+          fixedResponse?: {
+            contentType?: string | null;
+            location?: string | null;
+            messageBody?: string | null;
+            statusCode?: number | null;
+          } | null;
+          name?: string | null;
+          overrides?: {
+            adaptiveRouting?: unknown | null;
+            countryPools?: Record<string, unknown> | null;
+            defaultPools?: string[] | null;
+            fallbackPool?: string | null;
+            locationStrategy?: unknown | null;
+            popPools?: Record<string, unknown> | null;
+            randomSteering?: unknown | null;
+            regionPools?: Record<string, unknown> | null;
+            sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header" | null;
+            sessionAffinityAttributes?: unknown | null;
+            sessionAffinityTtl?: number | null;
+            steeringPolicy?:
+              | ""
+              | "off"
+              | "geo"
+              | "random"
+              | "dynamic_latency"
+              | "proximity"
+              | "least_outstanding_requests"
+              | "least_connections"
+              | null;
+            ttl?: number | null;
+          } | null;
+          priority?: number | null;
+          terminates?: boolean | null;
+        }[]
+      | null;
+    sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header" | null;
+    sessionAffinityAttributes?: {
+      drainDuration?: number | null;
+      headers?: string[] | null;
+      requireAllHeaders?: boolean | null;
+      samesite?: "Auto" | "Lax" | "None" | "Strict" | null;
+      secure?: "Auto" | "Always" | "Never" | null;
+      zeroDowntimeFailover?: "none" | "temporary" | "sticky" | null;
+    } | null;
+    sessionAffinityTtl?: number | null;
+    steeringPolicy?:
+      | ""
+      | "off"
+      | "geo"
+      | "random"
+      | "dynamic_latency"
+      | "proximity"
+      | "least_outstanding_requests"
+      | "least_connections"
+      | null;
+    ttl?: number | null;
+    zoneName?: string | null;
+  }[];
+}
+
+export const ListLoadBalancersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        adaptiveRouting: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              failoverAcrossPools: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                failoverAcrossPools: "failover_across_pools",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        countryPools: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        defaultPools: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        fallbackPool: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        locationStrategy: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["pop", "resolver_ip"]),
+                  Schema.Null,
+                ]),
+              ),
+              preferEcs: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["always", "never", "proximity", "geo"]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({ mode: "mode", preferEcs: "prefer_ecs" }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        networks: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        popPools: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        proxied: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        randomSteering: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              defaultWeight: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              poolWeights: Schema.optional(
+                Schema.Union([Schema.Struct({}), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                defaultWeight: "default_weight",
+                poolWeights: "pool_weights",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        regionPools: Schema.optional(
+          Schema.Union([Schema.Struct({}), Schema.Null]),
+        ),
+        rules: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                condition: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                disabled: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+                fixedResponse: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      contentType: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      location: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      messageBody: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      statusCode: Schema.optional(
+                        Schema.Union([Schema.Number, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        contentType: "content_type",
+                        location: "location",
+                        messageBody: "message_body",
+                        statusCode: "status_code",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+                name: Schema.optional(
+                  Schema.Union([Schema.String, Schema.Null]),
+                ),
+                overrides: Schema.optional(
+                  Schema.Union([
+                    Schema.Struct({
+                      adaptiveRouting: Schema.optional(
+                        Schema.Union([Schema.Unknown, Schema.Null]),
+                      ),
+                      countryPools: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      defaultPools: Schema.optional(
+                        Schema.Union([
+                          Schema.Array(Schema.String),
+                          Schema.Null,
+                        ]),
+                      ),
+                      fallbackPool: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      locationStrategy: Schema.optional(
+                        Schema.Union([Schema.Unknown, Schema.Null]),
+                      ),
+                      popPools: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      randomSteering: Schema.optional(
+                        Schema.Union([Schema.Unknown, Schema.Null]),
+                      ),
+                      regionPools: Schema.optional(
+                        Schema.Union([Schema.Struct({}), Schema.Null]),
+                      ),
+                      sessionAffinity: Schema.optional(
+                        Schema.Union([
+                          Schema.Literals([
+                            "none",
+                            "cookie",
+                            "ip_cookie",
+                            "header",
+                          ]),
+                          Schema.Null,
+                        ]),
+                      ),
+                      sessionAffinityAttributes: Schema.optional(
+                        Schema.Union([Schema.Unknown, Schema.Null]),
+                      ),
+                      sessionAffinityTtl: Schema.optional(
+                        Schema.Union([Schema.Number, Schema.Null]),
+                      ),
+                      steeringPolicy: Schema.optional(
+                        Schema.Union([
+                          Schema.Literals([
+                            "",
+                            "off",
+                            "geo",
+                            "random",
+                            "dynamic_latency",
+                            "proximity",
+                            "least_outstanding_requests",
+                            "least_connections",
+                          ]),
+                          Schema.Null,
+                        ]),
+                      ),
+                      ttl: Schema.optional(
+                        Schema.Union([Schema.Number, Schema.Null]),
+                      ),
+                    }).pipe(
+                      Schema.encodeKeys({
+                        adaptiveRouting: "adaptive_routing",
+                        countryPools: "country_pools",
+                        defaultPools: "default_pools",
+                        fallbackPool: "fallback_pool",
+                        locationStrategy: "location_strategy",
+                        popPools: "pop_pools",
+                        randomSteering: "random_steering",
+                        regionPools: "region_pools",
+                        sessionAffinity: "session_affinity",
+                        sessionAffinityAttributes:
+                          "session_affinity_attributes",
+                        sessionAffinityTtl: "session_affinity_ttl",
+                        steeringPolicy: "steering_policy",
+                        ttl: "ttl",
+                      }),
+                    ),
+                    Schema.Null,
+                  ]),
+                ),
+                priority: Schema.optional(
+                  Schema.Union([Schema.Number, Schema.Null]),
+                ),
+                terminates: Schema.optional(
+                  Schema.Union([Schema.Boolean, Schema.Null]),
+                ),
+              }).pipe(
+                Schema.encodeKeys({
+                  condition: "condition",
+                  disabled: "disabled",
+                  fixedResponse: "fixed_response",
+                  name: "name",
+                  overrides: "overrides",
+                  priority: "priority",
+                  terminates: "terminates",
+                }),
+              ),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        sessionAffinity: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["none", "cookie", "ip_cookie", "header"]),
+            Schema.Null,
+          ]),
+        ),
+        sessionAffinityAttributes: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              drainDuration: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+              headers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+              requireAllHeaders: Schema.optional(
+                Schema.Union([Schema.Boolean, Schema.Null]),
+              ),
+              samesite: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["Auto", "Lax", "None", "Strict"]),
+                  Schema.Null,
+                ]),
+              ),
+              secure: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["Auto", "Always", "Never"]),
+                  Schema.Null,
+                ]),
+              ),
+              zeroDowntimeFailover: Schema.optional(
+                Schema.Union([
+                  Schema.Literals(["none", "temporary", "sticky"]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                drainDuration: "drain_duration",
+                headers: "headers",
+                requireAllHeaders: "require_all_headers",
+                samesite: "samesite",
+                secure: "secure",
+                zeroDowntimeFailover: "zero_downtime_failover",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        sessionAffinityTtl: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        steeringPolicy: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "",
+              "off",
+              "geo",
+              "random",
+              "dynamic_latency",
+              "proximity",
+              "least_outstanding_requests",
+              "least_connections",
+            ]),
+            Schema.Null,
+          ]),
+        ),
+        ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          adaptiveRouting: "adaptive_routing",
+          countryPools: "country_pools",
+          createdOn: "created_on",
+          defaultPools: "default_pools",
+          description: "description",
+          enabled: "enabled",
+          fallbackPool: "fallback_pool",
+          locationStrategy: "location_strategy",
+          modifiedOn: "modified_on",
+          name: "name",
+          networks: "networks",
+          popPools: "pop_pools",
+          proxied: "proxied",
+          randomSteering: "random_steering",
+          regionPools: "region_pools",
+          rules: "rules",
+          sessionAffinity: "session_affinity",
+          sessionAffinityAttributes: "session_affinity_attributes",
+          sessionAffinityTtl: "session_affinity_ttl",
+          steeringPolicy: "steering_policy",
+          ttl: "ttl",
+          zoneName: "zone_name",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<ListLoadBalancersResponse>;
+  }) as unknown as Schema.Schema<ListLoadBalancersResponse>;
 
 export type ListLoadBalancersError = DefaultErrors;
 
-export const listLoadBalancers: API.OperationMethod<
+export const listLoadBalancers: API.PaginatedOperationMethod<
   ListLoadBalancersRequest,
   ListLoadBalancersResponse,
   ListLoadBalancersError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListLoadBalancersRequest,
+  ) => stream.Stream<
+    ListLoadBalancersResponse,
+    ListLoadBalancersError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListLoadBalancersRequest) => stream.Stream<
+    {
+      id?: string | null;
+      adaptiveRouting?: { failoverAcrossPools?: boolean | null } | null;
+      countryPools?: Record<string, unknown> | null;
+      createdOn?: string | null;
+      defaultPools?: string[] | null;
+      description?: string | null;
+      enabled?: boolean | null;
+      fallbackPool?: string | null;
+      locationStrategy?: {
+        mode?: "pop" | "resolver_ip" | null;
+        preferEcs?: "always" | "never" | "proximity" | "geo" | null;
+      } | null;
+      modifiedOn?: string | null;
+      name?: string | null;
+      networks?: string[] | null;
+      popPools?: Record<string, unknown> | null;
+      proxied?: boolean | null;
+      randomSteering?: {
+        defaultWeight?: number | null;
+        poolWeights?: Record<string, unknown> | null;
+      } | null;
+      regionPools?: Record<string, unknown> | null;
+      rules?:
+        | {
+            condition?: string | null;
+            disabled?: boolean | null;
+            fixedResponse?: {
+              contentType?: string | null;
+              location?: string | null;
+              messageBody?: string | null;
+              statusCode?: number | null;
+            } | null;
+            name?: string | null;
+            overrides?: {
+              adaptiveRouting?: unknown | null;
+              countryPools?: Record<string, unknown> | null;
+              defaultPools?: string[] | null;
+              fallbackPool?: string | null;
+              locationStrategy?: unknown | null;
+              popPools?: Record<string, unknown> | null;
+              randomSteering?: unknown | null;
+              regionPools?: Record<string, unknown> | null;
+              sessionAffinity?:
+                | "none"
+                | "cookie"
+                | "ip_cookie"
+                | "header"
+                | null;
+              sessionAffinityAttributes?: unknown | null;
+              sessionAffinityTtl?: number | null;
+              steeringPolicy?:
+                | ""
+                | "off"
+                | "geo"
+                | "random"
+                | "dynamic_latency"
+                | "proximity"
+                | "least_outstanding_requests"
+                | "least_connections"
+                | null;
+              ttl?: number | null;
+            } | null;
+            priority?: number | null;
+            terminates?: boolean | null;
+          }[]
+        | null;
+      sessionAffinity?: "none" | "cookie" | "ip_cookie" | "header" | null;
+      sessionAffinityAttributes?: {
+        drainDuration?: number | null;
+        headers?: string[] | null;
+        requireAllHeaders?: boolean | null;
+        samesite?: "Auto" | "Lax" | "None" | "Strict" | null;
+        secure?: "Auto" | "Always" | "Never" | null;
+        zeroDowntimeFailover?: "none" | "temporary" | "sticky" | null;
+      } | null;
+      sessionAffinityTtl?: number | null;
+      steeringPolicy?:
+        | ""
+        | "off"
+        | "geo"
+        | "random"
+        | "dynamic_latency"
+        | "proximity"
+        | "least_outstanding_requests"
+        | "least_connections"
+        | null;
+      ttl?: number | null;
+      zoneName?: string | null;
+    },
+    ListLoadBalancersError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListLoadBalancersRequest,
   output: ListLoadBalancersResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateLoadBalancerRequest {
@@ -1548,33 +1679,37 @@ export const CreateLoadBalancerResponse =
     ),
     ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      adaptiveRouting: "adaptive_routing",
-      countryPools: "country_pools",
-      createdOn: "created_on",
-      defaultPools: "default_pools",
-      description: "description",
-      enabled: "enabled",
-      fallbackPool: "fallback_pool",
-      locationStrategy: "location_strategy",
-      modifiedOn: "modified_on",
-      name: "name",
-      networks: "networks",
-      popPools: "pop_pools",
-      proxied: "proxied",
-      randomSteering: "random_steering",
-      regionPools: "region_pools",
-      rules: "rules",
-      sessionAffinity: "session_affinity",
-      sessionAffinityAttributes: "session_affinity_attributes",
-      sessionAffinityTtl: "session_affinity_ttl",
-      steeringPolicy: "steering_policy",
-      ttl: "ttl",
-      zoneName: "zone_name",
-    }),
-  ) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        adaptiveRouting: "adaptive_routing",
+        countryPools: "country_pools",
+        createdOn: "created_on",
+        defaultPools: "default_pools",
+        description: "description",
+        enabled: "enabled",
+        fallbackPool: "fallback_pool",
+        locationStrategy: "location_strategy",
+        modifiedOn: "modified_on",
+        name: "name",
+        networks: "networks",
+        popPools: "pop_pools",
+        proxied: "proxied",
+        randomSteering: "random_steering",
+        regionPools: "region_pools",
+        rules: "rules",
+        sessionAffinity: "session_affinity",
+        sessionAffinityAttributes: "session_affinity_attributes",
+        sessionAffinityTtl: "session_affinity_ttl",
+        steeringPolicy: "steering_policy",
+        ttl: "ttl",
+        zoneName: "zone_name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateLoadBalancerResponse>;
 
 export type CreateLoadBalancerError = DefaultErrors;
 
@@ -2265,33 +2400,37 @@ export const UpdateLoadBalancerResponse =
     ),
     ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      adaptiveRouting: "adaptive_routing",
-      countryPools: "country_pools",
-      createdOn: "created_on",
-      defaultPools: "default_pools",
-      description: "description",
-      enabled: "enabled",
-      fallbackPool: "fallback_pool",
-      locationStrategy: "location_strategy",
-      modifiedOn: "modified_on",
-      name: "name",
-      networks: "networks",
-      popPools: "pop_pools",
-      proxied: "proxied",
-      randomSteering: "random_steering",
-      regionPools: "region_pools",
-      rules: "rules",
-      sessionAffinity: "session_affinity",
-      sessionAffinityAttributes: "session_affinity_attributes",
-      sessionAffinityTtl: "session_affinity_ttl",
-      steeringPolicy: "steering_policy",
-      ttl: "ttl",
-      zoneName: "zone_name",
-    }),
-  ) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        adaptiveRouting: "adaptive_routing",
+        countryPools: "country_pools",
+        createdOn: "created_on",
+        defaultPools: "default_pools",
+        description: "description",
+        enabled: "enabled",
+        fallbackPool: "fallback_pool",
+        locationStrategy: "location_strategy",
+        modifiedOn: "modified_on",
+        name: "name",
+        networks: "networks",
+        popPools: "pop_pools",
+        proxied: "proxied",
+        randomSteering: "random_steering",
+        regionPools: "region_pools",
+        rules: "rules",
+        sessionAffinity: "session_affinity",
+        sessionAffinityAttributes: "session_affinity_attributes",
+        sessionAffinityTtl: "session_affinity_ttl",
+        steeringPolicy: "steering_policy",
+        ttl: "ttl",
+        zoneName: "zone_name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateLoadBalancerResponse>;
 
 export type UpdateLoadBalancerError = DefaultErrors;
 
@@ -2978,33 +3117,37 @@ export const PatchLoadBalancerResponse =
     ),
     ttl: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      adaptiveRouting: "adaptive_routing",
-      countryPools: "country_pools",
-      createdOn: "created_on",
-      defaultPools: "default_pools",
-      description: "description",
-      enabled: "enabled",
-      fallbackPool: "fallback_pool",
-      locationStrategy: "location_strategy",
-      modifiedOn: "modified_on",
-      name: "name",
-      networks: "networks",
-      popPools: "pop_pools",
-      proxied: "proxied",
-      randomSteering: "random_steering",
-      regionPools: "region_pools",
-      rules: "rules",
-      sessionAffinity: "session_affinity",
-      sessionAffinityAttributes: "session_affinity_attributes",
-      sessionAffinityTtl: "session_affinity_ttl",
-      steeringPolicy: "steering_policy",
-      ttl: "ttl",
-      zoneName: "zone_name",
-    }),
-  ) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        adaptiveRouting: "adaptive_routing",
+        countryPools: "country_pools",
+        createdOn: "created_on",
+        defaultPools: "default_pools",
+        description: "description",
+        enabled: "enabled",
+        fallbackPool: "fallback_pool",
+        locationStrategy: "location_strategy",
+        modifiedOn: "modified_on",
+        name: "name",
+        networks: "networks",
+        popPools: "pop_pools",
+        proxied: "proxied",
+        randomSteering: "random_steering",
+        regionPools: "region_pools",
+        rules: "rules",
+        sessionAffinity: "session_affinity",
+        sessionAffinityAttributes: "session_affinity_attributes",
+        sessionAffinityTtl: "session_affinity_ttl",
+        steeringPolicy: "steering_policy",
+        ttl: "ttl",
+        zoneName: "zone_name",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchLoadBalancerResponse>;
 
 export type PatchLoadBalancerError = DefaultErrors;
 
@@ -3042,7 +3185,9 @@ export interface DeleteLoadBalancerResponse {
 export const DeleteLoadBalancerResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteLoadBalancerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteLoadBalancerResponse>;
 
 export type DeleteLoadBalancerError = DefaultErrors;
 
@@ -3147,29 +3292,33 @@ export const GetMonitorResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    allowInsecure: "allow_insecure",
-    consecutiveDown: "consecutive_down",
-    consecutiveUp: "consecutive_up",
-    createdOn: "created_on",
-    description: "description",
-    expectedBody: "expected_body",
-    expectedCodes: "expected_codes",
-    followRedirects: "follow_redirects",
-    header: "header",
-    interval: "interval",
-    method: "method",
-    modifiedOn: "modified_on",
-    path: "path",
-    port: "port",
-    probeZone: "probe_zone",
-    retries: "retries",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<GetMonitorResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      allowInsecure: "allow_insecure",
+      consecutiveDown: "consecutive_down",
+      consecutiveUp: "consecutive_up",
+      createdOn: "created_on",
+      description: "description",
+      expectedBody: "expected_body",
+      expectedCodes: "expected_codes",
+      followRedirects: "follow_redirects",
+      header: "header",
+      interval: "interval",
+      method: "method",
+      modifiedOn: "modified_on",
+      path: "path",
+      port: "port",
+      probeZone: "probe_zone",
+      retries: "retries",
+      timeout: "timeout",
+      type: "type",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetMonitorResponse>;
 
 export type GetMonitorError = DefaultErrors;
 
@@ -3198,101 +3347,155 @@ export const ListMonitorsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListMonitorsRequest>;
 
-export type ListMonitorsResponse = {
-  id?: string | null;
-  allowInsecure?: boolean | null;
-  consecutiveDown?: number | null;
-  consecutiveUp?: number | null;
-  createdOn?: string | null;
-  description?: string | null;
-  expectedBody?: string | null;
-  expectedCodes?: string | null;
-  followRedirects?: boolean | null;
-  header?: Record<string, unknown> | null;
-  interval?: number | null;
-  method?: string | null;
-  modifiedOn?: string | null;
-  path?: string | null;
-  port?: number | null;
-  probeZone?: string | null;
-  retries?: number | null;
-  timeout?: number | null;
-  type?: "http" | "https" | "tcp" | "udp_icmp" | "icmp_ping" | "smtp" | null;
-}[];
+export interface ListMonitorsResponse {
+  result: {
+    id?: string | null;
+    allowInsecure?: boolean | null;
+    consecutiveDown?: number | null;
+    consecutiveUp?: number | null;
+    createdOn?: string | null;
+    description?: string | null;
+    expectedBody?: string | null;
+    expectedCodes?: string | null;
+    followRedirects?: boolean | null;
+    header?: Record<string, unknown> | null;
+    interval?: number | null;
+    method?: string | null;
+    modifiedOn?: string | null;
+    path?: string | null;
+    port?: number | null;
+    probeZone?: string | null;
+    retries?: number | null;
+    timeout?: number | null;
+    type?: "http" | "https" | "tcp" | "udp_icmp" | "icmp_ping" | "smtp" | null;
+  }[];
+}
 
-export const ListMonitorsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    allowInsecure: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    consecutiveDown: Schema.optional(
-      Schema.Union([Schema.Number, Schema.Null]),
-    ),
-    consecutiveUp: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    expectedBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    expectedCodes: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    followRedirects: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
-    ),
-    header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
-    interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    method: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    probeZone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    type: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "http",
-          "https",
-          "tcp",
-          "udp_icmp",
-          "icmp_ping",
-          "smtp",
+export const ListMonitorsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      allowInsecure: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      consecutiveDown: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      consecutiveUp: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      expectedBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      expectedCodes: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      followRedirects: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+      header: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
+      interval: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      method: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      path: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      port: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      probeZone: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      retries: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      type: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "http",
+            "https",
+            "tcp",
+            "udp_icmp",
+            "icmp_ping",
+            "smtp",
+          ]),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        allowInsecure: "allow_insecure",
+        consecutiveDown: "consecutive_down",
+        consecutiveUp: "consecutive_up",
+        createdOn: "created_on",
+        description: "description",
+        expectedBody: "expected_body",
+        expectedCodes: "expected_codes",
+        followRedirects: "follow_redirects",
+        header: "header",
+        interval: "interval",
+        method: "method",
+        modifiedOn: "modified_on",
+        path: "path",
+        port: "port",
+        probeZone: "probe_zone",
+        retries: "retries",
+        timeout: "timeout",
+        type: "type",
+      }),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      allowInsecure: "allow_insecure",
-      consecutiveDown: "consecutive_down",
-      consecutiveUp: "consecutive_up",
-      createdOn: "created_on",
-      description: "description",
-      expectedBody: "expected_body",
-      expectedCodes: "expected_codes",
-      followRedirects: "follow_redirects",
-      header: "header",
-      interval: "interval",
-      method: "method",
-      modifiedOn: "modified_on",
-      path: "path",
-      port: "port",
-      probeZone: "probe_zone",
-      retries: "retries",
-      timeout: "timeout",
-      type: "type",
-    }),
   ),
-) as unknown as Schema.Schema<ListMonitorsResponse>;
+}) as unknown as Schema.Schema<ListMonitorsResponse>;
 
 export type ListMonitorsError = DefaultErrors;
 
-export const listMonitors: API.OperationMethod<
+export const listMonitors: API.PaginatedOperationMethod<
   ListMonitorsRequest,
   ListMonitorsResponse,
   ListMonitorsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListMonitorsRequest,
+  ) => stream.Stream<
+    ListMonitorsResponse,
+    ListMonitorsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListMonitorsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      allowInsecure?: boolean | null;
+      consecutiveDown?: number | null;
+      consecutiveUp?: number | null;
+      createdOn?: string | null;
+      description?: string | null;
+      expectedBody?: string | null;
+      expectedCodes?: string | null;
+      followRedirects?: boolean | null;
+      header?: Record<string, unknown> | null;
+      interval?: number | null;
+      method?: string | null;
+      modifiedOn?: string | null;
+      path?: string | null;
+      port?: number | null;
+      probeZone?: string | null;
+      retries?: number | null;
+      timeout?: number | null;
+      type?:
+        | "http"
+        | "https"
+        | "tcp"
+        | "udp_icmp"
+        | "icmp_ping"
+        | "smtp"
+        | null;
+    },
+    ListMonitorsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMonitorsRequest,
   output: ListMonitorsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateMonitorRequest {
@@ -3447,29 +3650,33 @@ export const CreateMonitorResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    allowInsecure: "allow_insecure",
-    consecutiveDown: "consecutive_down",
-    consecutiveUp: "consecutive_up",
-    createdOn: "created_on",
-    description: "description",
-    expectedBody: "expected_body",
-    expectedCodes: "expected_codes",
-    followRedirects: "follow_redirects",
-    header: "header",
-    interval: "interval",
-    method: "method",
-    modifiedOn: "modified_on",
-    path: "path",
-    port: "port",
-    probeZone: "probe_zone",
-    retries: "retries",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<CreateMonitorResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      allowInsecure: "allow_insecure",
+      consecutiveDown: "consecutive_down",
+      consecutiveUp: "consecutive_up",
+      createdOn: "created_on",
+      description: "description",
+      expectedBody: "expected_body",
+      expectedCodes: "expected_codes",
+      followRedirects: "follow_redirects",
+      header: "header",
+      interval: "interval",
+      method: "method",
+      modifiedOn: "modified_on",
+      path: "path",
+      port: "port",
+      probeZone: "probe_zone",
+      retries: "retries",
+      timeout: "timeout",
+      type: "type",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateMonitorResponse>;
 
 export type CreateMonitorError = DefaultErrors;
 
@@ -3638,29 +3845,33 @@ export const UpdateMonitorResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    allowInsecure: "allow_insecure",
-    consecutiveDown: "consecutive_down",
-    consecutiveUp: "consecutive_up",
-    createdOn: "created_on",
-    description: "description",
-    expectedBody: "expected_body",
-    expectedCodes: "expected_codes",
-    followRedirects: "follow_redirects",
-    header: "header",
-    interval: "interval",
-    method: "method",
-    modifiedOn: "modified_on",
-    path: "path",
-    port: "port",
-    probeZone: "probe_zone",
-    retries: "retries",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<UpdateMonitorResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      allowInsecure: "allow_insecure",
+      consecutiveDown: "consecutive_down",
+      consecutiveUp: "consecutive_up",
+      createdOn: "created_on",
+      description: "description",
+      expectedBody: "expected_body",
+      expectedCodes: "expected_codes",
+      followRedirects: "follow_redirects",
+      header: "header",
+      interval: "interval",
+      method: "method",
+      modifiedOn: "modified_on",
+      path: "path",
+      port: "port",
+      probeZone: "probe_zone",
+      retries: "retries",
+      timeout: "timeout",
+      type: "type",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateMonitorResponse>;
 
 export type UpdateMonitorError = DefaultErrors;
 
@@ -3829,29 +4040,33 @@ export const PatchMonitorResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    allowInsecure: "allow_insecure",
-    consecutiveDown: "consecutive_down",
-    consecutiveUp: "consecutive_up",
-    createdOn: "created_on",
-    description: "description",
-    expectedBody: "expected_body",
-    expectedCodes: "expected_codes",
-    followRedirects: "follow_redirects",
-    header: "header",
-    interval: "interval",
-    method: "method",
-    modifiedOn: "modified_on",
-    path: "path",
-    port: "port",
-    probeZone: "probe_zone",
-    retries: "retries",
-    timeout: "timeout",
-    type: "type",
-  }),
-) as unknown as Schema.Schema<PatchMonitorResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      allowInsecure: "allow_insecure",
+      consecutiveDown: "consecutive_down",
+      consecutiveUp: "consecutive_up",
+      createdOn: "created_on",
+      description: "description",
+      expectedBody: "expected_body",
+      expectedCodes: "expected_codes",
+      followRedirects: "follow_redirects",
+      header: "header",
+      interval: "interval",
+      method: "method",
+      modifiedOn: "modified_on",
+      path: "path",
+      port: "port",
+      probeZone: "probe_zone",
+      retries: "retries",
+      timeout: "timeout",
+      type: "type",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchMonitorResponse>;
 
 export type PatchMonitorError = DefaultErrors;
 
@@ -3888,7 +4103,9 @@ export interface DeleteMonitorResponse {
 
 export const DeleteMonitorResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteMonitorResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteMonitorResponse>;
 
 export type DeleteMonitorError = DefaultErrors;
 
@@ -3970,15 +4187,19 @@ export const GetMonitorGroupResponse =
     ),
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      members: "members",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<GetMonitorGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        members: "members",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetMonitorGroupResponse>;
 
 export type GetMonitorGroupError = DefaultErrors;
 
@@ -4008,73 +4229,107 @@ export const ListMonitorGroupsRequest =
     }),
   ) as unknown as Schema.Schema<ListMonitorGroupsRequest>;
 
-export type ListMonitorGroupsResponse = {
-  id: string;
-  description: string;
-  members: {
-    enabled: boolean;
-    monitorId: string;
-    monitoringOnly: boolean;
-    mustBeHealthy: boolean;
+export interface ListMonitorGroupsResponse {
+  result: {
+    id: string;
+    description: string;
+    members: {
+      enabled: boolean;
+      monitorId: string;
+      monitoringOnly: boolean;
+      mustBeHealthy: boolean;
+      createdAt?: string | null;
+      updatedAt?: string | null;
+    }[];
     createdAt?: string | null;
     updatedAt?: string | null;
   }[];
-  createdAt?: string | null;
-  updatedAt?: string | null;
-}[];
+}
 
 export const ListMonitorGroupsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      description: Schema.String,
-      members: Schema.Array(
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          monitorId: Schema.String,
-          monitoringOnly: Schema.Boolean,
-          mustBeHealthy: Schema.Boolean,
-          createdAt: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        description: Schema.String,
+        members: Schema.Array(
+          Schema.Struct({
+            enabled: Schema.Boolean,
+            monitorId: Schema.String,
+            monitoringOnly: Schema.Boolean,
+            mustBeHealthy: Schema.Boolean,
+            createdAt: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            updatedAt: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              enabled: "enabled",
+              monitorId: "monitor_id",
+              monitoringOnly: "monitoring_only",
+              mustBeHealthy: "must_be_healthy",
+              createdAt: "created_at",
+              updatedAt: "updated_at",
+            }),
           ),
-          updatedAt: Schema.optional(
-            Schema.Union([Schema.String, Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            enabled: "enabled",
-            monitorId: "monitor_id",
-            monitoringOnly: "monitoring_only",
-            mustBeHealthy: "must_be_healthy",
-            createdAt: "created_at",
-            updatedAt: "updated_at",
-          }),
         ),
+        createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          description: "description",
+          members: "members",
+          createdAt: "created_at",
+          updatedAt: "updated_at",
+        }),
       ),
-      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        description: "description",
-        members: "members",
-        createdAt: "created_at",
-        updatedAt: "updated_at",
-      }),
     ),
-  ) as unknown as Schema.Schema<ListMonitorGroupsResponse>;
+  }) as unknown as Schema.Schema<ListMonitorGroupsResponse>;
 
 export type ListMonitorGroupsError = DefaultErrors;
 
-export const listMonitorGroups: API.OperationMethod<
+export const listMonitorGroups: API.PaginatedOperationMethod<
   ListMonitorGroupsRequest,
   ListMonitorGroupsResponse,
   ListMonitorGroupsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListMonitorGroupsRequest,
+  ) => stream.Stream<
+    ListMonitorGroupsResponse,
+    ListMonitorGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListMonitorGroupsRequest) => stream.Stream<
+    {
+      id: string;
+      description: string;
+      members: {
+        enabled: boolean;
+        monitorId: string;
+        monitoringOnly: boolean;
+        mustBeHealthy: boolean;
+        createdAt?: string | null;
+        updatedAt?: string | null;
+      }[];
+      createdAt?: string | null;
+      updatedAt?: string | null;
+    },
+    ListMonitorGroupsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMonitorGroupsRequest,
   output: ListMonitorGroupsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateMonitorGroupRequest {
@@ -4165,15 +4420,19 @@ export const CreateMonitorGroupResponse =
     ),
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      members: "members",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        members: "members",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateMonitorGroupResponse>;
 
 export type CreateMonitorGroupError = DefaultErrors;
 
@@ -4278,15 +4537,19 @@ export const UpdateMonitorGroupResponse =
     ),
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      members: "members",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        members: "members",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateMonitorGroupResponse>;
 
 export type UpdateMonitorGroupError = DefaultErrors;
 
@@ -4391,15 +4654,19 @@ export const PatchMonitorGroupResponse =
     ),
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      members: "members",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        members: "members",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchMonitorGroupResponse>;
 
 export type PatchMonitorGroupError = DefaultErrors;
 
@@ -4476,15 +4743,19 @@ export const DeleteMonitorGroupResponse =
     ),
     createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      description: "description",
-      members: "members",
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        description: "description",
+        members: "members",
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteMonitorGroupResponse>;
 
 export type DeleteMonitorGroupError = DefaultErrors;
 
@@ -4605,9 +4876,11 @@ export const CreateMonitorPreviewResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pools: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
     previewId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
-  ) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
+  })
+    .pipe(Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateMonitorPreviewResponse>;
 
 export type CreateMonitorPreviewError = DefaultErrors;
 
@@ -4643,46 +4916,76 @@ export const GetMonitorReferenceRequest =
     }),
   ) as unknown as Schema.Schema<GetMonitorReferenceRequest>;
 
-export type GetMonitorReferenceResponse = {
-  referenceType?: "*" | "referral" | "referrer" | null;
-  resourceId?: string | null;
-  resourceName?: string | null;
-  resourceType?: string | null;
-}[];
+export interface GetMonitorReferenceResponse {
+  result: {
+    referenceType?: "*" | "referral" | "referrer" | null;
+    resourceId?: string | null;
+    resourceName?: string | null;
+    resourceType?: string | null;
+  }[];
+}
 
 export const GetMonitorReferenceResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      referenceType: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["*", "referral", "referrer"]),
-          Schema.Null,
-        ]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        referenceType: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["*", "referral", "referrer"]),
+            Schema.Null,
+          ]),
+        ),
+        resourceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        resourceName: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        resourceType: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          referenceType: "reference_type",
+          resourceId: "resource_id",
+          resourceName: "resource_name",
+          resourceType: "resource_type",
+        }),
       ),
-      resourceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      resourceName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      resourceType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        referenceType: "reference_type",
-        resourceId: "resource_id",
-        resourceName: "resource_name",
-        resourceType: "resource_type",
-      }),
     ),
-  ) as unknown as Schema.Schema<GetMonitorReferenceResponse>;
+  }) as unknown as Schema.Schema<GetMonitorReferenceResponse>;
 
 export type GetMonitorReferenceError = DefaultErrors;
 
-export const getMonitorReference: API.OperationMethod<
+export const getMonitorReference: API.PaginatedOperationMethod<
   GetMonitorReferenceRequest,
   GetMonitorReferenceResponse,
   GetMonitorReferenceError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetMonitorReferenceRequest,
+  ) => stream.Stream<
+    GetMonitorReferenceResponse,
+    GetMonitorReferenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: GetMonitorReferenceRequest) => stream.Stream<
+    {
+      referenceType?: "*" | "referral" | "referrer" | null;
+      resourceId?: string | null;
+      resourceName?: string | null;
+      resourceType?: string | null;
+    },
+    GetMonitorReferenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetMonitorReferenceRequest,
   output: GetMonitorReferenceResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -4810,29 +5113,31 @@ export const GetPoolResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   origins: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkRegions: "check_regions",
-    createdOn: "created_on",
-    description: "description",
-    disabledAt: "disabled_at",
-    enabled: "enabled",
-    latitude: "latitude",
-    loadShedding: "load_shedding",
-    longitude: "longitude",
-    minimumOrigins: "minimum_origins",
-    modifiedOn: "modified_on",
-    monitor: "monitor",
-    monitorGroup: "monitor_group",
-    name: "name",
-    networks: "networks",
-    notificationEmail: "notification_email",
-    notificationFilter: "notification_filter",
-    originSteering: "origin_steering",
-    origins: "origins",
-  }),
-) as unknown as Schema.Schema<GetPoolResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      description: "description",
+      disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
+      loadShedding: "load_shedding",
+      longitude: "longitude",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitor: "monitor",
+      monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+      origins: "origins",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetPoolResponse>;
 
 export type GetPoolError = DefaultErrors;
 
@@ -4864,134 +5169,196 @@ export const ListPoolsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPoolsRequest>;
 
-export type ListPoolsResponse = {
-  id?: string | null;
-  checkRegions?:
-    | (
-        | "WNAM"
-        | "ENAM"
-        | "WEU"
-        | "EEU"
-        | "NSAM"
-        | "SSAM"
-        | "OC"
-        | "ME"
-        | "NAF"
-        | "SAF"
-        | "SEAS"
-        | "NEAS"
-        | "ALL_REGIONS"
-        | "SAS"
-      )[]
-    | null;
-  createdOn?: string | null;
-  description?: string | null;
-  disabledAt?: string | null;
-  enabled?: boolean | null;
-  latitude?: number | null;
-  loadShedding?: unknown | null;
-  longitude?: number | null;
-  minimumOrigins?: number | null;
-  modifiedOn?: string | null;
-  monitor?: string | null;
-  monitorGroup?: string | null;
-  name?: string | null;
-  networks?: string[] | null;
-  notificationEmail?: string | null;
-  notificationFilter?: unknown | null;
-  originSteering?: unknown | null;
-  origins?: unknown[] | null;
-}[];
+export interface ListPoolsResponse {
+  result: {
+    id?: string | null;
+    checkRegions?:
+      | (
+          | "WNAM"
+          | "ENAM"
+          | "WEU"
+          | "EEU"
+          | "NSAM"
+          | "SSAM"
+          | "OC"
+          | "ME"
+          | "NAF"
+          | "SAF"
+          | "SEAS"
+          | "NEAS"
+          | "ALL_REGIONS"
+          | "SAS"
+        )[]
+      | null;
+    createdOn?: string | null;
+    description?: string | null;
+    disabledAt?: string | null;
+    enabled?: boolean | null;
+    latitude?: number | null;
+    loadShedding?: unknown | null;
+    longitude?: number | null;
+    minimumOrigins?: number | null;
+    modifiedOn?: string | null;
+    monitor?: string | null;
+    monitorGroup?: string | null;
+    name?: string | null;
+    networks?: string[] | null;
+    notificationEmail?: string | null;
+    notificationFilter?: unknown | null;
+    originSteering?: unknown | null;
+    origins?: unknown[] | null;
+  }[];
+}
 
-export const ListPoolsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    checkRegions: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "WNAM",
-            "ENAM",
-            "WEU",
-            "EEU",
-            "NSAM",
-            "SSAM",
-            "OC",
-            "ME",
-            "NAF",
-            "SAF",
-            "SEAS",
-            "NEAS",
-            "ALL_REGIONS",
-            "SAS",
-          ]),
-        ),
-        Schema.Null,
-      ]),
+export const ListPoolsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      checkRegions: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Literals([
+              "WNAM",
+              "ENAM",
+              "WEU",
+              "EEU",
+              "NSAM",
+              "SSAM",
+              "OC",
+              "ME",
+              "NAF",
+              "SAF",
+              "SEAS",
+              "NEAS",
+              "ALL_REGIONS",
+              "SAS",
+            ]),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      disabledAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      latitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      loadShedding: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      longitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      minimumOrigins: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      monitor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      monitorGroup: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      networks: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      notificationEmail: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      notificationFilter: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      originSteering: Schema.optional(
+        Schema.Union([Schema.Unknown, Schema.Null]),
+      ),
+      origins: Schema.optional(
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        checkRegions: "check_regions",
+        createdOn: "created_on",
+        description: "description",
+        disabledAt: "disabled_at",
+        enabled: "enabled",
+        latitude: "latitude",
+        loadShedding: "load_shedding",
+        longitude: "longitude",
+        minimumOrigins: "minimum_origins",
+        modifiedOn: "modified_on",
+        monitor: "monitor",
+        monitorGroup: "monitor_group",
+        name: "name",
+        networks: "networks",
+        notificationEmail: "notification_email",
+        notificationFilter: "notification_filter",
+        originSteering: "origin_steering",
+        origins: "origins",
+      }),
     ),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    disabledAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    latitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    longitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    minimumOrigins: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    monitor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    monitorGroup: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    networks: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    notificationEmail: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    notificationFilter: Schema.optional(
-      Schema.Union([Schema.Unknown, Schema.Null]),
-    ),
-    originSteering: Schema.optional(
-      Schema.Union([Schema.Unknown, Schema.Null]),
-    ),
-    origins: Schema.optional(
-      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      checkRegions: "check_regions",
-      createdOn: "created_on",
-      description: "description",
-      disabledAt: "disabled_at",
-      enabled: "enabled",
-      latitude: "latitude",
-      loadShedding: "load_shedding",
-      longitude: "longitude",
-      minimumOrigins: "minimum_origins",
-      modifiedOn: "modified_on",
-      monitor: "monitor",
-      monitorGroup: "monitor_group",
-      name: "name",
-      networks: "networks",
-      notificationEmail: "notification_email",
-      notificationFilter: "notification_filter",
-      originSteering: "origin_steering",
-      origins: "origins",
-    }),
   ),
-) as unknown as Schema.Schema<ListPoolsResponse>;
+}) as unknown as Schema.Schema<ListPoolsResponse>;
 
 export type ListPoolsError = DefaultErrors;
 
-export const listPools: API.OperationMethod<
+export const listPools: API.PaginatedOperationMethod<
   ListPoolsRequest,
   ListPoolsResponse,
   ListPoolsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPoolsRequest,
+  ) => stream.Stream<
+    ListPoolsResponse,
+    ListPoolsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPoolsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      checkRegions?:
+        | (
+            | "WNAM"
+            | "ENAM"
+            | "WEU"
+            | "EEU"
+            | "NSAM"
+            | "SSAM"
+            | "OC"
+            | "ME"
+            | "NAF"
+            | "SAF"
+            | "SEAS"
+            | "NEAS"
+            | "ALL_REGIONS"
+            | "SAS"
+          )[]
+        | null;
+      createdOn?: string | null;
+      description?: string | null;
+      disabledAt?: string | null;
+      enabled?: boolean | null;
+      latitude?: number | null;
+      loadShedding?: unknown | null;
+      longitude?: number | null;
+      minimumOrigins?: number | null;
+      modifiedOn?: string | null;
+      monitor?: string | null;
+      monitorGroup?: string | null;
+      name?: string | null;
+      networks?: string[] | null;
+      notificationEmail?: string | null;
+      notificationFilter?: unknown | null;
+      originSteering?: unknown | null;
+      origins?: unknown[] | null;
+    },
+    ListPoolsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPoolsRequest,
   output: ListPoolsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreatePoolRequest {
@@ -5169,29 +5536,33 @@ export const CreatePoolResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   origins: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkRegions: "check_regions",
-    createdOn: "created_on",
-    description: "description",
-    disabledAt: "disabled_at",
-    enabled: "enabled",
-    latitude: "latitude",
-    loadShedding: "load_shedding",
-    longitude: "longitude",
-    minimumOrigins: "minimum_origins",
-    modifiedOn: "modified_on",
-    monitor: "monitor",
-    monitorGroup: "monitor_group",
-    name: "name",
-    networks: "networks",
-    notificationEmail: "notification_email",
-    notificationFilter: "notification_filter",
-    originSteering: "origin_steering",
-    origins: "origins",
-  }),
-) as unknown as Schema.Schema<CreatePoolResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      description: "description",
+      disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
+      loadShedding: "load_shedding",
+      longitude: "longitude",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitor: "monitor",
+      monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+      origins: "origins",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreatePoolResponse>;
 
 export type CreatePoolError = DefaultErrors;
 
@@ -5426,29 +5797,33 @@ export const UpdatePoolResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   origins: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkRegions: "check_regions",
-    createdOn: "created_on",
-    description: "description",
-    disabledAt: "disabled_at",
-    enabled: "enabled",
-    latitude: "latitude",
-    loadShedding: "load_shedding",
-    longitude: "longitude",
-    minimumOrigins: "minimum_origins",
-    modifiedOn: "modified_on",
-    monitor: "monitor",
-    monitorGroup: "monitor_group",
-    name: "name",
-    networks: "networks",
-    notificationEmail: "notification_email",
-    notificationFilter: "notification_filter",
-    originSteering: "origin_steering",
-    origins: "origins",
-  }),
-) as unknown as Schema.Schema<UpdatePoolResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      description: "description",
+      disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
+      loadShedding: "load_shedding",
+      longitude: "longitude",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitor: "monitor",
+      monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+      origins: "origins",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdatePoolResponse>;
 
 export type UpdatePoolError = DefaultErrors;
 
@@ -5683,29 +6058,33 @@ export const PatchPoolResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   origins: Schema.optional(
     Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    checkRegions: "check_regions",
-    createdOn: "created_on",
-    description: "description",
-    disabledAt: "disabled_at",
-    enabled: "enabled",
-    latitude: "latitude",
-    loadShedding: "load_shedding",
-    longitude: "longitude",
-    minimumOrigins: "minimum_origins",
-    modifiedOn: "modified_on",
-    monitor: "monitor",
-    monitorGroup: "monitor_group",
-    name: "name",
-    networks: "networks",
-    notificationEmail: "notification_email",
-    notificationFilter: "notification_filter",
-    originSteering: "origin_steering",
-    origins: "origins",
-  }),
-) as unknown as Schema.Schema<PatchPoolResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      checkRegions: "check_regions",
+      createdOn: "created_on",
+      description: "description",
+      disabledAt: "disabled_at",
+      enabled: "enabled",
+      latitude: "latitude",
+      loadShedding: "load_shedding",
+      longitude: "longitude",
+      minimumOrigins: "minimum_origins",
+      modifiedOn: "modified_on",
+      monitor: "monitor",
+      monitorGroup: "monitor_group",
+      name: "name",
+      networks: "networks",
+      notificationEmail: "notification_email",
+      notificationFilter: "notification_filter",
+      originSteering: "origin_steering",
+      origins: "origins",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchPoolResponse>;
 
 export type PatchPoolError = DefaultErrors;
 
@@ -5742,7 +6121,9 @@ export interface DeletePoolResponse {
 
 export const DeletePoolResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeletePoolResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeletePoolResponse>;
 
 export type DeletePoolError = DefaultErrors;
 
@@ -5775,134 +6156,202 @@ export const BulkPatchPoolsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<BulkPatchPoolsRequest>;
 
-export type BulkPatchPoolsResponse = {
-  id?: string | null;
-  checkRegions?:
-    | (
-        | "WNAM"
-        | "ENAM"
-        | "WEU"
-        | "EEU"
-        | "NSAM"
-        | "SSAM"
-        | "OC"
-        | "ME"
-        | "NAF"
-        | "SAF"
-        | "SEAS"
-        | "NEAS"
-        | "ALL_REGIONS"
-        | "SAS"
-      )[]
-    | null;
-  createdOn?: string | null;
-  description?: string | null;
-  disabledAt?: string | null;
-  enabled?: boolean | null;
-  latitude?: number | null;
-  loadShedding?: unknown | null;
-  longitude?: number | null;
-  minimumOrigins?: number | null;
-  modifiedOn?: string | null;
-  monitor?: string | null;
-  monitorGroup?: string | null;
-  name?: string | null;
-  networks?: string[] | null;
-  notificationEmail?: string | null;
-  notificationFilter?: unknown | null;
-  originSteering?: unknown | null;
-  origins?: unknown[] | null;
-}[];
+export interface BulkPatchPoolsResponse {
+  result: {
+    id?: string | null;
+    checkRegions?:
+      | (
+          | "WNAM"
+          | "ENAM"
+          | "WEU"
+          | "EEU"
+          | "NSAM"
+          | "SSAM"
+          | "OC"
+          | "ME"
+          | "NAF"
+          | "SAF"
+          | "SEAS"
+          | "NEAS"
+          | "ALL_REGIONS"
+          | "SAS"
+        )[]
+      | null;
+    createdOn?: string | null;
+    description?: string | null;
+    disabledAt?: string | null;
+    enabled?: boolean | null;
+    latitude?: number | null;
+    loadShedding?: unknown | null;
+    longitude?: number | null;
+    minimumOrigins?: number | null;
+    modifiedOn?: string | null;
+    monitor?: string | null;
+    monitorGroup?: string | null;
+    name?: string | null;
+    networks?: string[] | null;
+    notificationEmail?: string | null;
+    notificationFilter?: unknown | null;
+    originSteering?: unknown | null;
+    origins?: unknown[] | null;
+  }[];
+}
 
-export const BulkPatchPoolsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    checkRegions: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Literals([
-            "WNAM",
-            "ENAM",
-            "WEU",
-            "EEU",
-            "NSAM",
-            "SSAM",
-            "OC",
-            "ME",
-            "NAF",
-            "SAF",
-            "SEAS",
-            "NEAS",
-            "ALL_REGIONS",
-            "SAS",
+export const BulkPatchPoolsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        checkRegions: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Literals([
+                "WNAM",
+                "ENAM",
+                "WEU",
+                "EEU",
+                "NSAM",
+                "SSAM",
+                "OC",
+                "ME",
+                "NAF",
+                "SAF",
+                "SEAS",
+                "NEAS",
+                "ALL_REGIONS",
+                "SAS",
+              ]),
+            ),
+            Schema.Null,
           ]),
         ),
-        Schema.Null,
-      ]),
+        createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        disabledAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        latitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        loadShedding: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        longitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        minimumOrigins: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        monitor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        monitorGroup: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        networks: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        notificationEmail: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        notificationFilter: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        originSteering: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        origins: Schema.optional(
+          Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          checkRegions: "check_regions",
+          createdOn: "created_on",
+          description: "description",
+          disabledAt: "disabled_at",
+          enabled: "enabled",
+          latitude: "latitude",
+          loadShedding: "load_shedding",
+          longitude: "longitude",
+          minimumOrigins: "minimum_origins",
+          modifiedOn: "modified_on",
+          monitor: "monitor",
+          monitorGroup: "monitor_group",
+          name: "name",
+          networks: "networks",
+          notificationEmail: "notification_email",
+          notificationFilter: "notification_filter",
+          originSteering: "origin_steering",
+          origins: "origins",
+        }),
+      ),
     ),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    disabledAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    latitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    loadShedding: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    longitude: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    minimumOrigins: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    monitor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    monitorGroup: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    networks: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    notificationEmail: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    notificationFilter: Schema.optional(
-      Schema.Union([Schema.Unknown, Schema.Null]),
-    ),
-    originSteering: Schema.optional(
-      Schema.Union([Schema.Unknown, Schema.Null]),
-    ),
-    origins: Schema.optional(
-      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      checkRegions: "check_regions",
-      createdOn: "created_on",
-      description: "description",
-      disabledAt: "disabled_at",
-      enabled: "enabled",
-      latitude: "latitude",
-      loadShedding: "load_shedding",
-      longitude: "longitude",
-      minimumOrigins: "minimum_origins",
-      modifiedOn: "modified_on",
-      monitor: "monitor",
-      monitorGroup: "monitor_group",
-      name: "name",
-      networks: "networks",
-      notificationEmail: "notification_email",
-      notificationFilter: "notification_filter",
-      originSteering: "origin_steering",
-      origins: "origins",
-    }),
-  ),
+  },
 ) as unknown as Schema.Schema<BulkPatchPoolsResponse>;
 
 export type BulkPatchPoolsError = DefaultErrors;
 
-export const bulkPatchPools: API.OperationMethod<
+export const bulkPatchPools: API.PaginatedOperationMethod<
   BulkPatchPoolsRequest,
   BulkPatchPoolsResponse,
   BulkPatchPoolsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: BulkPatchPoolsRequest,
+  ) => stream.Stream<
+    BulkPatchPoolsResponse,
+    BulkPatchPoolsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: BulkPatchPoolsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      checkRegions?:
+        | (
+            | "WNAM"
+            | "ENAM"
+            | "WEU"
+            | "EEU"
+            | "NSAM"
+            | "SSAM"
+            | "OC"
+            | "ME"
+            | "NAF"
+            | "SAF"
+            | "SEAS"
+            | "NEAS"
+            | "ALL_REGIONS"
+            | "SAS"
+          )[]
+        | null;
+      createdOn?: string | null;
+      description?: string | null;
+      disabledAt?: string | null;
+      enabled?: boolean | null;
+      latitude?: number | null;
+      loadShedding?: unknown | null;
+      longitude?: number | null;
+      minimumOrigins?: number | null;
+      modifiedOn?: string | null;
+      monitor?: string | null;
+      monitorGroup?: string | null;
+      name?: string | null;
+      networks?: string[] | null;
+      notificationEmail?: string | null;
+      notificationFilter?: unknown | null;
+      originSteering?: unknown | null;
+      origins?: unknown[] | null;
+    },
+    BulkPatchPoolsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: BulkPatchPoolsRequest,
   output: BulkPatchPoolsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -5989,9 +6438,11 @@ export const GetPoolHealthResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({ poolId: "pool_id", popHealth: "pop_health" }),
-) as unknown as Schema.Schema<GetPoolHealthResponse>;
+})
+  .pipe(Schema.encodeKeys({ poolId: "pool_id", popHealth: "pop_health" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetPoolHealthResponse>;
 
 export type GetPoolHealthError = DefaultErrors;
 
@@ -6108,9 +6559,11 @@ export const CreatePoolHealthResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pools: Schema.optional(Schema.Union([Schema.Struct({}), Schema.Null])),
     previewId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }),
-  ) as unknown as Schema.Schema<CreatePoolHealthResponse>;
+  })
+    .pipe(Schema.encodeKeys({ pools: "pools", previewId: "preview_id" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreatePoolHealthResponse>;
 
 export type CreatePoolHealthError = DefaultErrors;
 
@@ -6146,46 +6599,76 @@ export const GetPoolReferenceRequest =
     }),
   ) as unknown as Schema.Schema<GetPoolReferenceRequest>;
 
-export type GetPoolReferenceResponse = {
-  referenceType?: "*" | "referral" | "referrer" | null;
-  resourceId?: string | null;
-  resourceName?: string | null;
-  resourceType?: string | null;
-}[];
+export interface GetPoolReferenceResponse {
+  result: {
+    referenceType?: "*" | "referral" | "referrer" | null;
+    resourceId?: string | null;
+    resourceName?: string | null;
+    resourceType?: string | null;
+  }[];
+}
 
 export const GetPoolReferenceResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      referenceType: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["*", "referral", "referrer"]),
-          Schema.Null,
-        ]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        referenceType: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["*", "referral", "referrer"]),
+            Schema.Null,
+          ]),
+        ),
+        resourceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        resourceName: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        resourceType: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          referenceType: "reference_type",
+          resourceId: "resource_id",
+          resourceName: "resource_name",
+          resourceType: "resource_type",
+        }),
       ),
-      resourceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      resourceName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      resourceType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        referenceType: "reference_type",
-        resourceId: "resource_id",
-        resourceName: "resource_name",
-        resourceType: "resource_type",
-      }),
     ),
-  ) as unknown as Schema.Schema<GetPoolReferenceResponse>;
+  }) as unknown as Schema.Schema<GetPoolReferenceResponse>;
 
 export type GetPoolReferenceError = DefaultErrors;
 
-export const getPoolReference: API.OperationMethod<
+export const getPoolReference: API.PaginatedOperationMethod<
   GetPoolReferenceRequest,
   GetPoolReferenceResponse,
   GetPoolReferenceError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetPoolReferenceRequest,
+  ) => stream.Stream<
+    GetPoolReferenceResponse,
+    GetPoolReferenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: GetPoolReferenceRequest) => stream.Stream<
+    {
+      referenceType?: "*" | "referral" | "referrer" | null;
+      resourceId?: string | null;
+      resourceName?: string | null;
+      resourceType?: string | null;
+    },
+    GetPoolReferenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetPoolReferenceRequest,
   output: GetPoolReferenceResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -6212,6 +6695,8 @@ export type GetPreviewResponse = Record<string, unknown>;
 
 export const GetPreviewResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {},
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetPreviewResponse>;
 
 export type GetPreviewError = DefaultErrors;
@@ -6279,7 +6764,9 @@ export type GetRegionResponse = string | null;
 export const GetRegionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.String,
   Schema.Null,
-]) as unknown as Schema.Schema<GetRegionResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetRegionResponse>;
 
 export type GetRegionError = DefaultErrors;
 
@@ -6328,7 +6815,9 @@ export type ListRegionsResponse = string | null;
 export const ListRegionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union([
   Schema.String,
   Schema.Null,
-]) as unknown as Schema.Schema<ListRegionsResponse>;
+]).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListRegionsResponse>;
 
 export type ListRegionsError = DefaultErrors;
 
@@ -6369,70 +6858,136 @@ export const ListSearchesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListSearchesRequest>;
 
-export type ListSearchesResponse = {
-  resources?:
-    | {
-        referenceType?: "referral" | "referrer" | null;
-        references?: unknown[] | null;
-        resourceId?: string | null;
-        resourceName?: string | null;
-        resourceType?: "load_balancer" | "monitor" | "pool" | null;
-      }[]
-    | null;
-}[];
+export interface ListSearchesResponse {
+  result: {
+    items?:
+      | {
+          resources?:
+            | {
+                referenceType?: "referral" | "referrer" | null;
+                references?: unknown[] | null;
+                resourceId?: string | null;
+                resourceName?: string | null;
+                resourceType?: "load_balancer" | "monitor" | "pool" | null;
+              }[]
+            | null;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListSearchesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    resources: Schema.optional(
+export const ListSearchesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Struct({
+    items: Schema.optional(
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            referenceType: Schema.optional(
+            resources: Schema.optional(
               Schema.Union([
-                Schema.Literals(["referral", "referrer"]),
+                Schema.Array(
+                  Schema.Struct({
+                    referenceType: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals(["referral", "referrer"]),
+                        Schema.Null,
+                      ]),
+                    ),
+                    references: Schema.optional(
+                      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+                    ),
+                    resourceId: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    resourceName: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    resourceType: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals(["load_balancer", "monitor", "pool"]),
+                        Schema.Null,
+                      ]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      referenceType: "reference_type",
+                      references: "references",
+                      resourceId: "resource_id",
+                      resourceName: "resource_name",
+                      resourceType: "resource_type",
+                    }),
+                  ),
+                ),
                 Schema.Null,
               ]),
             ),
-            references: Schema.optional(
-              Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
-            ),
-            resourceId: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            resourceName: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            resourceType: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["load_balancer", "monitor", "pool"]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              referenceType: "reference_type",
-              references: "references",
-              resourceId: "resource_id",
-              resourceName: "resource_name",
-              resourceType: "resource_type",
-            }),
-          ),
+          }),
         ),
         Schema.Null,
       ]),
     ),
   }),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+  }).pipe(
+    Schema.encodeKeys({
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
+    }),
+  ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListSearchesResponse>;
 
 export type ListSearchesError = DefaultErrors;
 
-export const listSearches: API.OperationMethod<
+export const listSearches: API.PaginatedOperationMethod<
   ListSearchesRequest,
   ListSearchesResponse,
   ListSearchesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSearchesRequest,
+  ) => stream.Stream<
+    ListSearchesResponse,
+    ListSearchesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSearchesRequest) => stream.Stream<
+    {
+      resources?:
+        | {
+            referenceType?: "referral" | "referrer" | null;
+            references?: unknown[] | null;
+            resourceId?: string | null;
+            resourceName?: string | null;
+            resourceType?: "load_balancer" | "monitor" | "pool" | null;
+          }[]
+        | null;
+    },
+    ListSearchesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSearchesRequest,
   output: ListSearchesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));

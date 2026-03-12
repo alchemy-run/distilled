@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service connectivity
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -99,18 +100,22 @@ export const GetDirectoryServiceResponse =
     httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      host: "host",
-      name: "name",
-      type: "type",
-      createdAt: "created_at",
-      httpPort: "http_port",
-      httpsPort: "https_port",
-      serviceId: "service_id",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<GetDirectoryServiceResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        host: "host",
+        name: "name",
+        type: "type",
+        createdAt: "created_at",
+        httpPort: "http_port",
+        httpsPort: "https_port",
+        serviceId: "service_id",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetDirectoryServiceResponse>;
 
 export type GetDirectoryServiceError = DefaultErrors;
 
@@ -145,99 +150,163 @@ export const ListDirectoryServicesRequest =
     }),
   ) as unknown as Schema.Schema<ListDirectoryServicesRequest>;
 
-export type ListDirectoryServicesResponse = {
-  host:
-    | { ipv4: string; network: { tunnelId: string } }
-    | { ipv6: string; network: { tunnelId: string } }
-    | { ipv4: string; ipv6: string; network: { tunnelId: string } }
-    | {
-        hostname: string;
-        resolverNetwork: { tunnelId: string; resolverIps?: string[] | null };
-      };
-  name: string;
-  type: "http";
-  createdAt?: string | null;
-  httpPort?: number | null;
-  httpsPort?: number | null;
-  serviceId?: string | null;
-  updatedAt?: string | null;
-}[];
+export interface ListDirectoryServicesResponse {
+  result: {
+    host:
+      | { ipv4: string; network: { tunnelId: string } }
+      | { ipv6: string; network: { tunnelId: string } }
+      | { ipv4: string; ipv6: string; network: { tunnelId: string } }
+      | {
+          hostname: string;
+          resolverNetwork: { tunnelId: string; resolverIps?: string[] | null };
+        };
+    name: string;
+    type: "http";
+    createdAt?: string | null;
+    httpPort?: number | null;
+    httpsPort?: number | null;
+    serviceId?: string | null;
+    updatedAt?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListDirectoryServicesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      host: Schema.Union([
-        Schema.Struct({
-          ipv4: Schema.String,
-          network: Schema.Struct({
-            tunnelId: Schema.String,
-          }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
-        }),
-        Schema.Struct({
-          ipv6: Schema.String,
-          network: Schema.Struct({
-            tunnelId: Schema.String,
-          }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
-        }),
-        Schema.Struct({
-          ipv4: Schema.String,
-          ipv6: Schema.String,
-          network: Schema.Struct({
-            tunnelId: Schema.String,
-          }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
-        }),
-        Schema.Struct({
-          hostname: Schema.String,
-          resolverNetwork: Schema.Struct({
-            tunnelId: Schema.String,
-            resolverIps: Schema.optional(
-              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        host: Schema.Union([
+          Schema.Struct({
+            ipv4: Schema.String,
+            network: Schema.Struct({
+              tunnelId: Schema.String,
+            }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
+          }),
+          Schema.Struct({
+            ipv6: Schema.String,
+            network: Schema.Struct({
+              tunnelId: Schema.String,
+            }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
+          }),
+          Schema.Struct({
+            ipv4: Schema.String,
+            ipv6: Schema.String,
+            network: Schema.Struct({
+              tunnelId: Schema.String,
+            }).pipe(Schema.encodeKeys({ tunnelId: "tunnel_id" })),
+          }),
+          Schema.Struct({
+            hostname: Schema.String,
+            resolverNetwork: Schema.Struct({
+              tunnelId: Schema.String,
+              resolverIps: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                tunnelId: "tunnel_id",
+                resolverIps: "resolver_ips",
+              }),
             ),
           }).pipe(
             Schema.encodeKeys({
-              tunnelId: "tunnel_id",
-              resolverIps: "resolver_ips",
+              hostname: "hostname",
+              resolverNetwork: "resolver_network",
             }),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            hostname: "hostname",
-            resolverNetwork: "resolver_network",
-          }),
-        ),
-      ]),
-      name: Schema.String,
-      type: Schema.Literal("http"),
-      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-      serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        ]),
+        name: Schema.String,
+        type: Schema.Literal("http"),
+        createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        httpPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          host: "host",
+          name: "name",
+          type: "type",
+          createdAt: "created_at",
+          httpPort: "http_port",
+          httpsPort: "https_port",
+          serviceId: "service_id",
+          updatedAt: "updated_at",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        host: "host",
-        name: "name",
-        type: "type",
-        createdAt: "created_at",
-        httpPort: "http_port",
-        httpsPort: "https_port",
-        serviceId: "service_id",
-        updatedAt: "updated_at",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListDirectoryServicesResponse>;
 
 export type ListDirectoryServicesError = DefaultErrors;
 
-export const listDirectoryServices: API.OperationMethod<
+export const listDirectoryServices: API.PaginatedOperationMethod<
   ListDirectoryServicesRequest,
   ListDirectoryServicesResponse,
   ListDirectoryServicesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListDirectoryServicesRequest,
+  ) => stream.Stream<
+    ListDirectoryServicesResponse,
+    ListDirectoryServicesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListDirectoryServicesRequest) => stream.Stream<
+    {
+      host:
+        | { ipv4: string; network: { tunnelId: string } }
+        | { ipv6: string; network: { tunnelId: string } }
+        | { ipv4: string; ipv6: string; network: { tunnelId: string } }
+        | {
+            hostname: string;
+            resolverNetwork: {
+              tunnelId: string;
+              resolverIps?: string[] | null;
+            };
+          };
+      name: string;
+      type: "http";
+      createdAt?: string | null;
+      httpPort?: number | null;
+      httpsPort?: number | null;
+      serviceId?: string | null;
+      updatedAt?: string | null;
+    },
+    ListDirectoryServicesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDirectoryServicesRequest,
   output: ListDirectoryServicesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateDirectoryServiceRequest {
@@ -390,18 +459,22 @@ export const CreateDirectoryServiceResponse =
     httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      host: "host",
-      name: "name",
-      type: "type",
-      createdAt: "created_at",
-      httpPort: "http_port",
-      httpsPort: "https_port",
-      serviceId: "service_id",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<CreateDirectoryServiceResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        host: "host",
+        name: "name",
+        type: "type",
+        createdAt: "created_at",
+        httpPort: "http_port",
+        httpsPort: "https_port",
+        serviceId: "service_id",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateDirectoryServiceResponse>;
 
 export type CreateDirectoryServiceError = DefaultErrors;
 
@@ -568,18 +641,22 @@ export const UpdateDirectoryServiceResponse =
     httpsPort: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     serviceId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      host: "host",
-      name: "name",
-      type: "type",
-      createdAt: "created_at",
-      httpPort: "http_port",
-      httpsPort: "https_port",
-      serviceId: "service_id",
-      updatedAt: "updated_at",
-    }),
-  ) as unknown as Schema.Schema<UpdateDirectoryServiceResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        host: "host",
+        name: "name",
+        type: "type",
+        createdAt: "created_at",
+        httpPort: "http_port",
+        httpsPort: "https_port",
+        serviceId: "service_id",
+        updatedAt: "updated_at",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateDirectoryServiceResponse>;
 
 export type UpdateDirectoryServiceError = DefaultErrors;
 

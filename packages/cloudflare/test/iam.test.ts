@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId, testRunId } from "./test.ts";
-import * as IAM from "~/services/iam.ts";
+import * as IAM from "~/services/iam";
 import { InvalidMember } from "~/services/iam.ts";
 
 const accountId = () => getAccountId();

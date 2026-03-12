@@ -36,7 +36,9 @@ export interface GetDCVDelegationResponse {
 export const GetDCVDelegationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     uuid: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<GetDCVDelegationResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDCVDelegationResponse>;
 
 export type GetDCVDelegationError = DefaultErrors;
 

@@ -52,6 +52,7 @@
   "scripts": {
     "typecheck": "tsgo",
     "build": "tsgo -b",
+    "download:env": "doppler secrets download --no-file --format env > .env",
     "fmt": "oxfmt --write src",
     "lint": "oxlint --fix src",
     "check": "tsgo && oxlint src && oxfmt --check src",

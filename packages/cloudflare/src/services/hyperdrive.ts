@@ -566,7 +566,9 @@ export const DeleteConfigRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteConfigResponse = unknown;
 
 export const DeleteConfigResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteConfigResponse>;
 
 export type DeleteConfigError =
   | DefaultErrors

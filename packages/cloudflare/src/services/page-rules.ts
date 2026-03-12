@@ -358,17 +358,21 @@ export const GetPageRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       ),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    actions: "actions",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    priority: "priority",
-    status: "status",
-    targets: "targets",
-  }),
-) as unknown as Schema.Schema<GetPageRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      actions: "actions",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      priority: "priority",
+      status: "status",
+      targets: "targets",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetPageRuleResponse>;
 
 export type GetPageRuleError = DefaultErrors;
 
@@ -776,6 +780,8 @@ export const ListPageRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       targets: "targets",
     }),
   ),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<ListPageRulesResponse>;
 
 export type ListPageRulesError = DefaultErrors;
@@ -1367,17 +1373,21 @@ export const CreatePageRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    actions: "actions",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    priority: "priority",
-    status: "status",
-    targets: "targets",
-  }),
-) as unknown as Schema.Schema<CreatePageRuleResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      actions: "actions",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      priority: "priority",
+      status: "status",
+      targets: "targets",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreatePageRuleResponse>;
 
 export type CreatePageRuleError = DefaultErrors;
 
@@ -1970,17 +1980,21 @@ export const UpdatePageRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       }),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    actions: "actions",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    priority: "priority",
-    status: "status",
-    targets: "targets",
-  }),
-) as unknown as Schema.Schema<UpdatePageRuleResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      actions: "actions",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      priority: "priority",
+      status: "status",
+      targets: "targets",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdatePageRuleResponse>;
 
 export type UpdatePageRuleError = DefaultErrors;
 
@@ -2549,17 +2563,21 @@ export const PatchPageRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       ),
     }),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    actions: "actions",
-    createdOn: "created_on",
-    modifiedOn: "modified_on",
-    priority: "priority",
-    status: "status",
-    targets: "targets",
-  }),
-) as unknown as Schema.Schema<PatchPageRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      actions: "actions",
+      createdOn: "created_on",
+      modifiedOn: "modified_on",
+      priority: "priority",
+      status: "status",
+      targets: "targets",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchPageRuleResponse>;
 
 export type PatchPageRuleError = DefaultErrors;
 
@@ -2596,6 +2614,8 @@ export const DeletePageRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     id: Schema.String,
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeletePageRuleResponse>;
 
 export type DeletePageRuleError = DefaultErrors;

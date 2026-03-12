@@ -73,13 +73,17 @@ export const GetTotalTlResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    certificateAuthority: "certificate_authority",
-    enabled: "enabled",
-    validityPeriod: "validity_period",
-  }),
-) as unknown as Schema.Schema<GetTotalTlResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      certificateAuthority: "certificate_authority",
+      enabled: "enabled",
+      validityPeriod: "validity_period",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetTotalTlResponse>;
 
 export type GetTotalTlError =
   | DefaultErrors
@@ -138,13 +142,17 @@ export const CreateTotalTlResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
   validityPeriod: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    certificateAuthority: "certificate_authority",
-    enabled: "enabled",
-    validityPeriod: "validity_period",
-  }),
-) as unknown as Schema.Schema<CreateTotalTlResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      certificateAuthority: "certificate_authority",
+      enabled: "enabled",
+      validityPeriod: "validity_period",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateTotalTlResponse>;
 
 export type CreateTotalTlError =
   | DefaultErrors

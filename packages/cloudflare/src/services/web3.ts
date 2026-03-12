@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service web3
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -68,18 +69,22 @@ export const GetHostnameResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    dnslink: "dnslink",
-    modifiedOn: "modified_on",
-    name: "name",
-    status: "status",
-    target: "target",
-  }),
-) as unknown as Schema.Schema<GetHostnameResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      dnslink: "dnslink",
+      modifiedOn: "modified_on",
+      name: "name",
+      status: "status",
+      target: "target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHostnameResponse>;
 
 export type GetHostnameError = DefaultErrors;
 
@@ -105,62 +110,92 @@ export const ListHostnamesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/web3/hostnames" }),
 ) as unknown as Schema.Schema<ListHostnamesRequest>;
 
-export type ListHostnamesResponse = {
-  id?: string | null;
-  createdOn?: string | null;
-  description?: string | null;
-  dnslink?: string | null;
-  modifiedOn?: string | null;
-  name?: string | null;
-  status?: "active" | "pending" | "deleting" | "error" | null;
-  target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
-}[];
+export interface ListHostnamesResponse {
+  result: {
+    id?: string | null;
+    createdOn?: string | null;
+    description?: string | null;
+    dnslink?: string | null;
+    modifiedOn?: string | null;
+    name?: string | null;
+    status?: "active" | "pending" | "deleting" | "error" | null;
+    target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
+  }[];
+}
 
-export const ListHostnamesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    status: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["active", "pending", "deleting", "error"]),
-        Schema.Null,
-      ]),
+export const ListHostnamesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      dnslink: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["active", "pending", "deleting", "error"]),
+          Schema.Null,
+        ]),
+      ),
+      target: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        description: "description",
+        dnslink: "dnslink",
+        modifiedOn: "modified_on",
+        name: "name",
+        status: "status",
+        target: "target",
+      }),
     ),
-    target: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["ethereum", "ipfs", "ipfs_universal_path"]),
-        Schema.Null,
-      ]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      description: "description",
-      dnslink: "dnslink",
-      modifiedOn: "modified_on",
-      name: "name",
-      status: "status",
-      target: "target",
-    }),
   ),
-) as unknown as Schema.Schema<ListHostnamesResponse>;
+}) as unknown as Schema.Schema<ListHostnamesResponse>;
 
 export type ListHostnamesError = DefaultErrors;
 
-export const listHostnames: API.OperationMethod<
+export const listHostnames: API.PaginatedOperationMethod<
   ListHostnamesRequest,
   ListHostnamesResponse,
   ListHostnamesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListHostnamesRequest,
+  ) => stream.Stream<
+    ListHostnamesResponse,
+    ListHostnamesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListHostnamesRequest) => stream.Stream<
+    {
+      id?: string | null;
+      createdOn?: string | null;
+      description?: string | null;
+      dnslink?: string | null;
+      modifiedOn?: string | null;
+      name?: string | null;
+      status?: "active" | "pending" | "deleting" | "error" | null;
+      target?: "ethereum" | "ipfs" | "ipfs_universal_path" | null;
+    },
+    ListHostnamesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListHostnamesRequest,
   output: ListHostnamesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateHostnameRequest {
@@ -224,18 +259,22 @@ export const CreateHostnameResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
       ]),
     ),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    dnslink: "dnslink",
-    modifiedOn: "modified_on",
-    name: "name",
-    status: "status",
-    target: "target",
-  }),
-) as unknown as Schema.Schema<CreateHostnameResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      dnslink: "dnslink",
+      modifiedOn: "modified_on",
+      name: "name",
+      status: "status",
+      target: "target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateHostnameResponse>;
 
 export type CreateHostnameError = DefaultErrors;
 
@@ -308,18 +347,22 @@ export const PatchHostnameResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdOn: "created_on",
-    description: "description",
-    dnslink: "dnslink",
-    modifiedOn: "modified_on",
-    name: "name",
-    status: "status",
-    target: "target",
-  }),
-) as unknown as Schema.Schema<PatchHostnameResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdOn: "created_on",
+      description: "description",
+      dnslink: "dnslink",
+      modifiedOn: "modified_on",
+      name: "name",
+      status: "status",
+      target: "target",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchHostnameResponse>;
 
 export type PatchHostnameError = DefaultErrors;
 
@@ -359,6 +402,8 @@ export const DeleteHostnameResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     id: Schema.String,
   },
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<DeleteHostnameResponse>;
 
 export type DeleteHostnameError = DefaultErrors;
@@ -405,7 +450,9 @@ export const GetHostnameIpfsUniversalPathContentListResponse =
     action: Schema.optional(
       Schema.Union([Schema.Literal("block"), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListResponse>;
 
 export type GetHostnameIpfsUniversalPathContentListError = DefaultErrors;
 
@@ -463,7 +510,9 @@ export const PutHostnameIpfsUniversalPathContentListResponse =
     action: Schema.optional(
       Schema.Union([Schema.Literal("block"), Schema.Null]),
     ),
-  }) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutHostnameIpfsUniversalPathContentListResponse>;
 
 export type PutHostnameIpfsUniversalPathContentListError = DefaultErrors;
 
@@ -526,16 +575,20 @@ export const GetHostnameIpfsUniversalPathContentListEntryResponse =
     type: Schema.optional(
       Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      content: "content",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      type: "type",
-    }),
-  ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        content: "content",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        type: "type",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export type GetHostnameIpfsUniversalPathContentListEntryError = DefaultErrors;
 
@@ -620,7 +673,9 @@ export const ListHostnameIpfsUniversalPathContentListEntriesResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListHostnameIpfsUniversalPathContentListEntriesResponse>;
 
 export type ListHostnameIpfsUniversalPathContentListEntriesError =
   DefaultErrors;
@@ -685,16 +740,20 @@ export const CreateHostnameIpfsUniversalPathContentListEntryResponse =
     type: Schema.optional(
       Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      content: "content",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      type: "type",
-    }),
-  ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        content: "content",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        type: "type",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export type CreateHostnameIpfsUniversalPathContentListEntryError =
   DefaultErrors;
@@ -763,16 +822,20 @@ export const UpdateHostnameIpfsUniversalPathContentListEntryResponse =
     type: Schema.optional(
       Schema.Union([Schema.Literals(["cid", "content_path"]), Schema.Null]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      content: "content",
-      createdOn: "created_on",
-      description: "description",
-      modifiedOn: "modified_on",
-      type: "type",
-    }),
-  ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        content: "content",
+        createdOn: "created_on",
+        description: "description",
+        modifiedOn: "modified_on",
+        type: "type",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export type UpdateHostnameIpfsUniversalPathContentListEntryError =
   DefaultErrors;
@@ -817,7 +880,9 @@ export interface DeleteHostnameIpfsUniversalPathContentListEntryResponse {
 export const DeleteHostnameIpfsUniversalPathContentListEntryResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
-  }) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteHostnameIpfsUniversalPathContentListEntryResponse>;
 
 export type DeleteHostnameIpfsUniversalPathContentListEntryError =
   DefaultErrors;

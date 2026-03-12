@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service rulesets
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -31,7 +32,7 @@ export interface GetPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -127,7 +128,7 @@ export interface GetPhasResponse {
 
 export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -340,18 +341,20 @@ export const GetPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<GetPhasResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetPhasResponse>;
 
 export type GetPhasError = DefaultErrors;
 
@@ -566,7 +569,7 @@ export interface PutPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -662,7 +665,7 @@ export interface PutPhasResponse {
 
 export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -875,18 +878,20 @@ export const PutPhasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<PutPhasResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(T.ResponsePath("result")) as unknown as Schema.Schema<PutPhasResponse>;
 
 export type PutPhasError = DefaultErrors;
 
@@ -922,7 +927,7 @@ export interface GetPhasVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -1019,7 +1024,7 @@ export interface GetPhasVersionResponse {
 export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -1237,18 +1242,22 @@ export const GetPhasVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     version: Schema.String,
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
-).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<GetPhasVersionResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetPhasVersionResponse>;
 
 export type GetPhasVersionError = DefaultErrors;
 
@@ -1273,97 +1282,151 @@ export const ListPhasVersionsRequest =
     }),
   ) as unknown as Schema.Schema<ListPhasVersionsRequest>;
 
-export type ListPhasVersionsResponse = {
-  id: string;
-  kind: "zone" | "managed" | "custom" | "root";
-  lastUpdated: string;
-  name: string;
-  phase:
-    | "ddos_l4"
-    | "ddos_l7"
-    | "http_config_settings"
-    | "http_custom_errors"
-    | "http_log_custom_fields"
-    | "http_ratelimit"
-    | "http_request_cache_settings"
-    | "http_request_dynamic_redirect"
-    | "http_request_firewall_custom"
-    | "http_request_firewall_managed"
-    | "http_request_late_transform"
-    | "http_request_origin"
-    | "http_request_redirect"
-    | "http_request_sanitize"
-    | "http_request_sbfm"
-    | "http_request_transform"
-    | "http_response_compression"
-    | "http_response_firewall_managed"
-    | "http_response_headers_transform"
-    | "magic_transit"
-    | "magic_transit_ids_managed"
-    | "magic_transit_managed"
-    | "magic_transit_ratelimit";
-  version: string;
-  description?: string | null;
-}[];
+export interface ListPhasVersionsResponse {
+  result: {
+    id: string;
+    kind: "managed" | "custom" | "root" | "zone";
+    lastUpdated: string;
+    name: string;
+    phase:
+      | "ddos_l4"
+      | "ddos_l7"
+      | "http_config_settings"
+      | "http_custom_errors"
+      | "http_log_custom_fields"
+      | "http_ratelimit"
+      | "http_request_cache_settings"
+      | "http_request_dynamic_redirect"
+      | "http_request_firewall_custom"
+      | "http_request_firewall_managed"
+      | "http_request_late_transform"
+      | "http_request_origin"
+      | "http_request_redirect"
+      | "http_request_sanitize"
+      | "http_request_sbfm"
+      | "http_request_transform"
+      | "http_response_compression"
+      | "http_response_firewall_managed"
+      | "http_response_headers_transform"
+      | "magic_transit"
+      | "magic_transit_ids_managed"
+      | "magic_transit_managed"
+      | "magic_transit_ratelimit";
+    version: string;
+    description?: string | null;
+  }[];
+}
 
 export const ListPhasVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-      lastUpdated: Schema.String,
-      name: Schema.String,
-      phase: Schema.Literals([
-        "ddos_l4",
-        "ddos_l7",
-        "http_config_settings",
-        "http_custom_errors",
-        "http_log_custom_fields",
-        "http_ratelimit",
-        "http_request_cache_settings",
-        "http_request_dynamic_redirect",
-        "http_request_firewall_custom",
-        "http_request_firewall_managed",
-        "http_request_late_transform",
-        "http_request_origin",
-        "http_request_redirect",
-        "http_request_sanitize",
-        "http_request_sbfm",
-        "http_request_transform",
-        "http_response_compression",
-        "http_response_firewall_managed",
-        "http_response_headers_transform",
-        "magic_transit",
-        "magic_transit_ids_managed",
-        "magic_transit_managed",
-        "magic_transit_ratelimit",
-      ]),
-      version: Schema.String,
-      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        kind: "kind",
-        lastUpdated: "last_updated",
-        name: "name",
-        phase: "phase",
-        version: "version",
-        description: "description",
-      }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+        lastUpdated: Schema.String,
+        name: Schema.String,
+        phase: Schema.Literals([
+          "ddos_l4",
+          "ddos_l7",
+          "http_config_settings",
+          "http_custom_errors",
+          "http_log_custom_fields",
+          "http_ratelimit",
+          "http_request_cache_settings",
+          "http_request_dynamic_redirect",
+          "http_request_firewall_custom",
+          "http_request_firewall_managed",
+          "http_request_late_transform",
+          "http_request_origin",
+          "http_request_redirect",
+          "http_request_sanitize",
+          "http_request_sbfm",
+          "http_request_transform",
+          "http_response_compression",
+          "http_response_firewall_managed",
+          "http_response_headers_transform",
+          "magic_transit",
+          "magic_transit_ids_managed",
+          "magic_transit_managed",
+          "magic_transit_ratelimit",
+        ]),
+        version: Schema.String,
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          kind: "kind",
+          lastUpdated: "last_updated",
+          name: "name",
+          phase: "phase",
+          version: "version",
+          description: "description",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<ListPhasVersionsResponse>;
+  }) as unknown as Schema.Schema<ListPhasVersionsResponse>;
 
 export type ListPhasVersionsError = DefaultErrors;
 
-export const listPhasVersions: API.OperationMethod<
+export const listPhasVersions: API.PaginatedOperationMethod<
   ListPhasVersionsRequest,
   ListPhasVersionsResponse,
   ListPhasVersionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPhasVersionsRequest,
+  ) => stream.Stream<
+    ListPhasVersionsResponse,
+    ListPhasVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPhasVersionsRequest) => stream.Stream<
+    {
+      id: string;
+      kind: "managed" | "custom" | "root" | "zone";
+      lastUpdated: string;
+      name: string;
+      phase:
+        | "ddos_l4"
+        | "ddos_l7"
+        | "http_config_settings"
+        | "http_custom_errors"
+        | "http_log_custom_fields"
+        | "http_ratelimit"
+        | "http_request_cache_settings"
+        | "http_request_dynamic_redirect"
+        | "http_request_firewall_custom"
+        | "http_request_firewall_managed"
+        | "http_request_late_transform"
+        | "http_request_origin"
+        | "http_request_redirect"
+        | "http_request_sanitize"
+        | "http_request_sbfm"
+        | "http_request_transform"
+        | "http_response_compression"
+        | "http_response_firewall_managed"
+        | "http_response_headers_transform"
+        | "magic_transit"
+        | "magic_transit_ids_managed"
+        | "magic_transit_managed"
+        | "magic_transit_ratelimit";
+      version: string;
+      description?: string | null;
+    },
+    ListPhasVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPhasVersionsRequest,
   output: ListPhasVersionsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -1517,7 +1580,7 @@ export interface CreateRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -2336,7 +2399,7 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -5255,18 +5318,22 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<CreateRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export type CreateRuleError = DefaultErrors;
 
@@ -5430,7 +5497,7 @@ export interface PatchRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -6249,7 +6316,7 @@ export interface PatchRuleResponse {
 
 export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -9168,18 +9235,22 @@ export const PatchRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<PatchRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchRuleResponse>;
 
 export type PatchRuleError = DefaultErrors;
 
@@ -9213,7 +9284,7 @@ export interface DeleteRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -10032,7 +10103,7 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -12951,18 +13022,22 @@ export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<DeleteRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = DefaultErrors;
 
@@ -12998,7 +13073,7 @@ export interface GetRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -13094,7 +13169,7 @@ export interface GetRulesetResponse {
 
 export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -13307,18 +13382,22 @@ export const GetRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<GetRulesetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetRulesetResponse>;
 
 export type GetRulesetError = DefaultErrors;
 
@@ -13344,96 +13423,169 @@ export const ListRulesetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListRulesetsRequest>;
 
-export type ListRulesetsResponse = {
-  id: string;
-  kind: "zone" | "managed" | "custom" | "root";
-  lastUpdated: string;
-  name: string;
-  phase:
-    | "ddos_l4"
-    | "ddos_l7"
-    | "http_config_settings"
-    | "http_custom_errors"
-    | "http_log_custom_fields"
-    | "http_ratelimit"
-    | "http_request_cache_settings"
-    | "http_request_dynamic_redirect"
-    | "http_request_firewall_custom"
-    | "http_request_firewall_managed"
-    | "http_request_late_transform"
-    | "http_request_origin"
-    | "http_request_redirect"
-    | "http_request_sanitize"
-    | "http_request_sbfm"
-    | "http_request_transform"
-    | "http_response_compression"
-    | "http_response_firewall_managed"
-    | "http_response_headers_transform"
-    | "magic_transit"
-    | "magic_transit_ids_managed"
-    | "magic_transit_managed"
-    | "magic_transit_ratelimit";
-  version: string;
-  description?: string | null;
-}[];
+export interface ListRulesetsResponse {
+  result: {
+    id: string;
+    kind: "managed" | "custom" | "root" | "zone";
+    lastUpdated: string;
+    name: string;
+    phase:
+      | "ddos_l4"
+      | "ddos_l7"
+      | "http_config_settings"
+      | "http_custom_errors"
+      | "http_log_custom_fields"
+      | "http_ratelimit"
+      | "http_request_cache_settings"
+      | "http_request_dynamic_redirect"
+      | "http_request_firewall_custom"
+      | "http_request_firewall_managed"
+      | "http_request_late_transform"
+      | "http_request_origin"
+      | "http_request_redirect"
+      | "http_request_sanitize"
+      | "http_request_sbfm"
+      | "http_request_transform"
+      | "http_response_compression"
+      | "http_response_firewall_managed"
+      | "http_response_headers_transform"
+      | "magic_transit"
+      | "magic_transit_ids_managed"
+      | "magic_transit_managed"
+      | "magic_transit_ratelimit";
+    version: string;
+    description?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    cursor?: string | null;
+    perPage?: number | null;
+  };
+}
 
-export const ListRulesetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-    lastUpdated: Schema.String,
-    name: Schema.String,
-    phase: Schema.Literals([
-      "ddos_l4",
-      "ddos_l7",
-      "http_config_settings",
-      "http_custom_errors",
-      "http_log_custom_fields",
-      "http_ratelimit",
-      "http_request_cache_settings",
-      "http_request_dynamic_redirect",
-      "http_request_firewall_custom",
-      "http_request_firewall_managed",
-      "http_request_late_transform",
-      "http_request_origin",
-      "http_request_redirect",
-      "http_request_sanitize",
-      "http_request_sbfm",
-      "http_request_transform",
-      "http_response_compression",
-      "http_response_firewall_managed",
-      "http_response_headers_transform",
-      "magic_transit",
-      "magic_transit_ids_managed",
-      "magic_transit_managed",
-      "magic_transit_ratelimit",
-    ]),
-    version: Schema.String,
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+export const ListRulesetsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+      lastUpdated: Schema.String,
+      name: Schema.String,
+      phase: Schema.Literals([
+        "ddos_l4",
+        "ddos_l7",
+        "http_config_settings",
+        "http_custom_errors",
+        "http_log_custom_fields",
+        "http_ratelimit",
+        "http_request_cache_settings",
+        "http_request_dynamic_redirect",
+        "http_request_firewall_custom",
+        "http_request_firewall_managed",
+        "http_request_late_transform",
+        "http_request_origin",
+        "http_request_redirect",
+        "http_request_sanitize",
+        "http_request_sbfm",
+        "http_request_transform",
+        "http_response_compression",
+        "http_response_firewall_managed",
+        "http_response_headers_transform",
+        "magic_transit",
+        "magic_transit_ids_managed",
+        "magic_transit_managed",
+        "magic_transit_ratelimit",
+      ]),
+      version: Schema.String,
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        kind: "kind",
+        lastUpdated: "last_updated",
+        name: "name",
+        phase: "phase",
+        version: "version",
+        description: "description",
+      }),
+    ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    cursor: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      kind: "kind",
-      lastUpdated: "last_updated",
-      name: "name",
-      phase: "phase",
-      version: "version",
-      description: "description",
+      count: "count",
+      cursor: "cursor",
+      perPage: "per_page",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListRulesetsResponse>;
 
 export type ListRulesetsError = DefaultErrors;
 
-export const listRulesets: API.OperationMethod<
+export const listRulesets: API.PaginatedOperationMethod<
   ListRulesetsRequest,
   ListRulesetsResponse,
   ListRulesetsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRulesetsRequest,
+  ) => stream.Stream<
+    ListRulesetsResponse,
+    ListRulesetsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListRulesetsRequest) => stream.Stream<
+    {
+      id: string;
+      kind: "managed" | "custom" | "root" | "zone";
+      lastUpdated: string;
+      name: string;
+      phase:
+        | "ddos_l4"
+        | "ddos_l7"
+        | "http_config_settings"
+        | "http_custom_errors"
+        | "http_log_custom_fields"
+        | "http_ratelimit"
+        | "http_request_cache_settings"
+        | "http_request_dynamic_redirect"
+        | "http_request_firewall_custom"
+        | "http_request_firewall_managed"
+        | "http_request_late_transform"
+        | "http_request_origin"
+        | "http_request_redirect"
+        | "http_request_sanitize"
+        | "http_request_sbfm"
+        | "http_request_transform"
+        | "http_response_compression"
+        | "http_response_firewall_managed"
+        | "http_response_headers_transform"
+        | "magic_transit"
+        | "magic_transit_ids_managed"
+        | "magic_transit_managed"
+        | "magic_transit_ratelimit";
+      version: string;
+      description?: string | null;
+    },
+    ListRulesetsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRulesetsRequest,
   output: ListRulesetsResponse,
   errors: [],
+  pagination: {
+    mode: "cursor",
+    inputToken: "cursor",
+    outputToken: "resultInfo.cursor",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateRulesetRequest {
@@ -13442,7 +13594,7 @@ export interface CreateRulesetRequest {
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId?: string;
   /** Body param: The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** Body param: The human-readable name of the ruleset. */
   name: string;
   /** Body param: The phase of the ruleset. */
@@ -13529,7 +13681,7 @@ export interface CreateRulesetRequest {
 export const CreateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -13689,7 +13841,7 @@ export interface CreateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -13785,7 +13937,7 @@ export interface CreateRulesetResponse {
 
 export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -13998,18 +14150,22 @@ export const CreateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<CreateRulesetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRulesetResponse>;
 
 export type CreateRulesetError = DefaultErrors;
 
@@ -14033,7 +14189,7 @@ export interface UpdateRulesetRequest {
   /** Body param: An informative description of the ruleset. */
   description?: string;
   /** Body param: The kind of the ruleset. */
-  kind?: "zone" | "managed" | "custom" | "root";
+  kind?: "managed" | "custom" | "root" | "zone";
   /** Body param: The human-readable name of the ruleset. */
   name?: string;
   /** Body param: The phase of the ruleset. */
@@ -14120,7 +14276,7 @@ export const UpdateRulesetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["zone", "managed", "custom", "root"])),
+  kind: Schema.optional(Schema.Literals(["managed", "custom", "root", "zone"])),
   name: Schema.optional(Schema.String),
   phase: Schema.optional(
     Schema.Literals([
@@ -14281,7 +14437,7 @@ export interface UpdateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -14377,7 +14533,7 @@ export interface UpdateRulesetResponse {
 
 export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -14590,18 +14746,22 @@ export const UpdateRulesetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<UpdateRulesetResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateRulesetResponse>;
 
 export type UpdateRulesetError = DefaultErrors;
 
@@ -14670,7 +14830,7 @@ export interface GetVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "zone" | "managed" | "custom" | "root";
+  kind: "managed" | "custom" | "root" | "zone";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -14766,7 +14926,7 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
+  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -14979,18 +15139,22 @@ export const GetVersionResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   version: Schema.String,
   description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    kind: "kind",
-    lastUpdated: "last_updated",
-    name: "name",
-    phase: "phase",
-    rules: "rules",
-    version: "version",
-    description: "description",
-  }),
-) as unknown as Schema.Schema<GetVersionResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      kind: "kind",
+      lastUpdated: "last_updated",
+      name: "name",
+      phase: "phase",
+      rules: "rules",
+      version: "version",
+      description: "description",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetVersionResponse>;
 
 export type GetVersionError = DefaultErrors;
 
@@ -15018,96 +15182,148 @@ export const ListVersionsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListVersionsRequest>;
 
-export type ListVersionsResponse = {
-  id: string;
-  kind: "zone" | "managed" | "custom" | "root";
-  lastUpdated: string;
-  name: string;
-  phase:
-    | "ddos_l4"
-    | "ddos_l7"
-    | "http_config_settings"
-    | "http_custom_errors"
-    | "http_log_custom_fields"
-    | "http_ratelimit"
-    | "http_request_cache_settings"
-    | "http_request_dynamic_redirect"
-    | "http_request_firewall_custom"
-    | "http_request_firewall_managed"
-    | "http_request_late_transform"
-    | "http_request_origin"
-    | "http_request_redirect"
-    | "http_request_sanitize"
-    | "http_request_sbfm"
-    | "http_request_transform"
-    | "http_response_compression"
-    | "http_response_firewall_managed"
-    | "http_response_headers_transform"
-    | "magic_transit"
-    | "magic_transit_ids_managed"
-    | "magic_transit_managed"
-    | "magic_transit_ratelimit";
-  version: string;
-  description?: string | null;
-}[];
+export interface ListVersionsResponse {
+  result: {
+    id: string;
+    kind: "managed" | "custom" | "root" | "zone";
+    lastUpdated: string;
+    name: string;
+    phase:
+      | "ddos_l4"
+      | "ddos_l7"
+      | "http_config_settings"
+      | "http_custom_errors"
+      | "http_log_custom_fields"
+      | "http_ratelimit"
+      | "http_request_cache_settings"
+      | "http_request_dynamic_redirect"
+      | "http_request_firewall_custom"
+      | "http_request_firewall_managed"
+      | "http_request_late_transform"
+      | "http_request_origin"
+      | "http_request_redirect"
+      | "http_request_sanitize"
+      | "http_request_sbfm"
+      | "http_request_transform"
+      | "http_response_compression"
+      | "http_response_firewall_managed"
+      | "http_response_headers_transform"
+      | "magic_transit"
+      | "magic_transit_ids_managed"
+      | "magic_transit_managed"
+      | "magic_transit_ratelimit";
+    version: string;
+    description?: string | null;
+  }[];
+}
 
-export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
-    lastUpdated: Schema.String,
-    name: Schema.String,
-    phase: Schema.Literals([
-      "ddos_l4",
-      "ddos_l7",
-      "http_config_settings",
-      "http_custom_errors",
-      "http_log_custom_fields",
-      "http_ratelimit",
-      "http_request_cache_settings",
-      "http_request_dynamic_redirect",
-      "http_request_firewall_custom",
-      "http_request_firewall_managed",
-      "http_request_late_transform",
-      "http_request_origin",
-      "http_request_redirect",
-      "http_request_sanitize",
-      "http_request_sbfm",
-      "http_request_transform",
-      "http_response_compression",
-      "http_response_firewall_managed",
-      "http_response_headers_transform",
-      "magic_transit",
-      "magic_transit_ids_managed",
-      "magic_transit_managed",
-      "magic_transit_ratelimit",
-    ]),
-    version: Schema.String,
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      kind: "kind",
-      lastUpdated: "last_updated",
-      name: "name",
-      phase: "phase",
-      version: "version",
-      description: "description",
-    }),
+export const ListVersionsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+      lastUpdated: Schema.String,
+      name: Schema.String,
+      phase: Schema.Literals([
+        "ddos_l4",
+        "ddos_l7",
+        "http_config_settings",
+        "http_custom_errors",
+        "http_log_custom_fields",
+        "http_ratelimit",
+        "http_request_cache_settings",
+        "http_request_dynamic_redirect",
+        "http_request_firewall_custom",
+        "http_request_firewall_managed",
+        "http_request_late_transform",
+        "http_request_origin",
+        "http_request_redirect",
+        "http_request_sanitize",
+        "http_request_sbfm",
+        "http_request_transform",
+        "http_response_compression",
+        "http_response_firewall_managed",
+        "http_response_headers_transform",
+        "magic_transit",
+        "magic_transit_ids_managed",
+        "magic_transit_managed",
+        "magic_transit_ratelimit",
+      ]),
+      version: Schema.String,
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        kind: "kind",
+        lastUpdated: "last_updated",
+        name: "name",
+        phase: "phase",
+        version: "version",
+        description: "description",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<ListVersionsResponse>;
+}) as unknown as Schema.Schema<ListVersionsResponse>;
 
 export type ListVersionsError = DefaultErrors;
 
-export const listVersions: API.OperationMethod<
+export const listVersions: API.PaginatedOperationMethod<
   ListVersionsRequest,
   ListVersionsResponse,
   ListVersionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
+    ListVersionsResponse,
+    ListVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListVersionsRequest) => stream.Stream<
+    {
+      id: string;
+      kind: "managed" | "custom" | "root" | "zone";
+      lastUpdated: string;
+      name: string;
+      phase:
+        | "ddos_l4"
+        | "ddos_l7"
+        | "http_config_settings"
+        | "http_custom_errors"
+        | "http_log_custom_fields"
+        | "http_ratelimit"
+        | "http_request_cache_settings"
+        | "http_request_dynamic_redirect"
+        | "http_request_firewall_custom"
+        | "http_request_firewall_managed"
+        | "http_request_late_transform"
+        | "http_request_origin"
+        | "http_request_redirect"
+        | "http_request_sanitize"
+        | "http_request_sbfm"
+        | "http_request_transform"
+        | "http_response_compression"
+        | "http_response_firewall_managed"
+        | "http_response_headers_transform"
+        | "magic_transit"
+        | "magic_transit_ids_managed"
+        | "magic_transit_managed"
+        | "magic_transit_ratelimit";
+      version: string;
+      description?: string | null;
+    },
+    ListVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListVersionsRequest,
   output: ListVersionsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface DeleteVersionRequest {

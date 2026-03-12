@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getZoneId } from "./test.ts";
-import * as ApiGateway from "~/services/api-gateway.ts";
+import * as ApiGateway from "~/services/api-gateway";
 
 const zoneId = () => {
   const id = getZoneId();

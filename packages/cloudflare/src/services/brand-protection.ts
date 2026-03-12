@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service brand-protection
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -82,24 +83,45 @@ export const UrlInfoBrandProtectionRequest =
     }),
   ) as unknown as Schema.Schema<UrlInfoBrandProtectionRequest>;
 
-export type UrlInfoBrandProtectionResponse = Record<string, unknown>[];
+export interface UrlInfoBrandProtectionResponse {
+  result: Record<string, unknown>[];
+}
 
 export const UrlInfoBrandProtectionResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({}),
-  ) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(Schema.Struct({})),
+  }) as unknown as Schema.Schema<UrlInfoBrandProtectionResponse>;
 
 export type UrlInfoBrandProtectionError = DefaultErrors;
 
-export const urlInfoBrandProtection: API.OperationMethod<
+export const urlInfoBrandProtection: API.PaginatedOperationMethod<
   UrlInfoBrandProtectionRequest,
   UrlInfoBrandProtectionResponse,
   UrlInfoBrandProtectionError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: UrlInfoBrandProtectionRequest,
+  ) => stream.Stream<
+    UrlInfoBrandProtectionResponse,
+    UrlInfoBrandProtectionError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: UrlInfoBrandProtectionRequest,
+  ) => stream.Stream<
+    Record<string, unknown>,
+    UrlInfoBrandProtectionError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: UrlInfoBrandProtectionRequest,
   output: UrlInfoBrandProtectionResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================

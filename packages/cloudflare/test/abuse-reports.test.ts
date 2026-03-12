@@ -1,7 +1,7 @@
 import { describe, expect } from "vitest";
 import * as Effect from "effect/Effect";
 import { test, getAccountId } from "./test.ts";
-import * as AbuseReports from "~/services/abuse-reports.ts";
+import * as AbuseReports from "~/services/abuse-reports";
 
 const accountId = () => getAccountId();
 

@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service workers
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -107,12 +108,16 @@ export const GetAccountSettingResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     greenCompute: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      defaultUsageModel: "default_usage_model",
-      greenCompute: "green_compute",
-    }),
-  ) as unknown as Schema.Schema<GetAccountSettingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        defaultUsageModel: "default_usage_model",
+        greenCompute: "green_compute",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetAccountSettingResponse>;
 
 export type GetAccountSettingError = DefaultErrors | InvalidRoute;
 
@@ -163,12 +168,16 @@ export const PutAccountSettingResponse =
       Schema.Union([Schema.String, Schema.Null]),
     ),
     greenCompute: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      defaultUsageModel: "default_usage_model",
-      greenCompute: "green_compute",
-    }),
-  ) as unknown as Schema.Schema<PutAccountSettingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        defaultUsageModel: "default_usage_model",
+        greenCompute: "green_compute",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PutAccountSettingResponse>;
 
 export type PutAccountSettingError = DefaultErrors | InvalidRoute;
 
@@ -217,7 +226,9 @@ export interface CreateAssetUploadResponse {
 export const CreateAssetUploadResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     jwt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateAssetUploadResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateAssetUploadResponse>;
 
 export type CreateAssetUploadError = DefaultErrors | InvalidRoute;
 
@@ -262,7 +273,9 @@ export interface GetBetaWorkerResponse {
 export const GetBetaWorkerResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   name: Schema.String,
-}) as unknown as Schema.Schema<GetBetaWorkerResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetBetaWorkerResponse>;
 
 export type GetBetaWorkerError = DefaultErrors | WorkerNotFound | InvalidRoute;
 
@@ -290,26 +303,74 @@ export const ListBetaWorkersRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   T.Http({ method: "GET", path: "/accounts/{account_id}/workers/workers" }),
 ) as unknown as Schema.Schema<ListBetaWorkersRequest>;
 
-export type ListBetaWorkersResponse = { id: string; name: string }[];
+export interface ListBetaWorkersResponse {
+  result: { id: string; name: string }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListBetaWorkersResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    name: Schema.String,
-  }),
-) as unknown as Schema.Schema<ListBetaWorkersResponse>;
+export const ListBetaWorkersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        name: Schema.String,
+      }),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListBetaWorkersResponse>;
 
 export type ListBetaWorkersError = DefaultErrors | InvalidRoute;
 
-export const listBetaWorkers: API.OperationMethod<
+export const listBetaWorkers: API.PaginatedOperationMethod<
   ListBetaWorkersRequest,
   ListBetaWorkersResponse,
   ListBetaWorkersError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListBetaWorkersRequest,
+  ) => stream.Stream<
+    ListBetaWorkersResponse,
+    ListBetaWorkersError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBetaWorkersRequest,
+  ) => stream.Stream<
+    { id: string; name: string },
+    ListBetaWorkersError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBetaWorkersRequest,
   output: ListBetaWorkersResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateBetaWorkerRequest {
@@ -409,7 +470,9 @@ export const CreateBetaWorkerResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     name: Schema.String,
-  }) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
 
 export type CreateBetaWorkerError = DefaultErrors | InvalidRoute;
 
@@ -526,7 +589,9 @@ export const UpdateBetaWorkerResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     name: Schema.String,
-  }) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
 
 export type UpdateBetaWorkerError = DefaultErrors | WorkerNotFound;
 
@@ -638,7 +703,9 @@ export const PatchBetaWorkerResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.String,
     name: Schema.String,
-  }) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
 
 export type PatchBetaWorkerError = DefaultErrors | WorkerNotFound;
 
@@ -1347,26 +1414,30 @@ export const GetBetaWorkerVersionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      number: "number",
-      annotations: "annotations",
-      assets: "assets",
-      bindings: "bindings",
-      compatibilityDate: "compatibility_date",
-      compatibilityFlags: "compatibility_flags",
-      limits: "limits",
-      mainModule: "main_module",
-      migrations: "migrations",
-      modules: "modules",
-      placement: "placement",
-      source: "source",
-      startupTimeMs: "startup_time_ms",
-      usageModel: "usage_model",
-    }),
-  ) as unknown as Schema.Schema<GetBetaWorkerVersionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        number: "number",
+        annotations: "annotations",
+        assets: "assets",
+        bindings: "bindings",
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        limits: "limits",
+        mainModule: "main_module",
+        migrations: "migrations",
+        modules: "modules",
+        placement: "placement",
+        source: "source",
+        startupTimeMs: "startup_time_ms",
+        usageModel: "usage_model",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetBetaWorkerVersionResponse>;
 
 export type GetBetaWorkerVersionError = DefaultErrors | WorkerNotFound;
 
@@ -1398,597 +1469,784 @@ export const ListBetaWorkerVersionsRequest =
     }),
   ) as unknown as Schema.Schema<ListBetaWorkerVersionsRequest>;
 
-export type ListBetaWorkerVersionsResponse = {
-  id: string;
-  createdOn: string;
-  number: number;
-  annotations?: {
-    workersMessage?: string | null;
-    workersTag?: string | null;
-    workersTriggeredBy?: string | null;
-  } | null;
-  assets?: {
-    config?: {
-      htmlHandling?:
-        | "auto-trailing-slash"
-        | "force-trailing-slash"
-        | "drop-trailing-slash"
-        | "none"
-        | null;
-      notFoundHandling?: "none" | "404-page" | "single-page-application" | null;
-      runWorkerFirst?: string[] | boolean | null;
+export interface ListBetaWorkerVersionsResponse {
+  result: {
+    id: string;
+    createdOn: string;
+    number: number;
+    annotations?: {
+      workersMessage?: string | null;
+      workersTag?: string | null;
+      workersTriggeredBy?: string | null;
     } | null;
-    jwt?: string | null;
-  } | null;
-  bindings?:
-    | (
-        | { name: string; type: "ai" }
-        | { dataset: string; name: string; type: "analytics_engine" }
-        | { name: string; type: "assets" }
-        | { name: string; type: "browser" }
-        | { id: string; name: string; type: "d1" }
-        | { name: string; part: string; type: "data_blob" }
-        | {
-            name: string;
-            namespace: string;
-            type: "dispatch_namespace";
-            outbound?: {
-              params?: string[] | null;
-              worker?: {
-                environment?: string | null;
-                service?: string | null;
+    assets?: {
+      config?: {
+        htmlHandling?:
+          | "auto-trailing-slash"
+          | "force-trailing-slash"
+          | "drop-trailing-slash"
+          | "none"
+          | null;
+        notFoundHandling?:
+          | "none"
+          | "404-page"
+          | "single-page-application"
+          | null;
+        runWorkerFirst?: string[] | boolean | null;
+      } | null;
+      jwt?: string | null;
+    } | null;
+    bindings?:
+      | (
+          | { name: string; type: "ai" }
+          | { dataset: string; name: string; type: "analytics_engine" }
+          | { name: string; type: "assets" }
+          | { name: string; type: "browser" }
+          | { id: string; name: string; type: "d1" }
+          | { name: string; part: string; type: "data_blob" }
+          | {
+              name: string;
+              namespace: string;
+              type: "dispatch_namespace";
+              outbound?: {
+                params?: string[] | null;
+                worker?: {
+                  environment?: string | null;
+                  service?: string | null;
+                } | null;
               } | null;
-            } | null;
-          }
-        | {
-            name: string;
-            type: "durable_object_namespace";
-            className?: string | null;
-            environment?: string | null;
-            namespaceId?: string | null;
-            scriptName?: string | null;
-          }
-        | { id: string; name: string; type: "hyperdrive" }
-        | {
-            name: string;
-            type: "inherit";
-            oldName?: string | null;
-            versionId?: string | null;
-          }
-        | { name: string; type: "images" }
-        | { json: string; name: string; type: "json" }
-        | { name: string; namespaceId: string; type: "kv_namespace" }
-        | { certificateId: string; name: string; type: "mtls_certificate" }
-        | { name: string; text: string; type: "plain_text" }
-        | { name: string; pipeline: string; type: "pipelines" }
-        | { name: string; queueName: string; type: "queue" }
-        | {
-            bucketName: string;
-            name: string;
-            type: "r2_bucket";
-            jurisdiction?: "eu" | "fedramp" | null;
-          }
-        | { name: string; type: "secret_text" }
-        | {
-            name: string;
-            type: "send_email";
-            allowedDestinationAddresses?: string[] | null;
-            allowedSenderAddresses?: string[] | null;
-            destinationAddress?: string | null;
-          }
-        | {
-            name: string;
-            service: string;
-            type: "service";
-            environment?: string | null;
-          }
-        | { name: string; part: string; type: "text_blob" }
-        | { indexName: string; name: string; type: "vectorize" }
-        | { name: string; type: "version_metadata" }
-        | {
-            name: string;
-            secretName: string;
-            storeId: string;
-            type: "secrets_store_secret";
-          }
-        | {
-            algorithm: unknown;
-            format: "raw" | "pkcs8" | "spki" | "jwk";
-            name: string;
-            type: "secret_key";
-            usages: (
-              | "encrypt"
-              | "decrypt"
-              | "sign"
-              | "verify"
-              | "deriveKey"
-              | "deriveBits"
-              | "wrapKey"
-              | "unwrapKey"
-            )[];
-          }
-        | {
-            name: string;
-            type: "workflow";
-            workflowName: string;
-            className?: string | null;
-            scriptName?: string | null;
-          }
-        | { name: string; part: string; type: "wasm_module" }
-      )[]
-    | null;
-  compatibilityDate?: string | null;
-  compatibilityFlags?: string[] | null;
-  limits?: { cpuMs: number } | null;
-  mainModule?: string | null;
-  migrations?: unknown | null;
-  modules?:
-    | { contentBase64: string; contentType: string; name: string }[]
-    | null;
-  placement?: { mode?: "smart" | null } | null;
-  source?: string | null;
-  startupTimeMs?: number | null;
-  usageModel?: "standard" | "bundled" | "unbound" | null;
-}[];
+            }
+          | {
+              name: string;
+              type: "durable_object_namespace";
+              className?: string | null;
+              environment?: string | null;
+              namespaceId?: string | null;
+              scriptName?: string | null;
+            }
+          | { id: string; name: string; type: "hyperdrive" }
+          | {
+              name: string;
+              type: "inherit";
+              oldName?: string | null;
+              versionId?: string | null;
+            }
+          | { name: string; type: "images" }
+          | { json: string; name: string; type: "json" }
+          | { name: string; namespaceId: string; type: "kv_namespace" }
+          | { certificateId: string; name: string; type: "mtls_certificate" }
+          | { name: string; text: string; type: "plain_text" }
+          | { name: string; pipeline: string; type: "pipelines" }
+          | { name: string; queueName: string; type: "queue" }
+          | {
+              bucketName: string;
+              name: string;
+              type: "r2_bucket";
+              jurisdiction?: "eu" | "fedramp" | null;
+            }
+          | { name: string; type: "secret_text" }
+          | {
+              name: string;
+              type: "send_email";
+              allowedDestinationAddresses?: string[] | null;
+              allowedSenderAddresses?: string[] | null;
+              destinationAddress?: string | null;
+            }
+          | {
+              name: string;
+              service: string;
+              type: "service";
+              environment?: string | null;
+            }
+          | { name: string; part: string; type: "text_blob" }
+          | { indexName: string; name: string; type: "vectorize" }
+          | { name: string; type: "version_metadata" }
+          | {
+              name: string;
+              secretName: string;
+              storeId: string;
+              type: "secrets_store_secret";
+            }
+          | {
+              algorithm: unknown;
+              format: "raw" | "pkcs8" | "spki" | "jwk";
+              name: string;
+              type: "secret_key";
+              usages: (
+                | "encrypt"
+                | "decrypt"
+                | "sign"
+                | "verify"
+                | "deriveKey"
+                | "deriveBits"
+                | "wrapKey"
+                | "unwrapKey"
+              )[];
+            }
+          | {
+              name: string;
+              type: "workflow";
+              workflowName: string;
+              className?: string | null;
+              scriptName?: string | null;
+            }
+          | { name: string; part: string; type: "wasm_module" }
+        )[]
+      | null;
+    compatibilityDate?: string | null;
+    compatibilityFlags?: string[] | null;
+    limits?: { cpuMs: number } | null;
+    mainModule?: string | null;
+    migrations?: unknown | null;
+    modules?:
+      | { contentBase64: string; contentType: string; name: string }[]
+      | null;
+    placement?: { mode?: "smart" | null } | null;
+    source?: string | null;
+    startupTimeMs?: number | null;
+    usageModel?: "standard" | "bundled" | "unbound" | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListBetaWorkerVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.String,
-      createdOn: Schema.String,
-      number: Schema.Number,
-      annotations: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            workersMessage: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        createdOn: Schema.String,
+        number: Schema.Number,
+        annotations: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              workersMessage: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              workersTag: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              workersTriggeredBy: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                workersMessage: "workers/message",
+                workersTag: "workers/tag",
+                workersTriggeredBy: "workers/triggered_by",
+              }),
             ),
-            workersTag: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            workersTriggeredBy: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              workersMessage: "workers/message",
-              workersTag: "workers/tag",
-              workersTriggeredBy: "workers/triggered_by",
+            Schema.Null,
+          ]),
+        ),
+        assets: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              config: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    htmlHandling: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals([
+                          "auto-trailing-slash",
+                          "force-trailing-slash",
+                          "drop-trailing-slash",
+                          "none",
+                        ]),
+                        Schema.Null,
+                      ]),
+                    ),
+                    notFoundHandling: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals([
+                          "none",
+                          "404-page",
+                          "single-page-application",
+                        ]),
+                        Schema.Null,
+                      ]),
+                    ),
+                    runWorkerFirst: Schema.optional(
+                      Schema.Union([
+                        Schema.Union([
+                          Schema.Array(Schema.String),
+                          Schema.Boolean,
+                        ]),
+                        Schema.Null,
+                      ]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      htmlHandling: "html_handling",
+                      notFoundHandling: "not_found_handling",
+                      runWorkerFirst: "run_worker_first",
+                    }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+              jwt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
             }),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      assets: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            config: Schema.optional(
+            Schema.Null,
+          ]),
+        ),
+        bindings: Schema.optional(
+          Schema.Union([
+            Schema.Array(
               Schema.Union([
                 Schema.Struct({
-                  htmlHandling: Schema.optional(
+                  name: Schema.String,
+                  type: Schema.Literal("ai"),
+                }),
+                Schema.Struct({
+                  dataset: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("analytics_engine"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("assets"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("browser"),
+                }),
+                Schema.Struct({
+                  id: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("d1"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  part: Schema.String,
+                  type: Schema.Literal("data_blob"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  namespace: Schema.String,
+                  type: Schema.Literal("dispatch_namespace"),
+                  outbound: Schema.optional(
                     Schema.Union([
-                      Schema.Literals([
-                        "auto-trailing-slash",
-                        "force-trailing-slash",
-                        "drop-trailing-slash",
-                        "none",
-                      ]),
+                      Schema.Struct({
+                        params: Schema.optional(
+                          Schema.Union([
+                            Schema.Array(Schema.String),
+                            Schema.Null,
+                          ]),
+                        ),
+                        worker: Schema.optional(
+                          Schema.Union([
+                            Schema.Struct({
+                              environment: Schema.optional(
+                                Schema.Union([Schema.String, Schema.Null]),
+                              ),
+                              service: Schema.optional(
+                                Schema.Union([Schema.String, Schema.Null]),
+                              ),
+                            }),
+                            Schema.Null,
+                          ]),
+                        ),
+                      }),
                       Schema.Null,
                     ]),
                   ),
-                  notFoundHandling: Schema.optional(
-                    Schema.Union([
-                      Schema.Literals([
-                        "none",
-                        "404-page",
-                        "single-page-application",
-                      ]),
-                      Schema.Null,
-                    ]),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("durable_object_namespace"),
+                  className: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
                   ),
-                  runWorkerFirst: Schema.optional(
+                  environment: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  namespaceId: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  scriptName: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    type: "type",
+                    className: "class_name",
+                    environment: "environment",
+                    namespaceId: "namespace_id",
+                    scriptName: "script_name",
+                  }),
+                ),
+                Schema.Struct({
+                  id: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("hyperdrive"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("inherit"),
+                  oldName: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  versionId: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    type: "type",
+                    oldName: "old_name",
+                    versionId: "version_id",
+                  }),
+                ),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("images"),
+                }),
+                Schema.Struct({
+                  json: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("json"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  namespaceId: Schema.String,
+                  type: Schema.Literal("kv_namespace"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    namespaceId: "namespace_id",
+                    type: "type",
+                  }),
+                ),
+                Schema.Struct({
+                  certificateId: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("mtls_certificate"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    certificateId: "certificate_id",
+                    name: "name",
+                    type: "type",
+                  }),
+                ),
+                Schema.Struct({
+                  name: Schema.String,
+                  text: Schema.String,
+                  type: Schema.Literal("plain_text"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  pipeline: Schema.String,
+                  type: Schema.Literal("pipelines"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  queueName: Schema.String,
+                  type: Schema.Literal("queue"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    queueName: "queue_name",
+                    type: "type",
+                  }),
+                ),
+                Schema.Struct({
+                  bucketName: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("r2_bucket"),
+                  jurisdiction: Schema.optional(
                     Schema.Union([
-                      Schema.Union([
-                        Schema.Array(Schema.String),
-                        Schema.Boolean,
-                      ]),
+                      Schema.Literals(["eu", "fedramp"]),
                       Schema.Null,
                     ]),
                   ),
                 }).pipe(
                   Schema.encodeKeys({
-                    htmlHandling: "html_handling",
-                    notFoundHandling: "not_found_handling",
-                    runWorkerFirst: "run_worker_first",
+                    bucketName: "bucket_name",
+                    name: "name",
+                    type: "type",
+                    jurisdiction: "jurisdiction",
                   }),
                 ),
-                Schema.Null,
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("secret_text"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("send_email"),
+                  allowedDestinationAddresses: Schema.optional(
+                    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                  ),
+                  allowedSenderAddresses: Schema.optional(
+                    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                  ),
+                  destinationAddress: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    type: "type",
+                    allowedDestinationAddresses:
+                      "allowed_destination_addresses",
+                    allowedSenderAddresses: "allowed_sender_addresses",
+                    destinationAddress: "destination_address",
+                  }),
+                ),
+                Schema.Struct({
+                  name: Schema.String,
+                  service: Schema.String,
+                  type: Schema.Literal("service"),
+                  environment: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  part: Schema.String,
+                  type: Schema.Literal("text_blob"),
+                }),
+                Schema.Struct({
+                  indexName: Schema.String,
+                  name: Schema.String,
+                  type: Schema.Literal("vectorize"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    indexName: "index_name",
+                    name: "name",
+                    type: "type",
+                  }),
+                ),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("version_metadata"),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  secretName: Schema.String,
+                  storeId: Schema.String,
+                  type: Schema.Literal("secrets_store_secret"),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    secretName: "secret_name",
+                    storeId: "store_id",
+                    type: "type",
+                  }),
+                ),
+                Schema.Struct({
+                  algorithm: Schema.Unknown,
+                  format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
+                  name: Schema.String,
+                  type: Schema.Literal("secret_key"),
+                  usages: Schema.Array(
+                    Schema.Literals([
+                      "encrypt",
+                      "decrypt",
+                      "sign",
+                      "verify",
+                      "deriveKey",
+                      "deriveBits",
+                      "wrapKey",
+                      "unwrapKey",
+                    ]),
+                  ),
+                }),
+                Schema.Struct({
+                  name: Schema.String,
+                  type: Schema.Literal("workflow"),
+                  workflowName: Schema.String,
+                  className: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                  scriptName: Schema.optional(
+                    Schema.Union([Schema.String, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    name: "name",
+                    type: "type",
+                    workflowName: "workflow_name",
+                    className: "class_name",
+                    scriptName: "script_name",
+                  }),
+                ),
+                Schema.Struct({
+                  name: Schema.String,
+                  part: Schema.String,
+                  type: Schema.Literal("wasm_module"),
+                }),
               ]),
             ),
-            jwt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      bindings: Schema.optional(
-        Schema.Union([
-          Schema.Array(
-            Schema.Union([
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("ai"),
-              }),
-              Schema.Struct({
-                dataset: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("analytics_engine"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("assets"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("browser"),
-              }),
-              Schema.Struct({
-                id: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("d1"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                part: Schema.String,
-                type: Schema.Literal("data_blob"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                namespace: Schema.String,
-                type: Schema.Literal("dispatch_namespace"),
-                outbound: Schema.optional(
-                  Schema.Union([
-                    Schema.Struct({
-                      params: Schema.optional(
-                        Schema.Union([
-                          Schema.Array(Schema.String),
-                          Schema.Null,
-                        ]),
-                      ),
-                      worker: Schema.optional(
-                        Schema.Union([
-                          Schema.Struct({
-                            environment: Schema.optional(
-                              Schema.Union([Schema.String, Schema.Null]),
-                            ),
-                            service: Schema.optional(
-                              Schema.Union([Schema.String, Schema.Null]),
-                            ),
-                          }),
-                          Schema.Null,
-                        ]),
-                      ),
-                    }),
-                    Schema.Null,
-                  ]),
-                ),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("durable_object_namespace"),
-                className: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                environment: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                namespaceId: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                scriptName: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  type: "type",
-                  className: "class_name",
-                  environment: "environment",
-                  namespaceId: "namespace_id",
-                  scriptName: "script_name",
-                }),
-              ),
-              Schema.Struct({
-                id: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("hyperdrive"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("inherit"),
-                oldName: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                versionId: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  type: "type",
-                  oldName: "old_name",
-                  versionId: "version_id",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("images"),
-              }),
-              Schema.Struct({
-                json: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("json"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                namespaceId: Schema.String,
-                type: Schema.Literal("kv_namespace"),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  namespaceId: "namespace_id",
-                  type: "type",
-                }),
-              ),
-              Schema.Struct({
-                certificateId: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("mtls_certificate"),
-              }).pipe(
-                Schema.encodeKeys({
-                  certificateId: "certificate_id",
-                  name: "name",
-                  type: "type",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                text: Schema.String,
-                type: Schema.Literal("plain_text"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                pipeline: Schema.String,
-                type: Schema.Literal("pipelines"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                queueName: Schema.String,
-                type: Schema.Literal("queue"),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  queueName: "queue_name",
-                  type: "type",
-                }),
-              ),
-              Schema.Struct({
-                bucketName: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("r2_bucket"),
-                jurisdiction: Schema.optional(
-                  Schema.Union([
-                    Schema.Literals(["eu", "fedramp"]),
-                    Schema.Null,
-                  ]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  bucketName: "bucket_name",
-                  name: "name",
-                  type: "type",
-                  jurisdiction: "jurisdiction",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("secret_text"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("send_email"),
-                allowedDestinationAddresses: Schema.optional(
-                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-                ),
-                allowedSenderAddresses: Schema.optional(
-                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-                ),
-                destinationAddress: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  type: "type",
-                  allowedDestinationAddresses: "allowed_destination_addresses",
-                  allowedSenderAddresses: "allowed_sender_addresses",
-                  destinationAddress: "destination_address",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                service: Schema.String,
-                type: Schema.Literal("service"),
-                environment: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                part: Schema.String,
-                type: Schema.Literal("text_blob"),
-              }),
-              Schema.Struct({
-                indexName: Schema.String,
-                name: Schema.String,
-                type: Schema.Literal("vectorize"),
-              }).pipe(
-                Schema.encodeKeys({
-                  indexName: "index_name",
-                  name: "name",
-                  type: "type",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("version_metadata"),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                secretName: Schema.String,
-                storeId: Schema.String,
-                type: Schema.Literal("secrets_store_secret"),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  secretName: "secret_name",
-                  storeId: "store_id",
-                  type: "type",
-                }),
-              ),
-              Schema.Struct({
-                algorithm: Schema.Unknown,
-                format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
-                name: Schema.String,
-                type: Schema.Literal("secret_key"),
-                usages: Schema.Array(
-                  Schema.Literals([
-                    "encrypt",
-                    "decrypt",
-                    "sign",
-                    "verify",
-                    "deriveKey",
-                    "deriveBits",
-                    "wrapKey",
-                    "unwrapKey",
-                  ]),
-                ),
-              }),
-              Schema.Struct({
-                name: Schema.String,
-                type: Schema.Literal("workflow"),
-                workflowName: Schema.String,
-                className: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                scriptName: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  name: "name",
-                  type: "type",
-                  workflowName: "workflow_name",
-                  className: "class_name",
-                  scriptName: "script_name",
-                }),
-              ),
-              Schema.Struct({
-                name: Schema.String,
-                part: Schema.String,
-                type: Schema.Literal("wasm_module"),
-              }),
-            ]),
-          ),
-          Schema.Null,
-        ]),
-      ),
-      compatibilityDate: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
-      ),
-      compatibilityFlags: Schema.optional(
-        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-      ),
-      limits: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            cpuMs: Schema.Number,
-          }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
-          Schema.Null,
-        ]),
-      ),
-      mainModule: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      migrations: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-      modules: Schema.optional(
-        Schema.Union([
-          Schema.Array(
+            Schema.Null,
+          ]),
+        ),
+        compatibilityDate: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        compatibilityFlags: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        limits: Schema.optional(
+          Schema.Union([
             Schema.Struct({
-              contentBase64: Schema.String,
-              contentType: Schema.String,
-              name: Schema.String,
-            }).pipe(
-              Schema.encodeKeys({
-                contentBase64: "content_base64",
-                contentType: "content_type",
-                name: "name",
-              }),
+              cpuMs: Schema.Number,
+            }).pipe(Schema.encodeKeys({ cpuMs: "cpu_ms" })),
+            Schema.Null,
+          ]),
+        ),
+        mainModule: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        migrations: Schema.optional(
+          Schema.Union([Schema.Unknown, Schema.Null]),
+        ),
+        modules: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                contentBase64: Schema.String,
+                contentType: Schema.String,
+                name: Schema.String,
+              }).pipe(
+                Schema.encodeKeys({
+                  contentBase64: "content_base64",
+                  contentType: "content_type",
+                  name: "name",
+                }),
+              ),
             ),
-          ),
-          Schema.Null,
-        ]),
+            Schema.Null,
+          ]),
+        ),
+        placement: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.optional(
+                Schema.Union([Schema.Literal("smart"), Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        source: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        startupTimeMs: Schema.optional(
+          Schema.Union([Schema.Number, Schema.Null]),
+        ),
+        usageModel: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["standard", "bundled", "unbound"]),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdOn: "created_on",
+          number: "number",
+          annotations: "annotations",
+          assets: "assets",
+          bindings: "bindings",
+          compatibilityDate: "compatibility_date",
+          compatibilityFlags: "compatibility_flags",
+          limits: "limits",
+          mainModule: "main_module",
+          migrations: "migrations",
+          modules: "modules",
+          placement: "placement",
+          source: "source",
+          startupTimeMs: "startup_time_ms",
+          usageModel: "usage_model",
+        }),
       ),
-      placement: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            mode: Schema.optional(
-              Schema.Union([Schema.Literal("smart"), Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-      source: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      startupTimeMs: Schema.optional(
-        Schema.Union([Schema.Number, Schema.Null]),
-      ),
-      usageModel: Schema.optional(
-        Schema.Union([
-          Schema.Literals(["standard", "bundled", "unbound"]),
-          Schema.Null,
-        ]),
-      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        id: "id",
-        createdOn: "created_on",
-        number: "number",
-        annotations: "annotations",
-        assets: "assets",
-        bindings: "bindings",
-        compatibilityDate: "compatibility_date",
-        compatibilityFlags: "compatibility_flags",
-        limits: "limits",
-        mainModule: "main_module",
-        migrations: "migrations",
-        modules: "modules",
-        placement: "placement",
-        source: "source",
-        startupTimeMs: "startup_time_ms",
-        usageModel: "usage_model",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListBetaWorkerVersionsResponse>;
 
 export type ListBetaWorkerVersionsError = DefaultErrors | WorkerNotFound;
 
-export const listBetaWorkerVersions: API.OperationMethod<
+export const listBetaWorkerVersions: API.PaginatedOperationMethod<
   ListBetaWorkerVersionsRequest,
   ListBetaWorkerVersionsResponse,
   ListBetaWorkerVersionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListBetaWorkerVersionsRequest,
+  ) => stream.Stream<
+    ListBetaWorkerVersionsResponse,
+    ListBetaWorkerVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListBetaWorkerVersionsRequest) => stream.Stream<
+    {
+      id: string;
+      createdOn: string;
+      number: number;
+      annotations?: {
+        workersMessage?: string | null;
+        workersTag?: string | null;
+        workersTriggeredBy?: string | null;
+      } | null;
+      assets?: {
+        config?: {
+          htmlHandling?:
+            | "auto-trailing-slash"
+            | "force-trailing-slash"
+            | "drop-trailing-slash"
+            | "none"
+            | null;
+          notFoundHandling?:
+            | "none"
+            | "404-page"
+            | "single-page-application"
+            | null;
+          runWorkerFirst?: string[] | boolean | null;
+        } | null;
+        jwt?: string | null;
+      } | null;
+      bindings?:
+        | (
+            | { name: string; type: "ai" }
+            | { dataset: string; name: string; type: "analytics_engine" }
+            | { name: string; type: "assets" }
+            | { name: string; type: "browser" }
+            | { id: string; name: string; type: "d1" }
+            | { name: string; part: string; type: "data_blob" }
+            | {
+                name: string;
+                namespace: string;
+                type: "dispatch_namespace";
+                outbound?: {
+                  params?: string[] | null;
+                  worker?: {
+                    environment?: string | null;
+                    service?: string | null;
+                  } | null;
+                } | null;
+              }
+            | {
+                name: string;
+                type: "durable_object_namespace";
+                className?: string | null;
+                environment?: string | null;
+                namespaceId?: string | null;
+                scriptName?: string | null;
+              }
+            | { id: string; name: string; type: "hyperdrive" }
+            | {
+                name: string;
+                type: "inherit";
+                oldName?: string | null;
+                versionId?: string | null;
+              }
+            | { name: string; type: "images" }
+            | { json: string; name: string; type: "json" }
+            | { name: string; namespaceId: string; type: "kv_namespace" }
+            | { certificateId: string; name: string; type: "mtls_certificate" }
+            | { name: string; text: string; type: "plain_text" }
+            | { name: string; pipeline: string; type: "pipelines" }
+            | { name: string; queueName: string; type: "queue" }
+            | {
+                bucketName: string;
+                name: string;
+                type: "r2_bucket";
+                jurisdiction?: "eu" | "fedramp" | null;
+              }
+            | { name: string; type: "secret_text" }
+            | {
+                name: string;
+                type: "send_email";
+                allowedDestinationAddresses?: string[] | null;
+                allowedSenderAddresses?: string[] | null;
+                destinationAddress?: string | null;
+              }
+            | {
+                name: string;
+                service: string;
+                type: "service";
+                environment?: string | null;
+              }
+            | { name: string; part: string; type: "text_blob" }
+            | { indexName: string; name: string; type: "vectorize" }
+            | { name: string; type: "version_metadata" }
+            | {
+                name: string;
+                secretName: string;
+                storeId: string;
+                type: "secrets_store_secret";
+              }
+            | {
+                algorithm: unknown;
+                format: "raw" | "pkcs8" | "spki" | "jwk";
+                name: string;
+                type: "secret_key";
+                usages: (
+                  | "encrypt"
+                  | "decrypt"
+                  | "sign"
+                  | "verify"
+                  | "deriveKey"
+                  | "deriveBits"
+                  | "wrapKey"
+                  | "unwrapKey"
+                )[];
+              }
+            | {
+                name: string;
+                type: "workflow";
+                workflowName: string;
+                className?: string | null;
+                scriptName?: string | null;
+              }
+            | { name: string; part: string; type: "wasm_module" }
+          )[]
+        | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      limits?: { cpuMs: number } | null;
+      mainModule?: string | null;
+      migrations?: unknown | null;
+      modules?:
+        | { contentBase64: string; contentType: string; name: string }[]
+        | null;
+      placement?: { mode?: "smart" | null } | null;
+      source?: string | null;
+      startupTimeMs?: number | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+    },
+    ListBetaWorkerVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListBetaWorkerVersionsRequest,
   output: ListBetaWorkerVersionsResponse,
   errors: [WorkerNotFound],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateBetaWorkerVersionRequest {
@@ -3053,26 +3311,30 @@ export const CreateBetaWorkerVersionResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      number: "number",
-      annotations: "annotations",
-      assets: "assets",
-      bindings: "bindings",
-      compatibilityDate: "compatibility_date",
-      compatibilityFlags: "compatibility_flags",
-      limits: "limits",
-      mainModule: "main_module",
-      migrations: "migrations",
-      modules: "modules",
-      placement: "placement",
-      source: "source",
-      startupTimeMs: "startup_time_ms",
-      usageModel: "usage_model",
-    }),
-  ) as unknown as Schema.Schema<CreateBetaWorkerVersionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        number: "number",
+        annotations: "annotations",
+        assets: "assets",
+        bindings: "bindings",
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        limits: "limits",
+        mainModule: "main_module",
+        migrations: "migrations",
+        modules: "modules",
+        placement: "placement",
+        source: "source",
+        startupTimeMs: "startup_time_ms",
+        usageModel: "usage_model",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateBetaWorkerVersionResponse>;
 
 export type CreateBetaWorkerVersionError = DefaultErrors | WorkerNotFound;
 
@@ -3235,16 +3497,20 @@ export const GetDomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    environment: "environment",
-    hostname: "hostname",
-    service: "service",
-    zoneId: "zone_id",
-    zoneName: "zone_name",
-  }),
-) as unknown as Schema.Schema<GetDomainResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      environment: "environment",
+      hostname: "hostname",
+      service: "service",
+      zoneId: "zone_id",
+      zoneName: "zone_name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetDomainResponse>;
 
 export type GetDomainError = DefaultErrors | DomainNotFound | InvalidRoute;
 
@@ -3285,46 +3551,74 @@ export const ListDomainsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/workers/domains" }),
 ) as unknown as Schema.Schema<ListDomainsRequest>;
 
-export type ListDomainsResponse = {
-  id?: string | null;
-  environment?: string | null;
-  hostname?: string | null;
-  service?: string | null;
-  zoneId?: string | null;
-  zoneName?: string | null;
-}[];
+export interface ListDomainsResponse {
+  result: {
+    id?: string | null;
+    environment?: string | null;
+    hostname?: string | null;
+    service?: string | null;
+    zoneId?: string | null;
+    zoneName?: string | null;
+  }[];
+}
 
-export const ListDomainsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    environment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      environment: "environment",
-      hostname: "hostname",
-      service: "service",
-      zoneId: "zone_id",
-      zoneName: "zone_name",
-    }),
+export const ListDomainsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      environment: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      hostname: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        environment: "environment",
+        hostname: "hostname",
+        service: "service",
+        zoneId: "zone_id",
+        zoneName: "zone_name",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<ListDomainsResponse>;
+}) as unknown as Schema.Schema<ListDomainsResponse>;
 
 export type ListDomainsError = DefaultErrors | InvalidRoute;
 
-export const listDomains: API.OperationMethod<
+export const listDomains: API.PaginatedOperationMethod<
   ListDomainsRequest,
   ListDomainsResponse,
   ListDomainsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListDomainsRequest,
+  ) => stream.Stream<
+    ListDomainsResponse,
+    ListDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListDomainsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      environment?: string | null;
+      hostname?: string | null;
+      service?: string | null;
+      zoneId?: string | null;
+      zoneName?: string | null;
+    },
+    ListDomainsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutDomainRequest {
@@ -3378,16 +3672,20 @@ export const PutDomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   service: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   zoneId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    environment: "environment",
-    hostname: "hostname",
-    service: "service",
-    zoneId: "zone_id",
-    zoneName: "zone_name",
-  }),
-) as unknown as Schema.Schema<PutDomainResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      environment: "environment",
+      hostname: "hostname",
+      service: "service",
+      zoneId: "zone_id",
+      zoneName: "zone_name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutDomainResponse>;
 
 export type PutDomainError = DefaultErrors | WorkerNotFound | InvalidRoute;
 
@@ -3569,32 +3867,55 @@ export const KeysObservabilityTelemetryRequest =
     }),
   ) as unknown as Schema.Schema<KeysObservabilityTelemetryRequest>;
 
-export type KeysObservabilityTelemetryResponse = {
-  key: string;
-  lastSeenAt: number;
-  type: "string" | "boolean" | "number";
-}[];
+export interface KeysObservabilityTelemetryResponse {
+  result: {
+    key: string;
+    lastSeenAt: number;
+    type: "string" | "boolean" | "number";
+  }[];
+}
 
 export const KeysObservabilityTelemetryResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      key: Schema.String,
-      lastSeenAt: Schema.Number,
-      type: Schema.Literals(["string", "boolean", "number"]),
-    }),
-  ) as unknown as Schema.Schema<KeysObservabilityTelemetryResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        key: Schema.String,
+        lastSeenAt: Schema.Number,
+        type: Schema.Literals(["string", "boolean", "number"]),
+      }),
+    ),
+  }) as unknown as Schema.Schema<KeysObservabilityTelemetryResponse>;
 
 export type KeysObservabilityTelemetryError = DefaultErrors | InvalidRoute;
 
-export const keysObservabilityTelemetry: API.OperationMethod<
+export const keysObservabilityTelemetry: API.PaginatedOperationMethod<
   KeysObservabilityTelemetryRequest,
   KeysObservabilityTelemetryResponse,
   KeysObservabilityTelemetryError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: KeysObservabilityTelemetryRequest,
+  ) => stream.Stream<
+    KeysObservabilityTelemetryResponse,
+    KeysObservabilityTelemetryError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: KeysObservabilityTelemetryRequest,
+  ) => stream.Stream<
+    { key: string; lastSeenAt: number; type: "string" | "boolean" | "number" },
+    KeysObservabilityTelemetryError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: KeysObservabilityTelemetryRequest,
   output: KeysObservabilityTelemetryResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface QueryObservabilityTelemetryRequest {
@@ -4961,7 +5282,9 @@ export const QueryObservabilityTelemetryResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<QueryObservabilityTelemetryResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QueryObservabilityTelemetryResponse>;
 
 export type QueryObservabilityTelemetryError = DefaultErrors | InvalidRoute;
 
@@ -5098,34 +5421,60 @@ export const ValuesObservabilityTelemetryRequest =
     }),
   ) as unknown as Schema.Schema<ValuesObservabilityTelemetryRequest>;
 
-export type ValuesObservabilityTelemetryResponse = {
-  dataset: string;
-  key: string;
-  type: "string" | "boolean" | "number";
-  value: string | number | boolean;
-}[];
+export interface ValuesObservabilityTelemetryResponse {
+  result: {
+    dataset: string;
+    key: string;
+    type: "string" | "boolean" | "number";
+    value: string | number | boolean;
+  }[];
+}
 
 export const ValuesObservabilityTelemetryResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      dataset: Schema.String,
-      key: Schema.String,
-      type: Schema.Literals(["string", "boolean", "number"]),
-      value: Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
-    }),
-  ) as unknown as Schema.Schema<ValuesObservabilityTelemetryResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        dataset: Schema.String,
+        key: Schema.String,
+        type: Schema.Literals(["string", "boolean", "number"]),
+        value: Schema.Union([Schema.String, Schema.Number, Schema.Boolean]),
+      }),
+    ),
+  }) as unknown as Schema.Schema<ValuesObservabilityTelemetryResponse>;
 
 export type ValuesObservabilityTelemetryError = DefaultErrors | InvalidRoute;
 
-export const valuesObservabilityTelemetry: API.OperationMethod<
+export const valuesObservabilityTelemetry: API.PaginatedOperationMethod<
   ValuesObservabilityTelemetryRequest,
   ValuesObservabilityTelemetryResponse,
   ValuesObservabilityTelemetryError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ValuesObservabilityTelemetryRequest,
+  ) => stream.Stream<
+    ValuesObservabilityTelemetryResponse,
+    ValuesObservabilityTelemetryError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ValuesObservabilityTelemetryRequest) => stream.Stream<
+    {
+      dataset: string;
+      key: string;
+      type: "string" | "boolean" | "number";
+      value: string | number | boolean;
+    },
+    ValuesObservabilityTelemetryError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ValuesObservabilityTelemetryRequest,
   output: ValuesObservabilityTelemetryResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -5158,7 +5507,7 @@ export const GetRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   pattern: Schema.String,
   script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<GetRouteResponse>;
+}).pipe(T.ResponsePath("result")) as unknown as Schema.Schema<GetRouteResponse>;
 
 export type GetRouteError = DefaultErrors | WorkerNotFound | InvalidRoute;
 
@@ -5184,31 +5533,50 @@ export const ListRoutesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/workers/routes" }),
 ) as unknown as Schema.Schema<ListRoutesRequest>;
 
-export type ListRoutesResponse = {
-  id: string;
-  pattern: string;
-  script?: string | null;
-}[];
+export interface ListRoutesResponse {
+  result: { id: string; pattern: string; script?: string | null }[];
+}
 
-export const ListRoutesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    pattern: Schema.String,
-    script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }),
-) as unknown as Schema.Schema<ListRoutesResponse>;
+export const ListRoutesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      pattern: Schema.String,
+      script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }),
+  ),
+}) as unknown as Schema.Schema<ListRoutesResponse>;
 
 export type ListRoutesError = DefaultErrors | InvalidRoute;
 
-export const listRoutes: API.OperationMethod<
+export const listRoutes: API.PaginatedOperationMethod<
   ListRoutesRequest,
   ListRoutesResponse,
   ListRoutesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRoutesRequest,
+  ) => stream.Stream<
+    ListRoutesResponse,
+    ListRoutesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRoutesRequest,
+  ) => stream.Stream<
+    { id: string; pattern: string; script?: string | null },
+    ListRoutesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRoutesRequest,
   output: ListRoutesResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateRouteRequest {
@@ -5241,7 +5609,9 @@ export const CreateRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   pattern: Schema.String,
   script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<CreateRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreateRouteResponse>;
 
 export type CreateRouteError =
   | DefaultErrors
@@ -5291,7 +5661,9 @@ export const UpdateRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   pattern: Schema.String,
   script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdateRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdateRouteResponse>;
 
 export type UpdateRouteError =
   | DefaultErrors
@@ -5332,7 +5704,9 @@ export interface DeleteRouteResponse {
 
 export const DeleteRouteResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteRouteResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteRouteResponse>;
 
 export type DeleteRouteError = DefaultErrors | RouteNotFound;
 
@@ -5399,332 +5773,433 @@ export const ListScriptsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/workers/scripts" }),
 ) as unknown as Schema.Schema<ListScriptsRequest>;
 
-export type ListScriptsResponse = {
-  id?: string | null;
-  compatibilityDate?: string | null;
-  compatibilityFlags?: string[] | null;
-  createdOn?: string | null;
-  etag?: string | null;
-  handlers?: string[] | null;
-  hasAssets?: boolean | null;
-  hasModules?: boolean | null;
-  lastDeployedFrom?: string | null;
-  logpush?: boolean | null;
-  migrationTag?: string | null;
-  modifiedOn?: string | null;
-  namedHandlers?: { handlers?: string[] | null; name?: string | null }[] | null;
-  observability?: {
-    enabled: boolean;
-    headSamplingRate?: number | null;
-    logs?: {
+export interface ListScriptsResponse {
+  result: {
+    id?: string | null;
+    compatibilityDate?: string | null;
+    compatibilityFlags?: string[] | null;
+    createdOn?: string | null;
+    etag?: string | null;
+    handlers?: string[] | null;
+    hasAssets?: boolean | null;
+    hasModules?: boolean | null;
+    lastDeployedFrom?: string | null;
+    logpush?: boolean | null;
+    migrationTag?: string | null;
+    modifiedOn?: string | null;
+    namedHandlers?:
+      | { handlers?: string[] | null; name?: string | null }[]
+      | null;
+    observability?: {
       enabled: boolean;
-      invocationLogs: boolean;
-      destinations?: string[] | null;
       headSamplingRate?: number | null;
-      persist?: boolean | null;
+      logs?: {
+        enabled: boolean;
+        invocationLogs: boolean;
+        destinations?: string[] | null;
+        headSamplingRate?: number | null;
+        persist?: boolean | null;
+      } | null;
     } | null;
-  } | null;
-  placement?:
-    | {
-        mode: "smart";
-        lastAnalyzedAt?: string | null;
-        status?:
-          | "SUCCESS"
-          | "UNSUPPORTED_APPLICATION"
-          | "INSUFFICIENT_INVOCATIONS"
-          | null;
-      }
-    | {
-        region: string;
-        lastAnalyzedAt?: string | null;
-        status?:
-          | "SUCCESS"
-          | "UNSUPPORTED_APPLICATION"
-          | "INSUFFICIENT_INVOCATIONS"
-          | null;
-      }
-    | {
-        hostname: string;
-        lastAnalyzedAt?: string | null;
-        status?:
-          | "SUCCESS"
-          | "UNSUPPORTED_APPLICATION"
-          | "INSUFFICIENT_INVOCATIONS"
-          | null;
-      }
-    | {
-        host: string;
-        lastAnalyzedAt?: string | null;
-        status?:
-          | "SUCCESS"
-          | "UNSUPPORTED_APPLICATION"
-          | "INSUFFICIENT_INVOCATIONS"
-          | null;
-      }
-    | null;
-  placementMode?: "smart" | null;
-  placementStatus?:
-    | "SUCCESS"
-    | "UNSUPPORTED_APPLICATION"
-    | "INSUFFICIENT_INVOCATIONS"
-    | null;
-  routes?: { id: string; pattern: string; script?: string | null }[] | null;
-  tag?: string | null;
-  tags?: string[] | null;
-  tailConsumers?: unknown[] | null;
-  usageModel?: "standard" | "bundled" | "unbound" | null;
-}[];
+    placement?:
+      | {
+          mode: "smart";
+          lastAnalyzedAt?: string | null;
+          status?:
+            | "SUCCESS"
+            | "UNSUPPORTED_APPLICATION"
+            | "INSUFFICIENT_INVOCATIONS"
+            | null;
+        }
+      | {
+          region: string;
+          lastAnalyzedAt?: string | null;
+          status?:
+            | "SUCCESS"
+            | "UNSUPPORTED_APPLICATION"
+            | "INSUFFICIENT_INVOCATIONS"
+            | null;
+        }
+      | {
+          hostname: string;
+          lastAnalyzedAt?: string | null;
+          status?:
+            | "SUCCESS"
+            | "UNSUPPORTED_APPLICATION"
+            | "INSUFFICIENT_INVOCATIONS"
+            | null;
+        }
+      | {
+          host: string;
+          lastAnalyzedAt?: string | null;
+          status?:
+            | "SUCCESS"
+            | "UNSUPPORTED_APPLICATION"
+            | "INSUFFICIENT_INVOCATIONS"
+            | null;
+        }
+      | null;
+    placementMode?: "smart" | null;
+    placementStatus?:
+      | "SUCCESS"
+      | "UNSUPPORTED_APPLICATION"
+      | "INSUFFICIENT_INVOCATIONS"
+      | null;
+    routes?: { id: string; pattern: string; script?: string | null }[] | null;
+    tag?: string | null;
+    tags?: string[] | null;
+    tailConsumers?: unknown[] | null;
+    usageModel?: "standard" | "bundled" | "unbound" | null;
+  }[];
+}
 
-export const ListScriptsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    compatibilityDate: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    compatibilityFlags: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    etag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    handlers: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    hasAssets: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    hasModules: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    lastDeployedFrom: Schema.optional(
-      Schema.Union([Schema.String, Schema.Null]),
-    ),
-    logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    migrationTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    namedHandlers: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            handlers: Schema.optional(
-              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-            ),
-            name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    observability: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          enabled: Schema.Boolean,
-          headSamplingRate: Schema.optional(
-            Schema.Union([Schema.Number, Schema.Null]),
-          ),
-          logs: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                enabled: Schema.Boolean,
-                invocationLogs: Schema.Boolean,
-                destinations: Schema.optional(
-                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-                ),
-                headSamplingRate: Schema.optional(
-                  Schema.Union([Schema.Number, Schema.Null]),
-                ),
-                persist: Schema.optional(
-                  Schema.Union([Schema.Boolean, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  enabled: "enabled",
-                  invocationLogs: "invocation_logs",
-                  destinations: "destinations",
-                  headSamplingRate: "head_sampling_rate",
-                  persist: "persist",
-                }),
+export const ListScriptsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      compatibilityDate: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      compatibilityFlags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      createdOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      etag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      handlers: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      hasAssets: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      hasModules: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      lastDeployedFrom: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      logpush: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      migrationTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      modifiedOn: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      namedHandlers: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              handlers: Schema.optional(
+                Schema.Union([Schema.Array(Schema.String), Schema.Null]),
               ),
-              Schema.Null,
-            ]),
+              name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            }),
           ),
-        }).pipe(
-          Schema.encodeKeys({
-            enabled: "enabled",
-            headSamplingRate: "head_sampling_rate",
-            logs: "logs",
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    placement: Schema.optional(
-      Schema.Union([
+          Schema.Null,
+        ]),
+      ),
+      observability: Schema.optional(
         Schema.Union([
           Schema.Struct({
-            mode: Schema.Literal("smart"),
-            lastAnalyzedAt: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+            enabled: Schema.Boolean,
+            headSamplingRate: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
-            status: Schema.optional(
+            logs: Schema.optional(
               Schema.Union([
-                Schema.Literals([
-                  "SUCCESS",
-                  "UNSUPPORTED_APPLICATION",
-                  "INSUFFICIENT_INVOCATIONS",
-                ]),
+                Schema.Struct({
+                  enabled: Schema.Boolean,
+                  invocationLogs: Schema.Boolean,
+                  destinations: Schema.optional(
+                    Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                  ),
+                  headSamplingRate: Schema.optional(
+                    Schema.Union([Schema.Number, Schema.Null]),
+                  ),
+                  persist: Schema.optional(
+                    Schema.Union([Schema.Boolean, Schema.Null]),
+                  ),
+                }).pipe(
+                  Schema.encodeKeys({
+                    enabled: "enabled",
+                    invocationLogs: "invocation_logs",
+                    destinations: "destinations",
+                    headSamplingRate: "head_sampling_rate",
+                    persist: "persist",
+                  }),
+                ),
                 Schema.Null,
               ]),
             ),
           }).pipe(
             Schema.encodeKeys({
-              mode: "mode",
-              lastAnalyzedAt: "last_analyzed_at",
-              status: "status",
+              enabled: "enabled",
+              headSamplingRate: "head_sampling_rate",
+              logs: "logs",
             }),
           ),
-          Schema.Struct({
-            region: Schema.String,
-            lastAnalyzedAt: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            status: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "SUCCESS",
-                  "UNSUPPORTED_APPLICATION",
-                  "INSUFFICIENT_INVOCATIONS",
-                ]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              region: "region",
-              lastAnalyzedAt: "last_analyzed_at",
-              status: "status",
-            }),
-          ),
-          Schema.Struct({
-            hostname: Schema.String,
-            lastAnalyzedAt: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            status: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "SUCCESS",
-                  "UNSUPPORTED_APPLICATION",
-                  "INSUFFICIENT_INVOCATIONS",
-                ]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              hostname: "hostname",
-              lastAnalyzedAt: "last_analyzed_at",
-              status: "status",
-            }),
-          ),
-          Schema.Struct({
-            host: Schema.String,
-            lastAnalyzedAt: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            status: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "SUCCESS",
-                  "UNSUPPORTED_APPLICATION",
-                  "INSUFFICIENT_INVOCATIONS",
-                ]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              host: "host",
-              lastAnalyzedAt: "last_analyzed_at",
-              status: "status",
-            }),
-          ),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
-    ),
-    placementMode: Schema.optional(
-      Schema.Union([Schema.Literal("smart"), Schema.Null]),
-    ),
-    placementStatus: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "SUCCESS",
-          "UNSUPPORTED_APPLICATION",
-          "INSUFFICIENT_INVOCATIONS",
+      ),
+      placement: Schema.optional(
+        Schema.Union([
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.Literal("smart"),
+              lastAnalyzedAt: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              status: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "SUCCESS",
+                    "UNSUPPORTED_APPLICATION",
+                    "INSUFFICIENT_INVOCATIONS",
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                mode: "mode",
+                lastAnalyzedAt: "last_analyzed_at",
+                status: "status",
+              }),
+            ),
+            Schema.Struct({
+              region: Schema.String,
+              lastAnalyzedAt: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              status: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "SUCCESS",
+                    "UNSUPPORTED_APPLICATION",
+                    "INSUFFICIENT_INVOCATIONS",
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                region: "region",
+                lastAnalyzedAt: "last_analyzed_at",
+                status: "status",
+              }),
+            ),
+            Schema.Struct({
+              hostname: Schema.String,
+              lastAnalyzedAt: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              status: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "SUCCESS",
+                    "UNSUPPORTED_APPLICATION",
+                    "INSUFFICIENT_INVOCATIONS",
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                hostname: "hostname",
+                lastAnalyzedAt: "last_analyzed_at",
+                status: "status",
+              }),
+            ),
+            Schema.Struct({
+              host: Schema.String,
+              lastAnalyzedAt: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+              status: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "SUCCESS",
+                    "UNSUPPORTED_APPLICATION",
+                    "INSUFFICIENT_INVOCATIONS",
+                  ]),
+                  Schema.Null,
+                ]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                host: "host",
+                lastAnalyzedAt: "last_analyzed_at",
+                status: "status",
+              }),
+            ),
+          ]),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
+      ),
+      placementMode: Schema.optional(
+        Schema.Union([Schema.Literal("smart"), Schema.Null]),
+      ),
+      placementStatus: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "SUCCESS",
+            "UNSUPPORTED_APPLICATION",
+            "INSUFFICIENT_INVOCATIONS",
+          ]),
+          Schema.Null,
+        ]),
+      ),
+      routes: Schema.optional(
+        Schema.Union([
+          Schema.Array(
+            Schema.Struct({
+              id: Schema.String,
+              pattern: Schema.String,
+              script: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      tags: Schema.optional(
+        Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      tailConsumers: Schema.optional(
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+      ),
+      usageModel: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["standard", "bundled", "unbound"]),
+          Schema.Null,
+        ]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        createdOn: "created_on",
+        etag: "etag",
+        handlers: "handlers",
+        hasAssets: "has_assets",
+        hasModules: "has_modules",
+        lastDeployedFrom: "last_deployed_from",
+        logpush: "logpush",
+        migrationTag: "migration_tag",
+        modifiedOn: "modified_on",
+        namedHandlers: "named_handlers",
+        observability: "observability",
+        placement: "placement",
+        placementMode: "placement_mode",
+        placementStatus: "placement_status",
+        routes: "routes",
+        tag: "tag",
+        tags: "tags",
+        tailConsumers: "tail_consumers",
+        usageModel: "usage_model",
+      }),
     ),
-    routes: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            id: Schema.String,
-            pattern: Schema.String,
-            script: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    tag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    tags: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    tailConsumers: Schema.optional(
-      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
-    ),
-    usageModel: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["standard", "bundled", "unbound"]),
-        Schema.Null,
-      ]),
-    ),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      compatibilityDate: "compatibility_date",
-      compatibilityFlags: "compatibility_flags",
-      createdOn: "created_on",
-      etag: "etag",
-      handlers: "handlers",
-      hasAssets: "has_assets",
-      hasModules: "has_modules",
-      lastDeployedFrom: "last_deployed_from",
-      logpush: "logpush",
-      migrationTag: "migration_tag",
-      modifiedOn: "modified_on",
-      namedHandlers: "named_handlers",
-      observability: "observability",
-      placement: "placement",
-      placementMode: "placement_mode",
-      placementStatus: "placement_status",
-      routes: "routes",
-      tag: "tag",
-      tags: "tags",
-      tailConsumers: "tail_consumers",
-      usageModel: "usage_model",
-    }),
   ),
-) as unknown as Schema.Schema<ListScriptsResponse>;
+}) as unknown as Schema.Schema<ListScriptsResponse>;
 
 export type ListScriptsError = DefaultErrors | InvalidRoute;
 
-export const listScripts: API.OperationMethod<
+export const listScripts: API.PaginatedOperationMethod<
   ListScriptsRequest,
   ListScriptsResponse,
   ListScriptsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListScriptsRequest,
+  ) => stream.Stream<
+    ListScriptsResponse,
+    ListScriptsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListScriptsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      compatibilityDate?: string | null;
+      compatibilityFlags?: string[] | null;
+      createdOn?: string | null;
+      etag?: string | null;
+      handlers?: string[] | null;
+      hasAssets?: boolean | null;
+      hasModules?: boolean | null;
+      lastDeployedFrom?: string | null;
+      logpush?: boolean | null;
+      migrationTag?: string | null;
+      modifiedOn?: string | null;
+      namedHandlers?:
+        | { handlers?: string[] | null; name?: string | null }[]
+        | null;
+      observability?: {
+        enabled: boolean;
+        headSamplingRate?: number | null;
+        logs?: {
+          enabled: boolean;
+          invocationLogs: boolean;
+          destinations?: string[] | null;
+          headSamplingRate?: number | null;
+          persist?: boolean | null;
+        } | null;
+      } | null;
+      placement?:
+        | {
+            mode: "smart";
+            lastAnalyzedAt?: string | null;
+            status?:
+              | "SUCCESS"
+              | "UNSUPPORTED_APPLICATION"
+              | "INSUFFICIENT_INVOCATIONS"
+              | null;
+          }
+        | {
+            region: string;
+            lastAnalyzedAt?: string | null;
+            status?:
+              | "SUCCESS"
+              | "UNSUPPORTED_APPLICATION"
+              | "INSUFFICIENT_INVOCATIONS"
+              | null;
+          }
+        | {
+            hostname: string;
+            lastAnalyzedAt?: string | null;
+            status?:
+              | "SUCCESS"
+              | "UNSUPPORTED_APPLICATION"
+              | "INSUFFICIENT_INVOCATIONS"
+              | null;
+          }
+        | {
+            host: string;
+            lastAnalyzedAt?: string | null;
+            status?:
+              | "SUCCESS"
+              | "UNSUPPORTED_APPLICATION"
+              | "INSUFFICIENT_INVOCATIONS"
+              | null;
+          }
+        | null;
+      placementMode?: "smart" | null;
+      placementStatus?:
+        | "SUCCESS"
+        | "UNSUPPORTED_APPLICATION"
+        | "INSUFFICIENT_INVOCATIONS"
+        | null;
+      routes?: { id: string; pattern: string; script?: string | null }[] | null;
+      tag?: string | null;
+      tags?: string[] | null;
+      tailConsumers?: unknown[] | null;
+      usageModel?: "standard" | "bundled" | "unbound" | null;
+    },
+    ListScriptsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScriptsRequest,
   output: ListScriptsResponse,
   errors: [InvalidRoute],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutScriptRequest {
@@ -6583,33 +7058,37 @@ export const PutScriptResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    startupTimeMs: "startup_time_ms",
-    id: "id",
-    compatibilityDate: "compatibility_date",
-    compatibilityFlags: "compatibility_flags",
-    createdOn: "created_on",
-    entryPoint: "entry_point",
-    etag: "etag",
-    handlers: "handlers",
-    hasAssets: "has_assets",
-    hasModules: "has_modules",
-    lastDeployedFrom: "last_deployed_from",
-    logpush: "logpush",
-    migrationTag: "migration_tag",
-    modifiedOn: "modified_on",
-    namedHandlers: "named_handlers",
-    observability: "observability",
-    placement: "placement",
-    placementMode: "placement_mode",
-    placementStatus: "placement_status",
-    tag: "tag",
-    tags: "tags",
-    tailConsumers: "tail_consumers",
-    usageModel: "usage_model",
-  }),
-) as unknown as Schema.Schema<PutScriptResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      startupTimeMs: "startup_time_ms",
+      id: "id",
+      compatibilityDate: "compatibility_date",
+      compatibilityFlags: "compatibility_flags",
+      createdOn: "created_on",
+      entryPoint: "entry_point",
+      etag: "etag",
+      handlers: "handlers",
+      hasAssets: "has_assets",
+      hasModules: "has_modules",
+      lastDeployedFrom: "last_deployed_from",
+      logpush: "logpush",
+      migrationTag: "migration_tag",
+      modifiedOn: "modified_on",
+      namedHandlers: "named_handlers",
+      observability: "observability",
+      placement: "placement",
+      placementMode: "placement_mode",
+      placementStatus: "placement_status",
+      tag: "tag",
+      tags: "tags",
+      tailConsumers: "tail_consumers",
+      usageModel: "usage_model",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutScriptResponse>;
 
 export type PutScriptError = DefaultErrors | InvalidRoute;
 
@@ -6646,7 +7125,9 @@ export const DeleteScriptRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
 export type DeleteScriptResponse = unknown;
 
 export const DeleteScriptResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteScriptResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteScriptResponse>;
 
 export type DeleteScriptError = DefaultErrors | WorkerNotFound;
 
@@ -6726,6 +7207,8 @@ export const SearchScriptResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
       serviceName: "service_name",
     }),
   ),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<SearchScriptResponse>;
 
 export type SearchScriptError = DefaultErrors | InvalidRoute;
@@ -6778,7 +7261,9 @@ export const CreateScriptAssetUploadResponse =
       Schema.Union([Schema.Array(Schema.Array(Schema.String)), Schema.Null]),
     ),
     jwt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateScriptAssetUploadResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateScriptAssetUploadResponse>;
 
 export type CreateScriptAssetUploadError = DefaultErrors;
 
@@ -6966,17 +7451,21 @@ export const GetScriptDeploymentResponse =
       ]),
     ),
     authorEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      source: "source",
-      strategy: "strategy",
-      versions: "versions",
-      annotations: "annotations",
-      authorEmail: "author_email",
-    }),
-  ) as unknown as Schema.Schema<GetScriptDeploymentResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        source: "source",
+        strategy: "strategy",
+        versions: "versions",
+        annotations: "annotations",
+        authorEmail: "author_email",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetScriptDeploymentResponse>;
 
 export type GetScriptDeploymentError =
   | DefaultErrors
@@ -7078,7 +7567,9 @@ export const ListScriptDeploymentsResponse =
         }),
       ),
     ),
-  }) as unknown as Schema.Schema<ListScriptDeploymentsResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ListScriptDeploymentsResponse>;
 
 export type ListScriptDeploymentsError = DefaultErrors | WorkerNotFound;
 
@@ -7192,17 +7683,21 @@ export const CreateScriptDeploymentResponse =
       ]),
     ),
     authorEmail: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdOn: "created_on",
-      source: "source",
-      strategy: "strategy",
-      versions: "versions",
-      annotations: "annotations",
-      authorEmail: "author_email",
-    }),
-  ) as unknown as Schema.Schema<CreateScriptDeploymentResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdOn: "created_on",
+        source: "source",
+        strategy: "strategy",
+        versions: "versions",
+        annotations: "annotations",
+        authorEmail: "author_email",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateScriptDeploymentResponse>;
 
 export type CreateScriptDeploymentError = DefaultErrors | WorkerNotFound;
 
@@ -7367,7 +7862,9 @@ export const GetScriptScheduleResponse =
         }),
       ),
     ),
-  }) as unknown as Schema.Schema<GetScriptScheduleResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetScriptScheduleResponse>;
 
 export type GetScriptScheduleError = DefaultErrors | WorkerNotFound;
 
@@ -7429,7 +7926,9 @@ export const PutScriptScheduleResponse =
         }),
       ),
     ),
-  }) as unknown as Schema.Schema<PutScriptScheduleResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutScriptScheduleResponse>;
 
 export type PutScriptScheduleError = DefaultErrors | WorkerNotFound;
 
@@ -7953,20 +8452,24 @@ export const GetScriptScriptAndVersionSettingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      bindings: "bindings",
-      compatibilityDate: "compatibility_date",
-      compatibilityFlags: "compatibility_flags",
-      limits: "limits",
-      logpush: "logpush",
-      observability: "observability",
-      placement: "placement",
-      tags: "tags",
-      tailConsumers: "tail_consumers",
-      usageModel: "usage_model",
-    }),
-  ) as unknown as Schema.Schema<GetScriptScriptAndVersionSettingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        bindings: "bindings",
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        limits: "limits",
+        logpush: "logpush",
+        observability: "observability",
+        placement: "placement",
+        tags: "tags",
+        tailConsumers: "tail_consumers",
+        usageModel: "usage_model",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetScriptScriptAndVersionSettingResponse>;
 
 export type GetScriptScriptAndVersionSettingError =
   | DefaultErrors
@@ -8969,20 +9472,24 @@ export const PatchScriptScriptAndVersionSettingResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      bindings: "bindings",
-      compatibilityDate: "compatibility_date",
-      compatibilityFlags: "compatibility_flags",
-      limits: "limits",
-      logpush: "logpush",
-      observability: "observability",
-      placement: "placement",
-      tags: "tags",
-      tailConsumers: "tail_consumers",
-      usageModel: "usage_model",
-    }),
-  ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        bindings: "bindings",
+        compatibilityDate: "compatibility_date",
+        compatibilityFlags: "compatibility_flags",
+        limits: "limits",
+        logpush: "logpush",
+        observability: "observability",
+        placement: "placement",
+        tags: "tags",
+        tailConsumers: "tail_consumers",
+        usageModel: "usage_model",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingResponse>;
 
 export type PatchScriptScriptAndVersionSettingError =
   | DefaultErrors
@@ -9073,6 +9580,8 @@ export const GetScriptSecretResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union(
       ),
     }),
   ],
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetScriptSecretResponse>;
 
 export type GetScriptSecretError =
@@ -9108,65 +9617,102 @@ export const ListScriptSecretsRequest =
     }),
   ) as unknown as Schema.Schema<ListScriptSecretsRequest>;
 
-export type ListScriptSecretsResponse = (
-  | { name: string; type: "secret_text" }
-  | {
-      algorithm: unknown;
-      format: "raw" | "pkcs8" | "spki" | "jwk";
-      name: string;
-      type: "secret_key";
-      usages: (
-        | "encrypt"
-        | "decrypt"
-        | "sign"
-        | "verify"
-        | "deriveKey"
-        | "deriveBits"
-        | "wrapKey"
-        | "unwrapKey"
-      )[];
-    }
-)[];
+export interface ListScriptSecretsResponse {
+  result: (
+    | { name: string; type: "secret_text" }
+    | {
+        algorithm: unknown;
+        format: "raw" | "pkcs8" | "spki" | "jwk";
+        name: string;
+        type: "secret_key";
+        usages: (
+          | "encrypt"
+          | "decrypt"
+          | "sign"
+          | "verify"
+          | "deriveKey"
+          | "deriveBits"
+          | "wrapKey"
+          | "unwrapKey"
+        )[];
+      }
+  )[];
+}
 
 export const ListScriptSecretsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Union([
-      Schema.Struct({
-        name: Schema.String,
-        type: Schema.Literal("secret_text"),
-      }),
-      Schema.Struct({
-        algorithm: Schema.Unknown,
-        format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
-        name: Schema.String,
-        type: Schema.Literal("secret_key"),
-        usages: Schema.Array(
-          Schema.Literals([
-            "encrypt",
-            "decrypt",
-            "sign",
-            "verify",
-            "deriveKey",
-            "deriveBits",
-            "wrapKey",
-            "unwrapKey",
-          ]),
-        ),
-      }),
-    ]),
-  ) as unknown as Schema.Schema<ListScriptSecretsResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Union([
+        Schema.Struct({
+          name: Schema.String,
+          type: Schema.Literal("secret_text"),
+        }),
+        Schema.Struct({
+          algorithm: Schema.Unknown,
+          format: Schema.Literals(["raw", "pkcs8", "spki", "jwk"]),
+          name: Schema.String,
+          type: Schema.Literal("secret_key"),
+          usages: Schema.Array(
+            Schema.Literals([
+              "encrypt",
+              "decrypt",
+              "sign",
+              "verify",
+              "deriveKey",
+              "deriveBits",
+              "wrapKey",
+              "unwrapKey",
+            ]),
+          ),
+        }),
+      ]),
+    ),
+  }) as unknown as Schema.Schema<ListScriptSecretsResponse>;
 
 export type ListScriptSecretsError = DefaultErrors | WorkerNotFound;
 
-export const listScriptSecrets: API.OperationMethod<
+export const listScriptSecrets: API.PaginatedOperationMethod<
   ListScriptSecretsRequest,
   ListScriptSecretsResponse,
   ListScriptSecretsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListScriptSecretsRequest,
+  ) => stream.Stream<
+    ListScriptSecretsResponse,
+    ListScriptSecretsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListScriptSecretsRequest) => stream.Stream<
+    | { name: string; type: "secret_text" }
+    | {
+        algorithm: unknown;
+        format: "raw" | "pkcs8" | "spki" | "jwk";
+        name: string;
+        type: "secret_key";
+        usages: (
+          | "encrypt"
+          | "decrypt"
+          | "sign"
+          | "verify"
+          | "deriveKey"
+          | "deriveBits"
+          | "wrapKey"
+          | "unwrapKey"
+        )[];
+      },
+    ListScriptSecretsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScriptSecretsRequest,
   output: ListScriptSecretsResponse,
   errors: [WorkerNotFound],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface PutScriptSecretRequest {
@@ -9240,6 +9786,8 @@ export const PutScriptSecretResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Union(
       ),
     }),
   ],
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<PutScriptSecretResponse>;
 
 export type PutScriptSecretError = DefaultErrors | WorkerNotFound;
@@ -9282,7 +9830,9 @@ export const DeleteScriptSecretRequest =
 export type DeleteScriptSecretResponse = unknown;
 
 export const DeleteScriptSecretResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteScriptSecretResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteScriptSecretResponse>;
 
 export type DeleteScriptSecretError =
   | DefaultErrors
@@ -9476,12 +10026,16 @@ export const GetScriptSubdomainResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     enabled: Schema.Boolean,
     previewsEnabled: Schema.Boolean,
-  }).pipe(
-    Schema.encodeKeys({
-      enabled: "enabled",
-      previewsEnabled: "previews_enabled",
-    }),
-  ) as unknown as Schema.Schema<GetScriptSubdomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        previewsEnabled: "previews_enabled",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetScriptSubdomainResponse>;
 
 export type GetScriptSubdomainError = DefaultErrors | WorkerNotFound;
 
@@ -9534,12 +10088,16 @@ export const CreateScriptSubdomainResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     enabled: Schema.Boolean,
     previewsEnabled: Schema.Boolean,
-  }).pipe(
-    Schema.encodeKeys({
-      enabled: "enabled",
-      previewsEnabled: "previews_enabled",
-    }),
-  ) as unknown as Schema.Schema<CreateScriptSubdomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        previewsEnabled: "previews_enabled",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateScriptSubdomainResponse>;
 
 export type CreateScriptSubdomainError = DefaultErrors | WorkerNotFound;
 
@@ -9582,12 +10140,16 @@ export const DeleteScriptSubdomainResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     enabled: Schema.Boolean,
     previewsEnabled: Schema.Boolean,
-  }).pipe(
-    Schema.encodeKeys({
-      enabled: "enabled",
-      previewsEnabled: "previews_enabled",
-    }),
-  ) as unknown as Schema.Schema<DeleteScriptSubdomainResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        enabled: "enabled",
+        previewsEnabled: "previews_enabled",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteScriptSubdomainResponse>;
 
 export type DeleteScriptSubdomainError = DefaultErrors | WorkerNotFound;
 
@@ -9633,9 +10195,11 @@ export const GetScriptTailResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   expiresAt: Schema.String,
   url: Schema.String,
-}).pipe(
-  Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
-) as unknown as Schema.Schema<GetScriptTailResponse>;
+})
+  .pipe(Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetScriptTailResponse>;
 
 export type GetScriptTailError = DefaultErrors | WorkerNotFound;
 
@@ -9682,9 +10246,11 @@ export const CreateScriptTailResponse =
     id: Schema.String,
     expiresAt: Schema.String,
     url: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
-  ) as unknown as Schema.Schema<CreateScriptTailResponse>;
+  })
+    .pipe(Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateScriptTailResponse>;
 
 export type CreateScriptTailError = DefaultErrors | WorkerNotFound;
 
@@ -10394,7 +10960,9 @@ export const GetScriptVersionResponse =
       ]),
     ),
     number: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }) as unknown as Schema.Schema<GetScriptVersionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetScriptVersionResponse>;
 
 export type GetScriptVersionError =
   | DefaultErrors
@@ -10432,97 +11000,177 @@ export const ListScriptVersionsRequest =
     }),
   ) as unknown as Schema.Schema<ListScriptVersionsRequest>;
 
-export type ListScriptVersionsResponse = {
-  id?: string | null;
-  metadata?: {
-    authorEmail?: string | null;
-    authorId?: string | null;
-    createdOn?: string | null;
-    hasPreview?: boolean | null;
-    modifiedOn?: string | null;
-    source?:
-      | "unknown"
-      | "api"
-      | "wrangler"
-      | "terraform"
-      | "dash"
-      | "dash_template"
-      | "integration"
-      | "quick_editor"
-      | "playground"
-      | "workersci"
+export interface ListScriptVersionsResponse {
+  result: {
+    items?:
+      | {
+          id?: string | null;
+          metadata?: {
+            authorEmail?: string | null;
+            authorId?: string | null;
+            createdOn?: string | null;
+            hasPreview?: boolean | null;
+            modifiedOn?: string | null;
+            source?:
+              | "unknown"
+              | "api"
+              | "wrangler"
+              | "terraform"
+              | "dash"
+              | "dash_template"
+              | "integration"
+              | "quick_editor"
+              | "playground"
+              | "workersci"
+              | null;
+          } | null;
+          number?: number | null;
+        }[]
       | null;
-  } | null;
-  number?: number | null;
-}[];
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListScriptVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      metadata: Schema.optional(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Struct({
+      items: Schema.optional(
         Schema.Union([
-          Schema.Struct({
-            authorEmail: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            authorId: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            createdOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            hasPreview: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-            modifiedOn: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            source: Schema.optional(
-              Schema.Union([
-                Schema.Literals([
-                  "unknown",
-                  "api",
-                  "wrangler",
-                  "terraform",
-                  "dash",
-                  "dash_template",
-                  "integration",
-                  "quick_editor",
-                  "playground",
-                  "workersci",
+          Schema.Array(
+            Schema.Struct({
+              id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+              metadata: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    authorEmail: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    authorId: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    createdOn: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    hasPreview: Schema.optional(
+                      Schema.Union([Schema.Boolean, Schema.Null]),
+                    ),
+                    modifiedOn: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    source: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals([
+                          "unknown",
+                          "api",
+                          "wrangler",
+                          "terraform",
+                          "dash",
+                          "dash_template",
+                          "integration",
+                          "quick_editor",
+                          "playground",
+                          "workersci",
+                        ]),
+                        Schema.Null,
+                      ]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      authorEmail: "author_email",
+                      authorId: "author_id",
+                      createdOn: "created_on",
+                      hasPreview: "hasPreview",
+                      modifiedOn: "modified_on",
+                      source: "source",
+                    }),
+                  ),
+                  Schema.Null,
                 ]),
-                Schema.Null,
-              ]),
-            ),
-          }).pipe(
-            Schema.encodeKeys({
-              authorEmail: "author_email",
-              authorId: "author_id",
-              createdOn: "created_on",
-              hasPreview: "hasPreview",
-              modifiedOn: "modified_on",
-              source: "source",
+              ),
+              number: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
             }),
           ),
           Schema.Null,
         ]),
       ),
-      number: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListScriptVersionsResponse>;
 
 export type ListScriptVersionsError = DefaultErrors | WorkerNotFound;
 
-export const listScriptVersions: API.OperationMethod<
+export const listScriptVersions: API.PaginatedOperationMethod<
   ListScriptVersionsRequest,
   ListScriptVersionsResponse,
   ListScriptVersionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListScriptVersionsRequest,
+  ) => stream.Stream<
+    ListScriptVersionsResponse,
+    ListScriptVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListScriptVersionsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      metadata?: {
+        authorEmail?: string | null;
+        authorId?: string | null;
+        createdOn?: string | null;
+        hasPreview?: boolean | null;
+        modifiedOn?: string | null;
+        source?:
+          | "unknown"
+          | "api"
+          | "wrangler"
+          | "terraform"
+          | "dash"
+          | "dash_template"
+          | "integration"
+          | "quick_editor"
+          | "playground"
+          | "workersci"
+          | null;
+      } | null;
+      number?: number | null;
+    },
+    ListScriptVersionsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScriptVersionsRequest,
   output: ListScriptVersionsResponse,
   errors: [WorkerNotFound],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateScriptVersionRequest {
@@ -11508,15 +12156,19 @@ export const CreateScriptVersionResponse =
     ),
     number: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     startupTimeMs: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      resources: "resources",
-      id: "id",
-      metadata: "metadata",
-      number: "number",
-      startupTimeMs: "startup_time_ms",
-    }),
-  ) as unknown as Schema.Schema<CreateScriptVersionResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        resources: "resources",
+        id: "id",
+        metadata: "metadata",
+        number: "number",
+        startupTimeMs: "startup_time_ms",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateScriptVersionResponse>;
 
 export type CreateScriptVersionError = DefaultErrors | WorkerNotFound;
 
@@ -11552,7 +12204,9 @@ export interface GetSubdomainResponse {
 
 export const GetSubdomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   subdomain: Schema.String,
-}) as unknown as Schema.Schema<GetSubdomainResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetSubdomainResponse>;
 
 export type GetSubdomainError = DefaultErrors | InvalidRoute;
 
@@ -11587,7 +12241,9 @@ export interface PutSubdomainResponse {
 
 export const PutSubdomainResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   subdomain: Schema.String,
-}) as unknown as Schema.Schema<PutSubdomainResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<PutSubdomainResponse>;
 
 export type PutSubdomainError = DefaultErrors | InvalidRoute;
 

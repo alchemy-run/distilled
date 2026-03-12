@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service rate-limits
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -188,7 +189,9 @@ export const GetRateLimitResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}) as unknown as Schema.Schema<GetRateLimitResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetRateLimitResponse>;
 
 export type GetRateLimitError = DefaultErrors;
 
@@ -214,179 +217,272 @@ export const ListRateLimitsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/rate_limits" }),
 ) as unknown as Schema.Schema<ListRateLimitsRequest>;
 
-export type ListRateLimitsResponse = {
-  id?: string | null;
-  action?: {
-    mode?:
-      | "simulate"
-      | "ban"
-      | "challenge"
-      | "js_challenge"
-      | "managed_challenge"
-      | null;
-    response?: { body?: string | null; contentType?: string | null } | null;
-    timeout?: number | null;
-  } | null;
-  bypass?: { name?: "url" | null; value?: string | null }[] | null;
-  description?: string | null;
-  disabled?: boolean | null;
-  match?: {
-    headers?:
-      | {
-          name?: string | null;
-          op?: "eq" | "ne" | null;
-          value?: string | null;
-        }[]
-      | null;
-    request?: {
-      methods?:
-        | ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[]
+export interface ListRateLimitsResponse {
+  result: {
+    id?: string | null;
+    action?: {
+      mode?:
+        | "simulate"
+        | "ban"
+        | "challenge"
+        | "js_challenge"
+        | "managed_challenge"
         | null;
-      schemes?: string[] | null;
-      url?: string | null;
+      response?: { body?: string | null; contentType?: string | null } | null;
+      timeout?: number | null;
     } | null;
-    response?: { originTraffic?: boolean | null } | null;
-  } | null;
-  period?: number | null;
-  threshold?: number | null;
-}[];
+    bypass?: { name?: "url" | null; value?: string | null }[] | null;
+    description?: string | null;
+    disabled?: boolean | null;
+    match?: {
+      headers?:
+        | {
+            name?: string | null;
+            op?: "eq" | "ne" | null;
+            value?: string | null;
+          }[]
+        | null;
+      request?: {
+        methods?:
+          | ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[]
+          | null;
+        schemes?: string[] | null;
+        url?: string | null;
+      } | null;
+      response?: { originTraffic?: boolean | null } | null;
+    } | null;
+    period?: number | null;
+    threshold?: number | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListRateLimitsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    action: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          mode: Schema.optional(
-            Schema.Union([
-              Schema.Literals([
-                "simulate",
-                "ban",
-                "challenge",
-                "js_challenge",
-                "managed_challenge",
-              ]),
-              Schema.Null,
-            ]),
-          ),
-          response: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                body: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-                contentType: Schema.optional(
-                  Schema.Union([Schema.String, Schema.Null]),
-                ),
-              }).pipe(
-                Schema.encodeKeys({
-                  body: "body",
-                  contentType: "content_type",
-                }),
-              ),
-              Schema.Null,
-            ]),
-          ),
-          timeout: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    bypass: Schema.optional(
-      Schema.Union([
-        Schema.Array(
-          Schema.Struct({
-            name: Schema.optional(
-              Schema.Union([Schema.Literal("url"), Schema.Null]),
-            ),
-            value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    disabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    match: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          headers: Schema.optional(
-            Schema.Union([
-              Schema.Array(
-                Schema.Struct({
-                  name: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                  op: Schema.optional(
-                    Schema.Union([Schema.Literals(["eq", "ne"]), Schema.Null]),
-                  ),
-                  value: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }),
-              ),
-              Schema.Null,
-            ]),
-          ),
-          request: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                methods: Schema.optional(
-                  Schema.Union([
-                    Schema.Array(
-                      Schema.Literals([
-                        "GET",
-                        "POST",
-                        "PUT",
-                        "DELETE",
-                        "PATCH",
-                        "HEAD",
-                        "_ALL_",
-                      ]),
-                    ),
-                    Schema.Null,
+export const ListRateLimitsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+  {
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        action: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              mode: Schema.optional(
+                Schema.Union([
+                  Schema.Literals([
+                    "simulate",
+                    "ban",
+                    "challenge",
+                    "js_challenge",
+                    "managed_challenge",
                   ]),
+                  Schema.Null,
+                ]),
+              ),
+              response: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    body: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    contentType: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      body: "body",
+                      contentType: "content_type",
+                    }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+              timeout: Schema.optional(
+                Schema.Union([Schema.Number, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        bypass: Schema.optional(
+          Schema.Union([
+            Schema.Array(
+              Schema.Struct({
+                name: Schema.optional(
+                  Schema.Union([Schema.Literal("url"), Schema.Null]),
                 ),
-                schemes: Schema.optional(
-                  Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-                ),
-                url: Schema.optional(
+                value: Schema.optional(
                   Schema.Union([Schema.String, Schema.Null]),
                 ),
               }),
-              Schema.Null,
-            ]),
-          ),
-          response: Schema.optional(
-            Schema.Union([
-              Schema.Struct({
-                originTraffic: Schema.optional(
-                  Schema.Union([Schema.Boolean, Schema.Null]),
-                ),
-              }).pipe(Schema.encodeKeys({ originTraffic: "origin_traffic" })),
-              Schema.Null,
-            ]),
-          ),
-        }),
-        Schema.Null,
-      ]),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        disabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+        match: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              headers: Schema.optional(
+                Schema.Union([
+                  Schema.Array(
+                    Schema.Struct({
+                      name: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                      op: Schema.optional(
+                        Schema.Union([
+                          Schema.Literals(["eq", "ne"]),
+                          Schema.Null,
+                        ]),
+                      ),
+                      value: Schema.optional(
+                        Schema.Union([Schema.String, Schema.Null]),
+                      ),
+                    }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+              request: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    methods: Schema.optional(
+                      Schema.Union([
+                        Schema.Array(
+                          Schema.Literals([
+                            "GET",
+                            "POST",
+                            "PUT",
+                            "DELETE",
+                            "PATCH",
+                            "HEAD",
+                            "_ALL_",
+                          ]),
+                        ),
+                        Schema.Null,
+                      ]),
+                    ),
+                    schemes: Schema.optional(
+                      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+                    ),
+                    url: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }),
+                  Schema.Null,
+                ]),
+              ),
+              response: Schema.optional(
+                Schema.Union([
+                  Schema.Struct({
+                    originTraffic: Schema.optional(
+                      Schema.Union([Schema.Boolean, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({ originTraffic: "origin_traffic" }),
+                  ),
+                  Schema.Null,
+                ]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+        period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+        threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      }),
     ),
-    period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
+    ),
+  },
+).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListRateLimitsResponse>;
 
 export type ListRateLimitsError = DefaultErrors;
 
-export const listRateLimits: API.OperationMethod<
+export const listRateLimits: API.PaginatedOperationMethod<
   ListRateLimitsRequest,
   ListRateLimitsResponse,
   ListRateLimitsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRateLimitsRequest,
+  ) => stream.Stream<
+    ListRateLimitsResponse,
+    ListRateLimitsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListRateLimitsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      action?: {
+        mode?:
+          | "simulate"
+          | "ban"
+          | "challenge"
+          | "js_challenge"
+          | "managed_challenge"
+          | null;
+        response?: { body?: string | null; contentType?: string | null } | null;
+        timeout?: number | null;
+      } | null;
+      bypass?: { name?: "url" | null; value?: string | null }[] | null;
+      description?: string | null;
+      disabled?: boolean | null;
+      match?: {
+        headers?:
+          | {
+              name?: string | null;
+              op?: "eq" | "ne" | null;
+              value?: string | null;
+            }[]
+          | null;
+        request?: {
+          methods?:
+            | ("GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "_ALL_")[]
+            | null;
+          schemes?: string[] | null;
+          url?: string | null;
+        } | null;
+        response?: { originTraffic?: boolean | null } | null;
+      } | null;
+      period?: number | null;
+      threshold?: number | null;
+    },
+    ListRateLimitsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRateLimitsRequest,
   output: ListRateLimitsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateRateLimitRequest {
@@ -659,7 +755,9 @@ export const CreateRateLimitResponse =
     ),
     period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateRateLimitResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRateLimitResponse>;
 
 export type CreateRateLimitError = DefaultErrors;
 
@@ -859,7 +957,9 @@ export const DeleteRateLimitResponse =
     ),
     period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteRateLimitResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteRateLimitResponse>;
 
 export type DeleteRateLimitError = DefaultErrors;
 
@@ -1134,7 +1234,9 @@ export const EditRateLimitResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   period: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   threshold: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}) as unknown as Schema.Schema<EditRateLimitResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<EditRateLimitResponse>;
 
 export type EditRateLimitError = DefaultErrors;
 

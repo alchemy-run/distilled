@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service memberships
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -214,17 +215,21 @@ export const GetMembershipResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    account: "account",
-    apiAccessEnabled: "api_access_enabled",
-    permissions: "permissions",
-    policies: "policies",
-    roles: "roles",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<GetMembershipResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      account: "account",
+      apiAccessEnabled: "api_access_enabled",
+      permissions: "permissions",
+      policies: "policies",
+      roles: "roles",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetMembershipResponse>;
 
 export type GetMembershipError = DefaultErrors;
 
@@ -247,111 +252,183 @@ export const ListMembershipsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   T.Http({ method: "GET", path: "/memberships" }),
 ) as unknown as Schema.Schema<ListMembershipsRequest>;
 
-export type ListMembershipsResponse = {
-  id?: string | null;
-  account?: unknown | null;
-  apiAccessEnabled?: boolean | null;
-  permissions?: {
-    analytics?: unknown | null;
-    billing?: unknown | null;
-    cachePurge?: unknown | null;
-    dns?: unknown | null;
-    dnsRecords?: unknown | null;
-    lb?: unknown | null;
-    logs?: unknown | null;
-    organization?: unknown | null;
-    ssl?: unknown | null;
-    waf?: unknown | null;
-    zoneSettings?: unknown | null;
-    zones?: unknown | null;
-  } | null;
-  roles?: string[] | null;
-  status?: "accepted" | "pending" | "rejected" | null;
-}[];
+export interface ListMembershipsResponse {
+  result: {
+    id?: string | null;
+    account?: unknown | null;
+    apiAccessEnabled?: boolean | null;
+    permissions?: {
+      analytics?: unknown | null;
+      billing?: unknown | null;
+      cachePurge?: unknown | null;
+      dns?: unknown | null;
+      dnsRecords?: unknown | null;
+      lb?: unknown | null;
+      logs?: unknown | null;
+      organization?: unknown | null;
+      ssl?: unknown | null;
+      waf?: unknown | null;
+      zoneSettings?: unknown | null;
+      zones?: unknown | null;
+    } | null;
+    roles?: string[] | null;
+    status?: "accepted" | "pending" | "rejected" | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListMembershipsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-    apiAccessEnabled: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
-    ),
-    permissions: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          analytics: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
-          ),
-          billing: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          cachePurge: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
-          ),
-          dns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          dnsRecords: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
-          ),
-          lb: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          logs: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          organization: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
-          ),
-          ssl: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          waf: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-          zoneSettings: Schema.optional(
-            Schema.Union([Schema.Unknown, Schema.Null]),
-          ),
-          zones: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            analytics: "analytics",
-            billing: "billing",
-            cachePurge: "cache_purge",
-            dns: "dns",
-            dnsRecords: "dns_records",
-            lb: "lb",
-            logs: "logs",
-            organization: "organization",
-            ssl: "ssl",
-            waf: "waf",
-            zoneSettings: "zone_settings",
-            zones: "zones",
-          }),
+export const ListMembershipsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        account: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+        apiAccessEnabled: Schema.optional(
+          Schema.Union([Schema.Boolean, Schema.Null]),
         ),
-        Schema.Null,
-      ]),
+        permissions: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              analytics: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              billing: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              cachePurge: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              dns: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+              dnsRecords: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              lb: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+              logs: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              organization: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              ssl: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+              waf: Schema.optional(Schema.Union([Schema.Unknown, Schema.Null])),
+              zoneSettings: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+              zones: Schema.optional(
+                Schema.Union([Schema.Unknown, Schema.Null]),
+              ),
+            }).pipe(
+              Schema.encodeKeys({
+                analytics: "analytics",
+                billing: "billing",
+                cachePurge: "cache_purge",
+                dns: "dns",
+                dnsRecords: "dns_records",
+                lb: "lb",
+                logs: "logs",
+                organization: "organization",
+                ssl: "ssl",
+                waf: "waf",
+                zoneSettings: "zone_settings",
+                zones: "zones",
+              }),
+            ),
+            Schema.Null,
+          ]),
+        ),
+        roles: Schema.optional(
+          Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+        ),
+        status: Schema.optional(
+          Schema.Union([
+            Schema.Literals(["accepted", "pending", "rejected"]),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          account: "account",
+          apiAccessEnabled: "api_access_enabled",
+          permissions: "permissions",
+          roles: "roles",
+          status: "status",
+        }),
+      ),
     ),
-    roles: Schema.optional(
-      Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-    ),
-    status: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["accepted", "pending", "rejected"]),
-        Schema.Null,
-      ]),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
+      }),
     ),
   }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      account: "account",
-      apiAccessEnabled: "api_access_enabled",
-      permissions: "permissions",
-      roles: "roles",
-      status: "status",
-    }),
-  ),
-) as unknown as Schema.Schema<ListMembershipsResponse>;
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
+  ) as unknown as Schema.Schema<ListMembershipsResponse>;
 
 export type ListMembershipsError = DefaultErrors;
 
-export const listMemberships: API.OperationMethod<
+export const listMemberships: API.PaginatedOperationMethod<
   ListMembershipsRequest,
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListMembershipsRequest,
+  ) => stream.Stream<
+    ListMembershipsResponse,
+    ListMembershipsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListMembershipsRequest) => stream.Stream<
+    {
+      id?: string | null;
+      account?: unknown | null;
+      apiAccessEnabled?: boolean | null;
+      permissions?: {
+        analytics?: unknown | null;
+        billing?: unknown | null;
+        cachePurge?: unknown | null;
+        dns?: unknown | null;
+        dnsRecords?: unknown | null;
+        lb?: unknown | null;
+        logs?: unknown | null;
+        organization?: unknown | null;
+        ssl?: unknown | null;
+        waf?: unknown | null;
+        zoneSettings?: unknown | null;
+        zones?: unknown | null;
+      } | null;
+      roles?: string[] | null;
+      status?: "accepted" | "pending" | "rejected" | null;
+    },
+    ListMembershipsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListMembershipsRequest,
   output: ListMembershipsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PutMembershipRequest {
@@ -555,17 +632,21 @@ export const PutMembershipResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    account: "account",
-    apiAccessEnabled: "api_access_enabled",
-    permissions: "permissions",
-    policies: "policies",
-    roles: "roles",
-    status: "status",
-  }),
-) as unknown as Schema.Schema<PutMembershipResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      account: "account",
+      apiAccessEnabled: "api_access_enabled",
+      permissions: "permissions",
+      policies: "policies",
+      roles: "roles",
+      status: "status",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutMembershipResponse>;
 
 export type PutMembershipError = DefaultErrors;
 
@@ -599,7 +680,9 @@ export interface DeleteMembershipResponse {
 export const DeleteMembershipResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<DeleteMembershipResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteMembershipResponse>;
 
 export type DeleteMembershipError = DefaultErrors;
 

@@ -7,6 +7,7 @@
     "build:clean": "bun install:clean && bun run build",
     "clean": "git clean -fqdx . -e .env",
     "install:clean": "bun clean && bun install",
+    "download:env": "doppler secrets download --no-file --format env > .env",
     "typecheck": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' typecheck",
     "fmt": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' fmt",
     "lint": "bun --filter '@distilled.cloud/*' --filter '!@distilled.cloud/website' lint",

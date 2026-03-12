@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service alerting
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -100,8 +101,8 @@ export const ListAvailableAlertsRequest =
 export type ListAvailableAlertsResponse = Record<string, unknown>;
 
 export const ListAvailableAlertsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<ListAvailableAlertsResponse>;
 
 export type ListAvailableAlertsError = DefaultErrors | InvalidRoute;
@@ -139,8 +140,8 @@ export const GetDestinationEligibleRequest =
 export type GetDestinationEligibleResponse = Record<string, unknown>;
 
 export const GetDestinationEligibleResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetDestinationEligibleResponse>;
 
 export type GetDestinationEligibleError = DefaultErrors | InvalidRoute;
@@ -175,30 +176,50 @@ export const GetDestinationPagerdutyRequest =
     }),
   ) as unknown as Schema.Schema<GetDestinationPagerdutyRequest>;
 
-export type GetDestinationPagerdutyResponse = {
-  id?: string | null;
-  name?: string | null;
-}[];
+export interface GetDestinationPagerdutyResponse {
+  result: { id?: string | null; name?: string | null }[];
+}
 
 export const GetDestinationPagerdutyResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }),
-  ) as unknown as Schema.Schema<GetDestinationPagerdutyResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }),
+    ),
+  }) as unknown as Schema.Schema<GetDestinationPagerdutyResponse>;
 
 export type GetDestinationPagerdutyError = DefaultErrors;
 
-export const getDestinationPagerduty: API.OperationMethod<
+export const getDestinationPagerduty: API.PaginatedOperationMethod<
   GetDestinationPagerdutyRequest,
   GetDestinationPagerdutyResponse,
   GetDestinationPagerdutyError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetDestinationPagerdutyRequest,
+  ) => stream.Stream<
+    GetDestinationPagerdutyResponse,
+    GetDestinationPagerdutyError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: GetDestinationPagerdutyRequest,
+  ) => stream.Stream<
+    { id?: string | null; name?: string | null },
+    GetDestinationPagerdutyError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetDestinationPagerdutyRequest,
   output: GetDestinationPagerdutyResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateDestinationPagerdutyRequest {
@@ -224,7 +245,9 @@ export interface CreateDestinationPagerdutyResponse {
 export const CreateDestinationPagerdutyResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateDestinationPagerdutyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateDestinationPagerdutyResponse>;
 
 export type CreateDestinationPagerdutyError = DefaultErrors | InvalidRoute;
 
@@ -316,7 +339,9 @@ export interface LinkDestinationPagerdutyResponse {
 export const LinkDestinationPagerdutyResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<LinkDestinationPagerdutyResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<LinkDestinationPagerdutyResponse>;
 
 export type LinkDestinationPagerdutyError = DefaultErrors | InvalidRoute;
 
@@ -401,17 +426,21 @@ export const GetDestinationWebhookResponse =
       ]),
     ),
     url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      lastFailure: "last_failure",
-      lastSuccess: "last_success",
-      name: "name",
-      type: "type",
-      url: "url",
-    }),
-  ) as unknown as Schema.Schema<GetDestinationWebhookResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        lastFailure: "last_failure",
+        lastSuccess: "last_success",
+        name: "name",
+        type: "type",
+        url: "url",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetDestinationWebhookResponse>;
 
 export type GetDestinationWebhookError =
   | DefaultErrors
@@ -444,73 +473,115 @@ export const ListDestinationWebhooksRequest =
     }),
   ) as unknown as Schema.Schema<ListDestinationWebhooksRequest>;
 
-export type ListDestinationWebhooksResponse = {
-  id?: string | null;
-  createdAt?: string | null;
-  lastFailure?: string | null;
-  lastSuccess?: string | null;
-  name?: string | null;
-  type?:
-    | "datadog"
-    | "discord"
-    | "feishu"
-    | "gchat"
-    | "generic"
-    | "opsgenie"
-    | "slack"
-    | "splunk"
-    | null;
-  url?: string | null;
-}[];
+export interface ListDestinationWebhooksResponse {
+  result: {
+    id?: string | null;
+    createdAt?: string | null;
+    lastFailure?: string | null;
+    lastSuccess?: string | null;
+    name?: string | null;
+    type?:
+      | "datadog"
+      | "discord"
+      | "feishu"
+      | "gchat"
+      | "generic"
+      | "opsgenie"
+      | "slack"
+      | "splunk"
+      | null;
+    url?: string | null;
+  }[];
+}
 
 export const ListDestinationWebhooksResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      lastFailure: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      lastSuccess: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      type: Schema.optional(
-        Schema.Union([
-          Schema.Literals([
-            "datadog",
-            "discord",
-            "feishu",
-            "gchat",
-            "generic",
-            "opsgenie",
-            "slack",
-            "splunk",
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        lastFailure: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        lastSuccess: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        type: Schema.optional(
+          Schema.Union([
+            Schema.Literals([
+              "datadog",
+              "discord",
+              "feishu",
+              "gchat",
+              "generic",
+              "opsgenie",
+              "slack",
+              "splunk",
+            ]),
+            Schema.Null,
           ]),
-          Schema.Null,
-        ]),
+        ),
+        url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          createdAt: "created_at",
+          lastFailure: "last_failure",
+          lastSuccess: "last_success",
+          name: "name",
+          type: "type",
+          url: "url",
+        }),
       ),
-      url: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        createdAt: "created_at",
-        lastFailure: "last_failure",
-        lastSuccess: "last_success",
-        name: "name",
-        type: "type",
-        url: "url",
-      }),
     ),
-  ) as unknown as Schema.Schema<ListDestinationWebhooksResponse>;
+  }) as unknown as Schema.Schema<ListDestinationWebhooksResponse>;
 
 export type ListDestinationWebhooksError = DefaultErrors;
 
-export const listDestinationWebhooks: API.OperationMethod<
+export const listDestinationWebhooks: API.PaginatedOperationMethod<
   ListDestinationWebhooksRequest,
   ListDestinationWebhooksResponse,
   ListDestinationWebhooksError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListDestinationWebhooksRequest,
+  ) => stream.Stream<
+    ListDestinationWebhooksResponse,
+    ListDestinationWebhooksError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListDestinationWebhooksRequest) => stream.Stream<
+    {
+      id?: string | null;
+      createdAt?: string | null;
+      lastFailure?: string | null;
+      lastSuccess?: string | null;
+      name?: string | null;
+      type?:
+        | "datadog"
+        | "discord"
+        | "feishu"
+        | "gchat"
+        | "generic"
+        | "opsgenie"
+        | "slack"
+        | "splunk"
+        | null;
+      url?: string | null;
+    },
+    ListDestinationWebhooksError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListDestinationWebhooksRequest,
   output: ListDestinationWebhooksResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateDestinationWebhookRequest {
@@ -545,7 +616,9 @@ export interface CreateDestinationWebhookResponse {
 export const CreateDestinationWebhookResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateDestinationWebhookResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateDestinationWebhookResponse>;
 
 export type CreateDestinationWebhookError =
   | DefaultErrors
@@ -597,7 +670,9 @@ export interface UpdateDestinationWebhookResponse {
 export const UpdateDestinationWebhookResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }) as unknown as Schema.Schema<UpdateDestinationWebhookResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateDestinationWebhookResponse>;
 
 export type UpdateDestinationWebhookError =
   | DefaultErrors
@@ -693,60 +768,115 @@ export const ListHistoriesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/alerting/v3/history" }),
 ) as unknown as Schema.Schema<ListHistoriesRequest>;
 
-export type ListHistoriesResponse = {
-  id?: string | null;
-  alertBody?: string | null;
-  alertType?: string | null;
-  description?: string | null;
-  mechanism?: string | null;
-  mechanismType?: "email" | "pagerduty" | "webhook" | null;
-  name?: string | null;
-  policyId?: string | null;
-  sent?: string | null;
-}[];
+export interface ListHistoriesResponse {
+  result: {
+    id?: string | null;
+    alertBody?: string | null;
+    alertType?: string | null;
+    description?: string | null;
+    mechanism?: string | null;
+    mechanismType?: "email" | "pagerduty" | "webhook" | null;
+    name?: string | null;
+    policyId?: string | null;
+    sent?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListHistoriesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    alertBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    alertType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    mechanism: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    mechanismType: Schema.optional(
-      Schema.Union([
-        Schema.Literals(["email", "pagerduty", "webhook"]),
-        Schema.Null,
-      ]),
+export const ListHistoriesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      alertBody: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      alertType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      mechanism: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      mechanismType: Schema.optional(
+        Schema.Union([
+          Schema.Literals(["email", "pagerduty", "webhook"]),
+          Schema.Null,
+        ]),
+      ),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      sent: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        alertBody: "alert_body",
+        alertType: "alert_type",
+        description: "description",
+        mechanism: "mechanism",
+        mechanismType: "mechanism_type",
+        name: "name",
+        policyId: "policy_id",
+        sent: "sent",
+      }),
     ),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    sent: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      id: "id",
-      alertBody: "alert_body",
-      alertType: "alert_type",
-      description: "description",
-      mechanism: "mechanism",
-      mechanismType: "mechanism_type",
-      name: "name",
-      policyId: "policy_id",
-      sent: "sent",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListHistoriesResponse>;
 
 export type ListHistoriesError = DefaultErrors;
 
-export const listHistories: API.OperationMethod<
+export const listHistories: API.PaginatedOperationMethod<
   ListHistoriesRequest,
   ListHistoriesResponse,
   ListHistoriesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListHistoriesRequest,
+  ) => stream.Stream<
+    ListHistoriesResponse,
+    ListHistoriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListHistoriesRequest) => stream.Stream<
+    {
+      id?: string | null;
+      alertBody?: string | null;
+      alertType?: string | null;
+      description?: string | null;
+      mechanism?: string | null;
+      mechanismType?: "email" | "pagerduty" | "webhook" | null;
+      name?: string | null;
+      policyId?: string | null;
+      sent?: string | null;
+    },
+    ListHistoriesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListHistoriesRequest,
   output: ListHistoriesResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 // =============================================================================
@@ -1229,20 +1359,24 @@ export const GetPolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    alertInterval: "alert_interval",
-    alertType: "alert_type",
-    created: "created",
-    description: "description",
-    enabled: "enabled",
-    filters: "filters",
-    mechanisms: "mechanisms",
-    modified: "modified",
-    name: "name",
-  }),
-) as unknown as Schema.Schema<GetPolicyResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      alertInterval: "alert_interval",
+      alertType: "alert_type",
+      created: "created",
+      description: "description",
+      enabled: "enabled",
+      filters: "filters",
+      mechanisms: "mechanisms",
+      modified: "modified",
+      name: "name",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetPolicyResponse>;
 
 export type GetPolicyError = DefaultErrors | InvalidRoute | PolicyNotFound;
 
@@ -1271,492 +1405,650 @@ export const ListPoliciesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListPoliciesRequest>;
 
-export type ListPoliciesResponse = {
-  id?: string | null;
-  alertInterval?: string | null;
-  alertType?:
-    | "abuse_report_alert"
-    | "access_custom_certificate_expiration_type"
-    | "advanced_ddos_attack_l4_alert"
-    | "advanced_ddos_attack_l7_alert"
-    | "advanced_http_alert_error"
-    | "bgp_hijack_notification"
-    | "billing_usage_alert"
-    | "block_notification_block_removed"
-    | "block_notification_new_block"
-    | "block_notification_review_rejected"
-    | "bot_traffic_basic_alert"
-    | "brand_protection_alert"
-    | "brand_protection_digest"
-    | "clickhouse_alert_fw_anomaly"
-    | "clickhouse_alert_fw_ent_anomaly"
-    | "cloudforce_one_request_notification"
-    | "custom_analytics"
-    | "custom_bot_detection_alert"
-    | "custom_ssl_certificate_event_type"
-    | "dedicated_ssl_certificate_event_type"
-    | "device_connectivity_anomaly_alert"
-    | "dos_attack_l4"
-    | "dos_attack_l7"
-    | "expiring_service_token_alert"
-    | "failing_logpush_job_disabled_alert"
-    | "fbm_auto_advertisement"
-    | "fbm_dosd_attack"
-    | "fbm_volumetric_attack"
-    | "health_check_status_notification"
-    | "hostname_aop_custom_certificate_expiration_type"
-    | "http_alert_edge_error"
-    | "http_alert_origin_error"
-    | "image_notification"
-    | "image_resizing_notification"
-    | "incident_alert"
-    | "load_balancing_health_alert"
-    | "load_balancing_pool_enablement_alert"
-    | "logo_match_alert"
-    | "magic_tunnel_health_check_event"
-    | "magic_wan_tunnel_health"
-    | "maintenance_event_notification"
-    | "mtls_certificate_store_certificate_expiration_type"
-    | "pages_event_alert"
-    | "radar_notification"
-    | "real_origin_monitoring"
-    | "scriptmonitor_alert_new_code_change_detections"
-    | "scriptmonitor_alert_new_hosts"
-    | "scriptmonitor_alert_new_malicious_hosts"
-    | "scriptmonitor_alert_new_malicious_scripts"
-    | "scriptmonitor_alert_new_malicious_url"
-    | "scriptmonitor_alert_new_max_length_resource_url"
-    | "scriptmonitor_alert_new_resources"
-    | "secondary_dns_all_primaries_failing"
-    | "secondary_dns_primaries_failing"
-    | "secondary_dns_warning"
-    | "secondary_dns_zone_successfully_updated"
-    | "secondary_dns_zone_validation_warning"
-    | "security_insights_alert"
-    | "sentinel_alert"
-    | "stream_live_notifications"
-    | "synthetic_test_latency_alert"
-    | "synthetic_test_low_availability_alert"
-    | "traffic_anomalies_alert"
-    | "tunnel_health_event"
-    | "tunnel_update_event"
-    | "universal_ssl_event_type"
-    | "web_analytics_metrics_update"
-    | "zone_aop_custom_certificate_expiration_type"
-    | null;
-  created?: string | null;
-  description?: string | null;
-  enabled?: boolean | null;
-  filters?: {
-    actions?: string[] | null;
-    affectedAsns?: string[] | null;
-    affectedComponents?: string[] | null;
-    affectedLocations?: string[] | null;
-    airportCode?: string[] | null;
-    alertTriggerPreferences?: string[] | null;
-    alertTriggerPreferencesValue?: string[] | null;
-    enabled?: string[] | null;
-    environment?: string[] | null;
-    event?: string[] | null;
-    eventSource?: string[] | null;
-    eventType?: string[] | null;
-    groupBy?: string[] | null;
-    healthCheckId?: string[] | null;
-    incidentImpact?:
-      | (
-          | "INCIDENT_IMPACT_NONE"
-          | "INCIDENT_IMPACT_MINOR"
-          | "INCIDENT_IMPACT_MAJOR"
-          | "INCIDENT_IMPACT_CRITICAL"
-        )[]
+export interface ListPoliciesResponse {
+  result: {
+    id?: string | null;
+    alertInterval?: string | null;
+    alertType?:
+      | "abuse_report_alert"
+      | "access_custom_certificate_expiration_type"
+      | "advanced_ddos_attack_l4_alert"
+      | "advanced_ddos_attack_l7_alert"
+      | "advanced_http_alert_error"
+      | "bgp_hijack_notification"
+      | "billing_usage_alert"
+      | "block_notification_block_removed"
+      | "block_notification_new_block"
+      | "block_notification_review_rejected"
+      | "bot_traffic_basic_alert"
+      | "brand_protection_alert"
+      | "brand_protection_digest"
+      | "clickhouse_alert_fw_anomaly"
+      | "clickhouse_alert_fw_ent_anomaly"
+      | "cloudforce_one_request_notification"
+      | "custom_analytics"
+      | "custom_bot_detection_alert"
+      | "custom_ssl_certificate_event_type"
+      | "dedicated_ssl_certificate_event_type"
+      | "device_connectivity_anomaly_alert"
+      | "dos_attack_l4"
+      | "dos_attack_l7"
+      | "expiring_service_token_alert"
+      | "failing_logpush_job_disabled_alert"
+      | "fbm_auto_advertisement"
+      | "fbm_dosd_attack"
+      | "fbm_volumetric_attack"
+      | "health_check_status_notification"
+      | "hostname_aop_custom_certificate_expiration_type"
+      | "http_alert_edge_error"
+      | "http_alert_origin_error"
+      | "image_notification"
+      | "image_resizing_notification"
+      | "incident_alert"
+      | "load_balancing_health_alert"
+      | "load_balancing_pool_enablement_alert"
+      | "logo_match_alert"
+      | "magic_tunnel_health_check_event"
+      | "magic_wan_tunnel_health"
+      | "maintenance_event_notification"
+      | "mtls_certificate_store_certificate_expiration_type"
+      | "pages_event_alert"
+      | "radar_notification"
+      | "real_origin_monitoring"
+      | "scriptmonitor_alert_new_code_change_detections"
+      | "scriptmonitor_alert_new_hosts"
+      | "scriptmonitor_alert_new_malicious_hosts"
+      | "scriptmonitor_alert_new_malicious_scripts"
+      | "scriptmonitor_alert_new_malicious_url"
+      | "scriptmonitor_alert_new_max_length_resource_url"
+      | "scriptmonitor_alert_new_resources"
+      | "secondary_dns_all_primaries_failing"
+      | "secondary_dns_primaries_failing"
+      | "secondary_dns_warning"
+      | "secondary_dns_zone_successfully_updated"
+      | "secondary_dns_zone_validation_warning"
+      | "security_insights_alert"
+      | "sentinel_alert"
+      | "stream_live_notifications"
+      | "synthetic_test_latency_alert"
+      | "synthetic_test_low_availability_alert"
+      | "traffic_anomalies_alert"
+      | "tunnel_health_event"
+      | "tunnel_update_event"
+      | "universal_ssl_event_type"
+      | "web_analytics_metrics_update"
+      | "zone_aop_custom_certificate_expiration_type"
       | null;
-    inputId?: string[] | null;
-    insightClass?: string[] | null;
-    limit?: string[] | null;
-    logoTag?: string[] | null;
-    megabitsPerSecond?: string[] | null;
-    newHealth?: string[] | null;
-    newStatus?: string[] | null;
-    packetsPerSecond?: string[] | null;
-    poolId?: string[] | null;
-    popNames?: string[] | null;
-    product?: string[] | null;
-    projectId?: string[] | null;
-    protocol?: string[] | null;
-    queryTag?: string[] | null;
-    requestsPerSecond?: string[] | null;
-    selectors?: string[] | null;
-    services?: string[] | null;
-    slo?: string[] | null;
-    status?: string[] | null;
-    targetHostname?: string[] | null;
-    targetIp?: string[] | null;
-    targetZoneName?: string[] | null;
-    trafficExclusions?: "security_events"[] | null;
-    tunnelId?: string[] | null;
-    tunnelName?: string[] | null;
-    type?: string[] | null;
-    where?: string[] | null;
-    zones?: string[] | null;
-  } | null;
-  mechanisms?: {
-    email?: { id?: string | null }[] | null;
-    pagerduty?: { id?: string | null }[] | null;
-    webhooks?: { id?: string | null }[] | null;
-  } | null;
-  modified?: string | null;
-  name?: string | null;
-}[];
+    created?: string | null;
+    description?: string | null;
+    enabled?: boolean | null;
+    filters?: {
+      actions?: string[] | null;
+      affectedAsns?: string[] | null;
+      affectedComponents?: string[] | null;
+      affectedLocations?: string[] | null;
+      airportCode?: string[] | null;
+      alertTriggerPreferences?: string[] | null;
+      alertTriggerPreferencesValue?: string[] | null;
+      enabled?: string[] | null;
+      environment?: string[] | null;
+      event?: string[] | null;
+      eventSource?: string[] | null;
+      eventType?: string[] | null;
+      groupBy?: string[] | null;
+      healthCheckId?: string[] | null;
+      incidentImpact?:
+        | (
+            | "INCIDENT_IMPACT_NONE"
+            | "INCIDENT_IMPACT_MINOR"
+            | "INCIDENT_IMPACT_MAJOR"
+            | "INCIDENT_IMPACT_CRITICAL"
+          )[]
+        | null;
+      inputId?: string[] | null;
+      insightClass?: string[] | null;
+      limit?: string[] | null;
+      logoTag?: string[] | null;
+      megabitsPerSecond?: string[] | null;
+      newHealth?: string[] | null;
+      newStatus?: string[] | null;
+      packetsPerSecond?: string[] | null;
+      poolId?: string[] | null;
+      popNames?: string[] | null;
+      product?: string[] | null;
+      projectId?: string[] | null;
+      protocol?: string[] | null;
+      queryTag?: string[] | null;
+      requestsPerSecond?: string[] | null;
+      selectors?: string[] | null;
+      services?: string[] | null;
+      slo?: string[] | null;
+      status?: string[] | null;
+      targetHostname?: string[] | null;
+      targetIp?: string[] | null;
+      targetZoneName?: string[] | null;
+      trafficExclusions?: "security_events"[] | null;
+      tunnelId?: string[] | null;
+      tunnelName?: string[] | null;
+      type?: string[] | null;
+      where?: string[] | null;
+      zones?: string[] | null;
+    } | null;
+    mechanisms?: {
+      email?: { id?: string | null }[] | null;
+      pagerduty?: { id?: string | null }[] | null;
+      webhooks?: { id?: string | null }[] | null;
+    } | null;
+    modified?: string | null;
+    name?: string | null;
+  }[];
+}
 
-export const ListPoliciesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    alertInterval: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    alertType: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "abuse_report_alert",
-          "access_custom_certificate_expiration_type",
-          "advanced_ddos_attack_l4_alert",
-          "advanced_ddos_attack_l7_alert",
-          "advanced_http_alert_error",
-          "bgp_hijack_notification",
-          "billing_usage_alert",
-          "block_notification_block_removed",
-          "block_notification_new_block",
-          "block_notification_review_rejected",
-          "bot_traffic_basic_alert",
-          "brand_protection_alert",
-          "brand_protection_digest",
-          "clickhouse_alert_fw_anomaly",
-          "clickhouse_alert_fw_ent_anomaly",
-          "cloudforce_one_request_notification",
-          "custom_analytics",
-          "custom_bot_detection_alert",
-          "custom_ssl_certificate_event_type",
-          "dedicated_ssl_certificate_event_type",
-          "device_connectivity_anomaly_alert",
-          "dos_attack_l4",
-          "dos_attack_l7",
-          "expiring_service_token_alert",
-          "failing_logpush_job_disabled_alert",
-          "fbm_auto_advertisement",
-          "fbm_dosd_attack",
-          "fbm_volumetric_attack",
-          "health_check_status_notification",
-          "hostname_aop_custom_certificate_expiration_type",
-          "http_alert_edge_error",
-          "http_alert_origin_error",
-          "image_notification",
-          "image_resizing_notification",
-          "incident_alert",
-          "load_balancing_health_alert",
-          "load_balancing_pool_enablement_alert",
-          "logo_match_alert",
-          "magic_tunnel_health_check_event",
-          "magic_wan_tunnel_health",
-          "maintenance_event_notification",
-          "mtls_certificate_store_certificate_expiration_type",
-          "pages_event_alert",
-          "radar_notification",
-          "real_origin_monitoring",
-          "scriptmonitor_alert_new_code_change_detections",
-          "scriptmonitor_alert_new_hosts",
-          "scriptmonitor_alert_new_malicious_hosts",
-          "scriptmonitor_alert_new_malicious_scripts",
-          "scriptmonitor_alert_new_malicious_url",
-          "scriptmonitor_alert_new_max_length_resource_url",
-          "scriptmonitor_alert_new_resources",
-          "secondary_dns_all_primaries_failing",
-          "secondary_dns_primaries_failing",
-          "secondary_dns_warning",
-          "secondary_dns_zone_successfully_updated",
-          "secondary_dns_zone_validation_warning",
-          "security_insights_alert",
-          "sentinel_alert",
-          "stream_live_notifications",
-          "synthetic_test_latency_alert",
-          "synthetic_test_low_availability_alert",
-          "traffic_anomalies_alert",
-          "tunnel_health_event",
-          "tunnel_update_event",
-          "universal_ssl_event_type",
-          "web_analytics_metrics_update",
-          "zone_aop_custom_certificate_expiration_type",
+export const ListPoliciesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      alertInterval: Schema.optional(
+        Schema.Union([Schema.String, Schema.Null]),
+      ),
+      alertType: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "abuse_report_alert",
+            "access_custom_certificate_expiration_type",
+            "advanced_ddos_attack_l4_alert",
+            "advanced_ddos_attack_l7_alert",
+            "advanced_http_alert_error",
+            "bgp_hijack_notification",
+            "billing_usage_alert",
+            "block_notification_block_removed",
+            "block_notification_new_block",
+            "block_notification_review_rejected",
+            "bot_traffic_basic_alert",
+            "brand_protection_alert",
+            "brand_protection_digest",
+            "clickhouse_alert_fw_anomaly",
+            "clickhouse_alert_fw_ent_anomaly",
+            "cloudforce_one_request_notification",
+            "custom_analytics",
+            "custom_bot_detection_alert",
+            "custom_ssl_certificate_event_type",
+            "dedicated_ssl_certificate_event_type",
+            "device_connectivity_anomaly_alert",
+            "dos_attack_l4",
+            "dos_attack_l7",
+            "expiring_service_token_alert",
+            "failing_logpush_job_disabled_alert",
+            "fbm_auto_advertisement",
+            "fbm_dosd_attack",
+            "fbm_volumetric_attack",
+            "health_check_status_notification",
+            "hostname_aop_custom_certificate_expiration_type",
+            "http_alert_edge_error",
+            "http_alert_origin_error",
+            "image_notification",
+            "image_resizing_notification",
+            "incident_alert",
+            "load_balancing_health_alert",
+            "load_balancing_pool_enablement_alert",
+            "logo_match_alert",
+            "magic_tunnel_health_check_event",
+            "magic_wan_tunnel_health",
+            "maintenance_event_notification",
+            "mtls_certificate_store_certificate_expiration_type",
+            "pages_event_alert",
+            "radar_notification",
+            "real_origin_monitoring",
+            "scriptmonitor_alert_new_code_change_detections",
+            "scriptmonitor_alert_new_hosts",
+            "scriptmonitor_alert_new_malicious_hosts",
+            "scriptmonitor_alert_new_malicious_scripts",
+            "scriptmonitor_alert_new_malicious_url",
+            "scriptmonitor_alert_new_max_length_resource_url",
+            "scriptmonitor_alert_new_resources",
+            "secondary_dns_all_primaries_failing",
+            "secondary_dns_primaries_failing",
+            "secondary_dns_warning",
+            "secondary_dns_zone_successfully_updated",
+            "secondary_dns_zone_validation_warning",
+            "security_insights_alert",
+            "sentinel_alert",
+            "stream_live_notifications",
+            "synthetic_test_latency_alert",
+            "synthetic_test_low_availability_alert",
+            "traffic_anomalies_alert",
+            "tunnel_health_event",
+            "tunnel_update_event",
+            "universal_ssl_event_type",
+            "web_analytics_metrics_update",
+            "zone_aop_custom_certificate_expiration_type",
+          ]),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
-    ),
-    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    filters: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          actions: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+      ),
+      created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      filters: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            actions: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            affectedAsns: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            affectedComponents: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            affectedLocations: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            airportCode: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            alertTriggerPreferences: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            alertTriggerPreferencesValue: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            environment: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            event: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            eventSource: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            eventType: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            groupBy: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            healthCheckId: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            incidentImpact: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Literals([
+                    "INCIDENT_IMPACT_NONE",
+                    "INCIDENT_IMPACT_MINOR",
+                    "INCIDENT_IMPACT_MAJOR",
+                    "INCIDENT_IMPACT_CRITICAL",
+                  ]),
+                ),
+                Schema.Null,
+              ]),
+            ),
+            inputId: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            insightClass: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            limit: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            logoTag: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            megabitsPerSecond: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            newHealth: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            newStatus: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            packetsPerSecond: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            poolId: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            popNames: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            product: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            projectId: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            protocol: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            queryTag: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            requestsPerSecond: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            selectors: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            services: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            slo: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            status: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            targetHostname: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            targetIp: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            targetZoneName: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            trafficExclusions: Schema.optional(
+              Schema.Union([
+                Schema.Array(Schema.Literal("security_events")),
+                Schema.Null,
+              ]),
+            ),
+            tunnelId: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            tunnelName: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            type: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            where: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+            zones: Schema.optional(
+              Schema.Union([Schema.Array(Schema.String), Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              actions: "actions",
+              affectedAsns: "affected_asns",
+              affectedComponents: "affected_components",
+              affectedLocations: "affected_locations",
+              airportCode: "airport_code",
+              alertTriggerPreferences: "alert_trigger_preferences",
+              alertTriggerPreferencesValue: "alert_trigger_preferences_value",
+              enabled: "enabled",
+              environment: "environment",
+              event: "event",
+              eventSource: "event_source",
+              eventType: "event_type",
+              groupBy: "group_by",
+              healthCheckId: "health_check_id",
+              incidentImpact: "incident_impact",
+              inputId: "input_id",
+              insightClass: "insight_class",
+              limit: "limit",
+              logoTag: "logo_tag",
+              megabitsPerSecond: "megabits_per_second",
+              newHealth: "new_health",
+              newStatus: "new_status",
+              packetsPerSecond: "packets_per_second",
+              poolId: "pool_id",
+              popNames: "pop_names",
+              product: "product",
+              projectId: "project_id",
+              protocol: "protocol",
+              queryTag: "query_tag",
+              requestsPerSecond: "requests_per_second",
+              selectors: "selectors",
+              services: "services",
+              slo: "slo",
+              status: "status",
+              targetHostname: "target_hostname",
+              targetIp: "target_ip",
+              targetZoneName: "target_zone_name",
+              trafficExclusions: "traffic_exclusions",
+              tunnelId: "tunnel_id",
+              tunnelName: "tunnel_name",
+              type: "type",
+              where: "where",
+              zones: "zones",
+            }),
           ),
-          affectedAsns: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          affectedComponents: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          affectedLocations: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          airportCode: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          alertTriggerPreferences: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          alertTriggerPreferencesValue: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          enabled: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          environment: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          event: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          eventSource: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          eventType: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          groupBy: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          healthCheckId: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          incidentImpact: Schema.optional(
-            Schema.Union([
-              Schema.Array(
-                Schema.Literals([
-                  "INCIDENT_IMPACT_NONE",
-                  "INCIDENT_IMPACT_MINOR",
-                  "INCIDENT_IMPACT_MAJOR",
-                  "INCIDENT_IMPACT_CRITICAL",
-                ]),
-              ),
-              Schema.Null,
-            ]),
-          ),
-          inputId: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          insightClass: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          limit: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          logoTag: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          megabitsPerSecond: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          newHealth: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          newStatus: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          packetsPerSecond: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          poolId: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          popNames: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          product: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          projectId: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          protocol: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          queryTag: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          requestsPerSecond: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          selectors: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          services: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          slo: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          status: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          targetHostname: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          targetIp: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          targetZoneName: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          trafficExclusions: Schema.optional(
-            Schema.Union([
-              Schema.Array(Schema.Literal("security_events")),
-              Schema.Null,
-            ]),
-          ),
-          tunnelId: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          tunnelName: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          type: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          where: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-          zones: Schema.optional(
-            Schema.Union([Schema.Array(Schema.String), Schema.Null]),
-          ),
-        }).pipe(
-          Schema.encodeKeys({
-            actions: "actions",
-            affectedAsns: "affected_asns",
-            affectedComponents: "affected_components",
-            affectedLocations: "affected_locations",
-            airportCode: "airport_code",
-            alertTriggerPreferences: "alert_trigger_preferences",
-            alertTriggerPreferencesValue: "alert_trigger_preferences_value",
-            enabled: "enabled",
-            environment: "environment",
-            event: "event",
-            eventSource: "event_source",
-            eventType: "event_type",
-            groupBy: "group_by",
-            healthCheckId: "health_check_id",
-            incidentImpact: "incident_impact",
-            inputId: "input_id",
-            insightClass: "insight_class",
-            limit: "limit",
-            logoTag: "logo_tag",
-            megabitsPerSecond: "megabits_per_second",
-            newHealth: "new_health",
-            newStatus: "new_status",
-            packetsPerSecond: "packets_per_second",
-            poolId: "pool_id",
-            popNames: "pop_names",
-            product: "product",
-            projectId: "project_id",
-            protocol: "protocol",
-            queryTag: "query_tag",
-            requestsPerSecond: "requests_per_second",
-            selectors: "selectors",
-            services: "services",
-            slo: "slo",
-            status: "status",
-            targetHostname: "target_hostname",
-            targetIp: "target_ip",
-            targetZoneName: "target_zone_name",
-            trafficExclusions: "traffic_exclusions",
-            tunnelId: "tunnel_id",
-            tunnelName: "tunnel_name",
-            type: "type",
-            where: "where",
-            zones: "zones",
+          Schema.Null,
+        ]),
+      ),
+      mechanisms: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            email: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }),
+                ),
+                Schema.Null,
+              ]),
+            ),
+            pagerduty: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }),
+                ),
+                Schema.Null,
+              ]),
+            ),
+            webhooks: Schema.optional(
+              Schema.Union([
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }),
+                ),
+                Schema.Null,
+              ]),
+            ),
           }),
-        ),
-        Schema.Null,
-      ]),
+          Schema.Null,
+        ]),
+      ),
+      modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        alertInterval: "alert_interval",
+        alertType: "alert_type",
+        created: "created",
+        description: "description",
+        enabled: "enabled",
+        filters: "filters",
+        mechanisms: "mechanisms",
+        modified: "modified",
+        name: "name",
+      }),
     ),
-    mechanisms: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          email: Schema.optional(
-            Schema.Union([
-              Schema.Array(
-                Schema.Struct({
-                  id: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }),
-              ),
-              Schema.Null,
-            ]),
-          ),
-          pagerduty: Schema.optional(
-            Schema.Union([
-              Schema.Array(
-                Schema.Struct({
-                  id: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }),
-              ),
-              Schema.Null,
-            ]),
-          ),
-          webhooks: Schema.optional(
-            Schema.Union([
-              Schema.Array(
-                Schema.Struct({
-                  id: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }),
-              ),
-              Schema.Null,
-            ]),
-          ),
-        }),
-        Schema.Null,
-      ]),
-    ),
-    modified: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    name: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      alertInterval: "alert_interval",
-      alertType: "alert_type",
-      created: "created",
-      description: "description",
-      enabled: "enabled",
-      filters: "filters",
-      mechanisms: "mechanisms",
-      modified: "modified",
-      name: "name",
-    }),
   ),
-) as unknown as Schema.Schema<ListPoliciesResponse>;
+}) as unknown as Schema.Schema<ListPoliciesResponse>;
 
 export type ListPoliciesError = DefaultErrors;
 
-export const listPolicies: API.OperationMethod<
+export const listPolicies: API.PaginatedOperationMethod<
   ListPoliciesRequest,
   ListPoliciesResponse,
   ListPoliciesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListPoliciesRequest,
+  ) => stream.Stream<
+    ListPoliciesResponse,
+    ListPoliciesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListPoliciesRequest) => stream.Stream<
+    {
+      id?: string | null;
+      alertInterval?: string | null;
+      alertType?:
+        | "abuse_report_alert"
+        | "access_custom_certificate_expiration_type"
+        | "advanced_ddos_attack_l4_alert"
+        | "advanced_ddos_attack_l7_alert"
+        | "advanced_http_alert_error"
+        | "bgp_hijack_notification"
+        | "billing_usage_alert"
+        | "block_notification_block_removed"
+        | "block_notification_new_block"
+        | "block_notification_review_rejected"
+        | "bot_traffic_basic_alert"
+        | "brand_protection_alert"
+        | "brand_protection_digest"
+        | "clickhouse_alert_fw_anomaly"
+        | "clickhouse_alert_fw_ent_anomaly"
+        | "cloudforce_one_request_notification"
+        | "custom_analytics"
+        | "custom_bot_detection_alert"
+        | "custom_ssl_certificate_event_type"
+        | "dedicated_ssl_certificate_event_type"
+        | "device_connectivity_anomaly_alert"
+        | "dos_attack_l4"
+        | "dos_attack_l7"
+        | "expiring_service_token_alert"
+        | "failing_logpush_job_disabled_alert"
+        | "fbm_auto_advertisement"
+        | "fbm_dosd_attack"
+        | "fbm_volumetric_attack"
+        | "health_check_status_notification"
+        | "hostname_aop_custom_certificate_expiration_type"
+        | "http_alert_edge_error"
+        | "http_alert_origin_error"
+        | "image_notification"
+        | "image_resizing_notification"
+        | "incident_alert"
+        | "load_balancing_health_alert"
+        | "load_balancing_pool_enablement_alert"
+        | "logo_match_alert"
+        | "magic_tunnel_health_check_event"
+        | "magic_wan_tunnel_health"
+        | "maintenance_event_notification"
+        | "mtls_certificate_store_certificate_expiration_type"
+        | "pages_event_alert"
+        | "radar_notification"
+        | "real_origin_monitoring"
+        | "scriptmonitor_alert_new_code_change_detections"
+        | "scriptmonitor_alert_new_hosts"
+        | "scriptmonitor_alert_new_malicious_hosts"
+        | "scriptmonitor_alert_new_malicious_scripts"
+        | "scriptmonitor_alert_new_malicious_url"
+        | "scriptmonitor_alert_new_max_length_resource_url"
+        | "scriptmonitor_alert_new_resources"
+        | "secondary_dns_all_primaries_failing"
+        | "secondary_dns_primaries_failing"
+        | "secondary_dns_warning"
+        | "secondary_dns_zone_successfully_updated"
+        | "secondary_dns_zone_validation_warning"
+        | "security_insights_alert"
+        | "sentinel_alert"
+        | "stream_live_notifications"
+        | "synthetic_test_latency_alert"
+        | "synthetic_test_low_availability_alert"
+        | "traffic_anomalies_alert"
+        | "tunnel_health_event"
+        | "tunnel_update_event"
+        | "universal_ssl_event_type"
+        | "web_analytics_metrics_update"
+        | "zone_aop_custom_certificate_expiration_type"
+        | null;
+      created?: string | null;
+      description?: string | null;
+      enabled?: boolean | null;
+      filters?: {
+        actions?: string[] | null;
+        affectedAsns?: string[] | null;
+        affectedComponents?: string[] | null;
+        affectedLocations?: string[] | null;
+        airportCode?: string[] | null;
+        alertTriggerPreferences?: string[] | null;
+        alertTriggerPreferencesValue?: string[] | null;
+        enabled?: string[] | null;
+        environment?: string[] | null;
+        event?: string[] | null;
+        eventSource?: string[] | null;
+        eventType?: string[] | null;
+        groupBy?: string[] | null;
+        healthCheckId?: string[] | null;
+        incidentImpact?:
+          | (
+              | "INCIDENT_IMPACT_NONE"
+              | "INCIDENT_IMPACT_MINOR"
+              | "INCIDENT_IMPACT_MAJOR"
+              | "INCIDENT_IMPACT_CRITICAL"
+            )[]
+          | null;
+        inputId?: string[] | null;
+        insightClass?: string[] | null;
+        limit?: string[] | null;
+        logoTag?: string[] | null;
+        megabitsPerSecond?: string[] | null;
+        newHealth?: string[] | null;
+        newStatus?: string[] | null;
+        packetsPerSecond?: string[] | null;
+        poolId?: string[] | null;
+        popNames?: string[] | null;
+        product?: string[] | null;
+        projectId?: string[] | null;
+        protocol?: string[] | null;
+        queryTag?: string[] | null;
+        requestsPerSecond?: string[] | null;
+        selectors?: string[] | null;
+        services?: string[] | null;
+        slo?: string[] | null;
+        status?: string[] | null;
+        targetHostname?: string[] | null;
+        targetIp?: string[] | null;
+        targetZoneName?: string[] | null;
+        trafficExclusions?: "security_events"[] | null;
+        tunnelId?: string[] | null;
+        tunnelName?: string[] | null;
+        type?: string[] | null;
+        where?: string[] | null;
+        zones?: string[] | null;
+      } | null;
+      mechanisms?: {
+        email?: { id?: string | null }[] | null;
+        pagerduty?: { id?: string | null }[] | null;
+        webhooks?: { id?: string | null }[] | null;
+      } | null;
+      modified?: string | null;
+      name?: string | null;
+    },
+    ListPoliciesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListPoliciesRequest,
   output: ListPoliciesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreatePolicyRequest {
@@ -2127,7 +2419,9 @@ export interface CreatePolicyResponse {
 
 export const CreatePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<CreatePolicyResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<CreatePolicyResponse>;
 
 export type CreatePolicyError =
   | DefaultErrors
@@ -2520,7 +2814,9 @@ export interface UpdatePolicyResponse {
 
 export const UpdatePolicyResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<UpdatePolicyResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<UpdatePolicyResponse>;
 
 export type UpdatePolicyError =
   | DefaultErrors
@@ -2675,16 +2971,20 @@ export const GetSilenceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    createdAt: "created_at",
-    endTime: "end_time",
-    policyId: "policy_id",
-    startTime: "start_time",
-    updatedAt: "updated_at",
-  }),
-) as unknown as Schema.Schema<GetSilenceResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      createdAt: "created_at",
+      endTime: "end_time",
+      policyId: "policy_id",
+      startTime: "start_time",
+      updatedAt: "updated_at",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSilenceResponse>;
 
 export type GetSilenceError =
   | DefaultErrors
@@ -2716,46 +3016,74 @@ export const ListSilencesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListSilencesRequest>;
 
-export type ListSilencesResponse = {
-  id?: string | null;
-  createdAt?: string | null;
-  endTime?: string | null;
-  policyId?: string | null;
-  startTime?: string | null;
-  updatedAt?: string | null;
-}[];
+export interface ListSilencesResponse {
+  result: {
+    id?: string | null;
+    createdAt?: string | null;
+    endTime?: string | null;
+    policyId?: string | null;
+    startTime?: string | null;
+    updatedAt?: string | null;
+  }[];
+}
 
-export const ListSilencesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      endTime: "end_time",
-      policyId: "policy_id",
-      startTime: "start_time",
-      updatedAt: "updated_at",
-    }),
+export const ListSilencesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        endTime: "end_time",
+        policyId: "policy_id",
+        startTime: "start_time",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<ListSilencesResponse>;
+}) as unknown as Schema.Schema<ListSilencesResponse>;
 
 export type ListSilencesError = DefaultErrors;
 
-export const listSilences: API.OperationMethod<
+export const listSilences: API.PaginatedOperationMethod<
   ListSilencesRequest,
   ListSilencesResponse,
   ListSilencesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSilencesRequest,
+  ) => stream.Stream<
+    ListSilencesResponse,
+    ListSilencesError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSilencesRequest) => stream.Stream<
+    {
+      id?: string | null;
+      createdAt?: string | null;
+      endTime?: string | null;
+      policyId?: string | null;
+      startTime?: string | null;
+      updatedAt?: string | null;
+    },
+    ListSilencesError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSilencesRequest,
   output: ListSilencesResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateSilenceRequest {
@@ -2852,46 +3180,74 @@ export const UpdateSilenceRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateSilenceRequest>;
 
-export type UpdateSilenceResponse = {
-  id?: string | null;
-  createdAt?: string | null;
-  endTime?: string | null;
-  policyId?: string | null;
-  startTime?: string | null;
-  updatedAt?: string | null;
-}[];
+export interface UpdateSilenceResponse {
+  result: {
+    id?: string | null;
+    createdAt?: string | null;
+    endTime?: string | null;
+    policyId?: string | null;
+    startTime?: string | null;
+    updatedAt?: string | null;
+  }[];
+}
 
-export const UpdateSilenceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      createdAt: "created_at",
-      endTime: "end_time",
-      policyId: "policy_id",
-      startTime: "start_time",
-      updatedAt: "updated_at",
-    }),
+export const UpdateSilenceResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      createdAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      endTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      policyId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      startTime: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      updatedAt: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        createdAt: "created_at",
+        endTime: "end_time",
+        policyId: "policy_id",
+        startTime: "start_time",
+        updatedAt: "updated_at",
+      }),
+    ),
   ),
-) as unknown as Schema.Schema<UpdateSilenceResponse>;
+}) as unknown as Schema.Schema<UpdateSilenceResponse>;
 
 export type UpdateSilenceError = DefaultErrors;
 
-export const updateSilence: API.OperationMethod<
+export const updateSilence: API.PaginatedOperationMethod<
   UpdateSilenceRequest,
   UpdateSilenceResponse,
   UpdateSilenceError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: UpdateSilenceRequest,
+  ) => stream.Stream<
+    UpdateSilenceResponse,
+    UpdateSilenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: UpdateSilenceRequest) => stream.Stream<
+    {
+      id?: string | null;
+      createdAt?: string | null;
+      endTime?: string | null;
+      policyId?: string | null;
+      startTime?: string | null;
+      updatedAt?: string | null;
+    },
+    UpdateSilenceError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: UpdateSilenceRequest,
   output: UpdateSilenceResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface DeleteSilenceRequest {

@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service rum
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -104,7 +105,9 @@ export const ListRulesResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       Schema.Null,
     ]),
   ),
-}) as unknown as Schema.Schema<ListRulesResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<ListRulesResponse>;
 
 export type ListRulesError = DefaultErrors;
 
@@ -178,17 +181,21 @@ export const CreateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
   priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    host: "host",
-    inclusive: "inclusive",
-    isPaused: "is_paused",
-    paths: "paths",
-    priority: "priority",
-  }),
-) as unknown as Schema.Schema<CreateRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      host: "host",
+      inclusive: "inclusive",
+      isPaused: "is_paused",
+      paths: "paths",
+      priority: "priority",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRuleResponse>;
 
 export type CreateRuleError = DefaultErrors;
 
@@ -264,17 +271,21 @@ export const UpdateRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
   priority: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    created: "created",
-    host: "host",
-    inclusive: "inclusive",
-    isPaused: "is_paused",
-    paths: "paths",
-    priority: "priority",
-  }),
-) as unknown as Schema.Schema<UpdateRuleResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      created: "created",
+      host: "host",
+      inclusive: "inclusive",
+      isPaused: "is_paused",
+      paths: "paths",
+      priority: "priority",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateRuleResponse>;
 
 export type UpdateRuleError = DefaultErrors;
 
@@ -314,7 +325,9 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}) as unknown as Schema.Schema<DeleteRuleResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteRuleResponse>;
 
 export type DeleteRuleError = DefaultErrors;
 
@@ -455,7 +468,9 @@ export const BulkCreateRulesResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<BulkCreateRulesResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<BulkCreateRulesResponse>;
 
 export type BulkCreateRulesError = DefaultErrors;
 
@@ -537,17 +552,21 @@ export const GetSiteInfoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    autoInstall: "auto_install",
-    created: "created",
-    rules: "rules",
-    ruleset: "ruleset",
-    siteTag: "site_tag",
-    siteToken: "site_token",
-    snippet: "snippet",
-  }),
-) as unknown as Schema.Schema<GetSiteInfoResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      autoInstall: "auto_install",
+      created: "created",
+      rules: "rules",
+      ruleset: "ruleset",
+      siteTag: "site_tag",
+      siteToken: "site_token",
+      snippet: "snippet",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSiteInfoResponse>;
 
 export type GetSiteInfoError = DefaultErrors;
 
@@ -578,73 +597,137 @@ export const ListSiteInfosRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/accounts/{account_id}/rum/site_info/list" }),
 ) as unknown as Schema.Schema<ListSiteInfosRequest>;
 
-export type ListSiteInfosResponse = {
-  autoInstall?: boolean | null;
-  created?: string | null;
-  rules?: unknown[] | null;
-  ruleset?: {
-    id?: string | null;
-    enabled?: boolean | null;
-    zoneName?: string | null;
-    zoneTag?: string | null;
-  } | null;
-  siteTag?: string | null;
-  siteToken?: string | null;
-  snippet?: string | null;
-}[];
+export interface ListSiteInfosResponse {
+  result: {
+    autoInstall?: boolean | null;
+    created?: string | null;
+    rules?: unknown[] | null;
+    ruleset?: {
+      id?: string | null;
+      enabled?: boolean | null;
+      zoneName?: string | null;
+      zoneTag?: string | null;
+    } | null;
+    siteTag?: string | null;
+    siteToken?: string | null;
+    snippet?: string | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListSiteInfosResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    rules: Schema.optional(
-      Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+export const ListSiteInfosResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      autoInstall: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
+      created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      rules: Schema.optional(
+        Schema.Union([Schema.Array(Schema.Unknown), Schema.Null]),
+      ),
+      ruleset: Schema.optional(
+        Schema.Union([
+          Schema.Struct({
+            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+            enabled: Schema.optional(
+              Schema.Union([Schema.Boolean, Schema.Null]),
+            ),
+            zoneName: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+            zoneTag: Schema.optional(
+              Schema.Union([Schema.String, Schema.Null]),
+            ),
+          }).pipe(
+            Schema.encodeKeys({
+              id: "id",
+              enabled: "enabled",
+              zoneName: "zone_name",
+              zoneTag: "zone_tag",
+            }),
+          ),
+          Schema.Null,
+        ]),
+      ),
+      siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        autoInstall: "auto_install",
+        created: "created",
+        rules: "rules",
+        ruleset: "ruleset",
+        siteTag: "site_tag",
+        siteToken: "site_token",
+        snippet: "snippet",
+      }),
     ),
-    ruleset: Schema.optional(
-      Schema.Union([
-        Schema.Struct({
-          id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          enabled: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-          zoneName: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-          zoneTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-        }).pipe(
-          Schema.encodeKeys({
-            id: "id",
-            enabled: "enabled",
-            zoneName: "zone_name",
-            zoneTag: "zone_tag",
-          }),
-        ),
-        Schema.Null,
-      ]),
-    ),
-    siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      autoInstall: "auto_install",
-      created: "created",
-      rules: "rules",
-      ruleset: "ruleset",
-      siteTag: "site_tag",
-      siteToken: "site_token",
-      snippet: "snippet",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListSiteInfosResponse>;
 
 export type ListSiteInfosError = DefaultErrors;
 
-export const listSiteInfos: API.OperationMethod<
+export const listSiteInfos: API.PaginatedOperationMethod<
   ListSiteInfosRequest,
   ListSiteInfosResponse,
   ListSiteInfosError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSiteInfosRequest,
+  ) => stream.Stream<
+    ListSiteInfosResponse,
+    ListSiteInfosError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSiteInfosRequest) => stream.Stream<
+    {
+      autoInstall?: boolean | null;
+      created?: string | null;
+      rules?: unknown[] | null;
+      ruleset?: {
+        id?: string | null;
+        enabled?: boolean | null;
+        zoneName?: string | null;
+        zoneTag?: string | null;
+      } | null;
+      siteTag?: string | null;
+      siteToken?: string | null;
+      snippet?: string | null;
+    },
+    ListSiteInfosError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSiteInfosRequest,
   output: ListSiteInfosResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSiteInfoRequest {
@@ -721,17 +804,21 @@ export const CreateSiteInfoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
-).pipe(
-  Schema.encodeKeys({
-    autoInstall: "auto_install",
-    created: "created",
-    rules: "rules",
-    ruleset: "ruleset",
-    siteTag: "site_tag",
-    siteToken: "site_token",
-    snippet: "snippet",
-  }),
-) as unknown as Schema.Schema<CreateSiteInfoResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      autoInstall: "auto_install",
+      created: "created",
+      rules: "rules",
+      ruleset: "ruleset",
+      siteTag: "site_tag",
+      siteToken: "site_token",
+      snippet: "snippet",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateSiteInfoResponse>;
 
 export type CreateSiteInfoError = DefaultErrors;
 
@@ -833,17 +920,21 @@ export const UpdateSiteInfoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     siteToken: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     snippet: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
-).pipe(
-  Schema.encodeKeys({
-    autoInstall: "auto_install",
-    created: "created",
-    rules: "rules",
-    ruleset: "ruleset",
-    siteTag: "site_tag",
-    siteToken: "site_token",
-    snippet: "snippet",
-  }),
-) as unknown as Schema.Schema<UpdateSiteInfoResponse>;
+)
+  .pipe(
+    Schema.encodeKeys({
+      autoInstall: "auto_install",
+      created: "created",
+      rules: "rules",
+      ruleset: "ruleset",
+      siteTag: "site_tag",
+      siteToken: "site_token",
+      snippet: "snippet",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateSiteInfoResponse>;
 
 export type UpdateSiteInfoError = DefaultErrors;
 
@@ -883,9 +974,11 @@ export const DeleteSiteInfoResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   {
     siteTag: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   },
-).pipe(
-  Schema.encodeKeys({ siteTag: "site_tag" }),
-) as unknown as Schema.Schema<DeleteSiteInfoResponse>;
+)
+  .pipe(Schema.encodeKeys({ siteTag: "site_tag" }))
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteSiteInfoResponse>;
 
 export type DeleteSiteInfoError = DefaultErrors;
 

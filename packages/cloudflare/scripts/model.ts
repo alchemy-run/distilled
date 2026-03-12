@@ -407,6 +407,10 @@ export interface ParsedOperation {
   isMultipart?: boolean;
   /** Pagination wrapper type: "items" when V4PagePagination (result.items), "array" when V4PagePaginationArray/SinglePage (result directly) */
   paginationType?: "items" | "array";
+  /** Upstream Cloudflare page class name, e.g. V4PagePaginationArray */
+  paginationClassName?: string;
+  /** Response payload path explicitly unwrapped by the upstream SDK, e.g. "result" */
+  responsePath?: string;
 
   // =========================================================================
   // From params interface

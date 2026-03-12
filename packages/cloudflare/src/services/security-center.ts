@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service security-center
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -27,143 +28,234 @@ export const ListInsightsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListInsightsRequest>;
 
-export type ListInsightsResponse = {
-  count?: number | null;
-  issues?:
-    | {
-        id?: string | null;
-        dismissed?: boolean | null;
-        issueClass?: string | null;
-        issueType?:
-          | "compliance_violation"
-          | "email_security"
-          | "exposed_infrastructure"
-          | "insecure_configuration"
-          | "weak_authentication"
-          | "configuration_suggestion"
-          | null;
-        payload?: {
-          detectionMethod?: string | null;
-          zoneTag?: string | null;
-        } | null;
-        resolveLink?: string | null;
-        resolveText?: string | null;
-        severity?: "Low" | "Moderate" | "Critical" | null;
-        since?: string | null;
-        subject?: string | null;
-        timestamp?: string | null;
-      }[]
-    | null;
-  page?: number | null;
-  perPage?: number | null;
-}[];
+export interface ListInsightsResponse {
+  result: {
+    items?:
+      | {
+          count?: number | null;
+          issues?:
+            | {
+                id?: string | null;
+                dismissed?: boolean | null;
+                issueClass?: string | null;
+                issueType?:
+                  | "compliance_violation"
+                  | "email_security"
+                  | "exposed_infrastructure"
+                  | "insecure_configuration"
+                  | "weak_authentication"
+                  | "configuration_suggestion"
+                  | null;
+                payload?: {
+                  detectionMethod?: string | null;
+                  zoneTag?: string | null;
+                } | null;
+                resolveLink?: string | null;
+                resolveText?: string | null;
+                severity?: "Low" | "Moderate" | "Critical" | null;
+                since?: string | null;
+                subject?: string | null;
+                timestamp?: string | null;
+              }[]
+            | null;
+          page?: number | null;
+          perPage?: number | null;
+        }[]
+      | null;
+  };
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListInsightsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    issues: Schema.optional(
+export const ListInsightsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Struct({
+    items: Schema.optional(
       Schema.Union([
         Schema.Array(
           Schema.Struct({
-            id: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            dismissed: Schema.optional(
-              Schema.Union([Schema.Boolean, Schema.Null]),
-            ),
-            issueClass: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            issueType: Schema.optional(
+            count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            issues: Schema.optional(
               Schema.Union([
-                Schema.Literals([
-                  "compliance_violation",
-                  "email_security",
-                  "exposed_infrastructure",
-                  "insecure_configuration",
-                  "weak_authentication",
-                  "configuration_suggestion",
-                ]),
-                Schema.Null,
-              ]),
-            ),
-            payload: Schema.optional(
-              Schema.Union([
-                Schema.Struct({
-                  detectionMethod: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
+                Schema.Array(
+                  Schema.Struct({
+                    id: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    dismissed: Schema.optional(
+                      Schema.Union([Schema.Boolean, Schema.Null]),
+                    ),
+                    issueClass: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    issueType: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals([
+                          "compliance_violation",
+                          "email_security",
+                          "exposed_infrastructure",
+                          "insecure_configuration",
+                          "weak_authentication",
+                          "configuration_suggestion",
+                        ]),
+                        Schema.Null,
+                      ]),
+                    ),
+                    payload: Schema.optional(
+                      Schema.Union([
+                        Schema.Struct({
+                          detectionMethod: Schema.optional(
+                            Schema.Union([Schema.String, Schema.Null]),
+                          ),
+                          zoneTag: Schema.optional(
+                            Schema.Union([Schema.String, Schema.Null]),
+                          ),
+                        }).pipe(
+                          Schema.encodeKeys({
+                            detectionMethod: "detection_method",
+                            zoneTag: "zone_tag",
+                          }),
+                        ),
+                        Schema.Null,
+                      ]),
+                    ),
+                    resolveLink: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    resolveText: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    severity: Schema.optional(
+                      Schema.Union([
+                        Schema.Literals(["Low", "Moderate", "Critical"]),
+                        Schema.Null,
+                      ]),
+                    ),
+                    since: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    subject: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                    timestamp: Schema.optional(
+                      Schema.Union([Schema.String, Schema.Null]),
+                    ),
+                  }).pipe(
+                    Schema.encodeKeys({
+                      id: "id",
+                      dismissed: "dismissed",
+                      issueClass: "issue_class",
+                      issueType: "issue_type",
+                      payload: "payload",
+                      resolveLink: "resolve_link",
+                      resolveText: "resolve_text",
+                      severity: "severity",
+                      since: "since",
+                      subject: "subject",
+                      timestamp: "timestamp",
+                    }),
                   ),
-                  zoneTag: Schema.optional(
-                    Schema.Union([Schema.String, Schema.Null]),
-                  ),
-                }).pipe(
-                  Schema.encodeKeys({
-                    detectionMethod: "detection_method",
-                    zoneTag: "zone_tag",
-                  }),
                 ),
                 Schema.Null,
               ]),
             ),
-            resolveLink: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            resolveText: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            severity: Schema.optional(
-              Schema.Union([
-                Schema.Literals(["Low", "Moderate", "Critical"]),
-                Schema.Null,
-              ]),
-            ),
-            since: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-            subject: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-            timestamp: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
+            page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+            perPage: Schema.optional(
+              Schema.Union([Schema.Number, Schema.Null]),
             ),
           }).pipe(
             Schema.encodeKeys({
-              id: "id",
-              dismissed: "dismissed",
-              issueClass: "issue_class",
-              issueType: "issue_type",
-              payload: "payload",
-              resolveLink: "resolve_link",
-              resolveText: "resolve_text",
-              severity: "severity",
-              since: "since",
-              subject: "subject",
-              timestamp: "timestamp",
+              count: "count",
+              issues: "issues",
+              page: "page",
+              perPage: "per_page",
             }),
           ),
         ),
         Schema.Null,
       ]),
     ),
+  }),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
       count: "count",
-      issues: "issues",
       page: "page",
       perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListInsightsResponse>;
 
 export type ListInsightsError = DefaultErrors;
 
-export const listInsights: API.OperationMethod<
+export const listInsights: API.PaginatedOperationMethod<
   ListInsightsRequest,
   ListInsightsResponse,
   ListInsightsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListInsightsRequest,
+  ) => stream.Stream<
+    ListInsightsResponse,
+    ListInsightsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListInsightsRequest) => stream.Stream<
+    {
+      count?: number | null;
+      issues?:
+        | {
+            id?: string | null;
+            dismissed?: boolean | null;
+            issueClass?: string | null;
+            issueType?:
+              | "compliance_violation"
+              | "email_security"
+              | "exposed_infrastructure"
+              | "insecure_configuration"
+              | "weak_authentication"
+              | "configuration_suggestion"
+              | null;
+            payload?: {
+              detectionMethod?: string | null;
+              zoneTag?: string | null;
+            } | null;
+            resolveLink?: string | null;
+            resolveText?: string | null;
+            severity?: "Low" | "Moderate" | "Critical" | null;
+            since?: string | null;
+            subject?: string | null;
+            timestamp?: string | null;
+          }[]
+        | null;
+      page?: number | null;
+      perPage?: number | null;
+    },
+    ListInsightsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListInsightsRequest,
   output: ListInsightsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result.items",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface DismissInsightRequest {
@@ -301,6 +393,8 @@ export const GetInsightClassResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetInsightClassResponse>;
 
 export type GetInsightClassError = DefaultErrors;
@@ -341,6 +435,8 @@ export const GetInsightSeverityResponse =
       count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
       value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
+  ).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<GetInsightSeverityResponse>;
 
 export type GetInsightSeverityError = DefaultErrors;
@@ -381,6 +477,8 @@ export const GetInsightTypeResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     value: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
   }),
+).pipe(
+  T.ResponsePath("result"),
 ) as unknown as Schema.Schema<GetInsightTypeResponse>;
 
 export type GetInsightTypeError = DefaultErrors;

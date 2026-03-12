@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service schema-validation
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -58,16 +59,20 @@ export const GetSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationEnabled: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    kind: "kind",
-    name: "name",
-    schemaId: "schema_id",
-    source: "source",
-    validationEnabled: "validation_enabled",
-  }),
-) as unknown as Schema.Schema<GetSchemaResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      kind: "kind",
+      name: "name",
+      schemaId: "schema_id",
+      source: "source",
+      validationEnabled: "validation_enabled",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSchemaResponse>;
 
 export type GetSchemaError = DefaultErrors;
 
@@ -101,48 +106,100 @@ export const ListSchemasRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   T.Http({ method: "GET", path: "/zones/{zone_id}/schema_validation/schemas" }),
 ) as unknown as Schema.Schema<ListSchemasRequest>;
 
-export type ListSchemasResponse = {
-  createdAt: string;
-  kind: "openapi_v3";
-  name: string;
-  schemaId: string;
-  source: string;
-  validationEnabled?: boolean | null;
-}[];
+export interface ListSchemasResponse {
+  result: {
+    createdAt: string;
+    kind: "openapi_v3";
+    name: string;
+    schemaId: string;
+    source: string;
+    validationEnabled?: boolean | null;
+  }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
-export const ListSchemasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    createdAt: Schema.String,
-    kind: Schema.Literal("openapi_v3"),
-    name: Schema.String,
-    schemaId: Schema.String,
-    source: Schema.String,
-    validationEnabled: Schema.optional(
-      Schema.Union([Schema.Boolean, Schema.Null]),
+export const ListSchemasResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      createdAt: Schema.String,
+      kind: Schema.Literal("openapi_v3"),
+      name: Schema.String,
+      schemaId: Schema.String,
+      source: Schema.String,
+      validationEnabled: Schema.optional(
+        Schema.Union([Schema.Boolean, Schema.Null]),
+      ),
+    }).pipe(
+      Schema.encodeKeys({
+        createdAt: "created_at",
+        kind: "kind",
+        name: "name",
+        schemaId: "schema_id",
+        source: "source",
+        validationEnabled: "validation_enabled",
+      }),
     ),
+  ),
+  resultInfo: Schema.Struct({
+    count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   }).pipe(
     Schema.encodeKeys({
-      createdAt: "created_at",
-      kind: "kind",
-      name: "name",
-      schemaId: "schema_id",
-      source: "source",
-      validationEnabled: "validation_enabled",
+      count: "count",
+      page: "page",
+      perPage: "per_page",
+      totalCount: "total_count",
     }),
   ),
+}).pipe(
+  Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
 ) as unknown as Schema.Schema<ListSchemasResponse>;
 
 export type ListSchemasError = DefaultErrors;
 
-export const listSchemas: API.OperationMethod<
+export const listSchemas: API.PaginatedOperationMethod<
   ListSchemasRequest,
   ListSchemasResponse,
   ListSchemasError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSchemasRequest,
+  ) => stream.Stream<
+    ListSchemasResponse,
+    ListSchemasError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListSchemasRequest) => stream.Stream<
+    {
+      createdAt: string;
+      kind: "openapi_v3";
+      name: string;
+      schemaId: string;
+      source: string;
+      validationEnabled?: boolean | null;
+    },
+    ListSchemasError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSchemasRequest,
   output: ListSchemasResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface CreateSchemaRequest {
@@ -200,16 +257,20 @@ export const CreateSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationEnabled: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    kind: "kind",
-    name: "name",
-    schemaId: "schema_id",
-    source: "source",
-    validationEnabled: "validation_enabled",
-  }),
-) as unknown as Schema.Schema<CreateSchemaResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      kind: "kind",
+      name: "name",
+      schemaId: "schema_id",
+      source: "source",
+      validationEnabled: "validation_enabled",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateSchemaResponse>;
 
 export type CreateSchemaError = DefaultErrors;
 
@@ -267,16 +328,20 @@ export const PatchSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationEnabled: Schema.optional(
     Schema.Union([Schema.Boolean, Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    createdAt: "created_at",
-    kind: "kind",
-    name: "name",
-    schemaId: "schema_id",
-    source: "source",
-    validationEnabled: "validation_enabled",
-  }),
-) as unknown as Schema.Schema<PatchSchemaResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      createdAt: "created_at",
+      kind: "kind",
+      name: "name",
+      schemaId: "schema_id",
+      source: "source",
+      validationEnabled: "validation_enabled",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchSchemaResponse>;
 
 export type PatchSchemaError = DefaultErrors;
 
@@ -314,7 +379,9 @@ export interface DeleteSchemaResponse {
 
 export const DeleteSchemaResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
-}) as unknown as Schema.Schema<DeleteSchemaResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<DeleteSchemaResponse>;
 
 export type DeleteSchemaError = DefaultErrors;
 
@@ -359,12 +426,17 @@ export const GetSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    validationDefaultMitigationAction: "validation_default_mitigation_action",
-    validationOverrideMitigationAction: "validation_override_mitigation_action",
-  }),
-) as unknown as Schema.Schema<GetSettingResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      validationDefaultMitigationAction: "validation_default_mitigation_action",
+      validationOverrideMitigationAction:
+        "validation_override_mitigation_action",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetSettingResponse>;
 
 export type GetSettingError = DefaultErrors;
 
@@ -417,12 +489,17 @@ export const PutSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    validationDefaultMitigationAction: "validation_default_mitigation_action",
-    validationOverrideMitigationAction: "validation_override_mitigation_action",
-  }),
-) as unknown as Schema.Schema<PutSettingResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      validationDefaultMitigationAction: "validation_default_mitigation_action",
+      validationOverrideMitigationAction:
+        "validation_override_mitigation_action",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutSettingResponse>;
 
 export type PutSettingError = DefaultErrors;
 
@@ -477,12 +554,17 @@ export const PatchSettingResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   validationOverrideMitigationAction: Schema.optional(
     Schema.Union([Schema.Literal("none"), Schema.Null]),
   ),
-}).pipe(
-  Schema.encodeKeys({
-    validationDefaultMitigationAction: "validation_default_mitigation_action",
-    validationOverrideMitigationAction: "validation_override_mitigation_action",
-  }),
-) as unknown as Schema.Schema<PatchSettingResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      validationDefaultMitigationAction: "validation_default_mitigation_action",
+      validationOverrideMitigationAction:
+        "validation_override_mitigation_action",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PatchSettingResponse>;
 
 export type PatchSettingError = DefaultErrors;
 
@@ -529,12 +611,16 @@ export const GetSettingOperationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     mitigationAction: Schema.Literals(["log", "block", "none"]),
     operationId: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      mitigationAction: "mitigation_action",
-      operationId: "operation_id",
-    }),
-  ) as unknown as Schema.Schema<GetSettingOperationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        mitigationAction: "mitigation_action",
+        operationId: "operation_id",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetSettingOperationResponse>;
 
 export type GetSettingOperationError = DefaultErrors;
 
@@ -564,35 +650,79 @@ export const ListSettingOperationsRequest =
     }),
   ) as unknown as Schema.Schema<ListSettingOperationsRequest>;
 
-export type ListSettingOperationsResponse = {
-  mitigationAction: "log" | "block" | "none";
-  operationId: string;
-}[];
+export interface ListSettingOperationsResponse {
+  result: { mitigationAction: "log" | "block" | "none"; operationId: string }[];
+  resultInfo: {
+    count?: number | null;
+    page?: number | null;
+    perPage?: number | null;
+    totalCount?: number | null;
+  };
+}
 
 export const ListSettingOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      mitigationAction: Schema.Literals(["log", "block", "none"]),
-      operationId: Schema.String,
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        mitigationAction: Schema.Literals(["log", "block", "none"]),
+        operationId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          mitigationAction: "mitigation_action",
+          operationId: "operation_id",
+        }),
+      ),
+    ),
+    resultInfo: Schema.Struct({
+      count: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      page: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      perPage: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+      totalCount: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
     }).pipe(
       Schema.encodeKeys({
-        mitigationAction: "mitigation_action",
-        operationId: "operation_id",
+        count: "count",
+        page: "page",
+        perPage: "per_page",
+        totalCount: "total_count",
       }),
     ),
+  }).pipe(
+    Schema.encodeKeys({ result: "result", resultInfo: "result_info" }),
   ) as unknown as Schema.Schema<ListSettingOperationsResponse>;
 
 export type ListSettingOperationsError = DefaultErrors;
 
-export const listSettingOperations: API.OperationMethod<
+export const listSettingOperations: API.PaginatedOperationMethod<
   ListSettingOperationsRequest,
   ListSettingOperationsResponse,
   ListSettingOperationsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListSettingOperationsRequest,
+  ) => stream.Stream<
+    ListSettingOperationsResponse,
+    ListSettingOperationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListSettingOperationsRequest,
+  ) => stream.Stream<
+    { mitigationAction: "log" | "block" | "none"; operationId: string },
+    ListSettingOperationsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListSettingOperationsRequest,
   output: ListSettingOperationsResponse,
   errors: [],
+  pagination: {
+    mode: "page",
+    inputToken: "page",
+    outputToken: "resultInfo.page",
+    items: "result",
+    pageSize: "perPage",
+  } as const,
 }));
 
 export interface PutSettingOperationRequest {
@@ -632,12 +762,16 @@ export const PutSettingOperationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     mitigationAction: Schema.Literals(["log", "block", "none"]),
     operationId: Schema.String,
-  }).pipe(
-    Schema.encodeKeys({
-      mitigationAction: "mitigation_action",
-      operationId: "operation_id",
-    }),
-  ) as unknown as Schema.Schema<PutSettingOperationResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        mitigationAction: "mitigation_action",
+        operationId: "operation_id",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PutSettingOperationResponse>;
 
 export type PutSettingOperationError = DefaultErrors;
 
@@ -677,9 +811,11 @@ export interface DeleteSettingOperationResponse {
 export const DeleteSettingOperationResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     operationId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({ operationId: "operation_id" }),
-  ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;
+  })
+    .pipe(Schema.encodeKeys({ operationId: "operation_id" }))
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<DeleteSettingOperationResponse>;
 
 export type DeleteSettingOperationError = DefaultErrors;
 
@@ -715,8 +851,8 @@ export const BulkPatchSettingOperationsRequest =
 export type BulkPatchSettingOperationsResponse = Record<string, unknown>;
 
 export const BulkPatchSettingOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.ResponsePath("result"),
   ) as unknown as Schema.Schema<BulkPatchSettingOperationsResponse>;
 
 export type BulkPatchSettingOperationsError = DefaultErrors;

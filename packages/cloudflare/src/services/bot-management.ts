@@ -248,7 +248,9 @@ export const GetBotManagementResponse =
         suppressSessionScore: "suppress_session_score",
       }),
     ),
-  ]) as unknown as Schema.Schema<GetBotManagementResponse>;
+  ]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetBotManagementResponse>;
 
 export type GetBotManagementError = DefaultErrors;
 
@@ -525,7 +527,9 @@ export const PutBotManagementResponse =
         suppressSessionScore: "suppress_session_score",
       }),
     ),
-  ]) as unknown as Schema.Schema<PutBotManagementResponse>;
+  ]).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<PutBotManagementResponse>;
 
 export type PutBotManagementError = DefaultErrors;
 

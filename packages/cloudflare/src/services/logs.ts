@@ -44,12 +44,16 @@ export const GetControlCmbConfigResponse =
       Schema.Union([Schema.Boolean, Schema.Null]),
     ),
     regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      allowOutOfRegionAccess: "allow_out_of_region_access",
-      regions: "regions",
-    }),
-  ) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        allowOutOfRegionAccess: "allow_out_of_region_access",
+        regions: "regions",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<GetControlCmbConfigResponse>;
 
 export type GetControlCmbConfigError = DefaultErrors;
 
@@ -102,12 +106,16 @@ export const CreateControlCmbConfigResponse =
       Schema.Union([Schema.Boolean, Schema.Null]),
     ),
     regions: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      allowOutOfRegionAccess: "allow_out_of_region_access",
-      regions: "regions",
-    }),
-  ) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        allowOutOfRegionAccess: "allow_out_of_region_access",
+        regions: "regions",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateControlCmbConfigResponse>;
 
 export type CreateControlCmbConfigError = DefaultErrors;
 
@@ -140,7 +148,9 @@ export const DeleteControlCmbConfigRequest =
 export type DeleteControlCmbConfigResponse = unknown;
 
 export const DeleteControlCmbConfigResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteControlCmbConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteControlCmbConfigResponse>;
 
 export type DeleteControlCmbConfigError = DefaultErrors;
 
@@ -182,7 +192,9 @@ export interface GetControlRetentionResponse {
 export const GetControlRetentionResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<GetControlRetentionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetControlRetentionResponse>;
 
 export type GetControlRetentionError = DefaultErrors;
 
@@ -223,7 +235,9 @@ export interface CreateControlRetentionResponse {
 export const CreateControlRetentionResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     flag: Schema.optional(Schema.Union([Schema.Boolean, Schema.Null])),
-  }) as unknown as Schema.Schema<CreateControlRetentionResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateControlRetentionResponse>;
 
 export type CreateControlRetentionError = DefaultErrors;
 

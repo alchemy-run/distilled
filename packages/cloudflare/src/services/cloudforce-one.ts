@@ -5,6 +5,7 @@
  * DO NOT EDIT - regenerate with: bun scripts/generate.ts --service cloudforce-one
  */
 
+import * as stream from "effect/Stream";
 import * as Schema from "effect/Schema";
 import type * as HttpClient from "effect/unstable/http/HttpClient";
 import * as API from "../client/api.ts";
@@ -184,23 +185,27 @@ export const GetRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    content: "content",
-    created: "created",
-    priority: "priority",
-    request: "request",
-    summary: "summary",
-    tlp: "tlp",
-    updated: "updated",
-    completed: "completed",
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-    status: "status",
-    tokens: "tokens",
-  }),
-) as unknown as Schema.Schema<GetRequestResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      created: "created",
+      priority: "priority",
+      request: "request",
+      summary: "summary",
+      tlp: "tlp",
+      updated: "updated",
+      completed: "completed",
+      messageTokens: "message_tokens",
+      readableId: "readable_id",
+      status: "status",
+      tokens: "tokens",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<GetRequestResponse>;
 
 export type GetRequestError = DefaultErrors;
 
@@ -286,83 +291,126 @@ export const ListRequestsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListRequestsRequest>;
 
-export type ListRequestsResponse = {
-  id: string;
-  created: string;
-  priority: "routine" | "high" | "urgent";
-  request: string;
-  summary: string;
-  tlp: "clear" | "amber" | "amber-strict" | "green" | "red";
-  updated: string;
-  completed?: string | null;
-  messageTokens?: number | null;
-  readableId?: string | null;
-  status?:
-    | "open"
-    | "accepted"
-    | "reported"
-    | "approved"
-    | "completed"
-    | "declined"
-    | null;
-  tokens?: number | null;
-}[];
+export interface ListRequestsResponse {
+  result: {
+    id: string;
+    created: string;
+    priority: "routine" | "high" | "urgent";
+    request: string;
+    summary: string;
+    tlp: "clear" | "amber" | "amber-strict" | "green" | "red";
+    updated: string;
+    completed?: string | null;
+    messageTokens?: number | null;
+    readableId?: string | null;
+    status?:
+      | "open"
+      | "accepted"
+      | "reported"
+      | "approved"
+      | "completed"
+      | "declined"
+      | null;
+    tokens?: number | null;
+  }[];
+}
 
-export const ListRequestsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    created: Schema.String,
-    priority: Schema.Literals(["routine", "high", "urgent"]),
-    request: Schema.String,
-    summary: Schema.String,
-    tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
-    updated: Schema.String,
-    completed: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    messageTokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-    readableId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    status: Schema.optional(
-      Schema.Union([
-        Schema.Literals([
-          "open",
-          "accepted",
-          "reported",
-          "approved",
-          "completed",
-          "declined",
+export const ListRequestsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(
+    Schema.Struct({
+      id: Schema.String,
+      created: Schema.String,
+      priority: Schema.Literals(["routine", "high", "urgent"]),
+      request: Schema.String,
+      summary: Schema.String,
+      tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
+      updated: Schema.String,
+      completed: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      messageTokens: Schema.optional(
+        Schema.Union([Schema.Number, Schema.Null]),
+      ),
+      readableId: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      status: Schema.optional(
+        Schema.Union([
+          Schema.Literals([
+            "open",
+            "accepted",
+            "reported",
+            "approved",
+            "completed",
+            "declined",
+          ]),
+          Schema.Null,
         ]),
-        Schema.Null,
-      ]),
+      ),
+      tokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
+    }).pipe(
+      Schema.encodeKeys({
+        id: "id",
+        created: "created",
+        priority: "priority",
+        request: "request",
+        summary: "summary",
+        tlp: "tlp",
+        updated: "updated",
+        completed: "completed",
+        messageTokens: "message_tokens",
+        readableId: "readable_id",
+        status: "status",
+        tokens: "tokens",
+      }),
     ),
-    tokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      created: "created",
-      priority: "priority",
-      request: "request",
-      summary: "summary",
-      tlp: "tlp",
-      updated: "updated",
-      completed: "completed",
-      messageTokens: "message_tokens",
-      readableId: "readable_id",
-      status: "status",
-      tokens: "tokens",
-    }),
   ),
-) as unknown as Schema.Schema<ListRequestsResponse>;
+}) as unknown as Schema.Schema<ListRequestsResponse>;
 
 export type ListRequestsError = DefaultErrors;
 
-export const listRequests: API.OperationMethod<
+export const listRequests: API.PaginatedOperationMethod<
   ListRequestsRequest,
   ListRequestsResponse,
   ListRequestsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListRequestsRequest,
+  ) => stream.Stream<
+    ListRequestsResponse,
+    ListRequestsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListRequestsRequest) => stream.Stream<
+    {
+      id: string;
+      created: string;
+      priority: "routine" | "high" | "urgent";
+      request: string;
+      summary: string;
+      tlp: "clear" | "amber" | "amber-strict" | "green" | "red";
+      updated: string;
+      completed?: string | null;
+      messageTokens?: number | null;
+      readableId?: string | null;
+      status?:
+        | "open"
+        | "accepted"
+        | "reported"
+        | "approved"
+        | "completed"
+        | "declined"
+        | null;
+      tokens?: number | null;
+    },
+    ListRequestsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListRequestsRequest,
   output: ListRequestsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateRequestRequest {
@@ -461,23 +509,27 @@ export const CreateRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    content: "content",
-    created: "created",
-    priority: "priority",
-    request: "request",
-    summary: "summary",
-    tlp: "tlp",
-    updated: "updated",
-    completed: "completed",
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-    status: "status",
-    tokens: "tokens",
-  }),
-) as unknown as Schema.Schema<CreateRequestResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      created: "created",
+      priority: "priority",
+      request: "request",
+      summary: "summary",
+      tlp: "tlp",
+      updated: "updated",
+      completed: "completed",
+      messageTokens: "message_tokens",
+      readableId: "readable_id",
+      status: "status",
+      tokens: "tokens",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRequestResponse>;
 
 export type CreateRequestError = DefaultErrors;
 
@@ -590,23 +642,27 @@ export const UpdateRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ]),
   ),
   tokens: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    id: "id",
-    content: "content",
-    created: "created",
-    priority: "priority",
-    request: "request",
-    summary: "summary",
-    tlp: "tlp",
-    updated: "updated",
-    completed: "completed",
-    messageTokens: "message_tokens",
-    readableId: "readable_id",
-    status: "status",
-    tokens: "tokens",
-  }),
-) as unknown as Schema.Schema<UpdateRequestResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      id: "id",
+      content: "content",
+      created: "created",
+      priority: "priority",
+      request: "request",
+      summary: "summary",
+      tlp: "tlp",
+      updated: "updated",
+      completed: "completed",
+      messageTokens: "message_tokens",
+      readableId: "readable_id",
+      status: "status",
+      tokens: "tokens",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<UpdateRequestResponse>;
 
 export type UpdateRequestError = DefaultErrors;
 
@@ -784,7 +840,9 @@ export const ConstantsRequestResponse =
         Schema.Null,
       ]),
     ),
-  }) as unknown as Schema.Schema<ConstantsRequestResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<ConstantsRequestResponse>;
 
 export type ConstantsRequestError = DefaultErrors;
 
@@ -831,14 +889,18 @@ export const QuotaRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   ),
   quota: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
   remaining: Schema.optional(Schema.Union([Schema.Number, Schema.Null])),
-}).pipe(
-  Schema.encodeKeys({
-    anniversaryDate: "anniversary_date",
-    quarterAnniversaryDate: "quarter_anniversary_date",
-    quota: "quota",
-    remaining: "remaining",
-  }),
-) as unknown as Schema.Schema<QuotaRequestResponse>;
+})
+  .pipe(
+    Schema.encodeKeys({
+      anniversaryDate: "anniversary_date",
+      quarterAnniversaryDate: "quarter_anniversary_date",
+      quota: "quota",
+      remaining: "remaining",
+    }),
+  )
+  .pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<QuotaRequestResponse>;
 
 export type QuotaRequestError = DefaultErrors;
 
@@ -867,23 +929,44 @@ export const TypesRequestRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   }),
 ) as unknown as Schema.Schema<TypesRequestRequest>;
 
-export type TypesRequestResponse = string[];
+export interface TypesRequestResponse {
+  result: string[];
+}
 
-export const TypesRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.String,
-) as unknown as Schema.Schema<TypesRequestResponse>;
+export const TypesRequestResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  result: Schema.Array(Schema.String),
+}) as unknown as Schema.Schema<TypesRequestResponse>;
 
 export type TypesRequestError = DefaultErrors;
 
-export const typesRequest: API.OperationMethod<
+export const typesRequest: API.PaginatedOperationMethod<
   TypesRequestRequest,
   TypesRequestResponse,
   TypesRequestError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: TypesRequestRequest,
+  ) => stream.Stream<
+    TypesRequestResponse,
+    TypesRequestError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (
+    input: TypesRequestRequest,
+  ) => stream.Stream<
+    string,
+    TypesRequestError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: TypesRequestRequest,
   output: TypesRequestResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 // =============================================================================
@@ -910,43 +993,73 @@ export const GetRequestAssetRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<GetRequestAssetRequest>;
 
-export type GetRequestAssetResponse = {
-  id: number;
-  name: string;
-  created?: string | null;
-  description?: string | null;
-  fileType?: string | null;
-}[];
+export interface GetRequestAssetResponse {
+  result: {
+    id: number;
+    name: string;
+    created?: string | null;
+    description?: string | null;
+    fileType?: string | null;
+  }[];
+}
 
-export const GetRequestAssetResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.Number,
-    name: Schema.String,
-    created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    fileType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      created: "created",
-      description: "description",
-      fileType: "file_type",
-    }),
-  ),
-) as unknown as Schema.Schema<GetRequestAssetResponse>;
+export const GetRequestAssetResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        name: Schema.String,
+        created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fileType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          created: "created",
+          description: "description",
+          fileType: "file_type",
+        }),
+      ),
+    ),
+  }) as unknown as Schema.Schema<GetRequestAssetResponse>;
 
 export type GetRequestAssetError = DefaultErrors;
 
-export const getRequestAsset: API.OperationMethod<
+export const getRequestAsset: API.PaginatedOperationMethod<
   GetRequestAssetRequest,
   GetRequestAssetResponse,
   GetRequestAssetError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetRequestAssetRequest,
+  ) => stream.Stream<
+    GetRequestAssetResponse,
+    GetRequestAssetError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: GetRequestAssetRequest) => stream.Stream<
+    {
+      id: number;
+      name: string;
+      created?: string | null;
+      description?: string | null;
+      fileType?: string | null;
+    },
+    GetRequestAssetError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetRequestAssetRequest,
   output: GetRequestAssetResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateRequestAssetRequest {
@@ -973,44 +1086,73 @@ export const CreateRequestAssetRequest =
     }),
   ) as unknown as Schema.Schema<CreateRequestAssetRequest>;
 
-export type CreateRequestAssetResponse = {
-  id: number;
-  name: string;
-  created?: string | null;
-  description?: string | null;
-  fileType?: string | null;
-}[];
+export interface CreateRequestAssetResponse {
+  result: {
+    id: number;
+    name: string;
+    created?: string | null;
+    description?: string | null;
+    fileType?: string | null;
+  }[];
+}
 
 export const CreateRequestAssetResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      id: Schema.Number,
-      name: Schema.String,
-      created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-      fileType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-    }).pipe(
-      Schema.encodeKeys({
-        id: "id",
-        name: "name",
-        created: "created",
-        description: "description",
-        fileType: "file_type",
-      }),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.Number,
+        name: Schema.String,
+        created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+        description: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        fileType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          name: "name",
+          created: "created",
+          description: "description",
+          fileType: "file_type",
+        }),
+      ),
     ),
-  ) as unknown as Schema.Schema<CreateRequestAssetResponse>;
+  }) as unknown as Schema.Schema<CreateRequestAssetResponse>;
 
 export type CreateRequestAssetError = DefaultErrors;
 
-export const createRequestAsset: API.OperationMethod<
+export const createRequestAsset: API.PaginatedOperationMethod<
   CreateRequestAssetRequest,
   CreateRequestAssetResponse,
   CreateRequestAssetError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: CreateRequestAssetRequest,
+  ) => stream.Stream<
+    CreateRequestAssetResponse,
+    CreateRequestAssetError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: CreateRequestAssetRequest) => stream.Stream<
+    {
+      id: number;
+      name: string;
+      created?: string | null;
+      description?: string | null;
+      fileType?: string | null;
+    },
+    CreateRequestAssetError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: CreateRequestAssetRequest,
   output: CreateRequestAssetResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface UpdateRequestAssetRequest {
@@ -1055,15 +1197,19 @@ export const UpdateRequestAssetResponse =
     created: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     description: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     fileType: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      name: "name",
-      created: "created",
-      description: "description",
-      fileType: "file_type",
-    }),
-  ) as unknown as Schema.Schema<UpdateRequestAssetResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        name: "name",
+        created: "created",
+        description: "description",
+        fileType: "file_type",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateRequestAssetResponse>;
 
 export type UpdateRequestAssetError = DefaultErrors;
 
@@ -1231,52 +1377,78 @@ export const GetRequestMessageRequest =
     }),
   ) as unknown as Schema.Schema<GetRequestMessageRequest>;
 
-export type GetRequestMessageResponse = {
-  code: number;
-  message: string;
-  documentationUrl?: string | null;
-  source?: { pointer?: string | null } | null;
-}[];
+export interface GetRequestMessageResponse {
+  result: {
+    code: number;
+    message: string;
+    documentationUrl?: string | null;
+    source?: { pointer?: string | null } | null;
+  }[];
+}
 
 export const GetRequestMessageResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-    Schema.Struct({
-      code: Schema.Number,
-      message: Schema.String,
-      documentationUrl: Schema.optional(
-        Schema.Union([Schema.String, Schema.Null]),
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        code: Schema.Number,
+        message: Schema.String,
+        documentationUrl: Schema.optional(
+          Schema.Union([Schema.String, Schema.Null]),
+        ),
+        source: Schema.optional(
+          Schema.Union([
+            Schema.Struct({
+              pointer: Schema.optional(
+                Schema.Union([Schema.String, Schema.Null]),
+              ),
+            }),
+            Schema.Null,
+          ]),
+        ),
+      }).pipe(
+        Schema.encodeKeys({
+          code: "code",
+          message: "message",
+          documentationUrl: "documentation_url",
+          source: "source",
+        }),
       ),
-      source: Schema.optional(
-        Schema.Union([
-          Schema.Struct({
-            pointer: Schema.optional(
-              Schema.Union([Schema.String, Schema.Null]),
-            ),
-          }),
-          Schema.Null,
-        ]),
-      ),
-    }).pipe(
-      Schema.encodeKeys({
-        code: "code",
-        message: "message",
-        documentationUrl: "documentation_url",
-        source: "source",
-      }),
     ),
-  ) as unknown as Schema.Schema<GetRequestMessageResponse>;
+  }) as unknown as Schema.Schema<GetRequestMessageResponse>;
 
 export type GetRequestMessageError = DefaultErrors;
 
-export const getRequestMessage: API.OperationMethod<
+export const getRequestMessage: API.PaginatedOperationMethod<
   GetRequestMessageRequest,
   GetRequestMessageResponse,
   GetRequestMessageError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: GetRequestMessageRequest,
+  ) => stream.Stream<
+    GetRequestMessageResponse,
+    GetRequestMessageError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: GetRequestMessageRequest) => stream.Stream<
+    {
+      code: number;
+      message: string;
+      documentationUrl?: string | null;
+      source?: { pointer?: string | null } | null;
+    },
+    GetRequestMessageError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: GetRequestMessageRequest,
   output: GetRequestMessageResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateRequestMessageRequest {
@@ -1321,14 +1493,18 @@ export const CreateRequestMessageResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      code: "code",
-      message: "message",
-      documentationUrl: "documentation_url",
-      source: "source",
-    }),
-  ) as unknown as Schema.Schema<CreateRequestMessageResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateRequestMessageResponse>;
 
 export type CreateRequestMessageError = DefaultErrors;
 
@@ -1387,14 +1563,18 @@ export const UpdateRequestMessageResponse =
         Schema.Null,
       ]),
     ),
-  }).pipe(
-    Schema.encodeKeys({
-      code: "code",
-      message: "message",
-      documentationUrl: "documentation_url",
-      source: "source",
-    }),
-  ) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        code: "code",
+        message: "message",
+        documentationUrl: "documentation_url",
+        source: "source",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<UpdateRequestMessageResponse>;
 
 export type UpdateRequestMessageError = DefaultErrors;
 
@@ -1607,7 +1787,9 @@ export const CreateRequestPriorityResponse =
     requirement: Schema.String,
     tlp: Schema.Literals(["clear", "amber", "amber-strict", "green", "red"]),
     updated: Schema.String,
-  }) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateRequestPriorityResponse>;
 
 export type CreateRequestPriorityError = DefaultErrors;
 
@@ -1826,43 +2008,71 @@ export const ListScanConfigsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
   }),
 ) as unknown as Schema.Schema<ListScanConfigsRequest>;
 
-export type ListScanConfigsResponse = {
-  id: string;
-  accountId: string;
-  frequency: number;
-  ips: string[];
-  ports: string[];
-}[];
+export interface ListScanConfigsResponse {
+  result: {
+    id: string;
+    accountId: string;
+    frequency: number;
+    ips: string[];
+    ports: string[];
+  }[];
+}
 
-export const ListScanConfigsResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
-  Schema.Struct({
-    id: Schema.String,
-    accountId: Schema.String,
-    frequency: Schema.Number,
-    ips: Schema.Array(Schema.String),
-    ports: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      frequency: "frequency",
-      ips: "ips",
-      ports: "ports",
-    }),
-  ),
-) as unknown as Schema.Schema<ListScanConfigsResponse>;
+export const ListScanConfigsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    result: Schema.Array(
+      Schema.Struct({
+        id: Schema.String,
+        accountId: Schema.String,
+        frequency: Schema.Number,
+        ips: Schema.Array(Schema.String),
+        ports: Schema.Array(Schema.String),
+      }).pipe(
+        Schema.encodeKeys({
+          id: "id",
+          accountId: "account_id",
+          frequency: "frequency",
+          ips: "ips",
+          ports: "ports",
+        }),
+      ),
+    ),
+  }) as unknown as Schema.Schema<ListScanConfigsResponse>;
 
 export type ListScanConfigsError = DefaultErrors;
 
-export const listScanConfigs: API.OperationMethod<
+export const listScanConfigs: API.PaginatedOperationMethod<
   ListScanConfigsRequest,
   ListScanConfigsResponse,
   ListScanConfigsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+> & {
+  pages: (
+    input: ListScanConfigsRequest,
+  ) => stream.Stream<
+    ListScanConfigsResponse,
+    ListScanConfigsError,
+    Credentials | HttpClient.HttpClient
+  >;
+  items: (input: ListScanConfigsRequest) => stream.Stream<
+    {
+      id: string;
+      accountId: string;
+      frequency: number;
+      ips: string[];
+      ports: string[];
+    },
+    ListScanConfigsError,
+    Credentials | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: ListScanConfigsRequest,
   output: ListScanConfigsResponse,
   errors: [],
+  pagination: {
+    mode: "single",
+    items: "result",
+  } as const,
 }));
 
 export interface CreateScanConfigRequest {
@@ -1908,15 +2118,19 @@ export const CreateScanConfigResponse =
     frequency: Schema.Number,
     ips: Schema.Array(Schema.String),
     ports: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      frequency: "frequency",
-      ips: "ips",
-      ports: "ports",
-    }),
-  ) as unknown as Schema.Schema<CreateScanConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        frequency: "frequency",
+        ips: "ips",
+        ports: "ports",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<CreateScanConfigResponse>;
 
 export type CreateScanConfigError = DefaultErrors;
 
@@ -1977,15 +2191,19 @@ export const PatchScanConfigResponse =
     frequency: Schema.Number,
     ips: Schema.Array(Schema.String),
     ports: Schema.Array(Schema.String),
-  }).pipe(
-    Schema.encodeKeys({
-      id: "id",
-      accountId: "account_id",
-      frequency: "frequency",
-      ips: "ips",
-      ports: "ports",
-    }),
-  ) as unknown as Schema.Schema<PatchScanConfigResponse>;
+  })
+    .pipe(
+      Schema.encodeKeys({
+        id: "id",
+        accountId: "account_id",
+        frequency: "frequency",
+        ips: "ips",
+        ports: "ports",
+      }),
+    )
+    .pipe(
+      T.ResponsePath("result"),
+    ) as unknown as Schema.Schema<PatchScanConfigResponse>;
 
 export type PatchScanConfigError = DefaultErrors;
 
@@ -2020,7 +2238,9 @@ export const DeleteScanConfigRequest =
 export type DeleteScanConfigResponse = unknown;
 
 export const DeleteScanConfigResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown as unknown as Schema.Schema<DeleteScanConfigResponse>;
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Unknown.pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteScanConfigResponse>;
 
 export type DeleteScanConfigError = DefaultErrors;
 
@@ -2071,7 +2291,9 @@ export const GetScanResultResponse = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
       status: Schema.optional(Schema.Union([Schema.String, Schema.Null])),
     }),
   ),
-}) as unknown as Schema.Schema<GetScanResultResponse>;
+}).pipe(
+  T.ResponsePath("result"),
+) as unknown as Schema.Schema<GetScanResultResponse>;
 
 export type GetScanResultError = DefaultErrors;
 
@@ -3435,7 +3657,9 @@ export interface CreateThreatEventEventTagResponse {
 export const CreateThreatEventEventTagResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     success: Schema.Boolean,
-  }) as unknown as Schema.Schema<CreateThreatEventEventTagResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<CreateThreatEventEventTagResponse>;
 
 export type CreateThreatEventEventTagError = DefaultErrors;
 
@@ -3474,7 +3698,9 @@ export interface DeleteThreatEventEventTagResponse {
 export const DeleteThreatEventEventTagResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     success: Schema.Boolean,
-  }) as unknown as Schema.Schema<DeleteThreatEventEventTagResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteThreatEventEventTagResponse>;
 
 export type DeleteThreatEventEventTagError = DefaultErrors;
 
@@ -3669,7 +3895,9 @@ export interface DeleteThreatEventRelateResponse {
 export const DeleteThreatEventRelateResponse =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     success: Schema.Boolean,
-  }) as unknown as Schema.Schema<DeleteThreatEventRelateResponse>;
+  }).pipe(
+    T.ResponsePath("result"),
+  ) as unknown as Schema.Schema<DeleteThreatEventRelateResponse>;
 
 export type DeleteThreatEventRelateError = DefaultErrors;
 
