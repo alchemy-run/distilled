@@ -67,6 +67,12 @@ jobs:
               - 'packages/turso/**'
               - 'packages/core/**'
 
+  # All pkg-pr jobs run sequentially to avoid parallel publish conflicts.
+  # Core runs first, then each package one-by-one in a chain.
+  # Each job uses `always()` so the chain continues even if a previous job
+  # was skipped (no changes), but checks `!failure() && !cancelled()` to
+  # stop the chain if something actually broke.
+
   pkg-pr-core:
     needs: detect-changes
     if: needs.detect-changes.outputs.core == 'true'
@@ -84,7 +90,7 @@ jobs:
 
   pkg-pr-aws:
     needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.aws == 'true' }}
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.aws == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -100,8 +106,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/aws
 
   pkg-pr-cloudflare:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.cloudflare == 'true' }}
+    needs: [detect-changes, pkg-pr-aws]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.cloudflare == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -117,8 +123,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/cloudflare
 
   pkg-pr-gcp:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.gcp == 'true' }}
+    needs: [detect-changes, pkg-pr-cloudflare]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.gcp == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -134,8 +140,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/gcp
 
   pkg-pr-neon:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.neon == 'true' }}
+    needs: [detect-changes, pkg-pr-gcp]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.neon == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -151,8 +157,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/neon
 
   pkg-pr-planetscale:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.planetscale == 'true' }}
+    needs: [detect-changes, pkg-pr-neon]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.planetscale == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -168,8 +174,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/planetscale
 
   pkg-pr-prisma-postgres:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.prisma-postgres == 'true' }}
+    needs: [detect-changes, pkg-pr-planetscale]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.prisma-postgres == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -185,8 +191,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/prisma-postgres
 
   pkg-pr-stripe:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.stripe == 'true' }}
+    needs: [detect-changes, pkg-pr-prisma-postgres]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.stripe == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -202,8 +208,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/stripe
 
   pkg-pr-supabase:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.supabase == 'true' }}
+    needs: [detect-changes, pkg-pr-stripe]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.supabase == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -218,9 +224,26 @@ jobs:
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/supabase
 
+  pkg-pr-coinbase:
+    needs: [detect-changes, pkg-pr-supabase]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.coinbase == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/coinbase
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/coinbase
+
   pkg-pr-mongodb-atlas:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.mongodb-atlas == 'true' }}
+    needs: [detect-changes, pkg-pr-coinbase]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.mongodb-atlas == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -236,8 +259,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/mongodb-atlas
 
   pkg-pr-fly-io:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.fly-io == 'true' }}
+    needs: [detect-changes, pkg-pr-mongodb-atlas]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.fly-io == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -253,8 +276,8 @@ jobs:
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/fly-io
 
   pkg-pr-turso:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.turso == 'true' }}
+    needs: [detect-changes, pkg-pr-fly-io]
+    if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.turso == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -268,20 +291,3 @@ jobs:
         working-directory: packages/turso
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/turso
-
-  pkg-pr-coinbase:
-    needs: [detect-changes, pkg-pr-core]
-    if: ${{ !failure() && needs.detect-changes.outputs.coinbase == 'true' }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-      - run: bun install
-      - run: bun run build
-        working-directory: packages/core
-      - run: bun run build
-        working-directory: packages/coinbase
-      - run: bun scripts/generate-pnpm-workspace.yaml.ts
-      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/coinbase
