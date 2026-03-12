@@ -16,6 +16,12 @@ import { type DefaultErrors } from "../errors.ts";
 // Errors
 // =============================================================================
 
+export class InstanceCannotTerminate extends Schema.TaggedErrorClass<InstanceCannotTerminate>()(
+  "InstanceCannotTerminate",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InstanceCannotTerminate, [{ code: 10401 }]);
+
 export class InstanceNotFound extends Schema.TaggedErrorClass<InstanceNotFound>()(
   "InstanceNotFound",
   { code: Schema.Number, message: Schema.String },
@@ -703,7 +709,8 @@ export type PatchInstanceStatusError =
   | DefaultErrors
   | WorkflowNotFound
   | InvalidRoute
-  | InstanceNotFound;
+  | InstanceNotFound
+  | InstanceCannotTerminate;
 
 export const patchInstanceStatus: API.OperationMethod<
   PatchInstanceStatusRequest,
@@ -713,7 +720,12 @@ export const patchInstanceStatus: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: PatchInstanceStatusRequest,
   output: PatchInstanceStatusResponse,
-  errors: [WorkflowNotFound, InvalidRoute, InstanceNotFound],
+  errors: [
+    WorkflowNotFound,
+    InvalidRoute,
+    InstanceNotFound,
+    InstanceCannotTerminate,
+  ],
 }));
 
 // =============================================================================

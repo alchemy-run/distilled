@@ -73,6 +73,7 @@ export class InvalidLoaForm extends Schema.TaggedErrorClass<InvalidLoaForm>()(
 ) {}
 T.applyErrorMatchers(InvalidLoaForm, [
   { code: 1001, message: { includes: "invalid_loa_form" } },
+  { code: 1001 },
 ]);
 
 export class InvalidNetworkCidr extends Schema.TaggedErrorClass<InvalidNetworkCidr>()(
