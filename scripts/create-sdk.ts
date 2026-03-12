@@ -1504,7 +1504,21 @@ Schema.Struct({ error: Schema.Struct({ type: Schema.String, message: Schema.Stri
 
 If the spec defines custom error types beyond standard HTTP status codes, add them as \`Schema.TaggedErrorClass\` entries following the existing Unknown${capitalName}Error pattern. Use \`Category.withServerError\`, \`Category.withParseError\`, etc.
 
-## Step 5: Final verification
+## Step 5: Create README.md
+
+Create a README.md at packages/${name}/README.md following the pattern of other SDKs (see packages/neon/README.md for a good example). The README must include:
+
+1. **Title & description** — \`# @distilled.cloud/${name}\` followed by a one-line description of what the SDK covers and where the spec comes from
+2. **Installation** — \`npm install @distilled.cloud/${name} effect\`
+3. **Quick Start** — a working example using \`Effect.gen\`, importing an operation from \`@distilled.cloud/${name}/operations\`, using \`CredentialsFromEnv\`, and providing \`FetchHttpClient.layer\`
+4. **Configuration** — list the environment variable(s) from credentials.ts (e.g. \`${name.toUpperCase().replace(/-/g, "_")}_API_KEY\`)
+5. **Error Handling** — a code example showing \`Effect.catchTags\` with a typed error (e.g. \`NotFound\`) and the Unknown error class
+6. **Services** — a bullet list of the key operation areas (group related operations, e.g. "Machines — create, start, stop, delete")
+7. **License** — MIT
+
+Use REAL operation names from the generated src/operations/ files. Read the operations/index.ts to see what's exported, then pick a representative "list" or "get" operation for the Quick Start example.
+
+## Step 6: Final verification
 
 Run these commands from packages/${name}/ and they MUST all pass:
 1. \`bun run generate\` — must exit 0

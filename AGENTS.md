@@ -10,6 +10,7 @@ distilled/
 │   ├── core/             # @distilled.cloud/sdk-core — shared client, traits, errors, categories
 │   ├── aws/              # @distilled.cloud/aws — AWS SDK from Smithy models
 │   ├── cloudflare/       # @distilled.cloud/cloudflare — Cloudflare SDK from TypeScript SDK
+│   ├── coinbase/         # @distilled.cloud/coinbase — Coinbase CDP SDK from OpenAPI spec
 │   ├── fly-io/           # @distilled.cloud/fly-io — Fly.io SDK from OpenAPI spec
 │   ├── gcp/              # @distilled.cloud/gcp — GCP SDK from Discovery Documents
 │   ├── mongodb-atlas/    # @distilled.cloud/mongodb-atlas — MongoDB Atlas SDK from OpenAPI spec
@@ -110,7 +111,7 @@ bun run create-sdk stripe --specs https://github.com/stripe/openapi.git
 bun run create-sdk foo --specs https://api.foo.com/openapi.json --register-package
 ```
 
-After scaffolding, the `create-sdk` script automatically calls opencode to review the OpenAPI spec and update credentials, client error handling, and auth to match the actual API.
+After scaffolding, the `create-sdk` script automatically calls Claude to review the OpenAPI spec and update credentials, client error handling, and auth to match the actual API.
 
 ## Submodules and Specs
 
@@ -120,6 +121,7 @@ Each SDK package has vendor API specifications stored as git submodules under `s
 |---------|-------------|----------|
 | `aws` | `specs/api-models-aws`, `specs/aws-sdk-js-v3`, `specs/smithy`, `specs/smithy-typescript` | Smithy models, reference SDK, Smithy spec |
 | `cloudflare` | `specs/cloudflare-typescript` | Cloudflare TypeScript SDK source |
+| `coinbase` | `specs/cdp-sdk` | Coinbase Developer Platform SDK |
 | `fly-io` | `specs/distilled-spec-fly-io` | Fly.io OpenAPI spec |
 | `gcp` | `specs/distilled-spec-gcp` | GCP Discovery Documents |
 | `mongodb-atlas` | `specs/distilled-spec-mongodb-atlas` | MongoDB Atlas OpenAPI spec |

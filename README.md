@@ -21,6 +21,7 @@ const bucket = yield* S3.getBucket({
 | [`@distilled.cloud/core`](./packages/core) | Shared client, traits, errors, and categories |
 | [`@distilled.cloud/aws`](./packages/aws) | AWS SDK from Smithy models (S3, Lambda, DynamoDB, 200+ services) |
 | [`@distilled.cloud/cloudflare`](./packages/cloudflare) | Cloudflare SDK (Workers, R2, KV, D1, Queues, DNS) |
+| [`@distilled.cloud/coinbase`](./packages/coinbase) | Coinbase CDP SDK (EVM/Solana wallets, swaps, faucets, onramp) |
 | [`@distilled.cloud/fly-io`](./packages/fly-io) | Fly.io SDK from OpenAPI spec |
 | [`@distilled.cloud/gcp`](./packages/gcp) | GCP SDK from Discovery Documents |
 | [`@distilled.cloud/mongodb-atlas`](./packages/mongodb-atlas) | MongoDB Atlas SDK from OpenAPI spec |
@@ -78,6 +79,7 @@ bun run specs:update   # run inside a package directory
 |---------|-----------|
 | `aws` | `api-models-aws`, `aws-sdk-js-v3`, `smithy`, `smithy-typescript` |
 | `cloudflare` | `cloudflare-typescript` |
+| `coinbase` | `cdp-sdk` |
 | `fly-io` | `distilled-spec-fly-io` |
 | `gcp` | `distilled-spec-gcp` |
 | `mongodb-atlas` | `distilled-spec-mongodb-atlas` |
