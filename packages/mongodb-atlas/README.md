@@ -12,6 +12,7 @@ npm install @distilled.cloud/mongodb-atlas effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { listGroupClusters } from "@distilled.cloud/mongodb-atlas/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/mongodb-atlas";

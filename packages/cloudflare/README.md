@@ -12,11 +12,19 @@ npm install @distilled.cloud/cloudflare effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as DNS from "@distilled.cloud/cloudflare/dns";
 import * as R2 from "@distilled.cloud/cloudflare/r2";
 import { CredentialsFromEnv } from "@distilled.cloud/cloudflare";
 
-const program = R2.listBuckets({ account_id: "your-account-id" });
+const program = Effect.gen(function* () {
+  yield* R2.listBuckets({ account_id: "your-account-id" });
+
+  const records = yield* DNS.listRecords
+    .items({ zone_id: "your-zone-id" })
+    .pipe(Stream.take(10), Stream.runCollect);
+});
 
 const CloudflareLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
 

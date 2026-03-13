@@ -12,11 +12,16 @@ npm install @distilled.cloud/gcp effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import * as Storage from "@distilled.cloud/gcp/storage-v1";
 import { CredentialsFromEnv } from "@distilled.cloud/gcp";
 
-const program = Storage.listBuckets({ project: "my-project" });
+const program = Effect.gen(function* () {
+  const buckets = yield* Storage.listBuckets
+    .items({ project: "my-project" })
+    .pipe(Stream.take(10), Stream.runCollect);
+});
 
 const GCPLive = Layer.mergeAll(FetchHttpClient.layer, CredentialsFromEnv);
 

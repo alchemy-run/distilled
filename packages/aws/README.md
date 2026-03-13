@@ -12,7 +12,9 @@ npm install @distilled.cloud/aws effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
+import * as Lambda from "@distilled.cloud/aws/lambda";
 import * as S3 from "@distilled.cloud/aws/s3";
 import { Credentials, Region } from "@distilled.cloud/aws";
 
@@ -27,6 +29,10 @@ const program = Effect.gen(function* () {
     Bucket: "my-bucket",
     Key: "hello.txt",
   });
+
+  const functions = yield* Lambda.listFunctions
+    .items({})
+    .pipe(Stream.take(10), Stream.runCollect);
 
   return result.ContentType;
 });

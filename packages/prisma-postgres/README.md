@@ -12,6 +12,7 @@ npm install @distilled.cloud/prisma-postgres effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { getV1Databases } from "@distilled.cloud/prisma-postgres/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/prisma-postgres";
