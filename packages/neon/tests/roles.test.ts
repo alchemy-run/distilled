@@ -1,4 +1,4 @@
-import { Effect, Schedule } from "effect";
+import { Effect, Redacted, Schedule } from "effect";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { Forbidden, NotFound } from "../src/errors";
 import { createProjectBranchRole } from "../src/operations/createProjectBranchRole";
@@ -250,8 +250,8 @@ describe("roles", () => {
       );
 
       expect(result.password).toBeDefined();
-      expect(typeof result.password).toBe("string");
-      expect(result.password.length).toBeGreaterThan(0);
+      expect(Redacted.isRedacted(result.password)).toBe(true);
+      expect(Redacted.value(result.password as Redacted.Redacted<string>).length).toBeGreaterThan(0);
     });
 
     it("returns NotFound for non-existent role", async () => {
@@ -325,7 +325,7 @@ describe("roles", () => {
           }),
         );
         expect(password.password).toBeDefined();
-        expect(password.password.length).toBeGreaterThan(0);
+        expect(Redacted.value(password.password as Redacted.Redacted<string>).length).toBeGreaterThan(0);
       } finally {
         // Always cleanup
         if (createdRoleName) {

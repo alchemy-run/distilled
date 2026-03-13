@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const PostSetupIntentsIntentCancelInput =
@@ -29,7 +30,7 @@ export const PostSetupIntentsIntentCancelOutput =
     cancellation_reason: Schema.NullOr(
       Schema.Literals(["abandoned", "duplicate", "requested_by_customer"]),
     ),
-    client_secret: Schema.NullOr(Schema.String),
+    client_secret: SensitiveNullableString,
     created: Schema.Number,
     customer: Schema.Unknown,
     customer_account: Schema.optional(Schema.NullOr(Schema.String)),

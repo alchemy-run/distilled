@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostV1DatabasesByDatabaseIdConnectionsInput =
@@ -28,25 +29,25 @@ export const PostV1DatabasesByDatabaseIdConnectionsOutput =
           Schema.Struct({
             host: Schema.String,
             port: Schema.Number,
-            connectionString: Schema.String,
+            connectionString: SensitiveString,
           }),
         ),
         pooled: Schema.optional(
           Schema.Struct({
             host: Schema.String,
             port: Schema.Number,
-            connectionString: Schema.String,
+            connectionString: SensitiveString,
           }),
         ),
         accelerate: Schema.optional(
           Schema.Struct({
             host: Schema.String,
             port: Schema.Number,
-            connectionString: Schema.String,
+            connectionString: SensitiveString,
           }),
         ),
       }),
-      connectionString: Schema.String,
+      connectionString: SensitiveString,
       directConnection: Schema.optional(
         Schema.NullOr(
           Schema.Struct({

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostSourcesSourceVerifyInput =
@@ -144,7 +145,7 @@ export const PostSourcesSourceVerifyOutput =
         transaction_status_information: Schema.optional(Schema.String),
       }),
     ),
-    client_secret: Schema.String,
+    client_secret: SensitiveString,
     code_verification: Schema.optional(
       Schema.Struct({
         attempts_remaining: Schema.Number,

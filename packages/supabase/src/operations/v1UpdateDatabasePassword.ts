@@ -1,12 +1,13 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const V1UpdateDatabasePasswordInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     ref: Schema.String.pipe(T.PathParam()),
-    password: Schema.String,
+    password: SensitiveString,
   }).pipe(
     T.Http({ method: "PATCH", path: "/v1/projects/{ref}/database/password" }),
   );

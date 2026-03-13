@@ -33,6 +33,11 @@ const annotatePureExportConst = (definition: string) =>
     "export const $1 = /*@__PURE__*/ /*#__PURE__*/ ",
   );
 
+/** Quote a property name if it's not a valid JS identifier. */
+function quotePropKey(name: string): string {
+  return /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name) ? name : `"${name}"`;
+}
+
 // ============================================================================
 // OpenAPI Types (unified across 2.0, 3.0, 3.1)
 // ============================================================================
@@ -238,19 +243,17 @@ function detectVersion(spec: any): SpecVersion {
 // ============================================================================
 
 function resolveRef(spec: any, ref: string): SchemaObject {
-  // OAS 3.x: #/components/schemas/...
-  if (ref.startsWith("#/components/schemas/")) {
-    const refPath = ref.replace("#/components/schemas/", "");
-    const schema = spec.components?.schemas?.[refPath];
-    if (!schema) throw new Error(`Could not resolve ref: ${ref}`);
-    return schema;
-  }
-  // Swagger 2.0: #/definitions/...
-  if (ref.startsWith("#/definitions/")) {
-    const refPath = ref.replace("#/definitions/", "");
-    const schema = spec.definitions?.[refPath];
-    if (!schema) throw new Error(`Could not resolve ref: ${ref}`);
-    return schema;
+  // Generic JSON Pointer resolution for #/ refs
+  if (ref.startsWith("#/")) {
+    const segments = ref.slice(2).split("/");
+    let current: any = spec;
+    for (const segment of segments) {
+      current = current?.[segment];
+      if (current === undefined) {
+        throw new Error(`Could not resolve ref: ${ref}`);
+      }
+    }
+    return current;
   }
   throw new Error(`Could not resolve ref: ${ref}`);
 }
@@ -500,10 +503,11 @@ function generateStructSchema(
       ctx,
     );
     const isOptional = !required.has(key);
+    const safeKey = quotePropKey(key);
     if (isOptional) {
-      lines.push(`${indent}  ${key}: Schema.optional(${fieldSchema}),`);
+      lines.push(`${indent}  ${safeKey}: Schema.optional(${fieldSchema}),`);
     } else {
-      lines.push(`${indent}  ${key}: ${fieldSchema},`);
+      lines.push(`${indent}  ${safeKey}: ${fieldSchema},`);
     }
   }
 
@@ -687,7 +691,7 @@ function generateInputSchemaSwagger(
         if (!required.has(key)) {
           fieldSchema = `Schema.optional(${fieldSchema})`;
         }
-        fields.push(`  ${key}: ${fieldSchema},`);
+        fields.push(`  ${quotePropKey(key)}: ${fieldSchema},`);
       }
     }
   }
@@ -825,7 +829,7 @@ function generateInputSchema3(
           if (!required.has(key)) {
             fieldSchema = `Schema.optional(${fieldSchema})`;
           }
-          fields.push(`  ${key}: ${fieldSchema},`);
+          fields.push(`  ${quotePropKey(key)}: ${fieldSchema},`);
         }
       }
     }

@@ -8,8 +8,22 @@ export const V1DeployAFunctionInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     ref: Schema.String.pipe(T.PathParam()),
     slug: Schema.optional(Schema.String),
     bundleOnly: Schema.optional(Schema.Boolean),
+    file: Schema.optional(Schema.Array(Schema.String)),
+    metadata: Schema.Struct({
+      entrypoint_path: Schema.String,
+      import_map_path: Schema.optional(Schema.String),
+      static_patterns: Schema.optional(Schema.Array(Schema.String)),
+      verify_jwt: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+    }),
   },
-).pipe(T.Http({ method: "POST", path: "/v1/projects/{ref}/functions/deploy" }));
+).pipe(
+  T.Http({
+    method: "POST",
+    path: "/v1/projects/{ref}/functions/deploy",
+    contentType: "multipart",
+  }),
+);
 export type V1DeployAFunctionInput = typeof V1DeployAFunctionInput.Type;
 
 // Output Schema

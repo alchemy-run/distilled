@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const CreateProjectBranchInput =
@@ -160,7 +161,7 @@ export const CreateProjectBranchOutput =
       Schema.Struct({
         branch_id: Schema.String,
         name: Schema.String,
-        password: Schema.optional(Schema.String),
+        password: Schema.optional(SensitiveString),
         protected: Schema.optional(Schema.Boolean),
         authentication_method: Schema.optional(Schema.String),
         created_at: Schema.String,
@@ -180,10 +181,10 @@ export const CreateProjectBranchOutput =
     connection_uris: Schema.optional(
       Schema.Array(
         Schema.Struct({
-          connection_uri: Schema.String,
+          connection_uri: SensitiveString,
           connection_parameters: Schema.Struct({
             database: Schema.String,
-            password: Schema.String,
+            password: SensitiveString,
             role: Schema.String,
             host: Schema.String,
             pooler_host: Schema.String,

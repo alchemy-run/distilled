@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostV1ConnectionsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
@@ -41,7 +42,7 @@ export const PostV1ConnectionsOutput =
           }),
         ),
       }),
-      connectionString: Schema.String,
+      connectionString: SensitiveString,
       directConnection: Schema.optional(
         Schema.NullOr(
           Schema.Struct({

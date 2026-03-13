@@ -2,6 +2,7 @@ import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const ListPasswordsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
@@ -59,7 +60,7 @@ export const ListPasswordsOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
         current_default: Schema.Boolean,
       }),
       username: Schema.String,
-      plain_text: Schema.NullOr(Schema.String),
+      plain_text: SensitiveNullableString,
       replica: Schema.Boolean,
       renewable: Schema.Boolean,
       database_branch: Schema.Struct({

@@ -10,7 +10,7 @@ import { generateFromOpenAPI } from "@distilled.cloud/core/openapi/generate";
 const rootDir = path.join(import.meta.dir, "..");
 
 generateFromOpenAPI({
-  specPath: path.join(rootDir, "specs/turso-docs/openapi/spec3.json"),
+  specPath: path.join(rootDir, "specs/turso-docs/api-reference/openapi.json"),
   patchDir: path.join(rootDir, "patches"),
   outputDir: path.join(rootDir, "src/operations"),
   importPrefix: "..",

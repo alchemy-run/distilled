@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const GetNeonAuthPluginConfigsInput =
@@ -46,7 +47,7 @@ export const GetNeonAuthPluginConfigsOutput =
           id: Schema.Literals(["google", "github", "microsoft", "vercel"]),
           type: Schema.Literals(["standard", "shared"]),
           client_id: Schema.optional(Schema.String),
-          client_secret: Schema.optional(Schema.String),
+          client_secret: Schema.optional(SensitiveString),
         }),
       ),
     ),

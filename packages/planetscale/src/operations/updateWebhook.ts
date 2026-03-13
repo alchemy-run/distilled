@@ -2,6 +2,7 @@ import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
 import { Forbidden, NotFound } from "../errors";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const UpdateWebhookInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
@@ -23,7 +24,7 @@ export type UpdateWebhookInput = typeof UpdateWebhookInput.Type;
 export const UpdateWebhookOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   id: Schema.String,
   url: Schema.String,
-  secret: Schema.String,
+  secret: SensitiveString,
   enabled: Schema.Boolean,
   last_sent_result: Schema.NullOr(Schema.String),
   last_sent_success: Schema.NullOr(Schema.Boolean),

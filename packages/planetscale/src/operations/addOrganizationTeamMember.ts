@@ -7,6 +7,7 @@ import {
   NotFound,
   UnprocessableEntity,
 } from "../errors";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const AddOrganizationTeamMemberInput =
@@ -88,7 +89,7 @@ export const AddOrganizationTeamMemberOutput =
           current_default: Schema.Boolean,
         }),
         username: Schema.String,
-        plain_text: Schema.String,
+        plain_text: SensitiveString,
         replica: Schema.Boolean,
         renewable: Schema.Boolean,
         database_branch: Schema.Struct({

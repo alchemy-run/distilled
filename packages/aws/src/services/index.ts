@@ -364,6 +364,7 @@ export * as Shield from "./shield.ts";
 export * as SignerData from "./signer-data.ts";
 export * as Signer from "./signer.ts";
 export * as Signin from "./signin.ts";
+export * as Simpledbv2 from "./simpledbv2.ts";
 export * as Simspaceweaver from "./simspaceweaver.ts";
 export * as SnowDeviceManagement from "./snow-device-management.ts";
 export * as Snowball from "./snowball.ts";

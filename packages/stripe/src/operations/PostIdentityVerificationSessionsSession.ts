@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const PostIdentityVerificationSessionsSessionInput =
@@ -34,7 +35,7 @@ export type PostIdentityVerificationSessionsSessionInput =
 export const PostIdentityVerificationSessionsSessionOutput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     client_reference_id: Schema.NullOr(Schema.String),
-    client_secret: Schema.NullOr(Schema.String),
+    client_secret: SensitiveNullableString,
     created: Schema.Number,
     id: Schema.String,
     last_error: Schema.Unknown,

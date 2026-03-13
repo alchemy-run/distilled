@@ -1019,7 +1019,7 @@ const scaffoldPackage = (
               test: "bunx vitest run test",
               "publish:npm": "bun run build && bun publish --access public",
               generate:
-                "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+                "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
               "specs:fetch":
                 specsFetchCmds.join(" && ") || "echo 'No specs configured'",
               "specs:update":

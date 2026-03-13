@@ -1,11 +1,12 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const ValidateEndUserAccessTokenInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    accessToken: Schema.String,
+    accessToken: SensitiveString,
   }).pipe(
     T.Http({ method: "POST", path: "/v2/end-users/auth/validate-token" }),
   );

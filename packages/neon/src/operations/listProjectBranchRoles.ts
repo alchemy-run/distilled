@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const ListProjectBranchRolesInput =
@@ -23,7 +24,7 @@ export const ListProjectBranchRolesOutput =
       Schema.Struct({
         branch_id: Schema.String,
         name: Schema.String,
-        password: Schema.optional(Schema.String),
+        password: Schema.optional(SensitiveString),
         protected: Schema.optional(Schema.Boolean),
         authentication_method: Schema.optional(Schema.String),
         created_at: Schema.String,
