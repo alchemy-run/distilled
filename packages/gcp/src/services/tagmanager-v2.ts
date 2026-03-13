@@ -22,138 +22,92 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Environment {
-  /** Represents a link to a quick preview of a workspace. */
-  workspaceId?: string;
+export interface ZoneTypeRestriction {
+  /** True if type restrictions have been enabled for this Zone. */
+  enable?: boolean;
+  /** List of type public ids that have been whitelisted for use in this Zone. */
+  whitelistedTypeId?: Array<string>;
+}
+
+export const ZoneTypeRestriction: Schema.Schema<ZoneTypeRestriction> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      enable: Schema.optional(Schema.Boolean),
+      whitelistedTypeId: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ZoneTypeRestriction",
+  }) as any as Schema.Schema<ZoneTypeRestriction>;
+
+export interface Folder {
+  /** The Folder ID uniquely identifies the GTM Folder. */
+  folderId?: string;
   /** GTM Account ID. */
   accountId?: string;
-  /** The environment description. Can be set or changed only on USER type environments. */
-  description?: string;
-  /** The environment display name. Can be set or changed only on USER type environments. */
+  /** User notes on how to apply this folder in the container. */
+  notes?: string;
+  /** Folder display name. */
   name?: string;
-  /** The last update time-stamp for the authorization code. */
-  authorizationTimestamp?: string;
-  /** Whether or not to enable debug by default for the environment. */
-  enableDebug?: boolean;
-  /** GTM Environment's API relative path. */
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** GTM Folder's API relative path. */
   path?: string;
-  /** The environment authorization code. */
-  authorizationCode?: string;
   /** GTM Container ID. */
   containerId?: string;
-  /** Default preview page url for the environment. */
-  url?: string;
-  /** The type of this environment. */
-  type?: "user" | "live" | "latest" | "workspace" | (string & {});
-  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
-  fingerprint?: string;
-  /** Represents a link to a container version. */
-  containerVersionId?: string;
   /** Auto generated link to the tag manager UI */
   tagManagerUrl?: string;
-  /** GTM Environment ID uniquely identifies the GTM Environment. */
-  environmentId?: string;
+  /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
+  fingerprint?: string;
 }
 
-export const Environment: Schema.Schema<Environment> =
+export const Folder: Schema.Schema<Folder> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      workspaceId: Schema.optional(Schema.String),
+      folderId: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      authorizationTimestamp: Schema.optional(Schema.String),
-      enableDebug: Schema.optional(Schema.Boolean),
-      path: Schema.optional(Schema.String),
-      authorizationCode: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      url: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      containerVersionId: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      environmentId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "Environment",
-  }) as any as Schema.Schema<Environment>;
-
-export interface GalleryReference {
-  /** The version of the community gallery template. */
-  version?: string;
-  /** The developer id of the community gallery template. This value is set whenever the template is created from the gallery. */
-  templateDeveloperId?: string;
-  /** The name of the repository for the community gallery template. */
-  repository?: string;
-  /** If a user has manually edited the community gallery template. */
-  isModified?: boolean;
-  /** ID for the gallery template that is generated once during first sync and travels with the template redirects. */
-  galleryTemplateId?: string;
-  /** The name of the owner for the community gallery template. */
-  owner?: string;
-  /** The signature of the community gallery template as computed at import time. This value is recomputed whenever the template is updated from the gallery. */
-  signature?: string;
-  /** The name of the host for the community gallery template. */
-  host?: string;
-}
-
-export const GalleryReference: Schema.Schema<GalleryReference> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      version: Schema.optional(Schema.String),
-      templateDeveloperId: Schema.optional(Schema.String),
-      repository: Schema.optional(Schema.String),
-      isModified: Schema.optional(Schema.Boolean),
-      galleryTemplateId: Schema.optional(Schema.String),
-      owner: Schema.optional(Schema.String),
-      signature: Schema.optional(Schema.String),
-      host: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GalleryReference",
-  }) as any as Schema.Schema<GalleryReference>;
-
-export interface CreateContainerVersionRequestVersionOptions {
-  /** The name of the container version to be created. */
-  name?: string;
-  /** The notes of the container version to be created. */
-  notes?: string;
-}
-
-export const CreateContainerVersionRequestVersionOptions: Schema.Schema<CreateContainerVersionRequestVersionOptions> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
       notes: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
+
+export interface ListFoldersResponse {
+  /** All GTM Folders of a GTM Container. */
+  folder?: Array<Folder>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Schema.Array(Folder)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "CreateContainerVersionRequestVersionOptions",
-  }) as any as Schema.Schema<CreateContainerVersionRequestVersionOptions>;
+    identifier: "ListFoldersResponse",
+  }) as any as Schema.Schema<ListFoldersResponse>;
 
 export interface SetupTag {
-  /** If true, fire the main tag if and only if the setup tag fires successfully. If false, fire the main tag regardless of setup tag firing status. */
-  stopOnSetupFailure?: boolean;
   /** The name of the setup tag. */
   tagName?: string;
+  /** If true, fire the main tag if and only if the setup tag fires successfully. If false, fire the main tag regardless of setup tag firing status. */
+  stopOnSetupFailure?: boolean;
 }
 
 export const SetupTag: Schema.Schema<SetupTag> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      stopOnSetupFailure: Schema.optional(Schema.Boolean),
       tagName: Schema.optional(Schema.String),
+      stopOnSetupFailure: Schema.optional(Schema.Boolean),
     }),
   ).annotate({ identifier: "SetupTag" }) as any as Schema.Schema<SetupTag>;
 
 export interface Parameter {
-  /** A parameter's value (may contain variable references). as appropriate to the specified type. */
-  value?: string;
-  /** Whether or not a reference type parameter is strongly or weakly referenced. Only used by Transformations. */
-  isWeakReference?: boolean;
-  /** This list parameter's parameters (keys will be ignored). */
-  list?: Array<Parameter>;
-  /** The named key that uniquely identifies a parameter. Required for top-level parameters, as well as map values. Ignored for list values. */
-  key?: string;
   /** The parameter type. Valid values are: - boolean: The value represents a boolean, represented as 'true' or 'false' - integer: The value represents a 64-bit signed integer value, in base 10 - list: A list of parameters should be specified - map: A map of parameters should be specified - template: The value represents any text; this can include variable references (even variable references that might return non-string types) - trigger_reference: The value represents a trigger, represented as the trigger id - tag_reference: The value represents a tag, represented as the tag name */
   type?:
     | "typeUnspecified"
@@ -165,19 +119,27 @@ export interface Parameter {
     | "triggerReference"
     | "tagReference"
     | (string & {});
+  /** The named key that uniquely identifies a parameter. Required for top-level parameters, as well as map values. Ignored for list values. */
+  key?: string;
+  /** A parameter's value (may contain variable references). as appropriate to the specified type. */
+  value?: string;
   /** This map parameter's parameters (must have keys; keys must be unique). */
   map?: Array<Parameter>;
+  /** Whether or not a reference type parameter is strongly or weakly referenced. Only used by Transformations. */
+  isWeakReference?: boolean;
+  /** This list parameter's parameters (keys will be ignored). */
+  list?: Array<Parameter>;
 }
 
 export const Parameter: Schema.Schema<Parameter> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      type: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
       value: Schema.optional(Schema.String),
+      map: Schema.optional(Schema.Array(Parameter)),
       isWeakReference: Schema.optional(Schema.Boolean),
       list: Schema.optional(Schema.Array(Parameter)),
-      key: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-      map: Schema.optional(Schema.Array(Parameter)),
     }),
   ).annotate({ identifier: "Parameter" }) as any as Schema.Schema<Parameter>;
 
@@ -216,16 +178,8 @@ export const TagConsentSetting: Schema.Schema<TagConsentSetting> =
   }) as any as Schema.Schema<TagConsentSetting>;
 
 export interface Tag {
-  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
-  blockingTriggerId?: Array<string>;
   /** The list of setup tags. Currently we only allow one. */
   setupTag?: Array<SetupTag>;
-  /** The start timestamp in milliseconds to schedule a tag. */
-  scheduleStartMs?: string;
-  /** Indicates whether the tag is paused, which prevents the tag from firing. */
-  paused?: boolean;
-  /** GTM Container ID. */
-  containerId?: string;
   /** Option to fire this tag. */
   tagFiringOption?:
     | "tagFiringOptionUnspecified"
@@ -233,42 +187,50 @@ export interface Tag {
     | "oncePerEvent"
     | "oncePerLoad"
     | (string & {});
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
-  fingerprint?: string;
-  /** Tag display name. */
-  name?: string;
-  /** User notes on how to apply this tag in the container. */
-  notes?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** GTM Tag Type. */
-  type?: string;
-  /** The end timestamp in milliseconds to schedule a tag. */
-  scheduleEndMs?: string;
-  /** A map of key-value pairs of tag metadata to be included in the event data for tag monitoring. Notes: - This parameter must be type MAP. - Each parameter in the map are type TEMPLATE, however cannot contain variable references. */
-  monitoringMetadata?: Parameter;
-  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
-  firingTriggerId?: Array<string>;
-  /** If non-empty, then the tag display name will be included in the monitoring metadata map using the key specified. */
-  monitoringMetadataTagNameKey?: string;
+  /** GTM Tag's API relative path. */
+  path?: string;
   /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
   priority?: Parameter;
   /** The list of teardown tags. Currently we only allow one. */
   teardownTag?: Array<TeardownTag>;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** Consent settings of a tag. */
-  consentSettings?: TagConsentSetting;
-  /** The Tag ID uniquely identifies the GTM Tag. */
-  tagId?: string;
-  /** GTM Tag's API relative path. */
-  path?: string;
   /** Parent folder id. */
   parentFolderId?: string;
+  /** The end timestamp in milliseconds to schedule a tag. */
+  scheduleEndMs?: string;
+  /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
+  fingerprint?: string;
+  /** GTM Account ID. */
+  accountId?: string;
   /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
   liveOnly?: boolean;
+  /** The Tag ID uniquely identifies the GTM Tag. */
+  tagId?: string;
+  /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
+  firingTriggerId?: Array<string>;
+  /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
+  blockingTriggerId?: Array<string>;
+  /** Indicates whether the tag is paused, which prevents the tag from firing. */
+  paused?: boolean;
+  /** A map of key-value pairs of tag metadata to be included in the event data for tag monitoring. Notes: - This parameter must be type MAP. - Each parameter in the map are type TEMPLATE, however cannot contain variable references. */
+  monitoringMetadata?: Parameter;
+  /** GTM Tag Type. */
+  type?: string;
+  /** Consent settings of a tag. */
+  consentSettings?: TagConsentSetting;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** If non-empty, then the tag display name will be included in the monitoring metadata map using the key specified. */
+  monitoringMetadataTagNameKey?: string;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** Tag display name. */
+  name?: string;
+  /** The start timestamp in milliseconds to schedule a tag. */
+  scheduleStartMs?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
   /** The tag's parameters. */
   parameter?: Array<Parameter>;
 }
@@ -276,119 +238,60 @@ export interface Tag {
 export const Tag: Schema.Schema<Tag> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      blockingTriggerId: Schema.optional(Schema.Array(Schema.String)),
       setupTag: Schema.optional(Schema.Array(SetupTag)),
-      scheduleStartMs: Schema.optional(Schema.String),
-      paused: Schema.optional(Schema.Boolean),
-      containerId: Schema.optional(Schema.String),
       tagFiringOption: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-      scheduleEndMs: Schema.optional(Schema.String),
-      monitoringMetadata: Schema.optional(Parameter),
-      firingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-      monitoringMetadataTagNameKey: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
       priority: Schema.optional(Parameter),
       teardownTag: Schema.optional(Schema.Array(TeardownTag)),
-      accountId: Schema.optional(Schema.String),
-      consentSettings: Schema.optional(TagConsentSetting),
-      tagId: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
       parentFolderId: Schema.optional(Schema.String),
+      scheduleEndMs: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
       liveOnly: Schema.optional(Schema.Boolean),
+      tagId: Schema.optional(Schema.String),
+      firingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      blockingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      paused: Schema.optional(Schema.Boolean),
+      monitoringMetadata: Schema.optional(Parameter),
+      type: Schema.optional(Schema.String),
+      consentSettings: Schema.optional(TagConsentSetting),
+      containerId: Schema.optional(Schema.String),
+      monitoringMetadataTagNameKey: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      scheduleStartMs: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
       parameter: Schema.optional(Schema.Array(Parameter)),
     }),
   ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
 
-export interface RevertTagResponse {
-  /** Tag as it appears in the latest container version since the last workspace synchronization operation. If no tag is present, that means the tag was deleted in the latest container version. */
-  tag?: Tag;
+export interface ListTagsResponse {
+  /** All GTM Tags of a GTM Container. */
+  tag?: Array<Tag>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
 }
 
-export const RevertTagResponse: Schema.Schema<RevertTagResponse> =
+export const ListTagsResponse: Schema.Schema<ListTagsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      tag: Schema.optional(Tag),
+      tag: Schema.optional(Schema.Array(Tag)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "RevertTagResponse",
-  }) as any as Schema.Schema<RevertTagResponse>;
-
-export interface Client {
-  /** Client type. */
-  type?: string;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** The fingerprint of the GTM Client as computed at storage time. This value is recomputed whenever the client is modified. */
-  fingerprint?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** Priority determines relative firing order. */
-  priority?: number;
-  /** Client display name. */
-  name?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** User notes on how to apply this tag in the container. */
-  notes?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** The Client ID uniquely identifies the GTM client. */
-  clientId?: string;
-  /** The client's parameters. */
-  parameter?: Array<Parameter>;
-  /** Parent folder id. */
-  parentFolderId?: string;
-  /** GTM client's API relative path. */
-  path?: string;
-}
-
-export const Client: Schema.Schema<Client> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      type: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      priority: Schema.optional(Schema.Number),
-      name: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      clientId: Schema.optional(Schema.String),
-      parameter: Schema.optional(Schema.Array(Parameter)),
-      parentFolderId: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
-
-export interface RevertClientResponse {
-  /** Client as it appears in the latest container version since the last workspace synchronization operation. If no client is present, that means the client was deleted in the latest container version. */
-  client?: Client;
-}
-
-export const RevertClientResponse: Schema.Schema<RevertClientResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      client: Schema.optional(Client),
-    }),
-  ).annotate({
-    identifier: "RevertClientResponse",
-  }) as any as Schema.Schema<RevertClientResponse>;
+    identifier: "ListTagsResponse",
+  }) as any as Schema.Schema<ListTagsResponse>;
 
 export interface BuiltInVariable {
-  /** GTM BuiltInVariable's API relative path. */
-  path?: string;
   /** GTM Account ID. */
   accountId?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
   /** GTM Container ID. */
   containerId?: string;
+  /** GTM BuiltInVariable's API relative path. */
+  path?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
   /** Type of built-in variable. */
   type?:
     | "builtInVariableTypeUnspecified"
@@ -516,10 +419,10 @@ export interface BuiltInVariable {
 export const BuiltInVariable: Schema.Schema<BuiltInVariable> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      path: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
     }),
@@ -544,45 +447,194 @@ export const ListEnabledBuiltInVariablesResponse: Schema.Schema<ListEnabledBuilt
     identifier: "ListEnabledBuiltInVariablesResponse",
   }) as any as Schema.Schema<ListEnabledBuiltInVariablesResponse>;
 
-export interface GtagConfig {
-  /** The ID uniquely identifies the Google tag config. */
-  gtagConfigId?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The Google tag config's parameters. */
-  parameter?: Array<Parameter>;
-  /** The fingerprint of the Google tag config as computed at storage time. This value is recomputed whenever the config is modified. */
-  fingerprint?: string;
-  /** Google tag config's API relative path. */
-  path?: string;
-  /** Google tag config type. */
-  type?: string;
-  /** Google tag container ID. */
-  containerId?: string;
-  /** Google tag workspace ID. Only used by GTM containers. Set to 0 otherwise. */
-  workspaceId?: string;
-  /** Google tag account ID. */
-  accountId?: string;
+export interface GalleryReference {
+  /** The name of the repository for the community gallery template. */
+  repository?: string;
+  /** The developer id of the community gallery template. This value is set whenever the template is created from the gallery. */
+  templateDeveloperId?: string;
+  /** If a user has manually edited the community gallery template. */
+  isModified?: boolean;
+  /** ID for the gallery template that is generated once during first sync and travels with the template redirects. */
+  galleryTemplateId?: string;
+  /** The name of the owner for the community gallery template. */
+  owner?: string;
+  /** The signature of the community gallery template as computed at import time. This value is recomputed whenever the template is updated from the gallery. */
+  signature?: string;
+  /** The version of the community gallery template. */
+  version?: string;
+  /** The name of the host for the community gallery template. */
+  host?: string;
 }
 
-export const GtagConfig: Schema.Schema<GtagConfig> =
+export const GalleryReference: Schema.Schema<GalleryReference> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      gtagConfigId: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      parameter: Schema.optional(Schema.Array(Parameter)),
-      fingerprint: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
+      repository: Schema.optional(Schema.String),
+      templateDeveloperId: Schema.optional(Schema.String),
+      isModified: Schema.optional(Schema.Boolean),
+      galleryTemplateId: Schema.optional(Schema.String),
+      owner: Schema.optional(Schema.String),
+      signature: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
+      host: Schema.optional(Schema.String),
     }),
-  ).annotate({ identifier: "GtagConfig" }) as any as Schema.Schema<GtagConfig>;
+  ).annotate({
+    identifier: "GalleryReference",
+  }) as any as Schema.Schema<GalleryReference>;
+
+export interface CustomTemplate {
+  /** The fingerprint of the GTM Custom Template as computed at storage time. This value is recomputed whenever the template is modified. */
+  fingerprint?: string;
+  /** The custom template in text format. */
+  templateData?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** Custom Template display name. */
+  name?: string;
+  /** GTM Custom Template's API relative path. */
+  path?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** The Custom Template ID uniquely identifies the GTM custom template. */
+  templateId?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** A reference to the Community Template Gallery entry. */
+  galleryReference?: GalleryReference;
+}
+
+export const CustomTemplate: Schema.Schema<CustomTemplate> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fingerprint: Schema.optional(Schema.String),
+      templateData: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      templateId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      galleryReference: Schema.optional(GalleryReference),
+    }),
+  ).annotate({
+    identifier: "CustomTemplate",
+  }) as any as Schema.Schema<CustomTemplate>;
+
+export interface ContainerFeatures {
+  /** Whether this Container supports tags. */
+  supportTags?: boolean;
+  /** Whether this Container supports environments. */
+  supportEnvironments?: boolean;
+  /** Whether this Container supports templates. */
+  supportTemplates?: boolean;
+  /** Whether this Container supports workspaces. */
+  supportWorkspaces?: boolean;
+  /** Whether this Container supports triggers. */
+  supportTriggers?: boolean;
+  /** Whether this Container supports built-in variables */
+  supportBuiltInVariables?: boolean;
+  /** Whether this Container supports Google tag config. */
+  supportGtagConfigs?: boolean;
+  /** Whether this Container supports clients. */
+  supportClients?: boolean;
+  /** Whether this Container supports transformations. */
+  supportTransformations?: boolean;
+  /** Whether this Container supports folders. */
+  supportFolders?: boolean;
+  /** Whether this Container supports Container versions. */
+  supportVersions?: boolean;
+  /** Whether this Container supports zones. */
+  supportZones?: boolean;
+  /** Whether this Container supports user permissions managed by GTM. */
+  supportUserPermissions?: boolean;
+  /** Whether this Container supports variables. */
+  supportVariables?: boolean;
+}
+
+export const ContainerFeatures: Schema.Schema<ContainerFeatures> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      supportTags: Schema.optional(Schema.Boolean),
+      supportEnvironments: Schema.optional(Schema.Boolean),
+      supportTemplates: Schema.optional(Schema.Boolean),
+      supportWorkspaces: Schema.optional(Schema.Boolean),
+      supportTriggers: Schema.optional(Schema.Boolean),
+      supportBuiltInVariables: Schema.optional(Schema.Boolean),
+      supportGtagConfigs: Schema.optional(Schema.Boolean),
+      supportClients: Schema.optional(Schema.Boolean),
+      supportTransformations: Schema.optional(Schema.Boolean),
+      supportFolders: Schema.optional(Schema.Boolean),
+      supportVersions: Schema.optional(Schema.Boolean),
+      supportZones: Schema.optional(Schema.Boolean),
+      supportUserPermissions: Schema.optional(Schema.Boolean),
+      supportVariables: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "ContainerFeatures",
+  }) as any as Schema.Schema<ContainerFeatures>;
+
+export interface Container {
+  /** Container display name. */
+  name?: string;
+  /** GTM Container's API relative path. */
+  path?: string;
+  /** List of domain names associated with the Container. */
+  domainName?: Array<string>;
+  /** Container Notes. */
+  notes?: string;
+  /** The Container ID uniquely identifies the GTM Container. */
+  containerId?: string;
+  /** All Tag IDs that refer to this Container. */
+  tagIds?: Array<string>;
+  /** Read-only Container feature set. */
+  features?: ContainerFeatures;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** List of server-side container URLs for the Container. If multiple URLs are provided, all URL paths must match. */
+  taggingServerUrls?: Array<string>;
+  /** Container Public ID. */
+  publicId?: string;
+  /** List of Usage Contexts for the Container. Valid values include: web, android, or ios. */
+  usageContext?: Array<
+    | "usageContextUnspecified"
+    | "web"
+    | "android"
+    | "ios"
+    | "androidSdk5"
+    | "iosSdk5"
+    | "amp"
+    | "server"
+    | (string & {})
+  >;
+  /** The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
+  fingerprint?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+}
+
+export const Container: Schema.Schema<Container> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      domainName: Schema.optional(Schema.Array(Schema.String)),
+      notes: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagIds: Schema.optional(Schema.Array(Schema.String)),
+      features: Schema.optional(ContainerFeatures),
+      accountId: Schema.optional(Schema.String),
+      taggingServerUrls: Schema.optional(Schema.Array(Schema.String)),
+      publicId: Schema.optional(Schema.String),
+      usageContext: Schema.optional(Schema.Array(Schema.String)),
+      fingerprint: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
 
 export interface Condition {
-  /** A list of named parameters (key/value), depending on the condition's type. Notes: - For binary operators, include parameters named arg0 and arg1 for specifying the left and right operands, respectively. - At this time, the left operand (arg0) must be a reference to a variable. - For case-insensitive Regex matching, include a boolean parameter named ignore_case that is set to true. If not specified or set to any other value, the matching will be case sensitive. - To negate an operator, include a boolean parameter named negate boolean parameter that is set to true. */
-  parameter?: Array<Parameter>;
   /** The type of operator for this condition. */
   type?:
     | "conditionTypeUnspecified"
@@ -598,121 +650,233 @@ export interface Condition {
     | "cssSelector"
     | "urlMatches"
     | (string & {});
+  /** A list of named parameters (key/value), depending on the condition's type. Notes: - For binary operators, include parameters named arg0 and arg1 for specifying the left and right operands, respectively. - At this time, the left operand (arg0) must be a reference to a variable. - For case-insensitive Regex matching, include a boolean parameter named ignore_case that is set to true. If not specified or set to any other value, the matching will be case sensitive. - To negate an operator, include a boolean parameter named negate boolean parameter that is set to true. */
+  parameter?: Array<Parameter>;
 }
 
 export const Condition: Schema.Schema<Condition> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      parameter: Schema.optional(Schema.Array(Parameter)),
       type: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
     }),
   ).annotate({ identifier: "Condition" }) as any as Schema.Schema<Condition>;
 
-export interface AccountAccess {
-  /** Whether the user has no access, user access, or admin access to an account. */
-  permission?:
-    | "accountPermissionUnspecified"
-    | "noAccess"
-    | "user"
-    | "admin"
-    | (string & {});
+export interface ZoneBoundary {
+  /** Custom evaluation trigger IDs. A zone will evaluate its boundary conditions when any of the listed triggers are true. */
+  customEvaluationTriggerId?: Array<string>;
+  /** The conditions that, when conjoined, make up the boundary. */
+  condition?: Array<Condition>;
 }
 
-export const AccountAccess: Schema.Schema<AccountAccess> =
+export const ZoneBoundary: Schema.Schema<ZoneBoundary> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      permission: Schema.optional(Schema.String),
+      customEvaluationTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      condition: Schema.optional(Schema.Array(Condition)),
     }),
   ).annotate({
-    identifier: "AccountAccess",
-  }) as any as Schema.Schema<AccountAccess>;
+    identifier: "ZoneBoundary",
+  }) as any as Schema.Schema<ZoneBoundary>;
 
-export interface ContainerAccess {
-  /** GTM Container ID. */
-  containerId?: string;
-  /** List of Container permissions. */
-  permission?:
-    | "containerPermissionUnspecified"
-    | "noAccess"
-    | "read"
-    | "edit"
-    | "approve"
-    | "publish"
-    | (string & {});
+export interface ZoneChildContainer {
+  /** The zone's nickname for the child container. */
+  nickname?: string;
+  /** The child container's public id. */
+  publicId?: string;
 }
 
-export const ContainerAccess: Schema.Schema<ContainerAccess> =
+export const ZoneChildContainer: Schema.Schema<ZoneChildContainer> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      containerId: Schema.optional(Schema.String),
-      permission: Schema.optional(Schema.String),
+      nickname: Schema.optional(Schema.String),
+      publicId: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ContainerAccess",
-  }) as any as Schema.Schema<ContainerAccess>;
+    identifier: "ZoneChildContainer",
+  }) as any as Schema.Schema<ZoneChildContainer>;
 
-export interface UserPermission {
-  /** GTM UserPermission's API relative path. */
+export interface Zone {
+  /** Zone display name. */
+  name?: string;
+  /** GTM Zone's API relative path. */
   path?: string;
-  /** The Account ID uniquely identifies the GTM Account. */
-  accountId?: string;
-  /** User's email address. */
-  emailAddress?: string;
-  /** GTM Account access permissions. */
-  accountAccess?: AccountAccess;
-  /** GTM Container access permissions. */
-  containerAccess?: Array<ContainerAccess>;
-}
-
-export const UserPermission: Schema.Schema<UserPermission> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      path: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      emailAddress: Schema.optional(Schema.String),
-      accountAccess: Schema.optional(AccountAccess),
-      containerAccess: Schema.optional(Schema.Array(ContainerAccess)),
-    }),
-  ).annotate({
-    identifier: "UserPermission",
-  }) as any as Schema.Schema<UserPermission>;
-
-export interface SyncStatus {
-  /** Synchornization operation detected a merge conflict. */
-  mergeConflict?: boolean;
-  /** An error occurred during the synchronization operation. */
-  syncError?: boolean;
-}
-
-export const SyncStatus: Schema.Schema<SyncStatus> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      mergeConflict: Schema.optional(Schema.Boolean),
-      syncError: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({ identifier: "SyncStatus" }) as any as Schema.Schema<SyncStatus>;
-
-export interface Trigger {
-  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
-  waitForTagsTimeout?: Parameter;
-  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
-  verticalScrollPercentageList?: Parameter;
-  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  continuousTimeMinMilliseconds?: Parameter;
+  /** This Zone's boundary. */
+  boundary?: ZoneBoundary;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
   /** GTM Account ID. */
   accountId?: string;
-  /** Additional parameters. */
-  parameter?: Array<Parameter>;
-  /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
-  selector?: Parameter;
-  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
-  visibilitySelector?: Parameter;
+  /** User notes on how to apply this zone in the container. */
+  notes?: string;
+  /** Containers that are children of this Zone. */
+  childContainer?: Array<ZoneChildContainer>;
+  /** The Zone ID uniquely identifies the GTM Zone. */
+  zoneId?: string;
+  /** This Zone's type restrictions. */
+  typeRestriction?: ZoneTypeRestriction;
+  /** The fingerprint of the GTM Zone as computed at storage time. This value is recomputed whenever the zone is modified. */
+  fingerprint?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+}
+
+export const Zone: Schema.Schema<Zone> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      boundary: Schema.optional(ZoneBoundary),
+      workspaceId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      childContainer: Schema.optional(Schema.Array(ZoneChildContainer)),
+      zoneId: Schema.optional(Schema.String),
+      typeRestriction: Schema.optional(ZoneTypeRestriction),
+      fingerprint: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Zone" }) as any as Schema.Schema<Zone>;
+
+export interface Transformation {
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** GTM transformation's API relative path. */
+  path?: string;
+  /** Transformation display name. */
+  name?: string;
+  /** Transformation type. */
+  type?: string;
   /** Parent folder id. */
   parentFolderId?: string;
-  /** GTM Trigger's API relative path. */
+  /** GTM Account ID. */
+  accountId?: string;
+  /** The transformation's parameters. */
+  parameter?: Array<Parameter>;
+  /** User notes on how to apply this transformation in the container. */
+  notes?: string;
+  /** The fingerprint of the GTM Transformation as computed at storage time. This value is recomputed whenever the transformation is modified. */
+  fingerprint?: string;
+  /** The Transformation ID uniquely identifies the GTM transformation. */
+  transformationId?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+}
+
+export const Transformation: Schema.Schema<Transformation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      parentFolderId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      notes: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      transformationId: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Transformation",
+  }) as any as Schema.Schema<Transformation>;
+
+export interface Client {
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** The fingerprint of the GTM Client as computed at storage time. This value is recomputed whenever the client is modified. */
+  fingerprint?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** The client's parameters. */
+  parameter?: Array<Parameter>;
+  /** The Client ID uniquely identifies the GTM client. */
+  clientId?: string;
+  /** Client type. */
+  type?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** User notes on how to apply this tag in the container. */
+  notes?: string;
+  /** Client display name. */
+  name?: string;
+  /** Priority determines relative firing order. */
+  priority?: number;
+  /** Parent folder id. */
+  parentFolderId?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** GTM client's API relative path. */
   path?: string;
-  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
-  checkValidation?: Parameter;
+}
+
+export const Client: Schema.Schema<Client> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      clientId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      priority: Schema.optional(Schema.Number),
+      parentFolderId: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Client" }) as any as Schema.Schema<Client>;
+
+export interface Trigger {
+  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
+  interval?: Parameter;
+  /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
+  visibilitySelector?: Parameter;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
+  waitForTagsTimeout?: Parameter;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
+  horizontalScrollPercentageList?: Parameter;
+  /** Additional parameters. */
+  parameter?: Array<Parameter>;
+  /** Used in the case of auto event tracking. */
+  autoEventFilter?: Array<Condition>;
+  /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
+  selector?: Parameter;
+  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
+  maxTimerLengthSeconds?: Parameter;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  totalTimeMinMilliseconds?: Parameter;
+  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
+  verticalScrollPercentageList?: Parameter;
+  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
+  waitForTags?: Parameter;
+  /** Trigger display name. */
+  name?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** User notes on how to apply this trigger in the container. */
+  notes?: string;
+  /** Used in the case of custom event, which is fired iff all Conditions are true. */
+  customEventFilter?: Array<Condition>;
+  /** The trigger will only fire iff all Conditions are true. */
+  filter?: Array<Condition>;
+  /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
+  fingerprint?: string;
+  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
+  uniqueTriggerId?: Parameter;
   /** Defines the data layer event that causes this trigger. */
   type?:
     | "eventTypeUnspecified"
@@ -751,89 +915,109 @@ export interface Trigger {
     | "scrollDepth"
     | "elementVisibility"
     | (string & {});
-  /** The trigger will only fire iff all Conditions are true. */
-  filter?: Array<Condition>;
+  /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
+  checkValidation?: Parameter;
   /** The Trigger ID uniquely identifies the GTM Trigger. */
   triggerId?: string;
-  /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
-  interval?: Parameter;
-  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
-  limit?: Parameter;
-  /** Trigger display name. */
-  name?: string;
-  /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
-  maxTimerLengthSeconds?: Parameter;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** Used in the case of auto event tracking. */
-  autoEventFilter?: Array<Condition>;
-  /** User notes on how to apply this trigger in the container. */
-  notes?: string;
-  /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
-  waitForTags?: Parameter;
-  /** Used in the case of custom event, which is fired iff all Conditions are true. */
-  customEventFilter?: Array<Condition>;
-  /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
-  visiblePercentageMax?: Parameter;
-  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
-  eventName?: Parameter;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
-  uniqueTriggerId?: Parameter;
-  /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  totalTimeMinMilliseconds?: Parameter;
-  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
-  intervalSeconds?: Parameter;
-  /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
-  horizontalScrollPercentageList?: Parameter;
   /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
   visiblePercentageMin?: Parameter;
-  /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
-  fingerprint?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
+  /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
+  limit?: Parameter;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
+  intervalSeconds?: Parameter;
+  /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
+  continuousTimeMinMilliseconds?: Parameter;
+  /** Parent folder id. */
+  parentFolderId?: string;
+  /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
+  visiblePercentageMax?: Parameter;
+  /** GTM Trigger's API relative path. */
+  path?: string;
+  /** Name of the GTM event that is fired. Only valid for Timer triggers. */
+  eventName?: Parameter;
 }
 
 export const Trigger: Schema.Schema<Trigger> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      waitForTagsTimeout: Schema.optional(Parameter),
-      verticalScrollPercentageList: Schema.optional(Parameter),
-      continuousTimeMinMilliseconds: Schema.optional(Parameter),
-      accountId: Schema.optional(Schema.String),
-      parameter: Schema.optional(Schema.Array(Parameter)),
-      selector: Schema.optional(Parameter),
-      visibilitySelector: Schema.optional(Parameter),
-      parentFolderId: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      checkValidation: Schema.optional(Parameter),
-      type: Schema.optional(Schema.String),
-      filter: Schema.optional(Schema.Array(Condition)),
-      triggerId: Schema.optional(Schema.String),
       interval: Schema.optional(Parameter),
-      limit: Schema.optional(Parameter),
-      name: Schema.optional(Schema.String),
-      maxTimerLengthSeconds: Schema.optional(Parameter),
-      workspaceId: Schema.optional(Schema.String),
-      autoEventFilter: Schema.optional(Schema.Array(Condition)),
-      notes: Schema.optional(Schema.String),
-      waitForTags: Schema.optional(Parameter),
-      customEventFilter: Schema.optional(Schema.Array(Condition)),
-      visiblePercentageMax: Schema.optional(Parameter),
-      eventName: Schema.optional(Parameter),
-      containerId: Schema.optional(Schema.String),
-      uniqueTriggerId: Schema.optional(Parameter),
-      totalTimeMinMilliseconds: Schema.optional(Parameter),
-      intervalSeconds: Schema.optional(Parameter),
-      horizontalScrollPercentageList: Schema.optional(Parameter),
-      visiblePercentageMin: Schema.optional(Parameter),
-      fingerprint: Schema.optional(Schema.String),
+      visibilitySelector: Schema.optional(Parameter),
       tagManagerUrl: Schema.optional(Schema.String),
+      waitForTagsTimeout: Schema.optional(Parameter),
+      horizontalScrollPercentageList: Schema.optional(Parameter),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      autoEventFilter: Schema.optional(Schema.Array(Condition)),
+      selector: Schema.optional(Parameter),
+      maxTimerLengthSeconds: Schema.optional(Parameter),
+      containerId: Schema.optional(Schema.String),
+      totalTimeMinMilliseconds: Schema.optional(Parameter),
+      verticalScrollPercentageList: Schema.optional(Parameter),
+      waitForTags: Schema.optional(Parameter),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      notes: Schema.optional(Schema.String),
+      customEventFilter: Schema.optional(Schema.Array(Condition)),
+      filter: Schema.optional(Schema.Array(Condition)),
+      fingerprint: Schema.optional(Schema.String),
+      uniqueTriggerId: Schema.optional(Parameter),
+      type: Schema.optional(Schema.String),
+      checkValidation: Schema.optional(Parameter),
+      triggerId: Schema.optional(Schema.String),
+      visiblePercentageMin: Schema.optional(Parameter),
+      limit: Schema.optional(Parameter),
+      accountId: Schema.optional(Schema.String),
+      intervalSeconds: Schema.optional(Parameter),
+      continuousTimeMinMilliseconds: Schema.optional(Parameter),
+      parentFolderId: Schema.optional(Schema.String),
+      visiblePercentageMax: Schema.optional(Parameter),
+      path: Schema.optional(Schema.String),
+      eventName: Schema.optional(Parameter),
     }),
   ).annotate({ identifier: "Trigger" }) as any as Schema.Schema<Trigger>;
 
+export interface GtagConfig {
+  /** Google tag account ID. */
+  accountId?: string;
+  /** The Google tag config's parameters. */
+  parameter?: Array<Parameter>;
+  /** Google tag workspace ID. Only used by GTM containers. Set to 0 otherwise. */
+  workspaceId?: string;
+  /** Google tag config's API relative path. */
+  path?: string;
+  /** The ID uniquely identifies the Google tag config. */
+  gtagConfigId?: string;
+  /** Google tag config type. */
+  type?: string;
+  /** Google tag container ID. */
+  containerId?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** The fingerprint of the Google tag config as computed at storage time. This value is recomputed whenever the config is modified. */
+  fingerprint?: string;
+}
+
+export const GtagConfig: Schema.Schema<GtagConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      gtagConfigId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "GtagConfig" }) as any as Schema.Schema<GtagConfig>;
+
 export interface VariableFormatValue {
+  /** The value to convert if a variable value is null. */
+  convertNullToValue?: Parameter;
+  /** The value to convert if a variable value is true. */
+  convertTrueToValue?: Parameter;
   /** The option to convert a string-type variable value to either lowercase or uppercase. */
   caseConversionType?: "none" | "lowercase" | "uppercase" | (string & {});
   /** The value to convert if a variable value is undefined. */
@@ -844,10 +1028,6 @@ export interface VariableFormatValue {
     | "period"
     | "comma"
     | (string & {});
-  /** The value to convert if a variable value is true. */
-  convertTrueToValue?: Parameter;
-  /** The value to convert if a variable value is null. */
-  convertNullToValue?: Parameter;
   /** The option to convert a variable value to a boolean. */
   convertToBoolean?: boolean;
   /** The value to convert if a variable value is false. */
@@ -857,11 +1037,11 @@ export interface VariableFormatValue {
 export const VariableFormatValue: Schema.Schema<VariableFormatValue> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      convertNullToValue: Schema.optional(Parameter),
+      convertTrueToValue: Schema.optional(Parameter),
       caseConversionType: Schema.optional(Schema.String),
       convertUndefinedToValue: Schema.optional(Parameter),
       convertToNumber: Schema.optional(Schema.String),
-      convertTrueToValue: Schema.optional(Parameter),
-      convertNullToValue: Schema.optional(Parameter),
       convertToBoolean: Schema.optional(Schema.Boolean),
       convertFalseToValue: Schema.optional(Parameter),
     }),
@@ -870,38 +1050,38 @@ export const VariableFormatValue: Schema.Schema<VariableFormatValue> =
   }) as any as Schema.Schema<VariableFormatValue>;
 
 export interface Variable {
-  /** GTM Variable's API relative path. */
-  path?: string;
-  /** Parent folder id. */
-  parentFolderId?: string;
-  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
-  enablingTriggerId?: Array<string>;
-  /** The variable's parameters. */
-  parameter?: Array<Parameter>;
-  /** The Variable ID uniquely identifies the GTM Variable. */
-  variableId?: string;
-  /** Variable display name. */
-  name?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** User notes on how to apply this variable in the container. */
-  notes?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
-  disablingTriggerId?: Array<string>;
-  /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
-  fingerprint?: string;
   /** GTM Variable Type. */
   type?: string;
+  /** The Variable ID uniquely identifies the GTM Variable. */
+  variableId?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** The variable's parameters. */
+  parameter?: Array<Parameter>;
+  /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
+  fingerprint?: string;
+  /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
+  enablingTriggerId?: Array<string>;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
   /** Option to convert a variable value to other value. */
   formatValue?: VariableFormatValue;
-  /** The end timestamp in milliseconds to schedule a variable. */
-  scheduleEndMs?: string;
   /** The start timestamp in milliseconds to schedule a variable. */
   scheduleStartMs?: string;
+  /** The end timestamp in milliseconds to schedule a variable. */
+  scheduleEndMs?: string;
+  /** Variable display name. */
+  name?: string;
+  /** Parent folder id. */
+  parentFolderId?: string;
+  /** GTM Workspace ID. */
+  workspaceId?: string;
+  /** GTM Variable's API relative path. */
+  path?: string;
+  /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
+  disablingTriggerId?: Array<string>;
+  /** User notes on how to apply this variable in the container. */
+  notes?: string;
   /** GTM Container ID. */
   containerId?: string;
 }
@@ -909,693 +1089,96 @@ export interface Variable {
 export const Variable: Schema.Schema<Variable> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      path: Schema.optional(Schema.String),
-      parentFolderId: Schema.optional(Schema.String),
-      enablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-      parameter: Schema.optional(Schema.Array(Parameter)),
-      variableId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      disablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
-      fingerprint: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
+      variableId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      parameter: Schema.optional(Schema.Array(Parameter)),
+      fingerprint: Schema.optional(Schema.String),
+      enablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      tagManagerUrl: Schema.optional(Schema.String),
       formatValue: Schema.optional(VariableFormatValue),
-      scheduleEndMs: Schema.optional(Schema.String),
       scheduleStartMs: Schema.optional(Schema.String),
+      scheduleEndMs: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      parentFolderId: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      disablingTriggerId: Schema.optional(Schema.Array(Schema.String)),
+      notes: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Variable" }) as any as Schema.Schema<Variable>;
 
-export interface CustomTemplate {
-  /** GTM Custom Template's API relative path. */
-  path?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Custom Template as computed at storage time. This value is recomputed whenever the template is modified. */
-  fingerprint?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** A reference to the Community Template Gallery entry. */
-  galleryReference?: GalleryReference;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** The Custom Template ID uniquely identifies the GTM custom template. */
-  templateId?: string;
-  /** Custom Template display name. */
-  name?: string;
-  /** The custom template in text format. */
-  templateData?: string;
-}
-
-export const CustomTemplate: Schema.Schema<CustomTemplate> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      path: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      galleryReference: Schema.optional(GalleryReference),
-      workspaceId: Schema.optional(Schema.String),
-      templateId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      templateData: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CustomTemplate",
-  }) as any as Schema.Schema<CustomTemplate>;
-
-export interface Folder {
-  /** GTM Folder's API relative path. */
-  path?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
-  fingerprint?: string;
-  /** Folder display name. */
-  name?: string;
-  /** The Folder ID uniquely identifies the GTM Folder. */
-  folderId?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** User notes on how to apply this folder in the container. */
-  notes?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-}
-
-export const Folder: Schema.Schema<Folder> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      path: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      folderId: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Folder" }) as any as Schema.Schema<Folder>;
-
-export interface Transformation {
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The transformation's parameters. */
-  parameter?: Array<Parameter>;
-  /** The fingerprint of the GTM Transformation as computed at storage time. This value is recomputed whenever the transformation is modified. */
-  fingerprint?: string;
-  /** GTM transformation's API relative path. */
-  path?: string;
-  /** Parent folder id. */
-  parentFolderId?: string;
-  /** The Transformation ID uniquely identifies the GTM transformation. */
-  transformationId?: string;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** User notes on how to apply this transformation in the container. */
-  notes?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** Transformation display name. */
-  name?: string;
-  /** Transformation type. */
-  type?: string;
-}
-
-export const Transformation: Schema.Schema<Transformation> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      tagManagerUrl: Schema.optional(Schema.String),
-      parameter: Schema.optional(Schema.Array(Parameter)),
-      fingerprint: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      parentFolderId: Schema.optional(Schema.String),
-      transformationId: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "Transformation",
-  }) as any as Schema.Schema<Transformation>;
-
-export interface ZoneTypeRestriction {
-  /** True if type restrictions have been enabled for this Zone. */
-  enable?: boolean;
-  /** List of type public ids that have been whitelisted for use in this Zone. */
-  whitelistedTypeId?: Array<string>;
-}
-
-export const ZoneTypeRestriction: Schema.Schema<ZoneTypeRestriction> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      enable: Schema.optional(Schema.Boolean),
-      whitelistedTypeId: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "ZoneTypeRestriction",
-  }) as any as Schema.Schema<ZoneTypeRestriction>;
-
-export interface ZoneBoundary {
-  /** Custom evaluation trigger IDs. A zone will evaluate its boundary conditions when any of the listed triggers are true. */
-  customEvaluationTriggerId?: Array<string>;
-  /** The conditions that, when conjoined, make up the boundary. */
-  condition?: Array<Condition>;
-}
-
-export const ZoneBoundary: Schema.Schema<ZoneBoundary> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      customEvaluationTriggerId: Schema.optional(Schema.Array(Schema.String)),
-      condition: Schema.optional(Schema.Array(Condition)),
-    }),
-  ).annotate({
-    identifier: "ZoneBoundary",
-  }) as any as Schema.Schema<ZoneBoundary>;
-
-export interface ZoneChildContainer {
-  /** The child container's public id. */
-  publicId?: string;
-  /** The zone's nickname for the child container. */
-  nickname?: string;
-}
-
-export const ZoneChildContainer: Schema.Schema<ZoneChildContainer> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      publicId: Schema.optional(Schema.String),
-      nickname: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ZoneChildContainer",
-  }) as any as Schema.Schema<ZoneChildContainer>;
-
-export interface Zone {
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Zone as computed at storage time. This value is recomputed whenever the zone is modified. */
-  fingerprint?: string;
-  /** GTM Zone's API relative path. */
-  path?: string;
-  /** The Zone ID uniquely identifies the GTM Zone. */
-  zoneId?: string;
-  /** Zone display name. */
-  name?: string;
-  /** This Zone's type restrictions. */
-  typeRestriction?: ZoneTypeRestriction;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** User notes on how to apply this zone in the container. */
-  notes?: string;
-  /** GTM Workspace ID. */
-  workspaceId?: string;
-  /** This Zone's boundary. */
-  boundary?: ZoneBoundary;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** Containers that are children of this Zone. */
-  childContainer?: Array<ZoneChildContainer>;
-}
-
-export const Zone: Schema.Schema<Zone> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      zoneId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      typeRestriction: Schema.optional(ZoneTypeRestriction),
-      containerId: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
-      boundary: Schema.optional(ZoneBoundary),
-      accountId: Schema.optional(Schema.String),
-      childContainer: Schema.optional(Schema.Array(ZoneChildContainer)),
-    }),
-  ).annotate({ identifier: "Zone" }) as any as Schema.Schema<Zone>;
-
-export interface Entity {
-  /** The trigger being represented by the entity. */
-  trigger?: Trigger;
-  /** The variable being represented by the entity. */
-  variable?: Variable;
-  /** The custom template being represented by the entity. */
-  customTemplate?: CustomTemplate;
-  /** The folder being represented by the entity. */
-  folder?: Folder;
-  /** The tag being represented by the entity. */
-  tag?: Tag;
-  /** The transformation being represented by the entity. */
-  transformation?: Transformation;
-  /** The zone being represented by the entity. */
-  zone?: Zone;
-  /** The built in variable being represented by the entity. */
-  builtInVariable?: BuiltInVariable;
-  /** The gtag config being represented by the entity. */
-  gtagConfig?: GtagConfig;
-  /** The client being represented by the entity. */
-  client?: Client;
-  /** Represents how the entity has been changed in the workspace. */
-  changeStatus?:
-    | "changeStatusUnspecified"
-    | "none"
-    | "added"
-    | "deleted"
-    | "updated"
-    | (string & {});
-}
-
-export const Entity: Schema.Schema<Entity> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      trigger: Schema.optional(Trigger),
-      variable: Schema.optional(Variable),
-      customTemplate: Schema.optional(CustomTemplate),
-      folder: Schema.optional(Folder),
-      tag: Schema.optional(Tag),
-      transformation: Schema.optional(Transformation),
-      zone: Schema.optional(Zone),
-      builtInVariable: Schema.optional(BuiltInVariable),
-      gtagConfig: Schema.optional(GtagConfig),
-      client: Schema.optional(Client),
-      changeStatus: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
-
-export interface MergeConflict {
-  /** The workspace entity that has conflicting changes compared to the base version. If an entity is deleted in a workspace, it will still appear with a deleted change status. */
-  entityInWorkspace?: Entity;
-  /** The base version entity (since the latest sync operation) that has conflicting changes compared to the workspace. If this field is missing, it means the workspace entity is deleted from the base version. */
-  entityInBaseVersion?: Entity;
-}
-
-export const MergeConflict: Schema.Schema<MergeConflict> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      entityInWorkspace: Schema.optional(Entity),
-      entityInBaseVersion: Schema.optional(Entity),
-    }),
-  ).annotate({
-    identifier: "MergeConflict",
-  }) as any as Schema.Schema<MergeConflict>;
-
-export interface SyncWorkspaceResponse {
-  /** Indicates whether synchronization caused a merge conflict or sync error. */
-  syncStatus?: SyncStatus;
-  /** The merge conflict after sync. If this field is not empty, the sync is still treated as successful. But a version cannot be created until all conflicts are resolved. */
-  mergeConflict?: Array<MergeConflict>;
-}
-
-export const SyncWorkspaceResponse: Schema.Schema<SyncWorkspaceResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      syncStatus: Schema.optional(SyncStatus),
-      mergeConflict: Schema.optional(Schema.Array(MergeConflict)),
-    }),
-  ).annotate({
-    identifier: "SyncWorkspaceResponse",
-  }) as any as Schema.Schema<SyncWorkspaceResponse>;
-
-export interface ListEnvironmentsResponse {
-  /** All Environments of a GTM Container. */
-  environment?: Array<Environment>;
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-}
-
-export const ListEnvironmentsResponse: Schema.Schema<ListEnvironmentsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      environment: Schema.optional(Schema.Array(Environment)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListEnvironmentsResponse",
-  }) as any as Schema.Schema<ListEnvironmentsResponse>;
-
-export interface RevertFolderResponse {
-  /** Folder as it appears in the latest container version since the last workspace synchronization operation. If no folder is present, that means the folder was deleted in the latest container version. */
-  folder?: Folder;
-}
-
-export const RevertFolderResponse: Schema.Schema<RevertFolderResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      folder: Schema.optional(Folder),
-    }),
-  ).annotate({
-    identifier: "RevertFolderResponse",
-  }) as any as Schema.Schema<RevertFolderResponse>;
-
-export interface ListClientsResponse {
-  /** All GTM Clients of a GTM Container. */
-  client?: Array<Client>;
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-}
-
-export const ListClientsResponse: Schema.Schema<ListClientsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      client: Schema.optional(Schema.Array(Client)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListClientsResponse",
-  }) as any as Schema.Schema<ListClientsResponse>;
-
-export interface Destination {
-  /** The Destination link ID uniquely identifies the Destination. */
-  destinationLinkId?: string;
-  /** Destination ID. */
-  destinationId?: string;
-  /** Destination display name. */
-  name?: string;
-  /** Destination's API relative path. */
-  path?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** The fingerprint of the Google Tag Destination as computed at storage time. This value is recomputed whenever the destination is modified. */
-  fingerprint?: string;
-  /** GTM Container ID. */
-  containerId?: string;
-  /** Auto generated link to the tag manager UI. */
-  tagManagerUrl?: string;
-}
-
-export const Destination: Schema.Schema<Destination> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      destinationLinkId: Schema.optional(Schema.String),
-      destinationId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      containerId: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "Destination",
-  }) as any as Schema.Schema<Destination>;
-
-export interface RevertZoneResponse {
-  /** Zone as it appears in the latest container version since the last workspace synchronization operation. If no zone is present, that means the zone was deleted in the latest container version. */
-  zone?: Zone;
-}
-
-export const RevertZoneResponse: Schema.Schema<RevertZoneResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      zone: Schema.optional(Zone),
-    }),
-  ).annotate({
-    identifier: "RevertZoneResponse",
-  }) as any as Schema.Schema<RevertZoneResponse>;
-
-export interface ContainerVersionHeader {
-  /** GTM Container ID. */
-  containerId?: string;
-  /** The Container Version ID uniquely identifies the GTM Container Version. */
-  containerVersionId?: string;
-  /** Number of transformations in the container version. */
-  numTransformations?: string;
-  /** Number of variables in the container version. */
-  numVariables?: string;
-  /** Container version display name. */
-  name?: string;
-  /** Number of zones in the container version. */
-  numZones?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** Number of clients in the container version. */
-  numClients?: string;
-  /** Number of Google tag configs in the container version. */
-  numGtagConfigs?: string;
-  /** Number of tags in the container version. */
-  numTags?: string;
-  /** Number of custom templates in the container version. */
-  numCustomTemplates?: string;
-  /** GTM Container Version's API relative path. */
-  path?: string;
-  /** Number of triggers in the container version. */
-  numTriggers?: string;
-  /** A value of true indicates this container version has been deleted. */
-  deleted?: boolean;
-}
-
-export const ContainerVersionHeader: Schema.Schema<ContainerVersionHeader> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      containerId: Schema.optional(Schema.String),
-      containerVersionId: Schema.optional(Schema.String),
-      numTransformations: Schema.optional(Schema.String),
-      numVariables: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      numZones: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      numClients: Schema.optional(Schema.String),
-      numGtagConfigs: Schema.optional(Schema.String),
-      numTags: Schema.optional(Schema.String),
-      numCustomTemplates: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      numTriggers: Schema.optional(Schema.String),
-      deleted: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "ContainerVersionHeader",
-  }) as any as Schema.Schema<ContainerVersionHeader>;
-
-export interface ProposedChange {
-  /** The list of workspace changes to be applied. */
-  changes?: Array<Entity>;
-}
-
-export const ProposedChange: Schema.Schema<ProposedChange> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      changes: Schema.optional(Schema.Array(Entity)),
-    }),
-  ).annotate({
-    identifier: "ProposedChange",
-  }) as any as Schema.Schema<ProposedChange>;
-
-export interface ContainerFeatures {
-  /** Whether this Container supports variables. */
-  supportVariables?: boolean;
-  /** Whether this Container supports transformations. */
-  supportTransformations?: boolean;
-  /** Whether this Container supports Container versions. */
-  supportVersions?: boolean;
-  /** Whether this Container supports user permissions managed by GTM. */
-  supportUserPermissions?: boolean;
-  /** Whether this Container supports clients. */
-  supportClients?: boolean;
-  /** Whether this Container supports triggers. */
-  supportTriggers?: boolean;
-  /** Whether this Container supports workspaces. */
-  supportWorkspaces?: boolean;
-  /** Whether this Container supports environments. */
-  supportEnvironments?: boolean;
-  /** Whether this Container supports built-in variables */
-  supportBuiltInVariables?: boolean;
-  /** Whether this Container supports tags. */
-  supportTags?: boolean;
-  /** Whether this Container supports zones. */
-  supportZones?: boolean;
-  /** Whether this Container supports Google tag config. */
-  supportGtagConfigs?: boolean;
-  /** Whether this Container supports folders. */
-  supportFolders?: boolean;
-  /** Whether this Container supports templates. */
-  supportTemplates?: boolean;
-}
-
-export const ContainerFeatures: Schema.Schema<ContainerFeatures> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      supportVariables: Schema.optional(Schema.Boolean),
-      supportTransformations: Schema.optional(Schema.Boolean),
-      supportVersions: Schema.optional(Schema.Boolean),
-      supportUserPermissions: Schema.optional(Schema.Boolean),
-      supportClients: Schema.optional(Schema.Boolean),
-      supportTriggers: Schema.optional(Schema.Boolean),
-      supportWorkspaces: Schema.optional(Schema.Boolean),
-      supportEnvironments: Schema.optional(Schema.Boolean),
-      supportBuiltInVariables: Schema.optional(Schema.Boolean),
-      supportTags: Schema.optional(Schema.Boolean),
-      supportZones: Schema.optional(Schema.Boolean),
-      supportGtagConfigs: Schema.optional(Schema.Boolean),
-      supportFolders: Schema.optional(Schema.Boolean),
-      supportTemplates: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "ContainerFeatures",
-  }) as any as Schema.Schema<ContainerFeatures>;
-
-export interface Container {
-  /** The Container ID uniquely identifies the GTM Container. */
-  containerId?: string;
-  /** Container Public ID. */
-  publicId?: string;
-  /** List of server-side container URLs for the Container. If multiple URLs are provided, all URL paths must match. */
-  taggingServerUrls?: Array<string>;
-  /** List of domain names associated with the Container. */
-  domainName?: Array<string>;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
-  fingerprint?: string;
-  /** Container Notes. */
-  notes?: string;
-  /** GTM Account ID. */
-  accountId?: string;
-  /** Container display name. */
-  name?: string;
-  /** List of Usage Contexts for the Container. Valid values include: web, android, or ios. */
-  usageContext?: Array<
-    | "usageContextUnspecified"
-    | "web"
-    | "android"
-    | "ios"
-    | "androidSdk5"
-    | "iosSdk5"
-    | "amp"
-    | "server"
-    | (string & {})
-  >;
-  /** GTM Container's API relative path. */
-  path?: string;
-  /** Read-only Container feature set. */
-  features?: ContainerFeatures;
-  /** All Tag IDs that refer to this Container. */
-  tagIds?: Array<string>;
-}
-
-export const Container: Schema.Schema<Container> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      containerId: Schema.optional(Schema.String),
-      publicId: Schema.optional(Schema.String),
-      taggingServerUrls: Schema.optional(Schema.Array(Schema.String)),
-      domainName: Schema.optional(Schema.Array(Schema.String)),
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
-      notes: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      usageContext: Schema.optional(Schema.Array(Schema.String)),
-      path: Schema.optional(Schema.String),
-      features: Schema.optional(ContainerFeatures),
-      tagIds: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({ identifier: "Container" }) as any as Schema.Schema<Container>;
-
 export interface ContainerVersion {
-  /** GTM Container ID. */
-  containerId?: string;
-  /** The folders in the container that this version was taken from. */
-  folder?: Array<Folder>;
-  /** The triggers in the container that this version was taken from. */
-  trigger?: Array<Trigger>;
-  /** The custom templates in the container that this version was taken from. */
-  customTemplate?: Array<CustomTemplate>;
   /** The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
   fingerprint?: string;
   /** The Container Version ID uniquely identifies the GTM Container Version. */
   containerVersionId?: string;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The clients in the container that this version was taken from. */
-  client?: Array<Client>;
-  /** The container that this version was taken from. */
-  container?: Container;
-  /** The tags in the container that this version was taken from. */
-  tag?: Array<Tag>;
-  /** The zones in the container that this version was taken from. */
-  zone?: Array<Zone>;
   /** The built-in variables in the container that this version was taken from. */
   builtInVariable?: Array<BuiltInVariable>;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** The custom templates in the container that this version was taken from. */
+  customTemplate?: Array<CustomTemplate>;
+  /** The tags in the container that this version was taken from. */
+  tag?: Array<Tag>;
+  /** The folders in the container that this version was taken from. */
+  folder?: Array<Folder>;
   /** GTM Account ID. */
   accountId?: string;
+  /** The container that this version was taken from. */
+  container?: Container;
+  /** The zones in the container that this version was taken from. */
+  zone?: Array<Zone>;
+  /** The transformations in the container that this version was taken from. */
+  transformation?: Array<Transformation>;
+  /** GTM Container ID. */
+  containerId?: string;
   /** Container version description. */
   description?: string;
-  /** The variables in the container that this version was taken from. */
-  variable?: Array<Variable>;
-  /** Container version display name. */
-  name?: string;
-  /** The Google tag configs in the container that this version was taken from. */
-  gtagConfig?: Array<GtagConfig>;
   /** GTM Container Version's API relative path. */
   path?: string;
   /** A value of true indicates this container version has been deleted. */
   deleted?: boolean;
-  /** The transformations in the container that this version was taken from. */
-  transformation?: Array<Transformation>;
+  /** The clients in the container that this version was taken from. */
+  client?: Array<Client>;
+  /** Container version display name. */
+  name?: string;
+  /** The triggers in the container that this version was taken from. */
+  trigger?: Array<Trigger>;
+  /** The Google tag configs in the container that this version was taken from. */
+  gtagConfig?: Array<GtagConfig>;
+  /** The variables in the container that this version was taken from. */
+  variable?: Array<Variable>;
 }
 
 export const ContainerVersion: Schema.Schema<ContainerVersion> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      containerId: Schema.optional(Schema.String),
-      folder: Schema.optional(Schema.Array(Folder)),
-      trigger: Schema.optional(Schema.Array(Trigger)),
-      customTemplate: Schema.optional(Schema.Array(CustomTemplate)),
       fingerprint: Schema.optional(Schema.String),
       containerVersionId: Schema.optional(Schema.String),
-      tagManagerUrl: Schema.optional(Schema.String),
-      client: Schema.optional(Schema.Array(Client)),
-      container: Schema.optional(Container),
-      tag: Schema.optional(Schema.Array(Tag)),
-      zone: Schema.optional(Schema.Array(Zone)),
       builtInVariable: Schema.optional(Schema.Array(BuiltInVariable)),
+      tagManagerUrl: Schema.optional(Schema.String),
+      customTemplate: Schema.optional(Schema.Array(CustomTemplate)),
+      tag: Schema.optional(Schema.Array(Tag)),
+      folder: Schema.optional(Schema.Array(Folder)),
       accountId: Schema.optional(Schema.String),
+      container: Schema.optional(Container),
+      zone: Schema.optional(Schema.Array(Zone)),
+      transformation: Schema.optional(Schema.Array(Transformation)),
+      containerId: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
-      variable: Schema.optional(Schema.Array(Variable)),
-      name: Schema.optional(Schema.String),
-      gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
       path: Schema.optional(Schema.String),
       deleted: Schema.optional(Schema.Boolean),
-      transformation: Schema.optional(Schema.Array(Transformation)),
+      client: Schema.optional(Schema.Array(Client)),
+      name: Schema.optional(Schema.String),
+      trigger: Schema.optional(Schema.Array(Trigger)),
+      gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
+      variable: Schema.optional(Schema.Array(Variable)),
     }),
   ).annotate({
     identifier: "ContainerVersion",
   }) as any as Schema.Schema<ContainerVersion>;
-
-export interface QuickPreviewResponse {
-  /** Whether quick previewing failed when syncing the workspace to the latest container version. */
-  syncStatus?: SyncStatus;
-  /** The quick previewed container version. */
-  containerVersion?: ContainerVersion;
-  /** Were there compiler errors or not. */
-  compilerError?: boolean;
-}
-
-export const QuickPreviewResponse: Schema.Schema<QuickPreviewResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      syncStatus: Schema.optional(SyncStatus),
-      containerVersion: Schema.optional(ContainerVersion),
-      compilerError: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "QuickPreviewResponse",
-  }) as any as Schema.Schema<QuickPreviewResponse>;
 
 export interface CreateBuiltInVariableResponse {
   /** List of created built-in variables. */
@@ -1611,165 +1194,78 @@ export const CreateBuiltInVariableResponse: Schema.Schema<CreateBuiltInVariableR
     identifier: "CreateBuiltInVariableResponse",
   }) as any as Schema.Schema<CreateBuiltInVariableResponse>;
 
-export interface RevertBuiltInVariableResponse {
-  /** Whether the built-in variable is enabled after reversion. */
-  enabled?: boolean;
-}
-
-export const RevertBuiltInVariableResponse: Schema.Schema<RevertBuiltInVariableResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      enabled: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "RevertBuiltInVariableResponse",
-  }) as any as Schema.Schema<RevertBuiltInVariableResponse>;
-
-export interface ListVariablesResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** All GTM Variables of a GTM Container. */
+export interface FolderEntities {
+  /** The list of tags inside the folder. */
+  tag?: Array<Tag>;
+  /** The list of triggers inside the folder. */
+  trigger?: Array<Trigger>;
+  /** The list of variables inside the folder. */
   variable?: Array<Variable>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
 }
 
-export const ListVariablesResponse: Schema.Schema<ListVariablesResponse> =
+export const FolderEntities: Schema.Schema<FolderEntities> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
+      tag: Schema.optional(Schema.Array(Tag)),
+      trigger: Schema.optional(Schema.Array(Trigger)),
       variable: Schema.optional(Schema.Array(Variable)),
-    }),
-  ).annotate({
-    identifier: "ListVariablesResponse",
-  }) as any as Schema.Schema<ListVariablesResponse>;
-
-export interface ListGtagConfigResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** All Google tag configs in a Container. */
-  gtagConfig?: Array<GtagConfig>;
-}
-
-export const ListGtagConfigResponse: Schema.Schema<ListGtagConfigResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
-    }),
-  ).annotate({
-    identifier: "ListGtagConfigResponse",
-  }) as any as Schema.Schema<ListGtagConfigResponse>;
-
-export interface RevertTemplateResponse {
-  /** Template as it appears in the latest container version since the last workspace synchronization operation. If no template is present, that means the template was deleted in the latest container version. */
-  template?: CustomTemplate;
-}
-
-export const RevertTemplateResponse: Schema.Schema<RevertTemplateResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      template: Schema.optional(CustomTemplate),
-    }),
-  ).annotate({
-    identifier: "RevertTemplateResponse",
-  }) as any as Schema.Schema<RevertTemplateResponse>;
-
-export interface ListTemplatesResponse {
-  /** All GTM Custom Templates of a GTM Container. */
-  template?: Array<CustomTemplate>;
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-}
-
-export const ListTemplatesResponse: Schema.Schema<ListTemplatesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      template: Schema.optional(Schema.Array(CustomTemplate)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListTemplatesResponse",
-  }) as any as Schema.Schema<ListTemplatesResponse>;
+    identifier: "FolderEntities",
+  }) as any as Schema.Schema<FolderEntities>;
 
-export interface RevertTransformationResponse {
-  /** Transformation as it appears in the latest container version since the last workspace synchronization operation. If no transformation is present, that means the transformation was deleted in the latest container version. */
-  transformation?: Transformation;
-}
-
-export const RevertTransformationResponse: Schema.Schema<RevertTransformationResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      transformation: Schema.optional(Transformation),
-    }),
-  ).annotate({
-    identifier: "RevertTransformationResponse",
-  }) as any as Schema.Schema<RevertTransformationResponse>;
-
-export interface ListDestinationsResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** All Destinations linked to a GTM Container. */
-  destination?: Array<Destination>;
-}
-
-export const ListDestinationsResponse: Schema.Schema<ListDestinationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      destination: Schema.optional(Schema.Array(Destination)),
-    }),
-  ).annotate({
-    identifier: "ListDestinationsResponse",
-  }) as any as Schema.Schema<ListDestinationsResponse>;
-
-export interface Workspace {
-  /** Workspace display name. */
-  name?: string;
-  /** Workspace description. */
-  description?: string;
-  /** GTM Workspace's API relative path. */
-  path?: string;
-  /** GTM Account ID. */
-  accountId?: string;
+export interface Destination {
   /** GTM Container ID. */
   containerId?: string;
-  /** Auto generated link to the tag manager UI */
+  /** Auto generated link to the tag manager UI. */
   tagManagerUrl?: string;
-  /** The Workspace ID uniquely identifies the GTM Workspace. */
-  workspaceId?: string;
-  /** The fingerprint of the GTM Workspace as computed at storage time. This value is recomputed whenever the workspace is modified. */
+  /** GTM Account ID. */
+  accountId?: string;
+  /** The Destination link ID uniquely identifies the Destination. */
+  destinationLinkId?: string;
+  /** Destination display name. */
+  name?: string;
+  /** Destination ID. */
+  destinationId?: string;
+  /** The fingerprint of the Google Tag Destination as computed at storage time. This value is recomputed whenever the destination is modified. */
   fingerprint?: string;
+  /** Destination's API relative path. */
+  path?: string;
 }
 
-export const Workspace: Schema.Schema<Workspace> =
+export const Destination: Schema.Schema<Destination> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      path: Schema.optional(Schema.String),
-      accountId: Schema.optional(Schema.String),
       containerId: Schema.optional(Schema.String),
       tagManagerUrl: Schema.optional(Schema.String),
-      workspaceId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      destinationLinkId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      destinationId: Schema.optional(Schema.String),
       fingerprint: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Workspace" }) as any as Schema.Schema<Workspace>;
-
-export interface ListWorkspacesResponse {
-  /** All Workspaces of a GTM Container. */
-  workspace?: Array<Workspace>;
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-}
-
-export const ListWorkspacesResponse: Schema.Schema<ListWorkspacesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      workspace: Schema.optional(Schema.Array(Workspace)),
-      nextPageToken: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListWorkspacesResponse",
-  }) as any as Schema.Schema<ListWorkspacesResponse>;
+    identifier: "Destination",
+  }) as any as Schema.Schema<Destination>;
+
+export interface SyncStatus {
+  /** An error occurred during the synchronization operation. */
+  syncError?: boolean;
+  /** Synchornization operation detected a merge conflict. */
+  mergeConflict?: boolean;
+}
+
+export const SyncStatus: Schema.Schema<SyncStatus> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      syncError: Schema.optional(Schema.Boolean),
+      mergeConflict: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "SyncStatus" }) as any as Schema.Schema<SyncStatus>;
 
 export interface CreateContainerVersionResponse {
   /** Compiler errors or not. */
@@ -1794,22 +1290,244 @@ export const CreateContainerVersionResponse: Schema.Schema<CreateContainerVersio
     identifier: "CreateContainerVersionResponse",
   }) as any as Schema.Schema<CreateContainerVersionResponse>;
 
-export interface PublishContainerVersionResponse {
-  /** Compiler errors or not. */
-  compilerError?: boolean;
-  /** The container version created. */
-  containerVersion?: ContainerVersion;
+export interface AccountAccess {
+  /** Whether the user has no access, user access, or admin access to an account. */
+  permission?:
+    | "accountPermissionUnspecified"
+    | "noAccess"
+    | "user"
+    | "admin"
+    | (string & {});
 }
 
-export const PublishContainerVersionResponse: Schema.Schema<PublishContainerVersionResponse> =
+export const AccountAccess: Schema.Schema<AccountAccess> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      compilerError: Schema.optional(Schema.Boolean),
-      containerVersion: Schema.optional(ContainerVersion),
+      permission: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "PublishContainerVersionResponse",
-  }) as any as Schema.Schema<PublishContainerVersionResponse>;
+    identifier: "AccountAccess",
+  }) as any as Schema.Schema<AccountAccess>;
+
+export interface ContainerAccess {
+  /** List of Container permissions. */
+  permission?:
+    | "containerPermissionUnspecified"
+    | "noAccess"
+    | "read"
+    | "edit"
+    | "approve"
+    | "publish"
+    | (string & {});
+  /** GTM Container ID. */
+  containerId?: string;
+}
+
+export const ContainerAccess: Schema.Schema<ContainerAccess> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permission: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ContainerAccess",
+  }) as any as Schema.Schema<ContainerAccess>;
+
+export interface UserPermission {
+  /** User's email address. */
+  emailAddress?: string;
+  /** GTM UserPermission's API relative path. */
+  path?: string;
+  /** GTM Account access permissions. */
+  accountAccess?: AccountAccess;
+  /** GTM Container access permissions. */
+  containerAccess?: Array<ContainerAccess>;
+  /** The Account ID uniquely identifies the GTM Account. */
+  accountId?: string;
+}
+
+export const UserPermission: Schema.Schema<UserPermission> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      emailAddress: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      accountAccess: Schema.optional(AccountAccess),
+      containerAccess: Schema.optional(Schema.Array(ContainerAccess)),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "UserPermission",
+  }) as any as Schema.Schema<UserPermission>;
+
+export interface ListZonesResponse {
+  /** All GTM Zones of a GTM Container. */
+  zone?: Array<Zone>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListZonesResponse: Schema.Schema<ListZonesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      zone: Schema.optional(Schema.Array(Zone)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListZonesResponse",
+  }) as any as Schema.Schema<ListZonesResponse>;
+
+export interface RevertTemplateResponse {
+  /** Template as it appears in the latest container version since the last workspace synchronization operation. If no template is present, that means the template was deleted in the latest container version. */
+  template?: CustomTemplate;
+}
+
+export const RevertTemplateResponse: Schema.Schema<RevertTemplateResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      template: Schema.optional(CustomTemplate),
+    }),
+  ).annotate({
+    identifier: "RevertTemplateResponse",
+  }) as any as Schema.Schema<RevertTemplateResponse>;
+
+export interface Workspace {
+  /** The Workspace ID uniquely identifies the GTM Workspace. */
+  workspaceId?: string;
+  /** The fingerprint of the GTM Workspace as computed at storage time. This value is recomputed whenever the workspace is modified. */
+  fingerprint?: string;
+  /** GTM Workspace's API relative path. */
+  path?: string;
+  /** Workspace display name. */
+  name?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** Workspace description. */
+  description?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+}
+
+export const Workspace: Schema.Schema<Workspace> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workspaceId: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Workspace" }) as any as Schema.Schema<Workspace>;
+
+export interface ListWorkspacesResponse {
+  /** All Workspaces of a GTM Container. */
+  workspace?: Array<Workspace>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListWorkspacesResponse: Schema.Schema<ListWorkspacesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      workspace: Schema.optional(Schema.Array(Workspace)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListWorkspacesResponse",
+  }) as any as Schema.Schema<ListWorkspacesResponse>;
+
+export interface CreateContainerVersionRequestVersionOptions {
+  /** The notes of the container version to be created. */
+  notes?: string;
+  /** The name of the container version to be created. */
+  name?: string;
+}
+
+export const CreateContainerVersionRequestVersionOptions: Schema.Schema<CreateContainerVersionRequestVersionOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      notes: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CreateContainerVersionRequestVersionOptions",
+  }) as any as Schema.Schema<CreateContainerVersionRequestVersionOptions>;
+
+export interface ContainerVersionHeader {
+  /** Number of variables in the container version. */
+  numVariables?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** Number of triggers in the container version. */
+  numTriggers?: string;
+  /** GTM Container Version's API relative path. */
+  path?: string;
+  /** A value of true indicates this container version has been deleted. */
+  deleted?: boolean;
+  /** Container version display name. */
+  name?: string;
+  /** Number of tags in the container version. */
+  numTags?: string;
+  /** Number of custom templates in the container version. */
+  numCustomTemplates?: string;
+  /** Number of clients in the container version. */
+  numClients?: string;
+  /** Number of Google tag configs in the container version. */
+  numGtagConfigs?: string;
+  /** Number of transformations in the container version. */
+  numTransformations?: string;
+  /** The Container Version ID uniquely identifies the GTM Container Version. */
+  containerVersionId?: string;
+  /** Number of zones in the container version. */
+  numZones?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+}
+
+export const ContainerVersionHeader: Schema.Schema<ContainerVersionHeader> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      numVariables: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      numTriggers: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      deleted: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      numTags: Schema.optional(Schema.String),
+      numCustomTemplates: Schema.optional(Schema.String),
+      numClients: Schema.optional(Schema.String),
+      numGtagConfigs: Schema.optional(Schema.String),
+      numTransformations: Schema.optional(Schema.String),
+      containerVersionId: Schema.optional(Schema.String),
+      numZones: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ContainerVersionHeader",
+  }) as any as Schema.Schema<ContainerVersionHeader>;
+
+export interface ListContainerVersionsResponse {
+  /** All container version headers of a GTM Container. */
+  containerVersionHeader?: Array<ContainerVersionHeader>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListContainerVersionsResponse: Schema.Schema<ListContainerVersionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      containerVersionHeader: Schema.optional(
+        Schema.Array(ContainerVersionHeader),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListContainerVersionsResponse",
+  }) as any as Schema.Schema<ListContainerVersionsResponse>;
 
 export interface ListTriggersResponse {
   /** All GTM Triggers of a GTM Container. */
@@ -1827,37 +1545,6 @@ export const ListTriggersResponse: Schema.Schema<ListTriggersResponse> =
   ).annotate({
     identifier: "ListTriggersResponse",
   }) as any as Schema.Schema<ListTriggersResponse>;
-
-export interface ListTransformationsResponse {
-  /** All GTM Transformations of a GTM Container. */
-  transformation?: Array<Transformation>;
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-}
-
-export const ListTransformationsResponse: Schema.Schema<ListTransformationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      transformation: Schema.optional(Schema.Array(Transformation)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListTransformationsResponse",
-  }) as any as Schema.Schema<ListTransformationsResponse>;
-
-export interface RevertVariableResponse {
-  /** Variable as it appears in the latest container version since the last workspace synchronization operation. If no variable is present, that means the variable was deleted in the latest container version. */
-  variable?: Variable;
-}
-
-export const RevertVariableResponse: Schema.Schema<RevertVariableResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      variable: Schema.optional(Variable),
-    }),
-  ).annotate({
-    identifier: "RevertVariableResponse",
-  }) as any as Schema.Schema<RevertVariableResponse>;
 
 export interface ListContainersResponse {
   /** All Containers of a GTM Account. */
@@ -1877,51 +1564,127 @@ export const ListContainersResponse: Schema.Schema<ListContainersResponse> =
   }) as any as Schema.Schema<ListContainersResponse>;
 
 export interface AccountFeatures {
-  /** Whether this Account supports user permissions managed by GTM. */
-  supportUserPermissions?: boolean;
   /** Whether this Account supports multiple Containers. */
   supportMultipleContainers?: boolean;
+  /** Whether this Account supports user permissions managed by GTM. */
+  supportUserPermissions?: boolean;
 }
 
 export const AccountFeatures: Schema.Schema<AccountFeatures> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      supportUserPermissions: Schema.optional(Schema.Boolean),
       supportMultipleContainers: Schema.optional(Schema.Boolean),
+      supportUserPermissions: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
     identifier: "AccountFeatures",
   }) as any as Schema.Schema<AccountFeatures>;
 
 export interface Account {
-  /** Account display name. */
-  name?: string;
   /** Read-only Account feature set */
   features?: AccountFeatures;
+  /** Account display name. */
+  name?: string;
   /** GTM Account's API relative path. */
   path?: string;
+  /** The fingerprint of the GTM Account as computed at storage time. This value is recomputed whenever the account is modified. */
+  fingerprint?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
   /** The Account ID uniquely identifies the GTM Account. */
   accountId?: string;
   /** Whether the account shares data anonymously with Google and others. This flag enables benchmarking by sharing your data in an anonymous form. Google will remove all identifiable information about your website, combine the data with hundreds of other anonymous sites and report aggregate trends in the benchmarking service. */
   shareData?: boolean;
-  /** Auto generated link to the tag manager UI */
-  tagManagerUrl?: string;
-  /** The fingerprint of the GTM Account as computed at storage time. This value is recomputed whenever the account is modified. */
-  fingerprint?: string;
 }
 
 export const Account: Schema.Schema<Account> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
       features: Schema.optional(AccountFeatures),
+      name: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
       accountId: Schema.optional(Schema.String),
       shareData: Schema.optional(Schema.Boolean),
-      tagManagerUrl: Schema.optional(Schema.String),
-      fingerprint: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Account" }) as any as Schema.Schema<Account>;
+
+export interface RevertFolderResponse {
+  /** Folder as it appears in the latest container version since the last workspace synchronization operation. If no folder is present, that means the folder was deleted in the latest container version. */
+  folder?: Folder;
+}
+
+export const RevertFolderResponse: Schema.Schema<RevertFolderResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      folder: Schema.optional(Folder),
+    }),
+  ).annotate({
+    identifier: "RevertFolderResponse",
+  }) as any as Schema.Schema<RevertFolderResponse>;
+
+export interface Entity {
+  /** Represents how the entity has been changed in the workspace. */
+  changeStatus?:
+    | "changeStatusUnspecified"
+    | "none"
+    | "added"
+    | "deleted"
+    | "updated"
+    | (string & {});
+  /** The built in variable being represented by the entity. */
+  builtInVariable?: BuiltInVariable;
+  /** The transformation being represented by the entity. */
+  transformation?: Transformation;
+  /** The zone being represented by the entity. */
+  zone?: Zone;
+  /** The variable being represented by the entity. */
+  variable?: Variable;
+  /** The custom template being represented by the entity. */
+  customTemplate?: CustomTemplate;
+  /** The tag being represented by the entity. */
+  tag?: Tag;
+  /** The trigger being represented by the entity. */
+  trigger?: Trigger;
+  /** The folder being represented by the entity. */
+  folder?: Folder;
+  /** The gtag config being represented by the entity. */
+  gtagConfig?: GtagConfig;
+  /** The client being represented by the entity. */
+  client?: Client;
+}
+
+export const Entity: Schema.Schema<Entity> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      changeStatus: Schema.optional(Schema.String),
+      builtInVariable: Schema.optional(BuiltInVariable),
+      transformation: Schema.optional(Transformation),
+      zone: Schema.optional(Zone),
+      variable: Schema.optional(Variable),
+      customTemplate: Schema.optional(CustomTemplate),
+      tag: Schema.optional(Tag),
+      trigger: Schema.optional(Trigger),
+      folder: Schema.optional(Folder),
+      gtagConfig: Schema.optional(GtagConfig),
+      client: Schema.optional(Client),
+    }),
+  ).annotate({ identifier: "Entity" }) as any as Schema.Schema<Entity>;
+
+export interface BulkUpdateWorkspaceResponse {
+  /** The entities that were added or updated during the bulk-update. Does not include entities that were deleted or updated by the system. */
+  changes?: Array<Entity>;
+}
+
+export const BulkUpdateWorkspaceResponse: Schema.Schema<BulkUpdateWorkspaceResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      changes: Schema.optional(Schema.Array(Entity)),
+    }),
+  ).annotate({
+    identifier: "BulkUpdateWorkspaceResponse",
+  }) as any as Schema.Schema<BulkUpdateWorkspaceResponse>;
 
 export interface ListAccountsResponse {
   /** List of GTM Accounts that a user has access to. */
@@ -1940,6 +1703,23 @@ export const ListAccountsResponse: Schema.Schema<ListAccountsResponse> =
     identifier: "ListAccountsResponse",
   }) as any as Schema.Schema<ListAccountsResponse>;
 
+export interface MergeConflict {
+  /** The workspace entity that has conflicting changes compared to the base version. If an entity is deleted in a workspace, it will still appear with a deleted change status. */
+  entityInWorkspace?: Entity;
+  /** The base version entity (since the latest sync operation) that has conflicting changes compared to the workspace. If this field is missing, it means the workspace entity is deleted from the base version. */
+  entityInBaseVersion?: Entity;
+}
+
+export const MergeConflict: Schema.Schema<MergeConflict> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      entityInWorkspace: Schema.optional(Entity),
+      entityInBaseVersion: Schema.optional(Entity),
+    }),
+  ).annotate({
+    identifier: "MergeConflict",
+  }) as any as Schema.Schema<MergeConflict>;
+
 export interface GetWorkspaceStatusResponse {
   /** Entities that have been changed in the workspace. */
   workspaceChange?: Array<Entity>;
@@ -1957,115 +1737,270 @@ export const GetWorkspaceStatusResponse: Schema.Schema<GetWorkspaceStatusRespons
     identifier: "GetWorkspaceStatusResponse",
   }) as any as Schema.Schema<GetWorkspaceStatusResponse>;
 
-export interface GetContainerSnippetResponse {
-  /** Tagging snippet for a Container. */
-  snippet?: string;
-  /** Server container config param for manually provisioning a tagging server. */
-  containerConfig?: string;
-}
-
-export const GetContainerSnippetResponse: Schema.Schema<GetContainerSnippetResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      snippet: Schema.optional(Schema.String),
-      containerConfig: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GetContainerSnippetResponse",
-  }) as any as Schema.Schema<GetContainerSnippetResponse>;
-
-export interface ListZonesResponse {
-  /** All GTM Zones of a GTM Container. */
-  zone?: Array<Zone>;
+export interface ListTransformationsResponse {
+  /** All GTM Transformations of a GTM Container. */
+  transformation?: Array<Transformation>;
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string;
 }
 
-export const ListZonesResponse: Schema.Schema<ListZonesResponse> =
+export const ListTransformationsResponse: Schema.Schema<ListTransformationsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      zone: Schema.optional(Schema.Array(Zone)),
+      transformation: Schema.optional(Schema.Array(Transformation)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListZonesResponse",
-  }) as any as Schema.Schema<ListZonesResponse>;
+    identifier: "ListTransformationsResponse",
+  }) as any as Schema.Schema<ListTransformationsResponse>;
 
-export interface ListTagsResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** All GTM Tags of a GTM Container. */
-  tag?: Array<Tag>;
+export interface PublishContainerVersionResponse {
+  /** The container version created. */
+  containerVersion?: ContainerVersion;
+  /** Compiler errors or not. */
+  compilerError?: boolean;
 }
 
-export const ListTagsResponse: Schema.Schema<ListTagsResponse> =
+export const PublishContainerVersionResponse: Schema.Schema<PublishContainerVersionResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      containerVersion: Schema.optional(ContainerVersion),
+      compilerError: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "PublishContainerVersionResponse",
+  }) as any as Schema.Schema<PublishContainerVersionResponse>;
+
+export interface ListGtagConfigResponse {
+  /** All Google tag configs in a Container. */
+  gtagConfig?: Array<GtagConfig>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListGtagConfigResponse: Schema.Schema<ListGtagConfigResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      gtagConfig: Schema.optional(Schema.Array(GtagConfig)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListGtagConfigResponse",
+  }) as any as Schema.Schema<ListGtagConfigResponse>;
+
+export interface ListClientsResponse {
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+  /** All GTM Clients of a GTM Container. */
+  client?: Array<Client>;
+}
+
+export const ListClientsResponse: Schema.Schema<ListClientsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       nextPageToken: Schema.optional(Schema.String),
-      tag: Schema.optional(Schema.Array(Tag)),
+      client: Schema.optional(Schema.Array(Client)),
     }),
   ).annotate({
-    identifier: "ListTagsResponse",
-  }) as any as Schema.Schema<ListTagsResponse>;
+    identifier: "ListClientsResponse",
+  }) as any as Schema.Schema<ListClientsResponse>;
 
-export interface ListFoldersResponse {
-  /** All GTM Folders of a GTM Container. */
-  folder?: Array<Folder>;
+export interface RevertTransformationResponse {
+  /** Transformation as it appears in the latest container version since the last workspace synchronization operation. If no transformation is present, that means the transformation was deleted in the latest container version. */
+  transformation?: Transformation;
+}
+
+export const RevertTransformationResponse: Schema.Schema<RevertTransformationResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      transformation: Schema.optional(Transformation),
+    }),
+  ).annotate({
+    identifier: "RevertTransformationResponse",
+  }) as any as Schema.Schema<RevertTransformationResponse>;
+
+export interface QuickPreviewResponse {
+  /** The quick previewed container version. */
+  containerVersion?: ContainerVersion;
+  /** Whether quick previewing failed when syncing the workspace to the latest container version. */
+  syncStatus?: SyncStatus;
+  /** Were there compiler errors or not. */
+  compilerError?: boolean;
+}
+
+export const QuickPreviewResponse: Schema.Schema<QuickPreviewResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      containerVersion: Schema.optional(ContainerVersion),
+      syncStatus: Schema.optional(SyncStatus),
+      compilerError: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "QuickPreviewResponse",
+  }) as any as Schema.Schema<QuickPreviewResponse>;
+
+export interface Environment {
+  /** GTM Environment ID uniquely identifies the GTM Environment. */
+  environmentId?: string;
+  /** Whether or not to enable debug by default for the environment. */
+  enableDebug?: boolean;
+  /** The environment display name. Can be set or changed only on USER type environments. */
+  name?: string;
+  /** Represents a link to a quick preview of a workspace. */
+  workspaceId?: string;
+  /** GTM Environment's API relative path. */
+  path?: string;
+  /** The environment description. Can be set or changed only on USER type environments. */
+  description?: string;
+  /** GTM Container ID. */
+  containerId?: string;
+  /** GTM Account ID. */
+  accountId?: string;
+  /** Default preview page url for the environment. */
+  url?: string;
+  /** The type of this environment. */
+  type?: "user" | "live" | "latest" | "workspace" | (string & {});
+  /** The environment authorization code. */
+  authorizationCode?: string;
+  /** Auto generated link to the tag manager UI */
+  tagManagerUrl?: string;
+  /** The last update time-stamp for the authorization code. */
+  authorizationTimestamp?: string;
+  /** Represents a link to a container version. */
+  containerVersionId?: string;
+  /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
+  fingerprint?: string;
+}
+
+export const Environment: Schema.Schema<Environment> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      environmentId: Schema.optional(Schema.String),
+      enableDebug: Schema.optional(Schema.Boolean),
+      name: Schema.optional(Schema.String),
+      workspaceId: Schema.optional(Schema.String),
+      path: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      containerId: Schema.optional(Schema.String),
+      accountId: Schema.optional(Schema.String),
+      url: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      authorizationCode: Schema.optional(Schema.String),
+      tagManagerUrl: Schema.optional(Schema.String),
+      authorizationTimestamp: Schema.optional(Schema.String),
+      containerVersionId: Schema.optional(Schema.String),
+      fingerprint: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Environment",
+  }) as any as Schema.Schema<Environment>;
+
+export interface ListEnvironmentsResponse {
+  /** All Environments of a GTM Container. */
+  environment?: Array<Environment>;
   /** Continuation token for fetching the next page of results. */
   nextPageToken?: string;
 }
 
-export const ListFoldersResponse: Schema.Schema<ListFoldersResponse> =
+export const ListEnvironmentsResponse: Schema.Schema<ListEnvironmentsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      folder: Schema.optional(Schema.Array(Folder)),
+      environment: Schema.optional(Schema.Array(Environment)),
       nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListFoldersResponse",
-  }) as any as Schema.Schema<ListFoldersResponse>;
+    identifier: "ListEnvironmentsResponse",
+  }) as any as Schema.Schema<ListEnvironmentsResponse>;
 
-export interface ListContainerVersionsResponse {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** All container version headers of a GTM Container. */
-  containerVersionHeader?: Array<ContainerVersionHeader>;
+export interface RevertBuiltInVariableResponse {
+  /** Whether the built-in variable is enabled after reversion. */
+  enabled?: boolean;
 }
 
-export const ListContainerVersionsResponse: Schema.Schema<ListContainerVersionsResponse> =
+export const RevertBuiltInVariableResponse: Schema.Schema<RevertBuiltInVariableResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      containerVersionHeader: Schema.optional(
-        Schema.Array(ContainerVersionHeader),
-      ),
+      enabled: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
-    identifier: "ListContainerVersionsResponse",
-  }) as any as Schema.Schema<ListContainerVersionsResponse>;
+    identifier: "RevertBuiltInVariableResponse",
+  }) as any as Schema.Schema<RevertBuiltInVariableResponse>;
 
-export interface FolderEntities {
-  /** Continuation token for fetching the next page of results. */
-  nextPageToken?: string;
-  /** The list of tags inside the folder. */
-  tag?: Array<Tag>;
-  /** The list of variables inside the folder. */
+export interface ListVariablesResponse {
+  /** All GTM Variables of a GTM Container. */
   variable?: Array<Variable>;
-  /** The list of triggers inside the folder. */
-  trigger?: Array<Trigger>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
 }
 
-export const FolderEntities: Schema.Schema<FolderEntities> =
+export const ListVariablesResponse: Schema.Schema<ListVariablesResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      tag: Schema.optional(Schema.Array(Tag)),
       variable: Schema.optional(Schema.Array(Variable)),
-      trigger: Schema.optional(Schema.Array(Trigger)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "FolderEntities",
-  }) as any as Schema.Schema<FolderEntities>;
+    identifier: "ListVariablesResponse",
+  }) as any as Schema.Schema<ListVariablesResponse>;
+
+export interface RevertTagResponse {
+  /** Tag as it appears in the latest container version since the last workspace synchronization operation. If no tag is present, that means the tag was deleted in the latest container version. */
+  tag?: Tag;
+}
+
+export const RevertTagResponse: Schema.Schema<RevertTagResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tag: Schema.optional(Tag),
+    }),
+  ).annotate({
+    identifier: "RevertTagResponse",
+  }) as any as Schema.Schema<RevertTagResponse>;
+
+export interface RevertTriggerResponse {
+  /** Trigger as it appears in the latest container version since the last workspace synchronization operation. If no trigger is present, that means the trigger was deleted in the latest container version. */
+  trigger?: Trigger;
+}
+
+export const RevertTriggerResponse: Schema.Schema<RevertTriggerResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      trigger: Schema.optional(Trigger),
+    }),
+  ).annotate({
+    identifier: "RevertTriggerResponse",
+  }) as any as Schema.Schema<RevertTriggerResponse>;
+
+export interface RevertClientResponse {
+  /** Client as it appears in the latest container version since the last workspace synchronization operation. If no client is present, that means the client was deleted in the latest container version. */
+  client?: Client;
+}
+
+export const RevertClientResponse: Schema.Schema<RevertClientResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      client: Schema.optional(Client),
+    }),
+  ).annotate({
+    identifier: "RevertClientResponse",
+  }) as any as Schema.Schema<RevertClientResponse>;
+
+export interface ListDestinationsResponse {
+  /** All Destinations linked to a GTM Container. */
+  destination?: Array<Destination>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListDestinationsResponse: Schema.Schema<ListDestinationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      destination: Schema.optional(Schema.Array(Destination)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListDestinationsResponse",
+  }) as any as Schema.Schema<ListDestinationsResponse>;
 
 export interface ListUserPermissionsResponse {
   /** All GTM UserPermissions of a GTM Account. */
@@ -2084,37 +2019,141 @@ export const ListUserPermissionsResponse: Schema.Schema<ListUserPermissionsRespo
     identifier: "ListUserPermissionsResponse",
   }) as any as Schema.Schema<ListUserPermissionsResponse>;
 
-export interface RevertTriggerResponse {
-  /** Trigger as it appears in the latest container version since the last workspace synchronization operation. If no trigger is present, that means the trigger was deleted in the latest container version. */
-  trigger?: Trigger;
+export interface RevertVariableResponse {
+  /** Variable as it appears in the latest container version since the last workspace synchronization operation. If no variable is present, that means the variable was deleted in the latest container version. */
+  variable?: Variable;
 }
 
-export const RevertTriggerResponse: Schema.Schema<RevertTriggerResponse> =
+export const RevertVariableResponse: Schema.Schema<RevertVariableResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      trigger: Schema.optional(Trigger),
+      variable: Schema.optional(Variable),
     }),
   ).annotate({
-    identifier: "RevertTriggerResponse",
-  }) as any as Schema.Schema<RevertTriggerResponse>;
+    identifier: "RevertVariableResponse",
+  }) as any as Schema.Schema<RevertVariableResponse>;
 
-export interface BulkUpdateWorkspaceResponse {
-  /** The entities that were added or updated during the bulk-update. Does not include entities that were deleted or updated by the system. */
+export interface ProposedChange {
+  /** The list of workspace changes to be applied. */
   changes?: Array<Entity>;
 }
 
-export const BulkUpdateWorkspaceResponse: Schema.Schema<BulkUpdateWorkspaceResponse> =
+export const ProposedChange: Schema.Schema<ProposedChange> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       changes: Schema.optional(Schema.Array(Entity)),
     }),
   ).annotate({
-    identifier: "BulkUpdateWorkspaceResponse",
-  }) as any as Schema.Schema<BulkUpdateWorkspaceResponse>;
+    identifier: "ProposedChange",
+  }) as any as Schema.Schema<ProposedChange>;
+
+export interface RevertZoneResponse {
+  /** Zone as it appears in the latest container version since the last workspace synchronization operation. If no zone is present, that means the zone was deleted in the latest container version. */
+  zone?: Zone;
+}
+
+export const RevertZoneResponse: Schema.Schema<RevertZoneResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      zone: Schema.optional(Zone),
+    }),
+  ).annotate({
+    identifier: "RevertZoneResponse",
+  }) as any as Schema.Schema<RevertZoneResponse>;
+
+export interface GetContainerSnippetResponse {
+  /** Server container config param for manually provisioning a tagging server. */
+  containerConfig?: string;
+  /** Tagging snippet for a Container. */
+  snippet?: string;
+}
+
+export const GetContainerSnippetResponse: Schema.Schema<GetContainerSnippetResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      containerConfig: Schema.optional(Schema.String),
+      snippet: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GetContainerSnippetResponse",
+  }) as any as Schema.Schema<GetContainerSnippetResponse>;
+
+export interface SyncWorkspaceResponse {
+  /** Indicates whether synchronization caused a merge conflict or sync error. */
+  syncStatus?: SyncStatus;
+  /** The merge conflict after sync. If this field is not empty, the sync is still treated as successful. But a version cannot be created until all conflicts are resolved. */
+  mergeConflict?: Array<MergeConflict>;
+}
+
+export const SyncWorkspaceResponse: Schema.Schema<SyncWorkspaceResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      syncStatus: Schema.optional(SyncStatus),
+      mergeConflict: Schema.optional(Schema.Array(MergeConflict)),
+    }),
+  ).annotate({
+    identifier: "SyncWorkspaceResponse",
+  }) as any as Schema.Schema<SyncWorkspaceResponse>;
+
+export interface ListTemplatesResponse {
+  /** All GTM Custom Templates of a GTM Container. */
+  template?: Array<CustomTemplate>;
+  /** Continuation token for fetching the next page of results. */
+  nextPageToken?: string;
+}
+
+export const ListTemplatesResponse: Schema.Schema<ListTemplatesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      template: Schema.optional(Schema.Array(CustomTemplate)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListTemplatesResponse",
+  }) as any as Schema.Schema<ListTemplatesResponse>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface ListAccountsRequest {
+  /** Also retrieve accounts associated with Google Tag when true. */
+  includeGoogleTags?: boolean;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+}
+
+export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  includeGoogleTags: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("includeGoogleTags"),
+  ),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+}).pipe(
+  T.Http({ method: "GET", path: "tagmanager/v2/accounts" }),
+  svc,
+) as unknown as Schema.Schema<ListAccountsRequest>;
+
+export type ListAccountsResponse_Op = ListAccountsResponse;
+export const ListAccountsResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
+
+export type ListAccountsError = DefaultErrors;
+
+/** Lists all GTM Accounts that a user has access to. */
+export const listAccounts: API.PaginatedOperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse_Op,
+  ListAccountsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsRequest,
+  output: ListAccountsResponse_Op,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
 
 export interface GetAccountsRequest {
   /** GTM Account's API relative path. */
@@ -2184,38 +2223,40 @@ export const updateAccounts: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListAccountsRequest {
-  /** Also retrieve accounts associated with Google Tag when true. */
-  includeGoogleTags?: boolean;
+export interface ListAccountsUser_permissionsRequest {
+  /** GTM Account's API relative path. */
+  parent: string;
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
 }
 
-export const ListAccountsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  includeGoogleTags: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("includeGoogleTags"),
-  ),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-}).pipe(
-  T.Http({ method: "GET", path: "tagmanager/v2/accounts" }),
-  svc,
-) as unknown as Schema.Schema<ListAccountsRequest>;
+export const ListAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsUser_permissionsRequest>;
 
-export type ListAccountsResponse_Op = ListAccountsResponse;
-export const ListAccountsResponse_Op =
-  /*@__PURE__*/ /*#__PURE__*/ ListAccountsResponse;
+export type ListAccountsUser_permissionsResponse = ListUserPermissionsResponse;
+export const ListAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListUserPermissionsResponse;
 
-export type ListAccountsError = DefaultErrors;
+export type ListAccountsUser_permissionsError = DefaultErrors;
 
-/** Lists all GTM Accounts that a user has access to. */
-export const listAccounts: API.PaginatedOperationMethod<
-  ListAccountsRequest,
-  ListAccountsResponse_Op,
-  ListAccountsError,
+/** List all users that have access to the account along with Account and Container user access granted to each of them. */
+export const listAccountsUser_permissions: API.PaginatedOperationMethod<
+  ListAccountsUser_permissionsRequest,
+  ListAccountsUser_permissionsResponse,
+  ListAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsRequest,
-  output: ListAccountsResponse_Op,
+  input: ListAccountsUser_permissionsRequest,
+  output: ListAccountsUser_permissionsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -2223,45 +2264,150 @@ export const listAccounts: API.PaginatedOperationMethod<
   },
 }));
 
-export interface ListAccountsContainersRequest {
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
+export interface CreateAccountsUser_permissionsRequest {
   /** GTM Account's API relative path. */
   parent: string;
+  /** Request body */
+  body?: UserPermission;
 }
 
-export const ListAccountsContainersRequest =
+export const CreateAccountsUser_permissionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsUser_permissionsRequest>;
+
+export type CreateAccountsUser_permissionsResponse = UserPermission;
+export const CreateAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
+
+export type CreateAccountsUser_permissionsError = DefaultErrors;
+
+/** Creates a user's Account & Container access. */
+export const createAccountsUser_permissions: API.OperationMethod<
+  CreateAccountsUser_permissionsRequest,
+  CreateAccountsUser_permissionsResponse,
+  CreateAccountsUser_permissionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsUser_permissionsRequest,
+  output: CreateAccountsUser_permissionsResponse,
+  errors: [],
+}));
+
+export interface GetAccountsUser_permissionsRequest {
+  /** GTM UserPermission's API relative path. */
+  path: string;
+}
+
+export const GetAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersRequest>;
+  ) as unknown as Schema.Schema<GetAccountsUser_permissionsRequest>;
 
-export type ListAccountsContainersResponse = ListContainersResponse;
-export const ListAccountsContainersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListContainersResponse;
+export type GetAccountsUser_permissionsResponse = UserPermission;
+export const GetAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
 
-export type ListAccountsContainersError = DefaultErrors;
+export type GetAccountsUser_permissionsError = DefaultErrors;
 
-/** Lists all Containers that belongs to a GTM Account. */
-export const listAccountsContainers: API.PaginatedOperationMethod<
-  ListAccountsContainersRequest,
-  ListAccountsContainersResponse,
-  ListAccountsContainersError,
+/** Gets a user's Account & Container access. */
+export const getAccountsUser_permissions: API.OperationMethod<
+  GetAccountsUser_permissionsRequest,
+  GetAccountsUser_permissionsResponse,
+  GetAccountsUser_permissionsError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersRequest,
-  output: ListAccountsContainersResponse,
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsUser_permissionsRequest,
+  output: GetAccountsUser_permissionsResponse,
   errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
+}));
+
+export interface UpdateAccountsUser_permissionsRequest {
+  /** GTM UserPermission's API relative path. */
+  path: string;
+  /** Request body */
+  body?: UserPermission;
+}
+
+export const UpdateAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsUser_permissionsRequest>;
+
+export type UpdateAccountsUser_permissionsResponse = UserPermission;
+export const UpdateAccountsUser_permissionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
+
+export type UpdateAccountsUser_permissionsError = DefaultErrors;
+
+/** Updates a user's Account & Container access. */
+export const updateAccountsUser_permissions: API.OperationMethod<
+  UpdateAccountsUser_permissionsRequest,
+  UpdateAccountsUser_permissionsResponse,
+  UpdateAccountsUser_permissionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsUser_permissionsRequest,
+  output: UpdateAccountsUser_permissionsResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsUser_permissionsRequest {
+  /** GTM UserPermission's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsUser_permissionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsUser_permissionsRequest>;
+
+export interface DeleteAccountsUser_permissionsResponse {}
+export const DeleteAccountsUser_permissionsResponse: Schema.Schema<DeleteAccountsUser_permissionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsUser_permissionsResponse>;
+
+export type DeleteAccountsUser_permissionsError = DefaultErrors;
+
+/** Removes a user from the account, revoking access to it and all of its containers. */
+export const deleteAccountsUser_permissions: API.OperationMethod<
+  DeleteAccountsUser_permissionsRequest,
+  DeleteAccountsUser_permissionsResponse,
+  DeleteAccountsUser_permissionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsUser_permissionsRequest,
+  output: DeleteAccountsUser_permissionsResponse,
+  errors: [],
 }));
 
 export interface CreateAccountsContainersRequest {
@@ -2336,39 +2482,137 @@ export const snippetAccountsContainers: API.OperationMethod<
   errors: [],
 }));
 
-export interface DeleteAccountsContainersRequest {
+export interface ListAccountsContainersRequest {
+  /** GTM Account's API relative path. */
+  parent: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+}
+
+export const ListAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersRequest>;
+
+export type ListAccountsContainersResponse = ListContainersResponse;
+export const ListAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListContainersResponse;
+
+export type ListAccountsContainersError = DefaultErrors;
+
+/** Lists all Containers that belongs to a GTM Account. */
+export const listAccountsContainers: API.PaginatedOperationMethod<
+  ListAccountsContainersRequest,
+  ListAccountsContainersResponse,
+  ListAccountsContainersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersRequest,
+  output: ListAccountsContainersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
 }
 
-export const DeleteAccountsContainersRequest =
+export const GetAccountsContainersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
-      method: "DELETE",
+      method: "GET",
       path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersRequest>;
+  ) as unknown as Schema.Schema<GetAccountsContainersRequest>;
 
-export interface DeleteAccountsContainersResponse {}
-export const DeleteAccountsContainersResponse: Schema.Schema<DeleteAccountsContainersResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersResponse>;
+export type GetAccountsContainersResponse = Container;
+export const GetAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
 
-export type DeleteAccountsContainersError = DefaultErrors;
+export type GetAccountsContainersError = DefaultErrors;
 
-/** Deletes a Container. */
-export const deleteAccountsContainers: API.OperationMethod<
-  DeleteAccountsContainersRequest,
-  DeleteAccountsContainersResponse,
-  DeleteAccountsContainersError,
+/** Gets a Container. */
+export const getAccountsContainers: API.OperationMethod<
+  GetAccountsContainersRequest,
+  GetAccountsContainersResponse,
+  GetAccountsContainersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersRequest,
-  output: DeleteAccountsContainersResponse,
+  input: GetAccountsContainersRequest,
+  output: GetAccountsContainersResponse,
+  errors: [],
+}));
+
+export interface Move_tag_idAccountsContainersRequest {
+  /** Whether or not to copy users from this tag to the new tag. */
+  copyUsers?: boolean;
+  /** The name for the newly created tag. */
+  tagName?: string;
+  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
+  allowUserPermissionFeatureUpdate?: boolean;
+  /** Whether or not to copy tag settings from this tag to the new tag. */
+  copySettings?: boolean;
+  /** GTM Container's API relative path. */
+  path: string;
+  /** Tag ID to be removed from the current Container. */
+  tagId?: string;
+  /** Must be set to true to accept all terms of service agreements copied from the current tag to the newly created tag. If this bit is false, the operation will fail. */
+  copyTermsOfService?: boolean;
+}
+
+export const Move_tag_idAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    copyUsers: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("copyUsers")),
+    tagName: Schema.optional(Schema.String).pipe(T.HttpQuery("tagName")),
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    copySettings: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("copySettings"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+    tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
+    copyTermsOfService: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("copyTermsOfService"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:move_tag_id",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Move_tag_idAccountsContainersRequest>;
+
+export type Move_tag_idAccountsContainersResponse = Container;
+export const Move_tag_idAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
+
+export type Move_tag_idAccountsContainersError = DefaultErrors;
+
+/** Move Tag ID out of a Container. */
+export const move_tag_idAccountsContainers: API.OperationMethod<
+  Move_tag_idAccountsContainersRequest,
+  Move_tag_idAccountsContainersResponse,
+  Move_tag_idAccountsContainersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: Move_tag_idAccountsContainersRequest,
+  output: Move_tag_idAccountsContainersResponse,
   errors: [],
 }));
 
@@ -2408,37 +2652,93 @@ export const lookupAccountsContainers: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetAccountsContainersRequest {
+export interface DeleteAccountsContainersRequest {
   /** GTM Container's API relative path. */
   path: string;
 }
 
-export const GetAccountsContainersRequest =
+export const DeleteAccountsContainersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
-      method: "GET",
+      method: "DELETE",
       path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersRequest>;
+  ) as unknown as Schema.Schema<DeleteAccountsContainersRequest>;
 
-export type GetAccountsContainersResponse = Container;
-export const GetAccountsContainersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Container;
+export interface DeleteAccountsContainersResponse {}
+export const DeleteAccountsContainersResponse: Schema.Schema<DeleteAccountsContainersResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersResponse>;
 
-export type GetAccountsContainersError = DefaultErrors;
+export type DeleteAccountsContainersError = DefaultErrors;
 
-/** Gets a Container. */
-export const getAccountsContainers: API.OperationMethod<
-  GetAccountsContainersRequest,
-  GetAccountsContainersResponse,
-  GetAccountsContainersError,
+/** Deletes a Container. */
+export const deleteAccountsContainers: API.OperationMethod<
+  DeleteAccountsContainersRequest,
+  DeleteAccountsContainersResponse,
+  DeleteAccountsContainersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersRequest,
-  output: GetAccountsContainersResponse,
+  input: DeleteAccountsContainersRequest,
+  output: DeleteAccountsContainersResponse,
+  errors: [],
+}));
+
+export interface CombineAccountsContainersRequest {
+  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
+  allowUserPermissionFeatureUpdate?: boolean;
+  /** Specify the source of config setting after combine */
+  settingSource?:
+    | "settingSourceUnspecified"
+    | "current"
+    | "other"
+    | (string & {});
+  /** ID of container that will be merged into the current container. */
+  containerId?: string;
+  /** GTM Container's API relative path. */
+  path: string;
+}
+
+export const CombineAccountsContainersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    settingSource: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("settingSource"),
+    ),
+    containerId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("containerId"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:combine",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CombineAccountsContainersRequest>;
+
+export type CombineAccountsContainersResponse = Container;
+export const CombineAccountsContainersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Container;
+
+export type CombineAccountsContainersError = DefaultErrors;
+
+/** Combines Containers. */
+export const combineAccountsContainers: API.OperationMethod<
+  CombineAccountsContainersRequest,
+  CombineAccountsContainersResponse,
+  CombineAccountsContainersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CombineAccountsContainersRequest,
+  output: CombineAccountsContainersResponse,
   errors: [],
 }));
 
@@ -2485,547 +2785,6 @@ export const updateAccountsContainers: API.OperationMethod<
   errors: [],
 }));
 
-export interface CombineAccountsContainersRequest {
-  /** ID of container that will be merged into the current container. */
-  containerId?: string;
-  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
-  allowUserPermissionFeatureUpdate?: boolean;
-  /** Specify the source of config setting after combine */
-  settingSource?:
-    | "settingSourceUnspecified"
-    | "current"
-    | "other"
-    | (string & {});
-  /** GTM Container's API relative path. */
-  path: string;
-}
-
-export const CombineAccountsContainersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    containerId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("containerId"),
-    ),
-    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("allowUserPermissionFeatureUpdate"),
-    ),
-    settingSource: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("settingSource"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:combine",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CombineAccountsContainersRequest>;
-
-export type CombineAccountsContainersResponse = Container;
-export const CombineAccountsContainersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Container;
-
-export type CombineAccountsContainersError = DefaultErrors;
-
-/** Combines Containers. */
-export const combineAccountsContainers: API.OperationMethod<
-  CombineAccountsContainersRequest,
-  CombineAccountsContainersResponse,
-  CombineAccountsContainersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CombineAccountsContainersRequest,
-  output: CombineAccountsContainersResponse,
-  errors: [],
-}));
-
-export interface Move_tag_idAccountsContainersRequest {
-  /** Whether or not to copy users from this tag to the new tag. */
-  copyUsers?: boolean;
-  /** GTM Container's API relative path. */
-  path: string;
-  /** Whether or not to copy tag settings from this tag to the new tag. */
-  copySettings?: boolean;
-  /** The name for the newly created tag. */
-  tagName?: string;
-  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
-  allowUserPermissionFeatureUpdate?: boolean;
-  /** Must be set to true to accept all terms of service agreements copied from the current tag to the newly created tag. If this bit is false, the operation will fail. */
-  copyTermsOfService?: boolean;
-  /** Tag ID to be removed from the current Container. */
-  tagId?: string;
-}
-
-export const Move_tag_idAccountsContainersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    copyUsers: Schema.optional(Schema.Boolean).pipe(T.HttpQuery("copyUsers")),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    copySettings: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("copySettings"),
-    ),
-    tagName: Schema.optional(Schema.String).pipe(T.HttpQuery("tagName")),
-    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("allowUserPermissionFeatureUpdate"),
-    ),
-    copyTermsOfService: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("copyTermsOfService"),
-    ),
-    tagId: Schema.optional(Schema.String).pipe(T.HttpQuery("tagId")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}:move_tag_id",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Move_tag_idAccountsContainersRequest>;
-
-export type Move_tag_idAccountsContainersResponse = Container;
-export const Move_tag_idAccountsContainersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Container;
-
-export type Move_tag_idAccountsContainersError = DefaultErrors;
-
-/** Move Tag ID out of a Container. */
-export const move_tag_idAccountsContainers: API.OperationMethod<
-  Move_tag_idAccountsContainersRequest,
-  Move_tag_idAccountsContainersResponse,
-  Move_tag_idAccountsContainersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Move_tag_idAccountsContainersRequest,
-  output: Move_tag_idAccountsContainersResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersVersion_headersRequest {
-  /** GTM Container's API relative path. */
-  parent: string;
-  /** Also retrieve deleted (archived) versions when true. */
-  includeDeleted?: boolean;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const ListAccountsContainersVersion_headersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    includeDeleted: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("includeDeleted"),
-    ),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersVersion_headersRequest>;
-
-export type ListAccountsContainersVersion_headersResponse =
-  ListContainerVersionsResponse;
-export const ListAccountsContainersVersion_headersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListContainerVersionsResponse;
-
-export type ListAccountsContainersVersion_headersError = DefaultErrors;
-
-/** Lists all Container Versions of a GTM Container. */
-export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod<
-  ListAccountsContainersVersion_headersRequest,
-  ListAccountsContainersVersion_headersResponse,
-  ListAccountsContainersVersion_headersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersVersion_headersRequest,
-  output: ListAccountsContainersVersion_headersResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface LatestAccountsContainersVersion_headersRequest {
-  /** GTM Container's API relative path. */
-  parent: string;
-}
-
-export const LatestAccountsContainersVersion_headersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers:latest",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<LatestAccountsContainersVersion_headersRequest>;
-
-export type LatestAccountsContainersVersion_headersResponse =
-  ContainerVersionHeader;
-export const LatestAccountsContainersVersion_headersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersionHeader;
-
-export type LatestAccountsContainersVersion_headersError = DefaultErrors;
-
-/** Gets the latest container version header */
-export const latestAccountsContainersVersion_headers: API.OperationMethod<
-  LatestAccountsContainersVersion_headersRequest,
-  LatestAccountsContainersVersion_headersResponse,
-  LatestAccountsContainersVersion_headersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LatestAccountsContainersVersion_headersRequest,
-  output: LatestAccountsContainersVersion_headersResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersEnvironmentsRequest {
-  /** GTM Environment's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersEnvironmentsRequest>;
-
-export type GetAccountsContainersEnvironmentsResponse = Environment;
-export const GetAccountsContainersEnvironmentsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Environment;
-
-export type GetAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Gets a GTM Environment. */
-export const getAccountsContainersEnvironments: API.OperationMethod<
-  GetAccountsContainersEnvironmentsRequest,
-  GetAccountsContainersEnvironmentsResponse,
-  GetAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersEnvironmentsRequest,
-  output: GetAccountsContainersEnvironmentsResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersEnvironmentsRequest {
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** GTM Container's API relative path. */
-  parent: string;
-}
-
-export const ListAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersEnvironmentsRequest>;
-
-export type ListAccountsContainersEnvironmentsResponse =
-  ListEnvironmentsResponse;
-export const ListAccountsContainersEnvironmentsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListEnvironmentsResponse;
-
-export type ListAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Lists all GTM Environments of a GTM Container. */
-export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
-  ListAccountsContainersEnvironmentsRequest,
-  ListAccountsContainersEnvironmentsResponse,
-  ListAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersEnvironmentsRequest,
-  output: ListAccountsContainersEnvironmentsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface CreateAccountsContainersEnvironmentsRequest {
-  /** GTM Container's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Environment;
-}
-
-export const CreateAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Environment).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersEnvironmentsRequest>;
-
-export type CreateAccountsContainersEnvironmentsResponse = Environment;
-export const CreateAccountsContainersEnvironmentsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Environment;
-
-export type CreateAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Creates a GTM Environment. */
-export const createAccountsContainersEnvironments: API.OperationMethod<
-  CreateAccountsContainersEnvironmentsRequest,
-  CreateAccountsContainersEnvironmentsResponse,
-  CreateAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersEnvironmentsRequest,
-  output: CreateAccountsContainersEnvironmentsResponse,
-  errors: [],
-}));
-
-export interface ReauthorizeAccountsContainersEnvironmentsRequest {
-  /** GTM Environment's API relative path. */
-  path: string;
-  /** Request body */
-  body?: Environment;
-}
-
-export const ReauthorizeAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Environment).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}:reauthorize",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ReauthorizeAccountsContainersEnvironmentsRequest>;
-
-export type ReauthorizeAccountsContainersEnvironmentsResponse = Environment;
-export const ReauthorizeAccountsContainersEnvironmentsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Environment;
-
-export type ReauthorizeAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Re-generates the authorization code for a GTM Environment. */
-export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
-  ReauthorizeAccountsContainersEnvironmentsRequest,
-  ReauthorizeAccountsContainersEnvironmentsResponse,
-  ReauthorizeAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReauthorizeAccountsContainersEnvironmentsRequest,
-  output: ReauthorizeAccountsContainersEnvironmentsResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersEnvironmentsRequest {
-  /** GTM Environment's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersEnvironmentsRequest>;
-
-export interface DeleteAccountsContainersEnvironmentsResponse {}
-export const DeleteAccountsContainersEnvironmentsResponse: Schema.Schema<DeleteAccountsContainersEnvironmentsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersEnvironmentsResponse>;
-
-export type DeleteAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Deletes a GTM Environment. */
-export const deleteAccountsContainersEnvironments: API.OperationMethod<
-  DeleteAccountsContainersEnvironmentsRequest,
-  DeleteAccountsContainersEnvironmentsResponse,
-  DeleteAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersEnvironmentsRequest,
-  output: DeleteAccountsContainersEnvironmentsResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersEnvironmentsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
-  fingerprint?: string;
-  /** GTM Environment's API relative path. */
-  path: string;
-  /** Request body */
-  body?: Environment;
-}
-
-export const UpdateAccountsContainersEnvironmentsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Environment).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersEnvironmentsRequest>;
-
-export type UpdateAccountsContainersEnvironmentsResponse = Environment;
-export const UpdateAccountsContainersEnvironmentsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Environment;
-
-export type UpdateAccountsContainersEnvironmentsError = DefaultErrors;
-
-/** Updates a GTM Environment. */
-export const updateAccountsContainersEnvironments: API.OperationMethod<
-  UpdateAccountsContainersEnvironmentsRequest,
-  UpdateAccountsContainersEnvironmentsResponse,
-  UpdateAccountsContainersEnvironmentsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersEnvironmentsRequest,
-  output: UpdateAccountsContainersEnvironmentsResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesRequest {
-  /** GTM parent Container's API relative path. */
-  parent: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const ListAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesRequest>;
-
-export type ListAccountsContainersWorkspacesResponse = ListWorkspacesResponse;
-export const ListAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListWorkspacesResponse;
-
-export type ListAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Lists all Workspaces that belong to a GTM Container. */
-export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesRequest,
-  ListAccountsContainersWorkspacesResponse,
-  ListAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesRequest,
-  output: ListAccountsContainersWorkspacesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface SyncAccountsContainersWorkspacesRequest {
-  /** GTM Workspace's API relative path. */
-  path: string;
-}
-
-export const SyncAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:sync",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<SyncAccountsContainersWorkspacesRequest>;
-
-export type SyncAccountsContainersWorkspacesResponse = SyncWorkspaceResponse;
-export const SyncAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ SyncWorkspaceResponse;
-
-export type SyncAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Syncs a workspace to the latest container version by updating all unmodified workspace entities and displaying conflicts for modified entities. */
-export const syncAccountsContainersWorkspaces: API.OperationMethod<
-  SyncAccountsContainersWorkspacesRequest,
-  SyncAccountsContainersWorkspacesResponse,
-  SyncAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SyncAccountsContainersWorkspacesRequest,
-  output: SyncAccountsContainersWorkspacesResponse,
-  errors: [],
-}));
-
-export interface Bulk_updateAccountsContainersWorkspacesRequest {
-  /** GTM Workspace's API relative path. */
-  path: string;
-  /** Request body */
-  body?: ProposedChange;
-}
-
-export const Bulk_updateAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(ProposedChange).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/bulk_update",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Bulk_updateAccountsContainersWorkspacesRequest>;
-
-export type Bulk_updateAccountsContainersWorkspacesResponse =
-  BulkUpdateWorkspaceResponse;
-export const Bulk_updateAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ BulkUpdateWorkspaceResponse;
-
-export type Bulk_updateAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Applies multiple entity changes to a workspace in one call. When creating new entities, their entity IDs must be unique and in correct format. That is, they must start with "new_" and followed by number, e.g. "new_1", "new_2". Example body snippet to create myNewTag under myNewFolder is: ``` "changes": [ { "folder": { "folderId": "new_1", "name": "myNewFolder", ... }, "changeStatus": "added" }, { "tag": { "tagId": "new_2", "name": "myNewTag", "parentFolderId": "new_1", ... }, "changeStatus": "added" } ] ``` */
-export const bulk_updateAccountsContainersWorkspaces: API.OperationMethod<
-  Bulk_updateAccountsContainersWorkspacesRequest,
-  Bulk_updateAccountsContainersWorkspacesResponse,
-  Bulk_updateAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Bulk_updateAccountsContainersWorkspacesRequest,
-  output: Bulk_updateAccountsContainersWorkspacesResponse,
-  errors: [],
-}));
-
 export interface DeleteAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
@@ -3062,93 +2821,21 @@ export const deleteAccountsContainersWorkspaces: API.OperationMethod<
   errors: [],
 }));
 
-export interface CreateAccountsContainersWorkspacesRequest {
-  /** GTM parent Container's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Workspace;
-}
-
-export const CreateAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Workspace).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesRequest>;
-
-export type CreateAccountsContainersWorkspacesResponse = Workspace;
-export const CreateAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Workspace;
-
-export type CreateAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Creates a Workspace. */
-export const createAccountsContainersWorkspaces: API.OperationMethod<
-  CreateAccountsContainersWorkspacesRequest,
-  CreateAccountsContainersWorkspacesResponse,
-  CreateAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesRequest,
-  output: CreateAccountsContainersWorkspacesResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersWorkspacesRequest {
+export interface UpdateAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
-}
-
-export const GetAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesRequest>;
-
-export type GetAccountsContainersWorkspacesResponse = Workspace;
-export const GetAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Workspace;
-
-export type GetAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Gets a Workspace. */
-export const getAccountsContainersWorkspaces: API.OperationMethod<
-  GetAccountsContainersWorkspacesRequest,
-  GetAccountsContainersWorkspacesResponse,
-  GetAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesRequest,
-  output: GetAccountsContainersWorkspacesResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesRequest {
   /** When provided, this fingerprint must match the fingerprint of the workspace in storage. */
   fingerprint?: string;
-  /** GTM Workspace's API relative path. */
-  path: string;
   /** Request body */
   body?: Workspace;
 }
 
 export const UpdateAccountsContainersWorkspacesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
-    path: Schema.String.pipe(T.HttpPath("path")),
     body: Schema.optional(Workspace).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
@@ -3174,6 +2861,82 @@ export const updateAccountsContainersWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateAccountsContainersWorkspacesRequest,
   output: UpdateAccountsContainersWorkspacesResponse,
+  errors: [],
+}));
+
+export interface Create_versionAccountsContainersWorkspacesRequest {
+  /** GTM Workspace's API relative path. */
+  path: string;
+  /** Request body */
+  body?: CreateContainerVersionRequestVersionOptions;
+}
+
+export const Create_versionAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(CreateContainerVersionRequestVersionOptions).pipe(
+      T.HttpBody(),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:create_version",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Create_versionAccountsContainersWorkspacesRequest>;
+
+export type Create_versionAccountsContainersWorkspacesResponse =
+  CreateContainerVersionResponse;
+export const Create_versionAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CreateContainerVersionResponse;
+
+export type Create_versionAccountsContainersWorkspacesError = DefaultErrors;
+
+/** Creates a Container Version from the entities present in the workspace, deletes the workspace, and sets the base container version to the newly created version. */
+export const create_versionAccountsContainersWorkspaces: API.OperationMethod<
+  Create_versionAccountsContainersWorkspacesRequest,
+  Create_versionAccountsContainersWorkspacesResponse,
+  Create_versionAccountsContainersWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: Create_versionAccountsContainersWorkspacesRequest,
+  output: Create_versionAccountsContainersWorkspacesResponse,
+  errors: [],
+}));
+
+export interface SyncAccountsContainersWorkspacesRequest {
+  /** GTM Workspace's API relative path. */
+  path: string;
+}
+
+export const SyncAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:sync",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SyncAccountsContainersWorkspacesRequest>;
+
+export type SyncAccountsContainersWorkspacesResponse = SyncWorkspaceResponse;
+export const SyncAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SyncWorkspaceResponse;
+
+export type SyncAccountsContainersWorkspacesError = DefaultErrors;
+
+/** Syncs a workspace to the latest container version by updating all unmodified workspace entities and displaying conflicts for modified entities. */
+export const syncAccountsContainersWorkspaces: API.OperationMethod<
+  SyncAccountsContainersWorkspacesRequest,
+  SyncAccountsContainersWorkspacesResponse,
+  SyncAccountsContainersWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: SyncAccountsContainersWorkspacesRequest,
+  output: SyncAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
@@ -3222,79 +2985,75 @@ export const resolve_conflictAccountsContainersWorkspaces: API.OperationMethod<
   errors: [],
 }));
 
-export interface Create_versionAccountsContainersWorkspacesRequest {
-  /** GTM Workspace's API relative path. */
-  path: string;
-  /** Request body */
-  body?: CreateContainerVersionRequestVersionOptions;
-}
-
-export const Create_versionAccountsContainersWorkspacesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(CreateContainerVersionRequestVersionOptions).pipe(
-      T.HttpBody(),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}:create_version",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Create_versionAccountsContainersWorkspacesRequest>;
-
-export type Create_versionAccountsContainersWorkspacesResponse =
-  CreateContainerVersionResponse;
-export const Create_versionAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ CreateContainerVersionResponse;
-
-export type Create_versionAccountsContainersWorkspacesError = DefaultErrors;
-
-/** Creates a Container Version from the entities present in the workspace, deletes the workspace, and sets the base container version to the newly created version. */
-export const create_versionAccountsContainersWorkspaces: API.OperationMethod<
-  Create_versionAccountsContainersWorkspacesRequest,
-  Create_versionAccountsContainersWorkspacesResponse,
-  Create_versionAccountsContainersWorkspacesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Create_versionAccountsContainersWorkspacesRequest,
-  output: Create_versionAccountsContainersWorkspacesResponse,
-  errors: [],
-}));
-
-export interface GetStatusAccountsContainersWorkspacesRequest {
+export interface GetAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
   path: string;
 }
 
-export const GetStatusAccountsContainersWorkspacesRequest =
+export const GetAccountsContainersWorkspacesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/status",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<GetStatusAccountsContainersWorkspacesRequest>;
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesRequest>;
 
-export type GetStatusAccountsContainersWorkspacesResponse =
-  GetWorkspaceStatusResponse;
-export const GetStatusAccountsContainersWorkspacesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GetWorkspaceStatusResponse;
+export type GetAccountsContainersWorkspacesResponse = Workspace;
+export const GetAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
 
-export type GetStatusAccountsContainersWorkspacesError = DefaultErrors;
+export type GetAccountsContainersWorkspacesError = DefaultErrors;
 
-/** Finds conflicting and modified entities in the workspace. */
-export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
-  GetStatusAccountsContainersWorkspacesRequest,
-  GetStatusAccountsContainersWorkspacesResponse,
-  GetStatusAccountsContainersWorkspacesError,
+/** Gets a Workspace. */
+export const getAccountsContainersWorkspaces: API.OperationMethod<
+  GetAccountsContainersWorkspacesRequest,
+  GetAccountsContainersWorkspacesResponse,
+  GetAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetStatusAccountsContainersWorkspacesRequest,
-  output: GetStatusAccountsContainersWorkspacesResponse,
+  input: GetAccountsContainersWorkspacesRequest,
+  output: GetAccountsContainersWorkspacesResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsContainersWorkspacesRequest {
+  /** GTM parent Container's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Workspace;
+}
+
+export const CreateAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Workspace).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesRequest>;
+
+export type CreateAccountsContainersWorkspacesResponse = Workspace;
+export const CreateAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Workspace;
+
+export type CreateAccountsContainersWorkspacesError = DefaultErrors;
+
+/** Creates a Workspace. */
+export const createAccountsContainersWorkspaces: API.OperationMethod<
+  CreateAccountsContainersWorkspacesRequest,
+  CreateAccountsContainersWorkspacesResponse,
+  CreateAccountsContainersWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesRequest,
+  output: CreateAccountsContainersWorkspacesResponse,
   errors: [],
 }));
 
@@ -3334,232 +3093,40 @@ export const quick_previewAccountsContainersWorkspaces: API.OperationMethod<
   errors: [],
 }));
 
-export interface CreateAccountsContainersWorkspacesZonesRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Zone;
-}
-
-export const CreateAccountsContainersWorkspacesZonesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Zone).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesZonesRequest>;
-
-export type CreateAccountsContainersWorkspacesZonesResponse = Zone;
-export const CreateAccountsContainersWorkspacesZonesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Zone;
-
-export type CreateAccountsContainersWorkspacesZonesError = DefaultErrors;
-
-/** Creates a GTM Zone. */
-export const createAccountsContainersWorkspacesZones: API.OperationMethod<
-  CreateAccountsContainersWorkspacesZonesRequest,
-  CreateAccountsContainersWorkspacesZonesResponse,
-  CreateAccountsContainersWorkspacesZonesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesZonesRequest,
-  output: CreateAccountsContainersWorkspacesZonesResponse,
-  errors: [],
-}));
-
-export interface RevertAccountsContainersWorkspacesZonesRequest {
-  /** GTM Zone's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
-  fingerprint?: string;
-}
-
-export const RevertAccountsContainersWorkspacesZonesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}:revert",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesZonesRequest>;
-
-export type RevertAccountsContainersWorkspacesZonesResponse =
-  RevertZoneResponse;
-export const RevertAccountsContainersWorkspacesZonesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ RevertZoneResponse;
-
-export type RevertAccountsContainersWorkspacesZonesError = DefaultErrors;
-
-/** Reverts changes to a GTM Zone in a GTM Workspace. */
-export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
-  RevertAccountsContainersWorkspacesZonesRequest,
-  RevertAccountsContainersWorkspacesZonesResponse,
-  RevertAccountsContainersWorkspacesZonesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevertAccountsContainersWorkspacesZonesRequest,
-  output: RevertAccountsContainersWorkspacesZonesResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesZonesRequest {
-  /** GTM Zone's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesZonesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesZonesRequest>;
-
-export interface DeleteAccountsContainersWorkspacesZonesResponse {}
-export const DeleteAccountsContainersWorkspacesZonesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse>;
-
-export type DeleteAccountsContainersWorkspacesZonesError = DefaultErrors;
-
-/** Deletes a GTM Zone. */
-export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesZonesRequest,
-  DeleteAccountsContainersWorkspacesZonesResponse,
-  DeleteAccountsContainersWorkspacesZonesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesZonesRequest,
-  output: DeleteAccountsContainersWorkspacesZonesResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesZonesRequest {
-  /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
-  fingerprint?: string;
-  /** GTM Zone's API relative path. */
-  path: string;
-  /** Request body */
-  body?: Zone;
-}
-
-export const UpdateAccountsContainersWorkspacesZonesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Zone).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesZonesRequest>;
-
-export type UpdateAccountsContainersWorkspacesZonesResponse = Zone;
-export const UpdateAccountsContainersWorkspacesZonesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Zone;
-
-export type UpdateAccountsContainersWorkspacesZonesError = DefaultErrors;
-
-/** Updates a GTM Zone. */
-export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesZonesRequest,
-  UpdateAccountsContainersWorkspacesZonesResponse,
-  UpdateAccountsContainersWorkspacesZonesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesZonesRequest,
-  output: UpdateAccountsContainersWorkspacesZonesResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersWorkspacesZonesRequest {
-  /** GTM Zone's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesZonesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesZonesRequest>;
-
-export type GetAccountsContainersWorkspacesZonesResponse = Zone;
-export const GetAccountsContainersWorkspacesZonesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Zone;
-
-export type GetAccountsContainersWorkspacesZonesError = DefaultErrors;
-
-/** Gets a GTM Zone. */
-export const getAccountsContainersWorkspacesZones: API.OperationMethod<
-  GetAccountsContainersWorkspacesZonesRequest,
-  GetAccountsContainersWorkspacesZonesResponse,
-  GetAccountsContainersWorkspacesZonesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesZonesRequest,
-  output: GetAccountsContainersWorkspacesZonesResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesZonesRequest {
+export interface ListAccountsContainersWorkspacesRequest {
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
-  /** GTM Workspace's API relative path. */
+  /** GTM parent Container's API relative path. */
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesZonesRequest =
+export const ListAccountsContainersWorkspacesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesZonesRequest>;
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesRequest>;
 
-export type ListAccountsContainersWorkspacesZonesResponse = ListZonesResponse;
-export const ListAccountsContainersWorkspacesZonesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListZonesResponse;
+export type ListAccountsContainersWorkspacesResponse = ListWorkspacesResponse;
+export const ListAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListWorkspacesResponse;
 
-export type ListAccountsContainersWorkspacesZonesError = DefaultErrors;
+export type ListAccountsContainersWorkspacesError = DefaultErrors;
 
-/** Lists all GTM Zones of a GTM container workspace. */
-export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesZonesRequest,
-  ListAccountsContainersWorkspacesZonesResponse,
-  ListAccountsContainersWorkspacesZonesError,
+/** Lists all Workspaces that belong to a GTM Container. */
+export const listAccountsContainersWorkspaces: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesRequest,
+  ListAccountsContainersWorkspacesResponse,
+  ListAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesZonesRequest,
-  output: ListAccountsContainersWorkspacesZonesResponse,
+  input: ListAccountsContainersWorkspacesRequest,
+  output: ListAccountsContainersWorkspacesResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -3567,42 +3134,119 @@ export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod
   },
 }));
 
-export interface CreateAccountsContainersWorkspacesTagsRequest {
+export interface GetStatusAccountsContainersWorkspacesRequest {
   /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Tag;
+  path: string;
 }
 
-export const CreateAccountsContainersWorkspacesTagsRequest =
+export const GetStatusAccountsContainersWorkspacesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Tag).pipe(T.HttpBody()),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/status",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetStatusAccountsContainersWorkspacesRequest>;
+
+export type GetStatusAccountsContainersWorkspacesResponse =
+  GetWorkspaceStatusResponse;
+export const GetStatusAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GetWorkspaceStatusResponse;
+
+export type GetStatusAccountsContainersWorkspacesError = DefaultErrors;
+
+/** Finds conflicting and modified entities in the workspace. */
+export const getStatusAccountsContainersWorkspaces: API.OperationMethod<
+  GetStatusAccountsContainersWorkspacesRequest,
+  GetStatusAccountsContainersWorkspacesResponse,
+  GetStatusAccountsContainersWorkspacesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetStatusAccountsContainersWorkspacesRequest,
+  output: GetStatusAccountsContainersWorkspacesResponse,
+  errors: [],
+}));
+
+export interface Bulk_updateAccountsContainersWorkspacesRequest {
+  /** GTM Workspace's API relative path. */
+  path: string;
+  /** Request body */
+  body?: ProposedChange;
+}
+
+export const Bulk_updateAccountsContainersWorkspacesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(ProposedChange).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/bulk_update",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTagsRequest>;
+  ) as unknown as Schema.Schema<Bulk_updateAccountsContainersWorkspacesRequest>;
 
-export type CreateAccountsContainersWorkspacesTagsResponse = Tag;
-export const CreateAccountsContainersWorkspacesTagsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Tag;
+export type Bulk_updateAccountsContainersWorkspacesResponse =
+  BulkUpdateWorkspaceResponse;
+export const Bulk_updateAccountsContainersWorkspacesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ BulkUpdateWorkspaceResponse;
 
-export type CreateAccountsContainersWorkspacesTagsError = DefaultErrors;
+export type Bulk_updateAccountsContainersWorkspacesError = DefaultErrors;
 
-/** Creates a GTM Tag. */
-export const createAccountsContainersWorkspacesTags: API.OperationMethod<
-  CreateAccountsContainersWorkspacesTagsRequest,
-  CreateAccountsContainersWorkspacesTagsResponse,
-  CreateAccountsContainersWorkspacesTagsError,
+/** Applies multiple entity changes to a workspace in one call. When creating new entities, their entity IDs must be unique and in correct format. That is, they must start with "new_" and followed by number, e.g. "new_1", "new_2". Example body snippet to create myNewTag under myNewFolder is: ``` "changes": [ { "folder": { "folderId": "new_1", "name": "myNewFolder", ... }, "changeStatus": "added" }, { "tag": { "tagId": "new_2", "name": "myNewTag", "parentFolderId": "new_1", ... }, "changeStatus": "added" } ] ``` */
+export const bulk_updateAccountsContainersWorkspaces: API.OperationMethod<
+  Bulk_updateAccountsContainersWorkspacesRequest,
+  Bulk_updateAccountsContainersWorkspacesResponse,
+  Bulk_updateAccountsContainersWorkspacesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesTagsRequest,
-  output: CreateAccountsContainersWorkspacesTagsResponse,
+  input: Bulk_updateAccountsContainersWorkspacesRequest,
+  output: Bulk_updateAccountsContainersWorkspacesResponse,
   errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesTagsRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+}
+
+export const ListAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTagsRequest>;
+
+export type ListAccountsContainersWorkspacesTagsResponse = ListTagsResponse;
+export const ListAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTagsResponse;
+
+export type ListAccountsContainersWorkspacesTagsError = DefaultErrors;
+
+/** Lists all GTM Tags of a Container. */
+export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesTagsRequest,
+  ListAccountsContainersWorkspacesTagsResponse,
+  ListAccountsContainersWorkspacesTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesTagsRequest,
+  output: ListAccountsContainersWorkspacesTagsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface RevertAccountsContainersWorkspacesTagsRequest {
@@ -3645,21 +3289,93 @@ export const revertAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [],
 }));
 
-export interface UpdateAccountsContainersWorkspacesTagsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
-  fingerprint?: string;
+export interface CreateAccountsContainersWorkspacesTagsRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Tag;
+}
+
+export const CreateAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Tag).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTagsRequest>;
+
+export type CreateAccountsContainersWorkspacesTagsResponse = Tag;
+export const CreateAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tag;
+
+export type CreateAccountsContainersWorkspacesTagsError = DefaultErrors;
+
+/** Creates a GTM Tag. */
+export const createAccountsContainersWorkspacesTags: API.OperationMethod<
+  CreateAccountsContainersWorkspacesTagsRequest,
+  CreateAccountsContainersWorkspacesTagsResponse,
+  CreateAccountsContainersWorkspacesTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesTagsRequest,
+  output: CreateAccountsContainersWorkspacesTagsResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesTagsRequest {
   /** GTM Tag's API relative path. */
   path: string;
+}
+
+export const GetAccountsContainersWorkspacesTagsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTagsRequest>;
+
+export type GetAccountsContainersWorkspacesTagsResponse = Tag;
+export const GetAccountsContainersWorkspacesTagsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Tag;
+
+export type GetAccountsContainersWorkspacesTagsError = DefaultErrors;
+
+/** Gets a GTM Tag. */
+export const getAccountsContainersWorkspacesTags: API.OperationMethod<
+  GetAccountsContainersWorkspacesTagsRequest,
+  GetAccountsContainersWorkspacesTagsResponse,
+  GetAccountsContainersWorkspacesTagsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesTagsRequest,
+  output: GetAccountsContainersWorkspacesTagsResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesTagsRequest {
+  /** GTM Tag's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
+  fingerprint?: string;
   /** Request body */
   body?: Tag;
 }
 
 export const UpdateAccountsContainersWorkspacesTagsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
-    path: Schema.String.pipe(T.HttpPath("path")),
     body: Schema.optional(Tag).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
@@ -3724,513 +3440,116 @@ export const deleteAccountsContainersWorkspacesTags: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetAccountsContainersWorkspacesTagsRequest {
-  /** GTM Tag's API relative path. */
+export interface DeleteAccountsContainersWorkspacesClientsRequest {
+  /** GTM Client's API relative path. */
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesTagsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags/{tagsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTagsRequest>;
-
-export type GetAccountsContainersWorkspacesTagsResponse = Tag;
-export const GetAccountsContainersWorkspacesTagsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Tag;
-
-export type GetAccountsContainersWorkspacesTagsError = DefaultErrors;
-
-/** Gets a GTM Tag. */
-export const getAccountsContainersWorkspacesTags: API.OperationMethod<
-  GetAccountsContainersWorkspacesTagsRequest,
-  GetAccountsContainersWorkspacesTagsResponse,
-  GetAccountsContainersWorkspacesTagsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesTagsRequest,
-  output: GetAccountsContainersWorkspacesTagsResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesTagsRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const ListAccountsContainersWorkspacesTagsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/tags",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTagsRequest>;
-
-export type ListAccountsContainersWorkspacesTagsResponse = ListTagsResponse;
-export const ListAccountsContainersWorkspacesTagsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListTagsResponse;
-
-export type ListAccountsContainersWorkspacesTagsError = DefaultErrors;
-
-/** Lists all GTM Tags of a Container. */
-export const listAccountsContainersWorkspacesTags: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesTagsRequest,
-  ListAccountsContainersWorkspacesTagsResponse,
-  ListAccountsContainersWorkspacesTagsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesTagsRequest,
-  output: ListAccountsContainersWorkspacesTagsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface ListAccountsContainersWorkspacesGtag_configRequest {
-  /** Workspace's API relative path. */
-  parent: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const ListAccountsContainersWorkspacesGtag_configRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesGtag_configRequest>;
-
-export type ListAccountsContainersWorkspacesGtag_configResponse =
-  ListGtagConfigResponse;
-export const ListAccountsContainersWorkspacesGtag_configResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListGtagConfigResponse;
-
-export type ListAccountsContainersWorkspacesGtag_configError = DefaultErrors;
-
-/** Lists all Google tag configs in a Container. */
-export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesGtag_configRequest,
-  ListAccountsContainersWorkspacesGtag_configResponse,
-  ListAccountsContainersWorkspacesGtag_configError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesGtag_configRequest,
-  output: ListAccountsContainersWorkspacesGtag_configResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsContainersWorkspacesGtag_configRequest {
-  /** Google tag config's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesGtag_configRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesGtag_configRequest>;
-
-export type GetAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const GetAccountsContainersWorkspacesGtag_configResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
-
-export type GetAccountsContainersWorkspacesGtag_configError = DefaultErrors;
-
-/** Gets a Google tag config. */
-export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
-  GetAccountsContainersWorkspacesGtag_configRequest,
-  GetAccountsContainersWorkspacesGtag_configResponse,
-  GetAccountsContainersWorkspacesGtag_configError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesGtag_configRequest,
-  output: GetAccountsContainersWorkspacesGtag_configResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
-  /** Google tag config's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the config in storage. */
-  fingerprint?: string;
-  /** Request body */
-  body?: GtagConfig;
-}
-
-export const UpdateAccountsContainersWorkspacesGtag_configRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    body: Schema.optional(GtagConfig).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesGtag_configRequest>;
-
-export type UpdateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const UpdateAccountsContainersWorkspacesGtag_configResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
-
-export type UpdateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
-
-/** Updates a Google tag config. */
-export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesGtag_configRequest,
-  UpdateAccountsContainersWorkspacesGtag_configResponse,
-  UpdateAccountsContainersWorkspacesGtag_configError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesGtag_configRequest,
-  output: UpdateAccountsContainersWorkspacesGtag_configResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesGtag_configRequest {
-  /** Google tag config's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesGtag_configRequest =
+export const DeleteAccountsContainersWorkspacesClientsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configRequest>;
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesClientsRequest>;
 
-export interface DeleteAccountsContainersWorkspacesGtag_configResponse {}
-export const DeleteAccountsContainersWorkspacesGtag_configResponse: Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse> =
+export interface DeleteAccountsContainersWorkspacesClientsResponse {}
+export const DeleteAccountsContainersWorkspacesClientsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse>;
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse>;
 
-export type DeleteAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+export type DeleteAccountsContainersWorkspacesClientsError = DefaultErrors;
 
-/** Deletes a Google tag config. */
-export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesGtag_configRequest,
-  DeleteAccountsContainersWorkspacesGtag_configResponse,
-  DeleteAccountsContainersWorkspacesGtag_configError,
+/** Deletes a GTM Client. */
+export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesClientsRequest,
+  DeleteAccountsContainersWorkspacesClientsResponse,
+  DeleteAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesGtag_configRequest,
-  output: DeleteAccountsContainersWorkspacesGtag_configResponse,
+  input: DeleteAccountsContainersWorkspacesClientsRequest,
+  output: DeleteAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-export interface CreateAccountsContainersWorkspacesGtag_configRequest {
-  /** Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: GtagConfig;
-}
-
-export const CreateAccountsContainersWorkspacesGtag_configRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(GtagConfig).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesGtag_configRequest>;
-
-export type CreateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
-export const CreateAccountsContainersWorkspacesGtag_configResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
-
-export type CreateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
-
-/** Creates a Google tag config. */
-export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
-  CreateAccountsContainersWorkspacesGtag_configRequest,
-  CreateAccountsContainersWorkspacesGtag_configResponse,
-  CreateAccountsContainersWorkspacesGtag_configError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesGtag_configRequest,
-  output: CreateAccountsContainersWorkspacesGtag_configResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesTransformationsRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const ListAccountsContainersWorkspacesTransformationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTransformationsRequest>;
-
-export type ListAccountsContainersWorkspacesTransformationsResponse =
-  ListTransformationsResponse;
-export const ListAccountsContainersWorkspacesTransformationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListTransformationsResponse;
-
-export type ListAccountsContainersWorkspacesTransformationsError =
-  DefaultErrors;
-
-/** Lists all GTM Transformations of a GTM container workspace. */
-export const listAccountsContainersWorkspacesTransformations: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesTransformationsRequest,
-  ListAccountsContainersWorkspacesTransformationsResponse,
-  ListAccountsContainersWorkspacesTransformationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesTransformationsRequest,
-  output: ListAccountsContainersWorkspacesTransformationsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsContainersWorkspacesTransformationsRequest {
-  /** GTM Transformation's API relative path. */
+export interface GetAccountsContainersWorkspacesClientsRequest {
+  /** GTM Client's API relative path. */
   path: string;
 }
 
-export const GetAccountsContainersWorkspacesTransformationsRequest =
+export const GetAccountsContainersWorkspacesClientsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTransformationsRequest>;
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesClientsRequest>;
 
-export type GetAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
-export const GetAccountsContainersWorkspacesTransformationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Transformation;
+export type GetAccountsContainersWorkspacesClientsResponse = Client;
+export const GetAccountsContainersWorkspacesClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
-export type GetAccountsContainersWorkspacesTransformationsError = DefaultErrors;
+export type GetAccountsContainersWorkspacesClientsError = DefaultErrors;
 
-/** Gets a GTM Transformation. */
-export const getAccountsContainersWorkspacesTransformations: API.OperationMethod<
-  GetAccountsContainersWorkspacesTransformationsRequest,
-  GetAccountsContainersWorkspacesTransformationsResponse,
-  GetAccountsContainersWorkspacesTransformationsError,
+/** Gets a GTM Client. */
+export const getAccountsContainersWorkspacesClients: API.OperationMethod<
+  GetAccountsContainersWorkspacesClientsRequest,
+  GetAccountsContainersWorkspacesClientsResponse,
+  GetAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesTransformationsRequest,
-  output: GetAccountsContainersWorkspacesTransformationsResponse,
+  input: GetAccountsContainersWorkspacesClientsRequest,
+  output: GetAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
-export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
-  fingerprint?: string;
-  /** GTM Transformation's API relative path. */
+export interface UpdateAccountsContainersWorkspacesClientsRequest {
+  /** GTM Client's API relative path. */
   path: string;
+  /** When provided, this fingerprint must match the fingerprint of the client in storage. */
+  fingerprint?: string;
   /** Request body */
-  body?: Transformation;
+  body?: Client;
 }
 
-export const UpdateAccountsContainersWorkspacesTransformationsRequest =
+export const UpdateAccountsContainersWorkspacesClientsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
     fingerprint: Schema.optional(Schema.String).pipe(
       T.HttpQuery("fingerprint"),
     ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Transformation).pipe(T.HttpBody()),
+    body: Schema.optional(Client).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTransformationsRequest>;
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesClientsRequest>;
 
-export type UpdateAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
-export const UpdateAccountsContainersWorkspacesTransformationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Transformation;
+export type UpdateAccountsContainersWorkspacesClientsResponse = Client;
+export const UpdateAccountsContainersWorkspacesClientsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Client;
 
-export type UpdateAccountsContainersWorkspacesTransformationsError =
-  DefaultErrors;
+export type UpdateAccountsContainersWorkspacesClientsError = DefaultErrors;
 
-/** Updates a GTM Transformation. */
-export const updateAccountsContainersWorkspacesTransformations: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesTransformationsRequest,
-  UpdateAccountsContainersWorkspacesTransformationsResponse,
-  UpdateAccountsContainersWorkspacesTransformationsError,
+/** Updates a GTM Client. */
+export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesClientsRequest,
+  UpdateAccountsContainersWorkspacesClientsResponse,
+  UpdateAccountsContainersWorkspacesClientsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesTransformationsRequest,
-  output: UpdateAccountsContainersWorkspacesTransformationsResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesTransformationsRequest {
-  /** GTM Transformation's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesTransformationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsRequest>;
-
-export interface DeleteAccountsContainersWorkspacesTransformationsResponse {}
-export const DeleteAccountsContainersWorkspacesTransformationsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse>;
-
-export type DeleteAccountsContainersWorkspacesTransformationsError =
-  DefaultErrors;
-
-/** Deletes a GTM Transformation. */
-export const deleteAccountsContainersWorkspacesTransformations: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesTransformationsRequest,
-  DeleteAccountsContainersWorkspacesTransformationsResponse,
-  DeleteAccountsContainersWorkspacesTransformationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesTransformationsRequest,
-  output: DeleteAccountsContainersWorkspacesTransformationsResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsContainersWorkspacesTransformationsRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Transformation;
-}
-
-export const CreateAccountsContainersWorkspacesTransformationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Transformation).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTransformationsRequest>;
-
-export type CreateAccountsContainersWorkspacesTransformationsResponse =
-  Transformation;
-export const CreateAccountsContainersWorkspacesTransformationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Transformation;
-
-export type CreateAccountsContainersWorkspacesTransformationsError =
-  DefaultErrors;
-
-/** Creates a GTM Transformation. */
-export const createAccountsContainersWorkspacesTransformations: API.OperationMethod<
-  CreateAccountsContainersWorkspacesTransformationsRequest,
-  CreateAccountsContainersWorkspacesTransformationsResponse,
-  CreateAccountsContainersWorkspacesTransformationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesTransformationsRequest,
-  output: CreateAccountsContainersWorkspacesTransformationsResponse,
-  errors: [],
-}));
-
-export interface RevertAccountsContainersWorkspacesTransformationsRequest {
-  /** GTM Transformation's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
-  fingerprint?: string;
-}
-
-export const RevertAccountsContainersWorkspacesTransformationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}:revert",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTransformationsRequest>;
-
-export type RevertAccountsContainersWorkspacesTransformationsResponse =
-  RevertTransformationResponse;
-export const RevertAccountsContainersWorkspacesTransformationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ RevertTransformationResponse;
-
-export type RevertAccountsContainersWorkspacesTransformationsError =
-  DefaultErrors;
-
-/** Reverts changes to a GTM Transformation in a GTM Workspace. */
-export const revertAccountsContainersWorkspacesTransformations: API.OperationMethod<
-  RevertAccountsContainersWorkspacesTransformationsRequest,
-  RevertAccountsContainersWorkspacesTransformationsResponse,
-  RevertAccountsContainersWorkspacesTransformationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevertAccountsContainersWorkspacesTransformationsRequest,
-  output: RevertAccountsContainersWorkspacesTransformationsResponse,
+  input: UpdateAccountsContainersWorkspacesClientsRequest,
+  output: UpdateAccountsContainersWorkspacesClientsResponse,
   errors: [],
 }));
 
@@ -4313,119 +3632,6 @@ export const revertAccountsContainersWorkspacesClients: API.OperationMethod<
   errors: [],
 }));
 
-export interface UpdateAccountsContainersWorkspacesClientsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the client in storage. */
-  fingerprint?: string;
-  /** GTM Client's API relative path. */
-  path: string;
-  /** Request body */
-  body?: Client;
-}
-
-export const UpdateAccountsContainersWorkspacesClientsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Client).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesClientsRequest>;
-
-export type UpdateAccountsContainersWorkspacesClientsResponse = Client;
-export const UpdateAccountsContainersWorkspacesClientsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Client;
-
-export type UpdateAccountsContainersWorkspacesClientsError = DefaultErrors;
-
-/** Updates a GTM Client. */
-export const updateAccountsContainersWorkspacesClients: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesClientsRequest,
-  UpdateAccountsContainersWorkspacesClientsResponse,
-  UpdateAccountsContainersWorkspacesClientsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesClientsRequest,
-  output: UpdateAccountsContainersWorkspacesClientsResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesClientsRequest {
-  /** GTM Client's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesClientsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesClientsRequest>;
-
-export interface DeleteAccountsContainersWorkspacesClientsResponse {}
-export const DeleteAccountsContainersWorkspacesClientsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesClientsResponse>;
-
-export type DeleteAccountsContainersWorkspacesClientsError = DefaultErrors;
-
-/** Deletes a GTM Client. */
-export const deleteAccountsContainersWorkspacesClients: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesClientsRequest,
-  DeleteAccountsContainersWorkspacesClientsResponse,
-  DeleteAccountsContainersWorkspacesClientsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesClientsRequest,
-  output: DeleteAccountsContainersWorkspacesClientsResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersWorkspacesClientsRequest {
-  /** GTM Client's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesClientsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/clients/{clientsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesClientsRequest>;
-
-export type GetAccountsContainersWorkspacesClientsResponse = Client;
-export const GetAccountsContainersWorkspacesClientsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Client;
-
-export type GetAccountsContainersWorkspacesClientsError = DefaultErrors;
-
-/** Gets a GTM Client. */
-export const getAccountsContainersWorkspacesClients: API.OperationMethod<
-  GetAccountsContainersWorkspacesClientsRequest,
-  GetAccountsContainersWorkspacesClientsResponse,
-  GetAccountsContainersWorkspacesClientsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesClientsRequest,
-  output: GetAccountsContainersWorkspacesClientsResponse,
-  errors: [],
-}));
-
 export interface ListAccountsContainersWorkspacesClientsRequest {
   /** GTM Workspace's API relative path. */
   parent: string;
@@ -4466,607 +3672,6 @@ export const listAccountsContainersWorkspacesClients: API.PaginatedOperationMeth
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
-}));
-
-export interface DeleteAccountsContainersWorkspacesVariablesRequest {
-  /** GTM Variable's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesRequest>;
-
-export interface DeleteAccountsContainersWorkspacesVariablesResponse {}
-export const DeleteAccountsContainersWorkspacesVariablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse>;
-
-export type DeleteAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Deletes a GTM Variable. */
-export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesVariablesRequest,
-  DeleteAccountsContainersWorkspacesVariablesResponse,
-  DeleteAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesVariablesRequest,
-  output: DeleteAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesVariablesRequest {
-  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
-  fingerprint?: string;
-  /** GTM Variable's API relative path. */
-  path: string;
-  /** Request body */
-  body?: Variable;
-}
-
-export const UpdateAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(Variable).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesVariablesRequest>;
-
-export type UpdateAccountsContainersWorkspacesVariablesResponse = Variable;
-export const UpdateAccountsContainersWorkspacesVariablesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Variable;
-
-export type UpdateAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Updates a GTM Variable. */
-export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesVariablesRequest,
-  UpdateAccountsContainersWorkspacesVariablesResponse,
-  UpdateAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesVariablesRequest,
-  output: UpdateAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsContainersWorkspacesVariablesRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Variable;
-}
-
-export const CreateAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Variable).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesVariablesRequest>;
-
-export type CreateAccountsContainersWorkspacesVariablesResponse = Variable;
-export const CreateAccountsContainersWorkspacesVariablesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Variable;
-
-export type CreateAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Creates a GTM Variable. */
-export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
-  CreateAccountsContainersWorkspacesVariablesRequest,
-  CreateAccountsContainersWorkspacesVariablesResponse,
-  CreateAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesVariablesRequest,
-  output: CreateAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-}));
-
-export interface RevertAccountsContainersWorkspacesVariablesRequest {
-  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
-  fingerprint?: string;
-  /** GTM Variable's API relative path. */
-  path: string;
-}
-
-export const RevertAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}:revert",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesVariablesRequest>;
-
-export type RevertAccountsContainersWorkspacesVariablesResponse =
-  RevertVariableResponse;
-export const RevertAccountsContainersWorkspacesVariablesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ RevertVariableResponse;
-
-export type RevertAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Reverts changes to a GTM Variable in a GTM Workspace. */
-export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
-  RevertAccountsContainersWorkspacesVariablesRequest,
-  RevertAccountsContainersWorkspacesVariablesResponse,
-  RevertAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevertAccountsContainersWorkspacesVariablesRequest,
-  output: RevertAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesVariablesRequest {
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** GTM Workspace's API relative path. */
-  parent: string;
-}
-
-export const ListAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesVariablesRequest>;
-
-export type ListAccountsContainersWorkspacesVariablesResponse =
-  ListVariablesResponse;
-export const ListAccountsContainersWorkspacesVariablesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListVariablesResponse;
-
-export type ListAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Lists all GTM Variables of a Container. */
-export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesVariablesRequest,
-  ListAccountsContainersWorkspacesVariablesResponse,
-  ListAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesVariablesRequest,
-  output: ListAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsContainersWorkspacesVariablesRequest {
-  /** GTM Variable's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesVariablesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesVariablesRequest>;
-
-export type GetAccountsContainersWorkspacesVariablesResponse = Variable;
-export const GetAccountsContainersWorkspacesVariablesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Variable;
-
-export type GetAccountsContainersWorkspacesVariablesError = DefaultErrors;
-
-/** Gets a GTM Variable. */
-export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
-  GetAccountsContainersWorkspacesVariablesRequest,
-  GetAccountsContainersWorkspacesVariablesResponse,
-  GetAccountsContainersWorkspacesVariablesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesVariablesRequest,
-  output: GetAccountsContainersWorkspacesVariablesResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Folder's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersRequest>;
-
-export interface DeleteAccountsContainersWorkspacesFoldersResponse {}
-export const DeleteAccountsContainersWorkspacesFoldersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse>;
-
-export type DeleteAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Deletes a GTM Folder. */
-export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesFoldersRequest,
-  DeleteAccountsContainersWorkspacesFoldersResponse,
-  DeleteAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesFoldersRequest,
-  output: DeleteAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Folder's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
-  fingerprint?: string;
-  /** Request body */
-  body?: Folder;
-}
-
-export const UpdateAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    body: Schema.optional(Folder).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesFoldersRequest>;
-
-export type UpdateAccountsContainersWorkspacesFoldersResponse = Folder;
-export const UpdateAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Folder;
-
-export type UpdateAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Updates a GTM Folder. */
-export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesFoldersRequest,
-  UpdateAccountsContainersWorkspacesFoldersResponse,
-  UpdateAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesFoldersRequest,
-  output: UpdateAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest {
-  /** The tags to be moved to the folder. */
-  tagId?: string[];
-  /** The variables to be moved to the folder. */
-  variableId?: string[];
-  /** GTM Folder's API relative path. */
-  path: string;
-  /** The triggers to be moved to the folder. */
-  triggerId?: string[];
-  /** Request body */
-  body?: Folder;
-}
-
-export const Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    tagId: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("tagId"),
-    ),
-    variableId: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("variableId"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    triggerId: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("triggerId"),
-    ),
-    body: Schema.optional(Folder).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:move_entities_to_folder",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest>;
-
-export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse {}
-export const Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse: Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse>;
-
-export type Move_entities_to_folderAccountsContainersWorkspacesFoldersError =
-  DefaultErrors;
-
-/** Moves entities to a GTM Folder. If {folder_id} in the request path equals 0, this will instead move entities out of the folder they currently belong to. */
-export const move_entities_to_folderAccountsContainersWorkspacesFolders: API.OperationMethod<
-  Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
-  Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
-  Move_entities_to_folderAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
-  output: Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: Folder;
-}
-
-export const CreateAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(Folder).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesFoldersRequest>;
-
-export type CreateAccountsContainersWorkspacesFoldersResponse = Folder;
-export const CreateAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Folder;
-
-export type CreateAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Creates a GTM Folder. */
-export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
-  CreateAccountsContainersWorkspacesFoldersRequest,
-  CreateAccountsContainersWorkspacesFoldersResponse,
-  CreateAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesFoldersRequest,
-  output: CreateAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface RevertAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Folder's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
-  fingerprint?: string;
-}
-
-export const RevertAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:revert",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesFoldersRequest>;
-
-export type RevertAccountsContainersWorkspacesFoldersResponse =
-  RevertFolderResponse;
-export const RevertAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ RevertFolderResponse;
-
-export type RevertAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Reverts changes to a GTM Folder in a GTM Workspace. */
-export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
-  RevertAccountsContainersWorkspacesFoldersRequest,
-  RevertAccountsContainersWorkspacesFoldersResponse,
-  RevertAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevertAccountsContainersWorkspacesFoldersRequest,
-  output: RevertAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesFoldersRequest {
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-  /** GTM Workspace's API relative path. */
-  parent: string;
-}
-
-export const ListAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesFoldersRequest>;
-
-export type ListAccountsContainersWorkspacesFoldersResponse =
-  ListFoldersResponse;
-export const ListAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListFoldersResponse;
-
-export type ListAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Lists all GTM Folders of a Container. */
-export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesFoldersRequest,
-  ListAccountsContainersWorkspacesFoldersResponse,
-  ListAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesFoldersRequest,
-  output: ListAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Folder's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesFoldersRequest>;
-
-export type GetAccountsContainersWorkspacesFoldersResponse = Folder;
-export const GetAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Folder;
-
-export type GetAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** Gets a GTM Folder. */
-export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
-  GetAccountsContainersWorkspacesFoldersRequest,
-  GetAccountsContainersWorkspacesFoldersResponse,
-  GetAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesFoldersRequest,
-  output: GetAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-}));
-
-export interface EntitiesAccountsContainersWorkspacesFoldersRequest {
-  /** GTM Folder's API relative path. */
-  path: string;
-  /** Continuation token for fetching the next page of results. */
-  pageToken?: string;
-}
-
-export const EntitiesAccountsContainersWorkspacesFoldersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:entities",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<EntitiesAccountsContainersWorkspacesFoldersRequest>;
-
-export type EntitiesAccountsContainersWorkspacesFoldersResponse =
-  FolderEntities;
-export const EntitiesAccountsContainersWorkspacesFoldersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ FolderEntities;
-
-export type EntitiesAccountsContainersWorkspacesFoldersError = DefaultErrors;
-
-/** List all entities in a GTM Folder. */
-export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
-  EntitiesAccountsContainersWorkspacesFoldersRequest,
-  EntitiesAccountsContainersWorkspacesFoldersResponse,
-  EntitiesAccountsContainersWorkspacesFoldersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: EntitiesAccountsContainersWorkspacesFoldersRequest,
-  output: EntitiesAccountsContainersWorkspacesFoldersResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface GetAccountsContainersWorkspacesTriggersRequest {
-  /** GTM Trigger's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesTriggersRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTriggersRequest>;
-
-export type GetAccountsContainersWorkspacesTriggersResponse = Trigger;
-export const GetAccountsContainersWorkspacesTriggersResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Trigger;
-
-export type GetAccountsContainersWorkspacesTriggersError = DefaultErrors;
-
-/** Gets a GTM Trigger. */
-export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
-  GetAccountsContainersWorkspacesTriggersRequest,
-  GetAccountsContainersWorkspacesTriggersResponse,
-  GetAccountsContainersWorkspacesTriggersError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesTriggersRequest,
-  output: GetAccountsContainersWorkspacesTriggersResponse,
-  errors: [],
 }));
 
 export interface ListAccountsContainersWorkspacesTriggersRequest {
@@ -5190,39 +3795,37 @@ export const revertAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [],
 }));
 
-export interface DeleteAccountsContainersWorkspacesTriggersRequest {
+export interface GetAccountsContainersWorkspacesTriggersRequest {
   /** GTM Trigger's API relative path. */
   path: string;
 }
 
-export const DeleteAccountsContainersWorkspacesTriggersRequest =
+export const GetAccountsContainersWorkspacesTriggersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
-      method: "DELETE",
+      method: "GET",
       path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersRequest>;
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTriggersRequest>;
 
-export interface DeleteAccountsContainersWorkspacesTriggersResponse {}
-export const DeleteAccountsContainersWorkspacesTriggersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse>;
+export type GetAccountsContainersWorkspacesTriggersResponse = Trigger;
+export const GetAccountsContainersWorkspacesTriggersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Trigger;
 
-export type DeleteAccountsContainersWorkspacesTriggersError = DefaultErrors;
+export type GetAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
-/** Deletes a GTM Trigger. */
-export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesTriggersRequest,
-  DeleteAccountsContainersWorkspacesTriggersResponse,
-  DeleteAccountsContainersWorkspacesTriggersError,
+/** Gets a GTM Trigger. */
+export const getAccountsContainersWorkspacesTriggers: API.OperationMethod<
+  GetAccountsContainersWorkspacesTriggersRequest,
+  GetAccountsContainersWorkspacesTriggersResponse,
+  GetAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesTriggersRequest,
-  output: DeleteAccountsContainersWorkspacesTriggersResponse,
+  input: GetAccountsContainersWorkspacesTriggersRequest,
+  output: GetAccountsContainersWorkspacesTriggersResponse,
   errors: [],
 }));
 
@@ -5269,164 +3872,1566 @@ export const updateAccountsContainersWorkspacesTriggers: API.OperationMethod<
   errors: [],
 }));
 
-export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest {
-  /** GTM BuiltInVariable's API relative path. */
+export interface DeleteAccountsContainersWorkspacesTriggersRequest {
+  /** GTM Trigger's API relative path. */
   path: string;
-  /** The types of built-in variables to delete. */
-  type?:
-    | "builtInVariableTypeUnspecified"
-    | "pageUrl"
-    | "pageHostname"
-    | "pagePath"
-    | "referrer"
-    | "event"
-    | "clickElement"
-    | "clickClasses"
-    | "clickId"
-    | "clickTarget"
-    | "clickUrl"
-    | "clickText"
-    | "firstPartyServingUrl"
-    | "formElement"
-    | "formClasses"
-    | "formId"
-    | "formTarget"
-    | "formUrl"
-    | "formText"
-    | "errorMessage"
-    | "errorUrl"
-    | "errorLine"
-    | "newHistoryUrl"
-    | "oldHistoryUrl"
-    | "newHistoryFragment"
-    | "oldHistoryFragment"
-    | "newHistoryState"
-    | "oldHistoryState"
-    | "historySource"
-    | "containerVersion"
-    | "debugMode"
-    | "randomNumber"
-    | "containerId"
-    | "appId"
-    | "appName"
-    | "appVersionCode"
-    | "appVersionName"
-    | "language"
-    | "osVersion"
-    | "platform"
-    | "sdkVersion"
-    | "deviceName"
-    | "resolution"
-    | "advertiserId"
-    | "advertisingTrackingEnabled"
-    | "htmlId"
-    | "environmentName"
-    | "ampBrowserLanguage"
-    | "ampCanonicalPath"
-    | "ampCanonicalUrl"
-    | "ampCanonicalHost"
-    | "ampReferrer"
-    | "ampTitle"
-    | "ampClientId"
-    | "ampClientTimezone"
-    | "ampClientTimestamp"
-    | "ampClientScreenWidth"
-    | "ampClientScreenHeight"
-    | "ampClientScrollX"
-    | "ampClientScrollY"
-    | "ampClientMaxScrollX"
-    | "ampClientMaxScrollY"
-    | "ampTotalEngagedTime"
-    | "ampPageViewId"
-    | "ampPageLoadTime"
-    | "ampPageDownloadTime"
-    | "ampGtmEvent"
-    | "eventName"
-    | "firebaseEventParameterCampaign"
-    | "firebaseEventParameterCampaignAclid"
-    | "firebaseEventParameterCampaignAnid"
-    | "firebaseEventParameterCampaignClickTimestamp"
-    | "firebaseEventParameterCampaignContent"
-    | "firebaseEventParameterCampaignCp1"
-    | "firebaseEventParameterCampaignGclid"
-    | "firebaseEventParameterCampaignSource"
-    | "firebaseEventParameterCampaignTerm"
-    | "firebaseEventParameterCurrency"
-    | "firebaseEventParameterDynamicLinkAcceptTime"
-    | "firebaseEventParameterDynamicLinkLinkid"
-    | "firebaseEventParameterNotificationMessageDeviceTime"
-    | "firebaseEventParameterNotificationMessageId"
-    | "firebaseEventParameterNotificationMessageName"
-    | "firebaseEventParameterNotificationMessageTime"
-    | "firebaseEventParameterNotificationTopic"
-    | "firebaseEventParameterPreviousAppVersion"
-    | "firebaseEventParameterPreviousOsVersion"
-    | "firebaseEventParameterPrice"
-    | "firebaseEventParameterProductId"
-    | "firebaseEventParameterQuantity"
-    | "firebaseEventParameterValue"
-    | "videoProvider"
-    | "videoUrl"
-    | "videoTitle"
-    | "videoDuration"
-    | "videoPercent"
-    | "videoVisible"
-    | "videoStatus"
-    | "videoCurrentTime"
-    | "scrollDepthThreshold"
-    | "scrollDepthUnits"
-    | "scrollDepthDirection"
-    | "elementVisibilityRatio"
-    | "elementVisibilityTime"
-    | "elementVisibilityFirstTime"
-    | "elementVisibilityRecentTime"
-    | "requestPath"
-    | "requestMethod"
-    | "clientName"
-    | "queryString"
-    | "serverPageLocationUrl"
-    | "serverPageLocationPath"
-    | "serverPageLocationHostname"
-    | "visitorRegion"
-    | "analyticsClientId"
-    | "analyticsSessionId"
-    | "analyticsSessionNumber"
-    | (string & {})[];
 }
 
-export const DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest =
+export const DeleteAccountsContainersWorkspacesTriggersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
-    type: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("type"),
-    ),
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/built_in_variables",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/triggers/{triggersId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest>;
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersRequest>;
 
-export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse {}
-export const DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse> =
+export interface DeleteAccountsContainersWorkspacesTriggersResponse {}
+export const DeleteAccountsContainersWorkspacesTriggersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse>;
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTriggersResponse>;
 
-export type DeleteAccountsContainersWorkspacesBuilt_in_variablesError =
-  DefaultErrors;
+export type DeleteAccountsContainersWorkspacesTriggersError = DefaultErrors;
 
-/** Deletes one or more GTM Built-In Variables. */
-export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
-  DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
-  DeleteAccountsContainersWorkspacesBuilt_in_variablesError,
+/** Deletes a GTM Trigger. */
+export const deleteAccountsContainersWorkspacesTriggers: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesTriggersRequest,
+  DeleteAccountsContainersWorkspacesTriggersResponse,
+  DeleteAccountsContainersWorkspacesTriggersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
-  output: DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
+  input: DeleteAccountsContainersWorkspacesTriggersRequest,
+  output: DeleteAccountsContainersWorkspacesTriggersResponse,
   errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesVariablesRequest {
+  /** GTM Variable's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesVariablesRequest>;
+
+export type GetAccountsContainersWorkspacesVariablesResponse = Variable;
+export const GetAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
+
+export type GetAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Gets a GTM Variable. */
+export const getAccountsContainersWorkspacesVariables: API.OperationMethod<
+  GetAccountsContainersWorkspacesVariablesRequest,
+  GetAccountsContainersWorkspacesVariablesResponse,
+  GetAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesVariablesRequest,
+  output: GetAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesVariablesRequest {
+  /** GTM Variable's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: Variable;
+}
+
+export const UpdateAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Variable).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesVariablesRequest>;
+
+export type UpdateAccountsContainersWorkspacesVariablesResponse = Variable;
+export const UpdateAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
+
+export type UpdateAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Updates a GTM Variable. */
+export const updateAccountsContainersWorkspacesVariables: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesVariablesRequest,
+  UpdateAccountsContainersWorkspacesVariablesResponse,
+  UpdateAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesVariablesRequest,
+  output: UpdateAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersWorkspacesVariablesRequest {
+  /** GTM Variable's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesRequest>;
+
+export interface DeleteAccountsContainersWorkspacesVariablesResponse {}
+export const DeleteAccountsContainersWorkspacesVariablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesVariablesResponse>;
+
+export type DeleteAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Deletes a GTM Variable. */
+export const deleteAccountsContainersWorkspacesVariables: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesVariablesRequest,
+  DeleteAccountsContainersWorkspacesVariablesResponse,
+  DeleteAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesVariablesRequest,
+  output: DeleteAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesVariablesRequest {
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+}
+
+export const ListAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesVariablesRequest>;
+
+export type ListAccountsContainersWorkspacesVariablesResponse =
+  ListVariablesResponse;
+export const ListAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListVariablesResponse;
+
+export type ListAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Lists all GTM Variables of a Container. */
+export const listAccountsContainersWorkspacesVariables: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesVariablesRequest,
+  ListAccountsContainersWorkspacesVariablesResponse,
+  ListAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesVariablesRequest,
+  output: ListAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface CreateAccountsContainersWorkspacesVariablesRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Variable;
+}
+
+export const CreateAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Variable).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesVariablesRequest>;
+
+export type CreateAccountsContainersWorkspacesVariablesResponse = Variable;
+export const CreateAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Variable;
+
+export type CreateAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Creates a GTM Variable. */
+export const createAccountsContainersWorkspacesVariables: API.OperationMethod<
+  CreateAccountsContainersWorkspacesVariablesRequest,
+  CreateAccountsContainersWorkspacesVariablesResponse,
+  CreateAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesVariablesRequest,
+  output: CreateAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+}));
+
+export interface RevertAccountsContainersWorkspacesVariablesRequest {
+  /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
+  fingerprint?: string;
+  /** GTM Variable's API relative path. */
+  path: string;
+}
+
+export const RevertAccountsContainersWorkspacesVariablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/variables/{variablesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesVariablesRequest>;
+
+export type RevertAccountsContainersWorkspacesVariablesResponse =
+  RevertVariableResponse;
+export const RevertAccountsContainersWorkspacesVariablesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertVariableResponse;
+
+export type RevertAccountsContainersWorkspacesVariablesError = DefaultErrors;
+
+/** Reverts changes to a GTM Variable in a GTM Workspace. */
+export const revertAccountsContainersWorkspacesVariables: API.OperationMethod<
+  RevertAccountsContainersWorkspacesVariablesRequest,
+  RevertAccountsContainersWorkspacesVariablesResponse,
+  RevertAccountsContainersWorkspacesVariablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevertAccountsContainersWorkspacesVariablesRequest,
+  output: RevertAccountsContainersWorkspacesVariablesResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesZonesRequest {
+  /** GTM Zone's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesZonesRequest>;
+
+export type GetAccountsContainersWorkspacesZonesResponse = Zone;
+export const GetAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
+
+export type GetAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Gets a GTM Zone. */
+export const getAccountsContainersWorkspacesZones: API.OperationMethod<
+  GetAccountsContainersWorkspacesZonesRequest,
+  GetAccountsContainersWorkspacesZonesResponse,
+  GetAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesZonesRequest,
+  output: GetAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesZonesRequest {
+  /** GTM Zone's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: Zone;
+}
+
+export const UpdateAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Zone).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesZonesRequest>;
+
+export type UpdateAccountsContainersWorkspacesZonesResponse = Zone;
+export const UpdateAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
+
+export type UpdateAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Updates a GTM Zone. */
+export const updateAccountsContainersWorkspacesZones: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesZonesRequest,
+  UpdateAccountsContainersWorkspacesZonesResponse,
+  UpdateAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesZonesRequest,
+  output: UpdateAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersWorkspacesZonesRequest {
+  /** GTM Zone's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesZonesRequest>;
+
+export interface DeleteAccountsContainersWorkspacesZonesResponse {}
+export const DeleteAccountsContainersWorkspacesZonesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesZonesResponse>;
+
+export type DeleteAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Deletes a GTM Zone. */
+export const deleteAccountsContainersWorkspacesZones: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesZonesRequest,
+  DeleteAccountsContainersWorkspacesZonesResponse,
+  DeleteAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesZonesRequest,
+  output: DeleteAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesZonesRequest {
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+}
+
+export const ListAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesZonesRequest>;
+
+export type ListAccountsContainersWorkspacesZonesResponse = ListZonesResponse;
+export const ListAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListZonesResponse;
+
+export type ListAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Lists all GTM Zones of a GTM container workspace. */
+export const listAccountsContainersWorkspacesZones: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesZonesRequest,
+  ListAccountsContainersWorkspacesZonesResponse,
+  ListAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesZonesRequest,
+  output: ListAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface RevertAccountsContainersWorkspacesZonesRequest {
+  /** GTM Zone's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the zone in storage. */
+  fingerprint?: string;
+}
+
+export const RevertAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones/{zonesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesZonesRequest>;
+
+export type RevertAccountsContainersWorkspacesZonesResponse =
+  RevertZoneResponse;
+export const RevertAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertZoneResponse;
+
+export type RevertAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Reverts changes to a GTM Zone in a GTM Workspace. */
+export const revertAccountsContainersWorkspacesZones: API.OperationMethod<
+  RevertAccountsContainersWorkspacesZonesRequest,
+  RevertAccountsContainersWorkspacesZonesResponse,
+  RevertAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevertAccountsContainersWorkspacesZonesRequest,
+  output: RevertAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsContainersWorkspacesZonesRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Zone;
+}
+
+export const CreateAccountsContainersWorkspacesZonesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Zone).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/zones",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesZonesRequest>;
+
+export type CreateAccountsContainersWorkspacesZonesResponse = Zone;
+export const CreateAccountsContainersWorkspacesZonesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Zone;
+
+export type CreateAccountsContainersWorkspacesZonesError = DefaultErrors;
+
+/** Creates a GTM Zone. */
+export const createAccountsContainersWorkspacesZones: API.OperationMethod<
+  CreateAccountsContainersWorkspacesZonesRequest,
+  CreateAccountsContainersWorkspacesZonesResponse,
+  CreateAccountsContainersWorkspacesZonesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesZonesRequest,
+  output: CreateAccountsContainersWorkspacesZonesResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesTransformationsRequest {
+  /** GTM Transformation's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTransformationsRequest>;
+
+export type GetAccountsContainersWorkspacesTransformationsResponse =
+  Transformation;
+export const GetAccountsContainersWorkspacesTransformationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
+
+export type GetAccountsContainersWorkspacesTransformationsError = DefaultErrors;
+
+/** Gets a GTM Transformation. */
+export const getAccountsContainersWorkspacesTransformations: API.OperationMethod<
+  GetAccountsContainersWorkspacesTransformationsRequest,
+  GetAccountsContainersWorkspacesTransformationsResponse,
+  GetAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesTransformationsRequest,
+  output: GetAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesTransformationsRequest {
+  /** GTM Transformation's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: Transformation;
+}
+
+export const UpdateAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Transformation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTransformationsRequest>;
+
+export type UpdateAccountsContainersWorkspacesTransformationsResponse =
+  Transformation;
+export const UpdateAccountsContainersWorkspacesTransformationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
+
+export type UpdateAccountsContainersWorkspacesTransformationsError =
+  DefaultErrors;
+
+/** Updates a GTM Transformation. */
+export const updateAccountsContainersWorkspacesTransformations: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesTransformationsRequest,
+  UpdateAccountsContainersWorkspacesTransformationsResponse,
+  UpdateAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesTransformationsRequest,
+  output: UpdateAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersWorkspacesTransformationsRequest {
+  /** GTM Transformation's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsRequest>;
+
+export interface DeleteAccountsContainersWorkspacesTransformationsResponse {}
+export const DeleteAccountsContainersWorkspacesTransformationsResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTransformationsResponse>;
+
+export type DeleteAccountsContainersWorkspacesTransformationsError =
+  DefaultErrors;
+
+/** Deletes a GTM Transformation. */
+export const deleteAccountsContainersWorkspacesTransformations: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesTransformationsRequest,
+  DeleteAccountsContainersWorkspacesTransformationsResponse,
+  DeleteAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesTransformationsRequest,
+  output: DeleteAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesTransformationsRequest {
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+}
+
+export const ListAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTransformationsRequest>;
+
+export type ListAccountsContainersWorkspacesTransformationsResponse =
+  ListTransformationsResponse;
+export const ListAccountsContainersWorkspacesTransformationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTransformationsResponse;
+
+export type ListAccountsContainersWorkspacesTransformationsError =
+  DefaultErrors;
+
+/** Lists all GTM Transformations of a GTM container workspace. */
+export const listAccountsContainersWorkspacesTransformations: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesTransformationsRequest,
+  ListAccountsContainersWorkspacesTransformationsResponse,
+  ListAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesTransformationsRequest,
+  output: ListAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface CreateAccountsContainersWorkspacesTransformationsRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Transformation;
+}
+
+export const CreateAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Transformation).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTransformationsRequest>;
+
+export type CreateAccountsContainersWorkspacesTransformationsResponse =
+  Transformation;
+export const CreateAccountsContainersWorkspacesTransformationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Transformation;
+
+export type CreateAccountsContainersWorkspacesTransformationsError =
+  DefaultErrors;
+
+/** Creates a GTM Transformation. */
+export const createAccountsContainersWorkspacesTransformations: API.OperationMethod<
+  CreateAccountsContainersWorkspacesTransformationsRequest,
+  CreateAccountsContainersWorkspacesTransformationsResponse,
+  CreateAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesTransformationsRequest,
+  output: CreateAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+}));
+
+export interface RevertAccountsContainersWorkspacesTransformationsRequest {
+  /** GTM Transformation's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the transformation in storage. */
+  fingerprint?: string;
+}
+
+export const RevertAccountsContainersWorkspacesTransformationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/transformations/{transformationsId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTransformationsRequest>;
+
+export type RevertAccountsContainersWorkspacesTransformationsResponse =
+  RevertTransformationResponse;
+export const RevertAccountsContainersWorkspacesTransformationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertTransformationResponse;
+
+export type RevertAccountsContainersWorkspacesTransformationsError =
+  DefaultErrors;
+
+/** Reverts changes to a GTM Transformation in a GTM Workspace. */
+export const revertAccountsContainersWorkspacesTransformations: API.OperationMethod<
+  RevertAccountsContainersWorkspacesTransformationsRequest,
+  RevertAccountsContainersWorkspacesTransformationsResponse,
+  RevertAccountsContainersWorkspacesTransformationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevertAccountsContainersWorkspacesTransformationsRequest,
+  output: RevertAccountsContainersWorkspacesTransformationsResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesGtag_configRequest {
+  /** Workspace's API relative path. */
+  parent: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+}
+
+export const ListAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesGtag_configRequest>;
+
+export type ListAccountsContainersWorkspacesGtag_configResponse =
+  ListGtagConfigResponse;
+export const ListAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListGtagConfigResponse;
+
+export type ListAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+
+/** Lists all Google tag configs in a Container. */
+export const listAccountsContainersWorkspacesGtag_config: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesGtag_configRequest,
+  ListAccountsContainersWorkspacesGtag_configResponse,
+  ListAccountsContainersWorkspacesGtag_configError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesGtag_configRequest,
+  output: ListAccountsContainersWorkspacesGtag_configResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface CreateAccountsContainersWorkspacesGtag_configRequest {
+  /** Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: GtagConfig;
+}
+
+export const CreateAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(GtagConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesGtag_configRequest>;
+
+export type CreateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const CreateAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
+
+export type CreateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+
+/** Creates a Google tag config. */
+export const createAccountsContainersWorkspacesGtag_config: API.OperationMethod<
+  CreateAccountsContainersWorkspacesGtag_configRequest,
+  CreateAccountsContainersWorkspacesGtag_configResponse,
+  CreateAccountsContainersWorkspacesGtag_configError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesGtag_configRequest,
+  output: CreateAccountsContainersWorkspacesGtag_configResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesGtag_configRequest {
+  /** Google tag config's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesGtag_configRequest>;
+
+export type GetAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const GetAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
+
+export type GetAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+
+/** Gets a Google tag config. */
+export const getAccountsContainersWorkspacesGtag_config: API.OperationMethod<
+  GetAccountsContainersWorkspacesGtag_configRequest,
+  GetAccountsContainersWorkspacesGtag_configResponse,
+  GetAccountsContainersWorkspacesGtag_configError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesGtag_configRequest,
+  output: GetAccountsContainersWorkspacesGtag_configResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesGtag_configRequest {
+  /** Google tag config's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the config in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: GtagConfig;
+}
+
+export const UpdateAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(GtagConfig).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesGtag_configRequest>;
+
+export type UpdateAccountsContainersWorkspacesGtag_configResponse = GtagConfig;
+export const UpdateAccountsContainersWorkspacesGtag_configResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GtagConfig;
+
+export type UpdateAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+
+/** Updates a Google tag config. */
+export const updateAccountsContainersWorkspacesGtag_config: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesGtag_configRequest,
+  UpdateAccountsContainersWorkspacesGtag_configResponse,
+  UpdateAccountsContainersWorkspacesGtag_configError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesGtag_configRequest,
+  output: UpdateAccountsContainersWorkspacesGtag_configResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersWorkspacesGtag_configRequest {
+  /** Google tag config's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesGtag_configRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/gtag_config/{gtag_configId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configRequest>;
+
+export interface DeleteAccountsContainersWorkspacesGtag_configResponse {}
+export const DeleteAccountsContainersWorkspacesGtag_configResponse: Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesGtag_configResponse>;
+
+export type DeleteAccountsContainersWorkspacesGtag_configError = DefaultErrors;
+
+/** Deletes a Google tag config. */
+export const deleteAccountsContainersWorkspacesGtag_config: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesGtag_configRequest,
+  DeleteAccountsContainersWorkspacesGtag_configResponse,
+  DeleteAccountsContainersWorkspacesGtag_configError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesGtag_configRequest,
+  output: DeleteAccountsContainersWorkspacesGtag_configResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsContainersWorkspacesTemplatesRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: CustomTemplate;
+}
+
+export const CreateAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTemplatesRequest>;
+
+export type CreateAccountsContainersWorkspacesTemplatesResponse =
+  CustomTemplate;
+export const CreateAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
+
+export type CreateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Creates a GTM Custom Template. */
+export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  CreateAccountsContainersWorkspacesTemplatesRequest,
+  CreateAccountsContainersWorkspacesTemplatesResponse,
+  CreateAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesTemplatesRequest,
+  output: CreateAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface RevertAccountsContainersWorkspacesTemplatesRequest {
+  /** GTM Custom Template's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the template in storage. */
+  fingerprint?: string;
+}
+
+export const RevertAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTemplatesRequest>;
+
+export type RevertAccountsContainersWorkspacesTemplatesResponse =
+  RevertTemplateResponse;
+export const RevertAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertTemplateResponse;
+
+export type RevertAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Reverts changes to a GTM Template in a GTM Workspace. */
+export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  RevertAccountsContainersWorkspacesTemplatesRequest,
+  RevertAccountsContainersWorkspacesTemplatesResponse,
+  RevertAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevertAccountsContainersWorkspacesTemplatesRequest,
+  output: RevertAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface Import_from_galleryAccountsContainersWorkspacesTemplatesRequest {
+  /** Must be set to true to allow Gallery template to be imported into the workspace. If this bit is false, the import operation will fail. */
+  acknowledgePermissions?: boolean;
+  /** SHA version of the Gallery template to import. Defaulted to the latest SHA version if not provided. */
+  gallerySha?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Repository of the Gallery template to import */
+  galleryRepository?: string;
+  /** Owner of the Gallery template to import */
+  galleryOwner?: string;
+}
+
+export const Import_from_galleryAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    acknowledgePermissions: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("acknowledgePermissions"),
+    ),
+    gallerySha: Schema.optional(Schema.String).pipe(T.HttpQuery("gallerySha")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    galleryRepository: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("galleryRepository"),
+    ),
+    galleryOwner: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("galleryOwner"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates:import_from_gallery",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Import_from_galleryAccountsContainersWorkspacesTemplatesRequest>;
+
+export type Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
+  CustomTemplate;
+export const Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
+
+export type Import_from_galleryAccountsContainersWorkspacesTemplatesError =
+  DefaultErrors;
+
+/** Imports a GTM Custom Template from Gallery. */
+export const import_from_galleryAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
+  Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
+  Import_from_galleryAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
+  output: Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesTemplatesRequest {
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+}
+
+export const ListAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTemplatesRequest>;
+
+export type ListAccountsContainersWorkspacesTemplatesResponse =
+  ListTemplatesResponse;
+export const ListAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListTemplatesResponse;
+
+export type ListAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Lists all GTM Templates of a GTM container workspace. */
+export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesTemplatesRequest,
+  ListAccountsContainersWorkspacesTemplatesResponse,
+  ListAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesTemplatesRequest,
+  output: ListAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface DeleteAccountsContainersWorkspacesTemplatesRequest {
+  /** GTM Custom Template's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesRequest>;
+
+export interface DeleteAccountsContainersWorkspacesTemplatesResponse {}
+export const DeleteAccountsContainersWorkspacesTemplatesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse>;
+
+export type DeleteAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Deletes a GTM Template. */
+export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesTemplatesRequest,
+  DeleteAccountsContainersWorkspacesTemplatesResponse,
+  DeleteAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesTemplatesRequest,
+  output: DeleteAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesTemplatesRequest {
+  /** GTM Custom Template's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTemplatesRequest>;
+
+export type GetAccountsContainersWorkspacesTemplatesResponse = CustomTemplate;
+export const GetAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
+
+export type GetAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Gets a GTM Template. */
+export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  GetAccountsContainersWorkspacesTemplatesRequest,
+  GetAccountsContainersWorkspacesTemplatesResponse,
+  GetAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesTemplatesRequest,
+  output: GetAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
+  /** GTM Custom Template's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the templates in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: CustomTemplate;
+}
+
+export const UpdateAccountsContainersWorkspacesTemplatesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTemplatesRequest>;
+
+export type UpdateAccountsContainersWorkspacesTemplatesResponse =
+  CustomTemplate;
+export const UpdateAccountsContainersWorkspacesTemplatesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
+
+export type UpdateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+
+/** Updates a GTM Template. */
+export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesTemplatesRequest,
+  UpdateAccountsContainersWorkspacesTemplatesResponse,
+  UpdateAccountsContainersWorkspacesTemplatesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesTemplatesRequest,
+  output: UpdateAccountsContainersWorkspacesTemplatesResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersWorkspacesFoldersRequest {
+  /** GTM Folder's API relative path. */
+  path: string;
+}
+
+export const DeleteAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersRequest>;
+
+export interface DeleteAccountsContainersWorkspacesFoldersResponse {}
+export const DeleteAccountsContainersWorkspacesFoldersResponse: Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesFoldersResponse>;
+
+export type DeleteAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Deletes a GTM Folder. */
+export const deleteAccountsContainersWorkspacesFolders: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesFoldersRequest,
+  DeleteAccountsContainersWorkspacesFoldersResponse,
+  DeleteAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesFoldersRequest,
+  output: DeleteAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersWorkspacesFoldersRequest {
+  /** GTM Folder's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesFoldersRequest>;
+
+export type GetAccountsContainersWorkspacesFoldersResponse = Folder;
+export const GetAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type GetAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Gets a GTM Folder. */
+export const getAccountsContainersWorkspacesFolders: API.OperationMethod<
+  GetAccountsContainersWorkspacesFoldersRequest,
+  GetAccountsContainersWorkspacesFoldersResponse,
+  GetAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersWorkspacesFoldersRequest,
+  output: GetAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersWorkspacesFoldersRequest {
+  /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
+  fingerprint?: string;
+  /** GTM Folder's API relative path. */
+  path: string;
+  /** Request body */
+  body?: Folder;
+}
+
+export const UpdateAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesFoldersRequest>;
+
+export type UpdateAccountsContainersWorkspacesFoldersResponse = Folder;
+export const UpdateAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type UpdateAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Updates a GTM Folder. */
+export const updateAccountsContainersWorkspacesFolders: API.OperationMethod<
+  UpdateAccountsContainersWorkspacesFoldersRequest,
+  UpdateAccountsContainersWorkspacesFoldersResponse,
+  UpdateAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersWorkspacesFoldersRequest,
+  output: UpdateAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest {
+  /** The variables to be moved to the folder. */
+  variableId?: string[];
+  /** GTM Folder's API relative path. */
+  path: string;
+  /** The tags to be moved to the folder. */
+  tagId?: string[];
+  /** The triggers to be moved to the folder. */
+  triggerId?: string[];
+  /** Request body */
+  body?: Folder;
+}
+
+export const Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    variableId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("variableId"),
+    ),
+    path: Schema.String.pipe(T.HttpPath("path")),
+    tagId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("tagId"),
+    ),
+    triggerId: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("triggerId"),
+    ),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:move_entities_to_folder",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest>;
+
+export interface Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse {}
+export const Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse: Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse>;
+
+export type Move_entities_to_folderAccountsContainersWorkspacesFoldersError =
+  DefaultErrors;
+
+/** Moves entities to a GTM Folder. If {folder_id} in the request path equals 0, this will instead move entities out of the folder they currently belong to. */
+export const move_entities_to_folderAccountsContainersWorkspacesFolders: API.OperationMethod<
+  Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
+  Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
+  Move_entities_to_folderAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: Move_entities_to_folderAccountsContainersWorkspacesFoldersRequest,
+  output: Move_entities_to_folderAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsContainersWorkspacesFoldersRequest {
+  /** GTM Workspace's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Folder;
+}
+
+export const CreateAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Folder).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesFoldersRequest>;
+
+export type CreateAccountsContainersWorkspacesFoldersResponse = Folder;
+export const CreateAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Folder;
+
+export type CreateAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Creates a GTM Folder. */
+export const createAccountsContainersWorkspacesFolders: API.OperationMethod<
+  CreateAccountsContainersWorkspacesFoldersRequest,
+  CreateAccountsContainersWorkspacesFoldersResponse,
+  CreateAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersWorkspacesFoldersRequest,
+  output: CreateAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface EntitiesAccountsContainersWorkspacesFoldersRequest {
+  /** GTM Folder's API relative path. */
+  path: string;
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+}
+
+export const EntitiesAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:entities",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EntitiesAccountsContainersWorkspacesFoldersRequest>;
+
+export type EntitiesAccountsContainersWorkspacesFoldersResponse =
+  FolderEntities;
+export const EntitiesAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ FolderEntities;
+
+export type EntitiesAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** List all entities in a GTM Folder. */
+export const entitiesAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
+  EntitiesAccountsContainersWorkspacesFoldersRequest,
+  EntitiesAccountsContainersWorkspacesFoldersResponse,
+  EntitiesAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: EntitiesAccountsContainersWorkspacesFoldersRequest,
+  output: EntitiesAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface RevertAccountsContainersWorkspacesFoldersRequest {
+  /** GTM Folder's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
+  fingerprint?: string;
+}
+
+export const RevertAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders/{foldersId}:revert",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesFoldersRequest>;
+
+export type RevertAccountsContainersWorkspacesFoldersResponse =
+  RevertFolderResponse;
+export const RevertAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ RevertFolderResponse;
+
+export type RevertAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Reverts changes to a GTM Folder in a GTM Workspace. */
+export const revertAccountsContainersWorkspacesFolders: API.OperationMethod<
+  RevertAccountsContainersWorkspacesFoldersRequest,
+  RevertAccountsContainersWorkspacesFoldersResponse,
+  RevertAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RevertAccountsContainersWorkspacesFoldersRequest,
+  output: RevertAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersWorkspacesFoldersRequest {
+  /** Continuation token for fetching the next page of results. */
+  pageToken?: string;
+  /** GTM Workspace's API relative path. */
+  parent: string;
+}
+
+export const ListAccountsContainersWorkspacesFoldersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/folders",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesFoldersRequest>;
+
+export type ListAccountsContainersWorkspacesFoldersResponse =
+  ListFoldersResponse;
+export const ListAccountsContainersWorkspacesFoldersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListFoldersResponse;
+
+export type ListAccountsContainersWorkspacesFoldersError = DefaultErrors;
+
+/** Lists all GTM Folders of a Container. */
+export const listAccountsContainersWorkspacesFolders: API.PaginatedOperationMethod<
+  ListAccountsContainersWorkspacesFoldersRequest,
+  ListAccountsContainersWorkspacesFoldersResponse,
+  ListAccountsContainersWorkspacesFoldersError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsContainersWorkspacesFoldersRequest,
+  output: ListAccountsContainersWorkspacesFoldersResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface ListAccountsContainersWorkspacesBuilt_in_variablesRequest {
@@ -5632,6 +5637,166 @@ export const createAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   errors: [],
 }));
 
+export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest {
+  /** GTM BuiltInVariable's API relative path. */
+  path: string;
+  /** The types of built-in variables to delete. */
+  type?:
+    | "builtInVariableTypeUnspecified"
+    | "pageUrl"
+    | "pageHostname"
+    | "pagePath"
+    | "referrer"
+    | "event"
+    | "clickElement"
+    | "clickClasses"
+    | "clickId"
+    | "clickTarget"
+    | "clickUrl"
+    | "clickText"
+    | "firstPartyServingUrl"
+    | "formElement"
+    | "formClasses"
+    | "formId"
+    | "formTarget"
+    | "formUrl"
+    | "formText"
+    | "errorMessage"
+    | "errorUrl"
+    | "errorLine"
+    | "newHistoryUrl"
+    | "oldHistoryUrl"
+    | "newHistoryFragment"
+    | "oldHistoryFragment"
+    | "newHistoryState"
+    | "oldHistoryState"
+    | "historySource"
+    | "containerVersion"
+    | "debugMode"
+    | "randomNumber"
+    | "containerId"
+    | "appId"
+    | "appName"
+    | "appVersionCode"
+    | "appVersionName"
+    | "language"
+    | "osVersion"
+    | "platform"
+    | "sdkVersion"
+    | "deviceName"
+    | "resolution"
+    | "advertiserId"
+    | "advertisingTrackingEnabled"
+    | "htmlId"
+    | "environmentName"
+    | "ampBrowserLanguage"
+    | "ampCanonicalPath"
+    | "ampCanonicalUrl"
+    | "ampCanonicalHost"
+    | "ampReferrer"
+    | "ampTitle"
+    | "ampClientId"
+    | "ampClientTimezone"
+    | "ampClientTimestamp"
+    | "ampClientScreenWidth"
+    | "ampClientScreenHeight"
+    | "ampClientScrollX"
+    | "ampClientScrollY"
+    | "ampClientMaxScrollX"
+    | "ampClientMaxScrollY"
+    | "ampTotalEngagedTime"
+    | "ampPageViewId"
+    | "ampPageLoadTime"
+    | "ampPageDownloadTime"
+    | "ampGtmEvent"
+    | "eventName"
+    | "firebaseEventParameterCampaign"
+    | "firebaseEventParameterCampaignAclid"
+    | "firebaseEventParameterCampaignAnid"
+    | "firebaseEventParameterCampaignClickTimestamp"
+    | "firebaseEventParameterCampaignContent"
+    | "firebaseEventParameterCampaignCp1"
+    | "firebaseEventParameterCampaignGclid"
+    | "firebaseEventParameterCampaignSource"
+    | "firebaseEventParameterCampaignTerm"
+    | "firebaseEventParameterCurrency"
+    | "firebaseEventParameterDynamicLinkAcceptTime"
+    | "firebaseEventParameterDynamicLinkLinkid"
+    | "firebaseEventParameterNotificationMessageDeviceTime"
+    | "firebaseEventParameterNotificationMessageId"
+    | "firebaseEventParameterNotificationMessageName"
+    | "firebaseEventParameterNotificationMessageTime"
+    | "firebaseEventParameterNotificationTopic"
+    | "firebaseEventParameterPreviousAppVersion"
+    | "firebaseEventParameterPreviousOsVersion"
+    | "firebaseEventParameterPrice"
+    | "firebaseEventParameterProductId"
+    | "firebaseEventParameterQuantity"
+    | "firebaseEventParameterValue"
+    | "videoProvider"
+    | "videoUrl"
+    | "videoTitle"
+    | "videoDuration"
+    | "videoPercent"
+    | "videoVisible"
+    | "videoStatus"
+    | "videoCurrentTime"
+    | "scrollDepthThreshold"
+    | "scrollDepthUnits"
+    | "scrollDepthDirection"
+    | "elementVisibilityRatio"
+    | "elementVisibilityTime"
+    | "elementVisibilityFirstTime"
+    | "elementVisibilityRecentTime"
+    | "requestPath"
+    | "requestMethod"
+    | "clientName"
+    | "queryString"
+    | "serverPageLocationUrl"
+    | "serverPageLocationPath"
+    | "serverPageLocationHostname"
+    | "visitorRegion"
+    | "analyticsClientId"
+    | "analyticsSessionId"
+    | "analyticsSessionNumber"
+    | (string & {})[];
+}
+
+export const DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    type: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("type"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/built_in_variables",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest>;
+
+export interface DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse {}
+export const DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse>;
+
+export type DeleteAccountsContainersWorkspacesBuilt_in_variablesError =
+  DefaultErrors;
+
+/** Deletes one or more GTM Built-In Variables. */
+export const deleteAccountsContainersWorkspacesBuilt_in_variables: API.OperationMethod<
+  DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
+  DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
+  DeleteAccountsContainersWorkspacesBuilt_in_variablesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsContainersWorkspacesBuilt_in_variablesRequest,
+  output: DeleteAccountsContainersWorkspacesBuilt_in_variablesResponse,
+  errors: [],
+}));
+
 export interface RevertAccountsContainersWorkspacesBuilt_in_variablesRequest {
   /** GTM BuiltInVariable's API relative path. */
   path: string;
@@ -5790,290 +5955,46 @@ export const revertAccountsContainersWorkspacesBuilt_in_variables: API.Operation
   errors: [],
 }));
 
-export interface CreateAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: CustomTemplate;
-}
-
-export const CreateAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsContainersWorkspacesTemplatesRequest>;
-
-export type CreateAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
-export const CreateAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
-
-export type CreateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
-
-/** Creates a GTM Custom Template. */
-export const createAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  CreateAccountsContainersWorkspacesTemplatesRequest,
-  CreateAccountsContainersWorkspacesTemplatesResponse,
-  CreateAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsContainersWorkspacesTemplatesRequest,
-  output: CreateAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface RevertAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Custom Template's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the template in storage. */
-  fingerprint?: string;
-}
-
-export const RevertAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}:revert",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<RevertAccountsContainersWorkspacesTemplatesRequest>;
-
-export type RevertAccountsContainersWorkspacesTemplatesResponse =
-  RevertTemplateResponse;
-export const RevertAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ RevertTemplateResponse;
-
-export type RevertAccountsContainersWorkspacesTemplatesError = DefaultErrors;
-
-/** Reverts changes to a GTM Template in a GTM Workspace. */
-export const revertAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  RevertAccountsContainersWorkspacesTemplatesRequest,
-  RevertAccountsContainersWorkspacesTemplatesResponse,
-  RevertAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RevertAccountsContainersWorkspacesTemplatesRequest,
-  output: RevertAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface UpdateAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Custom Template's API relative path. */
-  path: string;
-  /** When provided, this fingerprint must match the fingerprint of the templates in storage. */
-  fingerprint?: string;
-  /** Request body */
-  body?: CustomTemplate;
-}
-
-export const UpdateAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    body: Schema.optional(CustomTemplate).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersWorkspacesTemplatesRequest>;
-
-export type UpdateAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
-export const UpdateAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
-
-export type UpdateAccountsContainersWorkspacesTemplatesError = DefaultErrors;
-
-/** Updates a GTM Template. */
-export const updateAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  UpdateAccountsContainersWorkspacesTemplatesRequest,
-  UpdateAccountsContainersWorkspacesTemplatesResponse,
-  UpdateAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersWorkspacesTemplatesRequest,
-  output: UpdateAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Custom Template's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesRequest>;
-
-export interface DeleteAccountsContainersWorkspacesTemplatesResponse {}
-export const DeleteAccountsContainersWorkspacesTemplatesResponse: Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersWorkspacesTemplatesResponse>;
-
-export type DeleteAccountsContainersWorkspacesTemplatesError = DefaultErrors;
-
-/** Deletes a GTM Template. */
-export const deleteAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  DeleteAccountsContainersWorkspacesTemplatesRequest,
-  DeleteAccountsContainersWorkspacesTemplatesResponse,
-  DeleteAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersWorkspacesTemplatesRequest,
-  output: DeleteAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Custom Template's API relative path. */
-  path: string;
-}
-
-export const GetAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates/{templatesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersWorkspacesTemplatesRequest>;
-
-export type GetAccountsContainersWorkspacesTemplatesResponse = CustomTemplate;
-export const GetAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
-
-export type GetAccountsContainersWorkspacesTemplatesError = DefaultErrors;
-
-/** Gets a GTM Template. */
-export const getAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  GetAccountsContainersWorkspacesTemplatesRequest,
-  GetAccountsContainersWorkspacesTemplatesResponse,
-  GetAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersWorkspacesTemplatesRequest,
-  output: GetAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface Import_from_galleryAccountsContainersWorkspacesTemplatesRequest {
-  /** GTM Workspace's API relative path. */
-  parent: string;
-  /** SHA version of the Gallery template to import. Defaulted to the latest SHA version if not provided. */
-  gallerySha?: string;
-  /** Repository of the Gallery template to import */
-  galleryRepository?: string;
-  /** Must be set to true to allow Gallery template to be imported into the workspace. If this bit is false, the import operation will fail. */
-  acknowledgePermissions?: boolean;
-  /** Owner of the Gallery template to import */
-  galleryOwner?: string;
-}
-
-export const Import_from_galleryAccountsContainersWorkspacesTemplatesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    gallerySha: Schema.optional(Schema.String).pipe(T.HttpQuery("gallerySha")),
-    galleryRepository: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("galleryRepository"),
-    ),
-    acknowledgePermissions: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("acknowledgePermissions"),
-    ),
-    galleryOwner: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("galleryOwner"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates:import_from_gallery",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Import_from_galleryAccountsContainersWorkspacesTemplatesRequest>;
-
-export type Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
-  CustomTemplate;
-export const Import_from_galleryAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ CustomTemplate;
-
-export type Import_from_galleryAccountsContainersWorkspacesTemplatesError =
-  DefaultErrors;
-
-/** Imports a GTM Custom Template from Gallery. */
-export const import_from_galleryAccountsContainersWorkspacesTemplates: API.OperationMethod<
-  Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
-  Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
-  Import_from_galleryAccountsContainersWorkspacesTemplatesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Import_from_galleryAccountsContainersWorkspacesTemplatesRequest,
-  output: Import_from_galleryAccountsContainersWorkspacesTemplatesResponse,
-  errors: [],
-}));
-
-export interface ListAccountsContainersWorkspacesTemplatesRequest {
+export interface ListAccountsContainersVersion_headersRequest {
+  /** Also retrieve deleted (archived) versions when true. */
+  includeDeleted?: boolean;
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
-  /** GTM Workspace's API relative path. */
+  /** GTM Container's API relative path. */
   parent: string;
 }
 
-export const ListAccountsContainersWorkspacesTemplatesRequest =
+export const ListAccountsContainersVersion_headersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    includeDeleted: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("includeDeleted"),
+    ),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/workspaces/{workspacesId}/templates",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListAccountsContainersWorkspacesTemplatesRequest>;
+  ) as unknown as Schema.Schema<ListAccountsContainersVersion_headersRequest>;
 
-export type ListAccountsContainersWorkspacesTemplatesResponse =
-  ListTemplatesResponse;
-export const ListAccountsContainersWorkspacesTemplatesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListTemplatesResponse;
+export type ListAccountsContainersVersion_headersResponse =
+  ListContainerVersionsResponse;
+export const ListAccountsContainersVersion_headersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListContainerVersionsResponse;
 
-export type ListAccountsContainersWorkspacesTemplatesError = DefaultErrors;
+export type ListAccountsContainersVersion_headersError = DefaultErrors;
 
-/** Lists all GTM Templates of a GTM container workspace. */
-export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMethod<
-  ListAccountsContainersWorkspacesTemplatesRequest,
-  ListAccountsContainersWorkspacesTemplatesResponse,
-  ListAccountsContainersWorkspacesTemplatesError,
+/** Lists all Container Versions of a GTM Container. */
+export const listAccountsContainersVersion_headers: API.PaginatedOperationMethod<
+  ListAccountsContainersVersion_headersRequest,
+  ListAccountsContainersVersion_headersResponse,
+  ListAccountsContainersVersion_headersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsContainersWorkspacesTemplatesRequest,
-  output: ListAccountsContainersWorkspacesTemplatesResponse,
+  input: ListAccountsContainersVersion_headersRequest,
+  output: ListAccountsContainersVersion_headersResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -6081,311 +6002,38 @@ export const listAccountsContainersWorkspacesTemplates: API.PaginatedOperationMe
   },
 }));
 
-export interface UpdateAccountsContainersVersionsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
-  fingerprint?: string;
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-  /** Request body */
-  body?: ContainerVersion;
-}
-
-export const UpdateAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(ContainerVersion).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsContainersVersionsRequest>;
-
-export type UpdateAccountsContainersVersionsResponse = ContainerVersion;
-export const UpdateAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
-
-export type UpdateAccountsContainersVersionsError = DefaultErrors;
-
-/** Updates a Container Version. */
-export const updateAccountsContainersVersions: API.OperationMethod<
-  UpdateAccountsContainersVersionsRequest,
-  UpdateAccountsContainersVersionsResponse,
-  UpdateAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsContainersVersionsRequest,
-  output: UpdateAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface Set_latestAccountsContainersVersionsRequest {
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-}
-
-export const Set_latestAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:set_latest",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<Set_latestAccountsContainersVersionsRequest>;
-
-export type Set_latestAccountsContainersVersionsResponse = ContainerVersion;
-export const Set_latestAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
-
-export type Set_latestAccountsContainersVersionsError = DefaultErrors;
-
-/** Sets the latest version used for synchronization of workspaces when detecting conflicts and errors. */
-export const set_latestAccountsContainersVersions: API.OperationMethod<
-  Set_latestAccountsContainersVersionsRequest,
-  Set_latestAccountsContainersVersionsResponse,
-  Set_latestAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: Set_latestAccountsContainersVersionsRequest,
-  output: Set_latestAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface DeleteAccountsContainersVersionsRequest {
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-}
-
-export const DeleteAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsContainersVersionsRequest>;
-
-export interface DeleteAccountsContainersVersionsResponse {}
-export const DeleteAccountsContainersVersionsResponse: Schema.Schema<DeleteAccountsContainersVersionsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteAccountsContainersVersionsResponse>;
-
-export type DeleteAccountsContainersVersionsError = DefaultErrors;
-
-/** Deletes a Container Version. */
-export const deleteAccountsContainersVersions: API.OperationMethod<
-  DeleteAccountsContainersVersionsRequest,
-  DeleteAccountsContainersVersionsResponse,
-  DeleteAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsContainersVersionsRequest,
-  output: DeleteAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface UndeleteAccountsContainersVersionsRequest {
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-}
-
-export const UndeleteAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:undelete",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UndeleteAccountsContainersVersionsRequest>;
-
-export type UndeleteAccountsContainersVersionsResponse = ContainerVersion;
-export const UndeleteAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
-
-export type UndeleteAccountsContainersVersionsError = DefaultErrors;
-
-/** Undeletes a Container Version. */
-export const undeleteAccountsContainersVersions: API.OperationMethod<
-  UndeleteAccountsContainersVersionsRequest,
-  UndeleteAccountsContainersVersionsResponse,
-  UndeleteAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeleteAccountsContainersVersionsRequest,
-  output: UndeleteAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface GetAccountsContainersVersionsRequest {
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-  /** The GTM ContainerVersion ID. Specify published to retrieve the currently published version. */
-  containerVersionId?: string;
-}
-
-export const GetAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    path: Schema.String.pipe(T.HttpPath("path")),
-    containerVersionId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("containerVersionId"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsContainersVersionsRequest>;
-
-export type GetAccountsContainersVersionsResponse = ContainerVersion;
-export const GetAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
-
-export type GetAccountsContainersVersionsError = DefaultErrors;
-
-/** Gets a Container Version. */
-export const getAccountsContainersVersions: API.OperationMethod<
-  GetAccountsContainersVersionsRequest,
-  GetAccountsContainersVersionsResponse,
-  GetAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsContainersVersionsRequest,
-  output: GetAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface PublishAccountsContainersVersionsRequest {
-  /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
-  fingerprint?: string;
-  /** GTM ContainerVersion's API relative path. */
-  path: string;
-}
-
-export const PublishAccountsContainersVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    fingerprint: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("fingerprint"),
-    ),
-    path: Schema.String.pipe(T.HttpPath("path")),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:publish",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<PublishAccountsContainersVersionsRequest>;
-
-export type PublishAccountsContainersVersionsResponse =
-  PublishContainerVersionResponse;
-export const PublishAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ PublishContainerVersionResponse;
-
-export type PublishAccountsContainersVersionsError = DefaultErrors;
-
-/** Publishes a Container Version. */
-export const publishAccountsContainersVersions: API.OperationMethod<
-  PublishAccountsContainersVersionsRequest,
-  PublishAccountsContainersVersionsResponse,
-  PublishAccountsContainersVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PublishAccountsContainersVersionsRequest,
-  output: PublishAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface LiveAccountsContainersVersionsRequest {
+export interface LatestAccountsContainersVersion_headersRequest {
   /** GTM Container's API relative path. */
   parent: string;
 }
 
-export const LiveAccountsContainersVersionsRequest =
+export const LatestAccountsContainersVersion_headersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions:live",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/version_headers:latest",
     }),
     svc,
-  ) as unknown as Schema.Schema<LiveAccountsContainersVersionsRequest>;
+  ) as unknown as Schema.Schema<LatestAccountsContainersVersion_headersRequest>;
 
-export type LiveAccountsContainersVersionsResponse = ContainerVersion;
-export const LiveAccountsContainersVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+export type LatestAccountsContainersVersion_headersResponse =
+  ContainerVersionHeader;
+export const LatestAccountsContainersVersion_headersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersionHeader;
 
-export type LiveAccountsContainersVersionsError = DefaultErrors;
+export type LatestAccountsContainersVersion_headersError = DefaultErrors;
 
-/** Gets the live (i.e. published) container version */
-export const liveAccountsContainersVersions: API.OperationMethod<
-  LiveAccountsContainersVersionsRequest,
-  LiveAccountsContainersVersionsResponse,
-  LiveAccountsContainersVersionsError,
+/** Gets the latest container version header */
+export const latestAccountsContainersVersion_headers: API.OperationMethod<
+  LatestAccountsContainersVersion_headersRequest,
+  LatestAccountsContainersVersion_headersResponse,
+  LatestAccountsContainersVersion_headersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LiveAccountsContainersVersionsRequest,
-  output: LiveAccountsContainersVersionsResponse,
-  errors: [],
-}));
-
-export interface LinkAccountsContainersDestinationsRequest {
-  /** GTM parent Container's API relative path. */
-  parent: string;
-  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
-  allowUserPermissionFeatureUpdate?: boolean;
-  /** Destination ID to be linked to the current container. */
-  destinationId?: string;
-}
-
-export const LinkAccountsContainersDestinationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("allowUserPermissionFeatureUpdate"),
-    ),
-    destinationId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("destinationId"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations:link",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<LinkAccountsContainersDestinationsRequest>;
-
-export type LinkAccountsContainersDestinationsResponse = Destination;
-export const LinkAccountsContainersDestinationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Destination;
-
-export type LinkAccountsContainersDestinationsError = DefaultErrors;
-
-/** Adds a Destination to this Container and removes it from the Container to which it is currently linked. */
-export const linkAccountsContainersDestinations: API.OperationMethod<
-  LinkAccountsContainersDestinationsRequest,
-  LinkAccountsContainersDestinationsResponse,
-  LinkAccountsContainersDestinationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: LinkAccountsContainersDestinationsRequest,
-  output: LinkAccountsContainersDestinationsResponse,
+  input: LatestAccountsContainersVersion_headersRequest,
+  output: LatestAccountsContainersVersion_headersResponse,
   errors: [],
 }));
 
@@ -6458,152 +6106,275 @@ export const listAccountsContainersDestinations: API.OperationMethod<
   errors: [],
 }));
 
-export interface DeleteAccountsUser_permissionsRequest {
-  /** GTM UserPermission's API relative path. */
+export interface LinkAccountsContainersDestinationsRequest {
+  /** Destination ID to be linked to the current container. */
+  destinationId?: string;
+  /** Must be set to true to allow features.user_permissions to change from false to true. If this operation causes an update but this bit is false, the operation will fail. */
+  allowUserPermissionFeatureUpdate?: boolean;
+  /** GTM parent Container's API relative path. */
+  parent: string;
+}
+
+export const LinkAccountsContainersDestinationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    destinationId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("destinationId"),
+    ),
+    allowUserPermissionFeatureUpdate: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("allowUserPermissionFeatureUpdate"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/destinations:link",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LinkAccountsContainersDestinationsRequest>;
+
+export type LinkAccountsContainersDestinationsResponse = Destination;
+export const LinkAccountsContainersDestinationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Destination;
+
+export type LinkAccountsContainersDestinationsError = DefaultErrors;
+
+/** Adds a Destination to this Container and removes it from the Container to which it is currently linked. */
+export const linkAccountsContainersDestinations: API.OperationMethod<
+  LinkAccountsContainersDestinationsRequest,
+  LinkAccountsContainersDestinationsResponse,
+  LinkAccountsContainersDestinationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LinkAccountsContainersDestinationsRequest,
+  output: LinkAccountsContainersDestinationsResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsContainersEnvironmentsRequest {
+  /** GTM Environment's API relative path. */
   path: string;
 }
 
-export const DeleteAccountsUser_permissionsRequest =
+export const DeleteAccountsContainersEnvironmentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
       method: "DELETE",
-      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAccountsUser_permissionsRequest>;
+  ) as unknown as Schema.Schema<DeleteAccountsContainersEnvironmentsRequest>;
 
-export interface DeleteAccountsUser_permissionsResponse {}
-export const DeleteAccountsUser_permissionsResponse: Schema.Schema<DeleteAccountsUser_permissionsResponse> =
+export interface DeleteAccountsContainersEnvironmentsResponse {}
+export const DeleteAccountsContainersEnvironmentsResponse: Schema.Schema<DeleteAccountsContainersEnvironmentsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
     {},
-  ) as any as Schema.Schema<DeleteAccountsUser_permissionsResponse>;
+  ) as any as Schema.Schema<DeleteAccountsContainersEnvironmentsResponse>;
 
-export type DeleteAccountsUser_permissionsError = DefaultErrors;
+export type DeleteAccountsContainersEnvironmentsError = DefaultErrors;
 
-/** Removes a user from the account, revoking access to it and all of its containers. */
-export const deleteAccountsUser_permissions: API.OperationMethod<
-  DeleteAccountsUser_permissionsRequest,
-  DeleteAccountsUser_permissionsResponse,
-  DeleteAccountsUser_permissionsError,
+/** Deletes a GTM Environment. */
+export const deleteAccountsContainersEnvironments: API.OperationMethod<
+  DeleteAccountsContainersEnvironmentsRequest,
+  DeleteAccountsContainersEnvironmentsResponse,
+  DeleteAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsUser_permissionsRequest,
-  output: DeleteAccountsUser_permissionsResponse,
+  input: DeleteAccountsContainersEnvironmentsRequest,
+  output: DeleteAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-export interface UpdateAccountsUser_permissionsRequest {
-  /** GTM UserPermission's API relative path. */
+export interface ReauthorizeAccountsContainersEnvironmentsRequest {
+  /** GTM Environment's API relative path. */
   path: string;
   /** Request body */
-  body?: UserPermission;
+  body?: Environment;
 }
 
-export const UpdateAccountsUser_permissionsRequest =
+export const ReauthorizeAccountsContainersEnvironmentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
-    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PUT",
-      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<UpdateAccountsUser_permissionsRequest>;
-
-export type UpdateAccountsUser_permissionsResponse = UserPermission;
-export const UpdateAccountsUser_permissionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
-
-export type UpdateAccountsUser_permissionsError = DefaultErrors;
-
-/** Updates a user's Account & Container access. */
-export const updateAccountsUser_permissions: API.OperationMethod<
-  UpdateAccountsUser_permissionsRequest,
-  UpdateAccountsUser_permissionsResponse,
-  UpdateAccountsUser_permissionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UpdateAccountsUser_permissionsRequest,
-  output: UpdateAccountsUser_permissionsResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsUser_permissionsRequest {
-  /** GTM Account's API relative path. */
-  parent: string;
-  /** Request body */
-  body?: UserPermission;
-}
-
-export const CreateAccountsUser_permissionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(UserPermission).pipe(T.HttpBody()),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "POST",
-      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}:reauthorize",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<CreateAccountsUser_permissionsRequest>;
+  ) as unknown as Schema.Schema<ReauthorizeAccountsContainersEnvironmentsRequest>;
 
-export type CreateAccountsUser_permissionsResponse = UserPermission;
-export const CreateAccountsUser_permissionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
+export type ReauthorizeAccountsContainersEnvironmentsResponse = Environment;
+export const ReauthorizeAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
 
-export type CreateAccountsUser_permissionsError = DefaultErrors;
+export type ReauthorizeAccountsContainersEnvironmentsError = DefaultErrors;
 
-/** Creates a user's Account & Container access. */
-export const createAccountsUser_permissions: API.OperationMethod<
-  CreateAccountsUser_permissionsRequest,
-  CreateAccountsUser_permissionsResponse,
-  CreateAccountsUser_permissionsError,
+/** Re-generates the authorization code for a GTM Environment. */
+export const reauthorizeAccountsContainersEnvironments: API.OperationMethod<
+  ReauthorizeAccountsContainersEnvironmentsRequest,
+  ReauthorizeAccountsContainersEnvironmentsResponse,
+  ReauthorizeAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsUser_permissionsRequest,
-  output: CreateAccountsUser_permissionsResponse,
+  input: ReauthorizeAccountsContainersEnvironmentsRequest,
+  output: ReauthorizeAccountsContainersEnvironmentsResponse,
   errors: [],
 }));
 
-export interface ListAccountsUser_permissionsRequest {
+export interface GetAccountsContainersEnvironmentsRequest {
+  /** GTM Environment's API relative path. */
+  path: string;
+}
+
+export const GetAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersEnvironmentsRequest>;
+
+export type GetAccountsContainersEnvironmentsResponse = Environment;
+export const GetAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
+
+export type GetAccountsContainersEnvironmentsError = DefaultErrors;
+
+/** Gets a GTM Environment. */
+export const getAccountsContainersEnvironments: API.OperationMethod<
+  GetAccountsContainersEnvironmentsRequest,
+  GetAccountsContainersEnvironmentsResponse,
+  GetAccountsContainersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersEnvironmentsRequest,
+  output: GetAccountsContainersEnvironmentsResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersEnvironmentsRequest {
+  /** GTM Environment's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: Environment;
+}
+
+export const UpdateAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments/{environmentsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersEnvironmentsRequest>;
+
+export type UpdateAccountsContainersEnvironmentsResponse = Environment;
+export const UpdateAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
+
+export type UpdateAccountsContainersEnvironmentsError = DefaultErrors;
+
+/** Updates a GTM Environment. */
+export const updateAccountsContainersEnvironments: API.OperationMethod<
+  UpdateAccountsContainersEnvironmentsRequest,
+  UpdateAccountsContainersEnvironmentsResponse,
+  UpdateAccountsContainersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersEnvironmentsRequest,
+  output: UpdateAccountsContainersEnvironmentsResponse,
+  errors: [],
+}));
+
+export interface CreateAccountsContainersEnvironmentsRequest {
+  /** GTM Container's API relative path. */
+  parent: string;
+  /** Request body */
+  body?: Environment;
+}
+
+export const CreateAccountsContainersEnvironmentsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(Environment).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsContainersEnvironmentsRequest>;
+
+export type CreateAccountsContainersEnvironmentsResponse = Environment;
+export const CreateAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Environment;
+
+export type CreateAccountsContainersEnvironmentsError = DefaultErrors;
+
+/** Creates a GTM Environment. */
+export const createAccountsContainersEnvironments: API.OperationMethod<
+  CreateAccountsContainersEnvironmentsRequest,
+  CreateAccountsContainersEnvironmentsResponse,
+  CreateAccountsContainersEnvironmentsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsContainersEnvironmentsRequest,
+  output: CreateAccountsContainersEnvironmentsResponse,
+  errors: [],
+}));
+
+export interface ListAccountsContainersEnvironmentsRequest {
   /** Continuation token for fetching the next page of results. */
   pageToken?: string;
-  /** GTM Account's API relative path. */
+  /** GTM Container's API relative path. */
   parent: string;
 }
 
-export const ListAccountsUser_permissionsRequest =
+export const ListAccountsContainersEnvironmentsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/user_permissions",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/environments",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListAccountsUser_permissionsRequest>;
+  ) as unknown as Schema.Schema<ListAccountsContainersEnvironmentsRequest>;
 
-export type ListAccountsUser_permissionsResponse = ListUserPermissionsResponse;
-export const ListAccountsUser_permissionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListUserPermissionsResponse;
+export type ListAccountsContainersEnvironmentsResponse =
+  ListEnvironmentsResponse;
+export const ListAccountsContainersEnvironmentsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListEnvironmentsResponse;
 
-export type ListAccountsUser_permissionsError = DefaultErrors;
+export type ListAccountsContainersEnvironmentsError = DefaultErrors;
 
-/** List all users that have access to the account along with Account and Container user access granted to each of them. */
-export const listAccountsUser_permissions: API.PaginatedOperationMethod<
-  ListAccountsUser_permissionsRequest,
-  ListAccountsUser_permissionsResponse,
-  ListAccountsUser_permissionsError,
+/** Lists all GTM Environments of a GTM Container. */
+export const listAccountsContainersEnvironments: API.PaginatedOperationMethod<
+  ListAccountsContainersEnvironmentsRequest,
+  ListAccountsContainersEnvironmentsResponse,
+  ListAccountsContainersEnvironmentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsUser_permissionsRequest,
-  output: ListAccountsUser_permissionsResponse,
+  input: ListAccountsContainersEnvironmentsRequest,
+  output: ListAccountsContainersEnvironmentsResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -6611,36 +6382,265 @@ export const listAccountsUser_permissions: API.PaginatedOperationMethod<
   },
 }));
 
-export interface GetAccountsUser_permissionsRequest {
-  /** GTM UserPermission's API relative path. */
+export interface DeleteAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
   path: string;
 }
 
-export const GetAccountsUser_permissionsRequest =
+export const DeleteAccountsContainersVersionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     path: Schema.String.pipe(T.HttpPath("path")),
   }).pipe(
     T.Http({
-      method: "GET",
-      path: "tagmanager/v2/accounts/{accountsId}/user_permissions/{user_permissionsId}",
+      method: "DELETE",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<GetAccountsUser_permissionsRequest>;
+  ) as unknown as Schema.Schema<DeleteAccountsContainersVersionsRequest>;
 
-export type GetAccountsUser_permissionsResponse = UserPermission;
-export const GetAccountsUser_permissionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ UserPermission;
+export interface DeleteAccountsContainersVersionsResponse {}
+export const DeleteAccountsContainersVersionsResponse: Schema.Schema<DeleteAccountsContainersVersionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteAccountsContainersVersionsResponse>;
 
-export type GetAccountsUser_permissionsError = DefaultErrors;
+export type DeleteAccountsContainersVersionsError = DefaultErrors;
 
-/** Gets a user's Account & Container access. */
-export const getAccountsUser_permissions: API.OperationMethod<
-  GetAccountsUser_permissionsRequest,
-  GetAccountsUser_permissionsResponse,
-  GetAccountsUser_permissionsError,
+/** Deletes a Container Version. */
+export const deleteAccountsContainersVersions: API.OperationMethod<
+  DeleteAccountsContainersVersionsRequest,
+  DeleteAccountsContainersVersionsResponse,
+  DeleteAccountsContainersVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsUser_permissionsRequest,
-  output: GetAccountsUser_permissionsResponse,
+  input: DeleteAccountsContainersVersionsRequest,
+  output: DeleteAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface PublishAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
+  fingerprint?: string;
+}
+
+export const PublishAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:publish",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PublishAccountsContainersVersionsRequest>;
+
+export type PublishAccountsContainersVersionsResponse =
+  PublishContainerVersionResponse;
+export const PublishAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ PublishContainerVersionResponse;
+
+export type PublishAccountsContainersVersionsError = DefaultErrors;
+
+/** Publishes a Container Version. */
+export const publishAccountsContainersVersions: API.OperationMethod<
+  PublishAccountsContainersVersionsRequest,
+  PublishAccountsContainersVersionsResponse,
+  PublishAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PublishAccountsContainersVersionsRequest,
+  output: PublishAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface LiveAccountsContainersVersionsRequest {
+  /** GTM Container's API relative path. */
+  parent: string;
+}
+
+export const LiveAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions:live",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<LiveAccountsContainersVersionsRequest>;
+
+export type LiveAccountsContainersVersionsResponse = ContainerVersion;
+export const LiveAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+
+export type LiveAccountsContainersVersionsError = DefaultErrors;
+
+/** Gets the live (i.e. published) container version */
+export const liveAccountsContainersVersions: API.OperationMethod<
+  LiveAccountsContainersVersionsRequest,
+  LiveAccountsContainersVersionsResponse,
+  LiveAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: LiveAccountsContainersVersionsRequest,
+  output: LiveAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface GetAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
+  path: string;
+  /** The GTM ContainerVersion ID. Specify published to retrieve the currently published version. */
+  containerVersionId?: string;
+}
+
+export const GetAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    containerVersionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("containerVersionId"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetAccountsContainersVersionsRequest>;
+
+export type GetAccountsContainersVersionsResponse = ContainerVersion;
+export const GetAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+
+export type GetAccountsContainersVersionsError = DefaultErrors;
+
+/** Gets a Container Version. */
+export const getAccountsContainersVersions: API.OperationMethod<
+  GetAccountsContainersVersionsRequest,
+  GetAccountsContainersVersionsResponse,
+  GetAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsContainersVersionsRequest,
+  output: GetAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface UpdateAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
+  path: string;
+  /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
+  fingerprint?: string;
+  /** Request body */
+  body?: ContainerVersion;
+}
+
+export const UpdateAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+    fingerprint: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("fingerprint"),
+    ),
+    body: Schema.optional(ContainerVersion).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PUT",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UpdateAccountsContainersVersionsRequest>;
+
+export type UpdateAccountsContainersVersionsResponse = ContainerVersion;
+export const UpdateAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+
+export type UpdateAccountsContainersVersionsError = DefaultErrors;
+
+/** Updates a Container Version. */
+export const updateAccountsContainersVersions: API.OperationMethod<
+  UpdateAccountsContainersVersionsRequest,
+  UpdateAccountsContainersVersionsResponse,
+  UpdateAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UpdateAccountsContainersVersionsRequest,
+  output: UpdateAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface Set_latestAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
+  path: string;
+}
+
+export const Set_latestAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:set_latest",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<Set_latestAccountsContainersVersionsRequest>;
+
+export type Set_latestAccountsContainersVersionsResponse = ContainerVersion;
+export const Set_latestAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+
+export type Set_latestAccountsContainersVersionsError = DefaultErrors;
+
+/** Sets the latest version used for synchronization of workspaces when detecting conflicts and errors. */
+export const set_latestAccountsContainersVersions: API.OperationMethod<
+  Set_latestAccountsContainersVersionsRequest,
+  Set_latestAccountsContainersVersionsResponse,
+  Set_latestAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: Set_latestAccountsContainersVersionsRequest,
+  output: Set_latestAccountsContainersVersionsResponse,
+  errors: [],
+}));
+
+export interface UndeleteAccountsContainersVersionsRequest {
+  /** GTM ContainerVersion's API relative path. */
+  path: string;
+}
+
+export const UndeleteAccountsContainersVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    path: Schema.String.pipe(T.HttpPath("path")),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "tagmanager/v2/accounts/{accountsId}/containers/{containersId}/versions/{versionsId}:undelete",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<UndeleteAccountsContainersVersionsRequest>;
+
+export type UndeleteAccountsContainersVersionsResponse = ContainerVersion;
+export const UndeleteAccountsContainersVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ContainerVersion;
+
+export type UndeleteAccountsContainersVersionsError = DefaultErrors;
+
+/** Undeletes a Container Version. */
+export const undeleteAccountsContainersVersions: API.OperationMethod<
+  UndeleteAccountsContainersVersionsRequest,
+  UndeleteAccountsContainersVersionsResponse,
+  UndeleteAccountsContainersVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: UndeleteAccountsContainersVersionsRequest,
+  output: UndeleteAccountsContainersVersionsResponse,
   errors: [],
 }));

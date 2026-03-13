@@ -22,6 +22,59 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface GoogleCloudAdvisorynotificationsV1Text {
+  /** The English copy. */
+  enText?: string;
+  /** The requested localized copy (if applicable). */
+  localizedText?: string;
+  /** Status of the localization. */
+  localizationState?:
+    | "LOCALIZATION_STATE_UNSPECIFIED"
+    | "LOCALIZATION_STATE_NOT_APPLICABLE"
+    | "LOCALIZATION_STATE_PENDING"
+    | "LOCALIZATION_STATE_COMPLETED"
+    | (string & {});
+}
+
+export const GoogleCloudAdvisorynotificationsV1Text: Schema.Schema<GoogleCloudAdvisorynotificationsV1Text> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      enText: Schema.optional(Schema.String),
+      localizedText: Schema.optional(Schema.String),
+      localizationState: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAdvisorynotificationsV1Text",
+  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Text>;
+
+export interface GoogleCloudAdvisorynotificationsV1Subject {
+  /** The text content. */
+  text?: GoogleCloudAdvisorynotificationsV1Text;
+}
+
+export const GoogleCloudAdvisorynotificationsV1Subject: Schema.Schema<GoogleCloudAdvisorynotificationsV1Subject> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAdvisorynotificationsV1Subject",
+  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Subject>;
+
+export interface GoogleCloudAdvisorynotificationsV1MessageBody {
+  /** The text content of the message body. */
+  text?: GoogleCloudAdvisorynotificationsV1Text;
+}
+
+export const GoogleCloudAdvisorynotificationsV1MessageBody: Schema.Schema<GoogleCloudAdvisorynotificationsV1MessageBody> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAdvisorynotificationsV1MessageBody",
+  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1MessageBody>;
+
 export interface GoogleCloudAdvisorynotificationsV1CsvCsvRow {
   /** The data entries in a CSV file row, as a string array rather than a single comma-separated string. */
   entries?: Array<string>;
@@ -55,45 +108,6 @@ export const GoogleCloudAdvisorynotificationsV1Csv: Schema.Schema<GoogleCloudAdv
     identifier: "GoogleCloudAdvisorynotificationsV1Csv",
   }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Csv>;
 
-export interface GoogleCloudAdvisorynotificationsV1Text {
-  /** The English copy. */
-  enText?: string;
-  /** The requested localized copy (if applicable). */
-  localizedText?: string;
-  /** Status of the localization. */
-  localizationState?:
-    | "LOCALIZATION_STATE_UNSPECIFIED"
-    | "LOCALIZATION_STATE_NOT_APPLICABLE"
-    | "LOCALIZATION_STATE_PENDING"
-    | "LOCALIZATION_STATE_COMPLETED"
-    | (string & {});
-}
-
-export const GoogleCloudAdvisorynotificationsV1Text: Schema.Schema<GoogleCloudAdvisorynotificationsV1Text> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      enText: Schema.optional(Schema.String),
-      localizedText: Schema.optional(Schema.String),
-      localizationState: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAdvisorynotificationsV1Text",
-  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Text>;
-
-export interface GoogleCloudAdvisorynotificationsV1MessageBody {
-  /** The text content of the message body. */
-  text?: GoogleCloudAdvisorynotificationsV1Text;
-}
-
-export const GoogleCloudAdvisorynotificationsV1MessageBody: Schema.Schema<GoogleCloudAdvisorynotificationsV1MessageBody> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAdvisorynotificationsV1MessageBody",
-  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1MessageBody>;
-
 export interface GoogleCloudAdvisorynotificationsV1Attachment {
   /** A CSV file attachment. Max size is 10 MB. */
   csv?: GoogleCloudAdvisorynotificationsV1Csv;
@@ -112,51 +126,39 @@ export const GoogleCloudAdvisorynotificationsV1Attachment: Schema.Schema<GoogleC
   }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Attachment>;
 
 export interface GoogleCloudAdvisorynotificationsV1Message {
-  /** Time when Message was localized */
-  localizationTime?: string;
   /** The message content. */
   body?: GoogleCloudAdvisorynotificationsV1MessageBody;
-  /** The Message creation timestamp. */
-  createTime?: string;
   /** The attachments to download. */
   attachments?: Array<GoogleCloudAdvisorynotificationsV1Attachment>;
+  /** The Message creation timestamp. */
+  createTime?: string;
+  /** Time when Message was localized */
+  localizationTime?: string;
 }
 
 export const GoogleCloudAdvisorynotificationsV1Message: Schema.Schema<GoogleCloudAdvisorynotificationsV1Message> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      localizationTime: Schema.optional(Schema.String),
       body: Schema.optional(GoogleCloudAdvisorynotificationsV1MessageBody),
-      createTime: Schema.optional(Schema.String),
       attachments: Schema.optional(
         Schema.Array(GoogleCloudAdvisorynotificationsV1Attachment),
       ),
+      createTime: Schema.optional(Schema.String),
+      localizationTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAdvisorynotificationsV1Message",
   }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Message>;
 
-export interface GoogleCloudAdvisorynotificationsV1Subject {
-  /** The text content. */
-  text?: GoogleCloudAdvisorynotificationsV1Text;
-}
-
-export const GoogleCloudAdvisorynotificationsV1Subject: Schema.Schema<GoogleCloudAdvisorynotificationsV1Subject> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      text: Schema.optional(GoogleCloudAdvisorynotificationsV1Text),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAdvisorynotificationsV1Subject",
-  }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1Subject>;
-
 export interface GoogleCloudAdvisorynotificationsV1Notification {
+  /** The resource name of the notification. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{project}/locations/{location}/notifications/{notification}. */
+  name?: string;
   /** The subject line of the notification. */
   subject?: GoogleCloudAdvisorynotificationsV1Subject;
   /** A list of messages in the notification. */
   messages?: Array<GoogleCloudAdvisorynotificationsV1Message>;
-  /** The resource name of the notification. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{project}/locations/{location}/notifications/{notification}. */
-  name?: string;
+  /** Output only. Time the notification was created. */
+  createTime?: string;
   /** Type of notification */
   notificationType?:
     | "NOTIFICATION_TYPE_UNSPECIFIED"
@@ -165,20 +167,18 @@ export interface GoogleCloudAdvisorynotificationsV1Notification {
     | "NOTIFICATION_TYPE_SECURITY_MSA"
     | "NOTIFICATION_TYPE_THREAT_HORIZONS"
     | (string & {});
-  /** Output only. Time the notification was created. */
-  createTime?: string;
 }
 
 export const GoogleCloudAdvisorynotificationsV1Notification: Schema.Schema<GoogleCloudAdvisorynotificationsV1Notification> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      name: Schema.optional(Schema.String),
       subject: Schema.optional(GoogleCloudAdvisorynotificationsV1Subject),
       messages: Schema.optional(
         Schema.Array(GoogleCloudAdvisorynotificationsV1Message),
       ),
-      name: Schema.optional(Schema.String),
-      notificationType: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
+      notificationType: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAdvisorynotificationsV1Notification",
@@ -221,8 +221,6 @@ export const GoogleCloudAdvisorynotificationsV1NotificationSettings: Schema.Sche
   }) as any as Schema.Schema<GoogleCloudAdvisorynotificationsV1NotificationSettings>;
 
 export interface GoogleCloudAdvisorynotificationsV1Settings {
-  /** Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle. */
-  etag?: string;
   /** Identifier. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
   name?: string;
   /** Required. Map of each notification type and its settings to get/set all settings at once. The server will validate the value for each notification type. */
@@ -230,12 +228,13 @@ export interface GoogleCloudAdvisorynotificationsV1Settings {
     string,
     GoogleCloudAdvisorynotificationsV1NotificationSettings
   >;
+  /** Required. Fingerprint for optimistic concurrency returned in Get requests. Must be provided for Update requests. If the value provided does not match the value known to the server, ABORTED will be thrown, and the client should retry the read-modify-write cycle. */
+  etag?: string;
 }
 
 export const GoogleCloudAdvisorynotificationsV1Settings: Schema.Schema<GoogleCloudAdvisorynotificationsV1Settings> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      etag: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
       notificationSettings: Schema.optional(
         Schema.Record(
@@ -243,6 +242,7 @@ export const GoogleCloudAdvisorynotificationsV1Settings: Schema.Schema<GoogleClo
           GoogleCloudAdvisorynotificationsV1NotificationSettings,
         ),
       ),
+      etag: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAdvisorynotificationsV1Settings",
@@ -329,27 +329,27 @@ export const updateSettingsOrganizationsLocations: API.OperationMethod<
 }));
 
 export interface ListOrganizationsLocationsNotificationsRequest {
-  /** ISO code for requested localization language. If unset, will be interpereted as "en". If the requested language is valid, but not supported for this notification, English will be returned with an "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error. */
-  languageCode?: string;
-  /** A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token. */
-  pageToken?: string;
   /** Required. The parent, which owns this collection of notifications. Must be of the form "organizations/{organization}/locations/{location}" or "projects/{project}/locations/{location}". */
   parent: string;
   /** The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
   pageSize?: number;
+  /** A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token. */
+  pageToken?: string;
   /** Specifies which parts of the notification resource should be returned in the response. */
   view?: "NOTIFICATION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
+  /** ISO code for requested localization language. If unset, will be interpereted as "en". If the requested language is valid, but not supported for this notification, English will be returned with an "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error. */
+  languageCode?: string;
 }
 
 export const ListOrganizationsLocationsNotificationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
     languageCode: Schema.optional(Schema.String).pipe(
       T.HttpQuery("languageCode"),
     ),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
   }).pipe(
     T.Http({
       method: "GET",
@@ -382,18 +382,18 @@ export const listOrganizationsLocationsNotifications: API.PaginatedOperationMeth
 }));
 
 export interface GetOrganizationsLocationsNotificationsRequest {
-  /** ISO code for requested localization language. If unset, will be interpereted as "en". If the requested language is valid, but not supported for this notification, English will be returned with an "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error. */
-  languageCode?: string;
   /** Required. A name of the notification to retrieve. Format: organizations/{organization}/locations/{location}/notifications/{notification} or projects/{projects}/locations/{location}/notifications/{notification}. */
   name: string;
+  /** ISO code for requested localization language. If unset, will be interpereted as "en". If the requested language is valid, but not supported for this notification, English will be returned with an "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error. */
+  languageCode?: string;
 }
 
 export const GetOrganizationsLocationsNotificationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
     languageCode: Schema.optional(Schema.String).pipe(
       T.HttpQuery("languageCode"),
     ),
-    name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
       method: "GET",
@@ -418,6 +418,41 @@ export const getOrganizationsLocationsNotifications: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOrganizationsLocationsNotificationsRequest,
   output: GetOrganizationsLocationsNotificationsResponse,
+  errors: [],
+}));
+
+export interface GetSettingsProjectsLocationsRequest {
+  /** Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
+  name: string;
+}
+
+export const GetSettingsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
+
+export type GetSettingsProjectsLocationsResponse =
+  GoogleCloudAdvisorynotificationsV1Settings;
+export const GetSettingsProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
+
+export type GetSettingsProjectsLocationsError = DefaultErrors;
+
+/** Get notification settings. */
+export const getSettingsProjectsLocations: API.OperationMethod<
+  GetSettingsProjectsLocationsRequest,
+  GetSettingsProjectsLocationsResponse,
+  GetSettingsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetSettingsProjectsLocationsRequest,
+  output: GetSettingsProjectsLocationsResponse,
   errors: [],
 }));
 
@@ -462,60 +497,25 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetSettingsProjectsLocationsRequest {
-  /** Required. The resource name of the settings to retrieve. Format: organizations/{organization}/locations/{location}/settings or projects/{projects}/locations/{location}/settings. */
-  name: string;
-}
-
-export const GetSettingsProjectsLocationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/settings",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetSettingsProjectsLocationsRequest>;
-
-export type GetSettingsProjectsLocationsResponse =
-  GoogleCloudAdvisorynotificationsV1Settings;
-export const GetSettingsProjectsLocationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudAdvisorynotificationsV1Settings;
-
-export type GetSettingsProjectsLocationsError = DefaultErrors;
-
-/** Get notification settings. */
-export const getSettingsProjectsLocations: API.OperationMethod<
-  GetSettingsProjectsLocationsRequest,
-  GetSettingsProjectsLocationsResponse,
-  GetSettingsProjectsLocationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetSettingsProjectsLocationsRequest,
-  output: GetSettingsProjectsLocationsResponse,
-  errors: [],
-}));
-
 export interface ListProjectsLocationsNotificationsRequest {
-  /** Specifies which parts of the notification resource should be returned in the response. */
-  view?: "NOTIFICATION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
   /** Required. The parent, which owns this collection of notifications. Must be of the form "organizations/{organization}/locations/{location}" or "projects/{project}/locations/{location}". */
   parent: string;
   /** The maximum number of notifications to return. The service may return fewer than this value. If unspecified or equal to 0, at most 50 notifications will be returned. The maximum value is 50; values above 50 will be coerced to 50. */
   pageSize?: number;
   /** A page token returned from a previous request. When paginating, all other parameters provided in the request must match the call that returned the page token. */
   pageToken?: string;
+  /** Specifies which parts of the notification resource should be returned in the response. */
+  view?: "NOTIFICATION_VIEW_UNSPECIFIED" | "BASIC" | "FULL" | (string & {});
   /** ISO code for requested localization language. If unset, will be interpereted as "en". If the requested language is valid, but not supported for this notification, English will be returned with an "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a real language), this RPC will throw an error. */
   languageCode?: string;
 }
 
 export const ListProjectsLocationsNotificationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
     languageCode: Schema.optional(Schema.String).pipe(
       T.HttpQuery("languageCode"),
     ),

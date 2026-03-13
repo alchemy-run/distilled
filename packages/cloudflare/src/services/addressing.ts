@@ -355,9 +355,7 @@ export const listAddressMaps: API.PaginatedOperationMethod<
     ListAddressMapsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAddressMapsRequest,
-  ) => stream.Stream<
+  items: (input: ListAddressMapsRequest) => stream.Stream<
     {
       id?: string | null;
       canDelete?: boolean | null;
@@ -2012,9 +2010,7 @@ export const listPrefixes: API.PaginatedOperationMethod<
     ListPrefixesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPrefixesRequest,
-  ) => stream.Stream<
+  items: (input: ListPrefixesRequest) => stream.Stream<
     {
       id?: string | null;
       accountId?: string | null;
@@ -2818,9 +2814,7 @@ export const listPrefixBgpPrefixes: API.PaginatedOperationMethod<
     ListPrefixBgpPrefixesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPrefixBgpPrefixesRequest,
-  ) => stream.Stream<
+  items: (input: ListPrefixBgpPrefixesRequest) => stream.Stream<
     {
       id?: string | null;
       asn?: number | null;
@@ -3207,9 +3201,7 @@ export const listPrefixDelegations: API.PaginatedOperationMethod<
     ListPrefixDelegationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPrefixDelegationsRequest,
-  ) => stream.Stream<
+  items: (input: ListPrefixDelegationsRequest) => stream.Stream<
     {
       id?: string | null;
       cidr?: string | null;
@@ -3523,9 +3515,7 @@ export const listPrefixServiceBindings: API.PaginatedOperationMethod<
     ListPrefixServiceBindingsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPrefixServiceBindingsRequest,
-  ) => stream.Stream<
+  items: (input: ListPrefixServiceBindingsRequest) => stream.Stream<
     {
       id?: string | null;
       cidr?: string | null;
@@ -3868,9 +3858,7 @@ export const listRegionalHostnames: API.PaginatedOperationMethod<
     ListRegionalHostnamesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRegionalHostnamesRequest,
-  ) => stream.Stream<
+  items: (input: ListRegionalHostnamesRequest) => stream.Stream<
     {
       createdOn: string;
       hostname: string;

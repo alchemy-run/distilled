@@ -85,9 +85,7 @@ export const getSettingTls: API.PaginatedOperationMethod<
     GetSettingTlsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: GetSettingTlsRequest,
-  ) => stream.Stream<
+  items: (input: GetSettingTlsRequest) => stream.Stream<
     {
       createdAt?: string | null;
       hostname?: string | null;

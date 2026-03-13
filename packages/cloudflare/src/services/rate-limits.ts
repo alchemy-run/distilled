@@ -432,9 +432,7 @@ export const listRateLimits: API.PaginatedOperationMethod<
     ListRateLimitsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRateLimitsRequest,
-  ) => stream.Stream<
+  items: (input: ListRateLimitsRequest) => stream.Stream<
     {
       id?: string | null;
       action?: {

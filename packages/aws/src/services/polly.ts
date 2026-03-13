@@ -316,12 +316,6 @@ export type VoiceId =
   | "Sabrina"
   | "Jasmine"
   | "Jihye"
-  | "Ambre"
-  | "Beatrice"
-  | "Florian"
-  | "Lennart"
-  | "Lorenzo"
-  | "Tiffany"
   | (string & {});
 export const VoiceId = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export type LanguageCodeList = LanguageCode[];

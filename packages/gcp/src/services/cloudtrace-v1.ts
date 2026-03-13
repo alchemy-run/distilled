@@ -23,32 +23,32 @@ const svc = T.Service({
 // ==========================================================================
 
 export interface TraceSpan {
-  /** Name of the span. Must be less than 128 bytes. The span name is sanitized and displayed in the Trace tool in the Google Cloud Platform Console. The name may be a method name or some other per-call site name. For the same executable and the same call point, a best practice is to use a consistent name, which makes it easier to correlate cross-trace spans. */
-  name?: string;
-  /** Collection of labels associated with the span. Label keys must be less than 128 bytes. Label values must be less than 16 KiB. Some keys might have predefined meaning, and you can also create your own. For more information, see [Cloud Trace labels](https://cloud.google.com/trace/docs/trace-labels). */
-  labels?: Record<string, string>;
   /** Identifier for the span. Must be a 64-bit integer other than 0 and unique within a trace. For example, `2205310701640571284`. */
   spanId?: string;
-  /** Start time of the span in seconds and nanoseconds from the UNIX epoch. */
-  startTime?: string;
-  /** Optional. ID of the parent span, if any. */
-  parentSpanId?: string;
-  /** End time of the span in seconds and nanoseconds from the UNIX epoch. */
-  endTime?: string;
   /** Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `RPC_CLIENT` and `RPC_SERVER` to identify queueing latency associated with the span. */
   kind?: "SPAN_KIND_UNSPECIFIED" | "RPC_SERVER" | "RPC_CLIENT" | (string & {});
+  /** Name of the span. Must be less than 128 bytes. The span name is sanitized and displayed in the Trace tool in the Google Cloud Platform Console. The name may be a method name or some other per-call site name. For the same executable and the same call point, a best practice is to use a consistent name, which makes it easier to correlate cross-trace spans. */
+  name?: string;
+  /** Start time of the span in seconds and nanoseconds from the UNIX epoch. */
+  startTime?: string;
+  /** End time of the span in seconds and nanoseconds from the UNIX epoch. */
+  endTime?: string;
+  /** Optional. ID of the parent span, if any. */
+  parentSpanId?: string;
+  /** Collection of labels associated with the span. Label keys must be less than 128 bytes. Label values must be less than 16 KiB. Some keys might have predefined meaning, and you can also create your own. For more information, see [Cloud Trace labels](https://cloud.google.com/trace/docs/trace-labels). */
+  labels?: Record<string, string>;
 }
 
 export const TraceSpan: Schema.Schema<TraceSpan> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       spanId: Schema.optional(Schema.String),
-      startTime: Schema.optional(Schema.String),
-      parentSpanId: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      startTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      parentSpanId: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
     }),
   ).annotate({ identifier: "TraceSpan" }) as any as Schema.Schema<TraceSpan>;
 
@@ -69,13 +69,6 @@ export const Trace: Schema.Schema<Trace> =
       spans: Schema.optional(Schema.Array(TraceSpan)),
     }),
   ).annotate({ identifier: "Trace" }) as any as Schema.Schema<Trace>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "Empty",
-  }) as any as Schema.Schema<Empty>;
 
 export interface ListTracesResponse {
   /** List of trace records as specified by the view parameter. */
@@ -105,6 +98,13 @@ export const Traces: Schema.Schema<Traces> =
       traces: Schema.optional(Schema.Array(Trace)),
     }),
   ).annotate({ identifier: "Traces" }) as any as Schema.Schema<Traces>;
+
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
 // ==========================================================================
 // Operations
@@ -150,14 +150,6 @@ export const patchTracesProjects: API.OperationMethod<
 export interface ListProjectsTracesRequest {
   /** Required. ID of the Cloud project where the trace data is stored. */
   projectId: string;
-  /** Optional. Field used to sort the returned traces. Can be one of the following: * `trace_id` * `name` (`name` field of root span in the trace) * `duration` (difference between `end_time` and `start_time` fields of the root span) * `start` (`start_time` field of the root span) Descending order can be specified by appending `desc` to the sort field (for example, `name desc`). Only one sort field is permitted. */
-  orderBy?: string;
-  /** End of the time interval (inclusive) during which the trace data was collected from the application. */
-  endTime?: string;
-  /** Optional. Maximum number of traces to return. If not specified or <= 0, the implementation selects a reasonable value. The implementation may return fewer traces than the requested page size. */
-  pageSize?: number;
-  /** Start of the time interval (inclusive) during which the trace data was collected from the application. */
-  startTime?: string;
   /** Optional. Type of data returned for traces in the list. Default is `MINIMAL`. */
   view?:
     | "VIEW_TYPE_UNSPECIFIED"
@@ -165,22 +157,30 @@ export interface ListProjectsTracesRequest {
     | "ROOTSPAN"
     | "COMPLETE"
     | (string & {});
+  /** Optional. Maximum number of traces to return. If not specified or <= 0, the implementation selects a reasonable value. The implementation may return fewer traces than the requested page size. */
+  pageSize?: number;
   /** Token identifying the page of results to return. If provided, use the value of the `next_page_token` field from a previous request. */
   pageToken?: string;
+  /** Start of the time interval (inclusive) during which the trace data was collected from the application. */
+  startTime?: string;
+  /** End of the time interval (inclusive) during which the trace data was collected from the application. */
+  endTime?: string;
   /** Optional. A filter against properties of the trace. See [filter syntax documentation](https://cloud.google.com/trace/docs/trace-filters) for details. */
   filter?: string;
+  /** Optional. Field used to sort the returned traces. Can be one of the following: * `trace_id` * `name` (`name` field of root span in the trace) * `duration` (difference between `end_time` and `start_time` fields of the root span) * `start` (`start_time` field of the root span) Descending order can be specified by appending `desc` to the sort field (for example, `name desc`). Only one sort field is permitted. */
+  orderBy?: string;
 }
 
 export const ListProjectsTracesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     projectId: Schema.String.pipe(T.HttpPath("projectId")),
-    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
     view: Schema.optional(Schema.String).pipe(T.HttpQuery("view")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    startTime: Schema.optional(Schema.String).pipe(T.HttpQuery("startTime")),
+    endTime: Schema.optional(Schema.String).pipe(T.HttpQuery("endTime")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
     T.Http({ method: "GET", path: "v1/projects/{projectId}/traces" }),
     svc,
@@ -209,16 +209,16 @@ export const listProjectsTraces: API.PaginatedOperationMethod<
 }));
 
 export interface GetProjectsTracesRequest {
-  /** Required. ID of the trace to return. */
-  traceId: string;
   /** Required. ID of the Cloud project where the trace data is stored. */
   projectId: string;
+  /** Required. ID of the trace to return. */
+  traceId: string;
 }
 
 export const GetProjectsTracesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    traceId: Schema.String.pipe(T.HttpPath("traceId")),
     projectId: Schema.String.pipe(T.HttpPath("projectId")),
+    traceId: Schema.String.pipe(T.HttpPath("traceId")),
   }).pipe(
     T.Http({ method: "GET", path: "v1/projects/{projectId}/traces/{traceId}" }),
     svc,

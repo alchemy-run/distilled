@@ -767,9 +767,7 @@ export const listApps: API.PaginatedOperationMethod<
     ListAppsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAppsRequest,
-  ) => stream.Stream<
+  items: (input: ListAppsRequest) => stream.Stream<
     | {
         id: string;
         createdOn: string;

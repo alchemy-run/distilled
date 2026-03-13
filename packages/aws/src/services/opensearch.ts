@@ -109,7 +109,6 @@ export type DirectQueryDataSourceName = string;
 export type DirectQueryDataSourceRoleArn = string;
 export type DirectQueryDataSourceDescription = string;
 export type ARN = string;
-export type PolicyDocument = string;
 export type TagKey = string;
 export type TagValue = string;
 export type PackageID = string;
@@ -129,6 +128,7 @@ export type KmsKeyArn = string;
 export type Id = string;
 export type VersionString = string;
 export type IntegerClass = number;
+export type PolicyDocument = string;
 export type UserPoolId = string;
 export type IdentityPoolId = string;
 export type KmsKeyId = string;
@@ -400,7 +400,6 @@ export interface AddDirectQueryDataSourceRequest {
   DataSourceType: DirectQueryDataSourceType;
   Description?: string;
   OpenSearchArns: string[];
-  DataSourceAccessPolicy?: string;
   TagList?: Tag[];
 }
 export const AddDirectQueryDataSourceRequest =
@@ -410,7 +409,6 @@ export const AddDirectQueryDataSourceRequest =
       DataSourceType: DirectQueryDataSourceType,
       Description: S.optional(S.String),
       OpenSearchArns: DirectQueryOpenSearchARNList,
-      DataSourceAccessPolicy: S.optional(S.String),
       TagList: S.optional(TagList),
     }).pipe(
       T.all(
@@ -826,13 +824,11 @@ export const CancelServiceSoftwareUpdateResponse =
 export interface DataSource {
   dataSourceArn?: string;
   dataSourceDescription?: string;
-  iamRoleForDataSourceArn?: string;
 }
 export const DataSource = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     dataSourceArn: S.optional(S.String),
     dataSourceDescription: S.optional(S.String),
-    iamRoleForDataSourceArn: S.optional(S.String),
   }),
 ).annotate({ identifier: "DataSource" }) as any as S.Schema<DataSource>;
 export type DataSources = DataSource[];
@@ -4254,7 +4250,6 @@ export interface GetDirectQueryDataSourceResponse {
   DataSourceType?: DirectQueryDataSourceType;
   Description?: string;
   OpenSearchArns?: string[];
-  DataSourceAccessPolicy?: string;
   DataSourceArn?: string;
 }
 export const GetDirectQueryDataSourceResponse =
@@ -4264,7 +4259,6 @@ export const GetDirectQueryDataSourceResponse =
       DataSourceType: S.optional(DirectQueryDataSourceType),
       Description: S.optional(S.String),
       OpenSearchArns: S.optional(DirectQueryOpenSearchARNList),
-      DataSourceAccessPolicy: S.optional(S.String),
       DataSourceArn: S.optional(S.String),
     }).pipe(ns),
   ).annotate({
@@ -5627,7 +5621,6 @@ export interface UpdateDirectQueryDataSourceRequest {
   DataSourceType: DirectQueryDataSourceType;
   Description?: string;
   OpenSearchArns: string[];
-  DataSourceAccessPolicy?: string;
 }
 export const UpdateDirectQueryDataSourceRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -5636,7 +5629,6 @@ export const UpdateDirectQueryDataSourceRequest =
       DataSourceType: DirectQueryDataSourceType,
       Description: S.optional(S.String),
       OpenSearchArns: DirectQueryOpenSearchARNList,
-      DataSourceAccessPolicy: S.optional(S.String),
     }).pipe(
       T.all(
         ns,
@@ -8311,7 +8303,6 @@ export type UpdateDirectQueryDataSourceError =
   | BaseException
   | DisabledOperationException
   | InternalException
-  | LimitExceededException
   | ResourceNotFoundException
   | ValidationException
   | CommonErrors;
@@ -8331,7 +8322,6 @@ export const updateDirectQueryDataSource: API.OperationMethod<
     BaseException,
     DisabledOperationException,
     InternalException,
-    LimitExceededException,
     ResourceNotFoundException,
     ValidationException,
   ],

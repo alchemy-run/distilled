@@ -5,7 +5,6 @@ import * as T from "../traits";
 // Input Schema
 export const AppCertificatesListInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
     filter: Schema.optional(Schema.String),
     cursor: Schema.optional(Schema.String),
     limit: Schema.optional(Schema.Number),
@@ -43,7 +42,6 @@ export type AppCertificatesListOutput = typeof AppCertificatesListOutput.Type;
 /**
  * List certificates for app
  *
- * @param app_name - Fly App Name
  * @param filter - Hostname filter (substring match)
  * @param cursor - Pagination cursor from previous response
  * @param limit - Number of results per page (default 25, max 500)

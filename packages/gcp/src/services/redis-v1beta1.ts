@@ -794,8 +794,6 @@ export interface Cluster {
   serverCaPool?: string;
   /** Optional. Input only. Rotate the server certificates. */
   rotateServerCertificate?: boolean;
-  /** Optional. The ACL policy to be applied to the cluster. */
-  aclPolicy?: string;
 }
 
 export const Cluster: Schema.Schema<Cluster> =
@@ -852,7 +850,6 @@ export const Cluster: Schema.Schema<Cluster> =
       serverCaMode: Schema.optional(Schema.String),
       serverCaPool: Schema.optional(Schema.String),
       rotateServerCertificate: Schema.optional(Schema.Boolean),
-      aclPolicy: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Cluster" }) as any as Schema.Schema<Cluster>;
 
@@ -1371,7 +1368,7 @@ export interface Instance {
     | (string & {});
   /** Output only. Additional information about the current status of this instance, if available. */
   statusMessage?: string;
-  /** Optional. Redis configuration parameters, according to [Redis configuration](https://redis.io/docs/latest/operate/oss_and_stack/management/config/). Currently, the only supported parameters are: Redis version 3.2 and newer: * maxmemory-policy * notify-keyspace-events Redis version 4.0 and newer: * activedefrag * lfu-decay-time * lfu-log-factor * maxmemory-gb Redis version 5.0 and newer: * stream-node-max-bytes * stream-node-max-entries */
+  /** Optional. Redis configuration parameters, according to http://redis.io/topics/config. Currently, the only supported parameters are: Redis version 3.2 and newer: * maxmemory-policy * notify-keyspace-events Redis version 4.0 and newer: * activedefrag * lfu-decay-time * lfu-log-factor * maxmemory-gb Redis version 5.0 and newer: * stream-node-max-bytes * stream-node-max-entries */
   redisConfigs?: Record<string, string>;
   /** Required. The service tier of the instance. */
   tier?: "TIER_UNSPECIFIED" | "BASIC" | "STANDARD_HA" | (string & {});
@@ -2273,9 +2270,6 @@ export interface DatabaseResourceMetadata {
     | "SUB_RESOURCE_TYPE_SECONDARY"
     | "SUB_RESOURCE_TYPE_READ_REPLICA"
     | "SUB_RESOURCE_TYPE_EXTERNAL_PRIMARY"
-    | "SUB_RESOURCE_TYPE_READ_POOL"
-    | "SUB_RESOURCE_TYPE_RESERVATION"
-    | "SUB_RESOURCE_TYPE_DATASET"
     | "SUB_RESOURCE_TYPE_OTHER"
     | (string & {});
   /** The product this resource represents. */
@@ -2531,7 +2525,6 @@ export interface DatabaseResourceHealthSignalData {
     | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
     | "SIGNAL_TYPE_EXTENDED_SUPPORT"
     | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
-    | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
     | (string & {});
   /** This is used to identify the location of the resource. Example: "us-central1" */
   location?: string;
@@ -2673,7 +2666,6 @@ export interface DatabaseResourceRecommendationSignalData {
     | "SIGNAL_TYPE_RECOMMENDED_MAINTENANCE_POLICIES"
     | "SIGNAL_TYPE_EXTENDED_SUPPORT"
     | "SIGNAL_TYPE_PERFORMANCE_KPI_CHANGE"
-    | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
     | (string & {});
   /** Required. last time recommendationw as refreshed */
   lastRefreshTime?: string;
@@ -2794,9 +2786,6 @@ export interface ConfigBasedSignalData {
     | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
     | "SIGNAL_TYPE_EXTENDED_SUPPORT"
     | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
-    | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
-    | "SIGNAL_TYPE_LAST_BACKUP_OLD"
-    | "SIGNAL_TYPE_NOT_PROTECTED_BY_AUTOMATIC_FAILOVER"
     | (string & {});
   /** Signal data for boolean signals. */
   signalBoolValue?: boolean;
@@ -2844,23 +2833,6 @@ export const BackupDRMetadata: Schema.Schema<BackupDRMetadata> =
     identifier: "BackupDRMetadata",
   }) as any as Schema.Schema<BackupDRMetadata>;
 
-export interface SignalMetadata {
-  /** Signal data for boolean signals. */
-  signalBoolValue?: boolean;
-  /** Signal data for backup runs. */
-  backupRun?: BackupRun;
-}
-
-export const SignalMetadata: Schema.Schema<SignalMetadata> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      signalBoolValue: Schema.optional(Schema.Boolean),
-      backupRun: Schema.optional(BackupRun),
-    }),
-  ).annotate({
-    identifier: "SignalMetadata",
-  }) as any as Schema.Schema<SignalMetadata>;
-
 export interface DatabaseResourceSignalData {
   /** Database resource id. */
   resourceId?: DatabaseResourceId;
@@ -2878,9 +2850,6 @@ export interface DatabaseResourceSignalData {
     | "SIGNAL_TYPE_UNENCRYPTED_CONNECTIONS"
     | "SIGNAL_TYPE_EXTENDED_SUPPORT"
     | "SIGNAL_TYPE_NO_AUTOMATED_BACKUP_POLICY"
-    | "SIGNAL_TYPE_VERSION_NEARING_END_OF_LIFE"
-    | "SIGNAL_TYPE_LAST_BACKUP_OLD"
-    | "SIGNAL_TYPE_NOT_PROTECTED_BY_AUTOMATIC_FAILOVER"
     | (string & {});
   /** Required. Output only. Signal state of the signal */
   signalState?:
@@ -2889,14 +2858,8 @@ export interface DatabaseResourceSignalData {
     | "INACTIVE"
     | "DISMISSED"
     | (string & {});
-  /** Deprecated: Use signal_metadata_list instead. */
+  /** Signal data for boolean signals. */
   signalBoolValue?: boolean;
-  /** Deprecated: Use signal_metadata_list instead. */
-  backupRun?: BackupRun;
-  /** This will support array of OneOf signal metadata information for a given signal type. */
-  signalMetadataList?: Array<SignalMetadata>;
-  /** Resource location. */
-  location?: string;
 }
 
 export const DatabaseResourceSignalData: Schema.Schema<DatabaseResourceSignalData> =
@@ -2908,9 +2871,6 @@ export const DatabaseResourceSignalData: Schema.Schema<DatabaseResourceSignalDat
       signalType: Schema.optional(Schema.String),
       signalState: Schema.optional(Schema.String),
       signalBoolValue: Schema.optional(Schema.Boolean),
-      backupRun: Schema.optional(BackupRun),
-      signalMetadataList: Schema.optional(Schema.Array(SignalMetadata)),
-      location: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "DatabaseResourceSignalData",

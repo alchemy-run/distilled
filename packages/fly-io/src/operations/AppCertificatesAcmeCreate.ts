@@ -5,7 +5,6 @@ import * as T from "../traits";
 // Input Schema
 export const AppCertificatesAcmeCreateInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
     hostname: Schema.optional(Schema.String),
   }).pipe(
     T.Http({ method: "POST", path: "/apps/{app_name}/certificates/acme" }),
@@ -93,8 +92,6 @@ export type AppCertificatesAcmeCreateOutput =
 // The operation
 /**
  * Request ACME certificate
- *
- * @param app_name - Fly App Name
  */
 export const AppCertificatesAcmeCreate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

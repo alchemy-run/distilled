@@ -2971,9 +2971,7 @@ export const listSuperSlurperJobs: API.PaginatedOperationMethod<
     ListSuperSlurperJobsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListSuperSlurperJobsRequest,
-  ) => stream.Stream<
+  items: (input: ListSuperSlurperJobsRequest) => stream.Stream<
     {
       id?: string | null;
       createdAt?: string | null;
@@ -3414,9 +3412,7 @@ export const listSuperSlurperJobLogs: API.PaginatedOperationMethod<
     ListSuperSlurperJobLogsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListSuperSlurperJobLogsRequest,
-  ) => stream.Stream<
+  items: (input: ListSuperSlurperJobLogsRequest) => stream.Stream<
     {
       createdAt?: string | null;
       job?: string | null;

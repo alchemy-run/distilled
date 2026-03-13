@@ -22,18 +22,96 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: Array<Record<string, unknown>>;
+}
+
+export const Status: Schema.Schema<Status> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+
+export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: Record<string, unknown>;
+}
+
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+
+export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: Array<Operation>;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: Array<string>;
+}
+
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
+
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
+
+export interface CancelOperationRequest {}
+
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
+
 export interface GclbObservationSourcePscNetworkConfig {
-  /** Required. The subnetwork in the source region that will be used to connect to the Cloud Load Balancers via PSC NEGs. Must belong to `network`. Format: projects/{project_id}/regions/{region}/subnetworks/{subnet} */
-  subnetwork?: string;
   /** Required. The VPC network. Format: `projects/{project_id}/global/networks/{network}` */
   network?: string;
+  /** Required. The subnetwork in the source region that will be used to connect to the Cloud Load Balancers via PSC NEGs. Must belong to `network`. Format: projects/{project_id}/regions/{region}/subnetworks/{subnet} */
+  subnetwork?: string;
 }
 
 export const GclbObservationSourcePscNetworkConfig: Schema.Schema<GclbObservationSourcePscNetworkConfig> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      subnetwork: Schema.optional(Schema.String),
       network: Schema.optional(Schema.String),
+      subnetwork: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GclbObservationSourcePscNetworkConfig",
@@ -56,8 +134,10 @@ export const GclbObservationSource: Schema.Schema<GclbObservationSource> =
   }) as any as Schema.Schema<GclbObservationSource>;
 
 export interface ObservationSource {
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
+  /** The GCLB observation source */
+  gclbObservationSource?: GclbObservationSource;
+  /** Identifier. name of resource For MVP, each region can only have 1 source. */
+  name?: string;
   /** Output only. The observation source state */
   state?:
     | "STATE_UNSPECIFIED"
@@ -66,10 +146,8 @@ export interface ObservationSource {
     | "DELETING"
     | "ERROR"
     | (string & {});
-  /** Identifier. name of resource For MVP, each region can only have 1 source. */
-  name?: string;
-  /** The GCLB observation source */
-  gclbObservationSource?: GclbObservationSource;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string;
   /** Output only. [Output only] Update time stamp */
   updateTime?: string;
 }
@@ -77,10 +155,10 @@ export interface ObservationSource {
 export const ObservationSource: Schema.Schema<ObservationSource> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      createTime: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
       gclbObservationSource: Schema.optional(GclbObservationSource),
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
     }),
   ).annotate({
@@ -88,10 +166,10 @@ export const ObservationSource: Schema.Schema<ObservationSource> =
   }) as any as Schema.Schema<ObservationSource>;
 
 export interface ListObservationSourcesResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
   /** The ObservationSource from the specified project and location. */
   observationSources?: Array<ObservationSource>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
   /** Locations that could not be reached. */
   unreachable?: Array<string>;
 }
@@ -99,50 +177,119 @@ export interface ListObservationSourcesResponse {
 export const ListObservationSourcesResponse: Schema.Schema<ListObservationSourcesResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
       observationSources: Schema.optional(Schema.Array(ObservationSource)),
+      nextPageToken: Schema.optional(Schema.String),
       unreachable: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "ListObservationSourcesResponse",
   }) as any as Schema.Schema<ListObservationSourcesResponse>;
 
-export interface ApiObservation {
-  /** Update time stamp */
+export interface ObservationJob {
+  /** Identifier. name of resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
+  name?: string;
+  /** Output only. The observation job state */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "CREATING"
+    | "ENABLING"
+    | "ENABLED"
+    | "DISABLING"
+    | "DISABLED"
+    | "DELETING"
+    | "ERROR"
+    | (string & {});
+  /** Optional. These should be of the same kind of source. */
+  sources?: Array<string>;
+  /** Output only. [Output only] Create time stamp */
+  createTime?: string;
+  /** Output only. [Output only] Update time stamp */
   updateTime?: string;
-  /** User-defined tags to organize and sort */
-  tags?: Array<string>;
-  /** The hostname of requests processed for this Observation. */
-  hostname?: string;
-  /** Last event detected time stamp */
-  lastEventDetectedTime?: string;
+}
+
+export const ObservationJob: Schema.Schema<ObservationJob> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      sources: Schema.optional(Schema.Array(Schema.String)),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ObservationJob",
+  }) as any as Schema.Schema<ObservationJob>;
+
+export interface ListObservationJobsResponse {
+  /** The ObservationJob from the specified project and location. */
+  observationJobs?: Array<ObservationJob>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: Array<string>;
+}
+
+export const ListObservationJobsResponse: Schema.Schema<ListObservationJobsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      observationJobs: Schema.optional(Schema.Array(ObservationJob)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListObservationJobsResponse",
+  }) as any as Schema.Schema<ListObservationJobsResponse>;
+
+export interface EnableObservationJobRequest {}
+
+export const EnableObservationJobRequest: Schema.Schema<EnableObservationJobRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EnableObservationJobRequest",
+  }) as any as Schema.Schema<EnableObservationJobRequest>;
+
+export interface DisableObservationJobRequest {}
+
+export const DisableObservationJobRequest: Schema.Schema<DisableObservationJobRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableObservationJobRequest",
+  }) as any as Schema.Schema<DisableObservationJobRequest>;
+
+export interface ApiObservation {
   /** Identifier. Name of resource */
   name?: string;
-  /** The number of observed API Operations. */
-  apiOperationCount?: string;
   /** Style of ApiObservation */
   style?: "STYLE_UNSPECIFIED" | "REST" | "GRPC" | "GRAPHQL" | (string & {});
-  /** Create time stamp */
-  createTime?: string;
-  /** Location of the Observation Source, for example "us-central1" or "europe-west1." */
-  sourceLocations?: Array<string>;
   /** The IP address (IPv4 or IPv6) of the origin server that the request was sent to. This field can include port information. Examples: `"192.168.1.1"`, `"10.0.0.1:80"`, `"FE80::0202:B3FF:FE1E:8329"`. */
   serverIps?: Array<string>;
+  /** The hostname of requests processed for this Observation. */
+  hostname?: string;
+  /** Location of the Observation Source, for example "us-central1" or "europe-west1." */
+  sourceLocations?: Array<string>;
+  /** User-defined tags to organize and sort */
+  tags?: Array<string>;
+  /** The number of observed API Operations. */
+  apiOperationCount?: string;
+  /** Create time stamp */
+  createTime?: string;
+  /** Update time stamp */
+  updateTime?: string;
+  /** Last event detected time stamp */
+  lastEventDetectedTime?: string;
 }
 
 export const ApiObservation: Schema.Schema<ApiObservation> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      updateTime: Schema.optional(Schema.String),
-      tags: Schema.optional(Schema.Array(Schema.String)),
-      hostname: Schema.optional(Schema.String),
-      lastEventDetectedTime: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
-      apiOperationCount: Schema.optional(Schema.String),
       style: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
-      sourceLocations: Schema.optional(Schema.Array(Schema.String)),
       serverIps: Schema.optional(Schema.Array(Schema.String)),
+      hostname: Schema.optional(Schema.String),
+      sourceLocations: Schema.optional(Schema.Array(Schema.String)),
+      tags: Schema.optional(Schema.Array(Schema.String)),
+      apiOperationCount: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+      lastEventDetectedTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ApiObservation",
@@ -165,69 +312,9 @@ export const ListApiObservationsResponse: Schema.Schema<ListApiObservationsRespo
     identifier: "ListApiObservationsResponse",
   }) as any as Schema.Schema<ListApiObservationsResponse>;
 
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: Array<Record<string, unknown>>;
-}
-
-export const Status: Schema.Schema<Status> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      message: Schema.optional(Schema.String),
-      code: Schema.optional(Schema.Number),
-      details: Schema.optional(
-        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-      ),
-    }),
-  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
-
-export interface ObservationJob {
-  /** Optional. These should be of the same kind of source. */
-  sources?: Array<string>;
-  /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
-  /** Output only. [Output only] Create time stamp */
-  createTime?: string;
-  /** Output only. The observation job state */
-  state?:
-    | "STATE_UNSPECIFIED"
-    | "CREATING"
-    | "ENABLING"
-    | "ENABLED"
-    | "DISABLING"
-    | "DISABLED"
-    | "DELETING"
-    | "ERROR"
-    | (string & {});
-  /** Identifier. name of resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
-  name?: string;
-}
-
-export const ObservationJob: Schema.Schema<ObservationJob> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      sources: Schema.optional(Schema.Array(Schema.String)),
-      updateTime: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ObservationJob",
-  }) as any as Schema.Schema<ObservationJob>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "Empty",
-  }) as any as Schema.Schema<Empty>;
-
 export interface HttpOperationPathParam {
+  /** Segment location in the path, 1-indexed */
+  position?: number;
   /** Data type of path param */
   dataType?:
     | "DATA_TYPE_UNSPECIFIED"
@@ -237,28 +324,50 @@ export interface HttpOperationPathParam {
     | "STRING"
     | "UUID"
     | (string & {});
-  /** Segment location in the path, 1-indexed */
-  position?: number;
 }
 
 export const HttpOperationPathParam: Schema.Schema<HttpOperationPathParam> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      dataType: Schema.optional(Schema.String),
       position: Schema.optional(Schema.Number),
+      dataType: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "HttpOperationPathParam",
   }) as any as Schema.Schema<HttpOperationPathParam>;
 
-export interface DisableObservationJobRequest {}
+export interface HttpOperationQueryParam {
+  /** Name of query param */
+  name?: string;
+  /** The number of occurrences of this query parameter across transactions. */
+  count?: string;
+  /** Data type of path param */
+  dataType?:
+    | "DATA_TYPE_UNSPECIFIED"
+    | "BOOL"
+    | "INTEGER"
+    | "FLOAT"
+    | "STRING"
+    | "UUID"
+    | (string & {});
+}
 
-export const DisableObservationJobRequest: Schema.Schema<DisableObservationJobRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "DisableObservationJobRequest",
-  }) as any as Schema.Schema<DisableObservationJobRequest>;
+export const HttpOperationQueryParam: Schema.Schema<HttpOperationQueryParam> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.String),
+      dataType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "HttpOperationQueryParam",
+  }) as any as Schema.Schema<HttpOperationQueryParam>;
 
 export interface HttpOperationHeader {
+  /** Header name. */
+  name?: string;
+  /** The number of occurrences of this Header across transactions. */
+  count?: string;
   /** Data type of header */
   dataType?:
     | "DATA_TYPE_UNSPECIFIED"
@@ -268,22 +377,34 @@ export interface HttpOperationHeader {
     | "STRING"
     | "UUID"
     | (string & {});
-  /** The number of occurrences of this Header across transactions. */
-  count?: string;
-  /** Header name. */
-  name?: string;
 }
 
 export const HttpOperationHeader: Schema.Schema<HttpOperationHeader> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      dataType: Schema.optional(Schema.String),
-      count: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.String),
+      dataType: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "HttpOperationHeader",
   }) as any as Schema.Schema<HttpOperationHeader>;
+
+export interface HttpOperationHttpRequest {
+  /** Unordered map from header name to header metadata */
+  headers?: Record<string, HttpOperationHeader>;
+}
+
+export const HttpOperationHttpRequest: Schema.Schema<HttpOperationHttpRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      headers: Schema.optional(
+        Schema.Record(Schema.String, HttpOperationHeader),
+      ),
+    }),
+  ).annotate({
+    identifier: "HttpOperationHttpRequest",
+  }) as any as Schema.Schema<HttpOperationHttpRequest>;
 
 export interface HttpOperationHttpResponse {
   /** Unordered map from header name to header metadata */
@@ -306,57 +427,13 @@ export const HttpOperationHttpResponse: Schema.Schema<HttpOperationHttpResponse>
     identifier: "HttpOperationHttpResponse",
   }) as any as Schema.Schema<HttpOperationHttpResponse>;
 
-export interface CancelOperationRequest {}
-
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CancelOperationRequest",
-  }) as any as Schema.Schema<CancelOperationRequest>;
-
-export interface HttpOperationHttpRequest {
-  /** Unordered map from header name to header metadata */
-  headers?: Record<string, HttpOperationHeader>;
-}
-
-export const HttpOperationHttpRequest: Schema.Schema<HttpOperationHttpRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      headers: Schema.optional(
-        Schema.Record(Schema.String, HttpOperationHeader),
-      ),
-    }),
-  ).annotate({
-    identifier: "HttpOperationHttpRequest",
-  }) as any as Schema.Schema<HttpOperationHttpRequest>;
-
-export interface HttpOperationQueryParam {
-  /** The number of occurrences of this query parameter across transactions. */
-  count?: string;
-  /** Data type of path param */
-  dataType?:
-    | "DATA_TYPE_UNSPECIFIED"
-    | "BOOL"
-    | "INTEGER"
-    | "FLOAT"
-    | "STRING"
-    | "UUID"
-    | (string & {});
-  /** Name of query param */
-  name?: string;
-}
-
-export const HttpOperationQueryParam: Schema.Schema<HttpOperationQueryParam> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      count: Schema.optional(Schema.String),
-      dataType: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "HttpOperationQueryParam",
-  }) as any as Schema.Schema<HttpOperationQueryParam>;
-
 export interface HttpOperation {
+  /** Path of the HTTP request. */
+  path?: string;
+  /** Path params of HttpOperation */
+  pathParams?: Array<HttpOperationPathParam>;
+  /** Query params of HttpOperation */
+  queryParams?: Record<string, HttpOperationQueryParam>;
   /** HTTP Method. */
   method?:
     | "HTTP_METHOD_UNSPECIFIED"
@@ -372,57 +449,68 @@ export interface HttpOperation {
     | (string & {});
   /** Request metadata. */
   request?: HttpOperationHttpRequest;
-  /** Path of the HTTP request. */
-  path?: string;
-  /** Query params of HttpOperation */
-  queryParams?: Record<string, HttpOperationQueryParam>;
   /** Response metadata. */
   response?: HttpOperationHttpResponse;
-  /** Path params of HttpOperation */
-  pathParams?: Array<HttpOperationPathParam>;
 }
 
 export const HttpOperation: Schema.Schema<HttpOperation> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      method: Schema.optional(Schema.String),
-      request: Schema.optional(HttpOperationHttpRequest),
       path: Schema.optional(Schema.String),
+      pathParams: Schema.optional(Schema.Array(HttpOperationPathParam)),
       queryParams: Schema.optional(
         Schema.Record(Schema.String, HttpOperationQueryParam),
       ),
+      method: Schema.optional(Schema.String),
+      request: Schema.optional(HttpOperationHttpRequest),
       response: Schema.optional(HttpOperationHttpResponse),
-      pathParams: Schema.optional(Schema.Array(HttpOperationPathParam)),
     }),
   ).annotate({
     identifier: "HttpOperation",
   }) as any as Schema.Schema<HttpOperation>;
 
 export interface ApiOperation {
-  /** Last seen time stamp */
-  lastSeenTime?: string;
   /** An HTTP Operation. */
   httpOperation?: HttpOperation;
   /** Identifier. Name of resource */
   name?: string;
-  /** The number of occurrences of this API Operation. */
-  count?: string;
   /** First seen time stamp */
   firstSeenTime?: string;
+  /** Last seen time stamp */
+  lastSeenTime?: string;
+  /** The number of occurrences of this API Operation. */
+  count?: string;
 }
 
 export const ApiOperation: Schema.Schema<ApiOperation> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      lastSeenTime: Schema.optional(Schema.String),
       httpOperation: Schema.optional(HttpOperation),
       name: Schema.optional(Schema.String),
-      count: Schema.optional(Schema.String),
       firstSeenTime: Schema.optional(Schema.String),
+      lastSeenTime: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ApiOperation",
   }) as any as Schema.Schema<ApiOperation>;
+
+export interface ListApiOperationsResponse {
+  /** The ApiOperations from the specified project and location and ObservationJob and ApiObservation. */
+  apiOperations?: Array<ApiOperation>;
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const ListApiOperationsResponse: Schema.Schema<ListApiOperationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      apiOperations: Schema.optional(Schema.Array(ApiOperation)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListApiOperationsResponse",
+  }) as any as Schema.Schema<ListApiOperationsResponse>;
 
 export interface TagAction {
   /** Required. Tag to be added or removed */
@@ -470,30 +558,6 @@ export const BatchEditTagsApiObservationsRequest: Schema.Schema<BatchEditTagsApi
     identifier: "BatchEditTagsApiObservationsRequest",
   }) as any as Schema.Schema<BatchEditTagsApiObservationsRequest>;
 
-export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: Record<string, unknown>;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: Record<string, unknown>;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-}
-
-export const Operation: Schema.Schema<Operation> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      done: Schema.optional(Schema.Boolean),
-      name: Schema.optional(Schema.String),
-      error: Schema.optional(Status),
-    }),
-  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
-
 export interface BatchEditTagsApiObservationsResponse {
   /** ApiObservations that were changed */
   apiObservations?: Array<ApiObservation>;
@@ -507,30 +571,6 @@ export const BatchEditTagsApiObservationsResponse: Schema.Schema<BatchEditTagsAp
   ).annotate({
     identifier: "BatchEditTagsApiObservationsResponse",
   }) as any as Schema.Schema<BatchEditTagsApiObservationsResponse>;
-
-export interface ListApiOperationsResponse {
-  /** The ApiOperations from the specified project and location and ObservationJob and ApiObservation. */
-  apiOperations?: Array<ApiOperation>;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-
-export const ListApiOperationsResponse: Schema.Schema<ListApiOperationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      apiOperations: Schema.optional(Schema.Array(ApiOperation)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListApiOperationsResponse",
-  }) as any as Schema.Schema<ListApiOperationsResponse>;
-
-export interface EnableObservationJobRequest {}
-
-export const EnableObservationJobRequest: Schema.Schema<EnableObservationJobRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "EnableObservationJobRequest",
-  }) as any as Schema.Schema<EnableObservationJobRequest>;
 
 export interface ListApiObservationTagsResponse {
   /** The tags from the specified project */
@@ -549,15 +589,41 @@ export const ListApiObservationTagsResponse: Schema.Schema<ListApiObservationTag
     identifier: "ListApiObservationTagsResponse",
   }) as any as Schema.Schema<ListApiObservationTagsResponse>;
 
+export interface Entitlement {
+  /** Identifier. The entitlement resource name `projects/{project}/locations/{location}/entitlement` */
+  name?: string;
+  /** Project number of associated billing project that has Apigee and Advanced API Security entitled. */
+  billingProjectNumber?: string;
+  /** Whether API Observation is entitled. */
+  apiObservationEntitled?: boolean;
+  /** Output only. The time of the entitlement creation. */
+  createTime?: string;
+  /** Output only. The time of the entitlement update. */
+  updateTime?: string;
+}
+
+export const Entitlement: Schema.Schema<Entitlement> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      billingProjectNumber: Schema.optional(Schema.String),
+      apiObservationEntitled: Schema.optional(Schema.Boolean),
+      createTime: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "Entitlement",
+  }) as any as Schema.Schema<Entitlement>;
+
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: Record<string, string>;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: Record<string, string>;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: Record<string, unknown>;
 }
@@ -565,10 +631,10 @@ export interface Location {
 export const Location: Schema.Schema<Location> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       name: Schema.optional(Schema.String),
       locationId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
     }),
   ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
@@ -590,107 +656,86 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
     identifier: "ListLocationsResponse",
   }) as any as Schema.Schema<ListLocationsResponse>;
 
-export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: Array<Operation>;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: Array<string>;
-}
-
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      operations: Schema.optional(Schema.Array(Operation)),
-      nextPageToken: Schema.optional(Schema.String),
-      unreachable: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "ListOperationsResponse",
-  }) as any as Schema.Schema<ListOperationsResponse>;
-
-export interface ListObservationJobsResponse {
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** The ObservationJob from the specified project and location. */
-  observationJobs?: Array<ObservationJob>;
-  /** Locations that could not be reached. */
-  unreachable?: Array<string>;
-}
-
-export const ListObservationJobsResponse: Schema.Schema<ListObservationJobsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      observationJobs: Schema.optional(Schema.Array(ObservationJob)),
-      unreachable: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "ListObservationJobsResponse",
-  }) as any as Schema.Schema<ListObservationJobsResponse>;
-
 export interface OperationMetadata {
+  /** Output only. The time the operation was created. */
+  createTime?: string;
   /** Output only. The time the operation finished running. */
   endTime?: string;
-  /** Output only. Human-readable status of the operation, if any. */
-  statusMessage?: string;
   /** Output only. Server-defined resource path for the target of the operation. */
   target?: string;
   /** Output only. Name of the verb executed by the operation. */
   verb?: string;
+  /** Output only. Human-readable status of the operation, if any. */
+  statusMessage?: string;
   /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
   requestedCancellation?: boolean;
   /** Output only. API version used to start the operation. */
   apiVersion?: string;
-  /** Output only. The time the operation was created. */
-  createTime?: string;
 }
 
 export const OperationMetadata: Schema.Schema<OperationMetadata> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      createTime: Schema.optional(Schema.String),
       endTime: Schema.optional(Schema.String),
-      statusMessage: Schema.optional(Schema.String),
       target: Schema.optional(Schema.String),
       verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
       requestedCancellation: Schema.optional(Schema.Boolean),
       apiVersion: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "OperationMetadata",
   }) as any as Schema.Schema<OperationMetadata>;
 
-export interface Entitlement {
-  /** Project number of associated billing project that has Apigee and Advanced API Security entitled. */
-  billingProjectNumber?: string;
-  /** Output only. The time of the entitlement update. */
-  updateTime?: string;
-  /** Identifier. The entitlement resource name `projects/{project}/locations/{location}/entitlement` */
-  name?: string;
-  /** Output only. The time of the entitlement creation. */
-  createTime?: string;
-  /** Whether API Observation is entitled. */
-  apiObservationEntitled?: boolean;
-}
-
-export const Entitlement: Schema.Schema<Entitlement> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      billingProjectNumber: Schema.optional(Schema.String),
-      updateTime: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
-      apiObservationEntitled: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "Entitlement",
-  }) as any as Schema.Schema<Entitlement>;
-
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface ListApiObservationTagsProjectsLocationsRequest {
+  /** Required. The parent, which owns this collection of tags. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. The maximum number of tags to return. The service may return fewer than this value. If unspecified, at most 10 tags will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListApiObservationTags` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiObservationTags` must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListApiObservationTagsProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}:listApiObservationTags",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListApiObservationTagsProjectsLocationsRequest>;
+
+export type ListApiObservationTagsProjectsLocationsResponse =
+  ListApiObservationTagsResponse;
+export const ListApiObservationTagsProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListApiObservationTagsResponse;
+
+export type ListApiObservationTagsProjectsLocationsError = DefaultErrors;
+
+/** ListApiObservationTags lists all extant tags on any observation in the given project. */
+export const listApiObservationTagsProjectsLocations: API.PaginatedOperationMethod<
+  ListApiObservationTagsProjectsLocationsRequest,
+  ListApiObservationTagsProjectsLocationsResponse,
+  ListApiObservationTagsProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListApiObservationTagsProjectsLocationsRequest,
+  output: ListApiObservationTagsProjectsLocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
 
 export interface GetEntitlementProjectsLocationsRequest {
   /** Required. The entitlement resource name Format: projects/{project}/locations/{location}/entitlement */
@@ -729,25 +774,25 @@ export const getEntitlementProjectsLocations: API.OperationMethod<
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
-  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: string[];
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: string[];
 }
 
 export const ListProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("extraLocationTypes"),
     ),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
     T.Http({ method: "GET", path: "v1alpha/projects/{projectsId}/locations" }),
     svc,
@@ -809,229 +854,25 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListApiObservationTagsProjectsLocationsRequest {
-  /** Required. The parent, which owns this collection of tags. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListApiObservationTags` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiObservationTags` must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. The maximum number of tags to return. The service may return fewer than this value. If unspecified, at most 10 tags will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-}
-
-export const ListApiObservationTagsProjectsLocationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}:listApiObservationTags",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListApiObservationTagsProjectsLocationsRequest>;
-
-export type ListApiObservationTagsProjectsLocationsResponse =
-  ListApiObservationTagsResponse;
-export const ListApiObservationTagsProjectsLocationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListApiObservationTagsResponse;
-
-export type ListApiObservationTagsProjectsLocationsError = DefaultErrors;
-
-/** ListApiObservationTags lists all extant tags on any observation in the given project. */
-export const listApiObservationTagsProjectsLocations: API.PaginatedOperationMethod<
-  ListApiObservationTagsProjectsLocationsRequest,
-  ListApiObservationTagsProjectsLocationsResponse,
-  ListApiObservationTagsProjectsLocationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListApiObservationTagsProjectsLocationsRequest,
-  output: ListApiObservationTagsProjectsLocationsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface DeleteProjectsLocationsObservationSourcesRequest {
-  /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationSources/{source} */
-  name: string;
-}
-
-export const DeleteProjectsLocationsObservationSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources/{observationSourcesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteProjectsLocationsObservationSourcesRequest>;
-
-export type DeleteProjectsLocationsObservationSourcesResponse = Operation;
-export const DeleteProjectsLocationsObservationSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Operation;
-
-export type DeleteProjectsLocationsObservationSourcesError = DefaultErrors;
-
-/** DeleteObservationSource deletes an observation source. This method will fail if the observation source is currently being used by any ObservationJob, even if not enabled. */
-export const deleteProjectsLocationsObservationSources: API.OperationMethod<
-  DeleteProjectsLocationsObservationSourcesRequest,
-  DeleteProjectsLocationsObservationSourcesResponse,
-  DeleteProjectsLocationsObservationSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsObservationSourcesRequest,
-  output: DeleteProjectsLocationsObservationSourcesResponse,
-  errors: [],
-}));
-
-export interface GetProjectsLocationsObservationSourcesRequest {
-  /** Required. The name of the ObservationSource to retrieve. Format: projects/{project}/locations/{location}/observationSources/{source} */
-  name: string;
-}
-
-export const GetProjectsLocationsObservationSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources/{observationSourcesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetProjectsLocationsObservationSourcesRequest>;
-
-export type GetProjectsLocationsObservationSourcesResponse = ObservationSource;
-export const GetProjectsLocationsObservationSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ObservationSource;
-
-export type GetProjectsLocationsObservationSourcesError = DefaultErrors;
-
-/** GetObservationSource retrieves a single ObservationSource by name. */
-export const getProjectsLocationsObservationSources: API.OperationMethod<
-  GetProjectsLocationsObservationSourcesRequest,
-  GetProjectsLocationsObservationSourcesResponse,
-  GetProjectsLocationsObservationSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsObservationSourcesRequest,
-  output: GetProjectsLocationsObservationSourcesResponse,
-  errors: [],
-}));
-
-export interface CreateProjectsLocationsObservationSourcesRequest {
-  /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationSourceId?: string;
-  /** Required. Value for parent. */
-  parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Request body */
-  body?: ObservationSource;
-}
-
-export const CreateProjectsLocationsObservationSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    observationSourceId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("observationSourceId"),
-    ),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-    body: Schema.optional(ObservationSource).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateProjectsLocationsObservationSourcesRequest>;
-
-export type CreateProjectsLocationsObservationSourcesResponse = Operation;
-export const CreateProjectsLocationsObservationSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Operation;
-
-export type CreateProjectsLocationsObservationSourcesError = DefaultErrors;
-
-/** CreateObservationSource creates a new ObservationSource but does not affect any deployed infrastructure. It is a configuration that can be used in an Observation Job to collect data about APIs running in user's dataplane. */
-export const createProjectsLocationsObservationSources: API.OperationMethod<
-  CreateProjectsLocationsObservationSourcesRequest,
-  CreateProjectsLocationsObservationSourcesResponse,
-  CreateProjectsLocationsObservationSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsObservationSourcesRequest,
-  output: CreateProjectsLocationsObservationSourcesResponse,
-  errors: [],
-}));
-
-export interface ListProjectsLocationsObservationSourcesRequest {
-  /** Optional. The maximum number of ObservationSources to return. The service may return fewer than this value. If unspecified, at most 10 ObservationSources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The parent, which owns this collection of ObservationSources. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListObservationSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListObservationSources` must match the call that provided the page token. */
-  pageToken?: string;
-}
-
-export const ListProjectsLocationsObservationSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsObservationSourcesRequest>;
-
-export type ListProjectsLocationsObservationSourcesResponse =
-  ListObservationSourcesResponse;
-export const ListProjectsLocationsObservationSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListObservationSourcesResponse;
-
-export type ListProjectsLocationsObservationSourcesError = DefaultErrors;
-
-/** ListObservationSources gets all ObservationSources for a given project and location. */
-export const listProjectsLocationsObservationSources: API.PaginatedOperationMethod<
-  ListProjectsLocationsObservationSourcesRequest,
-  ListProjectsLocationsObservationSourcesResponse,
-  ListProjectsLocationsObservationSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsObservationSourcesRequest,
-  output: ListProjectsLocationsObservationSourcesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
 export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string;
   /** The standard list page size. */
   pageSize?: number;
-  /** The name of the operation's parent resource. */
-  name: string;
+  /** The standard list page token. */
+  pageToken?: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean;
 }
 
 export const ListProjectsLocationsOperationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    name: Schema.String.pipe(T.HttpPath("name")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("returnPartialSuccess"),
     ),
@@ -1065,40 +906,6 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   },
 }));
 
-export interface DeleteProjectsLocationsOperationsRequest {
-  /** The name of the operation resource to be deleted. */
-  name: string;
-}
-
-export const DeleteProjectsLocationsOperationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
-
-export type DeleteProjectsLocationsOperationsResponse = Empty;
-export const DeleteProjectsLocationsOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Empty;
-
-export type DeleteProjectsLocationsOperationsError = DefaultErrors;
-
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<
-  DeleteProjectsLocationsOperationsRequest,
-  DeleteProjectsLocationsOperationsResponse,
-  DeleteProjectsLocationsOperationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsOperationsRequest,
-  output: DeleteProjectsLocationsOperationsResponse,
-  errors: [],
-}));
-
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
   name: string;
@@ -1130,6 +937,40 @@ export const getProjectsLocationsOperations: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetProjectsLocationsOperationsRequest,
   output: GetProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsOperationsRequest {
+  /** The name of the operation resource to be deleted. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+
+export type DeleteProjectsLocationsOperationsResponse = Empty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsLocationsOperationsError = DefaultErrors;
+
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsOperationsRequest,
+  output: DeleteProjectsLocationsOperationsResponse,
   errors: [],
 }));
 
@@ -1171,6 +1012,211 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   errors: [],
 }));
 
+export interface CreateProjectsLocationsObservationSourcesRequest {
+  /** Required. Value for parent. */
+  parent: string;
+  /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
+  observationSourceId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Request body */
+  body?: ObservationSource;
+}
+
+export const CreateProjectsLocationsObservationSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    observationSourceId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("observationSourceId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ObservationSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsObservationSourcesRequest>;
+
+export type CreateProjectsLocationsObservationSourcesResponse = Operation;
+export const CreateProjectsLocationsObservationSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type CreateProjectsLocationsObservationSourcesError = DefaultErrors;
+
+/** CreateObservationSource creates a new ObservationSource but does not affect any deployed infrastructure. It is a configuration that can be used in an Observation Job to collect data about APIs running in user's dataplane. */
+export const createProjectsLocationsObservationSources: API.OperationMethod<
+  CreateProjectsLocationsObservationSourcesRequest,
+  CreateProjectsLocationsObservationSourcesResponse,
+  CreateProjectsLocationsObservationSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsObservationSourcesRequest,
+  output: CreateProjectsLocationsObservationSourcesResponse,
+  errors: [],
+}));
+
+export interface GetProjectsLocationsObservationSourcesRequest {
+  /** Required. The name of the ObservationSource to retrieve. Format: projects/{project}/locations/{location}/observationSources/{source} */
+  name: string;
+}
+
+export const GetProjectsLocationsObservationSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources/{observationSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsObservationSourcesRequest>;
+
+export type GetProjectsLocationsObservationSourcesResponse = ObservationSource;
+export const GetProjectsLocationsObservationSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ObservationSource;
+
+export type GetProjectsLocationsObservationSourcesError = DefaultErrors;
+
+/** GetObservationSource retrieves a single ObservationSource by name. */
+export const getProjectsLocationsObservationSources: API.OperationMethod<
+  GetProjectsLocationsObservationSourcesRequest,
+  GetProjectsLocationsObservationSourcesResponse,
+  GetProjectsLocationsObservationSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsObservationSourcesRequest,
+  output: GetProjectsLocationsObservationSourcesResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsObservationSourcesRequest {
+  /** Required. The parent, which owns this collection of ObservationSources. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Optional. The maximum number of ObservationSources to return. The service may return fewer than this value. If unspecified, at most 10 ObservationSources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListObservationSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListObservationSources` must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListProjectsLocationsObservationSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsObservationSourcesRequest>;
+
+export type ListProjectsLocationsObservationSourcesResponse =
+  ListObservationSourcesResponse;
+export const ListProjectsLocationsObservationSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListObservationSourcesResponse;
+
+export type ListProjectsLocationsObservationSourcesError = DefaultErrors;
+
+/** ListObservationSources gets all ObservationSources for a given project and location. */
+export const listProjectsLocationsObservationSources: API.PaginatedOperationMethod<
+  ListProjectsLocationsObservationSourcesRequest,
+  ListProjectsLocationsObservationSourcesResponse,
+  ListProjectsLocationsObservationSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsObservationSourcesRequest,
+  output: ListProjectsLocationsObservationSourcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface DeleteProjectsLocationsObservationSourcesRequest {
+  /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationSources/{source} */
+  name: string;
+}
+
+export const DeleteProjectsLocationsObservationSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationSources/{observationSourcesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsObservationSourcesRequest>;
+
+export type DeleteProjectsLocationsObservationSourcesResponse = Operation;
+export const DeleteProjectsLocationsObservationSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type DeleteProjectsLocationsObservationSourcesError = DefaultErrors;
+
+/** DeleteObservationSource deletes an observation source. This method will fail if the observation source is currently being used by any ObservationJob, even if not enabled. */
+export const deleteProjectsLocationsObservationSources: API.OperationMethod<
+  DeleteProjectsLocationsObservationSourcesRequest,
+  DeleteProjectsLocationsObservationSourcesResponse,
+  DeleteProjectsLocationsObservationSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsObservationSourcesRequest,
+  output: DeleteProjectsLocationsObservationSourcesResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsLocationsObservationJobsRequest {
+  /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
+  parent: string;
+  /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
+  observationJobId?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Request body */
+  body?: ObservationJob;
+}
+
+export const CreateProjectsLocationsObservationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    observationJobId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("observationJobId"),
+    ),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(ObservationJob).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsObservationJobsRequest>;
+
+export type CreateProjectsLocationsObservationJobsResponse = Operation;
+export const CreateProjectsLocationsObservationJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type CreateProjectsLocationsObservationJobsError = DefaultErrors;
+
+/** CreateObservationJob creates a new ObservationJob but does not have any effecton its own. It is a configuration that can be used in an Observation Job to collect data about existing APIs. */
+export const createProjectsLocationsObservationJobs: API.OperationMethod<
+  CreateProjectsLocationsObservationJobsRequest,
+  CreateProjectsLocationsObservationJobsResponse,
+  CreateProjectsLocationsObservationJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsObservationJobsRequest,
+  output: CreateProjectsLocationsObservationJobsResponse,
+  errors: [],
+}));
+
 export interface GetProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
@@ -1205,57 +1251,19 @@ export const getProjectsLocationsObservationJobs: API.OperationMethod<
   errors: [],
 }));
 
-export interface EnableProjectsLocationsObservationJobsRequest {
-  /** Required. The name of the ObservationJob to enable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
-  name: string;
-  /** Request body */
-  body?: EnableObservationJobRequest;
-}
-
-export const EnableProjectsLocationsObservationJobsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-    body: Schema.optional(EnableObservationJobRequest).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs/{observationJobsId}:enable",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<EnableProjectsLocationsObservationJobsRequest>;
-
-export type EnableProjectsLocationsObservationJobsResponse = Operation;
-export const EnableProjectsLocationsObservationJobsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Operation;
-
-export type EnableProjectsLocationsObservationJobsError = DefaultErrors;
-
-/** Enables the given ObservationJob. */
-export const enableProjectsLocationsObservationJobs: API.OperationMethod<
-  EnableProjectsLocationsObservationJobsRequest,
-  EnableProjectsLocationsObservationJobsResponse,
-  EnableProjectsLocationsObservationJobsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: EnableProjectsLocationsObservationJobsRequest,
-  output: EnableProjectsLocationsObservationJobsResponse,
-  errors: [],
-}));
-
 export interface ListProjectsLocationsObservationJobsRequest {
-  /** Optional. The maximum number of ObservationJobs to return. The service may return fewer than this value. If unspecified, at most 10 ObservationJobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of ObservationJobs. Format: projects/{project}/locations/{location} */
   parent: string;
+  /** Optional. The maximum number of ObservationJobs to return. The service may return fewer than this value. If unspecified, at most 10 ObservationJobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. A page token, received from a previous `ListObservationJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListObservationJobs` must match the call that provided the page token. */
   pageToken?: string;
 }
 
 export const ListProjectsLocationsObservationJobsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
     T.Http({
@@ -1322,6 +1330,44 @@ export const deleteProjectsLocationsObservationJobs: API.OperationMethod<
   errors: [],
 }));
 
+export interface EnableProjectsLocationsObservationJobsRequest {
+  /** Required. The name of the ObservationJob to enable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
+  name: string;
+  /** Request body */
+  body?: EnableObservationJobRequest;
+}
+
+export const EnableProjectsLocationsObservationJobsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(EnableObservationJobRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs/{observationJobsId}:enable",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<EnableProjectsLocationsObservationJobsRequest>;
+
+export type EnableProjectsLocationsObservationJobsResponse = Operation;
+export const EnableProjectsLocationsObservationJobsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type EnableProjectsLocationsObservationJobsError = DefaultErrors;
+
+/** Enables the given ObservationJob. */
+export const enableProjectsLocationsObservationJobs: API.OperationMethod<
+  EnableProjectsLocationsObservationJobsRequest,
+  EnableProjectsLocationsObservationJobsResponse,
+  EnableProjectsLocationsObservationJobsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: EnableProjectsLocationsObservationJobsRequest,
+  output: EnableProjectsLocationsObservationJobsResponse,
+  errors: [],
+}));
+
 export interface DisableProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to disable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
@@ -1357,52 +1403,6 @@ export const disableProjectsLocationsObservationJobs: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DisableProjectsLocationsObservationJobsRequest,
   output: DisableProjectsLocationsObservationJobsResponse,
-  errors: [],
-}));
-
-export interface CreateProjectsLocationsObservationJobsRequest {
-  /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationJobId?: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
-  parent: string;
-  /** Request body */
-  body?: ObservationJob;
-}
-
-export const CreateProjectsLocationsObservationJobsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    observationJobId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("observationJobId"),
-    ),
-    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(ObservationJob).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateProjectsLocationsObservationJobsRequest>;
-
-export type CreateProjectsLocationsObservationJobsResponse = Operation;
-export const CreateProjectsLocationsObservationJobsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Operation;
-
-export type CreateProjectsLocationsObservationJobsError = DefaultErrors;
-
-/** CreateObservationJob creates a new ObservationJob but does not have any effecton its own. It is a configuration that can be used in an Observation Job to collect data about existing APIs. */
-export const createProjectsLocationsObservationJobs: API.OperationMethod<
-  CreateProjectsLocationsObservationJobsRequest,
-  CreateProjectsLocationsObservationJobsResponse,
-  CreateProjectsLocationsObservationJobsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsObservationJobsRequest,
-  output: CreateProjectsLocationsObservationJobsResponse,
   errors: [],
 }));
 
@@ -1443,18 +1443,18 @@ export const getProjectsLocationsObservationJobsApiObservations: API.OperationMe
 }));
 
 export interface ListProjectsLocationsObservationJobsApiObservationsRequest {
-  /** Optional. The maximum number of ApiObservations to return. The service may return fewer than this value. If unspecified, at most 10 ApiObservations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
   /** Required. The parent, which owns this collection of ApiObservations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
+  /** Optional. The maximum number of ApiObservations to return. The service may return fewer than this value. If unspecified, at most 10 ApiObservations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
   /** Optional. A page token, received from a previous `ListApiObservations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiObservations` must match the call that provided the page token. */
   pageToken?: string;
 }
 
 export const ListProjectsLocationsObservationJobsApiObservationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
     T.Http({
@@ -1530,54 +1530,6 @@ export const batchEditTagsProjectsLocationsObservationJobsApiObservations: API.O
   errors: [],
 }));
 
-export interface ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
-  /** Optional. The maximum number of ApiOperations to return. The service may return fewer than this value. If unspecified, at most 10 ApiOperations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Required. The parent, which owns this collection of ApiOperations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListApiApiOperations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiApiOperations` must match the call that provided the page token. */
-  pageToken?: string;
-}
-
-export const ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs/{observationJobsId}/apiObservations/{apiObservationsId}/apiOperations",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest>;
-
-export type ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse =
-  ListApiOperationsResponse;
-export const ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListApiOperationsResponse;
-
-export type ListProjectsLocationsObservationJobsApiObservationsApiOperationsError =
-  DefaultErrors;
-
-/** ListApiOperations gets all ApiOperations for a given project and location and ObservationJob and ApiObservation. */
-export const listProjectsLocationsObservationJobsApiObservationsApiOperations: API.PaginatedOperationMethod<
-  ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
-  ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
-  ListProjectsLocationsObservationJobsApiObservationsApiOperationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input:
-    ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
-  output:
-    ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
 export interface GetProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
   /** Required. The name of the ApiOperation to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation}/apiOperation/{api_operation} */
   name: string;
@@ -1613,4 +1565,52 @@ export const getProjectsLocationsObservationJobsApiObservationsApiOperations: AP
   output:
     GetProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
   errors: [],
+}));
+
+export interface ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
+  /** Required. The parent, which owns this collection of ApiOperations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
+  parent: string;
+  /** Optional. The maximum number of ApiOperations to return. The service may return fewer than this value. If unspecified, at most 10 ApiOperations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
+  /** Optional. A page token, received from a previous `ListApiApiOperations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiApiOperations` must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1alpha/projects/{projectsId}/locations/{locationsId}/observationJobs/{observationJobsId}/apiObservations/{apiObservationsId}/apiOperations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest>;
+
+export type ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse =
+  ListApiOperationsResponse;
+export const ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListApiOperationsResponse;
+
+export type ListProjectsLocationsObservationJobsApiObservationsApiOperationsError =
+  DefaultErrors;
+
+/** ListApiOperations gets all ApiOperations for a given project and location and ObservationJob and ApiObservation. */
+export const listProjectsLocationsObservationJobsApiObservationsApiOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
+  ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
+  ListProjectsLocationsObservationJobsApiObservationsApiOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input:
+    ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest,
+  output:
+    ListProjectsLocationsObservationJobsApiObservationsApiOperationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));

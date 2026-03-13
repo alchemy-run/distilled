@@ -277,9 +277,7 @@ export const listCustomCertificates: API.PaginatedOperationMethod<
     ListCustomCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListCustomCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListCustomCertificatesRequest) => stream.Stream<
     {
       id: string;
       bundleMethod: "ubiquitous" | "optimal" | "force";

@@ -1138,7 +1138,6 @@ export type ProvisionedControlPlaneTier =
   | "tier-xl"
   | "tier-2xl"
   | "tier-4xl"
-  | "tier-8xl"
   | (string & {});
 export const ProvisionedControlPlaneTier = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ControlPlaneScalingConfig {

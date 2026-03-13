@@ -9,8 +9,6 @@ export const ListSchemaRecommendationsInput =
     organization: Schema.String.pipe(T.PathParam()),
     database: Schema.String.pipe(T.PathParam()),
     state: Schema.optional(Schema.Literals(["open", "closed"])),
-    page: Schema.optional(Schema.Number),
-    per_page: Schema.optional(Schema.Number),
   }).pipe(
     T.Http({
       method: "GET",
@@ -76,8 +74,6 @@ export type ListSchemaRecommendationsOutput =
  * @param organization - Organization name slug from `list_organizations`. Example: `acme`.
  * @param database - Database name slug from `list_databases`. Example: `app-db`.
  * @param state - Filter by recommendation state
- * @param page - If provided, specifies the page offset of returned results
- * @param per_page - If provided, specifies the number of returned results
  */
 export const listSchemaRecommendations = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

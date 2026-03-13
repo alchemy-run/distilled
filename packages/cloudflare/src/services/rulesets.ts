@@ -1384,9 +1384,7 @@ export const listPhasVersions: API.PaginatedOperationMethod<
     ListPhasVersionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListPhasVersionsRequest,
-  ) => stream.Stream<
+  items: (input: ListPhasVersionsRequest) => stream.Stream<
     {
       id: string;
       kind: "zone" | "managed" | "custom" | "root";
@@ -13542,9 +13540,7 @@ export const listRulesets: API.PaginatedOperationMethod<
     ListRulesetsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListRulesetsRequest,
-  ) => stream.Stream<
+  items: (input: ListRulesetsRequest) => stream.Stream<
     {
       id: string;
       kind: "zone" | "managed" | "custom" | "root";
@@ -15285,9 +15281,7 @@ export const listVersions: API.PaginatedOperationMethod<
     ListVersionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListVersionsRequest,
-  ) => stream.Stream<
+  items: (input: ListVersionsRequest) => stream.Stream<
     {
       id: string;
       kind: "zone" | "managed" | "custom" | "root";

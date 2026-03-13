@@ -42,6 +42,50 @@ export const Status: Schema.Schema<Status> =
     }),
   ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
 
+export interface Operation {
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: Record<string, unknown>;
+}
+
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      done: Schema.optional(Schema.Boolean),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+
+export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: Array<Operation>;
+  /** The standard List next-page token. */
+  nextPageToken?: string;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections e.g. when attempting to list all resources across all supported locations. */
+  unreachable?: Array<string>;
+}
+
+export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      operations: Schema.optional(Schema.Array(Operation)),
+      nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "ListOperationsResponse",
+  }) as any as Schema.Schema<ListOperationsResponse>;
+
 export interface GoogleProtobufEmpty {}
 
 export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
@@ -49,24 +93,18 @@ export const GoogleProtobufEmpty: Schema.Schema<GoogleProtobufEmpty> =
     identifier: "GoogleProtobufEmpty",
   }) as any as Schema.Schema<GoogleProtobufEmpty>;
 
+export interface CancelOperationRequest {}
+
+export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "CancelOperationRequest",
+  }) as any as Schema.Schema<CancelOperationRequest>;
+
 export interface Instance {
-  /** Required. Immutable. The instance's storage capacity in Gibibytes (GiB). Allowed values are between 12000 and 100000, in multiples of 4000; e.g., 12000, 16000, 20000, ... */
-  capacityGib?: string;
-  /** Optional. Immutable. The name of the Compute Engine [VPC network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. */
-  network?: string;
-  /** Output only. Immutable. The ID of the IP address range being used by the instance's VPC network. This field is populated by the service and contains the value currently used by the service. */
-  effectiveReservedIpRange?: string;
-  /** Output only. Deprecated: The version of DAOS software running in the instance. */
-  daosVersion?: string;
-  /** Optional. Cloud Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. See https://cloud.google.com/resource-manager/docs/labels-overview for details. */
-  labels?: Record<string, string>;
-  /** Optional. Immutable. Stripe level for files. Allowed values are: * `FILE_STRIPE_LEVEL_MIN`: offers the best performance for small size files. * `FILE_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large files. * `FILE_STRIPE_LEVEL_MAX`: higher throughput performance for larger files. */
-  fileStripeLevel?:
-    | "FILE_STRIPE_LEVEL_UNSPECIFIED"
-    | "FILE_STRIPE_LEVEL_MIN"
-    | "FILE_STRIPE_LEVEL_BALANCED"
-    | "FILE_STRIPE_LEVEL_MAX"
-    | (string & {});
+  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
+  name?: string;
+  /** Optional. The description of the instance. 2048 characters or less. */
+  description?: string;
   /** Output only. The instance state. */
   state?:
     | "STATE_UNSPECIFIED"
@@ -77,8 +115,31 @@ export interface Instance {
     | "UPGRADING"
     | "REPAIRING"
     | (string & {});
-  /** Optional. The description of the instance. 2048 characters or less. */
-  description?: string;
+  /** Output only. The time when the instance was created. */
+  createTime?: string;
+  /** Output only. The time when the instance was updated. */
+  updateTime?: string;
+  /** Optional. Cloud Labels are a flexible and lightweight mechanism for organizing cloud resources into groups that reflect a customer's organizational needs and deployment strategies. See https://cloud.google.com/resource-manager/docs/labels-overview for details. */
+  labels?: Record<string, string>;
+  /** Required. Immutable. The instance's storage capacity in Gibibytes (GiB). Allowed values are between 12000 and 100000, in multiples of 4000; e.g., 12000, 16000, 20000, ... */
+  capacityGib?: string;
+  /** Output only. Deprecated: The version of DAOS software running in the instance. */
+  daosVersion?: string;
+  /** Output only. A list of IPv4 addresses used for client side configuration. */
+  accessPoints?: Array<string>;
+  /** Optional. Immutable. The name of the Compute Engine [VPC network](https://cloud.google.com/vpc/docs/vpc) to which the instance is connected. */
+  network?: string;
+  /** Optional. Immutable. The ID of the IP address range being used by the instance's VPC network. See [Configure a VPC network](https://cloud.google.com/parallelstore/docs/vpc#create_and_configure_the_vpc). If no ID is provided, all ranges are considered. */
+  reservedIpRange?: string;
+  /** Output only. Immutable. The ID of the IP address range being used by the instance's VPC network. This field is populated by the service and contains the value currently used by the service. */
+  effectiveReservedIpRange?: string;
+  /** Optional. Immutable. Stripe level for files. Allowed values are: * `FILE_STRIPE_LEVEL_MIN`: offers the best performance for small size files. * `FILE_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large files. * `FILE_STRIPE_LEVEL_MAX`: higher throughput performance for larger files. */
+  fileStripeLevel?:
+    | "FILE_STRIPE_LEVEL_UNSPECIFIED"
+    | "FILE_STRIPE_LEVEL_MIN"
+    | "FILE_STRIPE_LEVEL_BALANCED"
+    | "FILE_STRIPE_LEVEL_MAX"
+    | (string & {});
   /** Optional. Immutable. Stripe level for directories. Allowed values are: * `DIRECTORY_STRIPE_LEVEL_MIN`: recommended when directories contain a small number of files. * `DIRECTORY_STRIPE_LEVEL_BALANCED`: balances performance for workloads involving a mix of small and large directories. * `DIRECTORY_STRIPE_LEVEL_MAX`: recommended for directories with a large number of files. */
   directoryStripeLevel?:
     | "DIRECTORY_STRIPE_LEVEL_UNSPECIFIED"
@@ -86,16 +147,6 @@ export interface Instance {
     | "DIRECTORY_STRIPE_LEVEL_BALANCED"
     | "DIRECTORY_STRIPE_LEVEL_MAX"
     | (string & {});
-  /** Output only. A list of IPv4 addresses used for client side configuration. */
-  accessPoints?: Array<string>;
-  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
-  name?: string;
-  /** Output only. The time when the instance was created. */
-  createTime?: string;
-  /** Output only. The time when the instance was updated. */
-  updateTime?: string;
-  /** Optional. Immutable. The ID of the IP address range being used by the instance's VPC network. See [Configure a VPC network](https://cloud.google.com/parallelstore/docs/vpc#create_and_configure_the_vpc). If no ID is provided, all ranges are considered. */
-  reservedIpRange?: string;
   /** Optional. Immutable. The deployment type of the instance. Allowed values are: * `SCRATCH`: the instance is a scratch instance. * `PERSISTENT`: the instance is a persistent instance. */
   deploymentType?:
     | "DEPLOYMENT_TYPE_UNSPECIFIED"
@@ -107,20 +158,20 @@ export interface Instance {
 export const Instance: Schema.Schema<Instance> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      capacityGib: Schema.optional(Schema.String),
-      network: Schema.optional(Schema.String),
-      effectiveReservedIpRange: Schema.optional(Schema.String),
-      daosVersion: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      fileStripeLevel: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      directoryStripeLevel: Schema.optional(Schema.String),
-      accessPoints: Schema.optional(Schema.Array(Schema.String)),
       name: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
       createTime: Schema.optional(Schema.String),
       updateTime: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      capacityGib: Schema.optional(Schema.String),
+      daosVersion: Schema.optional(Schema.String),
+      accessPoints: Schema.optional(Schema.Array(Schema.String)),
+      network: Schema.optional(Schema.String),
       reservedIpRange: Schema.optional(Schema.String),
+      effectiveReservedIpRange: Schema.optional(Schema.String),
+      fileStripeLevel: Schema.optional(Schema.String),
+      directoryStripeLevel: Schema.optional(Schema.String),
       deploymentType: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Instance" }) as any as Schema.Schema<Instance>;
@@ -128,36 +179,22 @@ export const Instance: Schema.Schema<Instance> =
 export interface ListInstancesResponse {
   /** The list of Parallelstore instances. */
   instances?: Array<Instance>;
-  /** Locations that could not be reached. */
-  unreachable?: Array<string>;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string;
+  /** Locations that could not be reached. */
+  unreachable?: Array<string>;
 }
 
 export const ListInstancesResponse: Schema.Schema<ListInstancesResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       instances: Schema.optional(Schema.Array(Instance)),
-      unreachable: Schema.optional(Schema.Array(Schema.String)),
       nextPageToken: Schema.optional(Schema.String),
+      unreachable: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "ListInstancesResponse",
   }) as any as Schema.Schema<ListInstancesResponse>;
-
-export interface DestinationGcsBucket {
-  /** Required. URI to a Cloud Storage bucket in the format: `gs:///`. The path inside the bucket is optional. */
-  uri?: string;
-}
-
-export const DestinationGcsBucket: Schema.Schema<DestinationGcsBucket> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      uri: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "DestinationGcsBucket",
-  }) as any as Schema.Schema<DestinationGcsBucket>;
 
 export interface SourceGcsBucket {
   /** Required. URI to a Cloud Storage bucket in the format: `gs:///`. The path inside the bucket is optional. */
@@ -173,11 +210,25 @@ export const SourceGcsBucket: Schema.Schema<SourceGcsBucket> =
     identifier: "SourceGcsBucket",
   }) as any as Schema.Schema<SourceGcsBucket>;
 
+export interface DestinationParallelstore {
+  /** Optional. Root directory path to the Paralellstore filesystem, starting with `/`. Defaults to `/` if unset. */
+  path?: string;
+}
+
+export const DestinationParallelstore: Schema.Schema<DestinationParallelstore> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      path: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DestinationParallelstore",
+  }) as any as Schema.Schema<DestinationParallelstore>;
+
 export interface TransferMetadataOptions {
-  /** Optional. The GID preservation behavior. */
-  gid?: "GID_UNSPECIFIED" | "GID_SKIP" | "GID_NUMBER_PRESERVE" | (string & {});
   /** Optional. The UID preservation behavior. */
   uid?: "UID_UNSPECIFIED" | "UID_SKIP" | "UID_NUMBER_PRESERVE" | (string & {});
+  /** Optional. The GID preservation behavior. */
+  gid?: "GID_UNSPECIFIED" | "GID_SKIP" | "GID_NUMBER_PRESERVE" | (string & {});
   /** Optional. The mode preservation behavior. */
   mode?: "MODE_UNSPECIFIED" | "MODE_SKIP" | "MODE_PRESERVE" | (string & {});
 }
@@ -185,13 +236,39 @@ export interface TransferMetadataOptions {
 export const TransferMetadataOptions: Schema.Schema<TransferMetadataOptions> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      gid: Schema.optional(Schema.String),
       uid: Schema.optional(Schema.String),
+      gid: Schema.optional(Schema.String),
       mode: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "TransferMetadataOptions",
   }) as any as Schema.Schema<TransferMetadataOptions>;
+
+export interface ImportDataRequest {
+  /** The Cloud Storage source bucket and, optionally, path inside the bucket. */
+  sourceGcsBucket?: SourceGcsBucket;
+  /** Parallelstore destination. */
+  destinationParallelstore?: DestinationParallelstore;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
+  /** Optional. User-specified service account credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
+  serviceAccount?: string;
+  /** Optional. The transfer metadata options for the import data. */
+  metadataOptions?: TransferMetadataOptions;
+}
+
+export const ImportDataRequest: Schema.Schema<ImportDataRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      sourceGcsBucket: Schema.optional(SourceGcsBucket),
+      destinationParallelstore: Schema.optional(DestinationParallelstore),
+      requestId: Schema.optional(Schema.String),
+      serviceAccount: Schema.optional(Schema.String),
+      metadataOptions: Schema.optional(TransferMetadataOptions),
+    }),
+  ).annotate({
+    identifier: "ImportDataRequest",
+  }) as any as Schema.Schema<ImportDataRequest>;
 
 export interface SourceParallelstore {
   /** Optional. Root directory path to the Paralellstore filesystem, starting with `/`. Defaults to `/` if unset. */
@@ -207,104 +284,67 @@ export const SourceParallelstore: Schema.Schema<SourceParallelstore> =
     identifier: "SourceParallelstore",
   }) as any as Schema.Schema<SourceParallelstore>;
 
+export interface DestinationGcsBucket {
+  /** Required. URI to a Cloud Storage bucket in the format: `gs:///`. The path inside the bucket is optional. */
+  uri?: string;
+}
+
+export const DestinationGcsBucket: Schema.Schema<DestinationGcsBucket> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      uri: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "DestinationGcsBucket",
+  }) as any as Schema.Schema<DestinationGcsBucket>;
+
 export interface ExportDataRequest {
+  /** Parallelstore source. */
+  sourceParallelstore?: SourceParallelstore;
   /** Cloud Storage destination. */
   destinationGcsBucket?: DestinationGcsBucket;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Optional. User-specified Service Account (SA) credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
   serviceAccount?: string;
   /** Optional. The metadata options for the export data. */
   metadataOptions?: TransferMetadataOptions;
-  /** Parallelstore source. */
-  sourceParallelstore?: SourceParallelstore;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
 }
 
 export const ExportDataRequest: Schema.Schema<ExportDataRequest> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      sourceParallelstore: Schema.optional(SourceParallelstore),
       destinationGcsBucket: Schema.optional(DestinationGcsBucket),
+      requestId: Schema.optional(Schema.String),
       serviceAccount: Schema.optional(Schema.String),
       metadataOptions: Schema.optional(TransferMetadataOptions),
-      sourceParallelstore: Schema.optional(SourceParallelstore),
-      requestId: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ExportDataRequest",
   }) as any as Schema.Schema<ExportDataRequest>;
 
-export interface CancelOperationRequest {}
-
-export const CancelOperationRequest: Schema.Schema<CancelOperationRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "CancelOperationRequest",
-  }) as any as Schema.Schema<CancelOperationRequest>;
-
-export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: Record<string, unknown>;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: Record<string, unknown>;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-}
-
-export const Operation: Schema.Schema<Operation> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      done: Schema.optional(Schema.Boolean),
-      error: Schema.optional(Status),
-      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      name: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
-
-export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections e.g. when attempting to list all resources across all supported locations. */
-  unreachable?: Array<string>;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: Array<Operation>;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-}
-
-export const ListOperationsResponse: Schema.Schema<ListOperationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      unreachable: Schema.optional(Schema.Array(Schema.String)),
-      operations: Schema.optional(Schema.Array(Operation)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListOperationsResponse",
-  }) as any as Schema.Schema<ListOperationsResponse>;
-
 export interface Location {
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: Record<string, string>;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: Record<string, unknown>;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
 }
 
 export const Location: Schema.Schema<Location> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
       displayName: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      name: Schema.optional(Schema.String),
-      locationId: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
 
@@ -325,110 +365,70 @@ export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
     identifier: "ListLocationsResponse",
   }) as any as Schema.Schema<ListLocationsResponse>;
 
-export interface DestinationParallelstore {
-  /** Optional. Root directory path to the Paralellstore filesystem, starting with `/`. Defaults to `/` if unset. */
-  path?: string;
+export interface OperationMetadata {
+  /** Output only. The time the operation was created. */
+  createTime?: string;
+  /** Output only. The time the operation finished running. */
+  endTime?: string;
+  /** Output only. Server-defined resource path for the target of the operation. */
+  target?: string;
+  /** Output only. Name of the verb executed by the operation. */
+  verb?: string;
+  /** Output only. Human-readable status of the operation, if any. */
+  statusMessage?: string;
+  /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
+  requestedCancellation?: boolean;
+  /** Output only. API version used to start the operation. */
+  apiVersion?: string;
 }
 
-export const DestinationParallelstore: Schema.Schema<DestinationParallelstore> =
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      path: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      apiVersion: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "DestinationParallelstore",
-  }) as any as Schema.Schema<DestinationParallelstore>;
-
-export interface ImportDataRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Parallelstore destination. */
-  destinationParallelstore?: DestinationParallelstore;
-  /** Optional. The transfer metadata options for the import data. */
-  metadataOptions?: TransferMetadataOptions;
-  /** Optional. User-specified service account credentials to be used when performing the transfer. Use one of the following formats: * `{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/{PROJECT_ID_OR_NUMBER}/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` * `projects/-/serviceAccounts/{EMAIL_ADDRESS_OR_UNIQUE_ID}` If unspecified, the Parallelstore service agent is used: `service-@gcp-sa-parallelstore.iam.gserviceaccount.com` */
-  serviceAccount?: string;
-  /** The Cloud Storage source bucket and, optionally, path inside the bucket. */
-  sourceGcsBucket?: SourceGcsBucket;
-}
-
-export const ImportDataRequest: Schema.Schema<ImportDataRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestId: Schema.optional(Schema.String),
-      destinationParallelstore: Schema.optional(DestinationParallelstore),
-      metadataOptions: Schema.optional(TransferMetadataOptions),
-      serviceAccount: Schema.optional(Schema.String),
-      sourceGcsBucket: Schema.optional(SourceGcsBucket),
-    }),
-  ).annotate({
-    identifier: "ImportDataRequest",
-  }) as any as Schema.Schema<ImportDataRequest>;
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
 export interface ReconciliationOperationMetadata {
+  /** DEPRECATED. Use exclusive_action instead. */
+  deleteResource?: boolean;
   /** Excluisive action returned by the CLH. */
   exclusiveAction?:
     | "UNKNOWN_REPAIR_ACTION"
     | "DELETE"
     | "RETRY"
     | (string & {});
-  /** DEPRECATED. Use exclusive_action instead. */
-  deleteResource?: boolean;
 }
 
 export const ReconciliationOperationMetadata: Schema.Schema<ReconciliationOperationMetadata> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      exclusiveAction: Schema.optional(Schema.String),
       deleteResource: Schema.optional(Schema.Boolean),
+      exclusiveAction: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ReconciliationOperationMetadata",
   }) as any as Schema.Schema<ReconciliationOperationMetadata>;
-
-export interface OperationMetadata {
-  /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have Operation.error value with a google.rpc.Status.code of 1, corresponding to `Code.CANCELLED`. */
-  requestedCancellation?: boolean;
-  /** Output only. The time the operation was created. */
-  createTime?: string;
-  /** Output only. Server-defined resource path for the target of the operation. */
-  target?: string;
-  /** Output only. Name of the verb executed by the operation. */
-  verb?: string;
-  /** Output only. API version used to start the operation. */
-  apiVersion?: string;
-  /** Output only. The time the operation finished running. */
-  endTime?: string;
-  /** Output only. Human-readable status of the operation, if any. */
-  statusMessage?: string;
-}
-
-export const OperationMetadata: Schema.Schema<OperationMetadata> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestedCancellation: Schema.optional(Schema.Boolean),
-      createTime: Schema.optional(Schema.String),
-      target: Schema.optional(Schema.String),
-      verb: Schema.optional(Schema.String),
-      apiVersion: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
-      statusMessage: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "OperationMetadata",
-  }) as any as Schema.Schema<OperationMetadata>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
 export interface ListProjectsLocationsRequest {
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string;
   /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
@@ -437,9 +437,9 @@ export interface ListProjectsLocationsRequest {
 
 export const ListProjectsLocationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    name: Schema.String.pipe(T.HttpPath("name")),
     pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("extraLocationTypes"),
@@ -505,6 +505,126 @@ export const getProjectsLocations: API.OperationMethod<
   errors: [],
 }));
 
+export interface ListProjectsLocationsOperationsRequest {
+  /** The name of the operation's parent resource. */
+  name: string;
+  /** The standard list filter. */
+  filter?: string;
+  /** The standard list page size. */
+  pageSize?: number;
+  /** The standard list page token. */
+  pageToken?: string;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the [ListOperationsResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. This field is not by default supported and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean;
+}
+
+export const ListProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("returnPartialSuccess"),
+    ),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+
+export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
+export const ListProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
+
+export type ListProjectsLocationsOperationsError = DefaultErrors;
+
+/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
+export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
+  ListProjectsLocationsOperationsRequest,
+  ListProjectsLocationsOperationsResponse,
+  ListProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsOperationsRequest,
+  output: ListProjectsLocationsOperationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
+export interface GetProjectsLocationsOperationsRequest {
+  /** The name of the operation resource. */
+  name: string;
+}
+
+export const GetProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
+
+export type GetProjectsLocationsOperationsResponse = Operation;
+export const GetProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Operation;
+
+export type GetProjectsLocationsOperationsError = DefaultErrors;
+
+/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
+export const getProjectsLocationsOperations: API.OperationMethod<
+  GetProjectsLocationsOperationsRequest,
+  GetProjectsLocationsOperationsResponse,
+  GetProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsOperationsRequest,
+  output: GetProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsLocationsOperationsRequest {
+  /** The name of the operation resource to be deleted. */
+  name: string;
+}
+
+export const DeleteProjectsLocationsOperationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+
+export type DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
+export const DeleteProjectsLocationsOperationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
+
+export type DeleteProjectsLocationsOperationsError = DefaultErrors;
+
+/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
+export const deleteProjectsLocationsOperations: API.OperationMethod<
+  DeleteProjectsLocationsOperationsRequest,
+  DeleteProjectsLocationsOperationsResponse,
+  DeleteProjectsLocationsOperationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsLocationsOperationsRequest,
+  output: DeleteProjectsLocationsOperationsResponse,
+  errors: [],
+}));
+
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
@@ -543,85 +663,49 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetProjectsLocationsOperationsRequest {
-  /** The name of the operation resource. */
-  name: string;
-}
-
-export const GetProjectsLocationsOperationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetProjectsLocationsOperationsRequest>;
-
-export type GetProjectsLocationsOperationsResponse = Operation;
-export const GetProjectsLocationsOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Operation;
-
-export type GetProjectsLocationsOperationsError = DefaultErrors;
-
-/** Gets the latest state of a long-running operation. Clients can use this method to poll the operation result at intervals as recommended by the API service. */
-export const getProjectsLocationsOperations: API.OperationMethod<
-  GetProjectsLocationsOperationsRequest,
-  GetProjectsLocationsOperationsResponse,
-  GetProjectsLocationsOperationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsOperationsRequest,
-  output: GetProjectsLocationsOperationsResponse,
-  errors: [],
-}));
-
-export interface ListProjectsLocationsOperationsRequest {
-  /** The standard list page token. */
-  pageToken?: string;
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list filter. */
-  filter?: string;
-  /** The standard list page size. */
+export interface ListProjectsLocationsInstancesRequest {
+  /** Required. The project and location for which to retrieve instance information, in the format `projects/{project_id}/locations/{location}`. To retrieve instance information for all locations, use "-" as the value of `{location}`. */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
   pageSize?: number;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the [ListOperationsResponse.unreachable] field. This can only be `true` when reading across collections e.g. when `parent` is set to `"projects/example/locations/-"`. This field is not by default supported and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string;
+  /** Optional. Filtering results. */
+  filter?: string;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string;
 }
 
-export const ListProjectsLocationsOperationsRequest =
+export const ListProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    name: Schema.String.pipe(T.HttpPath("name")),
-    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    returnPartialSuccess: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("returnPartialSuccess"),
-    ),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/operations",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsOperationsRequest>;
+  ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
 
-export type ListProjectsLocationsOperationsResponse = ListOperationsResponse;
-export const ListProjectsLocationsOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListOperationsResponse;
+export type ListProjectsLocationsInstancesResponse = ListInstancesResponse;
+export const ListProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListInstancesResponse;
 
-export type ListProjectsLocationsOperationsError = DefaultErrors;
+export type ListProjectsLocationsInstancesError = DefaultErrors;
 
-/** Lists operations that match the specified filter in the request. If the server doesn't support this method, it returns `UNIMPLEMENTED`. */
-export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
-  ListProjectsLocationsOperationsRequest,
-  ListProjectsLocationsOperationsResponse,
-  ListProjectsLocationsOperationsError,
+/** Lists all instances in a given project and location. */
+export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
+  ListProjectsLocationsInstancesRequest,
+  ListProjectsLocationsInstancesResponse,
+  ListProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsOperationsRequest,
-  output: ListProjectsLocationsOperationsResponse,
+  input: ListProjectsLocationsInstancesRequest,
+  output: ListProjectsLocationsInstancesResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",
@@ -629,37 +713,37 @@ export const listProjectsLocationsOperations: API.PaginatedOperationMethod<
   },
 }));
 
-export interface DeleteProjectsLocationsOperationsRequest {
-  /** The name of the operation resource to be deleted. */
+export interface GetProjectsLocationsInstancesRequest {
+  /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
   name: string;
 }
 
-export const DeleteProjectsLocationsOperationsRequest =
+export const GetProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
-      method: "DELETE",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/operations/{operationsId}",
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<DeleteProjectsLocationsOperationsRequest>;
+  ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
 
-export type DeleteProjectsLocationsOperationsResponse = GoogleProtobufEmpty;
-export const DeleteProjectsLocationsOperationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GoogleProtobufEmpty;
+export type GetProjectsLocationsInstancesResponse = Instance;
+export const GetProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Instance;
 
-export type DeleteProjectsLocationsOperationsError = DefaultErrors;
+export type GetProjectsLocationsInstancesError = DefaultErrors;
 
-/** Deletes a long-running operation. This method indicates that the client is no longer interested in the operation result. It does not cancel the operation. If the server doesn't support this method, it returns `google.rpc.Code.UNIMPLEMENTED`. */
-export const deleteProjectsLocationsOperations: API.OperationMethod<
-  DeleteProjectsLocationsOperationsRequest,
-  DeleteProjectsLocationsOperationsResponse,
-  DeleteProjectsLocationsOperationsError,
+/** Gets details of a single instance. */
+export const getProjectsLocationsInstances: API.OperationMethod<
+  GetProjectsLocationsInstancesRequest,
+  GetProjectsLocationsInstancesResponse,
+  GetProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectsLocationsOperationsRequest,
-  output: DeleteProjectsLocationsOperationsResponse,
+  input: GetProjectsLocationsInstancesRequest,
+  output: GetProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
@@ -707,91 +791,47 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   errors: [],
 }));
 
-export interface ListProjectsLocationsInstancesRequest {
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, the server will pick an appropriate default. */
-  pageSize?: number;
-  /** Optional. Filtering results. */
-  filter?: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
-  /** Required. The project and location for which to retrieve instance information, in the format `projects/{project_id}/locations/{location}`. To retrieve instance information for all locations, use "-" as the value of `{location}`. */
-  parent: string;
-}
-
-export const ListProjectsLocationsInstancesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    orderBy: Schema.optional(Schema.String).pipe(T.HttpQuery("orderBy")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/instances",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsInstancesRequest>;
-
-export type ListProjectsLocationsInstancesResponse = ListInstancesResponse;
-export const ListProjectsLocationsInstancesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListInstancesResponse;
-
-export type ListProjectsLocationsInstancesError = DefaultErrors;
-
-/** Lists all instances in a given project and location. */
-export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
-  ListProjectsLocationsInstancesRequest,
-  ListProjectsLocationsInstancesResponse,
-  ListProjectsLocationsInstancesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsInstancesRequest,
-  output: ListProjectsLocationsInstancesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface ExportDataProjectsLocationsInstancesRequest {
-  /** Required. Name of the resource. */
+export interface PatchProjectsLocationsInstancesRequest {
+  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
   name: string;
+  /** Required. Mask of fields to update. Field mask is used to specify the fields to be overwritten in the Instance resource by the update. At least one path must be supplied in this field. The fields specified in the update_mask are relative to the resource, not the full request. */
+  updateMask?: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string;
   /** Request body */
-  body?: ExportDataRequest;
+  body?: Instance;
 }
 
-export const ExportDataProjectsLocationsInstancesRequest =
+export const PatchProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     name: Schema.String.pipe(T.HttpPath("name")),
-    body: Schema.optional(ExportDataRequest).pipe(T.HttpBody()),
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(Instance).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
-      method: "POST",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:exportData",
+      method: "PATCH",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<ExportDataProjectsLocationsInstancesRequest>;
+  ) as unknown as Schema.Schema<PatchProjectsLocationsInstancesRequest>;
 
-export type ExportDataProjectsLocationsInstancesResponse = Operation;
-export const ExportDataProjectsLocationsInstancesResponse =
+export type PatchProjectsLocationsInstancesResponse = Operation;
+export const PatchProjectsLocationsInstancesResponse =
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
-export type ExportDataProjectsLocationsInstancesError = DefaultErrors;
+export type PatchProjectsLocationsInstancesError = DefaultErrors;
 
-/** Copies data from Parallelstore to Cloud Storage. */
-export const exportDataProjectsLocationsInstances: API.OperationMethod<
-  ExportDataProjectsLocationsInstancesRequest,
-  ExportDataProjectsLocationsInstancesResponse,
-  ExportDataProjectsLocationsInstancesError,
+/** Updates the parameters of a single instance. */
+export const patchProjectsLocationsInstances: API.OperationMethod<
+  PatchProjectsLocationsInstancesRequest,
+  PatchProjectsLocationsInstancesResponse,
+  PatchProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExportDataProjectsLocationsInstancesRequest,
-  output: ExportDataProjectsLocationsInstancesResponse,
+  input: PatchProjectsLocationsInstancesRequest,
+  output: PatchProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
@@ -870,80 +910,40 @@ export const importDataProjectsLocationsInstances: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetProjectsLocationsInstancesRequest {
-  /** Required. The instance resource name, in the format `projects/{project_id}/locations/{location}/instances/{instance_id}`. */
+export interface ExportDataProjectsLocationsInstancesRequest {
+  /** Required. Name of the resource. */
   name: string;
-}
-
-export const GetProjectsLocationsInstancesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetProjectsLocationsInstancesRequest>;
-
-export type GetProjectsLocationsInstancesResponse = Instance;
-export const GetProjectsLocationsInstancesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Instance;
-
-export type GetProjectsLocationsInstancesError = DefaultErrors;
-
-/** Gets details of a single instance. */
-export const getProjectsLocationsInstances: API.OperationMethod<
-  GetProjectsLocationsInstancesRequest,
-  GetProjectsLocationsInstancesResponse,
-  GetProjectsLocationsInstancesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsInstancesRequest,
-  output: GetProjectsLocationsInstancesResponse,
-  errors: [],
-}));
-
-export interface PatchProjectsLocationsInstancesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
-  /** Identifier. The resource name of the instance, in the format `projects/{project}/locations/{location}/instances/{instance_id}`. */
-  name: string;
-  /** Required. Mask of fields to update. Field mask is used to specify the fields to be overwritten in the Instance resource by the update. At least one path must be supplied in this field. The fields specified in the update_mask are relative to the resource, not the full request. */
-  updateMask?: string;
   /** Request body */
-  body?: Instance;
+  body?: ExportDataRequest;
 }
 
-export const PatchProjectsLocationsInstancesRequest =
+export const ExportDataProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
     name: Schema.String.pipe(T.HttpPath("name")),
-    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-    body: Schema.optional(Instance).pipe(T.HttpBody()),
+    body: Schema.optional(ExportDataRequest).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
-      method: "PATCH",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}",
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:exportData",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<PatchProjectsLocationsInstancesRequest>;
+  ) as unknown as Schema.Schema<ExportDataProjectsLocationsInstancesRequest>;
 
-export type PatchProjectsLocationsInstancesResponse = Operation;
-export const PatchProjectsLocationsInstancesResponse =
+export type ExportDataProjectsLocationsInstancesResponse = Operation;
+export const ExportDataProjectsLocationsInstancesResponse =
   /*@__PURE__*/ /*#__PURE__*/ Operation;
 
-export type PatchProjectsLocationsInstancesError = DefaultErrors;
+export type ExportDataProjectsLocationsInstancesError = DefaultErrors;
 
-/** Updates the parameters of a single instance. */
-export const patchProjectsLocationsInstances: API.OperationMethod<
-  PatchProjectsLocationsInstancesRequest,
-  PatchProjectsLocationsInstancesResponse,
-  PatchProjectsLocationsInstancesError,
+/** Copies data from Parallelstore to Cloud Storage. */
+export const exportDataProjectsLocationsInstances: API.OperationMethod<
+  ExportDataProjectsLocationsInstancesRequest,
+  ExportDataProjectsLocationsInstancesResponse,
+  ExportDataProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PatchProjectsLocationsInstancesRequest,
-  output: PatchProjectsLocationsInstancesResponse,
+  input: ExportDataProjectsLocationsInstancesRequest,
+  output: ExportDataProjectsLocationsInstancesResponse,
   errors: [],
 }));

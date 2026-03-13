@@ -235,9 +235,7 @@ export const putHostname: API.PaginatedOperationMethod<
     PutHostnameError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: PutHostnameRequest,
-  ) => stream.Stream<
+  items: (input: PutHostnameRequest) => stream.Stream<
     {
       id?: string | null;
       certId?: string | null;
@@ -428,9 +426,7 @@ export const listHostnameCertificates: API.PaginatedOperationMethod<
     ListHostnameCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListHostnameCertificatesRequest,
-  ) => stream.Stream<
+  items: (input: ListHostnameCertificatesRequest) => stream.Stream<
     {
       id?: string | null;
       certId?: string | null;
@@ -777,9 +773,7 @@ export const listOriginTlsClientAuths: API.PaginatedOperationMethod<
     ListOriginTlsClientAuthsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListOriginTlsClientAuthsRequest,
-  ) => stream.Stream<
+  items: (input: ListOriginTlsClientAuthsRequest) => stream.Stream<
     {
       id?: string | null;
       certificate?: string | null;

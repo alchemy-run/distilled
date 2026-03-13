@@ -5,7 +5,6 @@ import * as T from "../traits";
 // Input Schema
 export const AppIPAssignmentsCreateInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
     network: Schema.optional(Schema.String),
     org_slug: Schema.optional(Schema.String),
     region: Schema.optional(Schema.String),
@@ -30,8 +29,6 @@ export type AppIPAssignmentsCreateOutput =
 // The operation
 /**
  * Assign new IP address to app
- *
- * @param app_name - Fly App Name
  */
 export const AppIPAssignmentsCreate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

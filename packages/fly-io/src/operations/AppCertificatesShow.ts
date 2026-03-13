@@ -4,10 +4,7 @@ import * as T from "../traits";
 
 // Input Schema
 export const AppCertificatesShowInput =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
-    hostname: Schema.String.pipe(T.PathParam()),
-  }).pipe(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
     T.Http({ method: "GET", path: "/apps/{app_name}/certificates/{hostname}" }),
   );
 export type AppCertificatesShowInput = typeof AppCertificatesShowInput.Type;
@@ -91,9 +88,6 @@ export type AppCertificatesShowOutput = typeof AppCertificatesShowOutput.Type;
 // The operation
 /**
  * Get certificate details
- *
- * @param app_name - Fly App Name
- * @param hostname - Certificate Hostname
  */
 export const AppCertificatesShow = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: AppCertificatesShowInput,

@@ -423,9 +423,7 @@ export const listAbuseReports: API.PaginatedOperationMethod<
     ListAbuseReportsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListAbuseReportsRequest,
-  ) => stream.Stream<
+  items: (input: ListAbuseReportsRequest) => stream.Stream<
     {
       reports: {
         id: string;
@@ -802,9 +800,7 @@ export const listMitigations: API.PaginatedOperationMethod<
     ListMitigationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListMitigationsRequest,
-  ) => stream.Stream<
+  items: (input: ListMitigationsRequest) => stream.Stream<
     {
       mitigations: {
         id: string;
@@ -930,9 +926,7 @@ export const reviewMitigation: API.PaginatedOperationMethod<
     ReviewMitigationError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ReviewMitigationRequest,
-  ) => stream.Stream<
+  items: (input: ReviewMitigationRequest) => stream.Stream<
     {
       id: string;
       effectiveDate: string;

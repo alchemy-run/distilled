@@ -13,8 +13,6 @@ export const ListOrganizationTeamsInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     organization: Schema.String.pipe(T.PathParam()),
     q: Schema.optional(Schema.String),
-    page: Schema.optional(Schema.Number),
-    per_page: Schema.optional(Schema.Number),
   }).pipe(
     T.Http({ method: "GET", path: "/organizations/{organization}/teams" }),
   );
@@ -86,8 +84,6 @@ export type ListOrganizationTeamsOutput =
  *
  * @param organization - The name of the organization
  * @param q - Search term to filter teams by name
- * @param page - If provided, specifies the page offset of returned results
- * @param per_page - If provided, specifies the number of returned results
  */
 export const listOrganizationTeams = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

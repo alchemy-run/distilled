@@ -139,7 +139,7 @@ export interface EnvironmentVariable {
   value?: string;
   /** A fully qualified secret version. The value of the secret will be accessed once while building the application and once per cold start of the container at runtime. The service account used by Cloud Build and by Cloud Run must each have the `secretmanager.versions.access` permission on the secret. */
   secret?: string;
-  /** Required. The name of the environment variable. The environment variables reserved by [Cloud Run](https://docs.cloud.google.com/run/docs/configuring/services/environment-variables#reserved) should not be set. Additionally, variable names cannot start with "X_FIREBASE_". */
+  /** Required. The name of the environment variable. - Must be a valid environment variable name (e.g. A-Z or underscores). - May not start with "FIREBASE" or "GOOGLE". - May not be a reserved environment variable for KNative/Cloud Run */
   variable?: string;
   /** Optional. Where this variable should be made available. If left unspecified, will be available in both BUILD and BACKEND. */
   availability?: Array<

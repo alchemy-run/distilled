@@ -24,46 +24,46 @@ const svc = T.Service({
 
 export interface Editions {
   /** (Deprecated) */
-  assignedSeats?: number;
+  editionId?: string;
   /** (Deprecated) */
   seatCount?: number;
   /** (Deprecated) */
-  editionId?: string;
+  assignedSeats?: number;
 }
 
 export const Editions: Schema.Schema<Editions> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      assignedSeats: Schema.optional(Schema.Number),
-      seatCount: Schema.optional(Schema.Number),
       editionId: Schema.optional(Schema.String),
+      seatCount: Schema.optional(Schema.Number),
+      assignedSeats: Schema.optional(Schema.Number),
     }),
   ).annotate({ identifier: "Editions" }) as any as Schema.Schema<Editions>;
 
 export interface CustomerLicense {
-  /** (Deprecated) */
-  editions?: Array<Editions>;
   /** The type of API resource. This is always `appsmarket#customerLicense`. */
   kind?: string;
-  /** The domain name of the customer. */
-  customerId?: string;
   /** The customer's license status. One of: - `ACTIVE`: The customer has a valid license. - `UNLICENSED`: There is no license. Either this customer has never installed your application or has deleted it. */
   state?: string;
   /** The ID of the application corresponding to this license query. */
   applicationId?: string;
+  /** (Deprecated) */
+  editions?: Array<Editions>;
   /** The ID of the customer license. */
   id?: string;
+  /** The domain name of the customer. */
+  customerId?: string;
 }
 
 export const CustomerLicense: Schema.Schema<CustomerLicense> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      editions: Schema.optional(Schema.Array(Editions)),
       kind: Schema.optional(Schema.String),
-      customerId: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
       applicationId: Schema.optional(Schema.String),
+      editions: Schema.optional(Schema.Array(Editions)),
       id: Schema.optional(Schema.String),
+      customerId: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "CustomerLicense",
@@ -72,6 +72,10 @@ export const CustomerLicense: Schema.Schema<CustomerLicense> =
 export interface UserLicense {
   /** The type of API resource. This is always `appsmarket#userLicense`. */
   kind?: string;
+  /** The domain administrator has activated the application for this domain. */
+  enabled?: boolean;
+  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
+  state?: string;
   /** (Deprecated) */
   editionId?: string;
   /** The domain name of the user. */
@@ -82,23 +86,19 @@ export interface UserLicense {
   id?: string;
   /** The email address of the user. */
   userId?: string;
-  /** The user's licensing status. One of: - `ACTIVE`: The user has a valid license and should be permitted to use the application. - `UNLICENSED`: The administrator of this user's domain never assigned a seat for the application to this user. - `EXPIRED`: The administrator assigned a seat to this user, but the license is expired. */
-  state?: string;
-  /** The domain administrator has activated the application for this domain. */
-  enabled?: boolean;
 }
 
 export const UserLicense: Schema.Schema<UserLicense> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       kind: Schema.optional(Schema.String),
+      enabled: Schema.optional(Schema.Boolean),
+      state: Schema.optional(Schema.String),
       editionId: Schema.optional(Schema.String),
       customerId: Schema.optional(Schema.String),
       applicationId: Schema.optional(Schema.String),
       id: Schema.optional(Schema.String),
       userId: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
     identifier: "UserLicense",
@@ -107,41 +107,6 @@ export const UserLicense: Schema.Schema<UserLicense> =
 // ==========================================================================
 // Operations
 // ==========================================================================
-
-export interface GetUserLicenseRequest {
-  /** The ID of the application. */
-  applicationId: string;
-  /** The ID of the user. */
-  userId: string;
-}
-
-export const GetUserLicenseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
-  userId: Schema.String.pipe(T.HttpPath("userId")),
-}).pipe(
-  T.Http({
-    method: "GET",
-    path: "appsmarket/v2/userLicense/{applicationId}/{userId}",
-  }),
-  svc,
-) as unknown as Schema.Schema<GetUserLicenseRequest>;
-
-export type GetUserLicenseResponse = UserLicense;
-export const GetUserLicenseResponse = /*@__PURE__*/ /*#__PURE__*/ UserLicense;
-
-export type GetUserLicenseError = DefaultErrors;
-
-/** Gets the user's licensing status to determine if they have permission to use a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
-export const getUserLicense: API.OperationMethod<
-  GetUserLicenseRequest,
-  GetUserLicenseResponse,
-  GetUserLicenseError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetUserLicenseRequest,
-  output: GetUserLicenseResponse,
-  errors: [],
-}));
 
 export interface GetCustomerLicenseRequest {
   /** The ID of the application. */
@@ -177,5 +142,40 @@ export const getCustomerLicense: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetCustomerLicenseRequest,
   output: GetCustomerLicenseResponse,
+  errors: [],
+}));
+
+export interface GetUserLicenseRequest {
+  /** The ID of the application. */
+  applicationId: string;
+  /** The ID of the user. */
+  userId: string;
+}
+
+export const GetUserLicenseRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  applicationId: Schema.String.pipe(T.HttpPath("applicationId")),
+  userId: Schema.String.pipe(T.HttpPath("userId")),
+}).pipe(
+  T.Http({
+    method: "GET",
+    path: "appsmarket/v2/userLicense/{applicationId}/{userId}",
+  }),
+  svc,
+) as unknown as Schema.Schema<GetUserLicenseRequest>;
+
+export type GetUserLicenseResponse = UserLicense;
+export const GetUserLicenseResponse = /*@__PURE__*/ /*#__PURE__*/ UserLicense;
+
+export type GetUserLicenseError = DefaultErrors;
+
+/** Gets the user's licensing status to determine if they have permission to use a given app. For more information, see [Getting app installation and licensing details](https://developers.google.com/workspace/marketplace/example-calls-marketplace-api). */
+export const getUserLicense: API.OperationMethod<
+  GetUserLicenseRequest,
+  GetUserLicenseResponse,
+  GetUserLicenseError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetUserLicenseRequest,
+  output: GetUserLicenseResponse,
   errors: [],
 }));

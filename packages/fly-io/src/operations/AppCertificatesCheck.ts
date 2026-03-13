@@ -4,10 +4,7 @@ import * as T from "../traits";
 
 // Input Schema
 export const AppCertificatesCheckInput =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
-    hostname: Schema.String.pipe(T.PathParam()),
-  }).pipe(
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
     T.Http({
       method: "POST",
       path: "/apps/{app_name}/certificates/{hostname}/check",
@@ -105,9 +102,6 @@ export type AppCertificatesCheckOutput = typeof AppCertificatesCheckOutput.Type;
 // The operation
 /**
  * Check DNS and re-validate certificate
- *
- * @param app_name - Fly App Name
- * @param hostname - Certificate Hostname
  */
 export const AppCertificatesCheck = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

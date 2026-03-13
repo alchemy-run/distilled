@@ -408,32 +408,18 @@ export const SmbMountOptions = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "SmbMountOptions",
 }) as any as S.Schema<SmbMountOptions>;
-export interface ManagedSecretConfig {
-  SecretArn?: string;
-}
-export const ManagedSecretConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-  S.Struct({ SecretArn: S.optional(S.String) }),
-).annotate({
-  identifier: "ManagedSecretConfig",
-}) as any as S.Schema<ManagedSecretConfig>;
 export interface FsxProtocolSmb {
   Domain?: string;
   MountOptions?: SmbMountOptions;
-  Password?: string | redacted.Redacted<string>;
+  Password: string | redacted.Redacted<string>;
   User: string;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const FsxProtocolSmb = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Domain: S.optional(S.String),
     MountOptions: S.optional(SmbMountOptions),
-    Password: S.optional(SensitiveString),
+    Password: SensitiveString,
     User: S.String,
-    ManagedSecretConfig: S.optional(ManagedSecretConfig),
-    CmkSecretConfig: S.optional(CmkSecretConfig),
-    CustomSecretConfig: S.optional(CustomSecretConfig),
   }),
 ).annotate({ identifier: "FsxProtocolSmb" }) as any as S.Schema<FsxProtocolSmb>;
 export interface FsxProtocol {
@@ -513,9 +499,7 @@ export interface CreateLocationFsxWindowsRequest {
   Tags?: TagListEntry[];
   User: string;
   Domain?: string;
-  Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
+  Password: string | redacted.Redacted<string>;
 }
 export const CreateLocationFsxWindowsRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -526,9 +510,7 @@ export const CreateLocationFsxWindowsRequest =
       Tags: S.optional(InputTagList),
       User: S.String,
       Domain: S.optional(S.String),
-      Password: S.optional(SensitiveString),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
+      Password: SensitiveString,
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -596,8 +578,6 @@ export interface CreateLocationHdfsRequest {
   KerberosKrb5Conf?: Uint8Array;
   AgentArns: string[];
   Tags?: TagListEntry[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const CreateLocationHdfsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
   () =>
@@ -615,8 +595,6 @@ export const CreateLocationHdfsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
       KerberosKrb5Conf: S.optional(T.Blob),
       AgentArns: AgentArnList,
       Tags: S.optional(InputTagList),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -1190,6 +1168,14 @@ export const DescribeLocationAzureBlobRequest =
   ).annotate({
     identifier: "DescribeLocationAzureBlobRequest",
   }) as any as S.Schema<DescribeLocationAzureBlobRequest>;
+export interface ManagedSecretConfig {
+  SecretArn?: string;
+}
+export const ManagedSecretConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({ SecretArn: S.optional(S.String) }),
+).annotate({
+  identifier: "ManagedSecretConfig",
+}) as any as S.Schema<ManagedSecretConfig>;
 export interface DescribeLocationAzureBlobResponse {
   LocationArn?: string;
   LocationUri?: string;
@@ -1363,9 +1349,6 @@ export interface DescribeLocationFsxWindowsResponse {
   CreationTime?: Date;
   User?: string;
   Domain?: string;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const DescribeLocationFsxWindowsResponse =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -1376,9 +1359,6 @@ export const DescribeLocationFsxWindowsResponse =
       CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
       User: S.optional(S.String),
       Domain: S.optional(S.String),
-      ManagedSecretConfig: S.optional(ManagedSecretConfig),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
     }),
   ).annotate({
     identifier: "DescribeLocationFsxWindowsResponse",
@@ -1407,9 +1387,6 @@ export interface DescribeLocationHdfsResponse {
   KerberosPrincipal?: string;
   AgentArns?: string[];
   CreationTime?: Date;
-  ManagedSecretConfig?: ManagedSecretConfig;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const DescribeLocationHdfsResponse =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -1426,9 +1403,6 @@ export const DescribeLocationHdfsResponse =
       KerberosPrincipal: S.optional(S.String),
       AgentArns: S.optional(AgentArnList),
       CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      ManagedSecretConfig: S.optional(ManagedSecretConfig),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
     }),
   ).annotate({
     identifier: "DescribeLocationHdfsResponse",
@@ -2304,8 +2278,6 @@ export interface FsxUpdateProtocolSmb {
   MountOptions?: SmbMountOptions;
   Password?: string | redacted.Redacted<string>;
   User?: string;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const FsxUpdateProtocolSmb = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2313,8 +2285,6 @@ export const FsxUpdateProtocolSmb = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     MountOptions: S.optional(SmbMountOptions),
     Password: S.optional(SensitiveString),
     User: S.optional(S.String),
-    CmkSecretConfig: S.optional(CmkSecretConfig),
-    CustomSecretConfig: S.optional(CustomSecretConfig),
   }),
 ).annotate({
   identifier: "FsxUpdateProtocolSmb",
@@ -2381,8 +2351,6 @@ export interface UpdateLocationFsxWindowsRequest {
   Domain?: string;
   User?: string;
   Password?: string | redacted.Redacted<string>;
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const UpdateLocationFsxWindowsRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -2392,8 +2360,6 @@ export const UpdateLocationFsxWindowsRequest =
       Domain: S.optional(S.String),
       User: S.optional(S.String),
       Password: S.optional(SensitiveString),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),
@@ -2419,8 +2385,6 @@ export interface UpdateLocationHdfsRequest {
   KerberosKeytab?: Uint8Array;
   KerberosKrb5Conf?: Uint8Array;
   AgentArns?: string[];
-  CmkSecretConfig?: CmkSecretConfig;
-  CustomSecretConfig?: CustomSecretConfig;
 }
 export const UpdateLocationHdfsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
   () =>
@@ -2438,8 +2402,6 @@ export const UpdateLocationHdfsRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
       KerberosKeytab: S.optional(T.Blob),
       KerberosKrb5Conf: S.optional(T.Blob),
       AgentArns: S.optional(AgentArnList),
-      CmkSecretConfig: S.optional(CmkSecretConfig),
-      CustomSecretConfig: S.optional(CustomSecretConfig),
     }).pipe(
       T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
     ),

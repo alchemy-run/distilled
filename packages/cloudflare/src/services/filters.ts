@@ -150,9 +150,7 @@ export const listFilters: API.PaginatedOperationMethod<
     ListFiltersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListFiltersRequest,
-  ) => stream.Stream<
+  items: (input: ListFiltersRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -239,9 +237,7 @@ export const createFilter: API.PaginatedOperationMethod<
     CreateFilterError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: CreateFilterRequest,
-  ) => stream.Stream<
+  items: (input: CreateFilterRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -470,9 +466,7 @@ export const bulkPutFilters: API.PaginatedOperationMethod<
     BulkPutFiltersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: BulkPutFiltersRequest,
-  ) => stream.Stream<
+  items: (input: BulkPutFiltersRequest) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;

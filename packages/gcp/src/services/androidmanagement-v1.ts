@@ -3145,7 +3145,7 @@ export interface Policy {
   wifiConfigDisabled?: boolean;
   /** Whether creating windows besides app windows is disabled. */
   createWindowsDisabled?: boolean;
-  /** Whether resetting network settings is disabled. This applies only on fully managed devices. A NonComplianceDetail with MANAGEMENT_MODE is reported for other management modes. */
+  /** Whether resetting network settings is disabled. */
   networkResetDisabled?: boolean;
   /** Whether using NFC to beam data from apps is disabled. */
   outgoingBeamDisabled?: boolean;

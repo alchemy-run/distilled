@@ -3844,8 +3844,6 @@ export type ObjectOwnership =
   | "BucketOwnerEnforced"
   | (string & {});
 export const ObjectOwnership = /*@__PURE__*/ /*#__PURE__*/ S.String;
-export type BucketNamespace = "account-regional" | "global" | (string & {});
-export const BucketNamespace = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreateBucketRequest {
   ACL?: BucketCannedACL;
   Bucket: string;
@@ -3857,7 +3855,6 @@ export interface CreateBucketRequest {
   GrantWriteACP?: string;
   ObjectLockEnabledForBucket?: boolean;
   ObjectOwnership?: ObjectOwnership;
-  BucketNamespace?: BucketNamespace;
 }
 export const CreateBucketRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3882,9 +3879,6 @@ export const CreateBucketRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
     ),
     ObjectOwnership: S.optional(ObjectOwnership).pipe(
       T.HttpHeader("x-amz-object-ownership"),
-    ),
-    BucketNamespace: S.optional(BucketNamespace).pipe(
-      T.HttpHeader("x-amz-bucket-namespace"),
     ),
   }).pipe(
     T.all(
@@ -12461,11 +12455,10 @@ export type CopyObjectError =
  * the
  * `s3express:CreateSession`
  * permission in
- * the `Action` element of a policy to read the object. If no session mode is specified,
- * the session will be created with the maximum allowable privilege, attempting `ReadWrite`
- * first, then `ReadOnly` if `ReadWrite` is not permitted. If you want to explicitly
- * restrict the access to be read-only, you can set the `s3express:SessionMode` condition key to
- * `ReadOnly` on the copy source bucket.
+ * the `Action` element of a policy to read the object. By default, the session is
+ * in the `ReadWrite` mode. If you want to restrict the access, you can explicitly
+ * set the `s3express:SessionMode` condition key to `ReadOnly` on the
+ * copy source bucket.
  *
  * - If the copy destination is a directory bucket, you must have the
  * `s3express:CreateSession`
@@ -12578,15 +12571,6 @@ export type CreateBucketError =
  * There are two types of buckets: general purpose buckets and directory buckets. For more information about
  * these bucket types, see Creating, configuring, and working with Amazon S3
  * buckets in the *Amazon S3 User Guide*.
- *
- * General purpose buckets exist in a global namespace, which means that each bucket name must be unique
- * across all Amazon Web Services accounts in all the Amazon Web Services Regions within a partition. A partition is a grouping of
- * Regions. Amazon Web Services currently has four partitions: `aws` (Standard Regions), `aws-cn`
- * (China Regions), `aws-us-gov` (Amazon Web Services GovCloud (US)), and `aws-eusc`
- * (European Sovereign Cloud). When you create a general purpose bucket, you can choose to create a bucket in
- * the shared global namespace or you can choose to create a bucket in your account regional namespace.
- * Your account regional namespace is a subdivision of the global namespace that only your account can
- * create buckets in. For more information on account regional namespaces, see Namespaces for general purpose buckets.
  *
  * - **General purpose buckets** - If you send your
  * `CreateBucket` request to the `s3.amazonaws.com` global endpoint, the
@@ -13715,6 +13699,8 @@ export type DeleteBucketTaggingError =
  * This operation is not supported for directory buckets.
  *
  * Deletes tags from the general purpose bucket if attribute based access control (ABAC) is not enabled for the bucket. When you enable ABAC for a general purpose bucket, you can no longer use this operation for that bucket and must use UntagResource instead.
+ *
+ * if ABAC is not enabled for the bucket. When you enable ABAC for a general purpose bucket, you can no longer use this operation for that bucket and must use UntagResource instead.
  *
  * To use this operation, you must have permission to perform the `s3:PutBucketTagging`
  * action. By default, the bucket owner has this permission and can grant this permission to others.
@@ -14967,6 +14953,8 @@ export type GetBucketTaggingError =
  *
  * Returns the tag set associated with the general purpose bucket.
  *
+ * if ABAC is not enabled for the bucket. When you enable ABAC for a general purpose bucket, you can no longer use this operation for that bucket and must use ListTagsForResource instead.
+ *
  * To use this operation, you must have permission to perform the `s3:GetBucketTagging`
  * action. By default, the bucket owner has this permission and can grant this permission to others.
  *
@@ -15683,11 +15671,10 @@ export type HeadBucketError =
  *
  * `s3express:CreateSession`
  * permission in the
- * `Action` element of a policy. If no session mode is specified, the session will be
- * created with the maximum allowable privilege, attempting `ReadWrite` first,
- * then `ReadOnly` if `ReadWrite` is not permitted. If you want to explicitly
- * restrict the access to be read-only, you can set the `s3express:SessionMode` condition key to
- * `ReadOnly` on the bucket.
+ * `Action` element of a policy. By default, the session is in the
+ * `ReadWrite` mode. If you want to restrict the access, you can explicitly set the
+ * `s3express:SessionMode` condition key to `ReadOnly` on the
+ * bucket.
  *
  * For more information about example bucket policies, see Example
  * bucket policies for S3 Express One Zone and Amazon Web Services
@@ -19130,11 +19117,10 @@ export type UploadPartCopyError =
  * the
  * `s3express:CreateSession`
  * permission in
- * the `Action` element of a policy to read the object. If no session mode is specified,
- * the session will be created with the maximum allowable privilege, attempting
- * `ReadWrite` first, then `ReadOnly` if `ReadWrite` is not permitted.
- * If you want to explicitly restrict the access to be read-only, you can set the `s3express:SessionMode`
- * condition key to `ReadOnly` on the copy source bucket.
+ * the `Action` element of a policy to read the object. By default, the session is
+ * in the `ReadWrite` mode. If you want to restrict the access, you can explicitly
+ * set the `s3express:SessionMode` condition key to `ReadOnly` on the
+ * copy source bucket.
  *
  * - If the copy destination is a directory bucket, you must have the
  * `s3express:CreateSession`

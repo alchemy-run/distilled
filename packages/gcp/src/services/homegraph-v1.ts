@@ -22,6 +22,30 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
+export interface RequestSyncDevicesRequest {
+  /** Required. Third-party user ID. */
+  agentUserId?: string;
+  /** Optional. If set, the request will be added to a queue and a response will be returned immediately. This enables concurrent requests for the given `agent_user_id`, but the caller will not receive any error responses. */
+  async?: boolean;
+}
+
+export const RequestSyncDevicesRequest: Schema.Schema<RequestSyncDevicesRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      agentUserId: Schema.optional(Schema.String),
+      async: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "RequestSyncDevicesRequest",
+  }) as any as Schema.Schema<RequestSyncDevicesRequest>;
+
+export interface RequestSyncDevicesResponse {}
+
+export const RequestSyncDevicesResponse: Schema.Schema<RequestSyncDevicesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "RequestSyncDevicesResponse",
+  }) as any as Schema.Schema<RequestSyncDevicesResponse>;
+
 export interface ReportStateAndNotificationDevice {
   /** States of devices to update. See the **Device STATES** section of the individual trait [reference guides](https://developers.home.google.com/cloud-to-cloud/traits). */
   states?: Record<string, unknown>;
@@ -55,6 +79,32 @@ export const StateAndNotificationPayload: Schema.Schema<StateAndNotificationPayl
     identifier: "StateAndNotificationPayload",
   }) as any as Schema.Schema<StateAndNotificationPayload>;
 
+export interface ReportStateAndNotificationRequest {
+  /** Request ID used for debugging. */
+  requestId?: string;
+  /** Unique identifier per event (for example, a doorbell press). */
+  eventId?: string;
+  /** Required. Third-party user ID. */
+  agentUserId?: string;
+  /** Deprecated. */
+  followUpToken?: string;
+  /** Required. State of devices to update and notification metadata for devices. */
+  payload?: StateAndNotificationPayload;
+}
+
+export const ReportStateAndNotificationRequest: Schema.Schema<ReportStateAndNotificationRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      eventId: Schema.optional(Schema.String),
+      agentUserId: Schema.optional(Schema.String),
+      followUpToken: Schema.optional(Schema.String),
+      payload: Schema.optional(StateAndNotificationPayload),
+    }),
+  ).annotate({
+    identifier: "ReportStateAndNotificationRequest",
+  }) as any as Schema.Schema<ReportStateAndNotificationRequest>;
+
 export interface ReportStateAndNotificationResponse {
   /** Request ID copied from ReportStateAndNotificationRequest. */
   requestId?: string;
@@ -69,228 +119,12 @@ export const ReportStateAndNotificationResponse: Schema.Schema<ReportStateAndNot
     identifier: "ReportStateAndNotificationResponse",
   }) as any as Schema.Schema<ReportStateAndNotificationResponse>;
 
-export interface ReportStateAndNotificationRequest {
-  /** Required. Third-party user ID. */
-  agentUserId?: string;
-  /** Required. State of devices to update and notification metadata for devices. */
-  payload?: StateAndNotificationPayload;
-  /** Unique identifier per event (for example, a doorbell press). */
-  eventId?: string;
-  /** Request ID used for debugging. */
-  requestId?: string;
-  /** Deprecated. */
-  followUpToken?: string;
-}
-
-export const ReportStateAndNotificationRequest: Schema.Schema<ReportStateAndNotificationRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      agentUserId: Schema.optional(Schema.String),
-      payload: Schema.optional(StateAndNotificationPayload),
-      eventId: Schema.optional(Schema.String),
-      requestId: Schema.optional(Schema.String),
-      followUpToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ReportStateAndNotificationRequest",
-  }) as any as Schema.Schema<ReportStateAndNotificationRequest>;
-
-export interface AgentOtherDeviceId {
-  /** Project ID for your smart home Action. */
-  agentId?: string;
-  /** Unique third-party device ID. */
-  deviceId?: string;
-}
-
-export const AgentOtherDeviceId: Schema.Schema<AgentOtherDeviceId> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      agentId: Schema.optional(Schema.String),
-      deviceId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "AgentOtherDeviceId",
-  }) as any as Schema.Schema<AgentOtherDeviceId>;
-
-export interface DeviceNames {
-  /** Additional names provided by the user for the device. */
-  nicknames?: Array<string>;
-  /** List of names provided by the manufacturer rather than the user, such as serial numbers, SKUs, etc. */
-  defaultNames?: Array<string>;
-  /** Primary name of the device, generally provided by the user. Names will be truncated if over the 60 Unicode code point (character) limit and no errors will be thrown. Developers are responsible for handling long names. */
-  name?: string;
-}
-
-export const DeviceNames: Schema.Schema<DeviceNames> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nicknames: Schema.optional(Schema.Array(Schema.String)),
-      defaultNames: Schema.optional(Schema.Array(Schema.String)),
-      name: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "DeviceNames",
-  }) as any as Schema.Schema<DeviceNames>;
-
-export interface DeviceInfo {
-  /** Device manufacturer. */
-  manufacturer?: string;
-  /** Device model. */
-  model?: string;
-  /** Device hardware version. */
-  hwVersion?: string;
-  /** Device software version. */
-  swVersion?: string;
-}
-
-export const DeviceInfo: Schema.Schema<DeviceInfo> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      manufacturer: Schema.optional(Schema.String),
-      model: Schema.optional(Schema.String),
-      hwVersion: Schema.optional(Schema.String),
-      swVersion: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
-
-export interface Device {
-  /** Hardware type of the device. See [device types](https://developers.home.google.com/cloud-to-cloud/guides). */
-  type?: string;
-  /** Alternate IDs associated with this device. This is used to identify cloud synced devices enabled for [local fulfillment](https://developers.home.google.com/local-home/overview). */
-  otherDeviceIds?: Array<AgentOtherDeviceId>;
-  /** Indicates whether your smart home Action will report notifications to Google for this device via ReportStateAndNotification. If your smart home Action enables users to control device notifications, you should update this field and call RequestSyncDevices. */
-  notificationSupportedByAgent?: boolean;
-  /** Traits supported by the device. See [device traits](https://developers.home.google.com/cloud-to-cloud/traits). */
-  traits?: Array<string>;
-  /** Attributes for the traits supported by the device. */
-  attributes?: Record<string, unknown>;
-  /** Suggested name for the structure where this device is installed. Google attempts to use this value during user setup. */
-  structureHint?: string;
-  /** Names given to this device by your smart home Action. */
-  name?: DeviceNames;
-  /** Indicates whether your smart home Action will report state of this device to Google via ReportStateAndNotification. */
-  willReportState?: boolean;
-  /** Device manufacturer, model, hardware version, and software version. */
-  deviceInfo?: DeviceInfo;
-  /** Suggested name for the room where this device is installed. Google attempts to use this value during user setup. */
-  roomHint?: string;
-  /** Custom device attributes stored in Home Graph and provided to your smart home Action in each [QUERY](https://developers.home.google.com/cloud-to-cloud/intents/query) and [EXECUTE](https://developers.home.google.com/cloud-to-cloud/intents/execute) intent. Data in this object has a few constraints: No sensitive information, including but not limited to Personally Identifiable Information. */
-  customData?: Record<string, unknown>;
-  /** Third-party device ID. */
-  id?: string;
-}
-
-export const Device: Schema.Schema<Device> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      type: Schema.optional(Schema.String),
-      otherDeviceIds: Schema.optional(Schema.Array(AgentOtherDeviceId)),
-      notificationSupportedByAgent: Schema.optional(Schema.Boolean),
-      traits: Schema.optional(Schema.Array(Schema.String)),
-      attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      structureHint: Schema.optional(Schema.String),
-      name: Schema.optional(DeviceNames),
-      willReportState: Schema.optional(Schema.Boolean),
-      deviceInfo: Schema.optional(DeviceInfo),
-      roomHint: Schema.optional(Schema.String),
-      customData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      id: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
-
-export interface SyncResponsePayload {
-  /** Devices associated with the third-party user. */
-  devices?: Array<Device>;
-  /** Third-party user ID */
-  agentUserId?: string;
-}
-
-export const SyncResponsePayload: Schema.Schema<SyncResponsePayload> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      devices: Schema.optional(Schema.Array(Device)),
-      agentUserId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "SyncResponsePayload",
-  }) as any as Schema.Schema<SyncResponsePayload>;
-
-export interface SyncRequest {
-  /** Request ID used for debugging. */
-  requestId?: string;
-  /** Required. Third-party user ID. */
-  agentUserId?: string;
-}
-
-export const SyncRequest: Schema.Schema<SyncRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestId: Schema.optional(Schema.String),
-      agentUserId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "SyncRequest",
-  }) as any as Schema.Schema<SyncRequest>;
-
-export interface QueryResponsePayload {
-  /** States of the devices. Map of third-party device ID to struct of device states. */
-  devices?: Record<string, Record<string, unknown>>;
-}
-
-export const QueryResponsePayload: Schema.Schema<QueryResponsePayload> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      devices: Schema.optional(
-        Schema.Record(
-          Schema.String,
-          Schema.Record(Schema.String, Schema.Unknown),
-        ),
-      ),
-    }),
-  ).annotate({
-    identifier: "QueryResponsePayload",
-  }) as any as Schema.Schema<QueryResponsePayload>;
-
-export interface QueryResponse {
-  /** Request ID used for debugging. Copied from the request. */
-  requestId?: string;
-  /** Device states for the devices given in the request. */
-  payload?: QueryResponsePayload;
-}
-
-export const QueryResponse: Schema.Schema<QueryResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestId: Schema.optional(Schema.String),
-      payload: Schema.optional(QueryResponsePayload),
-    }),
-  ).annotate({
-    identifier: "QueryResponse",
-  }) as any as Schema.Schema<QueryResponse>;
-
 export interface Empty {}
 
 export const Empty: Schema.Schema<Empty> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
     identifier: "Empty",
   }) as any as Schema.Schema<Empty>;
-
-export interface RequestSyncDevicesRequest {
-  /** Required. Third-party user ID. */
-  agentUserId?: string;
-  /** Optional. If set, the request will be added to a queue and a response will be returned immediately. This enables concurrent requests for the given `agent_user_id`, but the caller will not receive any error responses. */
-  async?: boolean;
-}
-
-export const RequestSyncDevicesRequest: Schema.Schema<RequestSyncDevicesRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      agentUserId: Schema.optional(Schema.String),
-      async: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "RequestSyncDevicesRequest",
-  }) as any as Schema.Schema<RequestSyncDevicesRequest>;
 
 export interface AgentDeviceId {
   /** Third-party device ID. */
@@ -334,23 +168,6 @@ export const QueryRequestInput: Schema.Schema<QueryRequestInput> =
     identifier: "QueryRequestInput",
   }) as any as Schema.Schema<QueryRequestInput>;
 
-export interface SyncResponse {
-  /** Request ID used for debugging. Copied from the request. */
-  requestId?: string;
-  /** Devices associated with the third-party user. */
-  payload?: SyncResponsePayload;
-}
-
-export const SyncResponse: Schema.Schema<SyncResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestId: Schema.optional(Schema.String),
-      payload: Schema.optional(SyncResponsePayload),
-    }),
-  ).annotate({
-    identifier: "SyncResponse",
-  }) as any as Schema.Schema<SyncResponse>;
-
 export interface QueryRequest {
   /** Request ID used for debugging. */
   requestId?: string;
@@ -371,47 +188,228 @@ export const QueryRequest: Schema.Schema<QueryRequest> =
     identifier: "QueryRequest",
   }) as any as Schema.Schema<QueryRequest>;
 
-export interface RequestSyncDevicesResponse {}
+export interface QueryResponsePayload {
+  /** States of the devices. Map of third-party device ID to struct of device states. */
+  devices?: Record<string, Record<string, unknown>>;
+}
 
-export const RequestSyncDevicesResponse: Schema.Schema<RequestSyncDevicesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "RequestSyncDevicesResponse",
-  }) as any as Schema.Schema<RequestSyncDevicesResponse>;
+export const QueryResponsePayload: Schema.Schema<QueryResponsePayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      devices: Schema.optional(
+        Schema.Record(
+          Schema.String,
+          Schema.Record(Schema.String, Schema.Unknown),
+        ),
+      ),
+    }),
+  ).annotate({
+    identifier: "QueryResponsePayload",
+  }) as any as Schema.Schema<QueryResponsePayload>;
+
+export interface QueryResponse {
+  /** Request ID used for debugging. Copied from the request. */
+  requestId?: string;
+  /** Device states for the devices given in the request. */
+  payload?: QueryResponsePayload;
+}
+
+export const QueryResponse: Schema.Schema<QueryResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      payload: Schema.optional(QueryResponsePayload),
+    }),
+  ).annotate({
+    identifier: "QueryResponse",
+  }) as any as Schema.Schema<QueryResponse>;
+
+export interface SyncRequest {
+  /** Request ID used for debugging. */
+  requestId?: string;
+  /** Required. Third-party user ID. */
+  agentUserId?: string;
+}
+
+export const SyncRequest: Schema.Schema<SyncRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      agentUserId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SyncRequest",
+  }) as any as Schema.Schema<SyncRequest>;
+
+export interface DeviceNames {
+  /** Primary name of the device, generally provided by the user. Names will be truncated if over the 60 Unicode code point (character) limit and no errors will be thrown. Developers are responsible for handling long names. */
+  name?: string;
+  /** Additional names provided by the user for the device. */
+  nicknames?: Array<string>;
+  /** List of names provided by the manufacturer rather than the user, such as serial numbers, SKUs, etc. */
+  defaultNames?: Array<string>;
+}
+
+export const DeviceNames: Schema.Schema<DeviceNames> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      nicknames: Schema.optional(Schema.Array(Schema.String)),
+      defaultNames: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "DeviceNames",
+  }) as any as Schema.Schema<DeviceNames>;
+
+export interface DeviceInfo {
+  /** Device manufacturer. */
+  manufacturer?: string;
+  /** Device model. */
+  model?: string;
+  /** Device hardware version. */
+  hwVersion?: string;
+  /** Device software version. */
+  swVersion?: string;
+}
+
+export const DeviceInfo: Schema.Schema<DeviceInfo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      manufacturer: Schema.optional(Schema.String),
+      model: Schema.optional(Schema.String),
+      hwVersion: Schema.optional(Schema.String),
+      swVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "DeviceInfo" }) as any as Schema.Schema<DeviceInfo>;
+
+export interface AgentOtherDeviceId {
+  /** Project ID for your smart home Action. */
+  agentId?: string;
+  /** Unique third-party device ID. */
+  deviceId?: string;
+}
+
+export const AgentOtherDeviceId: Schema.Schema<AgentOtherDeviceId> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      agentId: Schema.optional(Schema.String),
+      deviceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AgentOtherDeviceId",
+  }) as any as Schema.Schema<AgentOtherDeviceId>;
+
+export interface Device {
+  /** Third-party device ID. */
+  id?: string;
+  /** Hardware type of the device. See [device types](https://developers.home.google.com/cloud-to-cloud/guides). */
+  type?: string;
+  /** Traits supported by the device. See [device traits](https://developers.home.google.com/cloud-to-cloud/traits). */
+  traits?: Array<string>;
+  /** Names given to this device by your smart home Action. */
+  name?: DeviceNames;
+  /** Indicates whether your smart home Action will report state of this device to Google via ReportStateAndNotification. */
+  willReportState?: boolean;
+  /** Suggested name for the room where this device is installed. Google attempts to use this value during user setup. */
+  roomHint?: string;
+  /** Suggested name for the structure where this device is installed. Google attempts to use this value during user setup. */
+  structureHint?: string;
+  /** Device manufacturer, model, hardware version, and software version. */
+  deviceInfo?: DeviceInfo;
+  /** Attributes for the traits supported by the device. */
+  attributes?: Record<string, unknown>;
+  /** Custom device attributes stored in Home Graph and provided to your smart home Action in each [QUERY](https://developers.home.google.com/cloud-to-cloud/intents/query) and [EXECUTE](https://developers.home.google.com/cloud-to-cloud/intents/execute) intent. Data in this object has a few constraints: No sensitive information, including but not limited to Personally Identifiable Information. */
+  customData?: Record<string, unknown>;
+  /** Alternate IDs associated with this device. This is used to identify cloud synced devices enabled for [local fulfillment](https://developers.home.google.com/local-home/overview). */
+  otherDeviceIds?: Array<AgentOtherDeviceId>;
+  /** Indicates whether your smart home Action will report notifications to Google for this device via ReportStateAndNotification. If your smart home Action enables users to control device notifications, you should update this field and call RequestSyncDevices. */
+  notificationSupportedByAgent?: boolean;
+}
+
+export const Device: Schema.Schema<Device> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      id: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      traits: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(DeviceNames),
+      willReportState: Schema.optional(Schema.Boolean),
+      roomHint: Schema.optional(Schema.String),
+      structureHint: Schema.optional(Schema.String),
+      deviceInfo: Schema.optional(DeviceInfo),
+      attributes: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      customData: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      otherDeviceIds: Schema.optional(Schema.Array(AgentOtherDeviceId)),
+      notificationSupportedByAgent: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({ identifier: "Device" }) as any as Schema.Schema<Device>;
+
+export interface SyncResponsePayload {
+  /** Third-party user ID */
+  agentUserId?: string;
+  /** Devices associated with the third-party user. */
+  devices?: Array<Device>;
+}
+
+export const SyncResponsePayload: Schema.Schema<SyncResponsePayload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      agentUserId: Schema.optional(Schema.String),
+      devices: Schema.optional(Schema.Array(Device)),
+    }),
+  ).annotate({
+    identifier: "SyncResponsePayload",
+  }) as any as Schema.Schema<SyncResponsePayload>;
+
+export interface SyncResponse {
+  /** Request ID used for debugging. Copied from the request. */
+  requestId?: string;
+  /** Devices associated with the third-party user. */
+  payload?: SyncResponsePayload;
+}
+
+export const SyncResponse: Schema.Schema<SyncResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestId: Schema.optional(Schema.String),
+      payload: Schema.optional(SyncResponsePayload),
+    }),
+  ).annotate({
+    identifier: "SyncResponse",
+  }) as any as Schema.Schema<SyncResponse>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
-export interface DeleteAgentUsersRequest {
-  /** Required. Third-party user ID. */
-  agentUserId: string;
-  /** Request ID used for debugging. */
-  requestId?: string;
+export interface RequestSyncDevicesRequest_Op {
+  /** Request body */
+  body?: RequestSyncDevicesRequest;
 }
 
-export const DeleteAgentUsersRequest =
+export const RequestSyncDevicesRequest_Op =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    agentUserId: Schema.String.pipe(T.HttpPath("agentUserId")),
-    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
+    body: Schema.optional(RequestSyncDevicesRequest).pipe(T.HttpBody()),
   }).pipe(
-    T.Http({ method: "DELETE", path: "v1/agentUsers/{agentUsersId}" }),
+    T.Http({ method: "POST", path: "v1/devices:requestSync", hasBody: true }),
     svc,
-  ) as unknown as Schema.Schema<DeleteAgentUsersRequest>;
+  ) as unknown as Schema.Schema<RequestSyncDevicesRequest_Op>;
 
-export type DeleteAgentUsersResponse = Empty;
-export const DeleteAgentUsersResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
+export type RequestSyncDevicesResponse_Op = RequestSyncDevicesResponse;
+export const RequestSyncDevicesResponse_Op =
+  /*@__PURE__*/ /*#__PURE__*/ RequestSyncDevicesResponse;
 
-export type DeleteAgentUsersError = DefaultErrors;
+export type RequestSyncDevicesError = DefaultErrors;
 
-/** Unlinks the given third-party user from your smart home Action. All data related to this user will be deleted. For more details on how users link their accounts, see [fulfillment and authentication](https://developers.home.google.com/cloud-to-cloud/primer/fulfillment). The third-party user's identity is passed in via the `agent_user_id` (see DeleteAgentUserRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const deleteAgentUsers: API.OperationMethod<
-  DeleteAgentUsersRequest,
-  DeleteAgentUsersResponse,
-  DeleteAgentUsersError,
+/** Requests Google to send an `action.devices.SYNC` [intent](https://developers.home.google.com/cloud-to-cloud/intents/sync) to your smart home Action to update device metadata for the given user. The third-party user's identity is passed via the `agent_user_id` (see RequestSyncDevicesRequest). This request must be authorized using service account credentials from your Actions console project. */
+export const requestSyncDevices: API.OperationMethod<
+  RequestSyncDevicesRequest_Op,
+  RequestSyncDevicesResponse_Op,
+  RequestSyncDevicesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAgentUsersRequest,
-  output: DeleteAgentUsersResponse,
+  input: RequestSyncDevicesRequest_Op,
+  output: RequestSyncDevicesResponse_Op,
   errors: [],
 }));
 
@@ -451,6 +449,35 @@ export const reportStateAndNotificationDevices: API.OperationMethod<
   errors: [],
 }));
 
+export interface QueryDevicesRequest {
+  /** Request body */
+  body?: QueryRequest;
+}
+
+export const QueryDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+  body: Schema.optional(QueryRequest).pipe(T.HttpBody()),
+}).pipe(
+  T.Http({ method: "POST", path: "v1/devices:query", hasBody: true }),
+  svc,
+) as unknown as Schema.Schema<QueryDevicesRequest>;
+
+export type QueryDevicesResponse = QueryResponse;
+export const QueryDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ QueryResponse;
+
+export type QueryDevicesError = DefaultErrors;
+
+/** Gets the current states in Home Graph for the given set of the third-party user's devices. The third-party user's identity is passed in via the `agent_user_id` (see QueryRequest). This request must be authorized using service account credentials from your Actions console project. */
+export const queryDevices: API.OperationMethod<
+  QueryDevicesRequest,
+  QueryDevicesResponse,
+  QueryDevicesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: QueryDevicesRequest,
+  output: QueryDevicesResponse,
+  errors: [],
+}));
+
 export interface SyncDevicesRequest {
   /** Request body */
   body?: SyncRequest;
@@ -480,62 +507,35 @@ export const syncDevices: API.OperationMethod<
   errors: [],
 }));
 
-export interface RequestSyncDevicesRequest_Op {
-  /** Request body */
-  body?: RequestSyncDevicesRequest;
+export interface DeleteAgentUsersRequest {
+  /** Required. Third-party user ID. */
+  agentUserId: string;
+  /** Request ID used for debugging. */
+  requestId?: string;
 }
 
-export const RequestSyncDevicesRequest_Op =
+export const DeleteAgentUsersRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    body: Schema.optional(RequestSyncDevicesRequest).pipe(T.HttpBody()),
+    agentUserId: Schema.String.pipe(T.HttpPath("agentUserId")),
+    requestId: Schema.optional(Schema.String).pipe(T.HttpQuery("requestId")),
   }).pipe(
-    T.Http({ method: "POST", path: "v1/devices:requestSync", hasBody: true }),
+    T.Http({ method: "DELETE", path: "v1/agentUsers/{agentUsersId}" }),
     svc,
-  ) as unknown as Schema.Schema<RequestSyncDevicesRequest_Op>;
+  ) as unknown as Schema.Schema<DeleteAgentUsersRequest>;
 
-export type RequestSyncDevicesResponse_Op = RequestSyncDevicesResponse;
-export const RequestSyncDevicesResponse_Op =
-  /*@__PURE__*/ /*#__PURE__*/ RequestSyncDevicesResponse;
+export type DeleteAgentUsersResponse = Empty;
+export const DeleteAgentUsersResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
 
-export type RequestSyncDevicesError = DefaultErrors;
+export type DeleteAgentUsersError = DefaultErrors;
 
-/** Requests Google to send an `action.devices.SYNC` [intent](https://developers.home.google.com/cloud-to-cloud/intents/sync) to your smart home Action to update device metadata for the given user. The third-party user's identity is passed via the `agent_user_id` (see RequestSyncDevicesRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const requestSyncDevices: API.OperationMethod<
-  RequestSyncDevicesRequest_Op,
-  RequestSyncDevicesResponse_Op,
-  RequestSyncDevicesError,
+/** Unlinks the given third-party user from your smart home Action. All data related to this user will be deleted. For more details on how users link their accounts, see [fulfillment and authentication](https://developers.home.google.com/cloud-to-cloud/primer/fulfillment). The third-party user's identity is passed in via the `agent_user_id` (see DeleteAgentUserRequest). This request must be authorized using service account credentials from your Actions console project. */
+export const deleteAgentUsers: API.OperationMethod<
+  DeleteAgentUsersRequest,
+  DeleteAgentUsersResponse,
+  DeleteAgentUsersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: RequestSyncDevicesRequest_Op,
-  output: RequestSyncDevicesResponse_Op,
-  errors: [],
-}));
-
-export interface QueryDevicesRequest {
-  /** Request body */
-  body?: QueryRequest;
-}
-
-export const QueryDevicesRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  body: Schema.optional(QueryRequest).pipe(T.HttpBody()),
-}).pipe(
-  T.Http({ method: "POST", path: "v1/devices:query", hasBody: true }),
-  svc,
-) as unknown as Schema.Schema<QueryDevicesRequest>;
-
-export type QueryDevicesResponse = QueryResponse;
-export const QueryDevicesResponse = /*@__PURE__*/ /*#__PURE__*/ QueryResponse;
-
-export type QueryDevicesError = DefaultErrors;
-
-/** Gets the current states in Home Graph for the given set of the third-party user's devices. The third-party user's identity is passed in via the `agent_user_id` (see QueryRequest). This request must be authorized using service account credentials from your Actions console project. */
-export const queryDevices: API.OperationMethod<
-  QueryDevicesRequest,
-  QueryDevicesResponse,
-  QueryDevicesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: QueryDevicesRequest,
-  output: QueryDevicesResponse,
+  input: DeleteAgentUsersRequest,
+  output: DeleteAgentUsersResponse,
   errors: [],
 }));

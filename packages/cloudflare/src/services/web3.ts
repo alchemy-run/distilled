@@ -174,9 +174,7 @@ export const listHostnames: API.PaginatedOperationMethod<
     ListHostnamesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListHostnamesRequest,
-  ) => stream.Stream<
+  items: (input: ListHostnamesRequest) => stream.Stream<
     {
       id?: string | null;
       createdOn?: string | null;

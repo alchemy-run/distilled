@@ -277,93 +277,8 @@ export const AppliedLabel: Schema.Schema<AppliedLabel> =
     identifier: "AppliedLabel",
   }) as any as Schema.Schema<AppliedLabel>;
 
-export interface CustomerIdentity {
-  /** Customer id. */
-  id?: string;
-}
-
-export const CustomerIdentity: Schema.Schema<CustomerIdentity> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CustomerIdentity",
-  }) as any as Schema.Schema<CustomerIdentity>;
-
-export interface UserIdentity {
-  /** User gaia id. */
-  id?: string;
-  /** User email. */
-  userEmail?: string;
-}
-
-export const UserIdentity: Schema.Schema<UserIdentity> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      userEmail: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "UserIdentity",
-  }) as any as Schema.Schema<UserIdentity>;
-
-export interface GroupIdentity {
-  /** Group gaia id. */
-  id?: string;
-  /** Group email. */
-  groupEmail?: string;
-}
-
-export const GroupIdentity: Schema.Schema<GroupIdentity> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      id: Schema.optional(Schema.String),
-      groupEmail: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GroupIdentity",
-  }) as any as Schema.Schema<GroupIdentity>;
-
-export interface OwnerIdentity {
-  /** Identity of the Google Workspace customer who owns the resource. */
-  customerIdentity?: CustomerIdentity;
-  /** Identity of the user who owns the resource. */
-  userIdentity?: UserIdentity;
-  /** Identity of the group who owns the resource. */
-  groupIdentity?: GroupIdentity;
-}
-
-export const OwnerIdentity: Schema.Schema<OwnerIdentity> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      customerIdentity: Schema.optional(CustomerIdentity),
-      userIdentity: Schema.optional(UserIdentity),
-      groupIdentity: Schema.optional(GroupIdentity),
-    }),
-  ).annotate({
-    identifier: "OwnerIdentity",
-  }) as any as Schema.Schema<OwnerIdentity>;
-
-export interface OwnerDetails {
-  /** Type of the owner of the resource. */
-  ownerType?: string;
-  /** Identity details of the owner(s) of the resource. */
-  ownerIdentity?: Array<OwnerIdentity>;
-}
-
-export const OwnerDetails: Schema.Schema<OwnerDetails> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      ownerType: Schema.optional(Schema.String),
-      ownerIdentity: Schema.optional(Schema.Array(OwnerIdentity)),
-    }),
-  ).annotate({
-    identifier: "OwnerDetails",
-  }) as any as Schema.Schema<OwnerDetails>;
-
 export interface ResourceDetails {
-  /** Identifier of the resource, such as a doc_id for a Drive document, a conference_id for a Meet conference, or a "gaia_id/rfc2822_message_id" for an email. */
+  /** Identifier of the resource. */
   id?: string;
   /** Title of the resource. For instance, in case of a drive document, this would be the title of the document. In case of an email, this would be the subject. */
   title?: string;
@@ -373,8 +288,6 @@ export interface ResourceDetails {
   appliedLabels?: Array<AppliedLabel>;
   /** Defines relationship of the resource to the events */
   relation?: string;
-  /** Owner details of the resource. */
-  ownerDetails?: OwnerDetails;
 }
 
 export const ResourceDetails: Schema.Schema<ResourceDetails> =
@@ -385,7 +298,6 @@ export const ResourceDetails: Schema.Schema<ResourceDetails> =
       type: Schema.optional(Schema.String),
       appliedLabels: Schema.optional(Schema.Array(AppliedLabel)),
       relation: Schema.optional(Schema.String),
-      ownerDetails: Schema.optional(OwnerDetails),
     }),
   ).annotate({
     identifier: "ResourceDetails",

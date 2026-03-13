@@ -245,9 +245,7 @@ export const listIndexes: API.PaginatedOperationMethod<
     ListIndexesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListIndexesRequest,
-  ) => stream.Stream<
+  items: (input: ListIndexesRequest) => stream.Stream<
     {
       config?: {
         dimensions: number;

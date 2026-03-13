@@ -23,37 +23,37 @@ const svc = T.Service({
 // ==========================================================================
 
 export interface MethodDetails {
-  /** Output only. The name of the method for example `products.list`. */
-  method?: string;
   /** Output only. The API version that the method belongs to. */
   version?: string;
-  /** Output only. The sub-API that the method belongs to. */
-  subapi?: string;
   /** Output only. The path for the method such as `products/v1/productInputs.insert` */
   path?: string;
+  /** Output only. The name of the method for example `products.list`. */
+  method?: string;
+  /** Output only. The sub-API that the method belongs to. */
+  subapi?: string;
 }
 
 export const MethodDetails: Schema.Schema<MethodDetails> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      method: Schema.optional(Schema.String),
       version: Schema.optional(Schema.String),
-      subapi: Schema.optional(Schema.String),
       path: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
+      subapi: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "MethodDetails",
   }) as any as Schema.Schema<MethodDetails>;
 
 export interface QuotaGroup {
-  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
-  name?: string;
-  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at at 12:00 PM midday UTC. */
-  quotaUsage?: string;
   /** Output only. List of all methods group quota applies to. */
   methodDetails?: Array<MethodDetails>;
   /** Output only. The maximum number of calls allowed per minute for the group. */
   quotaMinuteLimit?: string;
+  /** Output only. The current quota usage, meaning the number of calls already made on a given day to the methods in the group. The daily quota limits reset at at 12:00 PM midday UTC. */
+  quotaUsage?: string;
+  /** Identifier. The resource name of the quota group. Format: accounts/{account}/quotas/{group} Note: There is no guarantee on the format of {group} */
+  name?: string;
   /** Output only. The maximum number of calls allowed per day for the group. */
   quotaLimit?: string;
 }
@@ -61,10 +61,10 @@ export interface QuotaGroup {
 export const QuotaGroup: Schema.Schema<QuotaGroup> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      quotaUsage: Schema.optional(Schema.String),
       methodDetails: Schema.optional(Schema.Array(MethodDetails)),
       quotaMinuteLimit: Schema.optional(Schema.String),
+      quotaUsage: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
       quotaLimit: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "QuotaGroup" }) as any as Schema.Schema<QuotaGroup>;
@@ -86,26 +86,7 @@ export const ListQuotaGroupsResponse: Schema.Schema<ListQuotaGroupsResponse> =
     identifier: "ListQuotaGroupsResponse",
   }) as any as Schema.Schema<ListQuotaGroupsResponse>;
 
-export interface ProductLimit {
-  /** Required. The scope of the product limit. */
-  scope?: "SCOPE_UNSPECIFIED" | "ADS_NON_EEA" | "ADS_EEA" | (string & {});
-  /** Required. The maximum number of products that are allowed in the account in the given scope. */
-  limit?: string;
-}
-
-export const ProductLimit: Schema.Schema<ProductLimit> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      scope: Schema.optional(Schema.String),
-      limit: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ProductLimit",
-  }) as any as Schema.Schema<ProductLimit>;
-
 export interface ProductChange {
-  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
-  newValue?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
   reportingContext?:
     | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
@@ -133,21 +114,25 @@ export interface ProductChange {
   oldValue?: string;
   /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
   regionCode?: string;
+  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
+  newValue?: string;
 }
 
 export const ProductChange: Schema.Schema<ProductChange> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      newValue: Schema.optional(Schema.String),
       reportingContext: Schema.optional(Schema.String),
       oldValue: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ProductChange",
   }) as any as Schema.Schema<ProductChange>;
 
 export interface ProductStatusChangeMessage {
+  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
+  eventTime?: string;
   /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
   account?: string;
   /** The attribute in the resource that changed, in this case it will be always `Status`. */
@@ -156,14 +141,12 @@ export interface ProductStatusChangeMessage {
   resource?: string;
   /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
   managingAccount?: string;
-  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
-  expirationTime?: string;
   /** The resource that changed, in this case it will always be `Product`. */
   resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
-  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
-  eventTime?: string;
   /** The product id. */
   resourceId?: string;
+  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
+  expirationTime?: string;
   /** A message to describe the change that happened to the product */
   changes?: Array<ProductChange>;
 }
@@ -171,32 +154,49 @@ export interface ProductStatusChangeMessage {
 export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      eventTime: Schema.optional(Schema.String),
       account: Schema.optional(Schema.String),
       attribute: Schema.optional(Schema.String),
       resource: Schema.optional(Schema.String),
       managingAccount: Schema.optional(Schema.String),
-      expirationTime: Schema.optional(Schema.String),
       resourceType: Schema.optional(Schema.String),
-      eventTime: Schema.optional(Schema.String),
       resourceId: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
       changes: Schema.optional(Schema.Array(ProductChange)),
     }),
   ).annotate({
     identifier: "ProductStatusChangeMessage",
   }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
+export interface ProductLimit {
+  /** Required. The scope of the product limit. */
+  scope?: "SCOPE_UNSPECIFIED" | "ADS_NON_EEA" | "ADS_EEA" | (string & {});
+  /** Required. The maximum number of products that are allowed in the account in the given scope. */
+  limit?: string;
+}
+
+export const ProductLimit: Schema.Schema<ProductLimit> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      scope: Schema.optional(Schema.String),
+      limit: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductLimit",
+  }) as any as Schema.Schema<ProductLimit>;
+
 export interface AccountLimit {
-  /** Identifier. The limit part of the name will be a combination of the type and the scope. For example: `accounts/123/limits/products~ADS_NON_EEA` Format: `accounts/{account}/limits/{limit}` */
-  name?: string;
   /** The limit for products. */
   products?: ProductLimit;
+  /** Identifier. The limit part of the name will be a combination of the type and the scope. For example: `accounts/123/limits/products~ADS_NON_EEA` Format: `accounts/{account}/limits/{limit}` */
+  name?: string;
 }
 
 export const AccountLimit: Schema.Schema<AccountLimit> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
       products: Schema.optional(ProductLimit),
+      name: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "AccountLimit",
@@ -258,21 +258,21 @@ export const getAccountsLimits: API.OperationMethod<
 }));
 
 export interface ListAccountsLimitsRequest {
-  /** Optional. A page token, received from a previous `ListAccountLimits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountLimits` must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. The maximum number of limits to return. The service may return fewer than this value. If unspecified, at most 100 limits will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
   pageSize?: number;
   /** Required. The parent account. Format: `accounts/{account}` */
   parent: string;
+  /** Optional. A page token, received from a previous `ListAccountLimits` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAccountLimits` must match the call that provided the page token. */
+  pageToken?: string;
   /** Required. A filter on the limit `type` is required, for example, `type = "products"`. */
   filter?: string;
 }
 
 export const ListAccountsLimitsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
   }).pipe(
     T.Http({ method: "GET", path: "quota/v1/accounts/{accountsId}/limits" }),
@@ -302,19 +302,19 @@ export const listAccountsLimits: API.PaginatedOperationMethod<
 }));
 
 export interface ListAccountsQuotasRequest {
-  /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
-  /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
-  pageToken?: string;
   /** Required. The merchant account who owns the collection of method quotas Format: accounts/{account} */
   parent: string;
+  /** Optional. Token (if provided) to retrieve the subsequent page. All other parameters must match the original call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of quotas to return in the response, used for paging. Defaults to 500; values above 1000 will be coerced to 1000. */
+  pageSize?: number;
 }
 
 export const ListAccountsQuotasRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
     T.Http({ method: "GET", path: "quota/v1/accounts/{accountsId}/quotas" }),
     svc,

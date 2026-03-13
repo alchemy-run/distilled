@@ -4,9 +4,9 @@ import * as T from "../traits";
 
 // Input Schema
 export const AppIPAssignmentsListInput =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
-  }).pipe(T.Http({ method: "GET", path: "/apps/{app_name}/ip_assignments" }));
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({}).pipe(
+    T.Http({ method: "GET", path: "/apps/{app_name}/ip_assignments" }),
+  );
 export type AppIPAssignmentsListInput = typeof AppIPAssignmentsListInput.Type;
 
 // Output Schema
@@ -29,8 +29,6 @@ export type AppIPAssignmentsListOutput = typeof AppIPAssignmentsListOutput.Type;
 // The operation
 /**
  * List IP assignments for app
- *
- * @param app_name - Fly App Name
  */
 export const AppIPAssignmentsList = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

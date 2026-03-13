@@ -81,7 +81,7 @@ Every package has these scripts:
 | `fmt` | `oxfmt --write src` | Format source |
 | `lint` | `oxlint --fix src` | Lint + autofix |
 | `test` | `bunx vitest run test` | Run tests |
-| `generate` | `bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src` | Regenerate from spec |
+| `generate` | `bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src` | Regenerate from spec |
 
 ### Root Build
 

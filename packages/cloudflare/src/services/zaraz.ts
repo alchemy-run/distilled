@@ -626,9 +626,7 @@ export const listHistories: API.PaginatedOperationMethod<
     ListHistoriesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (
-    input: ListHistoriesRequest,
-  ) => stream.Stream<
+  items: (input: ListHistoriesRequest) => stream.Stream<
     {
       id: number;
       createdAt: string;

@@ -1306,12 +1306,6 @@ export interface LinkedVpnTunnels {
   vpcNetwork?: string;
   /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
   includeImportRanges?: Array<string>;
-  /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
-  excludeImportRanges?: Array<string>;
-  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
-  includeExportRanges?: Array<string>;
-  /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
-  excludeExportRanges?: Array<string>;
 }
 
 export const LinkedVpnTunnels: Schema.Schema<LinkedVpnTunnels> =
@@ -1321,9 +1315,6 @@ export const LinkedVpnTunnels: Schema.Schema<LinkedVpnTunnels> =
       siteToSiteDataTransfer: Schema.optional(Schema.Boolean),
       vpcNetwork: Schema.optional(Schema.String),
       includeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      includeExportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeExportRanges: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "LinkedVpnTunnels",
@@ -1338,12 +1329,6 @@ export interface LinkedInterconnectAttachments {
   vpcNetwork?: string;
   /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
   includeImportRanges?: Array<string>;
-  /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
-  excludeImportRanges?: Array<string>;
-  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
-  includeExportRanges?: Array<string>;
-  /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
-  excludeExportRanges?: Array<string>;
 }
 
 export const LinkedInterconnectAttachments: Schema.Schema<LinkedInterconnectAttachments> =
@@ -1353,9 +1338,6 @@ export const LinkedInterconnectAttachments: Schema.Schema<LinkedInterconnectAtta
       siteToSiteDataTransfer: Schema.optional(Schema.Boolean),
       vpcNetwork: Schema.optional(Schema.String),
       includeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      includeExportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeExportRanges: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "LinkedInterconnectAttachments",
@@ -1387,12 +1369,6 @@ export interface LinkedRouterApplianceInstances {
   vpcNetwork?: string;
   /** Optional. Hub routes fully encompassed by include import ranges are included during import from hub. */
   includeImportRanges?: Array<string>;
-  /** Optional. Hub routes overlapped/encompassed by exclude import ranges are excluded during import from hub. */
-  excludeImportRanges?: Array<string>;
-  /** Optional. Dynamic routes fully encompassed by include export ranges are included during export to hub. */
-  includeExportRanges?: Array<string>;
-  /** Optional. Dynamic routes overlapped/encompassed by exclude export ranges are excluded during export to hub. */
-  excludeExportRanges?: Array<string>;
 }
 
 export const LinkedRouterApplianceInstances: Schema.Schema<LinkedRouterApplianceInstances> =
@@ -1402,9 +1378,6 @@ export const LinkedRouterApplianceInstances: Schema.Schema<LinkedRouterAppliance
       siteToSiteDataTransfer: Schema.optional(Schema.Boolean),
       vpcNetwork: Schema.optional(Schema.String),
       includeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeImportRanges: Schema.optional(Schema.Array(Schema.String)),
-      includeExportRanges: Schema.optional(Schema.Array(Schema.String)),
-      excludeExportRanges: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
     identifier: "LinkedRouterApplianceInstances",
@@ -2700,7 +2673,6 @@ export interface LocationMetadata {
     | "SITE_TO_CLOUD_SPOKES"
     | "SITE_TO_SITE_SPOKES"
     | "GATEWAY_SPOKES"
-    | "TRANSPORTS"
     | (string & {})
   >;
 }

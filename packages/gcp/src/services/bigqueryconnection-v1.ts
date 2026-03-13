@@ -22,218 +22,21 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface CloudSqlCredential {
-  /** The username for the credential. */
-  username?: string;
-  /** The password for the credential. */
-  password?: string;
-}
-
-export const CloudSqlCredential: Schema.Schema<CloudSqlCredential> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      username: Schema.optional(Schema.String),
-      password: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CloudSqlCredential",
-  }) as any as Schema.Schema<CloudSqlCredential>;
-
-export interface CloudSqlProperties {
-  /** Cloud SQL instance ID in the form `project:location:instance`. */
-  instanceId?: string;
-  /** Database name. */
-  database?: string;
-  /** Type of the Cloud SQL database. */
-  type?: "DATABASE_TYPE_UNSPECIFIED" | "POSTGRES" | "MYSQL" | (string & {});
-  /** Input only. Cloud SQL credential. */
-  credential?: CloudSqlCredential;
-  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
-  serviceAccountId?: string;
-}
-
-export const CloudSqlProperties: Schema.Schema<CloudSqlProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      instanceId: Schema.optional(Schema.String),
-      database: Schema.optional(Schema.String),
-      type: Schema.optional(Schema.String),
-      credential: Schema.optional(CloudSqlCredential),
-      serviceAccountId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CloudSqlProperties",
-  }) as any as Schema.Schema<CloudSqlProperties>;
-
-export interface AwsAccessRole {
-  /** The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection. */
-  iamRoleId?: string;
-  /** A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role. */
-  identity?: string;
-}
-
-export const AwsAccessRole: Schema.Schema<AwsAccessRole> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      iamRoleId: Schema.optional(Schema.String),
-      identity: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "AwsAccessRole",
-  }) as any as Schema.Schema<AwsAccessRole>;
-
-export interface AwsProperties {
-  /** Authentication using Google owned service account to assume into customer's AWS IAM Role. */
-  accessRole?: AwsAccessRole;
-}
-
-export const AwsProperties: Schema.Schema<AwsProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      accessRole: Schema.optional(AwsAccessRole),
-    }),
-  ).annotate({
-    identifier: "AwsProperties",
-  }) as any as Schema.Schema<AwsProperties>;
-
-export interface AzureProperties {
-  /** Output only. The name of the Azure Active Directory Application. */
-  application?: string;
-  /** Output only. The client id of the Azure Active Directory Application. */
-  clientId?: string;
-  /** Output only. The object id of the Azure Active Directory Application. */
-  objectId?: string;
-  /** The id of customer's directory that host the data. */
-  customerTenantId?: string;
-  /** The URL user will be redirected to after granting consent during connection setup. */
-  redirectUri?: string;
-  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
-  federatedApplicationClientId?: string;
-  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
-  identity?: string;
-}
-
-export const AzureProperties: Schema.Schema<AzureProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      application: Schema.optional(Schema.String),
-      clientId: Schema.optional(Schema.String),
-      objectId: Schema.optional(Schema.String),
-      customerTenantId: Schema.optional(Schema.String),
-      redirectUri: Schema.optional(Schema.String),
-      federatedApplicationClientId: Schema.optional(Schema.String),
-      identity: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "AzureProperties",
-  }) as any as Schema.Schema<AzureProperties>;
-
-export interface CloudSpannerProperties {
-  /** Cloud Spanner database in the form `project/instance/database' */
-  database?: string;
-  /** If parallelism should be used when reading from Cloud Spanner */
-  useParallelism?: boolean;
-  /** Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. REQUIRES: `use_parallelism` must be set. REQUIRES: `use_data_boost` must be set. */
-  maxParallelism?: number;
-  /** Deprecated: prefer use_data_boost instead. If the serverless analytics service should be used to read data from Cloud Spanner. Note: `use_parallelism` must be set when using serverless analytics. */
-  useServerlessAnalytics?: boolean;
-  /** If set, the request will be executed via Spanner independent compute resources. REQUIRES: `use_parallelism` must be set. */
-  useDataBoost?: boolean;
-  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
-  databaseRole?: string;
-}
-
-export const CloudSpannerProperties: Schema.Schema<CloudSpannerProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      database: Schema.optional(Schema.String),
-      useParallelism: Schema.optional(Schema.Boolean),
-      maxParallelism: Schema.optional(Schema.Number),
-      useServerlessAnalytics: Schema.optional(Schema.Boolean),
-      useDataBoost: Schema.optional(Schema.Boolean),
-      databaseRole: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CloudSpannerProperties",
-  }) as any as Schema.Schema<CloudSpannerProperties>;
-
-export interface CloudResourceProperties {
-  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of an operation in BigQuery, the service account will be used to connect to the desired resources in GCP. The account ID is in the form of: @gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com */
-  serviceAccountId?: string;
-}
-
-export const CloudResourceProperties: Schema.Schema<CloudResourceProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      serviceAccountId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "CloudResourceProperties",
-  }) as any as Schema.Schema<CloudResourceProperties>;
-
-export interface MetastoreServiceConfig {
-  /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
-  metastoreService?: string;
-}
-
-export const MetastoreServiceConfig: Schema.Schema<MetastoreServiceConfig> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      metastoreService: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "MetastoreServiceConfig",
-  }) as any as Schema.Schema<MetastoreServiceConfig>;
-
-export interface SparkHistoryServerConfig {
-  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
-  dataprocCluster?: string;
-}
-
-export const SparkHistoryServerConfig: Schema.Schema<SparkHistoryServerConfig> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      dataprocCluster: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "SparkHistoryServerConfig",
-  }) as any as Schema.Schema<SparkHistoryServerConfig>;
-
-export interface SparkProperties {
-  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
-  serviceAccountId?: string;
-  /** Optional. Dataproc Metastore Service configuration for the connection. */
-  metastoreServiceConfig?: MetastoreServiceConfig;
-  /** Optional. Spark History Server configuration for the connection. */
-  sparkHistoryServerConfig?: SparkHistoryServerConfig;
-}
-
-export const SparkProperties: Schema.Schema<SparkProperties> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      serviceAccountId: Schema.optional(Schema.String),
-      metastoreServiceConfig: Schema.optional(MetastoreServiceConfig),
-      sparkHistoryServerConfig: Schema.optional(SparkHistoryServerConfig),
-    }),
-  ).annotate({
-    identifier: "SparkProperties",
-  }) as any as Schema.Schema<SparkProperties>;
-
 export interface SalesforceDataCloudProperties {
-  /** The URL to the user's Salesforce DataCloud instance. */
-  instanceUri?: string;
-  /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
-  identity?: string;
   /** The ID of the user's Salesforce tenant. */
   tenantId?: string;
+  /** Output only. A unique Google-owned and Google-generated service account identity for the connection. */
+  identity?: string;
+  /** The URL to the user's Salesforce DataCloud instance. */
+  instanceUri?: string;
 }
 
 export const SalesforceDataCloudProperties: Schema.Schema<SalesforceDataCloudProperties> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      instanceUri: Schema.optional(Schema.String),
-      identity: Schema.optional(Schema.String),
       tenantId: Schema.optional(Schema.String),
+      identity: Schema.optional(Schema.String),
+      instanceUri: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "SalesforceDataCloudProperties",
@@ -253,6 +56,34 @@ export const ConnectorConfigurationEndpoint: Schema.Schema<ConnectorConfiguratio
     identifier: "ConnectorConfigurationEndpoint",
   }) as any as Schema.Schema<ConnectorConfigurationEndpoint>;
 
+export interface GetPolicyOptions {
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  requestedPolicyVersion?: number;
+}
+
+export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      requestedPolicyVersion: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "GetPolicyOptions",
+  }) as any as Schema.Schema<GetPolicyOptions>;
+
+export interface GetIamPolicyRequest {
+  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
+  options?: GetPolicyOptions;
+}
+
+export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      options: Schema.optional(GetPolicyOptions),
+    }),
+  ).annotate({
+    identifier: "GetIamPolicyRequest",
+  }) as any as Schema.Schema<GetIamPolicyRequest>;
+
 export interface ConnectorConfigurationSecret {
   /** Input only. Secret as plaintext. */
   plaintext?: string;
@@ -270,39 +101,91 @@ export const ConnectorConfigurationSecret: Schema.Schema<ConnectorConfigurationS
     identifier: "ConnectorConfigurationSecret",
   }) as any as Schema.Schema<ConnectorConfigurationSecret>;
 
-export interface ConnectorConfigurationUsernamePassword {
-  /** Required. Username. */
+export interface Empty {}
+
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
+
+export interface CloudSqlCredential {
+  /** The username for the credential. */
   username?: string;
-  /** Required. Password. */
-  password?: ConnectorConfigurationSecret;
+  /** The password for the credential. */
+  password?: string;
 }
 
-export const ConnectorConfigurationUsernamePassword: Schema.Schema<ConnectorConfigurationUsernamePassword> =
+export const CloudSqlCredential: Schema.Schema<CloudSqlCredential> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       username: Schema.optional(Schema.String),
-      password: Schema.optional(ConnectorConfigurationSecret),
+      password: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ConnectorConfigurationUsernamePassword",
-  }) as any as Schema.Schema<ConnectorConfigurationUsernamePassword>;
+    identifier: "CloudSqlCredential",
+  }) as any as Schema.Schema<CloudSqlCredential>;
 
-export interface ConnectorConfigurationAuthentication {
-  /** Username/password authentication. */
-  usernamePassword?: ConnectorConfigurationUsernamePassword;
-  /** Output only. Google-managed service account associated with this connection, e.g., `service-{project_number}@gcp-sa-bigqueryconnection.iam.gserviceaccount.com`. BigQuery jobs using this connection will act as `service_account` identity while connecting to the datasource. */
-  serviceAccount?: string;
+export interface SparkHistoryServerConfig {
+  /** Optional. Resource name of an existing Dataproc Cluster to act as a Spark History Server for the connection. Example: * `projects/[project_id]/regions/[region]/clusters/[cluster_name]` */
+  dataprocCluster?: string;
 }
 
-export const ConnectorConfigurationAuthentication: Schema.Schema<ConnectorConfigurationAuthentication> =
+export const SparkHistoryServerConfig: Schema.Schema<SparkHistoryServerConfig> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      usernamePassword: Schema.optional(ConnectorConfigurationUsernamePassword),
-      serviceAccount: Schema.optional(Schema.String),
+      dataprocCluster: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ConnectorConfigurationAuthentication",
-  }) as any as Schema.Schema<ConnectorConfigurationAuthentication>;
+    identifier: "SparkHistoryServerConfig",
+  }) as any as Schema.Schema<SparkHistoryServerConfig>;
+
+export interface MetastoreServiceConfig {
+  /** Optional. Resource name of an existing Dataproc Metastore service. Example: * `projects/[project_id]/locations/[region]/services/[service_id]` */
+  metastoreService?: string;
+}
+
+export const MetastoreServiceConfig: Schema.Schema<MetastoreServiceConfig> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metastoreService: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "MetastoreServiceConfig",
+  }) as any as Schema.Schema<MetastoreServiceConfig>;
+
+export interface SparkProperties {
+  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of a stored procedure for Apache Spark in BigQuery, the service account is used to connect to the desired resources in Google Cloud. The account ID is in the form of: bqcx--@gcp-sa-bigquery-consp.iam.gserviceaccount.com */
+  serviceAccountId?: string;
+  /** Optional. Spark History Server configuration for the connection. */
+  sparkHistoryServerConfig?: SparkHistoryServerConfig;
+  /** Optional. Dataproc Metastore Service configuration for the connection. */
+  metastoreServiceConfig?: MetastoreServiceConfig;
+}
+
+export const SparkProperties: Schema.Schema<SparkProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceAccountId: Schema.optional(Schema.String),
+      sparkHistoryServerConfig: Schema.optional(SparkHistoryServerConfig),
+      metastoreServiceConfig: Schema.optional(MetastoreServiceConfig),
+    }),
+  ).annotate({
+    identifier: "SparkProperties",
+  }) as any as Schema.Schema<SparkProperties>;
+
+export interface CloudResourceProperties {
+  /** Output only. The account ID of the service created for the purpose of this connection. The service account does not have any permissions associated with it when it is created. After creation, customers delegate permissions to the service account. When the connection is used in the context of an operation in BigQuery, the service account will be used to connect to the desired resources in GCP. The account ID is in the form of: @gcp-sa-bigquery-cloudresource.iam.gserviceaccount.com */
+  serviceAccountId?: string;
+}
+
+export const CloudResourceProperties: Schema.Schema<CloudResourceProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceAccountId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudResourceProperties",
+  }) as any as Schema.Schema<CloudResourceProperties>;
 
 export interface ConnectorConfigurationPrivateServiceConnect {
   /** Required. Network Attachment name in the format of `projects/{project}/regions/{region}/networkAttachments/{networkattachment}`. */
@@ -351,143 +234,243 @@ export const ConnectorConfigurationAsset: Schema.Schema<ConnectorConfigurationAs
     identifier: "ConnectorConfigurationAsset",
   }) as any as Schema.Schema<ConnectorConfigurationAsset>;
 
+export interface ConnectorConfigurationUsernamePassword {
+  /** Required. Username. */
+  username?: string;
+  /** Required. Password. */
+  password?: ConnectorConfigurationSecret;
+}
+
+export const ConnectorConfigurationUsernamePassword: Schema.Schema<ConnectorConfigurationUsernamePassword> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      username: Schema.optional(Schema.String),
+      password: Schema.optional(ConnectorConfigurationSecret),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationUsernamePassword",
+  }) as any as Schema.Schema<ConnectorConfigurationUsernamePassword>;
+
+export interface ConnectorConfigurationAuthentication {
+  /** Output only. Google-managed service account associated with this connection, e.g., `service-{project_number}@gcp-sa-bigqueryconnection.iam.gserviceaccount.com`. BigQuery jobs using this connection will act as `service_account` identity while connecting to the datasource. */
+  serviceAccount?: string;
+  /** Username/password authentication. */
+  usernamePassword?: ConnectorConfigurationUsernamePassword;
+}
+
+export const ConnectorConfigurationAuthentication: Schema.Schema<ConnectorConfigurationAuthentication> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceAccount: Schema.optional(Schema.String),
+      usernamePassword: Schema.optional(ConnectorConfigurationUsernamePassword),
+    }),
+  ).annotate({
+    identifier: "ConnectorConfigurationAuthentication",
+  }) as any as Schema.Schema<ConnectorConfigurationAuthentication>;
+
 export interface ConnectorConfiguration {
-  /** Required. Immutable. The ID of the Connector these parameters are configured for. */
-  connectorId?: string;
   /** Specifies how to reach the remote system this connection is pointing to. */
   endpoint?: ConnectorConfigurationEndpoint;
-  /** Client authentication. */
-  authentication?: ConnectorConfigurationAuthentication;
   /** Networking configuration. */
   network?: ConnectorConfigurationNetwork;
   /** Data asset. */
   asset?: ConnectorConfigurationAsset;
+  /** Required. Immutable. The ID of the Connector these parameters are configured for. */
+  connectorId?: string;
+  /** Client authentication. */
+  authentication?: ConnectorConfigurationAuthentication;
 }
 
 export const ConnectorConfiguration: Schema.Schema<ConnectorConfiguration> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      connectorId: Schema.optional(Schema.String),
       endpoint: Schema.optional(ConnectorConfigurationEndpoint),
-      authentication: Schema.optional(ConnectorConfigurationAuthentication),
       network: Schema.optional(ConnectorConfigurationNetwork),
       asset: Schema.optional(ConnectorConfigurationAsset),
+      connectorId: Schema.optional(Schema.String),
+      authentication: Schema.optional(ConnectorConfigurationAuthentication),
     }),
   ).annotate({
     identifier: "ConnectorConfiguration",
   }) as any as Schema.Schema<ConnectorConfiguration>;
 
+export interface CloudSqlProperties {
+  /** Input only. Cloud SQL credential. */
+  credential?: CloudSqlCredential;
+  /** Database name. */
+  database?: string;
+  /** Output only. The account ID of the service used for the purpose of this connection. When the connection is used in the context of an operation in BigQuery, this service account will serve as the identity being used for connecting to the CloudSQL instance specified in this connection. */
+  serviceAccountId?: string;
+  /** Type of the Cloud SQL database. */
+  type?: "DATABASE_TYPE_UNSPECIFIED" | "POSTGRES" | "MYSQL" | (string & {});
+  /** Cloud SQL instance ID in the form `project:location:instance`. */
+  instanceId?: string;
+}
+
+export const CloudSqlProperties: Schema.Schema<CloudSqlProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      credential: Schema.optional(CloudSqlCredential),
+      database: Schema.optional(Schema.String),
+      serviceAccountId: Schema.optional(Schema.String),
+      type: Schema.optional(Schema.String),
+      instanceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "CloudSqlProperties",
+  }) as any as Schema.Schema<CloudSqlProperties>;
+
+export interface CloudSpannerProperties {
+  /** Optional. Cloud Spanner database role for fine-grained access control. The Cloud Spanner admin should have provisioned the database role with appropriate permissions, such as `SELECT` and `INSERT`. Other users should only use roles provided by their Cloud Spanner admins. For more details, see [About fine-grained access control] (https://cloud.google.com/spanner/docs/fgac-about). REQUIRES: The database role name must start with a letter, and can only contain letters, numbers, and underscores. */
+  databaseRole?: string;
+  /** Allows setting max parallelism per query when executing on Spanner independent compute resources. If unspecified, default values of parallelism are chosen that are dependent on the Cloud Spanner instance configuration. REQUIRES: `use_parallelism` must be set. REQUIRES: `use_data_boost` must be set. */
+  maxParallelism?: number;
+  /** Cloud Spanner database in the form `project/instance/database' */
+  database?: string;
+  /** Deprecated: prefer use_data_boost instead. If the serverless analytics service should be used to read data from Cloud Spanner. Note: `use_parallelism` must be set when using serverless analytics. */
+  useServerlessAnalytics?: boolean;
+  /** If parallelism should be used when reading from Cloud Spanner */
+  useParallelism?: boolean;
+  /** If set, the request will be executed via Spanner independent compute resources. REQUIRES: `use_parallelism` must be set. */
+  useDataBoost?: boolean;
+}
+
+export const CloudSpannerProperties: Schema.Schema<CloudSpannerProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      databaseRole: Schema.optional(Schema.String),
+      maxParallelism: Schema.optional(Schema.Number),
+      database: Schema.optional(Schema.String),
+      useServerlessAnalytics: Schema.optional(Schema.Boolean),
+      useParallelism: Schema.optional(Schema.Boolean),
+      useDataBoost: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "CloudSpannerProperties",
+  }) as any as Schema.Schema<CloudSpannerProperties>;
+
+export interface AzureProperties {
+  /** Output only. The name of the Azure Active Directory Application. */
+  application?: string;
+  /** The client ID of the user's Azure Active Directory Application used for a federated connection. */
+  federatedApplicationClientId?: string;
+  /** The URL user will be redirected to after granting consent during connection setup. */
+  redirectUri?: string;
+  /** Output only. The client id of the Azure Active Directory Application. */
+  clientId?: string;
+  /** The id of customer's directory that host the data. */
+  customerTenantId?: string;
+  /** Output only. The object id of the Azure Active Directory Application. */
+  objectId?: string;
+  /** Output only. A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's Azure Active Directory Application. */
+  identity?: string;
+}
+
+export const AzureProperties: Schema.Schema<AzureProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      application: Schema.optional(Schema.String),
+      federatedApplicationClientId: Schema.optional(Schema.String),
+      redirectUri: Schema.optional(Schema.String),
+      clientId: Schema.optional(Schema.String),
+      customerTenantId: Schema.optional(Schema.String),
+      objectId: Schema.optional(Schema.String),
+      identity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AzureProperties",
+  }) as any as Schema.Schema<AzureProperties>;
+
+export interface AwsAccessRole {
+  /** The user’s AWS IAM Role that trusts the Google-owned AWS IAM user Connection. */
+  iamRoleId?: string;
+  /** A unique Google-owned and Google-generated identity for the Connection. This identity will be used to access the user's AWS IAM Role. */
+  identity?: string;
+}
+
+export const AwsAccessRole: Schema.Schema<AwsAccessRole> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      iamRoleId: Schema.optional(Schema.String),
+      identity: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "AwsAccessRole",
+  }) as any as Schema.Schema<AwsAccessRole>;
+
+export interface AwsProperties {
+  /** Authentication using Google owned service account to assume into customer's AWS IAM Role. */
+  accessRole?: AwsAccessRole;
+}
+
+export const AwsProperties: Schema.Schema<AwsProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      accessRole: Schema.optional(AwsAccessRole),
+    }),
+  ).annotate({
+    identifier: "AwsProperties",
+  }) as any as Schema.Schema<AwsProperties>;
+
 export interface Connection {
   /** Output only. The resource name of the connection in the form of: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
   name?: string;
-  /** User provided display name for the connection. */
-  friendlyName?: string;
-  /** User provided description. */
-  description?: string;
-  /** Cloud SQL properties. */
-  cloudSql?: CloudSqlProperties;
-  /** Amazon Web Services (AWS) properties. */
-  aws?: AwsProperties;
-  /** Azure properties. */
-  azure?: AzureProperties;
-  /** Cloud Spanner properties. */
-  cloudSpanner?: CloudSpannerProperties;
-  /** Cloud Resource properties. */
-  cloudResource?: CloudResourceProperties;
-  /** Spark properties. */
-  spark?: SparkProperties;
-  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
-  salesforceDataCloud?: SalesforceDataCloudProperties;
-  /** Optional. Connector configuration. */
-  configuration?: ConnectorConfiguration;
   /** Output only. The creation timestamp of the connection. */
   creationTime?: string;
-  /** Output only. The last update timestamp of the connection. */
-  lastModifiedTime?: string;
+  /** Spark properties. */
+  spark?: SparkProperties;
+  /** Cloud Resource properties. */
+  cloudResource?: CloudResourceProperties;
+  /** Optional. Salesforce DataCloud properties. This field is intended for use only by Salesforce partner projects. This field contains properties for your Salesforce DataCloud connection. */
+  salesforceDataCloud?: SalesforceDataCloudProperties;
+  /** User provided display name for the connection. */
+  friendlyName?: string;
   /** Output only. True, if credential is configured for this connection. */
   hasCredential?: boolean;
+  /** Optional. Connector configuration. */
+  configuration?: ConnectorConfiguration;
+  /** Output only. The last update timestamp of the connection. */
+  lastModifiedTime?: string;
+  /** Cloud SQL properties. */
+  cloudSql?: CloudSqlProperties;
+  /** User provided description. */
+  description?: string;
   /** Optional. The Cloud KMS key that is used for credentials encryption. If omitted, internal Google owned encryption keys are used. Example: `projects/[kms_project_id]/locations/[region]/keyRings/[key_region]/cryptoKeys/[key]` */
   kmsKeyName?: string;
+  /** Cloud Spanner properties. */
+  cloudSpanner?: CloudSpannerProperties;
+  /** Azure properties. */
+  azure?: AzureProperties;
+  /** Amazon Web Services (AWS) properties. */
+  aws?: AwsProperties;
 }
 
 export const Connection: Schema.Schema<Connection> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
-      friendlyName: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      cloudSql: Schema.optional(CloudSqlProperties),
-      aws: Schema.optional(AwsProperties),
-      azure: Schema.optional(AzureProperties),
-      cloudSpanner: Schema.optional(CloudSpannerProperties),
-      cloudResource: Schema.optional(CloudResourceProperties),
-      spark: Schema.optional(SparkProperties),
-      salesforceDataCloud: Schema.optional(SalesforceDataCloudProperties),
-      configuration: Schema.optional(ConnectorConfiguration),
       creationTime: Schema.optional(Schema.String),
-      lastModifiedTime: Schema.optional(Schema.String),
+      spark: Schema.optional(SparkProperties),
+      cloudResource: Schema.optional(CloudResourceProperties),
+      salesforceDataCloud: Schema.optional(SalesforceDataCloudProperties),
+      friendlyName: Schema.optional(Schema.String),
       hasCredential: Schema.optional(Schema.Boolean),
+      configuration: Schema.optional(ConnectorConfiguration),
+      lastModifiedTime: Schema.optional(Schema.String),
+      cloudSql: Schema.optional(CloudSqlProperties),
+      description: Schema.optional(Schema.String),
       kmsKeyName: Schema.optional(Schema.String),
+      cloudSpanner: Schema.optional(CloudSpannerProperties),
+      azure: Schema.optional(AzureProperties),
+      aws: Schema.optional(AwsProperties),
     }),
   ).annotate({ identifier: "Connection" }) as any as Schema.Schema<Connection>;
 
-export interface ListConnectionsResponse {
-  /** Next page token. */
-  nextPageToken?: string;
-  /** List of connections. */
-  connections?: Array<Connection>;
-}
-
-export const ListConnectionsResponse: Schema.Schema<ListConnectionsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      connections: Schema.optional(Schema.Array(Connection)),
-    }),
-  ).annotate({
-    identifier: "ListConnectionsResponse",
-  }) as any as Schema.Schema<ListConnectionsResponse>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "Empty",
-  }) as any as Schema.Schema<Empty>;
-
-export interface GetPolicyOptions {
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
-}
-
-export const GetPolicyOptions: Schema.Schema<GetPolicyOptions> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requestedPolicyVersion: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "GetPolicyOptions",
-  }) as any as Schema.Schema<GetPolicyOptions>;
-
-export interface GetIamPolicyRequest {
-  /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions;
-}
-
-export const GetIamPolicyRequest: Schema.Schema<GetIamPolicyRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      options: Schema.optional(GetPolicyOptions),
-    }),
-  ).annotate({
-    identifier: "GetIamPolicyRequest",
-  }) as any as Schema.Schema<GetIamPolicyRequest>;
-
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
@@ -497,8 +480,8 @@ export interface Expr {
 export const Expr: Schema.Schema<Expr> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      expression: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
       description: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
     }),
@@ -523,6 +506,8 @@ export const Binding: Schema.Schema<Binding> =
   ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface AuditLogConfig {
+  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
+  exemptedMembers?: Array<string>;
   /** The log type that this config enables. */
   logType?:
     | "LOG_TYPE_UNSPECIFIED"
@@ -530,15 +515,13 @@ export interface AuditLogConfig {
     | "DATA_WRITE"
     | "DATA_READ"
     | (string & {});
-  /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: Array<string>;
 }
 
 export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      logType: Schema.optional(Schema.String),
       exemptedMembers: Schema.optional(Schema.Array(Schema.String)),
+      logType: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "AuditLogConfig",
@@ -564,21 +547,21 @@ export const AuditConfig: Schema.Schema<AuditConfig> =
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: Array<Binding>;
-  /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: Array<AuditConfig>;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
+  /** Specifies cloud audit logging configuration for this policy. */
+  auditConfigs?: Array<AuditConfig>;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: Array<Binding>;
 }
 
 export const Policy: Schema.Schema<Policy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       version: Schema.optional(Schema.Number),
-      bindings: Schema.optional(Schema.Array(Binding)),
-      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
       etag: Schema.optional(Schema.String),
+      auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
+      bindings: Schema.optional(Schema.Array(Binding)),
     }),
   ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
@@ -613,6 +596,23 @@ export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest>
     identifier: "TestIamPermissionsRequest",
   }) as any as Schema.Schema<TestIamPermissionsRequest>;
 
+export interface ListConnectionsResponse {
+  /** List of connections. */
+  connections?: Array<Connection>;
+  /** Next page token. */
+  nextPageToken?: string;
+}
+
+export const ListConnectionsResponse: Schema.Schema<ListConnectionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      connections: Schema.optional(Schema.Array(Connection)),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ListConnectionsResponse",
+  }) as any as Schema.Schema<ListConnectionsResponse>;
+
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
   permissions?: Array<string>;
@@ -631,125 +631,42 @@ export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsRespons
 // Operations
 // ==========================================================================
 
-export interface CreateProjectsLocationsConnectionsRequest {
-  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Optional. Connection id that should be assigned to the created connection. */
-  connectionId?: string;
+export interface SetIamPolicyProjectsLocationsConnectionsRequest {
+  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
   /** Request body */
-  body?: Connection;
+  body?: SetIamPolicyRequest;
 }
 
-export const CreateProjectsLocationsConnectionsRequest =
+export const SetIamPolicyProjectsLocationsConnectionsRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    connectionId: Schema.optional(Schema.String).pipe(
-      T.HttpQuery("connectionId"),
-    ),
-    body: Schema.optional(Connection).pipe(T.HttpBody()),
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:setIamPolicy",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
+  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>;
 
-export type CreateProjectsLocationsConnectionsResponse = Connection;
-export const CreateProjectsLocationsConnectionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Connection;
+export type SetIamPolicyProjectsLocationsConnectionsResponse = Policy;
+export const SetIamPolicyProjectsLocationsConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
 
-export type CreateProjectsLocationsConnectionsError = DefaultErrors;
+export type SetIamPolicyProjectsLocationsConnectionsError = DefaultErrors;
 
-/** Creates a new connection. */
-export const createProjectsLocationsConnections: API.OperationMethod<
-  CreateProjectsLocationsConnectionsRequest,
-  CreateProjectsLocationsConnectionsResponse,
-  CreateProjectsLocationsConnectionsError,
+/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
+export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
+  SetIamPolicyProjectsLocationsConnectionsRequest,
+  SetIamPolicyProjectsLocationsConnectionsResponse,
+  SetIamPolicyProjectsLocationsConnectionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsConnectionsRequest,
-  output: CreateProjectsLocationsConnectionsResponse,
+  input: SetIamPolicyProjectsLocationsConnectionsRequest,
+  output: SetIamPolicyProjectsLocationsConnectionsResponse,
   errors: [],
-}));
-
-export interface GetProjectsLocationsConnectionsRequest {
-  /** Required. Name of the requested connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
-  name: string;
-}
-
-export const GetProjectsLocationsConnectionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
-
-export type GetProjectsLocationsConnectionsResponse = Connection;
-export const GetProjectsLocationsConnectionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Connection;
-
-export type GetProjectsLocationsConnectionsError = DefaultErrors;
-
-/** Returns specified connection. */
-export const getProjectsLocationsConnections: API.OperationMethod<
-  GetProjectsLocationsConnectionsRequest,
-  GetProjectsLocationsConnectionsResponse,
-  GetProjectsLocationsConnectionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProjectsLocationsConnectionsRequest,
-  output: GetProjectsLocationsConnectionsResponse,
-  errors: [],
-}));
-
-export interface ListProjectsLocationsConnectionsRequest {
-  /** Required. Parent resource name. Must be in the form: `projects/{project_id}/locations/{location_id}` */
-  parent: string;
-  /** Required. Page size. */
-  pageSize?: number;
-  /** Page token. */
-  pageToken?: string;
-}
-
-export const ListProjectsLocationsConnectionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
-
-export type ListProjectsLocationsConnectionsResponse = ListConnectionsResponse;
-export const ListProjectsLocationsConnectionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListConnectionsResponse;
-
-export type ListProjectsLocationsConnectionsError = DefaultErrors;
-
-/** Returns a list of connections in the given project. */
-export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
-  ListProjectsLocationsConnectionsRequest,
-  ListProjectsLocationsConnectionsResponse,
-  ListProjectsLocationsConnectionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsConnectionsRequest,
-  output: ListProjectsLocationsConnectionsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface PatchProjectsLocationsConnectionsRequest {
@@ -827,6 +744,93 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   errors: [],
 }));
 
+export interface CreateProjectsLocationsConnectionsRequest {
+  /** Required. Parent resource name. Must be in the format `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+  /** Optional. Connection id that should be assigned to the created connection. */
+  connectionId?: string;
+  /** Request body */
+  body?: Connection;
+}
+
+export const CreateProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    connectionId: Schema.optional(Schema.String).pipe(
+      T.HttpQuery("connectionId"),
+    ),
+    body: Schema.optional(Connection).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsLocationsConnectionsRequest>;
+
+export type CreateProjectsLocationsConnectionsResponse = Connection;
+export const CreateProjectsLocationsConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Connection;
+
+export type CreateProjectsLocationsConnectionsError = DefaultErrors;
+
+/** Creates a new connection. */
+export const createProjectsLocationsConnections: API.OperationMethod<
+  CreateProjectsLocationsConnectionsRequest,
+  CreateProjectsLocationsConnectionsResponse,
+  CreateProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsLocationsConnectionsRequest,
+  output: CreateProjectsLocationsConnectionsResponse,
+  errors: [],
+}));
+
+export interface ListProjectsLocationsConnectionsRequest {
+  /** Page token. */
+  pageToken?: string;
+  /** Required. Page size. */
+  pageSize?: number;
+  /** Required. Parent resource name. Must be in the form: `projects/{project_id}/locations/{location_id}` */
+  parent: string;
+}
+
+export const ListProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsConnectionsRequest>;
+
+export type ListProjectsLocationsConnectionsResponse = ListConnectionsResponse;
+export const ListProjectsLocationsConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListConnectionsResponse;
+
+export type ListProjectsLocationsConnectionsError = DefaultErrors;
+
+/** Returns a list of connections in the given project. */
+export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
+  ListProjectsLocationsConnectionsRequest,
+  ListProjectsLocationsConnectionsResponse,
+  ListProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsConnectionsRequest,
+  output: ListProjectsLocationsConnectionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
 export interface GetIamPolicyProjectsLocationsConnectionsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -862,44 +866,6 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetIamPolicyProjectsLocationsConnectionsRequest,
   output: GetIamPolicyProjectsLocationsConnectionsResponse,
-  errors: [],
-}));
-
-export interface SetIamPolicyProjectsLocationsConnectionsRequest {
-  /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: SetIamPolicyRequest;
-}
-
-export const SetIamPolicyProjectsLocationsConnectionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    resource: Schema.String.pipe(T.HttpPath("resource")),
-    body: Schema.optional(SetIamPolicyRequest).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}:setIamPolicy",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<SetIamPolicyProjectsLocationsConnectionsRequest>;
-
-export type SetIamPolicyProjectsLocationsConnectionsResponse = Policy;
-export const SetIamPolicyProjectsLocationsConnectionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Policy;
-
-export type SetIamPolicyProjectsLocationsConnectionsError = DefaultErrors;
-
-/** Sets the access control policy on the specified resource. Replaces any existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and `PERMISSION_DENIED` errors. */
-export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
-  SetIamPolicyProjectsLocationsConnectionsRequest,
-  SetIamPolicyProjectsLocationsConnectionsResponse,
-  SetIamPolicyProjectsLocationsConnectionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: SetIamPolicyProjectsLocationsConnectionsRequest,
-  output: SetIamPolicyProjectsLocationsConnectionsResponse,
   errors: [],
 }));
 
@@ -939,5 +905,39 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: TestIamPermissionsProjectsLocationsConnectionsRequest,
   output: TestIamPermissionsProjectsLocationsConnectionsResponse,
+  errors: [],
+}));
+
+export interface GetProjectsLocationsConnectionsRequest {
+  /** Required. Name of the requested connection, for example: `projects/{project_id}/locations/{location_id}/connections/{connection_id}` */
+  name: string;
+}
+
+export const GetProjectsLocationsConnectionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/projects/{projectsId}/locations/{locationsId}/connections/{connectionsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsLocationsConnectionsRequest>;
+
+export type GetProjectsLocationsConnectionsResponse = Connection;
+export const GetProjectsLocationsConnectionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Connection;
+
+export type GetProjectsLocationsConnectionsError = DefaultErrors;
+
+/** Returns specified connection. */
+export const getProjectsLocationsConnections: API.OperationMethod<
+  GetProjectsLocationsConnectionsRequest,
+  GetProjectsLocationsConnectionsResponse,
+  GetProjectsLocationsConnectionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsLocationsConnectionsRequest,
+  output: GetProjectsLocationsConnectionsResponse,
   errors: [],
 }));

@@ -6,7 +6,6 @@ import { SensitiveString } from "../sensitive";
 // Input Schema
 export const AppCertificatesCustomCreateInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    app_name: Schema.String.pipe(T.PathParam()),
     fullchain: Schema.optional(Schema.String),
     hostname: Schema.optional(Schema.String),
     private_key: Schema.optional(SensitiveString),
@@ -96,8 +95,6 @@ export type AppCertificatesCustomCreateOutput =
 // The operation
 /**
  * Upload custom certificate
- *
- * @param app_name - Fly App Name
  */
 export const AppCertificatesCustomCreate = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({

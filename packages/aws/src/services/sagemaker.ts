@@ -716,9 +716,6 @@ export type TrainingPlanStatusMessage = string;
 export type TrainingPlanDurationHours = number;
 export type TrainingPlanDurationMinutes = number;
 export type CurrencyCode = string;
-export type TrainingPlanExtensionOfferingId = string;
-export type AvailabilityZoneId = string;
-export type TrainingPlanExtensionDurationHours = number;
 export type TrialSourceArn = string;
 export type TrialComponentSourceArn = string;
 export type OptionalDouble = number;
@@ -22007,80 +22004,6 @@ export const DescribeTrainingPlanResponse =
   ).annotate({
     identifier: "DescribeTrainingPlanResponse",
   }) as any as S.Schema<DescribeTrainingPlanResponse>;
-export interface DescribeTrainingPlanExtensionHistoryRequest {
-  TrainingPlanArn?: string;
-  NextToken?: string;
-  MaxResults?: number;
-}
-export const DescribeTrainingPlanExtensionHistoryRequest =
-  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TrainingPlanArn: S.optional(S.String),
-      NextToken: S.optional(S.String),
-      MaxResults: S.optional(S.Number),
-    }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-  ).annotate({
-    identifier: "DescribeTrainingPlanExtensionHistoryRequest",
-  }) as any as S.Schema<DescribeTrainingPlanExtensionHistoryRequest>;
-export interface TrainingPlanExtension {
-  TrainingPlanExtensionOfferingId?: string;
-  ExtendedAt?: Date;
-  StartDate?: Date;
-  EndDate?: Date;
-  Status?: string;
-  PaymentStatus?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  DurationHours?: number;
-  UpfrontFee?: string;
-  CurrencyCode?: string;
-}
-export const TrainingPlanExtension = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-  S.Struct({
-    TrainingPlanExtensionOfferingId: S.optional(S.String),
-    ExtendedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    EndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-    Status: S.optional(S.String),
-    PaymentStatus: S.optional(S.String),
-    AvailabilityZone: S.optional(S.String),
-    AvailabilityZoneId: S.optional(S.String),
-    DurationHours: S.optional(S.Number),
-    UpfrontFee: S.optional(S.String),
-    CurrencyCode: S.optional(S.String),
-  }),
-).annotate({
-  identifier: "TrainingPlanExtension",
-}) as any as S.Schema<TrainingPlanExtension>;
-export type TrainingPlanExtensions = TrainingPlanExtension[];
-export const TrainingPlanExtensions = /*@__PURE__*/ /*#__PURE__*/ S.Array(
-  TrainingPlanExtension,
-);
-export interface DescribeTrainingPlanExtensionHistoryResponse {
-  TrainingPlanExtensions: (TrainingPlanExtension & {
-    TrainingPlanExtensionOfferingId: TrainingPlanExtensionOfferingId;
-  })[];
-  NextToken?: string;
-}
-export const DescribeTrainingPlanExtensionHistoryResponse =
-  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TrainingPlanExtensions: S.optional(TrainingPlanExtensions),
-      NextToken: S.optional(S.String),
-    }).pipe(ns),
-  ).annotate({
-    identifier: "DescribeTrainingPlanExtensionHistoryResponse",
-  }) as any as S.Schema<DescribeTrainingPlanExtensionHistoryResponse>;
 export interface DescribeTransformJobRequest {
   TransformJobName?: string;
 }
@@ -22773,38 +22696,6 @@ export const EnableSagemakerServicecatalogPortfolioOutput =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({}).pipe(ns)).annotate({
     identifier: "EnableSagemakerServicecatalogPortfolioOutput",
   }) as any as S.Schema<EnableSagemakerServicecatalogPortfolioOutput>;
-export interface ExtendTrainingPlanRequest {
-  TrainingPlanExtensionOfferingId?: string;
-}
-export const ExtendTrainingPlanRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
-  () =>
-    S.Struct({ TrainingPlanExtensionOfferingId: S.optional(S.String) }).pipe(
-      T.all(
-        ns,
-        T.Http({ method: "POST", uri: "/" }),
-        svc,
-        auth,
-        proto,
-        ver,
-        rules,
-      ),
-    ),
-).annotate({
-  identifier: "ExtendTrainingPlanRequest",
-}) as any as S.Schema<ExtendTrainingPlanRequest>;
-export interface ExtendTrainingPlanResponse {
-  TrainingPlanExtensions: (TrainingPlanExtension & {
-    TrainingPlanExtensionOfferingId: TrainingPlanExtensionOfferingId;
-  })[];
-}
-export const ExtendTrainingPlanResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      TrainingPlanExtensions: S.optional(TrainingPlanExtensions),
-    }).pipe(ns),
-).annotate({
-  identifier: "ExtendTrainingPlanResponse",
-}) as any as S.Schema<ExtendTrainingPlanResponse>;
 export interface GetDeviceFleetReportRequest {
   DeviceFleetName?: string;
 }
@@ -33433,7 +33324,6 @@ export interface SearchTrainingPlanOfferingsRequest {
   EndTimeBefore?: Date;
   DurationHours?: number;
   TargetResources?: SageMakerResourceName[];
-  TrainingPlanArn?: string;
 }
 export const SearchTrainingPlanOfferingsRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -33450,7 +33340,6 @@ export const SearchTrainingPlanOfferingsRequest =
       ),
       DurationHours: S.optional(S.Number),
       TargetResources: S.optional(SageMakerResourceNames),
-      TrainingPlanArn: S.optional(S.String),
     }).pipe(
       T.all(
         ns,
@@ -33476,8 +33365,6 @@ export interface ReservedCapacityOffering {
   DurationMinutes?: number;
   StartTime?: Date;
   EndTime?: Date;
-  ExtensionStartTime?: Date;
-  ExtensionEndTime?: Date;
 }
 export const ReservedCapacityOffering = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
   () =>
@@ -33492,12 +33379,6 @@ export const ReservedCapacityOffering = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
       DurationMinutes: S.optional(S.Number),
       StartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
       EndTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      ExtensionStartTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
-      ExtensionEndTime: S.optional(
-        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-      ),
     }),
 ).annotate({
   identifier: "ReservedCapacityOffering",
@@ -33539,32 +33420,6 @@ export const TrainingPlanOffering = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
 export type TrainingPlanOfferings = TrainingPlanOffering[];
 export const TrainingPlanOfferings =
   /*@__PURE__*/ /*#__PURE__*/ S.Array(TrainingPlanOffering);
-export interface TrainingPlanExtensionOffering {
-  TrainingPlanExtensionOfferingId?: string;
-  AvailabilityZone?: string;
-  StartDate?: Date;
-  EndDate?: Date;
-  DurationHours?: number;
-  UpfrontFee?: string;
-  CurrencyCode?: string;
-}
-export const TrainingPlanExtensionOffering =
-  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TrainingPlanExtensionOfferingId: S.optional(S.String),
-      AvailabilityZone: S.optional(S.String),
-      StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      EndDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-      DurationHours: S.optional(S.Number),
-      UpfrontFee: S.optional(S.String),
-      CurrencyCode: S.optional(S.String),
-    }),
-  ).annotate({
-    identifier: "TrainingPlanExtensionOffering",
-  }) as any as S.Schema<TrainingPlanExtensionOffering>;
-export type TrainingPlanExtensionOfferings = TrainingPlanExtensionOffering[];
-export const TrainingPlanExtensionOfferings =
-  /*@__PURE__*/ /*#__PURE__*/ S.Array(TrainingPlanExtensionOffering);
 export interface SearchTrainingPlanOfferingsResponse {
   TrainingPlanOfferings: (TrainingPlanOffering & {
     TrainingPlanOfferingId: TrainingPlanOfferingId;
@@ -33574,18 +33429,12 @@ export interface SearchTrainingPlanOfferingsResponse {
       InstanceCount: ReservedCapacityInstanceCount;
     })[];
   })[];
-  TrainingPlanExtensionOfferings?: (TrainingPlanExtensionOffering & {
-    TrainingPlanExtensionOfferingId: TrainingPlanExtensionOfferingId;
-  })[];
 }
 export const SearchTrainingPlanOfferingsResponse =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-    S.Struct({
-      TrainingPlanOfferings: S.optional(TrainingPlanOfferings),
-      TrainingPlanExtensionOfferings: S.optional(
-        TrainingPlanExtensionOfferings,
-      ),
-    }).pipe(ns),
+    S.Struct({ TrainingPlanOfferings: S.optional(TrainingPlanOfferings) }).pipe(
+      ns,
+    ),
   ).annotate({
     identifier: "SearchTrainingPlanOfferingsResponse",
   }) as any as S.Schema<SearchTrainingPlanOfferingsResponse>;
@@ -39749,43 +39598,6 @@ export const describeTrainingPlan: API.OperationMethod<
   output: DescribeTrainingPlanResponse,
   errors: [ResourceNotFound],
 }));
-export type DescribeTrainingPlanExtensionHistoryError =
-  | ResourceNotFound
-  | CommonErrors;
-/**
- * Retrieves the extension history for a specified training plan. The response includes details about each extension, such as the offering ID, start and end dates, status, payment status, and cost information.
- */
-export const describeTrainingPlanExtensionHistory: API.OperationMethod<
-  DescribeTrainingPlanExtensionHistoryRequest,
-  DescribeTrainingPlanExtensionHistoryResponse,
-  DescribeTrainingPlanExtensionHistoryError,
-  Credentials | Region | HttpClient.HttpClient
-> & {
-  pages: (
-    input: DescribeTrainingPlanExtensionHistoryRequest,
-  ) => stream.Stream<
-    DescribeTrainingPlanExtensionHistoryResponse,
-    DescribeTrainingPlanExtensionHistoryError,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-  items: (
-    input: DescribeTrainingPlanExtensionHistoryRequest,
-  ) => stream.Stream<
-    TrainingPlanExtension,
-    DescribeTrainingPlanExtensionHistoryError,
-    Credentials | Region | HttpClient.HttpClient
-  >;
-} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: DescribeTrainingPlanExtensionHistoryRequest,
-  output: DescribeTrainingPlanExtensionHistoryResponse,
-  errors: [ResourceNotFound],
-  pagination: {
-    inputToken: "NextToken",
-    outputToken: "NextToken",
-    items: "TrainingPlanExtensions",
-    pageSize: "MaxResults",
-  } as const,
-}));
 export type DescribeTransformJobError = ResourceNotFound | CommonErrors;
 /**
  * Returns information about a transform job.
@@ -39934,24 +39746,6 @@ export const enableSagemakerServicecatalogPortfolio: API.OperationMethod<
   input: EnableSagemakerServicecatalogPortfolioInput,
   output: EnableSagemakerServicecatalogPortfolioOutput,
   errors: [],
-}));
-export type ExtendTrainingPlanError = ResourceNotFound | CommonErrors;
-/**
- * Extends an existing training plan by purchasing an extension offering. This allows you to add additional compute capacity time to your training plan without creating a new plan or reconfiguring your workloads.
- *
- * To find available extension offerings, use the ` SearchTrainingPlanOfferings ` API with the `TrainingPlanArn` parameter.
- *
- * To view the history of extensions for a training plan, use the ` DescribeTrainingPlanExtensionHistory ` API.
- */
-export const extendTrainingPlan: API.OperationMethod<
-  ExtendTrainingPlanRequest,
-  ExtendTrainingPlanResponse,
-  ExtendTrainingPlanError,
-  Credentials | Region | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ExtendTrainingPlanRequest,
-  output: ExtendTrainingPlanResponse,
-  errors: [ResourceNotFound],
 }));
 export type GetDeviceFleetReportError = CommonErrors;
 /**

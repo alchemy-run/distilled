@@ -22,45 +22,6 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface SiteVerificationWebResourceResource {
-  /** The email addresses of all verified owners. */
-  owners?: Array<string>;
-  /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
-  id?: string;
-  /** The address and type of a site that is verified or will be verified. */
-  site?: { identifier?: string; type?: string };
-}
-
-export const SiteVerificationWebResourceResource: Schema.Schema<SiteVerificationWebResourceResource> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      owners: Schema.optional(Schema.Array(Schema.String)),
-      id: Schema.optional(Schema.String),
-      site: Schema.optional(
-        Schema.Struct({
-          identifier: Schema.optional(Schema.String),
-          type: Schema.optional(Schema.String),
-        }),
-      ),
-    }),
-  ).annotate({
-    identifier: "SiteVerificationWebResourceResource",
-  }) as any as Schema.Schema<SiteVerificationWebResourceResource>;
-
-export interface SiteVerificationWebResourceListResponse {
-  /** The list of sites that are owned by the authenticated user. */
-  items?: Array<SiteVerificationWebResourceResource>;
-}
-
-export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerificationWebResourceListResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      items: Schema.optional(Schema.Array(SiteVerificationWebResourceResource)),
-    }),
-  ).annotate({
-    identifier: "SiteVerificationWebResourceListResponse",
-  }) as any as Schema.Schema<SiteVerificationWebResourceListResponse>;
-
 export interface SiteVerificationWebResourceGettokenRequest {
   /** The site for which a verification token will be generated. */
   site?: { identifier?: string; type?: string };
@@ -83,18 +44,57 @@ export const SiteVerificationWebResourceGettokenRequest: Schema.Schema<SiteVerif
     identifier: "SiteVerificationWebResourceGettokenRequest",
   }) as any as Schema.Schema<SiteVerificationWebResourceGettokenRequest>;
 
+export interface SiteVerificationWebResourceResource {
+  /** The address and type of a site that is verified or will be verified. */
+  site?: { identifier?: string; type?: string };
+  /** The string used to identify this site. This value should be used in the "id" portion of the REST URL for the Get, Update, and Delete operations. */
+  id?: string;
+  /** The email addresses of all verified owners. */
+  owners?: Array<string>;
+}
+
+export const SiteVerificationWebResourceResource: Schema.Schema<SiteVerificationWebResourceResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      site: Schema.optional(
+        Schema.Struct({
+          identifier: Schema.optional(Schema.String),
+          type: Schema.optional(Schema.String),
+        }),
+      ),
+      id: Schema.optional(Schema.String),
+      owners: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceResource",
+  }) as any as Schema.Schema<SiteVerificationWebResourceResource>;
+
+export interface SiteVerificationWebResourceListResponse {
+  /** The list of sites that are owned by the authenticated user. */
+  items?: Array<SiteVerificationWebResourceResource>;
+}
+
+export const SiteVerificationWebResourceListResponse: Schema.Schema<SiteVerificationWebResourceListResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      items: Schema.optional(Schema.Array(SiteVerificationWebResourceResource)),
+    }),
+  ).annotate({
+    identifier: "SiteVerificationWebResourceListResponse",
+  }) as any as Schema.Schema<SiteVerificationWebResourceListResponse>;
+
 export interface SiteVerificationWebResourceGettokenResponse {
-  /** The verification method to use in conjunction with this token. For FILE, the token should be placed in the top-level directory of the site, stored inside a file of the same name. For META, the token should be placed in the HEAD tag of the default page that is loaded for the site. For DNS, the token should be placed in a TXT record of the domain. */
-  method?: string;
   /** The verification token. The token must be placed appropriately in order for verification to succeed. */
   token?: string;
+  /** The verification method to use in conjunction with this token. For FILE, the token should be placed in the top-level directory of the site, stored inside a file of the same name. For META, the token should be placed in the HEAD tag of the default page that is loaded for the site. For DNS, the token should be placed in a TXT record of the domain. */
+  method?: string;
 }
 
 export const SiteVerificationWebResourceGettokenResponse: Schema.Schema<SiteVerificationWebResourceGettokenResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      method: Schema.optional(Schema.String),
       token: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "SiteVerificationWebResourceGettokenResponse",
@@ -104,36 +104,39 @@ export const SiteVerificationWebResourceGettokenResponse: Schema.Schema<SiteVeri
 // Operations
 // ==========================================================================
 
-export interface DeleteWebResourceRequest {
-  /** The id of a verified site or domain. */
-  id: string;
+export interface InsertWebResourceRequest {
+  /** The method to use for verifying a site or domain. */
+  verificationMethod: string;
+  /** Request body */
+  body?: SiteVerificationWebResourceResource;
 }
 
-export const DeleteWebResourceRequest =
+export const InsertWebResourceRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    id: Schema.String.pipe(T.HttpPath("id")),
+    verificationMethod: Schema.String.pipe(T.HttpQuery("verificationMethod")),
+    body: Schema.optional(SiteVerificationWebResourceResource).pipe(
+      T.HttpBody(),
+    ),
   }).pipe(
-    T.Http({ method: "DELETE", path: "webResource/{id}" }),
+    T.Http({ method: "POST", path: "webResource", hasBody: true }),
     svc,
-  ) as unknown as Schema.Schema<DeleteWebResourceRequest>;
+  ) as unknown as Schema.Schema<InsertWebResourceRequest>;
 
-export interface DeleteWebResourceResponse {}
-export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
-    {},
-  ) as any as Schema.Schema<DeleteWebResourceResponse>;
+export type InsertWebResourceResponse = SiteVerificationWebResourceResource;
+export const InsertWebResourceResponse =
+  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
 
-export type DeleteWebResourceError = DefaultErrors;
+export type InsertWebResourceError = DefaultErrors;
 
-/** Relinquish ownership of a website or domain. */
-export const deleteWebResource: API.OperationMethod<
-  DeleteWebResourceRequest,
-  DeleteWebResourceResponse,
-  DeleteWebResourceError,
+/** Attempt verification of a website or domain. */
+export const insertWebResource: API.OperationMethod<
+  InsertWebResourceRequest,
+  InsertWebResourceResponse,
+  InsertWebResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteWebResourceRequest,
-  output: DeleteWebResourceResponse,
+  input: InsertWebResourceRequest,
+  output: InsertWebResourceResponse,
   errors: [],
 }));
 
@@ -203,6 +206,39 @@ export const patchWebResource: API.OperationMethod<
   errors: [],
 }));
 
+export interface DeleteWebResourceRequest {
+  /** The id of a verified site or domain. */
+  id: string;
+}
+
+export const DeleteWebResourceRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    id: Schema.String.pipe(T.HttpPath("id")),
+  }).pipe(
+    T.Http({ method: "DELETE", path: "webResource/{id}" }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteWebResourceRequest>;
+
+export interface DeleteWebResourceResponse {}
+export const DeleteWebResourceResponse: Schema.Schema<DeleteWebResourceResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
+    {},
+  ) as any as Schema.Schema<DeleteWebResourceResponse>;
+
+export type DeleteWebResourceError = DefaultErrors;
+
+/** Relinquish ownership of a website or domain. */
+export const deleteWebResource: API.OperationMethod<
+  DeleteWebResourceRequest,
+  DeleteWebResourceResponse,
+  DeleteWebResourceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteWebResourceRequest,
+  output: DeleteWebResourceResponse,
+  errors: [],
+}));
+
 export interface UpdateWebResourceRequest {
   /** The id of a verified site or domain. */
   id: string;
@@ -236,42 +272,6 @@ export const updateWebResource: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: UpdateWebResourceRequest,
   output: UpdateWebResourceResponse,
-  errors: [],
-}));
-
-export interface InsertWebResourceRequest {
-  /** The method to use for verifying a site or domain. */
-  verificationMethod: string;
-  /** Request body */
-  body?: SiteVerificationWebResourceResource;
-}
-
-export const InsertWebResourceRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    verificationMethod: Schema.String.pipe(T.HttpQuery("verificationMethod")),
-    body: Schema.optional(SiteVerificationWebResourceResource).pipe(
-      T.HttpBody(),
-    ),
-  }).pipe(
-    T.Http({ method: "POST", path: "webResource", hasBody: true }),
-    svc,
-  ) as unknown as Schema.Schema<InsertWebResourceRequest>;
-
-export type InsertWebResourceResponse = SiteVerificationWebResourceResource;
-export const InsertWebResourceResponse =
-  /*@__PURE__*/ /*#__PURE__*/ SiteVerificationWebResourceResource;
-
-export type InsertWebResourceError = DefaultErrors;
-
-/** Attempt verification of a website or domain. */
-export const insertWebResource: API.OperationMethod<
-  InsertWebResourceRequest,
-  InsertWebResourceResponse,
-  InsertWebResourceError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: InsertWebResourceRequest,
-  output: InsertWebResourceResponse,
   errors: [],
 }));
 

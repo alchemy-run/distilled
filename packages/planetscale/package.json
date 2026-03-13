@@ -68,7 +68,7 @@
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
-    "generate": "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+    "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-planetscale && git -C specs/distilled-spec-planetscale checkout -- .",
     "specs:update": "git -C specs/distilled-spec-planetscale fetch && git -C specs/distilled-spec-planetscale checkout main && git -C specs/distilled-spec-planetscale pull"
   },

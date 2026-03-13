@@ -68,7 +68,7 @@
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
-    "generate": "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+    "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
     "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-supabase && git -C specs/distilled-spec-supabase checkout -- .",
     "specs:update": "git -C specs/distilled-spec-supabase fetch && git -C specs/distilled-spec-supabase checkout main && git -C specs/distilled-spec-supabase pull"
   },

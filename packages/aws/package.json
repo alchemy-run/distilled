@@ -73,7 +73,7 @@
     "check": "tsgo && oxlint src && oxfmt --check src",
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
-    "generate": "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+    "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
     "specs:fetch": "git submodule update --force --init --recursive specs/api-models-aws && git -C specs/api-models-aws checkout -- . && git submodule update --force --init --recursive specs/aws-sdk-js-v3 && git -C specs/aws-sdk-js-v3 checkout -- . && git submodule update --force --init --recursive specs/smithy && git -C specs/smithy checkout -- . && git submodule update --force --init --recursive specs/smithy-typescript && git -C specs/smithy-typescript checkout -- .",
     "specs:update": "git -C specs/api-models-aws fetch && git -C specs/api-models-aws checkout main && git -C specs/api-models-aws pull && git -C specs/aws-sdk-js-v3 fetch && git -C specs/aws-sdk-js-v3 checkout main && git -C specs/aws-sdk-js-v3 pull && git -C specs/smithy fetch && git -C specs/smithy checkout main && git -C specs/smithy pull && git -C specs/smithy-typescript fetch && git -C specs/smithy-typescript checkout main && git -C specs/smithy-typescript pull"
   },

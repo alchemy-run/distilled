@@ -7,13 +7,11 @@ export const MachinesUpdateMetadataInput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     app_name: Schema.String.pipe(T.PathParam()),
     machine_id: Schema.String.pipe(T.PathParam()),
-    machine_version: Schema.optional(Schema.String),
-    metadata: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-    updated_at: Schema.optional(Schema.String),
+    key: Schema.String.pipe(T.PathParam()),
   }).pipe(
     T.Http({
-      method: "PUT",
-      path: "/apps/{app_name}/machines/{machine_id}/metadata",
+      method: "POST",
+      path: "/apps/{app_name}/machines/{machine_id}/metadata/{key}",
     }),
   );
 export type MachinesUpdateMetadataInput =
@@ -27,13 +25,13 @@ export type MachinesUpdateMetadataOutput =
 
 // The operation
 /**
- * Update Metadata (set/remove multiple keys)
+ * Update Metadata
  *
- * Update multiple metadata keys at once. Null values and empty strings remove keys.
- * + If `machine_version` is provided and no longer matches the current machine version, returns 412 Precondition Failed.
+ * Update metadata for a specific machine within an app by providing a metadata key.
  *
  * @param app_name - Fly App Name
  * @param machine_id - Machine ID
+ * @param key - Metadata Key
  */
 export const MachinesUpdateMetadata = /*@__PURE__*/ /*#__PURE__*/ API.make(
   () => ({
