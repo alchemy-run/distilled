@@ -40,28 +40,55 @@ export const ItemError: Schema.Schema<ItemError> =
 export interface PublishRequest {
   /** The publish target of this publish operation. This is the same as using publishTarget as a URL query parameter. The string value can either be target="trustedTesters" or target="default". The default value, if none is supplied, is target="default". Recommended usage is to use the URL query parameter to specificy the value. */
   target?: string;
-  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean;
   /** The target deploy percentage of the item. It's only useful for items with big user base. */
   deployPercentage?: number;
+  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
+  reviewExemption?: boolean;
 }
 
 export const PublishRequest: Schema.Schema<PublishRequest> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       target: Schema.optional(Schema.String),
-      reviewExemption: Schema.optional(Schema.Boolean),
       deployPercentage: Schema.optional(Schema.Number),
+      reviewExemption: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
     identifier: "PublishRequest",
   }) as any as Schema.Schema<PublishRequest>;
 
+export interface Item {
+  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
+  kind?: string;
+  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
+  uploadState?: string;
+  /** Unique ID of the item. */
+  id?: string;
+  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
+  itemError?: Array<ItemError>;
+  /** Public key of this item. */
+  publicKey?: string;
+  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
+  crxVersion?: string;
+}
+
+export const Item: Schema.Schema<Item> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      kind: Schema.optional(Schema.String),
+      uploadState: Schema.optional(Schema.String),
+      id: Schema.optional(Schema.String),
+      itemError: Schema.optional(Schema.Array(ItemError)),
+      publicKey: Schema.optional(Schema.String),
+      crxVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
+
 export interface Item2 {
-  /** The ID of this item. */
-  item_id?: string;
   /** Static string value is always "chromewebstore#item". */
   kind?: string;
+  /** The ID of this item. */
+  item_id?: string;
   /** The status code of this publish operation. It may contain multiple elements from the following list: NOT_AUTHORIZED, INVALID_DEVELOPER, DEVELOPER_NO_OWNERSHIP, DEVELOPER_SUSPENDED, ITEM_NOT_FOUND, ITEM_PENDING_REVIEW, ITEM_TAKEN_DOWN, PUBLISHER_SUSPENDED. */
   status?: Array<string>;
   /** Detailed human-comprehensible explanation of the status code above. */
@@ -71,54 +98,27 @@ export interface Item2 {
 export const Item2: Schema.Schema<Item2> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      item_id: Schema.optional(Schema.String),
       kind: Schema.optional(Schema.String),
+      item_id: Schema.optional(Schema.String),
       status: Schema.optional(Schema.Array(Schema.String)),
       statusDetail: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({ identifier: "Item2" }) as any as Schema.Schema<Item2>;
-
-export interface Item {
-  /** Status of the operation. Possible values are: - \"FAILURE\" - \"IN_PROGRESS\" - \"NOT_FOUND\" - \"SUCCESS\" */
-  uploadState?: string;
-  /** Unique ID of the item. */
-  id?: string;
-  /** The CRX version of the item. If the projection is draft, then it is the draft's CRX version. */
-  crxVersion?: string;
-  /** Identifies this resource as an Item. Value: the fixed string "chromewebstore#item". */
-  kind?: string;
-  /** Detail human-readable status of the operation, in English only. Same error messages are displayed when you upload your app to the Chrome Web Store. */
-  itemError?: Array<ItemError>;
-  /** Public key of this item. */
-  publicKey?: string;
-}
-
-export const Item: Schema.Schema<Item> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      uploadState: Schema.optional(Schema.String),
-      id: Schema.optional(Schema.String),
-      crxVersion: Schema.optional(Schema.String),
-      kind: Schema.optional(Schema.String),
-      itemError: Schema.optional(Schema.Array(ItemError)),
-      publicKey: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Item" }) as any as Schema.Schema<Item>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
 
 export interface GetItemsRequest {
-  /** Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme. */
-  itemId: string;
   /** Determines which subset of the item information to return. */
   projection?: "DRAFT" | "PUBLISHED" | (string & {});
+  /** Unique identifier representing the Chrome App, Chrome Extension, or the Chrome Theme. */
+  itemId: string;
 }
 
 export const GetItemsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
   projection: Schema.optional(Schema.String).pipe(T.HttpQuery("projection")),
+  itemId: Schema.String.pipe(T.HttpPath("itemId")),
 }).pipe(
   T.Http({ method: "GET", path: "chromewebstore/v1.1/items/{itemId}" }),
   svc,
@@ -142,28 +142,28 @@ export const getItems: API.OperationMethod<
 }));
 
 export interface PublishItemsRequest {
-  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
-  reviewExemption?: boolean;
-  /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
-  publishTarget?: string;
   /** The ID of the item to publish. */
   itemId: string;
+  /** Provide defined publishTarget in URL (case sensitive): publishTarget="trustedTesters" or publishTarget="default". Defaults to publishTarget="default". */
+  publishTarget?: string;
   /** The deploy percentage you want to set for your item. Valid values are [0, 100]. If set to any number less than 100, only that many percentage of users will be allowed to get the update. */
   deployPercentage?: number;
+  /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
+  reviewExemption?: boolean;
   /** Request body */
   body?: PublishRequest;
 }
 
 export const PublishItemsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  reviewExemption: Schema.optional(Schema.Boolean).pipe(
-    T.HttpQuery("reviewExemption"),
-  ),
+  itemId: Schema.String.pipe(T.HttpPath("itemId")),
   publishTarget: Schema.optional(Schema.String).pipe(
     T.HttpQuery("publishTarget"),
   ),
-  itemId: Schema.String.pipe(T.HttpPath("itemId")),
   deployPercentage: Schema.optional(Schema.Number).pipe(
     T.HttpQuery("deployPercentage"),
+  ),
+  reviewExemption: Schema.optional(Schema.Boolean).pipe(
+    T.HttpQuery("reviewExemption"),
   ),
   body: Schema.optional(PublishRequest).pipe(T.HttpBody()),
 }).pipe(

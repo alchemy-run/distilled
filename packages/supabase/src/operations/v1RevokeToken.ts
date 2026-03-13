@@ -1,12 +1,13 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const V1RevokeTokenInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   client_id: Schema.String,
-  client_secret: Schema.String,
-  refresh_token: Schema.String,
+  client_secret: SensitiveString,
+  refresh_token: SensitiveString,
 }).pipe(T.Http({ method: "POST", path: "/v1/oauth/revoke" }));
 export type V1RevokeTokenInput = typeof V1RevokeTokenInput.Type;
 

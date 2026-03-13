@@ -618,7 +618,9 @@ export const listCertificatePacks: API.PaginatedOperationMethod<
     ListCertificatePacksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListCertificatePacksRequest) => stream.Stream<
+  items: (
+    input: ListCertificatePacksRequest,
+  ) => stream.Stream<
     {
       id: string;
       certificates: {

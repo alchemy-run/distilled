@@ -53,108 +53,62 @@ export const Interval: Schema.Schema<Interval> =
   ).annotate({ identifier: "Interval" }) as any as Schema.Schema<Interval>;
 
 export interface InventoryLoyaltyProgram {
-  /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
-  tierLabel?: string;
-  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
-  memberPriceEffectiveInterval?: Interval;
-  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
-  shippingLabel?: string;
   /** The amount of loyalty points earned on a purchase. */
   loyaltyPoints?: string;
   /** The label of the loyalty program. This is an internal label that uniquely identifies the relationship between a business entity and a loyalty program entity. The label must be provided if there are multiple loyalty programs available for the merchant, so that the system can associate the assets below (for example, price and points) with the correct business. The corresponding program must be linked to the Merchant Center account. */
   programLabel?: string;
-  /** The cashback that can be used for future purchases. */
-  cashbackForFutureUse?: Price;
+  /** The label of the tier within the loyalty program. Must match one of the labels within the program. */
+  tierLabel?: string;
   /** The price for members of the given tier, that is, the instant discount price. Must be smaller or equal to the regular price. */
   price?: Price;
+  /** The cashback that can be used for future purchases. */
+  cashbackForFutureUse?: Price;
+  /** The label of the shipping benefit. If the field has value, this offer has loyalty shipping benefit. If the field value isn't provided, the item is not eligible for loyalty shipping for the given loyalty tier. */
+  shippingLabel?: string;
+  /** A date range during which the item is eligible for member price. If not specified, the member price is always applicable. The date range is represented by a pair of ISO 8601 dates separated by a space, comma, or slash. */
+  memberPriceEffectiveInterval?: Interval;
 }
 
 export const InventoryLoyaltyProgram: Schema.Schema<InventoryLoyaltyProgram> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      tierLabel: Schema.optional(Schema.String),
-      memberPriceEffectiveInterval: Schema.optional(Interval),
-      shippingLabel: Schema.optional(Schema.String),
       loyaltyPoints: Schema.optional(Schema.String),
       programLabel: Schema.optional(Schema.String),
-      cashbackForFutureUse: Schema.optional(Price),
+      tierLabel: Schema.optional(Schema.String),
       price: Schema.optional(Price),
+      cashbackForFutureUse: Schema.optional(Price),
+      shippingLabel: Schema.optional(Schema.String),
+      memberPriceEffectiveInterval: Schema.optional(Interval),
     }),
   ).annotate({
     identifier: "InventoryLoyaltyProgram",
   }) as any as Schema.Schema<InventoryLoyaltyProgram>;
 
-export interface RegionalInventoryAttributes {
-  /** Optional. Sale price of the product in this region. Mandatory if `salePriceEffectiveDate` is defined. */
-  salePrice?: Price;
-  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product in this region. This field is used to show region-specific member prices on Product Listing Ads (PLA). To use this, the loyalty program must be configured in Google Merchant Center, and the merchant must be using the Regional Availability and Pricing (RAAP) feature. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. Also see [Regional availability and pricing](https://support.google.com/merchants/answer/14644124) and [How to set up regional member pricing](https://support.google.com/merchants/answer/16388178) for more information. */
-  loyaltyPrograms?: Array<InventoryLoyaltyProgram>;
-  /** Optional. Price of the product in this region. */
+export interface LocalInventoryAttributes {
+  /** Optional. Supported [pickup method](https://support.google.com/merchants/answer/3061342) for this product. Unless the value is `"not supported"`, this field must be submitted together with `pickupSla`. */
+  pickupMethod?:
+    | "PICKUP_METHOD_UNSPECIFIED"
+    | "BUY"
+    | "RESERVE"
+    | "SHIP_TO_STORE"
+    | "NOT_SUPPORTED"
+    | (string & {});
+  /** Optional. Price of the product at this store. */
   price?: Price;
-  /** Optional. The `TimePeriod` of the sale price in this region. */
-  salePriceEffectiveDate?: Interval;
-  /** Optional. [Availability](https://support.google.com/merchants/answer/14644124) of the product in this region. */
+  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product at this store. This field is used to show store-specific member prices on Local Inventory Ads (LIA). To use this, the loyalty program must be configured in Google Merchant Center. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. For local inventory specific details, see the [Local inventory data specification](https://support.google.com/merchants/answer/3061342). */
+  loyaltyPrograms?: Array<InventoryLoyaltyProgram>;
+  /** [Availability](https://support.google.com/merchants/answer/3061342) of the product at this store. */
   availability?:
-    | "REGIONAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
+    | "LOCAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
     | "IN_STOCK"
+    | "LIMITED_AVAILABILITY"
+    | "ON_DISPLAY_TO_ORDER"
     | "OUT_OF_STOCK"
     | (string & {});
-}
-
-export const RegionalInventoryAttributes: Schema.Schema<RegionalInventoryAttributes> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      salePrice: Schema.optional(Price),
-      loyaltyPrograms: Schema.optional(Schema.Array(InventoryLoyaltyProgram)),
-      price: Schema.optional(Price),
-      salePriceEffectiveDate: Schema.optional(Interval),
-      availability: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "RegionalInventoryAttributes",
-  }) as any as Schema.Schema<RegionalInventoryAttributes>;
-
-export interface RegionalInventory {
-  /** Required. Immutable. ID of the region for this `RegionalInventory` resource. See the [Regional availability and pricing](https://support.google.com/merchants/answer/9698880) for more details. */
-  region?: string;
-  /** Output only. The name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a regional inventory in `region` "region123" would be: `accounts/123/products/online~en~US~sku123/regionalInventories/region123`. */
-  name?: string;
-  /** Optional. A list of regional inventory attributes. */
-  regionalInventoryAttributes?: RegionalInventoryAttributes;
-  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
-  account?: string;
-}
-
-export const RegionalInventory: Schema.Schema<RegionalInventory> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      region: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      regionalInventoryAttributes: Schema.optional(RegionalInventoryAttributes),
-      account: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "RegionalInventory",
-  }) as any as Schema.Schema<RegionalInventory>;
-
-export interface ListRegionalInventoriesResponse {
-  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-  /** The `RegionalInventory` resources for the given product from the specified account. */
-  regionalInventories?: Array<RegionalInventory>;
-}
-
-export const ListRegionalInventoriesResponse: Schema.Schema<ListRegionalInventoriesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      regionalInventories: Schema.optional(Schema.Array(RegionalInventory)),
-    }),
-  ).annotate({
-    identifier: "ListRegionalInventoriesResponse",
-  }) as any as Schema.Schema<ListRegionalInventoriesResponse>;
-
-export interface LocalInventoryAttributes {
+  /** Optional. Quantity of the product available at this store. Must be greater than or equal to zero. */
+  quantity?: string;
+  /** Optional. Sale price of the product at this store. Mandatory if `salePriceEffectiveDate` is defined. */
+  salePrice?: Price;
   /** Optional. Relative time period from the order date for an order for this product, from this store, to be ready for pickup. Must be submitted with `pickupMethod`. See more details [here](https://support.google.com/merchants/answer/3061342). */
   pickupSla?:
     | "PICKUP_SLA_UNSPECIFIED"
@@ -168,32 +122,8 @@ export interface LocalInventoryAttributes {
     | "SEVEN_DAY"
     | "MULTI_WEEK"
     | (string & {});
-  /** Optional. Sale price of the product at this store. Mandatory if `salePriceEffectiveDate` is defined. */
-  salePrice?: Price;
-  /** Optional. Price of the product at this store. */
-  price?: Price;
-  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product at this store. This field is used to show store-specific member prices on Local Inventory Ads (LIA). To use this, the loyalty program must be configured in Google Merchant Center. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. For local inventory specific details, see the [Local inventory data specification](https://support.google.com/merchants/answer/3061342). */
-  loyaltyPrograms?: Array<InventoryLoyaltyProgram>;
-  /** Optional. Supported [pickup method](https://support.google.com/merchants/answer/3061342) for this product. Unless the value is `"not supported"`, this field must be submitted together with `pickupSla`. */
-  pickupMethod?:
-    | "PICKUP_METHOD_UNSPECIFIED"
-    | "BUY"
-    | "RESERVE"
-    | "SHIP_TO_STORE"
-    | "NOT_SUPPORTED"
-    | (string & {});
-  /** Optional. Quantity of the product available at this store. Must be greater than or equal to zero. */
-  quantity?: string;
   /** Optional. The `TimePeriod` of the sale at this store. */
   salePriceEffectiveDate?: Interval;
-  /** [Availability](https://support.google.com/merchants/answer/3061342) of the product at this store. */
-  availability?:
-    | "LOCAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
-    | "IN_STOCK"
-    | "LIMITED_AVAILABILITY"
-    | "ON_DISPLAY_TO_ORDER"
-    | "OUT_OF_STOCK"
-    | (string & {});
   /** Optional. Location of the product inside the store. Maximum length is 20 bytes. */
   instoreProductLocation?: string;
 }
@@ -201,14 +131,14 @@ export interface LocalInventoryAttributes {
 export const LocalInventoryAttributes: Schema.Schema<LocalInventoryAttributes> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      pickupSla: Schema.optional(Schema.String),
-      salePrice: Schema.optional(Price),
+      pickupMethod: Schema.optional(Schema.String),
       price: Schema.optional(Price),
       loyaltyPrograms: Schema.optional(Schema.Array(InventoryLoyaltyProgram)),
-      pickupMethod: Schema.optional(Schema.String),
-      quantity: Schema.optional(Schema.String),
-      salePriceEffectiveDate: Schema.optional(Interval),
       availability: Schema.optional(Schema.String),
+      quantity: Schema.optional(Schema.String),
+      salePrice: Schema.optional(Price),
+      pickupSla: Schema.optional(Schema.String),
+      salePriceEffectiveDate: Schema.optional(Interval),
       instoreProductLocation: Schema.optional(Schema.String),
     }),
   ).annotate({
@@ -216,12 +146,12 @@ export const LocalInventoryAttributes: Schema.Schema<LocalInventoryAttributes> =
   }) as any as Schema.Schema<LocalInventoryAttributes>;
 
 export interface LocalInventory {
-  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
-  account?: string;
-  /** Optional. A list of local inventory attributes. */
-  localInventoryAttributes?: LocalInventoryAttributes;
   /** Output only. The name of the `LocalInventory` resource. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a local inventory at `store_code` "store123" would be: `accounts/123/products/online~en~US~sku123/localInventories/store123`. */
   name?: string;
+  /** Optional. A list of local inventory attributes. */
+  localInventoryAttributes?: LocalInventoryAttributes;
+  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
+  account?: string;
   /** Required. Immutable. Store code (the store ID from your Business Profile) of the physical store the product is sold in. See the [Local product inventory data specification](https://support.google.com/merchants/answer/3061342) for more information. */
   storeCode?: string;
 }
@@ -229,9 +159,9 @@ export interface LocalInventory {
 export const LocalInventory: Schema.Schema<LocalInventory> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      account: Schema.optional(Schema.String),
-      localInventoryAttributes: Schema.optional(LocalInventoryAttributes),
       name: Schema.optional(Schema.String),
+      localInventoryAttributes: Schema.optional(LocalInventoryAttributes),
+      account: Schema.optional(Schema.String),
       storeCode: Schema.optional(Schema.String),
     }),
   ).annotate({
@@ -255,7 +185,81 @@ export const ListLocalInventoriesResponse: Schema.Schema<ListLocalInventoriesRes
     identifier: "ListLocalInventoriesResponse",
   }) as any as Schema.Schema<ListLocalInventoriesResponse>;
 
+export interface RegionalInventoryAttributes {
+  /** Optional. The `TimePeriod` of the sale price in this region. */
+  salePriceEffectiveDate?: Interval;
+  /** Optional. Sale price of the product in this region. Mandatory if `salePriceEffectiveDate` is defined. */
+  salePrice?: Price;
+  /** Optional. An optional list of loyalty programs containing applicable loyalty member prices for this product in this region. This field is used to show region-specific member prices on Product Listing Ads (PLA). To use this, the loyalty program must be configured in Google Merchant Center, and the merchant must be using the Regional Availability and Pricing (RAAP) feature. The benefits provided must match the merchant's website and be clear to members. This is only applicable for merchants in supported countries. See [Loyalty program](https://support.google.com/merchants/answer/12922446) for details on supported countries and loyalty program configuration. Also see [Regional availability and pricing](https://support.google.com/merchants/answer/14644124) and [How to set up regional member pricing](https://support.google.com/merchants/answer/16388178) for more information. */
+  loyaltyPrograms?: Array<InventoryLoyaltyProgram>;
+  /** Optional. [Availability](https://support.google.com/merchants/answer/14644124) of the product in this region. */
+  availability?:
+    | "REGIONAL_INVENTORY_AVAILABILITY_UNSPECIFIED"
+    | "IN_STOCK"
+    | "OUT_OF_STOCK"
+    | (string & {});
+  /** Optional. Price of the product in this region. */
+  price?: Price;
+}
+
+export const RegionalInventoryAttributes: Schema.Schema<RegionalInventoryAttributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      salePriceEffectiveDate: Schema.optional(Interval),
+      salePrice: Schema.optional(Price),
+      loyaltyPrograms: Schema.optional(Schema.Array(InventoryLoyaltyProgram)),
+      availability: Schema.optional(Schema.String),
+      price: Schema.optional(Price),
+    }),
+  ).annotate({
+    identifier: "RegionalInventoryAttributes",
+  }) as any as Schema.Schema<RegionalInventoryAttributes>;
+
+export interface RegionalInventory {
+  /** Required. Immutable. ID of the region for this `RegionalInventory` resource. See the [Regional availability and pricing](https://support.google.com/merchants/answer/9698880) for more details. */
+  region?: string;
+  /** Output only. The account that owns the product. This field will be ignored if set by the client. */
+  account?: string;
+  /** Optional. A list of regional inventory attributes. */
+  regionalInventoryAttributes?: RegionalInventoryAttributes;
+  /** Output only. The name of the `RegionalInventory` resource. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a regional inventory in `region` "region123" would be: `accounts/123/products/online~en~US~sku123/regionalInventories/region123`. */
+  name?: string;
+}
+
+export const RegionalInventory: Schema.Schema<RegionalInventory> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      region: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      regionalInventoryAttributes: Schema.optional(RegionalInventoryAttributes),
+      name: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "RegionalInventory",
+  }) as any as Schema.Schema<RegionalInventory>;
+
+export interface ListRegionalInventoriesResponse {
+  /** A token, which can be sent as `pageToken` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+  /** The `RegionalInventory` resources for the given product from the specified account. */
+  regionalInventories?: Array<RegionalInventory>;
+}
+
+export const ListRegionalInventoriesResponse: Schema.Schema<ListRegionalInventoriesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      regionalInventories: Schema.optional(Schema.Array(RegionalInventory)),
+    }),
+  ).annotate({
+    identifier: "ListRegionalInventoriesResponse",
+  }) as any as Schema.Schema<ListRegionalInventoriesResponse>;
+
 export interface ProductChange {
+  /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
+  oldValue?: string;
+  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
+  regionCode?: string;
   /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
   newValue?: string;
   /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
@@ -281,23 +285,57 @@ export interface ProductChange {
     | "MERCHANT_REVIEWS"
     | "YOUTUBE_CHECKOUT"
     | (string & {});
-  /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
-  oldValue?: string;
-  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
-  regionCode?: string;
 }
 
 export const ProductChange: Schema.Schema<ProductChange> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      newValue: Schema.optional(Schema.String),
-      reportingContext: Schema.optional(Schema.String),
       oldValue: Schema.optional(Schema.String),
       regionCode: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ProductChange",
   }) as any as Schema.Schema<ProductChange>;
+
+export interface ProductStatusChangeMessage {
+  /** The attribute in the resource that changed, in this case it will be always `Status`. */
+  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
+  /** A message to describe the change that happened to the product */
+  changes?: Array<ProductChange>;
+  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
+  managingAccount?: string;
+  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
+  expirationTime?: string;
+  /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
+  account?: string;
+  /** The product id. */
+  resourceId?: string;
+  /** The resource that changed, in this case it will always be `Product`. */
+  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
+  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
+  eventTime?: string;
+  /** The product name. Format: `accounts/{account}/products/{product}` */
+  resource?: string;
+}
+
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      attribute: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      managingAccount: Schema.optional(Schema.String),
+      expirationTime: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      eventTime: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 export interface Empty {}
 
@@ -306,126 +344,9 @@ export const Empty: Schema.Schema<Empty> =
     identifier: "Empty",
   }) as any as Schema.Schema<Empty>;
 
-export interface ProductStatusChangeMessage {
-  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
-  eventTime?: string;
-  /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
-  account?: string;
-  /** The resource that changed, in this case it will always be `Product`. */
-  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
-  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
-  expirationTime?: string;
-  /** A message to describe the change that happened to the product */
-  changes?: Array<ProductChange>;
-  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
-  managingAccount?: string;
-  /** The attribute in the resource that changed, in this case it will be always `Status`. */
-  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
-  /** The product name. Format: `accounts/{account}/products/{product}` */
-  resource?: string;
-  /** The product id. */
-  resourceId?: string;
-}
-
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      eventTime: Schema.optional(Schema.String),
-      account: Schema.optional(Schema.String),
-      resourceType: Schema.optional(Schema.String),
-      expirationTime: Schema.optional(Schema.String),
-      changes: Schema.optional(Schema.Array(ProductChange)),
-      managingAccount: Schema.optional(Schema.String),
-      attribute: Schema.optional(Schema.String),
-      resource: Schema.optional(Schema.String),
-      resourceId: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ProductStatusChangeMessage",
-  }) as any as Schema.Schema<ProductStatusChangeMessage>;
-
 // ==========================================================================
 // Operations
 // ==========================================================================
-
-export interface ListAccountsProductsLocalInventoriesRequest {
-  /** The maximum number of `LocalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 25000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum */
-  pageSize?: number;
-  /** Required. The `name` of the parent product to list local inventories for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format is `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
-  parent: string;
-  /** A page token, received from a previous `ListLocalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListLocalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
-  pageToken?: string;
-}
-
-export const ListAccountsProductsLocalInventoriesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
-
-export type ListAccountsProductsLocalInventoriesResponse =
-  ListLocalInventoriesResponse;
-export const ListAccountsProductsLocalInventoriesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListLocalInventoriesResponse;
-
-export type ListAccountsProductsLocalInventoriesError = DefaultErrors;
-
-/** Lists the `LocalInventory` resources for the given product in your merchant account. The response might contain fewer items than specified by `pageSize`. If `pageToken` was returned in previous request, it can be used to obtain additional results. `LocalInventory` resources are listed per product for a given account. */
-export const listAccountsProductsLocalInventories: API.PaginatedOperationMethod<
-  ListAccountsProductsLocalInventoriesRequest,
-  ListAccountsProductsLocalInventoriesResponse,
-  ListAccountsProductsLocalInventoriesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsProductsLocalInventoriesRequest,
-  output: ListAccountsProductsLocalInventoriesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface DeleteAccountsProductsLocalInventoriesRequest {
-  /** Required. The name of the local inventory for the given product to delete. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a local inventory at `store_code` "store123" would be: `accounts/123/products/online~en~US~sku123/localInventories/store123`. */
-  name: string;
-}
-
-export const DeleteAccountsProductsLocalInventoriesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories/{localInventoriesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
-
-export type DeleteAccountsProductsLocalInventoriesResponse = Empty;
-export const DeleteAccountsProductsLocalInventoriesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Empty;
-
-export type DeleteAccountsProductsLocalInventoriesError = DefaultErrors;
-
-/** Deletes the specified `LocalInventory` from the given product in your merchant account. It might take a up to an hour for the `LocalInventory` to be deleted from the specific product. Once you have received a successful delete response, wait for that period before attempting a delete again. */
-export const deleteAccountsProductsLocalInventories: API.OperationMethod<
-  DeleteAccountsProductsLocalInventoriesRequest,
-  DeleteAccountsProductsLocalInventoriesResponse,
-  DeleteAccountsProductsLocalInventoriesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsProductsLocalInventoriesRequest,
-  output: DeleteAccountsProductsLocalInventoriesResponse,
-  errors: [],
-}));
 
 export interface InsertAccountsProductsLocalInventoriesRequest {
   /** Required. The account and product where this inventory will be inserted. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format is `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
@@ -465,6 +386,85 @@ export const insertAccountsProductsLocalInventories: API.OperationMethod<
   errors: [],
 }));
 
+export interface DeleteAccountsProductsLocalInventoriesRequest {
+  /** Required. The name of the local inventory for the given product to delete. Format: `accounts/{account}/products/{product}/localInventories/{store_code}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `store_code` "store123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the local inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/localInventories/store123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a local inventory at `store_code` "store123" would be: `accounts/123/products/online~en~US~sku123/localInventories/store123`. */
+  name: string;
+}
+
+export const DeleteAccountsProductsLocalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories/{localInventoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductsLocalInventoriesRequest>;
+
+export type DeleteAccountsProductsLocalInventoriesResponse = Empty;
+export const DeleteAccountsProductsLocalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteAccountsProductsLocalInventoriesError = DefaultErrors;
+
+/** Deletes the specified `LocalInventory` from the given product in your merchant account. It might take a up to an hour for the `LocalInventory` to be deleted from the specific product. Once you have received a successful delete response, wait for that period before attempting a delete again. */
+export const deleteAccountsProductsLocalInventories: API.OperationMethod<
+  DeleteAccountsProductsLocalInventoriesRequest,
+  DeleteAccountsProductsLocalInventoriesResponse,
+  DeleteAccountsProductsLocalInventoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsProductsLocalInventoriesRequest,
+  output: DeleteAccountsProductsLocalInventoriesResponse,
+  errors: [],
+}));
+
+export interface ListAccountsProductsLocalInventoriesRequest {
+  /** Required. The `name` of the parent product to list local inventories for. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format is `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
+  parent: string;
+  /** The maximum number of `LocalInventory` resources for the given product to return. The service returns fewer than this value if the number of inventories for the given product is less that than the `pageSize`. The default value is 25000. The maximum value is 25000; If a value higher than the maximum is specified, then the `pageSize` will default to the maximum */
+  pageSize?: number;
+  /** A page token, received from a previous `ListLocalInventories` call. Provide the page token to retrieve the subsequent page. When paginating, all other parameters provided to `ListLocalInventories` must match the call that provided the page token. The token returned as nextPageToken in the response to the previous request. */
+  pageToken?: string;
+}
+
+export const ListAccountsProductsLocalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/localInventories",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsProductsLocalInventoriesRequest>;
+
+export type ListAccountsProductsLocalInventoriesResponse =
+  ListLocalInventoriesResponse;
+export const ListAccountsProductsLocalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocalInventoriesResponse;
+
+export type ListAccountsProductsLocalInventoriesError = DefaultErrors;
+
+/** Lists the `LocalInventory` resources for the given product in your merchant account. The response might contain fewer items than specified by `pageSize`. If `pageToken` was returned in previous request, it can be used to obtain additional results. `LocalInventory` resources are listed per product for a given account. */
+export const listAccountsProductsLocalInventories: API.PaginatedOperationMethod<
+  ListAccountsProductsLocalInventoriesRequest,
+  ListAccountsProductsLocalInventoriesResponse,
+  ListAccountsProductsLocalInventoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsProductsLocalInventoriesRequest,
+  output: ListAccountsProductsLocalInventoriesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
 export interface InsertAccountsProductsRegionalInventoriesRequest {
   /** Required. The account and product where this inventory will be inserted. Format: `accounts/{account}/products/{product}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123`, the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the product would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format is `channel~content_language~feed_label~offer_id`, for example: `accounts/123/products/online~en~US~sku123`. */
   parent: string;
@@ -501,6 +501,40 @@ export const insertAccountsProductsRegionalInventories: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: InsertAccountsProductsRegionalInventoriesRequest,
   output: InsertAccountsProductsRegionalInventoriesResponse,
+  errors: [],
+}));
+
+export interface DeleteAccountsProductsRegionalInventoriesRequest {
+  /** Required. The name of the `RegionalInventory` resource to delete. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a regional inventory in `region` "region123" would be: `accounts/123/products/online~en~US~sku123/regionalInventories/region123`. */
+  name: string;
+}
+
+export const DeleteAccountsProductsRegionalInventoriesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories/{regionalInventoriesId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
+
+export type DeleteAccountsProductsRegionalInventoriesResponse = Empty;
+export const DeleteAccountsProductsRegionalInventoriesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteAccountsProductsRegionalInventoriesError = DefaultErrors;
+
+/** Deletes the specified `RegionalInventory` resource from the given product in your merchant account. It might take up to an hour for the `RegionalInventory` to be deleted from the specific product. Once you have received a successful delete response, wait for that period before attempting a delete again. */
+export const deleteAccountsProductsRegionalInventories: API.OperationMethod<
+  DeleteAccountsProductsRegionalInventoriesRequest,
+  DeleteAccountsProductsRegionalInventoriesResponse,
+  DeleteAccountsProductsRegionalInventoriesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAccountsProductsRegionalInventoriesRequest,
+  output: DeleteAccountsProductsRegionalInventoriesResponse,
   errors: [],
 }));
 
@@ -547,38 +581,4 @@ export const listAccountsProductsRegionalInventories: API.PaginatedOperationMeth
     inputToken: "pageToken",
     outputToken: "nextPageToken",
   },
-}));
-
-export interface DeleteAccountsProductsRegionalInventoriesRequest {
-  /** Required. The name of the `RegionalInventory` resource to delete. Format: `accounts/{account}/products/{product}/regionalInventories/{region}` The `{product}` segment is a unique identifier for the product. This identifier must be unique within a merchant account and generally follows the structure: `content_language~feed_label~offer_id`. Example: `en~US~sku123` For legacy local products, the structure is: `local~content_language~feed_label~offer_id`. Example: `local~en~US~sku123` The format of the `{product}` segment in the URL is automatically detected by the server, supporting two options: 1. **Encoded Format**: The `{product}` segment is an unpadded base64url encoded string (RFC 4648 Section 5). The decoded string must result in the `content_language~feed_label~offer_id` structure. This encoding MUST be used if any part of the product identifier (like `offer_id`) contains characters such as `/`, `%`, or `~`. * Example: To represent the product ID `en~US~sku/123` for `region` "region123", the `{product}` segment must be the base64url encoding of this string, which is `ZW5-VVMtc2t1LzEyMw`. The full resource name for the regional inventory would be `accounts/123/products/ZW5-VVMtc2t1LzEyMw/regionalInventories/region123`. 2. **Plain Format**: The `{product}` segment is the tilde-separated string `content_language~feed_label~offer_id`. This format is suitable only when `content_language`, `feed_label`, and `offer_id` do not contain URL-problematic characters like `/`, `%`, or `~`. We recommend using the **Encoded Format** for all product IDs to ensure correct parsing, especially those containing special characters. The presence of tilde (`~`) characters in the `{product}` segment is used to differentiate between the two formats. Note: For calls to the v1beta version, the plain format for the product segment is `channel~content_language~feed_label~offer_id`. For example, the full resource name for a regional inventory in `region` "region123" would be: `accounts/123/products/online~en~US~sku123/regionalInventories/region123`. */
-  name: string;
-}
-
-export const DeleteAccountsProductsRegionalInventoriesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "inventories/v1/accounts/{accountsId}/products/{productsId}/regionalInventories/{regionalInventoriesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteAccountsProductsRegionalInventoriesRequest>;
-
-export type DeleteAccountsProductsRegionalInventoriesResponse = Empty;
-export const DeleteAccountsProductsRegionalInventoriesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Empty;
-
-export type DeleteAccountsProductsRegionalInventoriesError = DefaultErrors;
-
-/** Deletes the specified `RegionalInventory` resource from the given product in your merchant account. It might take up to an hour for the `RegionalInventory` to be deleted from the specific product. Once you have received a successful delete response, wait for that period before attempting a delete again. */
-export const deleteAccountsProductsRegionalInventories: API.OperationMethod<
-  DeleteAccountsProductsRegionalInventoriesRequest,
-  DeleteAccountsProductsRegionalInventoriesResponse,
-  DeleteAccountsProductsRegionalInventoriesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteAccountsProductsRegionalInventoriesRequest,
-  output: DeleteAccountsProductsRegionalInventoriesResponse,
-  errors: [],
 }));

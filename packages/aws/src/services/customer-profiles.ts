@@ -137,8 +137,12 @@ export type Timezone = string;
 export type ScheduleOffset = number;
 export type RoleArn = string;
 export type EventParametersEventTypeString = string;
+export type EventParametersEventWeightDouble = number;
 export type RecommenderConfigTrainingFrequencyInteger = number;
+export type InferenceConfigMinProvisionedTPSInteger = number;
 export type Arn = string;
+export type RecommenderFilterName = string;
+export type RecommenderFilterExpression = string | redacted.Redacted<string>;
 export type SensitiveString1To4000 = string | redacted.Redacted<string>;
 export type SensitiveString1To50000 = string | redacted.Redacted<string>;
 export type SegmentDefinitionArn = string;
@@ -153,7 +157,13 @@ export type MatchesNumber = number;
 export type MinSize0 = number;
 export type MinSize1 = number;
 export type ContextKey = string;
-export type MaxSize10 = number;
+export type RecommenderFilterAttributeName = string;
+export type RecommenderFilterAttributeValue =
+  | string
+  | redacted.Redacted<string>;
+export type PercentPromotedItems = number;
+export type MaxSize500 = number;
+export type MetadataColumnName = string;
 export type GetRecommenderRequestTrainingMetricsCountInteger = number;
 export type ProfileId = string;
 export type GetSegmentMembershipMessage = string;
@@ -161,7 +171,6 @@ export type GetSegmentMembershipStatus = number;
 export type RuleLevel = number;
 export type ListRecommenderRecipesRequestMaxResultsInteger = number;
 export type ListRecommendersRequestMaxResultsInteger = number;
-export type MaxSize500 = number;
 export type TagArn = string;
 export type SensitiveString0To1000 = string | redacted.Redacted<string>;
 export type SensitiveString0To255 = string | redacted.Redacted<string>;
@@ -1838,14 +1847,20 @@ export type RecommenderRecipeName =
   | "frequently-paired-items"
   | "popular-items"
   | "trending-now"
+  | "personalized-ranking"
   | (string & {});
 export const RecommenderRecipeName = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface EventParameters {
   EventType: string;
   EventValueThreshold?: number;
+  EventWeight?: number;
 }
 export const EventParameters = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
-  S.Struct({ EventType: S.String, EventValueThreshold: S.optional(S.Number) }),
+  S.Struct({
+    EventType: S.String,
+    EventValueThreshold: S.optional(S.Number),
+    EventWeight: S.optional(S.Number),
+  }),
 ).annotate({
   identifier: "EventParameters",
 }) as any as S.Schema<EventParameters>;
@@ -1858,14 +1873,24 @@ export interface EventsConfig {
 export const EventsConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({ EventParametersList: EventParametersList }),
 ).annotate({ identifier: "EventsConfig" }) as any as S.Schema<EventsConfig>;
+export interface InferenceConfig {
+  MinProvisionedTPS?: number;
+}
+export const InferenceConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({ MinProvisionedTPS: S.optional(S.Number) }),
+).annotate({
+  identifier: "InferenceConfig",
+}) as any as S.Schema<InferenceConfig>;
 export interface RecommenderConfig {
-  EventsConfig: EventsConfig;
+  EventsConfig?: EventsConfig;
   TrainingFrequency?: number;
+  InferenceConfig?: InferenceConfig;
 }
 export const RecommenderConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
-    EventsConfig: EventsConfig,
+    EventsConfig: S.optional(EventsConfig),
     TrainingFrequency: S.optional(S.Number),
+    InferenceConfig: S.optional(InferenceConfig),
   }),
 ).annotate({
   identifier: "RecommenderConfig",
@@ -1912,6 +1937,49 @@ export const CreateRecommenderResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 ).annotate({
   identifier: "CreateRecommenderResponse",
 }) as any as S.Schema<CreateRecommenderResponse>;
+export interface CreateRecommenderFilterRequest {
+  DomainName: string;
+  RecommenderFilterName: string;
+  RecommenderFilterExpression: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateRecommenderFilterRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+      RecommenderFilterName: S.String.pipe(
+        T.HttpLabel("RecommenderFilterName"),
+      ),
+      RecommenderFilterExpression: SensitiveString,
+      Description: S.optional(SensitiveString),
+      Tags: S.optional(TagMap),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "CreateRecommenderFilterRequest",
+  }) as any as S.Schema<CreateRecommenderFilterRequest>;
+export interface CreateRecommenderFilterResponse {
+  RecommenderFilterArn: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const CreateRecommenderFilterResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ RecommenderFilterArn: S.String, Tags: S.optional(TagMap) }),
+  ).annotate({
+    identifier: "CreateRecommenderFilterResponse",
+  }) as any as S.Schema<CreateRecommenderFilterResponse>;
 export type StringDimensionType =
   | "INCLUSIVE"
   | "EXCLUSIVE"
@@ -2766,6 +2834,42 @@ export const DeleteRecommenderResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeleteRecommenderResponse",
 }) as any as S.Schema<DeleteRecommenderResponse>;
+export interface DeleteRecommenderFilterRequest {
+  DomainName: string;
+  RecommenderFilterName: string;
+}
+export const DeleteRecommenderFilterRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+      RecommenderFilterName: S.String.pipe(
+        T.HttpLabel("RecommenderFilterName"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "DeleteRecommenderFilterRequest",
+  }) as any as S.Schema<DeleteRecommenderFilterRequest>;
+export interface DeleteRecommenderFilterResponse {
+  Message: string;
+}
+export const DeleteRecommenderFilterResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({ Message: S.String }),
+  ).annotate({
+    identifier: "DeleteRecommenderFilterResponse",
+  }) as any as S.Schema<DeleteRecommenderFilterResponse>;
 export interface DeleteSegmentDefinitionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
@@ -3893,12 +3997,70 @@ export const RecommenderContext = /*@__PURE__*/ /*#__PURE__*/ S.Record(
   S.String,
   S.String.pipe(S.optional),
 );
+export type RecommenderFilterValues = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export const RecommenderFilterValues = /*@__PURE__*/ /*#__PURE__*/ S.Record(
+  S.String,
+  SensitiveString.pipe(S.optional),
+);
+export interface RecommenderFilter {
+  Name?: string;
+  Values?: { [key: string]: string | redacted.Redacted<string> | undefined };
+}
+export const RecommenderFilter = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Values: S.optional(RecommenderFilterValues),
+  }),
+).annotate({
+  identifier: "RecommenderFilter",
+}) as any as S.Schema<RecommenderFilter>;
+export type RecommenderFilters = RecommenderFilter[];
+export const RecommenderFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecommenderFilter);
+export interface RecommenderPromotionalFilter {
+  Name?: string;
+  Values?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  PromotionName?: string;
+  PercentPromotedItems?: number;
+}
+export const RecommenderPromotionalFilter =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      Name: S.optional(S.String),
+      Values: S.optional(RecommenderFilterValues),
+      PromotionName: S.optional(S.String),
+      PercentPromotedItems: S.optional(S.Number),
+    }),
+  ).annotate({
+    identifier: "RecommenderPromotionalFilter",
+  }) as any as S.Schema<RecommenderPromotionalFilter>;
+export type RecommenderPromotionalFilters = RecommenderPromotionalFilter[];
+export const RecommenderPromotionalFilters =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(RecommenderPromotionalFilter);
+export type CandidateIdList = string[];
+export const CandidateIdList = /*@__PURE__*/ /*#__PURE__*/ S.Array(S.String);
+export type MetadataColumnsList = string[];
+export const MetadataColumnsList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.String,
+);
+export interface MetadataConfig {
+  MetadataColumns?: string[];
+}
+export const MetadataConfig = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({ MetadataColumns: S.optional(MetadataColumnsList) }),
+).annotate({ identifier: "MetadataConfig" }) as any as S.Schema<MetadataConfig>;
 export interface GetProfileRecommendationsRequest {
   DomainName: string;
   ProfileId: string;
   RecommenderName: string;
   Context?: { [key: string]: string | undefined };
+  RecommenderFilters?: RecommenderFilter[];
+  RecommenderPromotionalFilters?: RecommenderPromotionalFilter[];
+  CandidateIds?: string[];
   MaxResults?: number;
+  MetadataConfig?: MetadataConfig;
 }
 export const GetProfileRecommendationsRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -3907,7 +4069,11 @@ export const GetProfileRecommendationsRequest =
       ProfileId: S.String.pipe(T.HttpLabel("ProfileId")),
       RecommenderName: S.String,
       Context: S.optional(RecommenderContext),
+      RecommenderFilters: S.optional(RecommenderFilters),
+      RecommenderPromotionalFilters: S.optional(RecommenderPromotionalFilters),
+      CandidateIds: S.optional(CandidateIdList),
       MaxResults: S.optional(S.Number),
+      MetadataConfig: S.optional(MetadataConfig),
     }).pipe(
       T.all(
         T.Http({
@@ -4097,6 +4263,64 @@ export const GetRecommenderResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 ).annotate({
   identifier: "GetRecommenderResponse",
 }) as any as S.Schema<GetRecommenderResponse>;
+export interface GetRecommenderFilterRequest {
+  DomainName: string;
+  RecommenderFilterName: string;
+}
+export const GetRecommenderFilterRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+      RecommenderFilterName: S.String.pipe(
+        T.HttpLabel("RecommenderFilterName"),
+      ),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/domains/{DomainName}/recommender-filters/{RecommenderFilterName}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "GetRecommenderFilterRequest",
+  }) as any as S.Schema<GetRecommenderFilterRequest>;
+export type RecommenderFilterStatus =
+  | "ACTIVE"
+  | "PENDING"
+  | "IN_PROGRESS"
+  | "FAILED"
+  | "DELETING"
+  | (string & {});
+export const RecommenderFilterStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
+export interface GetRecommenderFilterResponse {
+  RecommenderFilterName: string;
+  RecommenderFilterExpression: string | redacted.Redacted<string>;
+  CreatedAt: Date;
+  Status: RecommenderFilterStatus;
+  Description?: string | redacted.Redacted<string>;
+  FailureReason?: string;
+  Tags: { [key: string]: string | undefined };
+}
+export const GetRecommenderFilterResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      RecommenderFilterName: S.String,
+      RecommenderFilterExpression: SensitiveString,
+      CreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      Status: RecommenderFilterStatus,
+      Description: S.optional(SensitiveString),
+      FailureReason: S.optional(S.String),
+      Tags: TagMap,
+    }),
+  ).annotate({
+    identifier: "GetRecommenderFilterResponse",
+  }) as any as S.Schema<GetRecommenderFilterResponse>;
 export interface GetSegmentDefinitionRequest {
   DomainName: string;
   SegmentDefinitionName: string;
@@ -5778,6 +6002,73 @@ export const ListProfileObjectTypeTemplatesResponse =
   ).annotate({
     identifier: "ListProfileObjectTypeTemplatesResponse",
   }) as any as S.Schema<ListProfileObjectTypeTemplatesResponse>;
+export interface ListRecommenderFiltersRequest {
+  DomainName: string;
+  MaxResults?: number;
+  NextToken?: string;
+}
+export const ListRecommenderFiltersRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      DomainName: S.String.pipe(T.HttpLabel("DomainName")),
+      MaxResults: S.optional(S.Number).pipe(T.HttpQuery("max-results")),
+      NextToken: S.optional(S.String).pipe(T.HttpQuery("next-token")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "GET",
+          uri: "/domains/{DomainName}/recommender-filters",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListRecommenderFiltersRequest",
+  }) as any as S.Schema<ListRecommenderFiltersRequest>;
+export interface RecommenderFilterSummary {
+  RecommenderFilterName?: string;
+  RecommenderFilterExpression?: string | redacted.Redacted<string>;
+  CreatedAt?: Date;
+  Description?: string | redacted.Redacted<string>;
+  Status?: RecommenderFilterStatus;
+  FailureReason?: string;
+  Tags?: { [key: string]: string | undefined };
+}
+export const RecommenderFilterSummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      RecommenderFilterName: S.optional(S.String),
+      RecommenderFilterExpression: S.optional(SensitiveString),
+      CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+      Description: S.optional(SensitiveString),
+      Status: S.optional(RecommenderFilterStatus),
+      FailureReason: S.optional(S.String),
+      Tags: S.optional(TagMap),
+    }),
+).annotate({
+  identifier: "RecommenderFilterSummary",
+}) as any as S.Schema<RecommenderFilterSummary>;
+export type RecommenderFilterSummaryList = RecommenderFilterSummary[];
+export const RecommenderFilterSummaryList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  RecommenderFilterSummary,
+);
+export interface ListRecommenderFiltersResponse {
+  NextToken?: string;
+  RecommenderFilters?: RecommenderFilterSummary[];
+}
+export const ListRecommenderFiltersResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      NextToken: S.optional(S.String),
+      RecommenderFilters: S.optional(RecommenderFilterSummaryList),
+    }),
+  ).annotate({
+    identifier: "ListRecommenderFiltersResponse",
+  }) as any as S.Schema<ListRecommenderFiltersResponse>;
 export interface ListRecommenderRecipesRequest {
   MaxResults?: number;
   NextToken?: string;
@@ -7497,6 +7788,32 @@ export const createRecommender: API.OperationMethod<
     ThrottlingException,
   ],
 }));
+export type CreateRecommenderFilterError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Creates a recommender filter. A recommender filter specifies which items to include or exclude from recommendations.
+ */
+export const createRecommenderFilter: API.OperationMethod<
+  CreateRecommenderFilterRequest,
+  CreateRecommenderFilterResponse,
+  CreateRecommenderFilterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateRecommenderFilterRequest,
+  output: CreateRecommenderFilterResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
 export type CreateSegmentDefinitionError =
   | AccessDeniedException
   | BadRequestException
@@ -7916,6 +8233,32 @@ export const deleteRecommender: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: DeleteRecommenderRequest,
   output: DeleteRecommenderResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+export type DeleteRecommenderFilterError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Deletes a recommender filter from a domain.
+ */
+export const deleteRecommenderFilter: API.OperationMethod<
+  DeleteRecommenderFilterRequest,
+  DeleteRecommenderFilterResponse,
+  DeleteRecommenderFilterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteRecommenderFilterRequest,
+  output: DeleteRecommenderFilterResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -8502,6 +8845,32 @@ export const getRecommender: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetRecommenderRequest,
   output: GetRecommenderResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+}));
+export type GetRecommenderFilterError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Retrieves information about a specific recommender filter in a domain.
+ */
+export const getRecommenderFilter: API.OperationMethod<
+  GetRecommenderFilterRequest,
+  GetRecommenderFilterResponse,
+  GetRecommenderFilterError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetRecommenderFilterRequest,
+  output: GetRecommenderFilterResponse,
   errors: [
     AccessDeniedException,
     BadRequestException,
@@ -9317,6 +9686,53 @@ export const listProfileObjectTypeTemplates: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
   ],
+}));
+export type ListRecommenderFiltersError =
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors;
+/**
+ * Returns a list of recommender filters in the specified domain.
+ */
+export const listRecommenderFilters: API.OperationMethod<
+  ListRecommenderFiltersRequest,
+  ListRecommenderFiltersResponse,
+  ListRecommenderFiltersError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListRecommenderFiltersRequest,
+  ) => stream.Stream<
+    ListRecommenderFiltersResponse,
+    ListRecommenderFiltersError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListRecommenderFiltersRequest,
+  ) => stream.Stream<
+    RecommenderFilterSummary,
+    ListRecommenderFiltersError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListRecommenderFiltersRequest,
+  output: ListRecommenderFiltersResponse,
+  errors: [
+    AccessDeniedException,
+    BadRequestException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+  ],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "RecommenderFilters",
+    pageSize: "MaxResults",
+  } as const,
 }));
 export type ListRecommenderRecipesError =
   | AccessDeniedException

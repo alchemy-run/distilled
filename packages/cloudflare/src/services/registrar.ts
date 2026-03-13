@@ -271,7 +271,9 @@ export const listDomains: API.PaginatedOperationMethod<
     ListDomainsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListDomainsRequest) => stream.Stream<
+  items: (
+    input: ListDomainsRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       available?: boolean | null;

@@ -9,6 +9,9 @@ export const ListGeneratedQueryPatternsReportsInput =
     organization: Schema.String.pipe(T.PathParam()),
     database: Schema.String.pipe(T.PathParam()),
     branch: Schema.String.pipe(T.PathParam()),
+    starting_after: Schema.optional(Schema.String),
+    ending_before: Schema.optional(Schema.String),
+    limit: Schema.optional(Schema.Number),
   }).pipe(
     T.Http({
       method: "GET",
@@ -51,6 +54,9 @@ export type ListGeneratedQueryPatternsReportsOutput =
  * @param organization - The name of the organization the branch belongs to
  * @param database - The name of the database the branch belongs to
  * @param branch - The name of the branch
+ * @param starting_after - If provided, returns results after the specified cursor
+ * @param ending_before - If provided, returns results before the specified cursor
+ * @param limit - If provided, specifies the number of returned results (max 100)
  */
 export const listGeneratedQueryPatternsReports =
   /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({

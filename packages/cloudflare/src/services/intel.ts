@@ -399,7 +399,9 @@ export const listAttackSurfaceReportIssues: API.PaginatedOperationMethod<
     ListAttackSurfaceReportIssuesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListAttackSurfaceReportIssuesRequest) => stream.Stream<
+  items: (
+    input: ListAttackSurfaceReportIssuesRequest,
+  ) => stream.Stream<
     {
       count?: number | null;
       issues?:
@@ -1128,7 +1130,9 @@ export const listDns: API.PaginatedOperationMethod<
     ListDnsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListDnsRequest) => stream.Stream<
+  items: (
+    input: ListDnsRequest,
+  ) => stream.Stream<
     {
       count?: number | null;
       page?: number | null;
@@ -1842,7 +1846,9 @@ export const listIndicatorFeeds: API.PaginatedOperationMethod<
     ListIndicatorFeedsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListIndicatorFeedsRequest) => stream.Stream<
+  items: (
+    input: ListIndicatorFeedsRequest,
+  ) => stream.Stream<
     {
       id?: number | null;
       createdOn?: string | null;
@@ -2685,7 +2691,9 @@ export const listSinkholes: API.PaginatedOperationMethod<
     ListSinkholesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSinkholesRequest) => stream.Stream<
+  items: (
+    input: ListSinkholesRequest,
+  ) => stream.Stream<
     {
       id?: number | null;
       accountTag?: string | null;

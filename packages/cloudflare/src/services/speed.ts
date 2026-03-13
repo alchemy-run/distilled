@@ -225,7 +225,9 @@ export const listPages: API.PaginatedOperationMethod<
     ListPagesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListPagesRequest) => stream.Stream<
+  items: (
+    input: ListPagesRequest,
+  ) => stream.Stream<
     {
       region?: unknown | null;
       scheduleFrequency?: "DAILY" | "WEEKLY" | null;
@@ -539,7 +541,9 @@ export const listPageTests: API.PaginatedOperationMethod<
     ListPageTestsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListPageTestsRequest) => stream.Stream<
+  items: (
+    input: ListPageTestsRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       date?: string | null;

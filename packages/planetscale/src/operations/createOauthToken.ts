@@ -9,11 +9,11 @@ export const CreateOauthTokenInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   id: Schema.String.pipe(T.PathParam()),
   client_id: Schema.String,
-  client_secret: Schema.String,
+  client_secret: SensitiveString,
   grant_type: Schema.Literals(["authorization_code", "refresh_token"]),
   code: Schema.optional(Schema.String),
   redirect_uri: Schema.optional(Schema.String),
-  refresh_token: Schema.optional(Schema.String),
+  refresh_token: Schema.optional(SensitiveString),
 }).pipe(
   T.Http({
     method: "POST",

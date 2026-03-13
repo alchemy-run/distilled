@@ -1799,6 +1799,8 @@ export interface DiskBackupProperties {
   storagePool?: string;
   /** The labels of the source disk. */
   labels?: Record<string, string>;
+  /** Optional. Defines if the guest flush is enabled for the source disk. Default value is false. */
+  guestFlush?: boolean;
 }
 
 export const DiskBackupProperties: Schema.Schema<DiskBackupProperties> =
@@ -1821,6 +1823,7 @@ export const DiskBackupProperties: Schema.Schema<DiskBackupProperties> =
       enableConfidentialCompute: Schema.optional(Schema.Boolean),
       storagePool: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      guestFlush: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
     identifier: "DiskBackupProperties",
@@ -2514,6 +2517,20 @@ export const BackupRule: Schema.Schema<BackupRule> =
     }),
   ).annotate({ identifier: "BackupRule" }) as any as Schema.Schema<BackupRule>;
 
+export interface DiskBackupPlanProperties {
+  /** Optional. Indicates whether to perform a guest flush operation before taking a disk backup. When set to false, the system will create crash-consistent backups. Default value is false. */
+  guestFlush?: boolean;
+}
+
+export const DiskBackupPlanProperties: Schema.Schema<DiskBackupPlanProperties> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      guestFlush: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DiskBackupPlanProperties",
+  }) as any as Schema.Schema<DiskBackupPlanProperties>;
+
 export interface BackupPlan {
   /** Output only. Identifier. The resource name of the `BackupPlan`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}` */
   name?: string;
@@ -2554,6 +2571,8 @@ export interface BackupPlan {
   revisionId?: string;
   /** Output only. The resource id of the `BackupPlanRevision`. Format: `projects/{project}/locations/{location}/backupPlans/{backup_plan}/revisions/{revision_id}` */
   revisionName?: string;
+  /** Optional. Defines optional properties specific to backups of disk-based resources, such as Compute Engine Persistent Disks. This includes settings like whether to perform a guest flush. */
+  diskBackupPlanProperties?: DiskBackupPlanProperties;
 }
 
 export const BackupPlan: Schema.Schema<BackupPlan> =
@@ -2575,6 +2594,7 @@ export const BackupPlan: Schema.Schema<BackupPlan> =
       supportedResourceTypes: Schema.optional(Schema.Array(Schema.String)),
       revisionId: Schema.optional(Schema.String),
       revisionName: Schema.optional(Schema.String),
+      diskBackupPlanProperties: Schema.optional(DiskBackupPlanProperties),
     }),
   ).annotate({ identifier: "BackupPlan" }) as any as Schema.Schema<BackupPlan>;
 
@@ -3393,6 +3413,7 @@ export const RestoreBackupResponse: Schema.Schema<RestoreBackupResponse> =
   }) as any as Schema.Schema<RestoreBackupResponse>;
 
 export interface LocationMetadata {
+  /** List of features that are not supported in the location. */
   unsupportedFeatures?: Array<
     | "FEATURE_UNSPECIFIED"
     | "MANAGEMENT_SERVER"

@@ -6,6 +6,9 @@ import { Forbidden, NotFound } from "../errors";
 // Input Schema
 export const ListAuditLogsInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
+  starting_after: Schema.optional(Schema.String),
+  ending_before: Schema.optional(Schema.String),
+  limit: Schema.optional(Schema.Number),
 }).pipe(
   T.Http({ method: "GET", path: "/organizations/{organization}/audit-log" }),
 );
@@ -46,6 +49,9 @@ export type ListAuditLogsOutput = typeof ListAuditLogsOutput.Type;
  * List audit logs
  *
  * @param organization - The name of the organization
+ * @param starting_after - If provided, returns results after the specified cursor
+ * @param ending_before - If provided, returns results before the specified cursor
+ * @param limit - If provided, specifies the number of returned results (max 100)
  */
 export const listAuditLogs = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: ListAuditLogsInput,

@@ -849,7 +849,9 @@ export const listInvestigates: API.PaginatedOperationMethod<
     ListInvestigatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListInvestigatesRequest) => stream.Stream<
+  items: (
+    input: ListInvestigatesRequest,
+  ) => stream.Stream<
     {
       id: string;
       actionLog: unknown;
@@ -1288,7 +1290,9 @@ export const createInvestigateMove: API.PaginatedOperationMethod<
     CreateInvestigateMoveError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateInvestigateMoveRequest) => stream.Stream<
+  items: (
+    input: CreateInvestigateMoveRequest,
+  ) => stream.Stream<
     {
       completedTimestamp: string;
       itemCount: number;
@@ -1405,7 +1409,9 @@ export const bulkInvestigateMove: API.PaginatedOperationMethod<
     BulkInvestigateMoveError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkInvestigateMoveRequest) => stream.Stream<
+  items: (
+    input: BulkInvestigateMoveRequest,
+  ) => stream.Stream<
     {
       completedTimestamp: string;
       itemCount: number;
@@ -1704,7 +1710,9 @@ export const bulkInvestigateRelease: API.PaginatedOperationMethod<
     BulkInvestigateReleaseError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkInvestigateReleaseRequest) => stream.Stream<
+  items: (
+    input: BulkInvestigateReleaseRequest,
+  ) => stream.Stream<
     {
       postfixId: string;
       delivered?: string[] | null;
@@ -2066,7 +2074,9 @@ export const listSettingAllowPolicies: API.PaginatedOperationMethod<
     ListSettingAllowPoliciesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingAllowPoliciesRequest) => stream.Stream<
+  items: (
+    input: ListSettingAllowPoliciesRequest,
+  ) => stream.Stream<
     {
       id: number;
       createdAt: string;
@@ -2600,7 +2610,9 @@ export const listSettingBlockSenders: API.PaginatedOperationMethod<
     ListSettingBlockSendersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingBlockSendersRequest) => stream.Stream<
+  items: (
+    input: ListSettingBlockSendersRequest,
+  ) => stream.Stream<
     {
       id: number;
       createdAt: string;
@@ -3319,7 +3331,9 @@ export const listSettingDomains: API.PaginatedOperationMethod<
     ListSettingDomainsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingDomainsRequest) => stream.Stream<
+  items: (
+    input: ListSettingDomainsRequest,
+  ) => stream.Stream<
     {
       id: number;
       allowedDeliveryModes: (
@@ -3991,7 +4005,9 @@ export const listSettingImpersonationRegistries: API.PaginatedOperationMethod<
     ListSettingImpersonationRegistriesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingImpersonationRegistriesRequest) => stream.Stream<
+  items: (
+    input: ListSettingImpersonationRegistriesRequest,
+  ) => stream.Stream<
     {
       id: number;
       createdAt: string;
@@ -4442,7 +4458,9 @@ export const listSettingTrustedDomains: API.PaginatedOperationMethod<
     ListSettingTrustedDomainsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingTrustedDomainsRequest) => stream.Stream<
+  items: (
+    input: ListSettingTrustedDomainsRequest,
+  ) => stream.Stream<
     {
       id: number;
       createdAt: string;
@@ -4988,7 +5006,9 @@ export const listSubmissions: API.PaginatedOperationMethod<
     ListSubmissionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSubmissionsRequest) => stream.Stream<
+  items: (
+    input: ListSubmissionsRequest,
+  ) => stream.Stream<
     {
       requestedTs: string;
       submissionId: string;

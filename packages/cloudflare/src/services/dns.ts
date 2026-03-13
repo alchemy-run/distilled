@@ -727,7 +727,9 @@ export const scanListRecord: API.PaginatedOperationMethod<
     ScanListRecordError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ScanListRecordRequest) => stream.Stream<
+  items: (
+    input: ScanListRecordRequest,
+  ) => stream.Stream<
     | {
         id: string;
         createdOn: string;
@@ -1233,7 +1235,9 @@ export const listRecords: API.PaginatedOperationMethod<
     ListRecordsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListRecordsRequest) => stream.Stream<
+  items: (
+    input: ListRecordsRequest,
+  ) => stream.Stream<
     | {
         id: string;
         createdOn: string;
@@ -7033,7 +7037,9 @@ export const listSettingAccountViews: API.PaginatedOperationMethod<
     ListSettingAccountViewsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSettingAccountViewsRequest) => stream.Stream<
+  items: (
+    input: ListSettingAccountViewsRequest,
+  ) => stream.Stream<
     {
       id: string;
       createdTime: string;
@@ -8786,7 +8792,9 @@ export const listZoneTransferPeers: API.PaginatedOperationMethod<
     ListZoneTransferPeersError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListZoneTransferPeersRequest) => stream.Stream<
+  items: (
+    input: ListZoneTransferPeersRequest,
+  ) => stream.Stream<
     {
       id: string;
       name: string;

@@ -7,6 +7,8 @@ import { Forbidden, NotFound } from "../errors";
 export const GetDeployQueueInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
   organization: Schema.String.pipe(T.PathParam()),
   database: Schema.String.pipe(T.PathParam()),
+  page: Schema.optional(Schema.Number),
+  per_page: Schema.optional(Schema.Number),
 }).pipe(
   T.Http({
     method: "GET",
@@ -184,6 +186,8 @@ export type GetDeployQueueOutput = typeof GetDeployQueueOutput.Type;
  *
  * @param organization - The name of the deploy request's organization
  * @param database - The name of the deploy request's database
+ * @param page - If provided, specifies the page offset of returned results
+ * @param per_page - If provided, specifies the number of returned results
  */
 export const getDeployQueue = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: GetDeployQueueInput,

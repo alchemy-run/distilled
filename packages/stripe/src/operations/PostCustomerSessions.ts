@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostCustomerSessionsInput =
@@ -102,7 +103,7 @@ export type PostCustomerSessionsInput = typeof PostCustomerSessionsInput.Type;
 // Output Schema
 export const PostCustomerSessionsOutput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    client_secret: Schema.String,
+    client_secret: SensitiveString,
     components: Schema.optional(
       Schema.Struct({
         buy_button: Schema.Struct({

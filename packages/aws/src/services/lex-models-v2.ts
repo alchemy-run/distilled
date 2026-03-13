@@ -178,8 +178,11 @@ export type S3BucketName = string;
 export type S3ObjectPath = string;
 export type PresignedS3Url = string;
 export type SkipResourceInUseCheck = boolean;
+export type UUID = string;
 export type SessionId = string;
 export type FailureReason = string;
+export type NextToken = string;
+export type MaxResults = number;
 export type ResourceCount = number;
 export type BotLocaleHistoryEventDescription = string;
 export type RecommendedAction = string;
@@ -191,8 +194,6 @@ export type ImportedResourceId = string;
 export type PriorityValue = number;
 export type TimeValue = number;
 export type FilterValue = string;
-export type MaxResults = number;
-export type NextToken = string;
 export type HitCount = number;
 export type MissedCount = number;
 export type BuiltInsMaxResults = number;
@@ -2927,6 +2928,36 @@ export const DeleteBotAliasResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeleteBotAliasResponse",
 }) as any as S.Schema<DeleteBotAliasResponse>;
+export interface DeleteBotAnalyzerRecommendationRequest {
+  botId: string;
+  botAnalyzerRequestId: string;
+}
+export const DeleteBotAnalyzerRecommendationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      botId: S.String.pipe(T.HttpLabel("botId")),
+      botAnalyzerRequestId: S.String.pipe(T.HttpLabel("botAnalyzerRequestId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "DELETE",
+          uri: "/bots/{botId}/botanalyzer/{botAnalyzerRequestId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "DeleteBotAnalyzerRecommendationRequest",
+  }) as any as S.Schema<DeleteBotAnalyzerRecommendationRequest>;
+export interface DeleteBotAnalyzerRecommendationResponse {}
+export const DeleteBotAnalyzerRecommendationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() => S.Struct({})).annotate({
+    identifier: "DeleteBotAnalyzerRecommendationResponse",
+  }) as any as S.Schema<DeleteBotAnalyzerRecommendationResponse>;
 export interface DeleteBotLocaleRequest {
   botId: string;
   botVersion: string;
@@ -3561,6 +3592,102 @@ export const DescribeBotAliasResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DescribeBotAliasResponse",
 }) as any as S.Schema<DescribeBotAliasResponse>;
+export interface DescribeBotAnalyzerRecommendationRequest {
+  botId: string;
+  botAnalyzerRequestId: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const DescribeBotAnalyzerRecommendationRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      botId: S.String.pipe(T.HttpLabel("botId")),
+      botAnalyzerRequestId: S.String.pipe(T.HttpLabel("botAnalyzerRequestId")),
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "POST",
+          uri: "/bots/{botId}/botanalyzer/describe/{botAnalyzerRequestId}",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "DescribeBotAnalyzerRecommendationRequest",
+  }) as any as S.Schema<DescribeBotAnalyzerRecommendationRequest>;
+export type BotAnalyzerStatus =
+  | "Processing"
+  | "Available"
+  | "Failed"
+  | "Stopping"
+  | "Stopped"
+  | (string & {});
+export const BotAnalyzerStatus = /*@__PURE__*/ /*#__PURE__*/ S.String;
+export interface IssueLocation {
+  botLocale?: string;
+  intentId?: string;
+  slotId?: string;
+}
+export const IssueLocation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({
+    botLocale: S.optional(S.String),
+    intentId: S.optional(S.String),
+    slotId: S.optional(S.String),
+  }),
+).annotate({ identifier: "IssueLocation" }) as any as S.Schema<IssueLocation>;
+export type Priority = "High" | "Medium" | "Low" | (string & {});
+export const Priority = /*@__PURE__*/ /*#__PURE__*/ S.String;
+export interface BotAnalyzerRecommendation {
+  issueLocation: IssueLocation;
+  priority: Priority;
+  issueDescription: string;
+  proposedFix: string;
+}
+export const BotAnalyzerRecommendation = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      issueLocation: IssueLocation,
+      priority: Priority,
+      issueDescription: S.String,
+      proposedFix: S.String,
+    }),
+).annotate({
+  identifier: "BotAnalyzerRecommendation",
+}) as any as S.Schema<BotAnalyzerRecommendation>;
+export type BotAnalyzerRecommendationList = BotAnalyzerRecommendation[];
+export const BotAnalyzerRecommendationList =
+  /*@__PURE__*/ /*#__PURE__*/ S.Array(BotAnalyzerRecommendation);
+export interface DescribeBotAnalyzerRecommendationResponse {
+  botId?: string;
+  botVersion?: string;
+  localeId?: string;
+  botAnalyzerStatus?: BotAnalyzerStatus;
+  creationDateTime?: Date;
+  botAnalyzerRecommendationList?: BotAnalyzerRecommendation[];
+  nextToken?: string;
+}
+export const DescribeBotAnalyzerRecommendationResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      botId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+      localeId: S.optional(S.String),
+      botAnalyzerStatus: S.optional(BotAnalyzerStatus),
+      creationDateTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      botAnalyzerRecommendationList: S.optional(BotAnalyzerRecommendationList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "DescribeBotAnalyzerRecommendationResponse",
+  }) as any as S.Schema<DescribeBotAnalyzerRecommendationResponse>;
 export interface DescribeBotLocaleRequest {
   botId: string;
   botVersion: string;
@@ -5363,6 +5490,74 @@ export const ListBotAliasReplicasResponse =
   ).annotate({
     identifier: "ListBotAliasReplicasResponse",
   }) as any as S.Schema<ListBotAliasReplicasResponse>;
+export interface ListBotAnalyzerHistoryRequest {
+  botId: string;
+  localeId?: string;
+  botVersion?: string;
+  nextToken?: string;
+  maxResults?: number;
+}
+export const ListBotAnalyzerHistoryRequest =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      botId: S.String.pipe(T.HttpLabel("botId")),
+      localeId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+      nextToken: S.optional(S.String),
+      maxResults: S.optional(S.Number),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/bots/{botId}/botanalyzer/history" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+  ).annotate({
+    identifier: "ListBotAnalyzerHistoryRequest",
+  }) as any as S.Schema<ListBotAnalyzerHistoryRequest>;
+export interface BotAnalyzerHistorySummary {
+  botAnalyzerStatus: BotAnalyzerStatus;
+  creationDateTime?: Date;
+  botAnalyzerRequestId: string;
+}
+export const BotAnalyzerHistorySummary = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      botAnalyzerStatus: BotAnalyzerStatus,
+      creationDateTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+      botAnalyzerRequestId: S.String,
+    }),
+).annotate({
+  identifier: "BotAnalyzerHistorySummary",
+}) as any as S.Schema<BotAnalyzerHistorySummary>;
+export type BotAnalyzerHistoryList = BotAnalyzerHistorySummary[];
+export const BotAnalyzerHistoryList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  BotAnalyzerHistorySummary,
+);
+export interface ListBotAnalyzerHistoryResponse {
+  botId?: string;
+  localeId?: string;
+  botVersion?: string;
+  botAnalyzerHistoryList?: BotAnalyzerHistorySummary[];
+  nextToken?: string;
+}
+export const ListBotAnalyzerHistoryResponse =
+  /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+    S.Struct({
+      botId: S.optional(S.String),
+      localeId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+      botAnalyzerHistoryList: S.optional(BotAnalyzerHistoryList),
+      nextToken: S.optional(S.String),
+    }),
+  ).annotate({
+    identifier: "ListBotAnalyzerHistoryResponse",
+  }) as any as S.Schema<ListBotAnalyzerHistoryResponse>;
 export type BotLocaleSortAttribute = "BotLocaleName" | (string & {});
 export const BotLocaleSortAttribute = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface BotLocaleSortBy {
@@ -8916,6 +9111,57 @@ export const SearchAssociatedTranscriptsResponse =
   ).annotate({
     identifier: "SearchAssociatedTranscriptsResponse",
   }) as any as S.Schema<SearchAssociatedTranscriptsResponse>;
+export type AnalysisScope = "BotLocale" | (string & {});
+export const AnalysisScope = /*@__PURE__*/ /*#__PURE__*/ S.String;
+export interface StartBotAnalyzerRequest {
+  botId: string;
+  analysisScope: AnalysisScope;
+  localeId?: string;
+  botVersion?: string;
+}
+export const StartBotAnalyzerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      botId: S.String.pipe(T.HttpLabel("botId")),
+      analysisScope: AnalysisScope,
+      localeId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+    }).pipe(
+      T.all(
+        T.Http({ method: "POST", uri: "/bots/{botId}/botanalyzer" }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "StartBotAnalyzerRequest",
+}) as any as S.Schema<StartBotAnalyzerRequest>;
+export interface StartBotAnalyzerResponse {
+  botId?: string;
+  botVersion?: string;
+  localeId?: string;
+  botAnalyzerStatus?: BotAnalyzerStatus;
+  botAnalyzerRequestId?: string;
+  creationDateTime?: Date;
+}
+export const StartBotAnalyzerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      botId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+      localeId: S.optional(S.String),
+      botAnalyzerStatus: S.optional(BotAnalyzerStatus),
+      botAnalyzerRequestId: S.optional(S.String),
+      creationDateTime: S.optional(
+        S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+      ),
+    }),
+).annotate({
+  identifier: "StartBotAnalyzerResponse",
+}) as any as S.Schema<StartBotAnalyzerResponse>;
 export interface StartBotRecommendationRequest {
   botId: string;
   botVersion: string;
@@ -9181,6 +9427,50 @@ export const StartTestSetGenerationResponse =
   ).annotate({
     identifier: "StartTestSetGenerationResponse",
   }) as any as S.Schema<StartTestSetGenerationResponse>;
+export interface StopBotAnalyzerRequest {
+  botId: string;
+  botAnalyzerRequestId: string;
+}
+export const StopBotAnalyzerRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      botId: S.String.pipe(T.HttpLabel("botId")),
+      botAnalyzerRequestId: S.String.pipe(T.HttpLabel("botAnalyzerRequestId")),
+    }).pipe(
+      T.all(
+        T.Http({
+          method: "PUT",
+          uri: "/bots/{botId}/botanalyzer/{botAnalyzerRequestId}/stop",
+        }),
+        svc,
+        auth,
+        proto,
+        ver,
+        rules,
+      ),
+    ),
+).annotate({
+  identifier: "StopBotAnalyzerRequest",
+}) as any as S.Schema<StopBotAnalyzerRequest>;
+export interface StopBotAnalyzerResponse {
+  botId?: string;
+  botVersion?: string;
+  localeId?: string;
+  botAnalyzerStatus?: BotAnalyzerStatus;
+  botAnalyzerRequestId?: string;
+}
+export const StopBotAnalyzerResponse = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      botId: S.optional(S.String),
+      botVersion: S.optional(S.String),
+      localeId: S.optional(S.String),
+      botAnalyzerStatus: S.optional(BotAnalyzerStatus),
+      botAnalyzerRequestId: S.optional(S.String),
+    }),
+).annotate({
+  identifier: "StopBotAnalyzerResponse",
+}) as any as S.Schema<StopBotAnalyzerResponse>;
 export interface StopBotRecommendationRequest {
   botId: string;
   botVersion: string;
@@ -10644,6 +10934,32 @@ export const deleteBotAlias: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type DeleteBotAnalyzerRecommendationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Permanently deletes the recommendations and analysis results for a specific bot analysis request. This operation is provided for GDPR compliance and cannot be undone.
+ *
+ * After deletion, the analysis results cannot be retrieved. The analysis request ID will still appear in the history list, but attempting to describe the recommendations will return a `ResourceNotFoundException`.
+ */
+export const deleteBotAnalyzerRecommendation: API.OperationMethod<
+  DeleteBotAnalyzerRecommendationRequest,
+  DeleteBotAnalyzerRecommendationResponse,
+  DeleteBotAnalyzerRecommendationError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteBotAnalyzerRecommendationRequest,
+  output: DeleteBotAnalyzerRecommendationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type DeleteBotLocaleError =
   | ConflictException
   | InternalServerException
@@ -11073,6 +11389,53 @@ export const describeBotAlias: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+}));
+export type DescribeBotAnalyzerRecommendationError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the analysis results and recommendations for bot optimization. The analysis must be in `Available` status before recommendations can be retrieved.
+ *
+ * Recommendations are returned with pagination support. Each recommendation includes the issue location, priority level, detailed description, and proposed fix.
+ */
+export const describeBotAnalyzerRecommendation: API.OperationMethod<
+  DescribeBotAnalyzerRecommendationRequest,
+  DescribeBotAnalyzerRecommendationResponse,
+  DescribeBotAnalyzerRecommendationError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: DescribeBotAnalyzerRecommendationRequest,
+  ) => stream.Stream<
+    DescribeBotAnalyzerRecommendationResponse,
+    DescribeBotAnalyzerRecommendationError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: DescribeBotAnalyzerRecommendationRequest,
+  ) => stream.Stream<
+    BotAnalyzerRecommendation,
+    DescribeBotAnalyzerRecommendationError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: DescribeBotAnalyzerRecommendationRequest,
+  output: DescribeBotAnalyzerRecommendationResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "botAnalyzerRecommendationList",
+    pageSize: "maxResults",
+  } as const,
 }));
 export type DescribeBotLocaleError =
   | InternalServerException
@@ -11694,6 +12057,53 @@ export const listBotAliasReplicas: API.OperationMethod<
   pagination: {
     inputToken: "nextToken",
     outputToken: "nextToken",
+    pageSize: "maxResults",
+  } as const,
+}));
+export type ListBotAnalyzerHistoryError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves a list of historical bot analysis executions for a specific bot. You can filter the results by locale and bot version.
+ *
+ * The history includes all analysis executions regardless of their status, allowing you to track past analyses and their outcomes.
+ */
+export const listBotAnalyzerHistory: API.OperationMethod<
+  ListBotAnalyzerHistoryRequest,
+  ListBotAnalyzerHistoryResponse,
+  ListBotAnalyzerHistoryError,
+  Credentials | Region | HttpClient.HttpClient
+> & {
+  pages: (
+    input: ListBotAnalyzerHistoryRequest,
+  ) => stream.Stream<
+    ListBotAnalyzerHistoryResponse,
+    ListBotAnalyzerHistoryError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListBotAnalyzerHistoryRequest,
+  ) => stream.Stream<
+    BotAnalyzerHistorySummary,
+    ListBotAnalyzerHistoryError,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListBotAnalyzerHistoryRequest,
+  output: ListBotAnalyzerHistoryResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "botAnalyzerHistoryList",
     pageSize: "maxResults",
   } as const,
 }));
@@ -13005,6 +13415,34 @@ export const searchAssociatedTranscripts: API.OperationMethod<
     ValidationException,
   ],
 }));
+export type StartBotAnalyzerError =
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Initiates an asynchronous analysis of your bot configuration using AI-powered analysis to identify potential issues and recommend improvements based on AWS best practices.
+ *
+ * The analysis examines your bot's configuration, including intents, utterances, slots, and conversation flows, to provide actionable recommendations for optimization.
+ */
+export const startBotAnalyzer: API.OperationMethod<
+  StartBotAnalyzerRequest,
+  StartBotAnalyzerResponse,
+  StartBotAnalyzerError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StartBotAnalyzerRequest,
+  output: StartBotAnalyzerResponse,
+  errors: [
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
 export type StartBotRecommendationError =
   | ConflictException
   | InternalServerException
@@ -13149,6 +13587,30 @@ export const startTestSetGeneration: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+}));
+export type StopBotAnalyzerError =
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels an ongoing bot analysis execution. Once stopped, the analysis cannot be resumed and no recommendations will be generated.
+ */
+export const stopBotAnalyzer: API.OperationMethod<
+  StopBotAnalyzerRequest,
+  StopBotAnalyzerResponse,
+  StopBotAnalyzerError,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: StopBotAnalyzerRequest,
+  output: StopBotAnalyzerResponse,
+  errors: [
+    InternalServerException,
+    ResourceNotFoundException,
     ThrottlingException,
     ValidationException,
   ],

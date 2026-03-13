@@ -12,7 +12,7 @@ const auth = T.AwsAuthSigv4({ name: "kafka" });
 const ver = T.ServiceVersion("2018-11-14");
 const proto = T.AwsProtocolsRestJson1();
 const rules = T.EndpointResolver((p, _) => {
-  const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+  const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
   const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
     type: "endpoint" as const,
     endpoint: { url: u as string, properties: p, headers: h },
@@ -38,6 +38,69 @@ const rules = T.EndpointResolver((p, _) => {
     {
       const PartitionResult = _.partition(Region);
       if (PartitionResult != null && PartitionResult !== false) {
+        if (
+          _.getAttr(PartitionResult, "name") === "aws" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-cn" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+          UseFIPS === true &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+          UseFIPS === true &&
+          UseDualStack === false
+        ) {
+          return e(
+            `https://kafka.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+          );
+        }
+        if (
+          _.getAttr(PartitionResult, "name") === "aws-eusc" &&
+          UseFIPS === false &&
+          UseDualStack === true
+        ) {
+          return e(
+            `https://kafka-api.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
         if (UseFIPS === true && UseDualStack === true) {
           if (
             true === _.getAttr(PartitionResult, "supportsFIPS") &&
@@ -51,11 +114,8 @@ const rules = T.EndpointResolver((p, _) => {
             "FIPS and DualStack are enabled, but this partition does not support one or both",
           );
         }
-        if (UseFIPS === true) {
+        if (UseFIPS === true && UseDualStack === false) {
           if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
-            if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
-              return e(`https://kafka.${Region}.amazonaws.com`);
-            }
             return e(
               `https://kafka-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
             );
@@ -64,7 +124,7 @@ const rules = T.EndpointResolver((p, _) => {
             "FIPS is enabled but this partition does not support FIPS",
           );
         }
-        if (UseDualStack === true) {
+        if (UseFIPS === false && UseDualStack === true) {
           if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
             return e(
               `https://kafka.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,

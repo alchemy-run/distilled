@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const GetPaymentIntentsIntentInput =
@@ -97,7 +98,7 @@ export const GetPaymentIntentsIntentOutput =
       ]),
     ),
     capture_method: Schema.Literals(["automatic", "automatic_async", "manual"]),
-    client_secret: Schema.NullOr(Schema.String),
+    client_secret: SensitiveNullableString,
     confirmation_method: Schema.Literals(["automatic", "manual"]),
     created: Schema.Number,
     currency: Schema.String,

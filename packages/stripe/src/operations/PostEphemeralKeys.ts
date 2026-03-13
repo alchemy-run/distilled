@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostEphemeralKeysInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
@@ -28,7 +29,7 @@ export const PostEphemeralKeysOutput =
     id: Schema.String,
     livemode: Schema.Boolean,
     object: Schema.Literals(["ephemeral_key"]),
-    secret: Schema.optional(Schema.String),
+    secret: Schema.optional(SensitiveString),
   });
 export type PostEphemeralKeysOutput = typeof PostEphemeralKeysOutput.Type;
 

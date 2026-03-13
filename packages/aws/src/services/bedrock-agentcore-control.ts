@@ -952,7 +952,7 @@ export type RequestHeaderConfiguration = { requestHeaderAllowlist: string[] };
 export const RequestHeaderConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ requestHeaderAllowlist: RequestHeaderAllowlist }),
 ]);
-export type ServerProtocol = "MCP" | "HTTP" | "A2A" | (string & {});
+export type ServerProtocol = "MCP" | "HTTP" | "A2A" | "AGUI" | (string & {});
 export const ServerProtocol = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface ProtocolConfiguration {
   serverProtocol: ServerProtocol;

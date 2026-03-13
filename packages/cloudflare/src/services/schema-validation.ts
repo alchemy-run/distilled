@@ -177,7 +177,9 @@ export const listSchemas: API.PaginatedOperationMethod<
     ListSchemasError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSchemasRequest) => stream.Stream<
+  items: (
+    input: ListSchemasRequest,
+  ) => stream.Stream<
     {
       createdAt: string;
       kind: "openapi_v3";

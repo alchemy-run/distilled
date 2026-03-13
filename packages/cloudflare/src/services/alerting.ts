@@ -552,7 +552,9 @@ export const listDestinationWebhooks: API.PaginatedOperationMethod<
     ListDestinationWebhooksError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListDestinationWebhooksRequest) => stream.Stream<
+  items: (
+    input: ListDestinationWebhooksRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       createdAt?: string | null;
@@ -851,7 +853,9 @@ export const listHistories: API.PaginatedOperationMethod<
     ListHistoriesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListHistoriesRequest) => stream.Stream<
+  items: (
+    input: ListHistoriesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       alertBody?: string | null;
@@ -1901,7 +1905,9 @@ export const listPolicies: API.PaginatedOperationMethod<
     ListPoliciesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListPoliciesRequest) => stream.Stream<
+  items: (
+    input: ListPoliciesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       alertInterval?: string | null;
@@ -3064,7 +3070,9 @@ export const listSilences: API.PaginatedOperationMethod<
     ListSilencesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSilencesRequest) => stream.Stream<
+  items: (
+    input: ListSilencesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       createdAt?: string | null;
@@ -3228,7 +3236,9 @@ export const updateSilence: API.PaginatedOperationMethod<
     UpdateSilenceError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: UpdateSilenceRequest) => stream.Stream<
+  items: (
+    input: UpdateSilenceRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       createdAt?: string | null;

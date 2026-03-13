@@ -259,7 +259,9 @@ export const listSfus: API.PaginatedOperationMethod<
     ListSfusError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSfusRequest) => stream.Stream<
+  items: (
+    input: ListSfusRequest,
+  ) => stream.Stream<
     {
       created?: string | null;
       modified?: string | null;
@@ -376,7 +378,9 @@ export const listTurns: API.PaginatedOperationMethod<
     ListTurnsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListTurnsRequest) => stream.Stream<
+  items: (
+    input: ListTurnsRequest,
+  ) => stream.Stream<
     {
       created?: string | null;
       modified?: string | null;

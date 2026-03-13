@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const V1GetProjectPgbouncerConfigInput =
@@ -24,7 +25,7 @@ export const V1GetProjectPgbouncerConfigOutput =
     pool_mode: Schema.optional(
       Schema.Literals(["transaction", "session", "statement"]),
     ),
-    connection_string: Schema.optional(Schema.String),
+    connection_string: Schema.optional(SensitiveString),
     server_idle_timeout: Schema.optional(Schema.Number),
     server_lifetime: Schema.optional(Schema.Number),
     query_wait_timeout: Schema.optional(Schema.Number),

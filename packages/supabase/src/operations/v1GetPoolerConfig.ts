@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const V1GetPoolerConfigInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
@@ -22,8 +23,8 @@ export const V1GetPoolerConfigOutput = /*@__PURE__*/ /*#__PURE__*/ Schema.Array(
     db_host: Schema.String,
     db_port: Schema.Number,
     db_name: Schema.String,
-    connection_string: Schema.String,
-    connectionString: Schema.String,
+    connection_string: SensitiveString,
+    connectionString: SensitiveString,
     default_pool_size: Schema.NullOr(Schema.Number),
     max_client_conn: Schema.NullOr(Schema.Number),
     pool_mode: Schema.Literals(["transaction", "session"]),

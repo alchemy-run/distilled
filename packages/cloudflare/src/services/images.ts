@@ -237,7 +237,9 @@ export const listV1s: API.PaginatedOperationMethod<
     ListV1sError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListV1sRequest) => stream.Stream<
+  items: (
+    input: ListV1sRequest,
+  ) => stream.Stream<
     {
       images?:
         | {

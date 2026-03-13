@@ -1626,7 +1626,9 @@ export const createAiToMarkdown: API.PaginatedOperationMethod<
     CreateAiToMarkdownError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateAiToMarkdownRequest) => stream.Stream<
+  items: (
+    input: CreateAiToMarkdownRequest,
+  ) => stream.Stream<
     {
       data: string;
       format: string;
@@ -9829,7 +9831,9 @@ export const listBgpHijackEvents: API.PaginatedOperationMethod<
     ListBgpHijackEventsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListBgpHijackEventsRequest) => stream.Stream<
+  items: (
+    input: ListBgpHijackEventsRequest,
+  ) => stream.Stream<
     {
       asnInfo: { asn: number; countryCode: string; orgName: string }[];
       events: {
@@ -10245,7 +10249,9 @@ export const listBgpLeakEvents: API.PaginatedOperationMethod<
     ListBgpLeakEventsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListBgpLeakEventsRequest) => stream.Stream<
+  items: (
+    input: ListBgpLeakEventsRequest,
+  ) => stream.Stream<
     {
       asnInfo: { asn: number; countryCode: string; orgName: string }[];
       events: {

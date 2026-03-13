@@ -22,52 +22,6 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface GoogleCloudKmsV1KeyOperationAttestationCertificateChains {
-  /** Cavium certificate chain corresponding to the attestation. */
-  caviumCerts?: Array<string>;
-  /** Google card certificate chain corresponding to the attestation. */
-  googleCardCerts?: Array<string>;
-  /** Google partition certificate chain corresponding to the attestation. */
-  googlePartitionCerts?: Array<string>;
-}
-
-export const GoogleCloudKmsV1KeyOperationAttestationCertificateChains: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      caviumCerts: Schema.optional(Schema.Array(Schema.String)),
-      googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
-      googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsV1KeyOperationAttestationCertificateChains",
-  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains>;
-
-export interface GoogleCloudKmsV1KeyOperationAttestation {
-  /** Output only. The format of the attestation data. */
-  format?:
-    | "ATTESTATION_FORMAT_UNSPECIFIED"
-    | "CAVIUM_V1_COMPRESSED"
-    | "CAVIUM_V2_COMPRESSED"
-    | (string & {});
-  /** Output only. The attestation data provided by the HSM when the key operation was performed. */
-  content?: string;
-  /** Output only. The certificate chains needed to validate the attestation */
-  certChains?: GoogleCloudKmsV1KeyOperationAttestationCertificateChains;
-}
-
-export const GoogleCloudKmsV1KeyOperationAttestation: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      format: Schema.optional(Schema.String),
-      content: Schema.optional(Schema.String),
-      certChains: Schema.optional(
-        GoogleCloudKmsV1KeyOperationAttestationCertificateChains,
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsV1KeyOperationAttestation",
-  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation>;
-
 export interface GoogleCloudKmsV1ExternalProtectionLevelOptions {
   /** The URI for an external resource that this CryptoKeyVersion represents. */
   externalKeyUri?: string;
@@ -85,23 +39,55 @@ export const GoogleCloudKmsV1ExternalProtectionLevelOptions: Schema.Schema<Googl
     identifier: "GoogleCloudKmsV1ExternalProtectionLevelOptions",
   }) as any as Schema.Schema<GoogleCloudKmsV1ExternalProtectionLevelOptions>;
 
+export interface GoogleCloudKmsV1KeyOperationAttestationCertificateChains {
+  /** Google card certificate chain corresponding to the attestation. */
+  googleCardCerts?: Array<string>;
+  /** Cavium certificate chain corresponding to the attestation. */
+  caviumCerts?: Array<string>;
+  /** Google partition certificate chain corresponding to the attestation. */
+  googlePartitionCerts?: Array<string>;
+}
+
+export const GoogleCloudKmsV1KeyOperationAttestationCertificateChains: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      googleCardCerts: Schema.optional(Schema.Array(Schema.String)),
+      caviumCerts: Schema.optional(Schema.Array(Schema.String)),
+      googlePartitionCerts: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyOperationAttestationCertificateChains",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestationCertificateChains>;
+
+export interface GoogleCloudKmsV1KeyOperationAttestation {
+  /** Output only. The attestation data provided by the HSM when the key operation was performed. */
+  content?: string;
+  /** Output only. The format of the attestation data. */
+  format?:
+    | "ATTESTATION_FORMAT_UNSPECIFIED"
+    | "CAVIUM_V1_COMPRESSED"
+    | "CAVIUM_V2_COMPRESSED"
+    | (string & {});
+  /** Output only. The certificate chains needed to validate the attestation */
+  certChains?: GoogleCloudKmsV1KeyOperationAttestationCertificateChains;
+}
+
+export const GoogleCloudKmsV1KeyOperationAttestation: Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      content: Schema.optional(Schema.String),
+      format: Schema.optional(Schema.String),
+      certChains: Schema.optional(
+        GoogleCloudKmsV1KeyOperationAttestationCertificateChains,
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyOperationAttestation",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyOperationAttestation>;
+
 export interface GoogleCloudKmsV1CryptoKeyVersion {
   /** Output only. The resource name for this CryptoKeyVersion in the format `projects/* /locations/* /keyRings/* /cryptoKeys/* /cryptoKeyVersions/*`. */
   name?: string;
-  /** The current state of the CryptoKeyVersion. */
-  state?:
-    | "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED"
-    | "PENDING_GENERATION"
-    | "ENABLED"
-    | "DISABLED"
-    | "DESTROYED"
-    | "DESTROY_SCHEDULED"
-    | "PENDING_IMPORT"
-    | "IMPORT_FAILED"
-    | "GENERATION_FAILED"
-    | "PENDING_EXTERNAL_DESTRUCTION"
-    | "EXTERNAL_DESTRUCTION_FAILED"
-    | (string & {});
   /** Output only. The ProtectionLevel describing how crypto operations are performed with this CryptoKeyVersion. */
   protectionLevel?:
     | "PROTECTION_LEVEL_UNSPECIFIED"
@@ -111,6 +97,10 @@ export interface GoogleCloudKmsV1CryptoKeyVersion {
     | "EXTERNAL_VPC"
     | "HSM_SINGLE_TENANT"
     | (string & {});
+  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
+  externalProtectionLevelOptions?: GoogleCloudKmsV1ExternalProtectionLevelOptions;
+  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
+  importJob?: string;
   /** Output only. The CryptoKeyVersionAlgorithm that this CryptoKeyVersion supports. */
   algorithm?:
     | "CRYPTO_KEY_VERSION_ALGORITHM_UNSPECIFIED"
@@ -161,57 +151,213 @@ export interface GoogleCloudKmsV1CryptoKeyVersion {
     | "PQ_SIGN_ML_DSA_65_EXTERNAL_MU"
     | "PQ_SIGN_ML_DSA_87_EXTERNAL_MU"
     | (string & {});
-  /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
-  attestation?: GoogleCloudKmsV1KeyOperationAttestation;
-  /** Output only. The time at which this CryptoKeyVersion was created. */
-  createTime?: string;
-  /** Output only. The time this CryptoKeyVersion's key material was generated. */
-  generateTime?: string;
+  /** The current state of the CryptoKeyVersion. */
+  state?:
+    | "CRYPTO_KEY_VERSION_STATE_UNSPECIFIED"
+    | "PENDING_GENERATION"
+    | "ENABLED"
+    | "DISABLED"
+    | "DESTROYED"
+    | "DESTROY_SCHEDULED"
+    | "PENDING_IMPORT"
+    | "IMPORT_FAILED"
+    | "GENERATION_FAILED"
+    | "PENDING_EXTERNAL_DESTRUCTION"
+    | "EXTERNAL_DESTRUCTION_FAILED"
+    | (string & {});
   /** Output only. The time this CryptoKeyVersion's key material is scheduled for destruction. Only present if state is DESTROY_SCHEDULED. */
   destroyTime?: string;
   /** Output only. The time this CryptoKeyVersion's key material was destroyed. Only present if state is DESTROYED. */
   destroyEventTime?: string;
-  /** Output only. The name of the ImportJob used in the most recent import of this CryptoKeyVersion. Only present if the underlying key material was imported. */
-  importJob?: string;
-  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
-  importTime?: string;
   /** Output only. The root cause of the most recent import failure. Only present if state is IMPORT_FAILED. */
   importFailureReason?: string;
-  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
-  generationFailureReason?: string;
+  /** Output only. The time at which this CryptoKeyVersion was created. */
+  createTime?: string;
+  /** Output only. The time this CryptoKeyVersion's key material was generated. */
+  generateTime?: string;
   /** Output only. The root cause of the most recent external destruction failure. Only present if state is EXTERNAL_DESTRUCTION_FAILED. */
   externalDestructionFailureReason?: string;
-  /** ExternalProtectionLevelOptions stores a group of additional fields for configuring a CryptoKeyVersion that are specific to the EXTERNAL protection level and EXTERNAL_VPC protection levels. */
-  externalProtectionLevelOptions?: GoogleCloudKmsV1ExternalProtectionLevelOptions;
+  /** Output only. The root cause of the most recent generation failure. Only present if state is GENERATION_FAILED. */
+  generationFailureReason?: string;
   /** Output only. Whether or not this key version is eligible for reimport, by being specified as a target in ImportCryptoKeyVersionRequest.crypto_key_version. */
   reimportEligible?: boolean;
+  /** Output only. Statement that was generated and signed by the HSM at key creation time. Use this statement to verify attributes of the key as stored on the HSM, independently of Google. Only provided for key versions with protection_level HSM. */
+  attestation?: GoogleCloudKmsV1KeyOperationAttestation;
+  /** Output only. The time at which this CryptoKeyVersion's key material was most recently imported. */
+  importTime?: string;
 }
 
 export const GoogleCloudKmsV1CryptoKeyVersion: Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       name: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
       protectionLevel: Schema.optional(Schema.String),
-      algorithm: Schema.optional(Schema.String),
-      attestation: Schema.optional(GoogleCloudKmsV1KeyOperationAttestation),
-      createTime: Schema.optional(Schema.String),
-      generateTime: Schema.optional(Schema.String),
-      destroyTime: Schema.optional(Schema.String),
-      destroyEventTime: Schema.optional(Schema.String),
-      importJob: Schema.optional(Schema.String),
-      importTime: Schema.optional(Schema.String),
-      importFailureReason: Schema.optional(Schema.String),
-      generationFailureReason: Schema.optional(Schema.String),
-      externalDestructionFailureReason: Schema.optional(Schema.String),
       externalProtectionLevelOptions: Schema.optional(
         GoogleCloudKmsV1ExternalProtectionLevelOptions,
       ),
+      importJob: Schema.optional(Schema.String),
+      algorithm: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      destroyTime: Schema.optional(Schema.String),
+      destroyEventTime: Schema.optional(Schema.String),
+      importFailureReason: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      generateTime: Schema.optional(Schema.String),
+      externalDestructionFailureReason: Schema.optional(Schema.String),
+      generationFailureReason: Schema.optional(Schema.String),
       reimportEligible: Schema.optional(Schema.Boolean),
+      attestation: Schema.optional(GoogleCloudKmsV1KeyOperationAttestation),
+      importTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudKmsV1CryptoKeyVersion",
   }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersion>;
+
+export interface GoogleCloudKmsInventoryV1ProtectedResource {
+  /** Location can be `global`, regional like `us-east1`, or zonal like `us-west1-b`. */
+  location?: string;
+  /** The Cloud product that owns the resource. Example: `compute` */
+  cloudProduct?: string;
+  /** The name of the Cloud KMS [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions?hl=en) used to protect this resource via CMEK. This field is empty if the Google Cloud product owning the resource does not provide key version data to Asset Inventory. If there are multiple key versions protecting the resource, then this is same value as the first element of crypto_key_versions. */
+  cryptoKeyVersion?: string;
+  /** The ID of the project that owns the resource. */
+  projectId?: string;
+  /** Example: `compute.googleapis.com/Disk` */
+  resourceType?: string;
+  /** A key-value pair of the resource's labels (v1) to their values. */
+  labels?: Record<string, string>;
+  /** Format: `projects/{PROJECT_NUMBER}`. */
+  project?: string;
+  /** The names of the Cloud KMS [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions?hl=en) used to protect this resource via CMEK. This field is empty if the Google Cloud product owning the resource does not provide key versions data to Asset Inventory. The first element of this field is stored in crypto_key_version. */
+  cryptoKeyVersions?: Array<string>;
+  /** The full resource name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. */
+  name?: string;
+  /** Output only. The time at which this resource was created. The granularity is in seconds. Timestamp.nanos will always be 0. */
+  createTime?: string;
+}
+
+export const GoogleCloudKmsInventoryV1ProtectedResource: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      location: Schema.optional(Schema.String),
+      cloudProduct: Schema.optional(Schema.String),
+      cryptoKeyVersion: Schema.optional(Schema.String),
+      projectId: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      project: Schema.optional(Schema.String),
+      cryptoKeyVersions: Schema.optional(Schema.Array(Schema.String)),
+      name: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1ProtectedResource",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource>;
+
+export interface GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse {
+  /** Protected resources for this page. */
+  protectedResources?: Array<GoogleCloudKmsInventoryV1ProtectedResource>;
+  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string;
+}
+
+export const GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse: Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      protectedResources: Schema.optional(
+        Schema.Array(GoogleCloudKmsInventoryV1ProtectedResource),
+      ),
+      nextPageToken: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse>;
+
+export interface GoogleCloudKmsV1KeyAccessJustificationsPolicy {
+  /** The list of allowed reasons for access to a CryptoKey. Note that empty allowed_access_reasons has a different meaning depending on where this message appears. If this is under KeyAccessJustificationsPolicyConfig, it means allow-all. If this is under CryptoKey, it means deny-all. */
+  allowedAccessReasons?: Array<
+    | "REASON_UNSPECIFIED"
+    | "CUSTOMER_INITIATED_SUPPORT"
+    | "GOOGLE_INITIATED_SERVICE"
+    | "THIRD_PARTY_DATA_REQUEST"
+    | "GOOGLE_INITIATED_REVIEW"
+    | "CUSTOMER_INITIATED_ACCESS"
+    | "GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "REASON_NOT_EXPECTED"
+    | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
+    | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
+    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
+    | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING"
+    | (string & {})
+  >;
+}
+
+export const GoogleCloudKmsV1KeyAccessJustificationsPolicy: Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsV1KeyAccessJustificationsPolicy",
+  }) as any as Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy>;
+
+export interface GoogleCloudKmsInventoryV1Warning {
+  /** The specific warning code for the displayed message. */
+  warningCode?:
+    | "WARNING_CODE_UNSPECIFIED"
+    | "INSUFFICIENT_PERMISSIONS_PARTIAL_DATA"
+    | "RESOURCE_LIMIT_EXCEEDED_PARTIAL_DATA"
+    | "ORG_LESS_PROJECT_PARTIAL_DATA"
+    | (string & {});
+  /** The literal message providing context and details about the warnings. */
+  displayMessage?: string;
+}
+
+export const GoogleCloudKmsInventoryV1Warning: Schema.Schema<GoogleCloudKmsInventoryV1Warning> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      warningCode: Schema.optional(Schema.String),
+      displayMessage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1Warning",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1Warning>;
+
+export interface GoogleCloudKmsInventoryV1ProtectedResourcesSummary {
+  /** The full name of the ProtectedResourcesSummary resource. Example: projects/test-project/locations/us/keyRings/test-keyring/cryptoKeys/test-key/protectedResourcesSummary */
+  name?: string;
+  /** The total number of protected resources in the same Cloud organization as the key. */
+  resourceCount?: string;
+  /** The number of resources protected by the key grouped by resource type. */
+  resourceTypes?: Record<string, string>;
+  /** The number of resources protected by the key grouped by Cloud product. */
+  cloudProducts?: Record<string, string>;
+  /** Warning messages for the state of response ProtectedResourcesSummary For example, if the organization service account is not configured, INSUFFICIENT_PERMISSIONS_PARTIAL_DATA warning will be returned. */
+  warnings?: Array<GoogleCloudKmsInventoryV1Warning>;
+  /** The number of distinct Cloud projects in the same Cloud organization as the key that have resources protected by the key. */
+  projectCount?: number;
+  /** The number of resources protected by the key grouped by region. */
+  locations?: Record<string, string>;
+}
+
+export const GoogleCloudKmsInventoryV1ProtectedResourcesSummary: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      resourceCount: Schema.optional(Schema.String),
+      resourceTypes: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      cloudProducts: Schema.optional(
+        Schema.Record(Schema.String, Schema.String),
+      ),
+      warnings: Schema.optional(Schema.Array(GoogleCloudKmsInventoryV1Warning)),
+      projectCount: Schema.optional(Schema.Number),
+      locations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudKmsInventoryV1ProtectedResourcesSummary",
+  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary>;
 
 export interface GoogleCloudKmsV1CryptoKeyVersionTemplate {
   /** ProtectionLevel to use when creating a CryptoKeyVersion based on this template. Immutable. Defaults to SOFTWARE. */
@@ -285,39 +431,11 @@ export const GoogleCloudKmsV1CryptoKeyVersionTemplate: Schema.Schema<GoogleCloud
     identifier: "GoogleCloudKmsV1CryptoKeyVersionTemplate",
   }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKeyVersionTemplate>;
 
-export interface GoogleCloudKmsV1KeyAccessJustificationsPolicy {
-  /** The list of allowed reasons for access to a CryptoKey. Zero allowed access reasons means all encrypt, decrypt, and sign operations for the CryptoKey associated with this policy will fail. */
-  allowedAccessReasons?: Array<
-    | "REASON_UNSPECIFIED"
-    | "CUSTOMER_INITIATED_SUPPORT"
-    | "GOOGLE_INITIATED_SERVICE"
-    | "THIRD_PARTY_DATA_REQUEST"
-    | "GOOGLE_INITIATED_REVIEW"
-    | "CUSTOMER_INITIATED_ACCESS"
-    | "GOOGLE_INITIATED_SYSTEM_OPERATION"
-    | "REASON_NOT_EXPECTED"
-    | "MODIFIED_CUSTOMER_INITIATED_ACCESS"
-    | "MODIFIED_GOOGLE_INITIATED_SYSTEM_OPERATION"
-    | "GOOGLE_RESPONSE_TO_PRODUCTION_ALERT"
-    | "CUSTOMER_AUTHORIZED_WORKFLOW_SERVICING"
-    | (string & {})
-  >;
-}
-
-export const GoogleCloudKmsV1KeyAccessJustificationsPolicy: Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      allowedAccessReasons: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsV1KeyAccessJustificationsPolicy",
-  }) as any as Schema.Schema<GoogleCloudKmsV1KeyAccessJustificationsPolicy>;
-
 export interface GoogleCloudKmsV1CryptoKey {
-  /** Output only. The resource name for this CryptoKey in the format `projects/* /locations/* /keyRings/* /cryptoKeys/*`. */
-  name?: string;
-  /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
-  primary?: GoogleCloudKmsV1CryptoKeyVersion;
+  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
+  destroyScheduledDuration?: string;
+  /** next_rotation_time will be advanced by this period when the service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. If rotation_period is set, next_rotation_time must also be set. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  rotationPeriod?: string;
   /** Immutable. The immutable purpose of this CryptoKey. */
   purpose?:
     | "CRYPTO_KEY_PURPOSE_UNSPECIFIED"
@@ -328,188 +446,123 @@ export interface GoogleCloudKmsV1CryptoKey {
     | "MAC"
     | "KEY_ENCAPSULATION"
     | (string & {});
-  /** Output only. The time at which this CryptoKey was created. */
-  createTime?: string;
-  /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
-  nextRotationTime?: string;
-  /** next_rotation_time will be advanced by this period when the service automatically rotates a key. Must be at least 24 hours and at most 876,000 hours. If rotation_period is set, next_rotation_time must also be set. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
-  rotationPeriod?: string;
-  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
-  versionTemplate?: GoogleCloudKmsV1CryptoKeyVersionTemplate;
   /** Labels with user-defined metadata. For more information, see [Labeling Keys](https://cloud.google.com/kms/docs/labeling-keys). */
   labels?: Record<string, string>;
-  /** Immutable. Whether this key may contain imported versions only. */
-  importOnly?: boolean;
-  /** Immutable. The period of time that versions of this key spend in the DESTROY_SCHEDULED state before transitioning to DESTROYED. If not specified at creation time, the default duration is 30 days. */
-  destroyScheduledDuration?: string;
+  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. If the `key_access_justifications_policy.allowed_access_reasons` is empty (zero allowed justification code), all encrypt, decrypt, and sign operations will fail. */
+  keyAccessJustificationsPolicy?: GoogleCloudKmsV1KeyAccessJustificationsPolicy;
+  /** A template describing settings for new CryptoKeyVersion instances. The properties of new CryptoKeyVersion instances created by either CreateCryptoKeyVersion or auto-rotation are controlled by this template. */
+  versionTemplate?: GoogleCloudKmsV1CryptoKeyVersionTemplate;
+  /** Output only. A copy of the "primary" CryptoKeyVersion that will be used by Encrypt when this CryptoKey is given in EncryptRequest.name. The CryptoKey's primary version can be updated via UpdateCryptoKeyPrimaryVersion. Keys with purpose ENCRYPT_DECRYPT may have a primary. For other keys, this field will be omitted. */
+  primary?: GoogleCloudKmsV1CryptoKeyVersion;
+  /** Output only. The time at which this CryptoKey was created. */
+  createTime?: string;
   /** Immutable. The resource name of the backend environment where the key material for all CryptoKeyVersions associated with this CryptoKey reside and where all related cryptographic operations are performed. Only applicable if CryptoKeyVersions have a ProtectionLevel of EXTERNAL_VPC, with the resource name in the format `projects/* /locations/* /ekmConnections/*`. Only applicable if CryptoKeyVersions have a ProtectionLevel of HSM_SINGLE_TENANT, with the resource name in the format `projects/* /locations/* /singleTenantHsmInstances/*`. Note, this list is non-exhaustive and may apply to additional ProtectionLevels in the future. */
   cryptoKeyBackend?: string;
-  /** Optional. The policy used for Key Access Justifications Policy Enforcement. If this field is present and this key is enrolled in Key Access Justifications Policy Enforcement, the policy will be evaluated in encrypt, decrypt, and sign operations, and the operation will fail if rejected by the policy. The policy is defined by specifying zero or more allowed justification codes. https://cloud.google.com/assured-workloads/key-access-justifications/docs/justification-codes By default, this field is absent, and all justification codes are allowed. */
-  keyAccessJustificationsPolicy?: GoogleCloudKmsV1KeyAccessJustificationsPolicy;
+  /** Output only. The resource name for this CryptoKey in the format `projects/* /locations/* /keyRings/* /cryptoKeys/*`. */
+  name?: string;
+  /** Immutable. Whether this key may contain imported versions only. */
+  importOnly?: boolean;
+  /** At next_rotation_time, the Key Management Service will automatically: 1. Create a new version of this CryptoKey. 2. Mark the new version as primary. Key rotations performed manually via CreateCryptoKeyVersion and UpdateCryptoKeyPrimaryVersion do not affect next_rotation_time. Keys with purpose ENCRYPT_DECRYPT support automatic rotation. For other keys, this field must be omitted. */
+  nextRotationTime?: string;
 }
 
 export const GoogleCloudKmsV1CryptoKey: Schema.Schema<GoogleCloudKmsV1CryptoKey> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      primary: Schema.optional(GoogleCloudKmsV1CryptoKeyVersion),
-      purpose: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
-      nextRotationTime: Schema.optional(Schema.String),
-      rotationPeriod: Schema.optional(Schema.String),
-      versionTemplate: Schema.optional(
-        GoogleCloudKmsV1CryptoKeyVersionTemplate,
-      ),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      importOnly: Schema.optional(Schema.Boolean),
       destroyScheduledDuration: Schema.optional(Schema.String),
-      cryptoKeyBackend: Schema.optional(Schema.String),
+      rotationPeriod: Schema.optional(Schema.String),
+      purpose: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       keyAccessJustificationsPolicy: Schema.optional(
         GoogleCloudKmsV1KeyAccessJustificationsPolicy,
       ),
+      versionTemplate: Schema.optional(
+        GoogleCloudKmsV1CryptoKeyVersionTemplate,
+      ),
+      primary: Schema.optional(GoogleCloudKmsV1CryptoKeyVersion),
+      createTime: Schema.optional(Schema.String),
+      cryptoKeyBackend: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      importOnly: Schema.optional(Schema.Boolean),
+      nextRotationTime: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudKmsV1CryptoKey",
   }) as any as Schema.Schema<GoogleCloudKmsV1CryptoKey>;
 
 export interface GoogleCloudKmsInventoryV1ListCryptoKeysResponse {
-  /** The list of CryptoKeys. */
-  cryptoKeys?: Array<GoogleCloudKmsV1CryptoKey>;
   /** The page token returned from the previous response if the next page is desired. */
   nextPageToken?: string;
+  /** The list of CryptoKeys. */
+  cryptoKeys?: Array<GoogleCloudKmsV1CryptoKey>;
 }
 
 export const GoogleCloudKmsInventoryV1ListCryptoKeysResponse: Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      cryptoKeys: Schema.optional(Schema.Array(GoogleCloudKmsV1CryptoKey)),
       nextPageToken: Schema.optional(Schema.String),
+      cryptoKeys: Schema.optional(Schema.Array(GoogleCloudKmsV1CryptoKey)),
     }),
   ).annotate({
     identifier: "GoogleCloudKmsInventoryV1ListCryptoKeysResponse",
   }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ListCryptoKeysResponse>;
 
-export interface GoogleCloudKmsInventoryV1Warning {
-  /** The specific warning code for the displayed message. */
-  warningCode?:
-    | "WARNING_CODE_UNSPECIFIED"
-    | "INSUFFICIENT_PERMISSIONS_PARTIAL_DATA"
-    | "RESOURCE_LIMIT_EXCEEDED_PARTIAL_DATA"
-    | "ORG_LESS_PROJECT_PARTIAL_DATA"
-    | (string & {});
-  /** The literal message providing context and details about the warnings. */
-  displayMessage?: string;
-}
-
-export const GoogleCloudKmsInventoryV1Warning: Schema.Schema<GoogleCloudKmsInventoryV1Warning> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      warningCode: Schema.optional(Schema.String),
-      displayMessage: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsInventoryV1Warning",
-  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1Warning>;
-
-export interface GoogleCloudKmsInventoryV1ProtectedResourcesSummary {
-  /** The full name of the ProtectedResourcesSummary resource. Example: projects/test-project/locations/us/keyRings/test-keyring/cryptoKeys/test-key/protectedResourcesSummary */
-  name?: string;
-  /** The total number of protected resources in the same Cloud organization as the key. */
-  resourceCount?: string;
-  /** The number of distinct Cloud projects in the same Cloud organization as the key that have resources protected by the key. */
-  projectCount?: number;
-  /** The number of resources protected by the key grouped by resource type. */
-  resourceTypes?: Record<string, string>;
-  /** The number of resources protected by the key grouped by Cloud product. */
-  cloudProducts?: Record<string, string>;
-  /** The number of resources protected by the key grouped by region. */
-  locations?: Record<string, string>;
-  /** Warning messages for the state of response ProtectedResourcesSummary For example, if the organization service account is not configured, INSUFFICIENT_PERMISSIONS_PARTIAL_DATA warning will be returned. */
-  warnings?: Array<GoogleCloudKmsInventoryV1Warning>;
-}
-
-export const GoogleCloudKmsInventoryV1ProtectedResourcesSummary: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      resourceCount: Schema.optional(Schema.String),
-      projectCount: Schema.optional(Schema.Number),
-      resourceTypes: Schema.optional(
-        Schema.Record(Schema.String, Schema.String),
-      ),
-      cloudProducts: Schema.optional(
-        Schema.Record(Schema.String, Schema.String),
-      ),
-      locations: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      warnings: Schema.optional(Schema.Array(GoogleCloudKmsInventoryV1Warning)),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsInventoryV1ProtectedResourcesSummary",
-  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResourcesSummary>;
-
-export interface GoogleCloudKmsInventoryV1ProtectedResource {
-  /** The full resource name of the resource. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1`. */
-  name?: string;
-  /** Format: `projects/{PROJECT_NUMBER}`. */
-  project?: string;
-  /** The ID of the project that owns the resource. */
-  projectId?: string;
-  /** The Cloud product that owns the resource. Example: `compute` */
-  cloudProduct?: string;
-  /** Example: `compute.googleapis.com/Disk` */
-  resourceType?: string;
-  /** Location can be `global`, regional like `us-east1`, or zonal like `us-west1-b`. */
-  location?: string;
-  /** A key-value pair of the resource's labels (v1) to their values. */
-  labels?: Record<string, string>;
-  /** The name of the Cloud KMS [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions?hl=en) used to protect this resource via CMEK. This field is empty if the Google Cloud product owning the resource does not provide key version data to Asset Inventory. If there are multiple key versions protecting the resource, then this is same value as the first element of crypto_key_versions. */
-  cryptoKeyVersion?: string;
-  /** The names of the Cloud KMS [CryptoKeyVersion](https://cloud.google.com/kms/docs/reference/rest/v1/projects.locations.keyRings.cryptoKeys.cryptoKeyVersions?hl=en) used to protect this resource via CMEK. This field is empty if the Google Cloud product owning the resource does not provide key versions data to Asset Inventory. The first element of this field is stored in crypto_key_version. */
-  cryptoKeyVersions?: Array<string>;
-  /** Output only. The time at which this resource was created. The granularity is in seconds. Timestamp.nanos will always be 0. */
-  createTime?: string;
-}
-
-export const GoogleCloudKmsInventoryV1ProtectedResource: Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      project: Schema.optional(Schema.String),
-      projectId: Schema.optional(Schema.String),
-      cloudProduct: Schema.optional(Schema.String),
-      resourceType: Schema.optional(Schema.String),
-      location: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      cryptoKeyVersion: Schema.optional(Schema.String),
-      cryptoKeyVersions: Schema.optional(Schema.Array(Schema.String)),
-      createTime: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsInventoryV1ProtectedResource",
-  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1ProtectedResource>;
-
-export interface GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse {
-  /** Protected resources for this page. */
-  protectedResources?: Array<GoogleCloudKmsInventoryV1ProtectedResource>;
-  /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
-}
-
-export const GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse: Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      protectedResources: Schema.optional(
-        Schema.Array(GoogleCloudKmsInventoryV1ProtectedResource),
-      ),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse",
-  }) as any as Schema.Schema<GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse>;
-
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface SearchOrganizationsProtectedResourcesRequest {
+  /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
+  scope: string;
+  /** The maximum number of resources to return. The service may return fewer than this value. If unspecified, at most 500 resources will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number;
+  /** Optional. A list of resource types that this request searches for. If empty, it will search all the [trackable resource types](https://cloud.google.com/kms/docs/view-key-usage#tracked-resource-types). Regular expressions are also supported. For example: * `compute.googleapis.com.*` snapshots resources whose type starts with `compute.googleapis.com`. * `.*Image` snapshots resources whose type ends with `Image`. * `.*Image.*` snapshots resources whose type contains `Image`. See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported resource type, an INVALID_ARGUMENT error will be returned. */
+  resourceTypes?: string[];
+  /** Required. The resource name of the CryptoKey. */
+  cryptoKey?: string;
+  /** A page token, received from a previous KeyTrackingService.SearchProtectedResources call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to KeyTrackingService.SearchProtectedResources must match the call that provided the page token. */
+  pageToken?: string;
+}
+
+export const SearchOrganizationsProtectedResourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("resourceTypes"),
+    ),
+    cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1/organizations/{organizationsId}/protectedResources:search",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<SearchOrganizationsProtectedResourcesRequest>;
+
+export type SearchOrganizationsProtectedResourcesResponse =
+  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+export const SearchOrganizationsProtectedResourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
+
+export type SearchOrganizationsProtectedResourcesError = DefaultErrors;
+
+/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
+export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod<
+  SearchOrganizationsProtectedResourcesRequest,
+  SearchOrganizationsProtectedResourcesResponse,
+  SearchOrganizationsProtectedResourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: SearchOrganizationsProtectedResourcesRequest,
+  output: SearchOrganizationsProtectedResourcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
 
 export interface ListProjectsCryptoKeysRequest {
   /** Required. The Google Cloud project for which to retrieve key metadata, in the format `projects/*` */
@@ -599,27 +652,27 @@ export const getProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys: AP
 }));
 
 export interface SearchProjectsProtectedResourcesRequest {
-  /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
-  scope: string;
-  /** Required. The resource name of the CryptoKey. */
-  cryptoKey?: string;
-  /** The maximum number of resources to return. The service may return fewer than this value. If unspecified, at most 500 resources will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
-  /** A page token, received from a previous KeyTrackingService.SearchProtectedResources call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to KeyTrackingService.SearchProtectedResources must match the call that provided the page token. */
-  pageToken?: string;
   /** Optional. A list of resource types that this request searches for. If empty, it will search all the [trackable resource types](https://cloud.google.com/kms/docs/view-key-usage#tracked-resource-types). Regular expressions are also supported. For example: * `compute.googleapis.com.*` snapshots resources whose type starts with `compute.googleapis.com`. * `.*Image` snapshots resources whose type ends with `Image`. * `.*Image.*` snapshots resources whose type contains `Image`. See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported resource type, an INVALID_ARGUMENT error will be returned. */
   resourceTypes?: string[];
+  /** Required. The resource name of the CryptoKey. */
+  cryptoKey?: string;
+  /** A page token, received from a previous KeyTrackingService.SearchProtectedResources call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to KeyTrackingService.SearchProtectedResources must match the call that provided the page token. */
+  pageToken?: string;
+  /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
+  scope: string;
+  /** The maximum number of resources to return. The service may return fewer than this value. If unspecified, at most 500 resources will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
+  pageSize?: number;
 }
 
 export const SearchProjectsProtectedResourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    scope: Schema.String.pipe(T.HttpPath("scope")),
-    cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
       T.HttpQuery("resourceTypes"),
     ),
+    cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    scope: Schema.String.pipe(T.HttpPath("scope")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
   }).pipe(
     T.Http({
       method: "GET",
@@ -644,59 +697,6 @@ export const searchProjectsProtectedResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
   input: SearchProjectsProtectedResourcesRequest,
   output: SearchProjectsProtectedResourcesResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
-export interface SearchOrganizationsProtectedResourcesRequest {
-  /** Required. A scope can be an organization or a project. Resources protected by the crypto key in provided scope will be returned. The following values are allowed: * organizations/{ORGANIZATION_NUMBER} (e.g., "organizations/12345678") * projects/{PROJECT_ID} (e.g., "projects/foo-bar") * projects/{PROJECT_NUMBER} (e.g., "projects/12345678") */
-  scope: string;
-  /** Required. The resource name of the CryptoKey. */
-  cryptoKey?: string;
-  /** The maximum number of resources to return. The service may return fewer than this value. If unspecified, at most 500 resources will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
-  /** A page token, received from a previous KeyTrackingService.SearchProtectedResources call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to KeyTrackingService.SearchProtectedResources must match the call that provided the page token. */
-  pageToken?: string;
-  /** Optional. A list of resource types that this request searches for. If empty, it will search all the [trackable resource types](https://cloud.google.com/kms/docs/view-key-usage#tracked-resource-types). Regular expressions are also supported. For example: * `compute.googleapis.com.*` snapshots resources whose type starts with `compute.googleapis.com`. * `.*Image` snapshots resources whose type ends with `Image`. * `.*Image.*` snapshots resources whose type contains `Image`. See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported resource type, an INVALID_ARGUMENT error will be returned. */
-  resourceTypes?: string[];
-}
-
-export const SearchOrganizationsProtectedResourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    scope: Schema.String.pipe(T.HttpPath("scope")),
-    cryptoKey: Schema.optional(Schema.String).pipe(T.HttpQuery("cryptoKey")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    resourceTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("resourceTypes"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1/organizations/{organizationsId}/protectedResources:search",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<SearchOrganizationsProtectedResourcesRequest>;
-
-export type SearchOrganizationsProtectedResourcesResponse =
-  GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
-export const SearchOrganizationsProtectedResourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse;
-
-export type SearchOrganizationsProtectedResourcesError = DefaultErrors;
-
-/** Returns metadata about the resources protected by the given Cloud KMS CryptoKey in the given Cloud organization/project. */
-export const searchOrganizationsProtectedResources: API.PaginatedOperationMethod<
-  SearchOrganizationsProtectedResourcesRequest,
-  SearchOrganizationsProtectedResourcesResponse,
-  SearchOrganizationsProtectedResourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: SearchOrganizationsProtectedResourcesRequest,
-  output: SearchOrganizationsProtectedResourcesResponse,
   errors: [],
   pagination: {
     inputToken: "pageToken",

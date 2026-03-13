@@ -699,7 +699,9 @@ export const listSiteInfos: API.PaginatedOperationMethod<
     ListSiteInfosError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSiteInfosRequest) => stream.Stream<
+  items: (
+    input: ListSiteInfosRequest,
+  ) => stream.Stream<
     {
       autoInstall?: boolean | null;
       created?: string | null;

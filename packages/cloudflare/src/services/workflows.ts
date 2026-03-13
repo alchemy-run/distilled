@@ -415,7 +415,9 @@ export const listInstances: API.PaginatedOperationMethod<
     ListInstancesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListInstancesRequest) => stream.Stream<
+  items: (
+    input: ListInstancesRequest,
+  ) => stream.Stream<
     {
       id: string;
       createdOn: string;
@@ -675,7 +677,9 @@ export const bulkInstance: API.PaginatedOperationMethod<
     BulkInstanceError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkInstanceRequest) => stream.Stream<
+  items: (
+    input: BulkInstanceRequest,
+  ) => stream.Stream<
     {
       id: string;
       status:
@@ -984,7 +988,9 @@ export const listVersions: API.PaginatedOperationMethod<
     ListVersionsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListVersionsRequest) => stream.Stream<
+  items: (
+    input: ListVersionsRequest,
+  ) => stream.Stream<
     {
       id: string;
       className: string;
@@ -1206,7 +1212,9 @@ export const listWorkflows: API.PaginatedOperationMethod<
     ListWorkflowsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListWorkflowsRequest) => stream.Stream<
+  items: (
+    input: ListWorkflowsRequest,
+  ) => stream.Stream<
     {
       id: string;
       className: string;

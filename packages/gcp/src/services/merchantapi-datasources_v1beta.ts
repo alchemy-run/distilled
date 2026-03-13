@@ -22,151 +22,6 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface DataSourceReference {
-  /** Self should be used to reference the primary data source itself. */
-  self?: boolean;
-  /** Optional. The name of the primary data source. Format: `accounts/{account}/dataSources/{datasource}` */
-  primaryDataSourceName?: string;
-  /** Optional. The name of the supplemental data source. Format: `accounts/{account}/dataSources/{datasource}` */
-  supplementalDataSourceName?: string;
-}
-
-export const DataSourceReference: Schema.Schema<DataSourceReference> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      self: Schema.optional(Schema.Boolean),
-      primaryDataSourceName: Schema.optional(Schema.String),
-      supplementalDataSourceName: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "DataSourceReference",
-  }) as any as Schema.Schema<DataSourceReference>;
-
-export interface SupplementalProductDataSource {
-  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. The fields must be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept produts without that restriction. */
-  feedLabel?: string;
-  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept produts without that restriction. */
-  contentLanguage?: string;
-  /** Output only. The (unordered and deduplicated) list of all primary data sources linked to this data source in either default or custom rules. Supplemental data source cannot be deleted before all links are removed. */
-  referencingPrimaryDataSources?: Array<DataSourceReference>;
-}
-
-export const SupplementalProductDataSource: Schema.Schema<SupplementalProductDataSource> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      feedLabel: Schema.optional(Schema.String),
-      contentLanguage: Schema.optional(Schema.String),
-      referencingPrimaryDataSources: Schema.optional(
-        Schema.Array(DataSourceReference),
-      ),
-    }),
-  ).annotate({
-    identifier: "SupplementalProductDataSource",
-  }) as any as Schema.Schema<SupplementalProductDataSource>;
-
-export interface TimeOfDay {
-  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
-  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
-  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
-  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
-}
-
-export const TimeOfDay: Schema.Schema<TimeOfDay> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      minutes: Schema.optional(Schema.Number),
-      seconds: Schema.optional(Schema.Number),
-      nanos: Schema.optional(Schema.Number),
-      hours: Schema.optional(Schema.Number),
-    }),
-  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
-
-export interface FetchSettings {
-  /** Optional. The day of the week when the data source file should be fetched. This field can only be set for weekly frequency. */
-  dayOfWeek?:
-    | "DAY_OF_WEEK_UNSPECIFIED"
-    | "MONDAY"
-    | "TUESDAY"
-    | "WEDNESDAY"
-    | "THURSDAY"
-    | "FRIDAY"
-    | "SATURDAY"
-    | "SUNDAY"
-    | (string & {});
-  /** Optional. [Time zone](https://cldr.unicode.org) used for schedule. UTC by default. For example, "America/Los_Angeles". */
-  timeZone?: string;
-  /** Optional. Enables or pauses the fetch schedule. */
-  enabled?: boolean;
-  /** Optional. An optional password for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
-  password?: string;
-  /** Optional. The hour of the day when the data source file should be fetched. Minutes and seconds are not supported and will be ignored. */
-  timeOfDay?: TimeOfDay;
-  /** Optional. The day of the month when the data source file should be fetched (1-31). This field can only be set for monthly frequency. */
-  dayOfMonth?: number;
-  /** Required. The frequency describing fetch schedule. */
-  frequency?:
-    | "FREQUENCY_UNSPECIFIED"
-    | "FREQUENCY_DAILY"
-    | "FREQUENCY_WEEKLY"
-    | "FREQUENCY_MONTHLY"
-    | (string & {});
-  /** Optional. An optional user name for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
-  username?: string;
-  /** Optional. The URL where the data source file can be fetched. Google Merchant Center supports automatic scheduled uploads using the HTTP, HTTPS or SFTP protocols, so the value will need to be a valid link using one of those three protocols. Immutable for Google Sheets files. */
-  fetchUri?: string;
-}
-
-export const FetchSettings: Schema.Schema<FetchSettings> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      dayOfWeek: Schema.optional(Schema.String),
-      timeZone: Schema.optional(Schema.String),
-      enabled: Schema.optional(Schema.Boolean),
-      password: Schema.optional(Schema.String),
-      timeOfDay: Schema.optional(TimeOfDay),
-      dayOfMonth: Schema.optional(Schema.Number),
-      frequency: Schema.optional(Schema.String),
-      username: Schema.optional(Schema.String),
-      fetchUri: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "FetchSettings",
-  }) as any as Schema.Schema<FetchSettings>;
-
-export interface FileInput {
-  /** Output only. The type of file input. */
-  fileInputType?:
-    | "FILE_INPUT_TYPE_UNSPECIFIED"
-    | "UPLOAD"
-    | "FETCH"
-    | "GOOGLE_SHEETS"
-    | (string & {});
-  /** Optional. Fetch details to deliver the data source. It contains settings for `FETCH` and `GOOGLE_SHEETS` file input types. The required fields vary based on the frequency of fetching. */
-  fetchSettings?: FetchSettings;
-  /** Optional. The file name of the data source. Required for `UPLOAD` file input type. */
-  fileName?: string;
-}
-
-export const FileInput: Schema.Schema<FileInput> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      fileInputType: Schema.optional(Schema.String),
-      fetchSettings: Schema.optional(FetchSettings),
-      fileName: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "FileInput" }) as any as Schema.Schema<FileInput>;
-
-export interface ProductReviewDataSource {}
-
-export const ProductReviewDataSource: Schema.Schema<ProductReviewDataSource> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "ProductReviewDataSource",
-  }) as any as Schema.Schema<ProductReviewDataSource>;
-
 export interface PromotionDataSource {
   /** Required. Immutable. The two-letter ISO 639-1 language of the items in the data source. */
   contentLanguage?: string;
@@ -184,19 +39,145 @@ export const PromotionDataSource: Schema.Schema<PromotionDataSource> =
     identifier: "PromotionDataSource",
   }) as any as Schema.Schema<PromotionDataSource>;
 
-export interface DefaultRule {
-  /** Required. The list of data sources linked in the [default rule](https://support.google.com/merchants/answer/7450276). This list is ordered by the default rule priority of joining the data. It might include none or multiple references to `self` and supplemental data sources. The list must not be empty. To link the data source to the default rule, you need to add a new reference to this list (in sequential order). To unlink the data source from the default rule, you need to remove the given reference from this list. Changing the order of this list will result in changing the priority of data sources in the default rule. For example, providing the following list: [`1001`, `self`] will take attribute values from supplemental data source `1001`, and fallback to `self` if the attribute is not set in `1001`. */
-  takeFromDataSources?: Array<DataSourceReference>;
+export interface TimeOfDay {
+  /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
+  hours?: number;
+  /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
+  nanos?: number;
+  /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
+  seconds?: number;
+  /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
+  minutes?: number;
 }
 
-export const DefaultRule: Schema.Schema<DefaultRule> =
+export const TimeOfDay: Schema.Schema<TimeOfDay> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      takeFromDataSources: Schema.optional(Schema.Array(DataSourceReference)),
+      hours: Schema.optional(Schema.Number),
+      nanos: Schema.optional(Schema.Number),
+      seconds: Schema.optional(Schema.Number),
+      minutes: Schema.optional(Schema.Number),
+    }),
+  ).annotate({ identifier: "TimeOfDay" }) as any as Schema.Schema<TimeOfDay>;
+
+export interface FetchSettings {
+  /** Optional. The hour of the day when the data source file should be fetched. Minutes and seconds are not supported and will be ignored. */
+  timeOfDay?: TimeOfDay;
+  /** Optional. Enables or pauses the fetch schedule. */
+  enabled?: boolean;
+  /** Optional. An optional password for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
+  password?: string;
+  /** Optional. An optional user name for fetch_uri. Used for [submitting data sources through SFTP](https://support.google.com/merchants/answer/13813117). */
+  username?: string;
+  /** Optional. [Time zone](https://cldr.unicode.org) used for schedule. UTC by default. For example, "America/Los_Angeles". */
+  timeZone?: string;
+  /** Required. The frequency describing fetch schedule. */
+  frequency?:
+    | "FREQUENCY_UNSPECIFIED"
+    | "FREQUENCY_DAILY"
+    | "FREQUENCY_WEEKLY"
+    | "FREQUENCY_MONTHLY"
+    | (string & {});
+  /** Optional. The day of the month when the data source file should be fetched (1-31). This field can only be set for monthly frequency. */
+  dayOfMonth?: number;
+  /** Optional. The day of the week when the data source file should be fetched. This field can only be set for weekly frequency. */
+  dayOfWeek?:
+    | "DAY_OF_WEEK_UNSPECIFIED"
+    | "MONDAY"
+    | "TUESDAY"
+    | "WEDNESDAY"
+    | "THURSDAY"
+    | "FRIDAY"
+    | "SATURDAY"
+    | "SUNDAY"
+    | (string & {});
+  /** Optional. The URL where the data source file can be fetched. Google Merchant Center supports automatic scheduled uploads using the HTTP, HTTPS or SFTP protocols, so the value will need to be a valid link using one of those three protocols. Immutable for Google Sheets files. */
+  fetchUri?: string;
+}
+
+export const FetchSettings: Schema.Schema<FetchSettings> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      timeOfDay: Schema.optional(TimeOfDay),
+      enabled: Schema.optional(Schema.Boolean),
+      password: Schema.optional(Schema.String),
+      username: Schema.optional(Schema.String),
+      timeZone: Schema.optional(Schema.String),
+      frequency: Schema.optional(Schema.String),
+      dayOfMonth: Schema.optional(Schema.Number),
+      dayOfWeek: Schema.optional(Schema.String),
+      fetchUri: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "DefaultRule",
-  }) as any as Schema.Schema<DefaultRule>;
+    identifier: "FetchSettings",
+  }) as any as Schema.Schema<FetchSettings>;
+
+export interface FileInput {
+  /** Optional. The file name of the data source. Required for `UPLOAD` file input type. */
+  fileName?: string;
+  /** Optional. Fetch details to deliver the data source. It contains settings for `FETCH` and `GOOGLE_SHEETS` file input types. The required fields vary based on the frequency of fetching. */
+  fetchSettings?: FetchSettings;
+  /** Output only. The type of file input. */
+  fileInputType?:
+    | "FILE_INPUT_TYPE_UNSPECIFIED"
+    | "UPLOAD"
+    | "FETCH"
+    | "GOOGLE_SHEETS"
+    | (string & {});
+}
+
+export const FileInput: Schema.Schema<FileInput> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      fileName: Schema.optional(Schema.String),
+      fetchSettings: Schema.optional(FetchSettings),
+      fileInputType: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FileInput" }) as any as Schema.Schema<FileInput>;
+
+export interface ProductChange {
+  /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
+  oldValue?: string;
+  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
+  newValue?: string;
+  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
+  regionCode?: string;
+  /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
+  reportingContext?:
+    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
+    | "SHOPPING_ADS"
+    | "DISCOVERY_ADS"
+    | "DEMAND_GEN_ADS"
+    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
+    | "VIDEO_ADS"
+    | "DISPLAY_ADS"
+    | "LOCAL_INVENTORY_ADS"
+    | "VEHICLE_INVENTORY_ADS"
+    | "FREE_LISTINGS"
+    | "FREE_LISTINGS_UCP_CHECKOUT"
+    | "FREE_LOCAL_LISTINGS"
+    | "FREE_LOCAL_VEHICLE_LISTINGS"
+    | "YOUTUBE_AFFILIATE"
+    | "YOUTUBE_SHOPPING"
+    | "CLOUD_RETAIL"
+    | "LOCAL_CLOUD_RETAIL"
+    | "PRODUCT_REVIEWS"
+    | "MERCHANT_REVIEWS"
+    | "YOUTUBE_CHECKOUT"
+    | (string & {});
+}
+
+export const ProductChange: Schema.Schema<ProductChange> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      oldValue: Schema.optional(Schema.String),
+      newValue: Schema.optional(Schema.String),
+      regionCode: Schema.optional(Schema.String),
+      reportingContext: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductChange",
+  }) as any as Schema.Schema<ProductChange>;
 
 export interface Destination {
   /** [Marketing methods](https://support.google.com/merchants/answer/15130232) (also known as destination) selections. */
@@ -229,17 +210,106 @@ export const Destination: Schema.Schema<Destination> =
     identifier: "Destination",
   }) as any as Schema.Schema<Destination>;
 
+export interface Issue {
+  /** Output only. The code of the error, for example, "validation/invalid_value". Returns "?" if the code is unknown. */
+  code?: string;
+  /** Output only. The severity of the issue. */
+  severity?: "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR" | (string & {});
+  /** Output only. The title of the issue, for example, "Item too big". */
+  title?: string;
+  /** Output only. The number of occurrences of the error in the file upload. */
+  count?: string;
+  /** Output only. The error description, for example, "Your data source contains items which have too many attributes, or are too big. These items will be dropped". */
+  description?: string;
+  /** Output only. Link to the documentation explaining the issue in more details, if available. */
+  documentationUri?: string;
+}
+
+export const Issue: Schema.Schema<Issue> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      code: Schema.optional(Schema.String),
+      severity: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+      count: Schema.optional(Schema.String),
+      description: Schema.optional(Schema.String),
+      documentationUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
+
+export interface FileUpload {
+  /** Output only. The data source id. */
+  dataSourceId?: string;
+  /** Identifier. The name of the data source file upload. Format: `{datasource.name=accounts/{account}/dataSources/{datasource}/fileUploads/{fileupload}}` */
+  name?: string;
+  /** Output only. The processing state of the data source. */
+  processingState?:
+    | "PROCESSING_STATE_UNSPECIFIED"
+    | "FAILED"
+    | "IN_PROGRESS"
+    | "SUCCEEDED"
+    | (string & {});
+  /** Output only. The number of items in the data source that were created. */
+  itemsCreated?: string;
+  /** Output only. The number of items in the data source that were updated. */
+  itemsUpdated?: string;
+  /** Output only. The date at which the file of the data source was uploaded. */
+  uploadTime?: string;
+  /** Output only. The list of issues occurring in the data source. */
+  issues?: Array<Issue>;
+  /** Output only. The number of items in the data source that were processed. */
+  itemsTotal?: string;
+}
+
+export const FileUpload: Schema.Schema<FileUpload> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      dataSourceId: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      processingState: Schema.optional(Schema.String),
+      itemsCreated: Schema.optional(Schema.String),
+      itemsUpdated: Schema.optional(Schema.String),
+      uploadTime: Schema.optional(Schema.String),
+      issues: Schema.optional(Schema.Array(Issue)),
+      itemsTotal: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "FileUpload" }) as any as Schema.Schema<FileUpload>;
+
+export interface DataSourceReference {
+  /** Optional. The name of the supplemental data source. Format: `accounts/{account}/dataSources/{datasource}` */
+  supplementalDataSourceName?: string;
+  /** Optional. The name of the primary data source. Format: `accounts/{account}/dataSources/{datasource}` */
+  primaryDataSourceName?: string;
+  /** Self should be used to reference the primary data source itself. */
+  self?: boolean;
+}
+
+export const DataSourceReference: Schema.Schema<DataSourceReference> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      supplementalDataSourceName: Schema.optional(Schema.String),
+      primaryDataSourceName: Schema.optional(Schema.String),
+      self: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "DataSourceReference",
+  }) as any as Schema.Schema<DataSourceReference>;
+
+export interface DefaultRule {
+  /** Required. The list of data sources linked in the [default rule](https://support.google.com/merchants/answer/7450276). This list is ordered by the default rule priority of joining the data. It might include none or multiple references to `self` and supplemental data sources. The list must not be empty. To link the data source to the default rule, you need to add a new reference to this list (in sequential order). To unlink the data source from the default rule, you need to remove the given reference from this list. Changing the order of this list will result in changing the priority of data sources in the default rule. For example, providing the following list: [`1001`, `self`] will take attribute values from supplemental data source `1001`, and fallback to `self` if the attribute is not set in `1001`. */
+  takeFromDataSources?: Array<DataSourceReference>;
+}
+
+export const DefaultRule: Schema.Schema<DefaultRule> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      takeFromDataSources: Schema.optional(Schema.Array(DataSourceReference)),
+    }),
+  ).annotate({
+    identifier: "DefaultRule",
+  }) as any as Schema.Schema<DefaultRule>;
+
 export interface PrimaryProductDataSource {
-  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
-  contentLanguage?: string;
-  /** Optional. Default rule management of the data source. If set, the linked data sources will be replaced. */
-  defaultRule?: DefaultRule;
-  /** Optional. A list of destinations describing where products of the data source can be shown. When retrieving the data source, the list contains all the destinations that can be used for the data source, including the ones that are disabled for the data source but enabled for the account. Only destinations that are enabled on the account, for example through program participation, can be enabled on the data source. If unset, during creation, the destinations will be inherited based on the account level program participation. If set, during creation or update, the data source will be set only for the specified destinations. Updating this field requires at least one destination. */
-  destinations?: Array<Destination>;
-  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). For more information about feed label, see [Create a primary data source for products](https://developers.google.com/merchant/api/guides/data-sources/api-sources#create-primary-data-source). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
-  feedLabel?: string;
-  /** Optional. The countries where the items may be displayed. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
-  countries?: Array<string>;
   /** Optional. Immutable. Specifies the type of data source channel. */
   channel?:
     | "CHANNEL_UNSPECIFIED"
@@ -247,21 +317,76 @@ export interface PrimaryProductDataSource {
     | "LOCAL_PRODUCTS"
     | "PRODUCTS"
     | (string & {});
+  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). For more information about feed label, see [Create a primary data source for products](https://developers.google.com/merchant/api/guides/data-sources/api-sources#create-primary-data-source). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
+  feedLabel?: string;
+  /** Optional. Default rule management of the data source. If set, the linked data sources will be replaced. */
+  defaultRule?: DefaultRule;
+  /** Optional. A list of destinations describing where products of the data source can be shown. When retrieving the data source, the list contains all the destinations that can be used for the data source, including the ones that are disabled for the data source but enabled for the account. Only destinations that are enabled on the account, for example through program participation, can be enabled on the data source. If unset, during creation, the destinations will be inherited based on the account level program participation. If set, during creation or update, the data source will be set only for the specified destinations. Updating this field requires at least one destination. */
+  destinations?: Array<Destination>;
+  /** Optional. The countries where the items may be displayed. Represented as a [CLDR territory code](https://github.com/unicode-org/cldr/blob/latest/common/main/en.xml). */
+  countries?: Array<string>;
+  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept products without that restriction. */
+  contentLanguage?: string;
 }
 
 export const PrimaryProductDataSource: Schema.Schema<PrimaryProductDataSource> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      contentLanguage: Schema.optional(Schema.String),
+      channel: Schema.optional(Schema.String),
+      feedLabel: Schema.optional(Schema.String),
       defaultRule: Schema.optional(DefaultRule),
       destinations: Schema.optional(Schema.Array(Destination)),
-      feedLabel: Schema.optional(Schema.String),
       countries: Schema.optional(Schema.Array(Schema.String)),
-      channel: Schema.optional(Schema.String),
+      contentLanguage: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "PrimaryProductDataSource",
   }) as any as Schema.Schema<PrimaryProductDataSource>;
+
+export interface FetchDataSourceRequest {}
+
+export const FetchDataSourceRequest: Schema.Schema<FetchDataSourceRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "FetchDataSourceRequest",
+  }) as any as Schema.Schema<FetchDataSourceRequest>;
+
+export interface ProductStatusChangeMessage {
+  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
+  eventTime?: string;
+  /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
+  account?: string;
+  /** The attribute in the resource that changed, in this case it will be always `Status`. */
+  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
+  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
+  managingAccount?: string;
+  /** The resource that changed, in this case it will always be `Product`. */
+  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
+  /** A message to describe the change that happened to the product */
+  changes?: Array<ProductChange>;
+  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
+  expirationTime?: string;
+  /** The product name. Format: `accounts/{account}/products/{product}` */
+  resource?: string;
+  /** The product id. */
+  resourceId?: string;
+}
+
+export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      eventTime: Schema.optional(Schema.String),
+      account: Schema.optional(Schema.String),
+      attribute: Schema.optional(Schema.String),
+      managingAccount: Schema.optional(Schema.String),
+      resourceType: Schema.optional(Schema.String),
+      changes: Schema.optional(Schema.Array(ProductChange)),
+      expirationTime: Schema.optional(Schema.String),
+      resource: Schema.optional(Schema.String),
+      resourceId: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ProductStatusChangeMessage",
+  }) as any as Schema.Schema<ProductStatusChangeMessage>;
 
 export interface MerchantReviewDataSource {}
 
@@ -287,6 +412,13 @@ export const LocalInventoryDataSource: Schema.Schema<LocalInventoryDataSource> =
     identifier: "LocalInventoryDataSource",
   }) as any as Schema.Schema<LocalInventoryDataSource>;
 
+export interface ProductReviewDataSource {}
+
+export const ProductReviewDataSource: Schema.Schema<ProductReviewDataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "ProductReviewDataSource",
+  }) as any as Schema.Schema<ProductReviewDataSource>;
+
 export interface RegionalInventoryDataSource {
   /** Required. Immutable. The feed label of the offers to which the regional inventory is provided. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). */
   feedLabel?: string;
@@ -304,7 +436,51 @@ export const RegionalInventoryDataSource: Schema.Schema<RegionalInventoryDataSou
     identifier: "RegionalInventoryDataSource",
   }) as any as Schema.Schema<RegionalInventoryDataSource>;
 
+export interface SupplementalProductDataSource {
+  /** Optional. Immutable. The feed label that is specified on the data source level. Must be less than or equal to 20 uppercase letters (A-Z), numbers (0-9), and dashes (-). `feedLabel` and `contentLanguage` must be either both set or unset for data sources with product content type. They must be set for data sources with a file input. The fields must be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept produts without that restriction. */
+  feedLabel?: string;
+  /** Output only. The (unordered and deduplicated) list of all primary data sources linked to this data source in either default or custom rules. Supplemental data source cannot be deleted before all links are removed. */
+  referencingPrimaryDataSources?: Array<DataSourceReference>;
+  /** Optional. Immutable. The two-letter ISO 639-1 language of the items in the data source. `feedLabel` and `contentLanguage` must be either both set or unset. The fields can only be unset for data sources without file input. If set, the data source will only accept products matching this combination. If unset, the data source will accept produts without that restriction. */
+  contentLanguage?: string;
+}
+
+export const SupplementalProductDataSource: Schema.Schema<SupplementalProductDataSource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      feedLabel: Schema.optional(Schema.String),
+      referencingPrimaryDataSources: Schema.optional(
+        Schema.Array(DataSourceReference),
+      ),
+      contentLanguage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "SupplementalProductDataSource",
+  }) as any as Schema.Schema<SupplementalProductDataSource>;
+
 export interface DataSource {
+  /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
+  name?: string;
+  /** Optional. The field is used only when data is managed through a file. */
+  fileInput?: FileInput;
+  /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
+  primaryProductDataSource?: PrimaryProductDataSource;
+  /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
+  regionalInventoryDataSource?: RegionalInventoryDataSource;
+  /** Required. The displayed data source name in the Merchant Center UI. */
+  displayName?: string;
+  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
+  localInventoryDataSource?: LocalInventoryDataSource;
+  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
+  promotionDataSource?: PromotionDataSource;
+  /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
+  productReviewDataSource?: ProductReviewDataSource;
+  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
+  merchantReviewDataSource?: MerchantReviewDataSource;
+  /** The [supplemental data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
+  supplementalProductDataSource?: SupplementalProductDataSource;
+  /** Output only. The data source id. */
+  dataSourceId?: string;
   /** Output only. Determines the type of input to the data source. Based on the input some settings might not work. Only generic data sources can be created through the API. */
   input?:
     | "INPUT_UNSPECIFIED"
@@ -313,76 +489,27 @@ export interface DataSource {
     | "UI"
     | "AUTOFEED"
     | (string & {});
-  /** The [product review](https://support.google.com/merchants/answer/7045996) data source. */
-  productReviewDataSource?: ProductReviewDataSource;
-  /** The [supplemental data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  supplementalProductDataSource?: SupplementalProductDataSource;
-  /** Required. The displayed data source name in the Merchant Center UI. */
-  displayName?: string;
-  /** The [promotion](https://support.google.com/merchants/answer/2906014) data source. */
-  promotionDataSource?: PromotionDataSource;
-  /** The [primary data source](https://support.google.com/merchants/answer/7439058) for local and online products. */
-  primaryProductDataSource?: PrimaryProductDataSource;
-  /** The [merchant review](https://support.google.com/merchants/answer/7045996) data source. */
-  merchantReviewDataSource?: MerchantReviewDataSource;
-  /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
-  name?: string;
-  /** Output only. The data source id. */
-  dataSourceId?: string;
-  /** The [local inventory](https://support.google.com/merchants/answer/7023001) data source. */
-  localInventoryDataSource?: LocalInventoryDataSource;
-  /** The [regional inventory](https://support.google.com/merchants/answer/7439058) data source. */
-  regionalInventoryDataSource?: RegionalInventoryDataSource;
-  /** Optional. The field is used only when data is managed through a file. */
-  fileInput?: FileInput;
 }
 
 export const DataSource: Schema.Schema<DataSource> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      input: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      fileInput: Schema.optional(FileInput),
+      primaryProductDataSource: Schema.optional(PrimaryProductDataSource),
+      regionalInventoryDataSource: Schema.optional(RegionalInventoryDataSource),
+      displayName: Schema.optional(Schema.String),
+      localInventoryDataSource: Schema.optional(LocalInventoryDataSource),
+      promotionDataSource: Schema.optional(PromotionDataSource),
       productReviewDataSource: Schema.optional(ProductReviewDataSource),
+      merchantReviewDataSource: Schema.optional(MerchantReviewDataSource),
       supplementalProductDataSource: Schema.optional(
         SupplementalProductDataSource,
       ),
-      displayName: Schema.optional(Schema.String),
-      promotionDataSource: Schema.optional(PromotionDataSource),
-      primaryProductDataSource: Schema.optional(PrimaryProductDataSource),
-      merchantReviewDataSource: Schema.optional(MerchantReviewDataSource),
-      name: Schema.optional(Schema.String),
       dataSourceId: Schema.optional(Schema.String),
-      localInventoryDataSource: Schema.optional(LocalInventoryDataSource),
-      regionalInventoryDataSource: Schema.optional(RegionalInventoryDataSource),
-      fileInput: Schema.optional(FileInput),
+      input: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "DataSource" }) as any as Schema.Schema<DataSource>;
-
-export interface Issue {
-  /** Output only. The number of occurrences of the error in the file upload. */
-  count?: string;
-  /** Output only. Link to the documentation explaining the issue in more details, if available. */
-  documentationUri?: string;
-  /** Output only. The error description, for example, "Your data source contains items which have too many attributes, or are too big. These items will be dropped". */
-  description?: string;
-  /** Output only. The code of the error, for example, "validation/invalid_value". Returns "?" if the code is unknown. */
-  code?: string;
-  /** Output only. The title of the issue, for example, "Item too big". */
-  title?: string;
-  /** Output only. The severity of the issue. */
-  severity?: "SEVERITY_UNSPECIFIED" | "WARNING" | "ERROR" | (string & {});
-}
-
-export const Issue: Schema.Schema<Issue> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      count: Schema.optional(Schema.String),
-      documentationUri: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      code: Schema.optional(Schema.String),
-      title: Schema.optional(Schema.String),
-      severity: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Issue" }) as any as Schema.Schema<Issue>;
 
 export interface ListDataSourcesResponse {
   /** The data sources from the specified account. */
@@ -401,95 +528,6 @@ export const ListDataSourcesResponse: Schema.Schema<ListDataSourcesResponse> =
     identifier: "ListDataSourcesResponse",
   }) as any as Schema.Schema<ListDataSourcesResponse>;
 
-export interface ProductChange {
-  /** Countries that have the change (if applicable). Represented in the ISO 3166 format. */
-  regionCode?: string;
-  /** Reporting contexts that have the change (if applicable). Currently this field supports only (`SHOPPING_ADS`, `LOCAL_INVENTORY_ADS`, `YOUTUBE_SHOPPING`, `YOUTUBE_CHECKOUT`, `YOUTUBE_AFFILIATE`) from the enum value [ReportingContextEnum](/merchant/api/reference/rest/Shared.Types/ReportingContextEnum) */
-  reportingContext?:
-    | "REPORTING_CONTEXT_ENUM_UNSPECIFIED"
-    | "SHOPPING_ADS"
-    | "DISCOVERY_ADS"
-    | "DEMAND_GEN_ADS"
-    | "DEMAND_GEN_ADS_DISCOVER_SURFACE"
-    | "VIDEO_ADS"
-    | "DISPLAY_ADS"
-    | "LOCAL_INVENTORY_ADS"
-    | "VEHICLE_INVENTORY_ADS"
-    | "FREE_LISTINGS"
-    | "FREE_LISTINGS_UCP_CHECKOUT"
-    | "FREE_LOCAL_LISTINGS"
-    | "FREE_LOCAL_VEHICLE_LISTINGS"
-    | "YOUTUBE_AFFILIATE"
-    | "YOUTUBE_SHOPPING"
-    | "CLOUD_RETAIL"
-    | "LOCAL_CLOUD_RETAIL"
-    | "PRODUCT_REVIEWS"
-    | "MERCHANT_REVIEWS"
-    | "YOUTUBE_CHECKOUT"
-    | (string & {});
-  /** The old value of the changed resource or attribute. If empty, it means that the product was created. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
-  oldValue?: string;
-  /** The new value of the changed resource or attribute. If empty, it means that the product was deleted. Will have one of these values : (`approved`, `pending`, `disapproved`, ``) */
-  newValue?: string;
-}
-
-export const ProductChange: Schema.Schema<ProductChange> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      regionCode: Schema.optional(Schema.String),
-      reportingContext: Schema.optional(Schema.String),
-      oldValue: Schema.optional(Schema.String),
-      newValue: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ProductChange",
-  }) as any as Schema.Schema<ProductChange>;
-
-export interface FileUpload {
-  /** Output only. The number of items in the data source that were updated. */
-  itemsUpdated?: string;
-  /** Output only. The processing state of the data source. */
-  processingState?:
-    | "PROCESSING_STATE_UNSPECIFIED"
-    | "FAILED"
-    | "IN_PROGRESS"
-    | "SUCCEEDED"
-    | (string & {});
-  /** Output only. The list of issues occurring in the data source. */
-  issues?: Array<Issue>;
-  /** Output only. The date at which the file of the data source was uploaded. */
-  uploadTime?: string;
-  /** Identifier. The name of the data source file upload. Format: `{datasource.name=accounts/{account}/dataSources/{datasource}/fileUploads/{fileupload}}` */
-  name?: string;
-  /** Output only. The data source id. */
-  dataSourceId?: string;
-  /** Output only. The number of items in the data source that were processed. */
-  itemsTotal?: string;
-  /** Output only. The number of items in the data source that were created. */
-  itemsCreated?: string;
-}
-
-export const FileUpload: Schema.Schema<FileUpload> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      itemsUpdated: Schema.optional(Schema.String),
-      processingState: Schema.optional(Schema.String),
-      issues: Schema.optional(Schema.Array(Issue)),
-      uploadTime: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      dataSourceId: Schema.optional(Schema.String),
-      itemsTotal: Schema.optional(Schema.String),
-      itemsCreated: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "FileUpload" }) as any as Schema.Schema<FileUpload>;
-
-export interface FetchDataSourceRequest {}
-
-export const FetchDataSourceRequest: Schema.Schema<FetchDataSourceRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "FetchDataSourceRequest",
-  }) as any as Schema.Schema<FetchDataSourceRequest>;
-
 export interface Empty {}
 
 export const Empty: Schema.Schema<Empty> =
@@ -497,90 +535,42 @@ export const Empty: Schema.Schema<Empty> =
     identifier: "Empty",
   }) as any as Schema.Schema<Empty>;
 
-export interface ProductStatusChangeMessage {
-  /** The account that manages the merchant's account. can be the same as merchant id if it is standalone account. Format : `accounts/{service_provider_id}` */
-  managingAccount?: string;
-  /** The product name. Format: `accounts/{account}/products/{product}` */
-  resource?: string;
-  /** The resource that changed, in this case it will always be `Product`. */
-  resourceType?: "RESOURCE_UNSPECIFIED" | "PRODUCT" | (string & {});
-  /** The target account that owns the entity that changed. Format : `accounts/{merchant_id}` */
-  account?: string;
-  /** The product id. */
-  resourceId?: string;
-  /** A message to describe the change that happened to the product */
-  changes?: Array<ProductChange>;
-  /** The time at which the event was generated. If you want to order the notification messages you receive you should rely on this field not on the order of receiving the notifications. */
-  eventTime?: string;
-  /** Optional. The product expiration time. This field will not be set if the notification is sent for a product deletion event. */
-  expirationTime?: string;
-  /** The attribute in the resource that changed, in this case it will be always `Status`. */
-  attribute?: "ATTRIBUTE_UNSPECIFIED" | "STATUS" | (string & {});
-}
-
-export const ProductStatusChangeMessage: Schema.Schema<ProductStatusChangeMessage> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      managingAccount: Schema.optional(Schema.String),
-      resource: Schema.optional(Schema.String),
-      resourceType: Schema.optional(Schema.String),
-      account: Schema.optional(Schema.String),
-      resourceId: Schema.optional(Schema.String),
-      changes: Schema.optional(Schema.Array(ProductChange)),
-      eventTime: Schema.optional(Schema.String),
-      expirationTime: Schema.optional(Schema.String),
-      attribute: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ProductStatusChangeMessage",
-  }) as any as Schema.Schema<ProductStatusChangeMessage>;
-
 // ==========================================================================
 // Operations
 // ==========================================================================
 
-export interface ListAccountsDataSourcesRequest {
-  /** Optional. The maximum number of data sources to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the maximum number of data sources will be returned. */
-  pageSize?: number;
-  /** Required. The account to list data sources for. Format: `accounts/{account}` */
-  parent: string;
-  /** Optional. A page token, received from a previous `ListDataSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSources` must match the call that provided the page token. */
-  pageToken?: string;
+export interface GetAccountsDataSourcesRequest {
+  /** Required. The name of the data source to retrieve. Format: `accounts/{account}/dataSources/{datasource}` */
+  name: string;
 }
 
-export const ListAccountsDataSourcesRequest =
+export const GetAccountsDataSourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    name: Schema.String.pipe(T.HttpPath("name")),
   }).pipe(
     T.Http({
       method: "GET",
-      path: "datasources/v1beta/accounts/{accountsId}/dataSources",
+      path: "datasources/v1beta/accounts/{accountsId}/dataSources/{dataSourcesId}",
     }),
     svc,
-  ) as unknown as Schema.Schema<ListAccountsDataSourcesRequest>;
+  ) as unknown as Schema.Schema<GetAccountsDataSourcesRequest>;
 
-export type ListAccountsDataSourcesResponse = ListDataSourcesResponse;
-export const ListAccountsDataSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
+export type GetAccountsDataSourcesResponse = DataSource;
+export const GetAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
 
-export type ListAccountsDataSourcesError = DefaultErrors;
+export type GetAccountsDataSourcesError = DefaultErrors;
 
-/** Lists the configurations for data sources for the given account. */
-export const listAccountsDataSources: API.PaginatedOperationMethod<
-  ListAccountsDataSourcesRequest,
-  ListAccountsDataSourcesResponse,
-  ListAccountsDataSourcesError,
+/** Retrieves the data source configuration for the given account. */
+export const getAccountsDataSources: API.OperationMethod<
+  GetAccountsDataSourcesRequest,
+  GetAccountsDataSourcesResponse,
+  GetAccountsDataSourcesError,
   Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListAccountsDataSourcesRequest,
-  output: ListAccountsDataSourcesResponse,
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAccountsDataSourcesRequest,
+  output: GetAccountsDataSourcesResponse,
   errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));
 
 export interface FetchAccountsDataSourcesRequest {
@@ -621,91 +611,19 @@ export const fetchAccountsDataSources: API.OperationMethod<
   errors: [],
 }));
 
-export interface GetAccountsDataSourcesRequest {
-  /** Required. The name of the data source to retrieve. Format: `accounts/{account}/dataSources/{datasource}` */
-  name: string;
-}
-
-export const GetAccountsDataSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "datasources/v1beta/accounts/{accountsId}/dataSources/{dataSourcesId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetAccountsDataSourcesRequest>;
-
-export type GetAccountsDataSourcesResponse = DataSource;
-export const GetAccountsDataSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ DataSource;
-
-export type GetAccountsDataSourcesError = DefaultErrors;
-
-/** Retrieves the data source configuration for the given account. */
-export const getAccountsDataSources: API.OperationMethod<
-  GetAccountsDataSourcesRequest,
-  GetAccountsDataSourcesResponse,
-  GetAccountsDataSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetAccountsDataSourcesRequest,
-  output: GetAccountsDataSourcesResponse,
-  errors: [],
-}));
-
-export interface CreateAccountsDataSourcesRequest {
-  /** Required. The account where this data source will be created. Format: `accounts/{account}` */
-  parent: string;
-  /** Request body */
-  body?: DataSource;
-}
-
-export const CreateAccountsDataSourcesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    body: Schema.optional(DataSource).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "datasources/v1beta/accounts/{accountsId}/dataSources",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateAccountsDataSourcesRequest>;
-
-export type CreateAccountsDataSourcesResponse = DataSource;
-export const CreateAccountsDataSourcesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ DataSource;
-
-export type CreateAccountsDataSourcesError = DefaultErrors;
-
-/** Creates the new data source configuration for the given account. This method always creates a new data source. */
-export const createAccountsDataSources: API.OperationMethod<
-  CreateAccountsDataSourcesRequest,
-  CreateAccountsDataSourcesResponse,
-  CreateAccountsDataSourcesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateAccountsDataSourcesRequest,
-  output: CreateAccountsDataSourcesResponse,
-  errors: [],
-}));
-
 export interface PatchAccountsDataSourcesRequest {
-  /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
-  name: string;
   /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
   updateMask?: string;
+  /** Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
+  name: string;
   /** Request body */
   body?: DataSource;
 }
 
 export const PatchAccountsDataSourcesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
     updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
     body: Schema.optional(DataSource).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
@@ -766,6 +684,88 @@ export const deleteAccountsDataSources: API.OperationMethod<
   input: DeleteAccountsDataSourcesRequest,
   output: DeleteAccountsDataSourcesResponse,
   errors: [],
+}));
+
+export interface CreateAccountsDataSourcesRequest {
+  /** Required. The account where this data source will be created. Format: `accounts/{account}` */
+  parent: string;
+  /** Request body */
+  body?: DataSource;
+}
+
+export const CreateAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    body: Schema.optional(DataSource).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "datasources/v1beta/accounts/{accountsId}/dataSources",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateAccountsDataSourcesRequest>;
+
+export type CreateAccountsDataSourcesResponse = DataSource;
+export const CreateAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DataSource;
+
+export type CreateAccountsDataSourcesError = DefaultErrors;
+
+/** Creates the new data source configuration for the given account. This method always creates a new data source. */
+export const createAccountsDataSources: API.OperationMethod<
+  CreateAccountsDataSourcesRequest,
+  CreateAccountsDataSourcesResponse,
+  CreateAccountsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateAccountsDataSourcesRequest,
+  output: CreateAccountsDataSourcesResponse,
+  errors: [],
+}));
+
+export interface ListAccountsDataSourcesRequest {
+  /** Required. The account to list data sources for. Format: `accounts/{account}` */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListDataSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDataSources` must match the call that provided the page token. */
+  pageToken?: string;
+  /** Optional. The maximum number of data sources to return. The service may return fewer than this value. The maximum value is 1000; values above 1000 will be coerced to 1000. If unspecified, the maximum number of data sources will be returned. */
+  pageSize?: number;
+}
+
+export const ListAccountsDataSourcesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "datasources/v1beta/accounts/{accountsId}/dataSources",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListAccountsDataSourcesRequest>;
+
+export type ListAccountsDataSourcesResponse = ListDataSourcesResponse;
+export const ListAccountsDataSourcesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListDataSourcesResponse;
+
+export type ListAccountsDataSourcesError = DefaultErrors;
+
+/** Lists the configurations for data sources for the given account. */
+export const listAccountsDataSources: API.PaginatedOperationMethod<
+  ListAccountsDataSourcesRequest,
+  ListAccountsDataSourcesResponse,
+  ListAccountsDataSourcesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAccountsDataSourcesRequest,
+  output: ListAccountsDataSourcesResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
 }));
 
 export interface GetAccountsDataSourcesFileUploadsRequest {

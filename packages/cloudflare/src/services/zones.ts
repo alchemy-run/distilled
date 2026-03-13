@@ -645,7 +645,9 @@ export const listPlans: API.PaginatedOperationMethod<
     ListPlansError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListPlansRequest) => stream.Stream<
+  items: (
+    input: ListPlansRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       canSubscribe?: boolean | null;
@@ -772,7 +774,9 @@ export const getRatePlan: API.PaginatedOperationMethod<
     GetRatePlanError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: GetRatePlanRequest) => stream.Stream<
+  items: (
+    input: GetRatePlanRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       components?:
@@ -4516,7 +4520,9 @@ export const listZones: API.PaginatedOperationMethod<
     ListZonesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListZonesRequest) => stream.Stream<
+  items: (
+    input: ListZonesRequest,
+  ) => stream.Stream<
     {
       id: string;
       account: { id?: string | null; name?: string | null };

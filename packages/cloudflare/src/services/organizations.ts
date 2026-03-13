@@ -260,7 +260,9 @@ export const listOrganizations: API.PaginatedOperationMethod<
     ListOrganizationsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListOrganizationsRequest) => stream.Stream<
+  items: (
+    input: ListOrganizationsRequest,
+  ) => stream.Stream<
     {
       id: string;
       createTime: string;

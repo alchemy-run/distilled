@@ -51,7 +51,7 @@ export type MachinesOrgListOutput = typeof MachinesOrgListOutput.Type;
  * @param state - Comma separated list of states to filter (created, started, stopped, suspended)
  * @param updated_after - Only return machines updated after this time. Timestamp must be in the RFC 3339 format
  * @param cursor - Pagination cursor from previous response (takes precedence over updated_after)
- * @param limit - The number of machines to fetch (max of 1000). If omitted, this is set to 500 by default
+ * @param limit - The number of machines to fetch (max of 2000). This limit is advisory. Responses may be shorter, even when more machines remain. If omitted, the maximum is used
  */
 export const MachinesOrgList = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   inputSchema: MachinesOrgListInput,

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const UpdateWebhookSubscriptionInput =
@@ -33,10 +34,10 @@ export const UpdateWebhookSubscriptionOutput =
     isEnabled: Schema.Boolean,
     metadata: Schema.optional(
       Schema.Struct({
-        secret: Schema.optional(Schema.String),
+        secret: Schema.optional(SensitiveString),
       }),
     ),
-    secret: Schema.String,
+    secret: SensitiveString,
     subscriptionId: Schema.String,
     target: Schema.Struct({
       url: Schema.Struct({}),

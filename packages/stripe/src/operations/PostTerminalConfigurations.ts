@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const PostTerminalConfigurationsInput =
@@ -341,7 +342,7 @@ export const PostTerminalConfigurationsOutput =
         enterprise_eap_peap: Schema.optional(
           Schema.Struct({
             ca_certificate_file: Schema.optional(Schema.String),
-            password: Schema.String,
+            password: SensitiveString,
             ssid: Schema.String,
             username: Schema.String,
           }),
@@ -351,13 +352,13 @@ export const PostTerminalConfigurationsOutput =
             ca_certificate_file: Schema.optional(Schema.String),
             client_certificate_file: Schema.String,
             private_key_file: Schema.String,
-            private_key_file_password: Schema.optional(Schema.String),
+            private_key_file_password: Schema.optional(SensitiveString),
             ssid: Schema.String,
           }),
         ),
         personal_psk: Schema.optional(
           Schema.Struct({
-            password: Schema.String,
+            password: SensitiveString,
             ssid: Schema.String,
           }),
         ),

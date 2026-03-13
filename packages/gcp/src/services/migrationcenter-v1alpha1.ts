@@ -2133,6 +2133,83 @@ export const AwsNatGatewayDetails: Schema.Schema<AwsNatGatewayDetails> =
     identifier: "AwsNatGatewayDetails",
   }) as any as Schema.Schema<AwsNatGatewayDetails>;
 
+export interface AwsEcrRepositoryDetails {}
+
+export const AwsEcrRepositoryDetails: Schema.Schema<AwsEcrRepositoryDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsEcrRepositoryDetails",
+  }) as any as Schema.Schema<AwsEcrRepositoryDetails>;
+
+export interface AwsAutoscalingGroupDetails {}
+
+export const AwsAutoscalingGroupDetails: Schema.Schema<AwsAutoscalingGroupDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsAutoscalingGroupDetails",
+  }) as any as Schema.Schema<AwsAutoscalingGroupDetails>;
+
+export interface AwsElasticIpAddressDetails {}
+
+export const AwsElasticIpAddressDetails: Schema.Schema<AwsElasticIpAddressDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsElasticIpAddressDetails",
+  }) as any as Schema.Schema<AwsElasticIpAddressDetails>;
+
+export interface AwsElasticNetworkInterfaceDetails {}
+
+export const AwsElasticNetworkInterfaceDetails: Schema.Schema<AwsElasticNetworkInterfaceDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsElasticNetworkInterfaceDetails",
+  }) as any as Schema.Schema<AwsElasticNetworkInterfaceDetails>;
+
+export interface AwsEbsVolumeDetails {}
+
+export const AwsEbsVolumeDetails: Schema.Schema<AwsEbsVolumeDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsEbsVolumeDetails",
+  }) as any as Schema.Schema<AwsEbsVolumeDetails>;
+
+export interface AwsBatchComputeEnvironmentDetails {}
+
+export const AwsBatchComputeEnvironmentDetails: Schema.Schema<AwsBatchComputeEnvironmentDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsBatchComputeEnvironmentDetails",
+  }) as any as Schema.Schema<AwsBatchComputeEnvironmentDetails>;
+
+export interface AwsAppSyncGraphqlApiDetails {}
+
+export const AwsAppSyncGraphqlApiDetails: Schema.Schema<AwsAppSyncGraphqlApiDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsAppSyncGraphqlApiDetails",
+  }) as any as Schema.Schema<AwsAppSyncGraphqlApiDetails>;
+
+export interface AwsSnsTopicDetails {}
+
+export const AwsSnsTopicDetails: Schema.Schema<AwsSnsTopicDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsSnsTopicDetails",
+  }) as any as Schema.Schema<AwsSnsTopicDetails>;
+
+export interface AwsApiGatewayRestApiDetails {}
+
+export const AwsApiGatewayRestApiDetails: Schema.Schema<AwsApiGatewayRestApiDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsApiGatewayRestApiDetails",
+  }) as any as Schema.Schema<AwsApiGatewayRestApiDetails>;
+
+export interface AwsInternetGatewayDetails {}
+
+export const AwsInternetGatewayDetails: Schema.Schema<AwsInternetGatewayDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsInternetGatewayDetails",
+  }) as any as Schema.Schema<AwsInternetGatewayDetails>;
+
+export interface AwsApplicationLoadBalancerDetails {}
+
+export const AwsApplicationLoadBalancerDetails: Schema.Schema<AwsApplicationLoadBalancerDetails> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AwsApplicationLoadBalancerDetails",
+  }) as any as Schema.Schema<AwsApplicationLoadBalancerDetails>;
+
 export interface FitDescriptor {
   /** Output only. Fit level. */
   fitLevel?:
@@ -2774,6 +2851,28 @@ export interface Asset {
   awsRoute53HostedZoneDetails?: AwsRoute53HostedZoneDetails;
   /** Output only. Asset information specific for AwsNatGatewayDetails */
   awsNatGatewayDetails?: AwsNatGatewayDetails;
+  /** Output only. Asset information specific for AwsEcrRepositoryDetails */
+  awsEcrRepositoryDetails?: AwsEcrRepositoryDetails;
+  /** Output only. Asset information specific for AwsAutoscalingGroupDetails */
+  awsAutoscalingGroupDetails?: AwsAutoscalingGroupDetails;
+  /** Output only. Asset information specific for AWS Elastic IP Addresses. */
+  awsElasticIpAddressDetails?: AwsElasticIpAddressDetails;
+  /** Output only. Asset information specific for AWS Elastic Network Interfaces. */
+  awsElasticNetworkInterfaceDetails?: AwsElasticNetworkInterfaceDetails;
+  /** Output only. Asset information specific for AWS EBS Volumes. */
+  awsEbsVolumeDetails?: AwsEbsVolumeDetails;
+  /** Output only. Asset information specific for AWS Batch Compute Environments. */
+  awsBatchComputeEnvironmentDetails?: AwsBatchComputeEnvironmentDetails;
+  /** Output only. Asset information specific for AWS AppSync GraphQL APIs. */
+  awsAppSyncGraphqlApiDetails?: AwsAppSyncGraphqlApiDetails;
+  /** Output only. Asset information specific for AWS SNS Topics. */
+  awsSnsTopicDetails?: AwsSnsTopicDetails;
+  /** Output only. Asset information specific for AWS API Gateway REST APIs. */
+  awsApiGatewayRestApiDetails?: AwsApiGatewayRestApiDetails;
+  /** Output only. Asset information specific for AWS Internet Gateways. */
+  awsInternetGatewayDetails?: AwsInternetGatewayDetails;
+  /** Output only. Asset information specific for AWS Application Load Balancers. */
+  awsApplicationLoadBalancerDetails?: AwsApplicationLoadBalancerDetails;
   /** Output only. The list of insights associated with the asset. */
   insightList?: InsightList;
   /** Performance data for the asset. */
@@ -2821,6 +2920,23 @@ export const Asset: Schema.Schema<Asset> =
       awsDynamodbTableDetails: Schema.optional(AwsDynamoDBTableDetails),
       awsRoute53HostedZoneDetails: Schema.optional(AwsRoute53HostedZoneDetails),
       awsNatGatewayDetails: Schema.optional(AwsNatGatewayDetails),
+      awsEcrRepositoryDetails: Schema.optional(AwsEcrRepositoryDetails),
+      awsAutoscalingGroupDetails: Schema.optional(AwsAutoscalingGroupDetails),
+      awsElasticIpAddressDetails: Schema.optional(AwsElasticIpAddressDetails),
+      awsElasticNetworkInterfaceDetails: Schema.optional(
+        AwsElasticNetworkInterfaceDetails,
+      ),
+      awsEbsVolumeDetails: Schema.optional(AwsEbsVolumeDetails),
+      awsBatchComputeEnvironmentDetails: Schema.optional(
+        AwsBatchComputeEnvironmentDetails,
+      ),
+      awsAppSyncGraphqlApiDetails: Schema.optional(AwsAppSyncGraphqlApiDetails),
+      awsSnsTopicDetails: Schema.optional(AwsSnsTopicDetails),
+      awsApiGatewayRestApiDetails: Schema.optional(AwsApiGatewayRestApiDetails),
+      awsInternetGatewayDetails: Schema.optional(AwsInternetGatewayDetails),
+      awsApplicationLoadBalancerDetails: Schema.optional(
+        AwsApplicationLoadBalancerDetails,
+      ),
       insightList: Schema.optional(InsightList),
       performanceData: Schema.optional(AssetPerformanceData),
       sources: Schema.optional(Schema.Array(Schema.String)),
@@ -3064,6 +3180,28 @@ export interface AssetFrame {
   awsRoute53HostedZoneDetails?: AwsRoute53HostedZoneDetails;
   /** Asset information specific for AwsNatGatewayDetails */
   awsNatGatewayDetails?: AwsNatGatewayDetails;
+  /** Asset information specific for AwsEcrRepositoryDetails */
+  awsEcrRepositoryDetails?: AwsEcrRepositoryDetails;
+  /** Optional. Asset information specific for AwsAutoscalingGroupDetails */
+  awsAutoscalingGroupDetails?: AwsAutoscalingGroupDetails;
+  /** Optional. Asset information specific for AWS Elastic IP Addresses. */
+  awsElasticIpAddressDetails?: AwsElasticIpAddressDetails;
+  /** Optional. Asset information specific for AWS Elastic Network Interfaces. */
+  awsElasticNetworkInterfaceDetails?: AwsElasticNetworkInterfaceDetails;
+  /** Optional. Asset information specific for AWS EBS Volumes. */
+  awsEbsVolumeDetails?: AwsEbsVolumeDetails;
+  /** Optional. Asset information specific for AWS Batch Compute Environments. */
+  awsBatchComputeEnvironmentDetails?: AwsBatchComputeEnvironmentDetails;
+  /** Optional. Asset information specific for AWS AppSync GraphQL APIs. */
+  awsAppSyncGraphqlApiDetails?: AwsAppSyncGraphqlApiDetails;
+  /** Optional. Asset information specific for AWS SNS Topics. */
+  awsSnsTopicDetails?: AwsSnsTopicDetails;
+  /** Optional. Asset information specific for AWS API Gateway REST APIs. */
+  awsApiGatewayRestApiDetails?: AwsApiGatewayRestApiDetails;
+  /** Optional. Asset information specific for AWS Internet Gateways. */
+  awsInternetGatewayDetails?: AwsInternetGatewayDetails;
+  /** Optional. Asset information specific for AWS Application Load Balancers. */
+  awsApplicationLoadBalancerDetails?: AwsApplicationLoadBalancerDetails;
   /** The time the data was reported. */
   reportTime?: string;
   /** Labels as key value pairs. */
@@ -3110,6 +3248,23 @@ export const AssetFrame: Schema.Schema<AssetFrame> =
       awsDynamodbTableDetails: Schema.optional(AwsDynamoDBTableDetails),
       awsRoute53HostedZoneDetails: Schema.optional(AwsRoute53HostedZoneDetails),
       awsNatGatewayDetails: Schema.optional(AwsNatGatewayDetails),
+      awsEcrRepositoryDetails: Schema.optional(AwsEcrRepositoryDetails),
+      awsAutoscalingGroupDetails: Schema.optional(AwsAutoscalingGroupDetails),
+      awsElasticIpAddressDetails: Schema.optional(AwsElasticIpAddressDetails),
+      awsElasticNetworkInterfaceDetails: Schema.optional(
+        AwsElasticNetworkInterfaceDetails,
+      ),
+      awsEbsVolumeDetails: Schema.optional(AwsEbsVolumeDetails),
+      awsBatchComputeEnvironmentDetails: Schema.optional(
+        AwsBatchComputeEnvironmentDetails,
+      ),
+      awsAppSyncGraphqlApiDetails: Schema.optional(AwsAppSyncGraphqlApiDetails),
+      awsSnsTopicDetails: Schema.optional(AwsSnsTopicDetails),
+      awsApiGatewayRestApiDetails: Schema.optional(AwsApiGatewayRestApiDetails),
+      awsInternetGatewayDetails: Schema.optional(AwsInternetGatewayDetails),
+      awsApplicationLoadBalancerDetails: Schema.optional(
+        AwsApplicationLoadBalancerDetails,
+      ),
       reportTime: Schema.optional(Schema.String),
       labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       attributes: Schema.optional(Schema.Record(Schema.String, Schema.String)),
@@ -4286,6 +4441,26 @@ export const SoleTenancyPreferences: Schema.Schema<SoleTenancyPreferences> =
     identifier: "SoleTenancyPreferences",
   }) as any as Schema.Schema<SoleTenancyPreferences>;
 
+export interface EstimatedUsage {
+  /** Optional. Estimated CPU utilization percentage. Must be in the range [1, 100]. */
+  estimatedCpuPercentage?: number;
+  /** Optional. Estimated memory utilization percentage. Must be in the range [1, 100]. */
+  estimatedMemoryPercentage?: number;
+  /** Optional. Estimated disk utilization percentage. Must be in the range [1, 100]. */
+  estimatedDiskPercentage?: number;
+}
+
+export const EstimatedUsage: Schema.Schema<EstimatedUsage> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      estimatedCpuPercentage: Schema.optional(Schema.Number),
+      estimatedMemoryPercentage: Schema.optional(Schema.Number),
+      estimatedDiskPercentage: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "EstimatedUsage",
+  }) as any as Schema.Schema<EstimatedUsage>;
+
 export interface VirtualMachinePreferences {
   /** Target product for assets using this preference set. Specify either target product or business goal, but not both. */
   targetProduct?:
@@ -4323,6 +4498,8 @@ export interface VirtualMachinePreferences {
   vmwareEnginePreferences?: VmwareEnginePreferences;
   /** Preferences concerning Sole Tenant nodes and virtual machines. */
   soleTenancyPreferences?: SoleTenancyPreferences;
+  /** Optional. Estimated usage data for missing usage data. If performance data is available, it overrides this field. If not set, default values will be used for the usage data. */
+  estimatedUsage?: EstimatedUsage;
 }
 
 export const VirtualMachinePreferences: Schema.Schema<VirtualMachinePreferences> =
@@ -4341,6 +4518,7 @@ export const VirtualMachinePreferences: Schema.Schema<VirtualMachinePreferences>
       computeEnginePreferences: Schema.optional(ComputeEnginePreferences),
       vmwareEnginePreferences: Schema.optional(VmwareEnginePreferences),
       soleTenancyPreferences: Schema.optional(SoleTenancyPreferences),
+      estimatedUsage: Schema.optional(EstimatedUsage),
     }),
   ).annotate({
     identifier: "VirtualMachinePreferences",
@@ -4737,6 +4915,23 @@ export const ReportSummaryHistogramChartData: Schema.Schema<ReportSummaryHistogr
     identifier: "ReportSummaryHistogramChartData",
   }) as any as Schema.Schema<ReportSummaryHistogramChartData>;
 
+export interface ReportSummaryAssetAggregateStatsEstimatedUsageStats {
+  /** Output only. The number of assets that are using at least one estimated usage metric for rightsizing. */
+  totalAssetsUsingEstimatedUsage?: string;
+  /** Output only. The number of virtual machines in this finding that are using at least one estimated usage metric for rightsizing. */
+  totalVirtualMachinesUsingEstimatedUsage?: string;
+}
+
+export const ReportSummaryAssetAggregateStatsEstimatedUsageStats: Schema.Schema<ReportSummaryAssetAggregateStatsEstimatedUsageStats> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      totalAssetsUsingEstimatedUsage: Schema.optional(Schema.String),
+      totalVirtualMachinesUsingEstimatedUsage: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "ReportSummaryAssetAggregateStatsEstimatedUsageStats",
+  }) as any as Schema.Schema<ReportSummaryAssetAggregateStatsEstimatedUsageStats>;
+
 export interface ReportSummaryAssetAggregateStats {
   /** Sum of the memory in bytes of all the assets in this collection. */
   totalMemoryBytes?: string;
@@ -4768,6 +4963,8 @@ export interface ReportSummaryAssetAggregateStats {
   databaseTypes?: ReportSummaryChartData;
   /** Output only. Count of assets grouped by software name. Only present for virtual machines. */
   softwareInstances?: ReportSummaryChartData;
+  /** Output only. Estimated usage stats for the assets in this collection. */
+  estimatedUsageStats?: ReportSummaryAssetAggregateStatsEstimatedUsageStats;
 }
 
 export const ReportSummaryAssetAggregateStats: Schema.Schema<ReportSummaryAssetAggregateStats> =
@@ -4792,6 +4989,9 @@ export const ReportSummaryAssetAggregateStats: Schema.Schema<ReportSummaryAssetA
       storageBytesHistogram: Schema.optional(ReportSummaryHistogramChartData),
       databaseTypes: Schema.optional(ReportSummaryChartData),
       softwareInstances: Schema.optional(ReportSummaryChartData),
+      estimatedUsageStats: Schema.optional(
+        ReportSummaryAssetAggregateStatsEstimatedUsageStats,
+      ),
     }),
   ).annotate({
     identifier: "ReportSummaryAssetAggregateStats",

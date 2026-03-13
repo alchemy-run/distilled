@@ -548,7 +548,9 @@ export const listStoreSecrets: API.PaginatedOperationMethod<
     ListStoreSecretsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListStoreSecretsRequest) => stream.Stream<
+  items: (
+    input: ListStoreSecretsRequest,
+  ) => stream.Stream<
     {
       id: string;
       created: string;
@@ -659,7 +661,9 @@ export const createStoreSecret: API.PaginatedOperationMethod<
     CreateStoreSecretError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateStoreSecretRequest) => stream.Stream<
+  items: (
+    input: CreateStoreSecretRequest,
+  ) => stream.Stream<
     {
       id: string;
       created: string;
@@ -928,7 +932,9 @@ export const bulkDeleteStoreSecrets: API.PaginatedOperationMethod<
     BulkDeleteStoreSecretsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkDeleteStoreSecretsRequest) => stream.Stream<
+  items: (
+    input: BulkDeleteStoreSecretsRequest,
+  ) => stream.Stream<
     {
       id: string;
       created: string;

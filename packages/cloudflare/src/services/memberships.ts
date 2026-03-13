@@ -393,7 +393,9 @@ export const listMemberships: API.PaginatedOperationMethod<
     ListMembershipsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListMembershipsRequest) => stream.Stream<
+  items: (
+    input: ListMembershipsRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       account?: unknown | null;

@@ -1942,6 +1942,7 @@ export interface CreateReplicationConfigurationTemplateRequest {
   useFipsEndpoint?: boolean;
   tags?: { [key: string]: string | undefined };
   internetProtocol?: string;
+  storeSnapshotOnLocalZone?: boolean;
 }
 export const CreateReplicationConfigurationTemplateRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -1961,6 +1962,7 @@ export const CreateReplicationConfigurationTemplateRequest =
       useFipsEndpoint: S.optional(S.Boolean),
       tags: S.optional(TagsMap),
       internetProtocol: S.optional(S.String),
+      storeSnapshotOnLocalZone: S.optional(S.Boolean),
     }).pipe(
       T.all(
         T.Http({
@@ -1995,6 +1997,7 @@ export interface ReplicationConfigurationTemplate {
   useFipsEndpoint?: boolean;
   tags?: { [key: string]: string | undefined };
   internetProtocol?: string;
+  storeSnapshotOnLocalZone?: boolean;
 }
 export const ReplicationConfigurationTemplate =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -2018,6 +2021,7 @@ export const ReplicationConfigurationTemplate =
       useFipsEndpoint: S.optional(S.Boolean),
       tags: S.optional(TagsMap),
       internetProtocol: S.optional(S.String),
+      storeSnapshotOnLocalZone: S.optional(S.Boolean),
     }),
   ).annotate({
     identifier: "ReplicationConfigurationTemplate",
@@ -2039,6 +2043,7 @@ export interface UpdateReplicationConfigurationTemplateRequest {
   stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
+  storeSnapshotOnLocalZone?: boolean;
 }
 export const UpdateReplicationConfigurationTemplateRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -2061,6 +2066,7 @@ export const UpdateReplicationConfigurationTemplateRequest =
       stagingAreaTags: S.optional(TagsMap),
       useFipsEndpoint: S.optional(S.Boolean),
       internetProtocol: S.optional(S.String),
+      storeSnapshotOnLocalZone: S.optional(S.Boolean),
     }).pipe(
       T.all(
         T.Http({
@@ -2807,6 +2813,7 @@ export interface ReplicationConfiguration {
   stagingAreaTags?: { [key: string]: string | undefined };
   useFipsEndpoint?: boolean;
   internetProtocol?: string;
+  storeSnapshotOnLocalZone?: boolean;
 }
 export const ReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
   () =>
@@ -2830,6 +2837,7 @@ export const ReplicationConfiguration = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
       stagingAreaTags: S.optional(TagsMap),
       useFipsEndpoint: S.optional(S.Boolean),
       internetProtocol: S.optional(S.String),
+      storeSnapshotOnLocalZone: S.optional(S.Boolean),
     }),
 ).annotate({
   identifier: "ReplicationConfiguration",
@@ -3185,6 +3193,7 @@ export interface UpdateReplicationConfigurationRequest {
   useFipsEndpoint?: boolean;
   accountID?: string;
   internetProtocol?: string;
+  storeSnapshotOnLocalZone?: boolean;
 }
 export const UpdateReplicationConfigurationRequest =
   /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
@@ -3209,6 +3218,7 @@ export const UpdateReplicationConfigurationRequest =
       useFipsEndpoint: S.optional(S.Boolean),
       accountID: S.optional(S.String),
       internetProtocol: S.optional(S.String),
+      storeSnapshotOnLocalZone: S.optional(S.Boolean),
     }).pipe(
       T.all(
         T.Http({ method: "POST", uri: "/UpdateReplicationConfiguration" }),

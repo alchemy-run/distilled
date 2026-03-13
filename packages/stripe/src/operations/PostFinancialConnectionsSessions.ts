@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const PostFinancialConnectionsSessionsInput =
@@ -115,7 +116,7 @@ export const PostFinancialConnectionsSessionsOutput =
       object: Schema.Literals(["list"]),
       url: Schema.String,
     }),
-    client_secret: Schema.NullOr(Schema.String),
+    client_secret: SensitiveNullableString,
     filters: Schema.optional(
       Schema.Struct({
         account_subcategories: Schema.NullOr(

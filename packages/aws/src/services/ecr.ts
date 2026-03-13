@@ -861,6 +861,7 @@ export type UpstreamRegistry =
   | "github-container-registry"
   | "azure-container-registry"
   | "gitlab-container-registry"
+  | "chainguard"
   | (string & {});
 export const UpstreamRegistry = /*@__PURE__*/ /*#__PURE__*/ S.String;
 export interface CreatePullThroughCacheRuleRequest {

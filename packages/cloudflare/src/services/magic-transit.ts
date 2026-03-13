@@ -107,7 +107,9 @@ export const listApps: API.PaginatedOperationMethod<
     ListAppsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListAppsRequest) => stream.Stream<
+  items: (
+    input: ListAppsRequest,
+  ) => stream.Stream<
     | {
         accountAppId: string;
         hostnames?: string[] | null;
@@ -1035,7 +1037,9 @@ export const listConnectors: API.PaginatedOperationMethod<
     ListConnectorsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListConnectorsRequest) => stream.Stream<
+  items: (
+    input: ListConnectorsRequest,
+  ) => stream.Stream<
     {
       id: string;
       activated: boolean;
@@ -7728,7 +7732,9 @@ export const listPcaps: API.PaginatedOperationMethod<
     ListPcapsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListPcapsRequest) => stream.Stream<
+  items: (
+    input: ListPcapsRequest,
+  ) => stream.Stream<
     | {
         id?: string | null;
         filterV1?: {
@@ -8174,7 +8180,9 @@ export const getPcapOwnership: API.PaginatedOperationMethod<
     GetPcapOwnershipError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: GetPcapOwnershipRequest) => stream.Stream<
+  items: (
+    input: GetPcapOwnershipRequest,
+  ) => stream.Stream<
     {
       id: string;
       destinationConf: string;
@@ -9866,7 +9874,9 @@ export const listSites: API.PaginatedOperationMethod<
     ListSitesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSitesRequest) => stream.Stream<
+  items: (
+    input: ListSitesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       connectorId?: string | null;
@@ -10574,7 +10584,9 @@ export const listSiteAcls: API.PaginatedOperationMethod<
     ListSiteAclsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSiteAclsRequest) => stream.Stream<
+  items: (
+    input: ListSiteAclsRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -11775,7 +11787,9 @@ export const listSiteLans: API.PaginatedOperationMethod<
     ListSiteLansError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSiteLansRequest) => stream.Stream<
+  items: (
+    input: ListSiteLansRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       haLink?: boolean | null;
@@ -12111,7 +12125,9 @@ export const createSiteLan: API.PaginatedOperationMethod<
     CreateSiteLanError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateSiteLanRequest) => stream.Stream<
+  items: (
+    input: CreateSiteLanRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       haLink?: boolean | null;
@@ -13118,7 +13134,9 @@ export const listSiteWans: API.PaginatedOperationMethod<
     ListSiteWansError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListSiteWansRequest) => stream.Stream<
+  items: (
+    input: ListSiteWansRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       healthCheckRate?: "low" | "mid" | "high" | null;
@@ -13277,7 +13295,9 @@ export const createSiteWan: API.PaginatedOperationMethod<
     CreateSiteWanError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateSiteWanRequest) => stream.Stream<
+  items: (
+    input: CreateSiteWanRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       healthCheckRate?: "low" | "mid" | "high" | null;

@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const V1CreateLoginRoleInput = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct(
@@ -15,7 +16,7 @@ export type V1CreateLoginRoleInput = typeof V1CreateLoginRoleInput.Type;
 export const V1CreateLoginRoleOutput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
     role: Schema.String,
-    password: Schema.String,
+    password: SensitiveString,
     ttl_seconds: Schema.Number,
   });
 export type V1CreateLoginRoleOutput = typeof V1CreateLoginRoleOutput.Type;

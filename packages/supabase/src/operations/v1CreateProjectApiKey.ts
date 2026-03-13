@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const V1CreateProjectApiKeyInput =
@@ -19,7 +20,7 @@ export type V1CreateProjectApiKeyInput = typeof V1CreateProjectApiKeyInput.Type;
 // Output Schema
 export const V1CreateProjectApiKeyOutput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    api_key: Schema.optional(Schema.NullOr(Schema.String)),
+    api_key: Schema.optional(SensitiveNullableString),
     id: Schema.optional(Schema.NullOr(Schema.String)),
     type: Schema.optional(
       Schema.NullOr(Schema.Literals(["legacy", "publishable", "secret"])),

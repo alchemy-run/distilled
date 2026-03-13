@@ -272,7 +272,9 @@ export const listDirectoryServices: API.PaginatedOperationMethod<
     ListDirectoryServicesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListDirectoryServicesRequest) => stream.Stream<
+  items: (
+    input: ListDirectoryServicesRequest,
+  ) => stream.Stream<
     {
       host:
         | { ipv4: string; network: { tunnelId: string } }

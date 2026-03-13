@@ -184,7 +184,9 @@ export const listCustomPages: API.PaginatedOperationMethod<
     ListCustomPagesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListCustomPagesRequest) => stream.Stream<
+  items: (
+    input: ListCustomPagesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       createdOn?: string | null;

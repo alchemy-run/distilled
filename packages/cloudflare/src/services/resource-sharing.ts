@@ -251,7 +251,9 @@ export const listRecipients: API.PaginatedOperationMethod<
     ListRecipientsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListRecipientsRequest) => stream.Stream<
+  items: (
+    input: ListRecipientsRequest,
+  ) => stream.Stream<
     {
       id: string;
       accountId: string;
@@ -732,7 +734,9 @@ export const listResources: API.PaginatedOperationMethod<
     ListResourcesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListResourcesRequest) => stream.Stream<
+  items: (
+    input: ListResourcesRequest,
+  ) => stream.Stream<
     {
       id: string;
       created: string;
@@ -1488,7 +1492,9 @@ export const listResourceSharings: API.PaginatedOperationMethod<
     ListResourceSharingsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListResourceSharingsRequest) => stream.Stream<
+  items: (
+    input: ListResourceSharingsRequest,
+  ) => stream.Stream<
     {
       id: string;
       accountId: string;

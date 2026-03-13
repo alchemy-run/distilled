@@ -335,7 +335,9 @@ export const listAccessRules: API.PaginatedOperationMethod<
     ListAccessRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListAccessRulesRequest) => stream.Stream<
+  items: (
+    input: ListAccessRulesRequest,
+  ) => stream.Stream<
     {
       id: string;
       allowedModes: (
@@ -1016,7 +1018,9 @@ export const listLockdowns: API.PaginatedOperationMethod<
     ListLockdownsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListLockdownsRequest) => stream.Stream<
+  items: (
+    input: ListLockdownsRequest,
+  ) => stream.Stream<
     {
       id: string;
       configurations: unknown;
@@ -1362,7 +1366,9 @@ export const bulkPutRules: API.PaginatedOperationMethod<
     BulkPutRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkPutRulesRequest) => stream.Stream<
+  items: (
+    input: BulkPutRulesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -1663,7 +1669,9 @@ export const listRules: API.PaginatedOperationMethod<
     ListRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListRulesRequest) => stream.Stream<
+  items: (
+    input: ListRulesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -1851,7 +1859,9 @@ export const createRule: API.PaginatedOperationMethod<
     CreateRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: CreateRuleRequest) => stream.Stream<
+  items: (
+    input: CreateRuleRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -2151,7 +2161,9 @@ export const patchRule: API.PaginatedOperationMethod<
     PatchRuleError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: PatchRuleRequest) => stream.Stream<
+  items: (
+    input: PatchRuleRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -2427,7 +2439,9 @@ export const bulkPatchRules: API.PaginatedOperationMethod<
     BulkPatchRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkPatchRulesRequest) => stream.Stream<
+  items: (
+    input: BulkPatchRulesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -2585,7 +2599,9 @@ export const bulkDeleteRules: API.PaginatedOperationMethod<
     BulkDeleteRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: BulkDeleteRulesRequest) => stream.Stream<
+  items: (
+    input: BulkDeleteRulesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       action?:
@@ -2797,7 +2813,9 @@ export const listUaRules: API.PaginatedOperationMethod<
     ListUaRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListUaRulesRequest) => stream.Stream<
+  items: (
+    input: ListUaRulesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       configuration?: { target?: string | null; value?: string | null } | null;
@@ -3434,7 +3452,9 @@ export const listWafOverrides: API.PaginatedOperationMethod<
     ListWafOverridesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListWafOverridesRequest) => stream.Stream<
+  items: (
+    input: ListWafOverridesRequest,
+  ) => stream.Stream<
     {
       id?: string | null;
       description?: string | null;
@@ -4248,7 +4268,9 @@ export const listWafPackageGroups: API.PaginatedOperationMethod<
     ListWafPackageGroupsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListWafPackageGroupsRequest) => stream.Stream<
+  items: (
+    input: ListWafPackageGroupsRequest,
+  ) => stream.Stream<
     {
       id: string;
       description: string | null;
@@ -4541,7 +4563,9 @@ export const listWafPackageRules: API.PaginatedOperationMethod<
     ListWafPackageRulesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListWafPackageRulesRequest) => stream.Stream<
+  items: (
+    input: ListWafPackageRulesRequest,
+  ) => stream.Stream<
     | {
         id: string;
         allowedModes: ("on" | "off")[];

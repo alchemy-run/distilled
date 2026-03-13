@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveNullableString } from "../sensitive";
 
 // Input Schema
 export const PostCheckoutSessionsInput =
@@ -1426,7 +1427,7 @@ export const PostCheckoutSessionsOutput =
     ),
     cancel_url: Schema.NullOr(Schema.String),
     client_reference_id: Schema.NullOr(Schema.String),
-    client_secret: Schema.NullOr(Schema.String),
+    client_secret: SensitiveNullableString,
     collected_information: Schema.Unknown,
     consent: Schema.Unknown,
     consent_collection: Schema.Unknown,

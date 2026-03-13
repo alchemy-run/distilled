@@ -30,28 +30,42 @@ export const VerifyTokenResponse: Schema.Schema<VerifyTokenResponse> =
   }) as any as Schema.Schema<VerifyTokenResponse>;
 
 export interface Tag {
-  /** A signed 64-bit integer value of the tag. */
-  int64Value?: string;
-  /** A boolean value of the tag. */
-  booleanValue?: boolean;
   /** A time value of the tag. */
   timeValue?: string;
-  /** Required. Key for the tag. */
-  key?: string;
+  /** A boolean value of the tag. */
+  booleanValue?: boolean;
   /** A string value of the tag. */
   stringValue?: string;
+  /** A signed 64-bit integer value of the tag. */
+  int64Value?: string;
+  /** Required. Key for the tag. */
+  key?: string;
 }
 
 export const Tag: Schema.Schema<Tag> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      int64Value: Schema.optional(Schema.String),
-      booleanValue: Schema.optional(Schema.Boolean),
       timeValue: Schema.optional(Schema.String),
-      key: Schema.optional(Schema.String),
+      booleanValue: Schema.optional(Schema.Boolean),
       stringValue: Schema.optional(Schema.String),
+      int64Value: Schema.optional(Schema.String),
+      key: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Tag" }) as any as Schema.Schema<Tag>;
+
+export interface CreateOrUpdateTagsResponse {
+  /** All requested tags are returned, including pre-existing ones. */
+  tags?: Array<Tag>;
+}
+
+export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      tags: Schema.optional(Schema.Array(Tag)),
+    }),
+  ).annotate({
+    identifier: "CreateOrUpdateTagsResponse",
+  }) as any as Schema.Schema<CreateOrUpdateTagsResponse>;
 
 export interface CreateOrUpdateTagsRequest {
   /** Tags to be inserted or updated. */
@@ -81,37 +95,23 @@ export const VerifyTokenRequest: Schema.Schema<VerifyTokenRequest> =
     identifier: "VerifyTokenRequest",
   }) as any as Schema.Schema<VerifyTokenRequest>;
 
-export interface CreateOrUpdateTagsResponse {
-  /** All requested tags are returned, including pre-existing ones. */
-  tags?: Array<Tag>;
-}
-
-export const CreateOrUpdateTagsResponse: Schema.Schema<CreateOrUpdateTagsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      tags: Schema.optional(Schema.Array(Tag)),
-    }),
-  ).annotate({
-    identifier: "CreateOrUpdateTagsResponse",
-  }) as any as Schema.Schema<CreateOrUpdateTagsResponse>;
-
 // ==========================================================================
 // Operations
 // ==========================================================================
 
 export interface VerifyAppsTokensRequest {
-  /** Required. The token to be verified. Format: tokens/{token} */
-  token: string;
   /** Required. App the token belongs to. Format: apps/{package_name} */
   appPackage: string;
+  /** Required. The token to be verified. Format: tokens/{token} */
+  token: string;
   /** Request body */
   body?: VerifyTokenRequest;
 }
 
 export const VerifyAppsTokensRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    token: Schema.String.pipe(T.HttpPath("token")),
     appPackage: Schema.String.pipe(T.HttpPath("appPackage")),
+    token: Schema.String.pipe(T.HttpPath("token")),
     body: Schema.optional(VerifyTokenRequest).pipe(T.HttpBody()),
   }).pipe(
     T.Http({

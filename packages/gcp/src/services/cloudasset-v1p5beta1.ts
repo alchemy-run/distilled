@@ -22,32 +22,247 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Resource {
-  /** The API version. Example: "v1". */
-  version?: string;
-  /** The URL of the discovery document containing the resource's JSON schema. Example: `https://www.googleapis.com/discovery/v1/apis/compute/v1/rest` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
-  discoveryDocumentUri?: string;
-  /** The JSON schema name listed in the discovery document. Example: `Project` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
-  discoveryName?: string;
-  /** The REST URL for accessing the resource. An HTTP `GET` request using this URL returns the resource itself. Example: `https://cloudresourcemanager.googleapis.com/v1/projects/my-project-123` This value is unspecified for resources without a REST API. */
-  resourceUrl?: string;
-  /** The full name of the immediate parent of this resource. See [Resource Names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. For Google Cloud assets, this value is the parent resource defined in the [IAM policy hierarchy](https://cloud.google.com/iam/docs/overview#policy_hierarchy). Example: `//cloudresourcemanager.googleapis.com/projects/my_project_123` For third-party assets, this field may be set differently. */
-  parent?: string;
-  /** The content of the resource, in which some sensitive fields are removed and may not be present. */
-  data?: Record<string, unknown>;
+export interface GoogleIdentityAccesscontextmanagerV1IngressSource {
+  /** A Google Cloud resource that is allowed to ingress the perimeter. Requests from these resources will be allowed to access perimeter data. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. The project may be in any Google Cloud organization, not just the organization that the perimeter is defined in. `*` is not allowed, the case of allowing all Google Cloud resources only is not supported. */
+  resource?: string;
+  /** An AccessLevel resource name that allow resources within the ServicePerimeters to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all IngressSources will be allowed. */
+  accessLevel?: string;
 }
 
-export const Resource: Schema.Schema<Resource> =
+export const GoogleIdentityAccesscontextmanagerV1IngressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      version: Schema.optional(Schema.String),
-      discoveryDocumentUri: Schema.optional(Schema.String),
-      discoveryName: Schema.optional(Schema.String),
-      resourceUrl: Schema.optional(Schema.String),
-      parent: Schema.optional(Schema.String),
-      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      resource: Schema.optional(Schema.String),
+      accessLevel: Schema.optional(Schema.String),
     }),
-  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1IngressSource",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource>;
+
+export interface GoogleIdentityAccesscontextmanagerV1VpcSubNetwork {
+  /** Required. Network name. If the network is not part of the organization, the `compute.network.get` permission must be granted to the caller. Format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NETWORK_NAME}` Example: `//compute.googleapis.com/projects/my-project/global/networks/network-1` */
+  network?: string;
+  /** CIDR block IP subnetwork specification. The IP address must be an IPv4 address and can be a public or private IP address. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. If empty, all IP addresses are allowed. */
+  vpcIpSubnetworks?: Array<string>;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1VpcSubNetwork: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      network: Schema.optional(Schema.String),
+      vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1VpcSubNetwork",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork>;
+
+export interface GoogleCloudAssetV1p7beta1RelationshipAttributes {
+  /** The unique identifier of the relationship type. Example: `INSTANCE_TO_INSTANCEGROUP` */
+  type?: string;
+  /** The target asset type. Example: `compute.googleapis.com/Disk` */
+  targetResourceType?: string;
+  /** The source asset type. Example: `compute.googleapis.com/Instance` */
+  sourceResourceType?: string;
+  /** The detail of the relationship, e.g. `contains`, `attaches` */
+  action?: string;
+}
+
+export const GoogleCloudAssetV1p7beta1RelationshipAttributes: Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      type: Schema.optional(Schema.String),
+      targetResourceType: Schema.optional(Schema.String),
+      sourceResourceType: Schema.optional(Schema.String),
+      action: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAssetV1p7beta1RelationshipAttributes",
+  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes>;
+
+export interface GoogleCloudAssetV1p7beta1RelatedAsset {
+  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
+  asset?: string;
+  /** The ancestors of an asset in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
+  ancestors?: Array<string>;
+  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
+  assetType?: string;
+}
+
+export const GoogleCloudAssetV1p7beta1RelatedAsset: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      asset: Schema.optional(Schema.String),
+      ancestors: Schema.optional(Schema.Array(Schema.String)),
+      assetType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAssetV1p7beta1RelatedAsset",
+  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset>;
+
+export interface GoogleCloudAssetV1p7beta1RelatedAssets {
+  /** The detailed relation attributes. */
+  relationshipAttributes?: GoogleCloudAssetV1p7beta1RelationshipAttributes;
+  /** The peer resources of the relationship. */
+  assets?: Array<GoogleCloudAssetV1p7beta1RelatedAsset>;
+}
+
+export const GoogleCloudAssetV1p7beta1RelatedAssets: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      relationshipAttributes: Schema.optional(
+        GoogleCloudAssetV1p7beta1RelationshipAttributes,
+      ),
+      assets: Schema.optional(
+        Schema.Array(GoogleCloudAssetV1p7beta1RelatedAsset),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAssetV1p7beta1RelatedAssets",
+  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets>;
+
+export interface GoogleCloudOrgpolicyV1ListPolicy {
+  /** Determines the inheritance behavior for this `Policy`. By default, a `ListPolicy` set at a resource supersedes any `Policy` set anywhere up the resource hierarchy. However, if `inherit_from_parent` is set to `true`, then the values from the effective `Policy` of the parent resource are inherited, meaning the values set in this `Policy` are added to the values inherited up the hierarchy. Setting `Policy` hierarchies that inherit both allowed values and denied values isn't recommended in most circumstances to keep the configuration simple and understandable. However, it is possible to set a `Policy` with `allowed_values` set that inherits a `Policy` with `denied_values` set. In this case, the values that are allowed must be in `allowed_values` and not present in `denied_values`. For example, suppose you have a `Constraint` `constraints/serviceuser.services`, which has a `constraint_type` of `list_constraint`, and with `constraint_default` set to `ALLOW`. Suppose that at the Organization level, a `Policy` is applied that restricts the allowed API activations to {`E1`, `E2`}. Then, if a `Policy` is applied to a project below the Organization that has `inherit_from_parent` set to `false` and field all_values set to DENY, then an attempt to activate any API will be denied. The following examples demonstrate different possible layerings for `projects/bar` parented by `organizations/foo`: Example 1 (no inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has `inherit_from_parent` `false` and values: {allowed_values: "E3" allowed_values: "E4"} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E3`, and `E4`. Example 2 (inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {value: "E3" value: "E4" inherit_from_parent: true} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E1`, `E2`, `E3`, and `E4`. Example 3 (inheriting both allowed and denied values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {denied_values: "E1"} The accepted values at `organizations/foo` are `E1`, `E2`. The value accepted at `projects/bar` is `E2`. Example 4 (RestoreDefault): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {RestoreDefault: {}} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 5 (no policy inherits parent policy): `organizations/foo` has no `Policy` set. `projects/bar` has no `Policy` set. The accepted values at both levels are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 6 (ListConstraint allowing all): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: ALLOW} The accepted values at `organizations/foo` are `E1`, E2`. Any value is accepted at `projects/bar`. Example 7 (ListConstraint allowing none): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: DENY} The accepted values at `organizations/foo` are `E1`, E2`. No value is accepted at `projects/bar`. Example 10 (allowed and denied subtrees of Resource Manager hierarchy): Given the following resource hierarchy O1->{F1, F2}; F1->{P1}; F2->{P2, P3}, `organizations/foo` has a `Policy` with values: {allowed_values: "under:organizations/O1"} `projects/bar` has a `Policy` with: {allowed_values: "under:projects/P3"} {denied_values: "under:folders/F2"} The accepted values at `organizations/foo` are `organizations/O1`, `folders/F1`, `folders/F2`, `projects/P1`, `projects/P2`, `projects/P3`. The accepted values at `projects/bar` are `organizations/O1`, `folders/F1`, `projects/P1`. */
+  inheritFromParent?: boolean;
+  /** The policy all_values state. */
+  allValues?: "ALL_VALUES_UNSPECIFIED" | "ALLOW" | "DENY" | (string & {});
+  /** List of values allowed at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
+  allowedValues?: Array<string>;
+  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Policy`. If `suggested_value` is not set, it will inherit the value specified higher in the hierarchy, unless `inherit_from_parent` is `false`. */
+  suggestedValue?: string;
+  /** List of values denied at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
+  deniedValues?: Array<string>;
+}
+
+export const GoogleCloudOrgpolicyV1ListPolicy: Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      inheritFromParent: Schema.optional(Schema.Boolean),
+      allValues: Schema.optional(Schema.String),
+      allowedValues: Schema.optional(Schema.Array(Schema.String)),
+      suggestedValue: Schema.optional(Schema.String),
+      deniedValues: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudOrgpolicyV1ListPolicy",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy>;
+
+export interface GoogleIdentityAccesscontextmanagerV1MethodSelector {
+  /** A valid Cloud IAM permission for the corresponding `service_name` in ApiOperation. */
+  permission?: string;
+  /** A valid method name for the corresponding `service_name` in ApiOperation. If `*` is used as the value for the `method`, then ALL methods and permissions are allowed. */
+  method?: string;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1MethodSelector: Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permission: Schema.optional(Schema.String),
+      method: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1MethodSelector",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector>;
+
+export interface GoogleIdentityAccesscontextmanagerV1ApiOperation {
+  /** The name of the API whose methods or permissions the IngressPolicy or EgressPolicy want to allow. A single ApiOperation with `service_name` field set to `*` will allow all methods AND permissions for all services. */
+  serviceName?: string;
+  /** API methods or permissions to allow. Method or permission must belong to the service specified by `service_name` field. A single MethodSelector entry with `*` specified for the `method` field will allow all methods AND permissions for the service specified in `service_name`. */
+  methodSelectors?: Array<GoogleIdentityAccesscontextmanagerV1MethodSelector>;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1ApiOperation: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      serviceName: Schema.optional(Schema.String),
+      methodSelectors: Schema.optional(
+        Schema.Array(GoogleIdentityAccesscontextmanagerV1MethodSelector),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1ApiOperation",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
+
+export interface GoogleIdentityAccesscontextmanagerV1IngressTo {
+  /** A list of resources, currently only projects in the form `projects/`, protected by this ServicePerimeter that are allowed to be accessed by sources defined in the corresponding IngressFrom. If a single `*` is specified, then access to all resources inside the perimeter are allowed. */
+  resources?: Array<string>;
+  /** A list of ApiOperations allowed to be performed by the sources specified in corresponding IngressFrom in this ServicePerimeter. */
+  operations?: Array<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
+  /** IAM roles that represent the set of operations that the sources specified in the corresponding IngressFrom are allowed to perform in this ServicePerimeter. */
+  roles?: Array<string>;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1IngressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      resources: Schema.optional(Schema.Array(Schema.String)),
+      operations: Schema.optional(
+        Schema.Array(GoogleIdentityAccesscontextmanagerV1ApiOperation),
+      ),
+      roles: Schema.optional(Schema.Array(Schema.String)),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1IngressTo",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo>;
+
+export interface GoogleIdentityAccesscontextmanagerV1IngressFrom {
+  /** A list of identities that are allowed access through [IngressPolicy]. Identities can be an individual user, service account, Google group, or third-party identity. For third-party identity, only single identities are supported and other identity types are not supported. The `v1` identities that have the prefix `user`, `group`, `serviceAccount`, and `principal` in https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported. */
+  identities?: Array<string>;
+  /** Sources that this IngressPolicy authorizes access from. */
+  sources?: Array<GoogleIdentityAccesscontextmanagerV1IngressSource>;
+  /** Specifies the type of identities that are allowed access from outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
+  identityType?:
+    | "IDENTITY_TYPE_UNSPECIFIED"
+    | "ANY_IDENTITY"
+    | "ANY_USER_ACCOUNT"
+    | "ANY_SERVICE_ACCOUNT"
+    | (string & {});
+}
+
+export const GoogleIdentityAccesscontextmanagerV1IngressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      identities: Schema.optional(Schema.Array(Schema.String)),
+      sources: Schema.optional(
+        Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressSource),
+      ),
+      identityType: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1IngressFrom",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom>;
+
+export interface GoogleCloudOrgpolicyV1RestoreDefault {}
+
+export const GoogleCloudOrgpolicyV1RestoreDefault: Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "GoogleCloudOrgpolicyV1RestoreDefault",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault>;
+
+export interface GoogleIdentityAccesscontextmanagerV1AccessPolicy {
+  /** The scopes of the AccessPolicy. Scopes define which resources a policy can restrict and where its resources can be referenced. For example, policy A with `scopes=["folders/123"]` has the following behavior: - ServicePerimeter can only restrict projects within `folders/123`. - ServicePerimeter within policy A can only reference access levels defined within policy A. - Only one policy can include a given scope; thus, attempting to create a second policy which includes `folders/123` will result in an error. If no scopes are provided, then any resource within the organization can be restricted. Scopes cannot be modified after a policy is created. Policies can only have a single scope. Format: list of `folders/{folder_number}` or `projects/{project_number}` */
+  scopes?: Array<string>;
+  /** Output only. An opaque identifier for the current version of the `AccessPolicy`. This will always be a strongly validated etag, meaning that two Access Policies will be identical if and only if their etags are identical. Clients should not expect this to be in any specific format. */
+  etag?: string;
+  /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
+  name?: string;
+  /** Required. The parent of this `AccessPolicy` in the Cloud Resource Hierarchy. Currently immutable once created. Format: `organizations/{organization_id}` */
+  parent?: string;
+  /** Required. Human readable title. Does not affect behavior. */
+  title?: string;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1AccessPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      scopes: Schema.optional(Schema.Array(Schema.String)),
+      etag: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1AccessPolicy",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy>;
 
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
@@ -148,197 +363,6 @@ export const Policy: Schema.Schema<Policy> =
     }),
   ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
-export interface GoogleCloudOrgpolicyV1ListPolicy {
-  /** List of values allowed at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
-  allowedValues?: Array<string>;
-  /** List of values denied at this resource. Can only be set if `all_values` is set to `ALL_VALUES_UNSPECIFIED`. */
-  deniedValues?: Array<string>;
-  /** The policy all_values state. */
-  allValues?: "ALL_VALUES_UNSPECIFIED" | "ALLOW" | "DENY" | (string & {});
-  /** Optional. The Google Cloud Console will try to default to a configuration that matches the value specified in this `Policy`. If `suggested_value` is not set, it will inherit the value specified higher in the hierarchy, unless `inherit_from_parent` is `false`. */
-  suggestedValue?: string;
-  /** Determines the inheritance behavior for this `Policy`. By default, a `ListPolicy` set at a resource supersedes any `Policy` set anywhere up the resource hierarchy. However, if `inherit_from_parent` is set to `true`, then the values from the effective `Policy` of the parent resource are inherited, meaning the values set in this `Policy` are added to the values inherited up the hierarchy. Setting `Policy` hierarchies that inherit both allowed values and denied values isn't recommended in most circumstances to keep the configuration simple and understandable. However, it is possible to set a `Policy` with `allowed_values` set that inherits a `Policy` with `denied_values` set. In this case, the values that are allowed must be in `allowed_values` and not present in `denied_values`. For example, suppose you have a `Constraint` `constraints/serviceuser.services`, which has a `constraint_type` of `list_constraint`, and with `constraint_default` set to `ALLOW`. Suppose that at the Organization level, a `Policy` is applied that restricts the allowed API activations to {`E1`, `E2`}. Then, if a `Policy` is applied to a project below the Organization that has `inherit_from_parent` set to `false` and field all_values set to DENY, then an attempt to activate any API will be denied. The following examples demonstrate different possible layerings for `projects/bar` parented by `organizations/foo`: Example 1 (no inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has `inherit_from_parent` `false` and values: {allowed_values: "E3" allowed_values: "E4"} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E3`, and `E4`. Example 2 (inherited values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {value: "E3" value: "E4" inherit_from_parent: true} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are `E1`, `E2`, `E3`, and `E4`. Example 3 (inheriting both allowed and denied values): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {denied_values: "E1"} The accepted values at `organizations/foo` are `E1`, `E2`. The value accepted at `projects/bar` is `E2`. Example 4 (RestoreDefault): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values:"E2"} `projects/bar` has a `Policy` with values: {RestoreDefault: {}} The accepted values at `organizations/foo` are `E1`, `E2`. The accepted values at `projects/bar` are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 5 (no policy inherits parent policy): `organizations/foo` has no `Policy` set. `projects/bar` has no `Policy` set. The accepted values at both levels are either all or none depending on the value of `constraint_default` (if `ALLOW`, all; if `DENY`, none). Example 6 (ListConstraint allowing all): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: ALLOW} The accepted values at `organizations/foo` are `E1`, E2`. Any value is accepted at `projects/bar`. Example 7 (ListConstraint allowing none): `organizations/foo` has a `Policy` with values: {allowed_values: "E1" allowed_values: "E2"} `projects/bar` has a `Policy` with: {all: DENY} The accepted values at `organizations/foo` are `E1`, E2`. No value is accepted at `projects/bar`. Example 10 (allowed and denied subtrees of Resource Manager hierarchy): Given the following resource hierarchy O1->{F1, F2}; F1->{P1}; F2->{P2, P3}, `organizations/foo` has a `Policy` with values: {allowed_values: "under:organizations/O1"} `projects/bar` has a `Policy` with: {allowed_values: "under:projects/P3"} {denied_values: "under:folders/F2"} The accepted values at `organizations/foo` are `organizations/O1`, `folders/F1`, `folders/F2`, `projects/P1`, `projects/P2`, `projects/P3`. The accepted values at `projects/bar` are `organizations/O1`, `folders/F1`, `projects/P1`. */
-  inheritFromParent?: boolean;
-}
-
-export const GoogleCloudOrgpolicyV1ListPolicy: Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      allowedValues: Schema.optional(Schema.Array(Schema.String)),
-      deniedValues: Schema.optional(Schema.Array(Schema.String)),
-      allValues: Schema.optional(Schema.String),
-      suggestedValue: Schema.optional(Schema.String),
-      inheritFromParent: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudOrgpolicyV1ListPolicy",
-  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1ListPolicy>;
-
-export interface GoogleCloudOrgpolicyV1BooleanPolicy {
-  /** If `true`, then the `Policy` is enforced. If `false`, then any configuration is acceptable. Suppose you have a `Constraint` `constraints/compute.disableSerialPortAccess` with `constraint_default` set to `ALLOW`. A `Policy` for that `Constraint` exhibits the following behavior: - If the `Policy` at this resource has enforced set to `false`, serial port connection attempts will be allowed. - If the `Policy` at this resource has enforced set to `true`, serial port connection attempts will be refused. - If the `Policy` at this resource is `RestoreDefault`, serial port connection attempts will be allowed. - If no `Policy` is set at this resource or anywhere higher in the resource hierarchy, serial port connection attempts will be allowed. - If no `Policy` is set at this resource, but one exists higher in the resource hierarchy, the behavior is as if the`Policy` were set at this resource. The following examples demonstrate the different possible layerings: Example 1 (nearest `Constraint` wins): `organizations/foo` has a `Policy` with: {enforced: false} `projects/bar` has no `Policy` set. The constraint at `projects/bar` and `organizations/foo` will not be enforced. Example 2 (enforcement gets replaced): `organizations/foo` has a `Policy` with: {enforced: false} `projects/bar` has a `Policy` with: {enforced: true} The constraint at `organizations/foo` is not enforced. The constraint at `projects/bar` is enforced. Example 3 (RestoreDefault): `organizations/foo` has a `Policy` with: {enforced: true} `projects/bar` has a `Policy` with: {RestoreDefault: {}} The constraint at `organizations/foo` is enforced. The constraint at `projects/bar` is not enforced, because `constraint_default` for the `Constraint` is `ALLOW`. */
-  enforced?: boolean;
-}
-
-export const GoogleCloudOrgpolicyV1BooleanPolicy: Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      enforced: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudOrgpolicyV1BooleanPolicy",
-  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy>;
-
-export interface GoogleCloudOrgpolicyV1RestoreDefault {}
-
-export const GoogleCloudOrgpolicyV1RestoreDefault: Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "GoogleCloudOrgpolicyV1RestoreDefault",
-  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1RestoreDefault>;
-
-export interface GoogleCloudOrgpolicyV1Policy {
-  /** Version of the `Policy`. Default version is 0; */
-  version?: number;
-  /** The name of the `Constraint` the `Policy` is configuring, for example, `constraints/serviceuser.services`. A [list of available constraints](/resource-manager/docs/organization-policy/org-policy-constraints) is available. Immutable after creation. */
-  constraint?: string;
-  /** An opaque tag indicating the current version of the `Policy`, used for concurrency control. When the `Policy` is returned from either a `GetPolicy` or a `ListOrgPolicy` request, this `etag` indicates the version of the current `Policy` to use when executing a read-modify-write loop. When the `Policy` is returned from a `GetEffectivePolicy` request, the `etag` will be unset. When the `Policy` is used in a `SetOrgPolicy` method, use the `etag` value that was returned from a `GetOrgPolicy` request as part of a read-modify-write loop for concurrency control. Not setting the `etag`in a `SetOrgPolicy` request will result in an unconditional write of the `Policy`. */
-  etag?: string;
-  /** The time stamp the `Policy` was previously updated. This is set by the server, not specified by the caller, and represents the last time a call to `SetOrgPolicy` was made for that `Policy`. Any value set by the client will be ignored. */
-  updateTime?: string;
-  /** List of values either allowed or disallowed. */
-  listPolicy?: GoogleCloudOrgpolicyV1ListPolicy;
-  /** For boolean `Constraints`, whether to enforce the `Constraint` or not. */
-  booleanPolicy?: GoogleCloudOrgpolicyV1BooleanPolicy;
-  /** Restores the default behavior of the constraint; independent of `Constraint` type. */
-  restoreDefault?: GoogleCloudOrgpolicyV1RestoreDefault;
-}
-
-export const GoogleCloudOrgpolicyV1Policy: Schema.Schema<GoogleCloudOrgpolicyV1Policy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      version: Schema.optional(Schema.Number),
-      constraint: Schema.optional(Schema.String),
-      etag: Schema.optional(Schema.String),
-      updateTime: Schema.optional(Schema.String),
-      listPolicy: Schema.optional(GoogleCloudOrgpolicyV1ListPolicy),
-      booleanPolicy: Schema.optional(GoogleCloudOrgpolicyV1BooleanPolicy),
-      restoreDefault: Schema.optional(GoogleCloudOrgpolicyV1RestoreDefault),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudOrgpolicyV1Policy",
-  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1Policy>;
-
-export interface GoogleIdentityAccesscontextmanagerV1AccessPolicy {
-  /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
-  name?: string;
-  /** Required. The parent of this `AccessPolicy` in the Cloud Resource Hierarchy. Currently immutable once created. Format: `organizations/{organization_id}` */
-  parent?: string;
-  /** Required. Human readable title. Does not affect behavior. */
-  title?: string;
-  /** The scopes of the AccessPolicy. Scopes define which resources a policy can restrict and where its resources can be referenced. For example, policy A with `scopes=["folders/123"]` has the following behavior: - ServicePerimeter can only restrict projects within `folders/123`. - ServicePerimeter within policy A can only reference access levels defined within policy A. - Only one policy can include a given scope; thus, attempting to create a second policy which includes `folders/123` will result in an error. If no scopes are provided, then any resource within the organization can be restricted. Scopes cannot be modified after a policy is created. Policies can only have a single scope. Format: list of `folders/{folder_number}` or `projects/{project_number}` */
-  scopes?: Array<string>;
-  /** Output only. An opaque identifier for the current version of the `AccessPolicy`. This will always be a strongly validated etag, meaning that two Access Policies will be identical if and only if their etags are identical. Clients should not expect this to be in any specific format. */
-  etag?: string;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1AccessPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      parent: Schema.optional(Schema.String),
-      title: Schema.optional(Schema.String),
-      scopes: Schema.optional(Schema.Array(Schema.String)),
-      etag: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1AccessPolicy",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessPolicy>;
-
-export interface GoogleIdentityAccesscontextmanagerV1OsConstraint {
-  /** Required. The allowed OS type. */
-  osType?:
-    | "OS_UNSPECIFIED"
-    | "DESKTOP_MAC"
-    | "DESKTOP_WINDOWS"
-    | "DESKTOP_LINUX"
-    | "DESKTOP_CHROME_OS"
-    | "ANDROID"
-    | "IOS"
-    | (string & {});
-  /** The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: `"major.minor.patch"`. Examples: `"10.5.301"`, `"9.2.1"`. */
-  minimumVersion?: string;
-  /** Only allows requests from devices with a verified Chrome OS. Verifications includes requirements that the device is enterprise-managed, conformant to domain policies, and the caller has permission to call the API targeted by the request. */
-  requireVerifiedChromeOs?: boolean;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1OsConstraint: Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      osType: Schema.optional(Schema.String),
-      minimumVersion: Schema.optional(Schema.String),
-      requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1OsConstraint",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint>;
-
-export interface GoogleIdentityAccesscontextmanagerV1DevicePolicy {
-  /** Whether or not screenlock is required for the DevicePolicy to be true. Defaults to `false`. */
-  requireScreenlock?: boolean;
-  /** Allowed encryptions statuses, an empty list allows all statuses. */
-  allowedEncryptionStatuses?: Array<
-    | "ENCRYPTION_UNSPECIFIED"
-    | "ENCRYPTION_UNSUPPORTED"
-    | "UNENCRYPTED"
-    | "ENCRYPTED"
-    | (string & {})
-  >;
-  /** Allowed OS versions, an empty list allows all types and all versions. */
-  osConstraints?: Array<GoogleIdentityAccesscontextmanagerV1OsConstraint>;
-  /** Allowed device management levels, an empty list allows all management levels. */
-  allowedDeviceManagementLevels?: Array<
-    "MANAGEMENT_UNSPECIFIED" | "NONE" | "BASIC" | "COMPLETE" | (string & {})
-  >;
-  /** Whether the device needs to be approved by the customer admin. */
-  requireAdminApproval?: boolean;
-  /** Whether the device needs to be corp owned. */
-  requireCorpOwned?: boolean;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1DevicePolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      requireScreenlock: Schema.optional(Schema.Boolean),
-      allowedEncryptionStatuses: Schema.optional(Schema.Array(Schema.String)),
-      osConstraints: Schema.optional(
-        Schema.Array(GoogleIdentityAccesscontextmanagerV1OsConstraint),
-      ),
-      allowedDeviceManagementLevels: Schema.optional(
-        Schema.Array(Schema.String),
-      ),
-      requireAdminApproval: Schema.optional(Schema.Boolean),
-      requireCorpOwned: Schema.optional(Schema.Boolean),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1DevicePolicy",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy>;
-
-export interface GoogleIdentityAccesscontextmanagerV1VpcSubNetwork {
-  /** Required. Network name. If the network is not part of the organization, the `compute.network.get` permission must be granted to the caller. Format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NETWORK_NAME}` Example: `//compute.googleapis.com/projects/my-project/global/networks/network-1` */
-  network?: string;
-  /** CIDR block IP subnetwork specification. The IP address must be an IPv4 address and can be a public or private IP address. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. If empty, all IP addresses are allowed. */
-  vpcIpSubnetworks?: Array<string>;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1VpcSubNetwork: Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      network: Schema.optional(Schema.String),
-      vpcIpSubnetworks: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1VpcSubNetwork",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcSubNetwork>;
-
 export interface GoogleIdentityAccesscontextmanagerV1VpcNetworkSource {
   /** Sub-segment ranges of a VPC network. */
   vpcSubnetwork?: GoogleIdentityAccesscontextmanagerV1VpcSubNetwork;
@@ -355,15 +379,111 @@ export const GoogleIdentityAccesscontextmanagerV1VpcNetworkSource: Schema.Schema
     identifier: "GoogleIdentityAccesscontextmanagerV1VpcNetworkSource",
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcNetworkSource>;
 
+export interface Resource {
+  /** The API version. Example: "v1". */
+  version?: string;
+  /** The REST URL for accessing the resource. An HTTP `GET` request using this URL returns the resource itself. Example: `https://cloudresourcemanager.googleapis.com/v1/projects/my-project-123` This value is unspecified for resources without a REST API. */
+  resourceUrl?: string;
+  /** The content of the resource, in which some sensitive fields are removed and may not be present. */
+  data?: Record<string, unknown>;
+  /** The JSON schema name listed in the discovery document. Example: `Project` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
+  discoveryName?: string;
+  /** The full name of the immediate parent of this resource. See [Resource Names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. For Google Cloud assets, this value is the parent resource defined in the [IAM policy hierarchy](https://cloud.google.com/iam/docs/overview#policy_hierarchy). Example: `//cloudresourcemanager.googleapis.com/projects/my_project_123` For third-party assets, this field may be set differently. */
+  parent?: string;
+  /** The URL of the discovery document containing the resource's JSON schema. Example: `https://www.googleapis.com/discovery/v1/apis/compute/v1/rest` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
+  discoveryDocumentUri?: string;
+}
+
+export const Resource: Schema.Schema<Resource> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      version: Schema.optional(Schema.String),
+      resourceUrl: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      discoveryName: Schema.optional(Schema.String),
+      parent: Schema.optional(Schema.String),
+      discoveryDocumentUri: Schema.optional(Schema.String),
+    }),
+  ).annotate({ identifier: "Resource" }) as any as Schema.Schema<Resource>;
+
+export interface GoogleIdentityAccesscontextmanagerV1OsConstraint {
+  /** Required. The allowed OS type. */
+  osType?:
+    | "OS_UNSPECIFIED"
+    | "DESKTOP_MAC"
+    | "DESKTOP_WINDOWS"
+    | "DESKTOP_LINUX"
+    | "DESKTOP_CHROME_OS"
+    | "ANDROID"
+    | "IOS"
+    | (string & {});
+  /** Only allows requests from devices with a verified Chrome OS. Verifications includes requirements that the device is enterprise-managed, conformant to domain policies, and the caller has permission to call the API targeted by the request. */
+  requireVerifiedChromeOs?: boolean;
+  /** The minimum allowed OS version. If not set, any version of this OS satisfies the constraint. Format: `"major.minor.patch"`. Examples: `"10.5.301"`, `"9.2.1"`. */
+  minimumVersion?: string;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1OsConstraint: Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      osType: Schema.optional(Schema.String),
+      requireVerifiedChromeOs: Schema.optional(Schema.Boolean),
+      minimumVersion: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1OsConstraint",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1OsConstraint>;
+
+export interface GoogleIdentityAccesscontextmanagerV1DevicePolicy {
+  /** Allowed encryptions statuses, an empty list allows all statuses. */
+  allowedEncryptionStatuses?: Array<
+    | "ENCRYPTION_UNSPECIFIED"
+    | "ENCRYPTION_UNSUPPORTED"
+    | "UNENCRYPTED"
+    | "ENCRYPTED"
+    | (string & {})
+  >;
+  /** Whether the device needs to be corp owned. */
+  requireCorpOwned?: boolean;
+  /** Allowed OS versions, an empty list allows all types and all versions. */
+  osConstraints?: Array<GoogleIdentityAccesscontextmanagerV1OsConstraint>;
+  /** Allowed device management levels, an empty list allows all management levels. */
+  allowedDeviceManagementLevels?: Array<
+    "MANAGEMENT_UNSPECIFIED" | "NONE" | "BASIC" | "COMPLETE" | (string & {})
+  >;
+  /** Whether the device needs to be approved by the customer admin. */
+  requireAdminApproval?: boolean;
+  /** Whether or not screenlock is required for the DevicePolicy to be true. Defaults to `false`. */
+  requireScreenlock?: boolean;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1DevicePolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      allowedEncryptionStatuses: Schema.optional(Schema.Array(Schema.String)),
+      requireCorpOwned: Schema.optional(Schema.Boolean),
+      osConstraints: Schema.optional(
+        Schema.Array(GoogleIdentityAccesscontextmanagerV1OsConstraint),
+      ),
+      allowedDeviceManagementLevels: Schema.optional(
+        Schema.Array(Schema.String),
+      ),
+      requireAdminApproval: Schema.optional(Schema.Boolean),
+      requireScreenlock: Schema.optional(Schema.Boolean),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1DevicePolicy",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1DevicePolicy>;
+
 export interface GoogleIdentityAccesscontextmanagerV1Condition {
   /** CIDR block IP subnetwork specification. May be IPv4 or IPv6. Note that for a CIDR IP address block, the specified IP address portion must be properly truncated (i.e. all the host bits must be zero) or the input is considered malformed. For example, "192.0.2.0/24" is accepted but "192.0.2.1/24" is not. Similarly, for IPv6, "2001:db8::/32" is accepted whereas "2001:db8::1/32" is not. The originating IP of a request must be in one of the listed subnets in order for this Condition to be true. If empty, all IP addresses are allowed. */
   ipSubnetworks?: Array<string>;
-  /** Device specific restrictions, all restrictions must hold for the Condition to be true. If not specified, all devices are allowed. */
-  devicePolicy?: GoogleIdentityAccesscontextmanagerV1DevicePolicy;
-  /** A list of other access levels defined in the same `Policy`, referenced by resource name. Referencing an `AccessLevel` which does not exist is an error. All access levels listed must be granted for the Condition to be true. Example: "`accessPolicies/MY_POLICY/accessLevels/LEVEL_NAME"` */
-  requiredAccessLevels?: Array<string>;
   /** Whether to negate the Condition. If true, the Condition becomes a NAND over its non-empty fields. Any non-empty field criteria evaluating to false will result in the Condition to be satisfied. Defaults to false. */
   negate?: boolean;
+  /** A list of other access levels defined in the same `Policy`, referenced by resource name. Referencing an `AccessLevel` which does not exist is an error. All access levels listed must be granted for the Condition to be true. Example: "`accessPolicies/MY_POLICY/accessLevels/LEVEL_NAME"` */
+  requiredAccessLevels?: Array<string>;
+  /** Device specific restrictions, all restrictions must hold for the Condition to be true. If not specified, all devices are allowed. */
+  devicePolicy?: GoogleIdentityAccesscontextmanagerV1DevicePolicy;
   /** The request must be made by one of the provided user or service accounts. Groups are not supported. Syntax: `user:{emailid}` `serviceAccount:{emailid}` If not specified, a request may come from any user. */
   members?: Array<string>;
   /** The request must originate from one of the provided countries/regions. Must be valid ISO 3166-1 alpha-2 codes. */
@@ -376,11 +496,11 @@ export const GoogleIdentityAccesscontextmanagerV1Condition: Schema.Schema<Google
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       ipSubnetworks: Schema.optional(Schema.Array(Schema.String)),
+      negate: Schema.optional(Schema.Boolean),
+      requiredAccessLevels: Schema.optional(Schema.Array(Schema.String)),
       devicePolicy: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1DevicePolicy,
       ),
-      requiredAccessLevels: Schema.optional(Schema.Array(Schema.String)),
-      negate: Schema.optional(Schema.Boolean),
       members: Schema.optional(Schema.Array(Schema.String)),
       regions: Schema.optional(Schema.Array(Schema.String)),
       vpcNetworkSources: Schema.optional(
@@ -391,64 +511,51 @@ export const GoogleIdentityAccesscontextmanagerV1Condition: Schema.Schema<Google
     identifier: "GoogleIdentityAccesscontextmanagerV1Condition",
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1Condition>;
 
-export interface GoogleIdentityAccesscontextmanagerV1BasicLevel {
-  /** Required. A list of requirements for the `AccessLevel` to be granted. */
-  conditions?: Array<GoogleIdentityAccesscontextmanagerV1Condition>;
-  /** How the `conditions` list should be combined to determine if a request is granted this `AccessLevel`. If AND is used, each `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. If OR is used, at least one `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. Default behavior is AND. */
-  combiningFunction?: "AND" | "OR" | (string & {});
+export interface GoogleCloudOrgpolicyV1BooleanPolicy {
+  /** If `true`, then the `Policy` is enforced. If `false`, then any configuration is acceptable. Suppose you have a `Constraint` `constraints/compute.disableSerialPortAccess` with `constraint_default` set to `ALLOW`. A `Policy` for that `Constraint` exhibits the following behavior: - If the `Policy` at this resource has enforced set to `false`, serial port connection attempts will be allowed. - If the `Policy` at this resource has enforced set to `true`, serial port connection attempts will be refused. - If the `Policy` at this resource is `RestoreDefault`, serial port connection attempts will be allowed. - If no `Policy` is set at this resource or anywhere higher in the resource hierarchy, serial port connection attempts will be allowed. - If no `Policy` is set at this resource, but one exists higher in the resource hierarchy, the behavior is as if the`Policy` were set at this resource. The following examples demonstrate the different possible layerings: Example 1 (nearest `Constraint` wins): `organizations/foo` has a `Policy` with: {enforced: false} `projects/bar` has no `Policy` set. The constraint at `projects/bar` and `organizations/foo` will not be enforced. Example 2 (enforcement gets replaced): `organizations/foo` has a `Policy` with: {enforced: false} `projects/bar` has a `Policy` with: {enforced: true} The constraint at `organizations/foo` is not enforced. The constraint at `projects/bar` is enforced. Example 3 (RestoreDefault): `organizations/foo` has a `Policy` with: {enforced: true} `projects/bar` has a `Policy` with: {RestoreDefault: {}} The constraint at `organizations/foo` is enforced. The constraint at `projects/bar` is not enforced, because `constraint_default` for the `Constraint` is `ALLOW`. */
+  enforced?: boolean;
 }
 
-export const GoogleIdentityAccesscontextmanagerV1BasicLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel> =
+export const GoogleCloudOrgpolicyV1BooleanPolicy: Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      conditions: Schema.optional(
-        Schema.Array(GoogleIdentityAccesscontextmanagerV1Condition),
-      ),
-      combiningFunction: Schema.optional(Schema.String),
+      enforced: Schema.optional(Schema.Boolean),
     }),
   ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1BasicLevel",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel>;
+    identifier: "GoogleCloudOrgpolicyV1BooleanPolicy",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1BooleanPolicy>;
 
-export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
-  /** Required. A Cloud CEL expression evaluating to a boolean. */
-  expr?: Expr;
+export interface GoogleCloudOrgpolicyV1Policy {
+  /** The time stamp the `Policy` was previously updated. This is set by the server, not specified by the caller, and represents the last time a call to `SetOrgPolicy` was made for that `Policy`. Any value set by the client will be ignored. */
+  updateTime?: string;
+  /** An opaque tag indicating the current version of the `Policy`, used for concurrency control. When the `Policy` is returned from either a `GetPolicy` or a `ListOrgPolicy` request, this `etag` indicates the version of the current `Policy` to use when executing a read-modify-write loop. When the `Policy` is returned from a `GetEffectivePolicy` request, the `etag` will be unset. When the `Policy` is used in a `SetOrgPolicy` method, use the `etag` value that was returned from a `GetOrgPolicy` request as part of a read-modify-write loop for concurrency control. Not setting the `etag`in a `SetOrgPolicy` request will result in an unconditional write of the `Policy`. */
+  etag?: string;
+  /** List of values either allowed or disallowed. */
+  listPolicy?: GoogleCloudOrgpolicyV1ListPolicy;
+  /** For boolean `Constraints`, whether to enforce the `Constraint` or not. */
+  booleanPolicy?: GoogleCloudOrgpolicyV1BooleanPolicy;
+  /** Version of the `Policy`. Default version is 0; */
+  version?: number;
+  /** The name of the `Constraint` the `Policy` is configuring, for example, `constraints/serviceuser.services`. A [list of available constraints](/resource-manager/docs/organization-policy/org-policy-constraints) is available. Immutable after creation. */
+  constraint?: string;
+  /** Restores the default behavior of the constraint; independent of `Constraint` type. */
+  restoreDefault?: GoogleCloudOrgpolicyV1RestoreDefault;
 }
 
-export const GoogleIdentityAccesscontextmanagerV1CustomLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel> =
+export const GoogleCloudOrgpolicyV1Policy: Schema.Schema<GoogleCloudOrgpolicyV1Policy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      expr: Schema.optional(Expr),
+      updateTime: Schema.optional(Schema.String),
+      etag: Schema.optional(Schema.String),
+      listPolicy: Schema.optional(GoogleCloudOrgpolicyV1ListPolicy),
+      booleanPolicy: Schema.optional(GoogleCloudOrgpolicyV1BooleanPolicy),
+      version: Schema.optional(Schema.Number),
+      constraint: Schema.optional(Schema.String),
+      restoreDefault: Schema.optional(GoogleCloudOrgpolicyV1RestoreDefault),
     }),
   ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1CustomLevel",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel>;
-
-export interface GoogleIdentityAccesscontextmanagerV1AccessLevel {
-  /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
-  name?: string;
-  /** Human readable title. Must be unique within the Policy. */
-  title?: string;
-  /** Description of the `AccessLevel` and its use. Does not affect behavior. */
-  description?: string;
-  /** A `BasicLevel` composed of `Conditions`. */
-  basic?: GoogleIdentityAccesscontextmanagerV1BasicLevel;
-  /** A `CustomLevel` written in the Common Expression Language. */
-  custom?: GoogleIdentityAccesscontextmanagerV1CustomLevel;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1AccessLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      name: Schema.optional(Schema.String),
-      title: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      basic: Schema.optional(GoogleIdentityAccesscontextmanagerV1BasicLevel),
-      custom: Schema.optional(GoogleIdentityAccesscontextmanagerV1CustomLevel),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1AccessLevel",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel>;
+    identifier: "GoogleCloudOrgpolicyV1Policy",
+  }) as any as Schema.Schema<GoogleCloudOrgpolicyV1Policy>;
 
 export interface GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices {
   /** Whether to restrict API calls within the Service Perimeter to the list of APIs specified in 'allowed_services'. */
@@ -467,125 +574,23 @@ export const GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices: Schema.S
     identifier: "GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices",
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices>;
 
-export interface GoogleIdentityAccesscontextmanagerV1IngressSource {
-  /** An AccessLevel resource name that allow resources within the ServicePerimeters to be accessed from the internet. AccessLevels listed must be in the same policy as this ServicePerimeter. Referencing a nonexistent AccessLevel will cause an error. If no AccessLevel names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `accessPolicies/MY_POLICY/accessLevels/MY_LEVEL`. If a single `*` is specified for `access_level`, then all IngressSources will be allowed. */
-  accessLevel?: string;
-  /** A Google Cloud resource that is allowed to ingress the perimeter. Requests from these resources will be allowed to access perimeter data. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. The project may be in any Google Cloud organization, not just the organization that the perimeter is defined in. `*` is not allowed, the case of allowing all Google Cloud resources only is not supported. */
-  resource?: string;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1IngressSource: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      accessLevel: Schema.optional(Schema.String),
-      resource: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1IngressSource",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressSource>;
-
-export interface GoogleIdentityAccesscontextmanagerV1IngressFrom {
-  /** Sources that this IngressPolicy authorizes access from. */
-  sources?: Array<GoogleIdentityAccesscontextmanagerV1IngressSource>;
-  /** A list of identities that are allowed access through [IngressPolicy]. Identities can be an individual user, service account, Google group, or third-party identity. For third-party identity, only single identities are supported and other identity types are not supported. The `v1` identities that have the prefix `user`, `group`, `serviceAccount`, and `principal` in https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported. */
-  identities?: Array<string>;
-  /** Specifies the type of identities that are allowed access from outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
-  identityType?:
-    | "IDENTITY_TYPE_UNSPECIFIED"
-    | "ANY_IDENTITY"
-    | "ANY_USER_ACCOUNT"
-    | "ANY_SERVICE_ACCOUNT"
-    | (string & {});
-}
-
-export const GoogleIdentityAccesscontextmanagerV1IngressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      sources: Schema.optional(
-        Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressSource),
-      ),
-      identities: Schema.optional(Schema.Array(Schema.String)),
-      identityType: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1IngressFrom",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressFrom>;
-
-export interface GoogleIdentityAccesscontextmanagerV1MethodSelector {
-  /** A valid method name for the corresponding `service_name` in ApiOperation. If `*` is used as the value for the `method`, then ALL methods and permissions are allowed. */
-  method?: string;
-  /** A valid Cloud IAM permission for the corresponding `service_name` in ApiOperation. */
-  permission?: string;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1MethodSelector: Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      method: Schema.optional(Schema.String),
-      permission: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1MethodSelector",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1MethodSelector>;
-
-export interface GoogleIdentityAccesscontextmanagerV1ApiOperation {
-  /** The name of the API whose methods or permissions the IngressPolicy or EgressPolicy want to allow. A single ApiOperation with `service_name` field set to `*` will allow all methods AND permissions for all services. */
-  serviceName?: string;
-  /** API methods or permissions to allow. Method or permission must belong to the service specified by `service_name` field. A single MethodSelector entry with `*` specified for the `method` field will allow all methods AND permissions for the service specified in `service_name`. */
-  methodSelectors?: Array<GoogleIdentityAccesscontextmanagerV1MethodSelector>;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1ApiOperation: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      serviceName: Schema.optional(Schema.String),
-      methodSelectors: Schema.optional(
-        Schema.Array(GoogleIdentityAccesscontextmanagerV1MethodSelector),
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1ApiOperation",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
-
-export interface GoogleIdentityAccesscontextmanagerV1IngressTo {
-  /** A list of ApiOperations allowed to be performed by the sources specified in corresponding IngressFrom in this ServicePerimeter. */
-  operations?: Array<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
-  /** A list of resources, currently only projects in the form `projects/`, protected by this ServicePerimeter that are allowed to be accessed by sources defined in the corresponding IngressFrom. If a single `*` is specified, then access to all resources inside the perimeter are allowed. */
-  resources?: Array<string>;
-  /** IAM roles that represent the set of operations that the sources specified in the corresponding IngressFrom are allowed to perform in this ServicePerimeter. */
-  roles?: Array<string>;
-}
-
-export const GoogleIdentityAccesscontextmanagerV1IngressTo: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      operations: Schema.optional(
-        Schema.Array(GoogleIdentityAccesscontextmanagerV1ApiOperation),
-      ),
-      resources: Schema.optional(Schema.Array(Schema.String)),
-      roles: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleIdentityAccesscontextmanagerV1IngressTo",
-  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressTo>;
-
 export interface GoogleIdentityAccesscontextmanagerV1IngressPolicy {
-  /** Defines the conditions on the source of a request causing this IngressPolicy to apply. */
-  ingressFrom?: GoogleIdentityAccesscontextmanagerV1IngressFrom;
-  /** Defines the conditions on the ApiOperation and request destination that cause this IngressPolicy to apply. */
-  ingressTo?: GoogleIdentityAccesscontextmanagerV1IngressTo;
   /** Optional. Human-readable title for the ingress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
   title?: string;
+  /** Defines the conditions on the ApiOperation and request destination that cause this IngressPolicy to apply. */
+  ingressTo?: GoogleIdentityAccesscontextmanagerV1IngressTo;
+  /** Defines the conditions on the source of a request causing this IngressPolicy to apply. */
+  ingressFrom?: GoogleIdentityAccesscontextmanagerV1IngressFrom;
 }
 
 export const GoogleIdentityAccesscontextmanagerV1IngressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1IngressPolicy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      title: Schema.optional(Schema.String),
+      ingressTo: Schema.optional(GoogleIdentityAccesscontextmanagerV1IngressTo),
       ingressFrom: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1IngressFrom,
       ),
-      ingressTo: Schema.optional(GoogleIdentityAccesscontextmanagerV1IngressTo),
-      title: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleIdentityAccesscontextmanagerV1IngressPolicy",
@@ -609,6 +614,14 @@ export const GoogleIdentityAccesscontextmanagerV1EgressSource: Schema.Schema<Goo
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressSource>;
 
 export interface GoogleIdentityAccesscontextmanagerV1EgressFrom {
+  /** Sources that this EgressPolicy authorizes access from. If this field is not empty, then `source_restriction` must be set to `SOURCE_RESTRICTION_ENABLED`. */
+  sources?: Array<GoogleIdentityAccesscontextmanagerV1EgressSource>;
+  /** Whether to enforce traffic restrictions based on `sources` field. If the `sources` fields is non-empty, then this field must be set to `SOURCE_RESTRICTION_ENABLED`. */
+  sourceRestriction?:
+    | "SOURCE_RESTRICTION_UNSPECIFIED"
+    | "SOURCE_RESTRICTION_ENABLED"
+    | "SOURCE_RESTRICTION_DISABLED"
+    | (string & {});
   /** A list of identities that are allowed access through [EgressPolicy]. Identities can be an individual user, service account, Google group, or third-party identity. For third-party identity, only single identities are supported and other identity types are not supported. The `v1` identities that have the prefix `user`, `group`, `serviceAccount`, and `principal` in https://cloud.google.com/iam/docs/principal-identifiers#v1 are supported. */
   identities?: Array<string>;
   /** Specifies the type of identities that are allowed access to outside the perimeter. If left unspecified, then members of `identities` field will be allowed access. */
@@ -618,25 +631,17 @@ export interface GoogleIdentityAccesscontextmanagerV1EgressFrom {
     | "ANY_USER_ACCOUNT"
     | "ANY_SERVICE_ACCOUNT"
     | (string & {});
-  /** Sources that this EgressPolicy authorizes access from. If this field is not empty, then `source_restriction` must be set to `SOURCE_RESTRICTION_ENABLED`. */
-  sources?: Array<GoogleIdentityAccesscontextmanagerV1EgressSource>;
-  /** Whether to enforce traffic restrictions based on `sources` field. If the `sources` fields is non-empty, then this field must be set to `SOURCE_RESTRICTION_ENABLED`. */
-  sourceRestriction?:
-    | "SOURCE_RESTRICTION_UNSPECIFIED"
-    | "SOURCE_RESTRICTION_ENABLED"
-    | "SOURCE_RESTRICTION_DISABLED"
-    | (string & {});
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressFrom: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressFrom> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      identities: Schema.optional(Schema.Array(Schema.String)),
-      identityType: Schema.optional(Schema.String),
       sources: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1EgressSource),
       ),
       sourceRestriction: Schema.optional(Schema.String),
+      identities: Schema.optional(Schema.Array(Schema.String)),
+      identityType: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleIdentityAccesscontextmanagerV1EgressFrom",
@@ -645,10 +650,10 @@ export const GoogleIdentityAccesscontextmanagerV1EgressFrom: Schema.Schema<Googl
 export interface GoogleIdentityAccesscontextmanagerV1EgressTo {
   /** A list of resources, currently only projects in the form `projects/`, that are allowed to be accessed by sources defined in the corresponding EgressFrom. A request matches if it contains a resource in this list. If `*` is specified for `resources`, then this EgressTo rule will authorize access to all resources outside the perimeter. */
   resources?: Array<string>;
-  /** A list of ApiOperations allowed to be performed by the sources specified in the corresponding EgressFrom. A request matches if it uses an operation/service in this list. */
-  operations?: Array<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
   /** A list of external resources that are allowed to be accessed. Only AWS and Azure resources are supported. For Amazon S3, the supported formats are s3://BUCKET_NAME, s3a://BUCKET_NAME, and s3n://BUCKET_NAME. For Azure Storage, the supported format is azure://myaccount.blob.core.windows.net/CONTAINER_NAME. A request matches if it contains an external resource in this list (Example: s3://bucket/path). Currently '*' is not allowed. */
   externalResources?: Array<string>;
+  /** A list of ApiOperations allowed to be performed by the sources specified in the corresponding EgressFrom. A request matches if it uses an operation/service in this list. */
+  operations?: Array<GoogleIdentityAccesscontextmanagerV1ApiOperation>;
   /** IAM roles that represent the set of operations that the sources specified in the corresponding EgressFrom. are allowed to perform in this ServicePerimeter. */
   roles?: Array<string>;
 }
@@ -657,10 +662,10 @@ export const GoogleIdentityAccesscontextmanagerV1EgressTo: Schema.Schema<GoogleI
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       resources: Schema.optional(Schema.Array(Schema.String)),
+      externalResources: Schema.optional(Schema.Array(Schema.String)),
       operations: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1ApiOperation),
       ),
-      externalResources: Schema.optional(Schema.Array(Schema.String)),
       roles: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
@@ -668,38 +673,38 @@ export const GoogleIdentityAccesscontextmanagerV1EgressTo: Schema.Schema<GoogleI
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressTo>;
 
 export interface GoogleIdentityAccesscontextmanagerV1EgressPolicy {
+  /** Optional. Human-readable title for the egress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
+  title?: string;
   /** Defines conditions on the source of a request causing this EgressPolicy to apply. */
   egressFrom?: GoogleIdentityAccesscontextmanagerV1EgressFrom;
   /** Defines the conditions on the ApiOperation and destination resources that cause this EgressPolicy to apply. */
   egressTo?: GoogleIdentityAccesscontextmanagerV1EgressTo;
-  /** Optional. Human-readable title for the egress rule. The title must be unique within the perimeter and can not exceed 100 characters. Within the access policy, the combined length of all rule titles must not exceed 240,000 characters. */
-  title?: string;
 }
 
 export const GoogleIdentityAccesscontextmanagerV1EgressPolicy: Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressPolicy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      title: Schema.optional(Schema.String),
       egressFrom: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1EgressFrom,
       ),
       egressTo: Schema.optional(GoogleIdentityAccesscontextmanagerV1EgressTo),
-      title: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleIdentityAccesscontextmanagerV1EgressPolicy",
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1EgressPolicy>;
 
 export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig {
-  /** A list of Google Cloud resources that are inside of the service perimeter. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. */
-  resources?: Array<string>;
-  /** A list of `AccessLevel` resource names that allow resources within the `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed must be in the same policy as this `ServicePerimeter`. Referencing a nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`. For Service Perimeter Bridge, must be empty. */
-  accessLevels?: Array<string>;
   /** Google Cloud services that are subject to the Service Perimeter restrictions. For example, if `storage.googleapis.com` is specified, access to the storage buckets inside the perimeter must meet the perimeter's access restrictions. */
   restrictedServices?: Array<string>;
   /** Configuration for APIs allowed within Perimeter. */
   vpcAccessibleServices?: GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices;
   /** List of IngressPolicies to apply to the perimeter. A perimeter may have multiple IngressPolicies, each of which is evaluated separately. Access is granted if any Ingress Policy grants it. Must be empty for a perimeter bridge. */
   ingressPolicies?: Array<GoogleIdentityAccesscontextmanagerV1IngressPolicy>;
+  /** A list of Google Cloud resources that are inside of the service perimeter. Currently only projects and VPCs are allowed. Project format: `projects/{project_number}` VPC network format: `//compute.googleapis.com/projects/{PROJECT_ID}/global/networks/{NAME}`. */
+  resources?: Array<string>;
+  /** A list of `AccessLevel` resource names that allow resources within the `ServicePerimeter` to be accessed from the internet. `AccessLevels` listed must be in the same policy as this `ServicePerimeter`. Referencing a nonexistent `AccessLevel` is a syntax error. If no `AccessLevel` names are listed, resources within the perimeter can only be accessed via Google Cloud calls with request origins within the perimeter. Example: `"accessPolicies/MY_POLICY/accessLevels/MY_LEVEL"`. For Service Perimeter Bridge, must be empty. */
+  accessLevels?: Array<string>;
   /** List of EgressPolicies to apply to the perimeter. A perimeter may have multiple EgressPolicies, each of which is evaluated separately. Access is granted if any EgressPolicy grants it. Must be empty for a perimeter bridge. */
   egressPolicies?: Array<GoogleIdentityAccesscontextmanagerV1EgressPolicy>;
 }
@@ -707,8 +712,6 @@ export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig {
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      resources: Schema.optional(Schema.Array(Schema.String)),
-      accessLevels: Schema.optional(Schema.Array(Schema.String)),
       restrictedServices: Schema.optional(Schema.Array(Schema.String)),
       vpcAccessibleServices: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1VpcAccessibleServices,
@@ -716,6 +719,8 @@ export const GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig: Schema.
       ingressPolicies: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1IngressPolicy),
       ),
+      resources: Schema.optional(Schema.Array(Schema.String)),
+      accessLevels: Schema.optional(Schema.Array(Schema.String)),
       egressPolicies: Schema.optional(
         Schema.Array(GoogleIdentityAccesscontextmanagerV1EgressPolicy),
       ),
@@ -725,261 +730,179 @@ export const GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig: Schema.
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig>;
 
 export interface GoogleIdentityAccesscontextmanagerV1ServicePerimeter {
+  /** Optional. An opaque identifier for the current version of the `ServicePerimeter`. This identifier does not follow any specific format. If an etag is not provided, the operation will be performed as if a valid etag is provided. */
+  etag?: string;
   /** Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
   name?: string;
-  /** Human readable title. Must be unique within the Policy. */
-  title?: string;
+  /** Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the "use_explicit_dry_run_spec" flag is set. */
+  spec?: GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig;
   /** Description of the `ServicePerimeter` and its use. Does not affect behavior. */
   description?: string;
+  /** Current ServicePerimeter configuration. Specifies sets of resources, restricted services and access levels that determine perimeter content and boundaries. */
+  status?: GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig;
+  /** Human readable title. Must be unique within the Policy. */
+  title?: string;
   /** Perimeter type indicator. A single project or VPC network is allowed to be a member of single regular perimeter, but multiple service perimeter bridges. A project cannot be a included in a perimeter bridge without being included in regular perimeter. For perimeter bridges, the restricted service list as well as access level lists must be empty. */
   perimeterType?:
     | "PERIMETER_TYPE_REGULAR"
     | "PERIMETER_TYPE_BRIDGE"
     | (string & {});
-  /** Current ServicePerimeter configuration. Specifies sets of resources, restricted services and access levels that determine perimeter content and boundaries. */
-  status?: GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig;
-  /** Proposed (or dry run) ServicePerimeter configuration. This configuration allows to specify and test ServicePerimeter configuration without enforcing actual access restrictions. Only allowed to be set when the "use_explicit_dry_run_spec" flag is set. */
-  spec?: GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig;
   /** Use explicit dry run spec flag. Ordinarily, a dry-run spec implicitly exists for all Service Perimeters, and that spec is identical to the status for those Service Perimeters. When this flag is set, it inhibits the generation of the implicit spec, thereby allowing the user to explicitly provide a configuration ("spec") to use in a dry-run version of the Service Perimeter. This allows the user to test changes to the enforced config ("status") without actually enforcing them. This testing is done through analyzing the differences between currently enforced and suggested restrictions. use_explicit_dry_run_spec must bet set to True if any of the fields in the spec are set to non-default values. */
   useExplicitDryRunSpec?: boolean;
-  /** Optional. An opaque identifier for the current version of the `ServicePerimeter`. This identifier does not follow any specific format. If an etag is not provided, the operation will be performed as if a valid etag is provided. */
-  etag?: string;
 }
 
 export const GoogleIdentityAccesscontextmanagerV1ServicePerimeter: Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeter> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      etag: Schema.optional(Schema.String),
       name: Schema.optional(Schema.String),
-      title: Schema.optional(Schema.String),
-      description: Schema.optional(Schema.String),
-      perimeterType: Schema.optional(Schema.String),
-      status: Schema.optional(
-        GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig,
-      ),
       spec: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig,
       ),
+      description: Schema.optional(Schema.String),
+      status: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1ServicePerimeterConfig,
+      ),
+      title: Schema.optional(Schema.String),
+      perimeterType: Schema.optional(Schema.String),
       useExplicitDryRunSpec: Schema.optional(Schema.Boolean),
-      etag: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleIdentityAccesscontextmanagerV1ServicePerimeter",
   }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1ServicePerimeter>;
 
-export interface Asset {
-  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
+export interface GoogleIdentityAccesscontextmanagerV1BasicLevel {
+  /** How the `conditions` list should be combined to determine if a request is granted this `AccessLevel`. If AND is used, each `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. If OR is used, at least one `Condition` in `conditions` must be satisfied for the `AccessLevel` to be applied. Default behavior is AND. */
+  combiningFunction?: "AND" | "OR" | (string & {});
+  /** Required. A list of requirements for the `AccessLevel` to be granted. */
+  conditions?: Array<GoogleIdentityAccesscontextmanagerV1Condition>;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1BasicLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      combiningFunction: Schema.optional(Schema.String),
+      conditions: Schema.optional(
+        Schema.Array(GoogleIdentityAccesscontextmanagerV1Condition),
+      ),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1BasicLevel",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1BasicLevel>;
+
+export interface GoogleIdentityAccesscontextmanagerV1CustomLevel {
+  /** Required. A Cloud CEL expression evaluating to a boolean. */
+  expr?: Expr;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1CustomLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      expr: Schema.optional(Expr),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1CustomLevel",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1CustomLevel>;
+
+export interface GoogleIdentityAccesscontextmanagerV1AccessLevel {
+  /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
   name?: string;
-  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
-  assetType?: string;
-  /** A representation of the resource. */
-  resource?: Resource;
-  /** A representation of the IAM policy set on a Google Cloud resource. There can be a maximum of one IAM policy set on any given resource. In addition, IAM policies inherit their granted access scope from any policies set on parent resources in the resource hierarchy. Therefore, the effectively policy is the union of both the policy set on this resource and each policy set on all of the resource's ancestry resource levels in the hierarchy. See [this topic](https://cloud.google.com/iam/help/allow-policies/inheritance) for more information. */
-  iamPolicy?: Policy;
-  /** A representation of an [organization policy](https://cloud.google.com/resource-manager/docs/organization-policy/overview#organization_policy). There can be more than one organization policy with different constraints set on a given resource. */
-  orgPolicy?: Array<GoogleCloudOrgpolicyV1Policy>;
+  /** A `BasicLevel` composed of `Conditions`. */
+  basic?: GoogleIdentityAccesscontextmanagerV1BasicLevel;
+  /** Description of the `AccessLevel` and its use. Does not affect behavior. */
+  description?: string;
+  /** A `CustomLevel` written in the Common Expression Language. */
+  custom?: GoogleIdentityAccesscontextmanagerV1CustomLevel;
+  /** Human readable title. Must be unique within the Policy. */
+  title?: string;
+}
+
+export const GoogleIdentityAccesscontextmanagerV1AccessLevel: Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      name: Schema.optional(Schema.String),
+      basic: Schema.optional(GoogleIdentityAccesscontextmanagerV1BasicLevel),
+      description: Schema.optional(Schema.String),
+      custom: Schema.optional(GoogleIdentityAccesscontextmanagerV1CustomLevel),
+      title: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleIdentityAccesscontextmanagerV1AccessLevel",
+  }) as any as Schema.Schema<GoogleIdentityAccesscontextmanagerV1AccessLevel>;
+
+export interface Asset {
   /** Please also refer to the [access policy user guide](https://cloud.google.com/access-context-manager/docs/overview#access-policies). */
   accessPolicy?: GoogleIdentityAccesscontextmanagerV1AccessPolicy;
-  /** Please also refer to the [access level user guide](https://cloud.google.com/access-context-manager/docs/overview#access-levels). */
-  accessLevel?: GoogleIdentityAccesscontextmanagerV1AccessLevel;
+  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
+  assetType?: string;
+  /** A representation of an [organization policy](https://cloud.google.com/resource-manager/docs/organization-policy/overview#organization_policy). There can be more than one organization policy with different constraints set on a given resource. */
+  orgPolicy?: Array<GoogleCloudOrgpolicyV1Policy>;
+  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
+  name?: string;
   /** Please also refer to the [service perimeter user guide](https://cloud.google.com/vpc-service-controls/docs/overview). */
   servicePerimeter?: GoogleIdentityAccesscontextmanagerV1ServicePerimeter;
+  /** Please also refer to the [access level user guide](https://cloud.google.com/access-context-manager/docs/overview#access-levels). */
+  accessLevel?: GoogleIdentityAccesscontextmanagerV1AccessLevel;
+  /** A representation of the resource. */
+  resource?: Resource;
   /** The ancestry path of an asset in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. If the asset is a project, folder, or organization, the ancestry path starts from the asset itself. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
   ancestors?: Array<string>;
+  /** A representation of the IAM policy set on a Google Cloud resource. There can be a maximum of one IAM policy set on any given resource. In addition, IAM policies inherit their granted access scope from any policies set on parent resources in the resource hierarchy. Therefore, the effectively policy is the union of both the policy set on this resource and each policy set on all of the resource's ancestry resource levels in the hierarchy. See [this topic](https://cloud.google.com/iam/help/allow-policies/inheritance) for more information. */
+  iamPolicy?: Policy;
 }
 
 export const Asset: Schema.Schema<Asset> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      assetType: Schema.optional(Schema.String),
-      resource: Schema.optional(Resource),
-      iamPolicy: Schema.optional(Policy),
-      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
       accessPolicy: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1AccessPolicy,
+      ),
+      assetType: Schema.optional(Schema.String),
+      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
+      name: Schema.optional(Schema.String),
+      servicePerimeter: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
       ),
       accessLevel: Schema.optional(
         GoogleIdentityAccesscontextmanagerV1AccessLevel,
       ),
-      servicePerimeter: Schema.optional(
-        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
-      ),
+      resource: Schema.optional(Resource),
       ancestors: Schema.optional(Schema.Array(Schema.String)),
+      iamPolicy: Schema.optional(Policy),
     }),
   ).annotate({ identifier: "Asset" }) as any as Schema.Schema<Asset>;
 
-export interface ListAssetsResponse {
-  /** Time the snapshot was taken. */
-  readTime?: string;
-  /** Assets. */
-  assets?: Array<Asset>;
-  /** Token to retrieve the next page of results. It expires 72 hours after the page token for the first page is generated. Set to empty if there are no remaining results. */
-  nextPageToken?: string;
-}
-
-export const ListAssetsResponse: Schema.Schema<ListAssetsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      readTime: Schema.optional(Schema.String),
-      assets: Schema.optional(Schema.Array(Asset)),
-      nextPageToken: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "ListAssetsResponse",
-  }) as any as Schema.Schema<ListAssetsResponse>;
-
 export interface GoogleCloudAssetV1p7beta1Resource {
-  /** The API version. Example: `v1` */
-  version?: string;
   /** The URL of the discovery document containing the resource's JSON schema. Example: `https://www.googleapis.com/discovery/v1/apis/compute/v1/rest` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
   discoveryDocumentUri?: string;
-  /** The JSON schema name listed in the discovery document. Example: `Project` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
-  discoveryName?: string;
-  /** The REST URL for accessing the resource. An HTTP `GET` request using this URL returns the resource itself. Example: `https://cloudresourcemanager.googleapis.com/v1/projects/my-project-123` This value is unspecified for resources without a REST API. */
-  resourceUrl?: string;
   /** The full name of the immediate parent of this resource. See [Resource Names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. For Google Cloud assets, this value is the parent resource defined in the [IAM policy hierarchy](https://cloud.google.com/iam/docs/overview#policy_hierarchy). Example: `//cloudresourcemanager.googleapis.com/projects/my_project_123` For third-party assets, this field may be set differently. */
   parent?: string;
-  /** The content of the resource, in which some sensitive fields are removed and may not be present. */
-  data?: Record<string, unknown>;
+  /** The JSON schema name listed in the discovery document. Example: `Project` This value is unspecified for resources that do not have an API based on a discovery document, such as Cloud Bigtable. */
+  discoveryName?: string;
   /** The location of the resource in Google Cloud, such as its zone and region. For more information, see https://cloud.google.com/about/locations/. */
   location?: string;
+  /** The content of the resource, in which some sensitive fields are removed and may not be present. */
+  data?: Record<string, unknown>;
+  /** The REST URL for accessing the resource. An HTTP `GET` request using this URL returns the resource itself. Example: `https://cloudresourcemanager.googleapis.com/v1/projects/my-project-123` This value is unspecified for resources without a REST API. */
+  resourceUrl?: string;
+  /** The API version. Example: `v1` */
+  version?: string;
 }
 
 export const GoogleCloudAssetV1p7beta1Resource: Schema.Schema<GoogleCloudAssetV1p7beta1Resource> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      version: Schema.optional(Schema.String),
       discoveryDocumentUri: Schema.optional(Schema.String),
-      discoveryName: Schema.optional(Schema.String),
-      resourceUrl: Schema.optional(Schema.String),
       parent: Schema.optional(Schema.String),
-      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      discoveryName: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
+      data: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      resourceUrl: Schema.optional(Schema.String),
+      version: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "GoogleCloudAssetV1p7beta1Resource",
   }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1Resource>;
-
-export interface GoogleCloudAssetV1p7beta1RelationshipAttributes {
-  /** The unique identifier of the relationship type. Example: `INSTANCE_TO_INSTANCEGROUP` */
-  type?: string;
-  /** The source asset type. Example: `compute.googleapis.com/Instance` */
-  sourceResourceType?: string;
-  /** The target asset type. Example: `compute.googleapis.com/Disk` */
-  targetResourceType?: string;
-  /** The detail of the relationship, e.g. `contains`, `attaches` */
-  action?: string;
-}
-
-export const GoogleCloudAssetV1p7beta1RelationshipAttributes: Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      type: Schema.optional(Schema.String),
-      sourceResourceType: Schema.optional(Schema.String),
-      targetResourceType: Schema.optional(Schema.String),
-      action: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssetV1p7beta1RelationshipAttributes",
-  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelationshipAttributes>;
-
-export interface GoogleCloudAssetV1p7beta1RelatedAsset {
-  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
-  asset?: string;
-  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
-  assetType?: string;
-  /** The ancestors of an asset in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
-  ancestors?: Array<string>;
-}
-
-export const GoogleCloudAssetV1p7beta1RelatedAsset: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      asset: Schema.optional(Schema.String),
-      assetType: Schema.optional(Schema.String),
-      ancestors: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssetV1p7beta1RelatedAsset",
-  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAsset>;
-
-export interface GoogleCloudAssetV1p7beta1RelatedAssets {
-  /** The detailed relation attributes. */
-  relationshipAttributes?: GoogleCloudAssetV1p7beta1RelationshipAttributes;
-  /** The peer resources of the relationship. */
-  assets?: Array<GoogleCloudAssetV1p7beta1RelatedAsset>;
-}
-
-export const GoogleCloudAssetV1p7beta1RelatedAssets: Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      relationshipAttributes: Schema.optional(
-        GoogleCloudAssetV1p7beta1RelationshipAttributes,
-      ),
-      assets: Schema.optional(
-        Schema.Array(GoogleCloudAssetV1p7beta1RelatedAsset),
-      ),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssetV1p7beta1RelatedAssets",
-  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1RelatedAssets>;
-
-export interface GoogleCloudAssetV1p7beta1Asset {
-  /** The last update timestamp of an asset. update_time is updated when create/update/delete operation is performed. */
-  updateTime?: string;
-  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
-  name?: string;
-  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
-  assetType?: string;
-  /** A representation of the resource. */
-  resource?: GoogleCloudAssetV1p7beta1Resource;
-  /** A representation of the IAM policy set on a Google Cloud resource. There can be a maximum of one IAM policy set on any given resource. In addition, IAM policies inherit their granted access scope from any policies set on parent resources in the resource hierarchy. Therefore, the effectively policy is the union of both the policy set on this resource and each policy set on all of the resource's ancestry resource levels in the hierarchy. See [this topic](https://cloud.google.com/iam/help/allow-policies/inheritance) for more information. */
-  iamPolicy?: Policy;
-  /** A representation of an [organization policy](https://cloud.google.com/resource-manager/docs/organization-policy/overview#organization_policy). There can be more than one organization policy with different constraints set on a given resource. */
-  orgPolicy?: Array<GoogleCloudOrgpolicyV1Policy>;
-  /** Please also refer to the [access policy user guide](https://cloud.google.com/access-context-manager/docs/overview#access-policies). */
-  accessPolicy?: GoogleIdentityAccesscontextmanagerV1AccessPolicy;
-  /** Please also refer to the [access level user guide](https://cloud.google.com/access-context-manager/docs/overview#access-levels). */
-  accessLevel?: GoogleIdentityAccesscontextmanagerV1AccessLevel;
-  /** Please also refer to the [service perimeter user guide](https://cloud.google.com/vpc-service-controls/docs/overview). */
-  servicePerimeter?: GoogleIdentityAccesscontextmanagerV1ServicePerimeter;
-  /** The related assets of the asset of one relationship type. One asset only represents one type of relationship. */
-  relatedAssets?: GoogleCloudAssetV1p7beta1RelatedAssets;
-  /** The ancestry path of an asset in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. If the asset is a project, folder, or organization, the ancestry path starts from the asset itself. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
-  ancestors?: Array<string>;
-}
-
-export const GoogleCloudAssetV1p7beta1Asset: Schema.Schema<GoogleCloudAssetV1p7beta1Asset> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      updateTime: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      assetType: Schema.optional(Schema.String),
-      resource: Schema.optional(GoogleCloudAssetV1p7beta1Resource),
-      iamPolicy: Schema.optional(Policy),
-      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
-      accessPolicy: Schema.optional(
-        GoogleIdentityAccesscontextmanagerV1AccessPolicy,
-      ),
-      accessLevel: Schema.optional(
-        GoogleIdentityAccesscontextmanagerV1AccessLevel,
-      ),
-      servicePerimeter: Schema.optional(
-        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
-      ),
-      relatedAssets: Schema.optional(GoogleCloudAssetV1p7beta1RelatedAssets),
-      ancestors: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "GoogleCloudAssetV1p7beta1Asset",
-  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1Asset>;
-
-export interface AnalyzeIamPolicyLongrunningResponse {}
-
-export const AnalyzeIamPolicyLongrunningResponse: Schema.Schema<AnalyzeIamPolicyLongrunningResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "AnalyzeIamPolicyLongrunningResponse",
-  }) as any as Schema.Schema<AnalyzeIamPolicyLongrunningResponse>;
 
 export interface AnalyzeIamPolicyLongrunningMetadata {
   /** Output only. The time the operation was created. */
@@ -995,17 +918,94 @@ export const AnalyzeIamPolicyLongrunningMetadata: Schema.Schema<AnalyzeIamPolicy
     identifier: "AnalyzeIamPolicyLongrunningMetadata",
   }) as any as Schema.Schema<AnalyzeIamPolicyLongrunningMetadata>;
 
+export interface GoogleCloudAssetV1p7beta1Asset {
+  /** Please also refer to the [service perimeter user guide](https://cloud.google.com/vpc-service-controls/docs/overview). */
+  servicePerimeter?: GoogleIdentityAccesscontextmanagerV1ServicePerimeter;
+  /** Please also refer to the [access level user guide](https://cloud.google.com/access-context-manager/docs/overview#access-levels). */
+  accessLevel?: GoogleIdentityAccesscontextmanagerV1AccessLevel;
+  /** A representation of the resource. */
+  resource?: GoogleCloudAssetV1p7beta1Resource;
+  /** The ancestry path of an asset in Google Cloud [resource hierarchy](https://cloud.google.com/resource-manager/docs/cloud-platform-resource-hierarchy), represented as a list of relative resource names. An ancestry path starts with the closest ancestor in the hierarchy and ends at root. If the asset is a project, folder, or organization, the ancestry path starts from the asset itself. Example: `["projects/123456789", "folders/5432", "organizations/1234"]` */
+  ancestors?: Array<string>;
+  /** A representation of the IAM policy set on a Google Cloud resource. There can be a maximum of one IAM policy set on any given resource. In addition, IAM policies inherit their granted access scope from any policies set on parent resources in the resource hierarchy. Therefore, the effectively policy is the union of both the policy set on this resource and each policy set on all of the resource's ancestry resource levels in the hierarchy. See [this topic](https://cloud.google.com/iam/help/allow-policies/inheritance) for more information. */
+  iamPolicy?: Policy;
+  /** The related assets of the asset of one relationship type. One asset only represents one type of relationship. */
+  relatedAssets?: GoogleCloudAssetV1p7beta1RelatedAssets;
+  /** Please also refer to the [access policy user guide](https://cloud.google.com/access-context-manager/docs/overview#access-policies). */
+  accessPolicy?: GoogleIdentityAccesscontextmanagerV1AccessPolicy;
+  /** The type of the asset. Example: `compute.googleapis.com/Disk` See [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types) for more information. */
+  assetType?: string;
+  /** A representation of an [organization policy](https://cloud.google.com/resource-manager/docs/organization-policy/overview#organization_policy). There can be more than one organization policy with different constraints set on a given resource. */
+  orgPolicy?: Array<GoogleCloudOrgpolicyV1Policy>;
+  /** The full name of the asset. Example: `//compute.googleapis.com/projects/my_project_123/zones/zone1/instances/instance1` See [Resource names](https://cloud.google.com/apis/design/resource_names#full_resource_name) for more information. */
+  name?: string;
+  /** The last update timestamp of an asset. update_time is updated when create/update/delete operation is performed. */
+  updateTime?: string;
+}
+
+export const GoogleCloudAssetV1p7beta1Asset: Schema.Schema<GoogleCloudAssetV1p7beta1Asset> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      servicePerimeter: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1ServicePerimeter,
+      ),
+      accessLevel: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessLevel,
+      ),
+      resource: Schema.optional(GoogleCloudAssetV1p7beta1Resource),
+      ancestors: Schema.optional(Schema.Array(Schema.String)),
+      iamPolicy: Schema.optional(Policy),
+      relatedAssets: Schema.optional(GoogleCloudAssetV1p7beta1RelatedAssets),
+      accessPolicy: Schema.optional(
+        GoogleIdentityAccesscontextmanagerV1AccessPolicy,
+      ),
+      assetType: Schema.optional(Schema.String),
+      orgPolicy: Schema.optional(Schema.Array(GoogleCloudOrgpolicyV1Policy)),
+      name: Schema.optional(Schema.String),
+      updateTime: Schema.optional(Schema.String),
+    }),
+  ).annotate({
+    identifier: "GoogleCloudAssetV1p7beta1Asset",
+  }) as any as Schema.Schema<GoogleCloudAssetV1p7beta1Asset>;
+
+export interface AnalyzeIamPolicyLongrunningResponse {}
+
+export const AnalyzeIamPolicyLongrunningResponse: Schema.Schema<AnalyzeIamPolicyLongrunningResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "AnalyzeIamPolicyLongrunningResponse",
+  }) as any as Schema.Schema<AnalyzeIamPolicyLongrunningResponse>;
+
+export interface ListAssetsResponse {
+  /** Time the snapshot was taken. */
+  readTime?: string;
+  /** Token to retrieve the next page of results. It expires 72 hours after the page token for the first page is generated. Set to empty if there are no remaining results. */
+  nextPageToken?: string;
+  /** Assets. */
+  assets?: Array<Asset>;
+}
+
+export const ListAssetsResponse: Schema.Schema<ListAssetsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      readTime: Schema.optional(Schema.String),
+      nextPageToken: Schema.optional(Schema.String),
+      assets: Schema.optional(Schema.Array(Asset)),
+    }),
+  ).annotate({
+    identifier: "ListAssetsResponse",
+  }) as any as Schema.Schema<ListAssetsResponse>;
+
 // ==========================================================================
 // Operations
 // ==========================================================================
 
 export interface ListAssetsRequest {
-  /** Required. Name of the organization or project the assets belong to. Format: "organizations/[organization-number]" (such as "organizations/123"), "projects/[project-id]" (such as "projects/my-project-id"), or "projects/[project-number]" (such as "projects/12345"). */
-  parent: string;
   /** Timestamp to take an asset snapshot. This can only be set to a timestamp between the current time and the current time minus 35 days (inclusive). If not specified, the current time will be used. Due to delays in resource data collection and indexing, there is a volatile window during which running the same query may get different results. */
   readTime?: string;
-  /** A list of asset types to take a snapshot for. For example: "compute.googleapis.com/Disk". Regular expression is also supported. For example: * "compute.googleapis.com.*" snapshots resources whose asset type starts with "compute.googleapis.com". * ".*Instance" snapshots resources whose asset type ends with "Instance". * ".*Instance.*" snapshots resources whose asset type contains "Instance". See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported asset type, an INVALID_ARGUMENT error will be returned. If specified, only matching assets will be returned, otherwise, it will snapshot all asset types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types. */
-  assetTypes?: string[];
+  /** The maximum number of assets to be returned in a single response. Default is 100, minimum is 1, and maximum is 1000. */
+  pageSize?: number;
+  /** Required. Name of the organization or project the assets belong to. Format: "organizations/[organization-number]" (such as "organizations/123"), "projects/[project-id]" (such as "projects/my-project-id"), or "projects/[project-number]" (such as "projects/12345"). */
+  parent: string;
   /** Asset content type. If not specified, no content but the asset name will be returned. */
   contentType?:
     | "CONTENT_TYPE_UNSPECIFIED"
@@ -1014,21 +1014,21 @@ export interface ListAssetsRequest {
     | "ORG_POLICY"
     | "ACCESS_POLICY"
     | (string & {});
-  /** The maximum number of assets to be returned in a single response. Default is 100, minimum is 1, and maximum is 1000. */
-  pageSize?: number;
   /** The `next_page_token` returned from the previous `ListAssetsResponse`, or unspecified for the first `ListAssetsRequest`. It is a continuation of a prior `ListAssets` call, and the API should return the next page of assets. */
   pageToken?: string;
+  /** A list of asset types to take a snapshot for. For example: "compute.googleapis.com/Disk". Regular expression is also supported. For example: * "compute.googleapis.com.*" snapshots resources whose asset type starts with "compute.googleapis.com". * ".*Instance" snapshots resources whose asset type ends with "Instance". * ".*Instance.*" snapshots resources whose asset type contains "Instance". See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported regular expression syntax. If the regular expression does not match any supported asset type, an INVALID_ARGUMENT error will be returned. If specified, only matching assets will be returned, otherwise, it will snapshot all asset types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all supported asset types. */
+  assetTypes?: string[];
 }
 
 export const ListAssetsRequest = /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-  parent: Schema.String.pipe(T.HttpPath("parent")),
   readTime: Schema.optional(Schema.String).pipe(T.HttpQuery("readTime")),
+  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  parent: Schema.String.pipe(T.HttpPath("parent")),
+  contentType: Schema.optional(Schema.String).pipe(T.HttpQuery("contentType")),
+  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   assetTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
     T.HttpQuery("assetTypes"),
   ),
-  contentType: Schema.optional(Schema.String).pipe(T.HttpQuery("contentType")),
-  pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
 }).pipe(
   T.Http({
     method: "GET",

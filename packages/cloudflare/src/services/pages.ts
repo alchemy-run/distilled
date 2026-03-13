@@ -1777,7 +1777,9 @@ export const listProjects: API.PaginatedOperationMethod<
     ListProjectsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListProjectsRequest) => stream.Stream<
+  items: (
+    input: ListProjectsRequest,
+  ) => stream.Stream<
     {
       id: string;
       canonicalDeployment: {
@@ -4697,7 +4699,9 @@ export const listProjectDeployments: API.PaginatedOperationMethod<
     ListProjectDeploymentsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListProjectDeploymentsRequest) => stream.Stream<
+  items: (
+    input: ListProjectDeploymentsRequest,
+  ) => stream.Stream<
     {
       id: string;
       aliases: string[] | null;
@@ -5832,7 +5836,9 @@ export const listProjectDomains: API.PaginatedOperationMethod<
     ListProjectDomainsError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListProjectDomainsRequest) => stream.Stream<
+  items: (
+    input: ListProjectDomainsRequest,
+  ) => stream.Stream<
     {
       id: string;
       certificateAuthority: "google" | "lets_encrypt";

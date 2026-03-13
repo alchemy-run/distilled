@@ -22,26 +22,26 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface UndeleteDatabaseInstanceRequest {}
+export interface DisableDatabaseInstanceRequest {}
 
-export const UndeleteDatabaseInstanceRequest: Schema.Schema<UndeleteDatabaseInstanceRequest> =
+export const DisableDatabaseInstanceRequest: Schema.Schema<DisableDatabaseInstanceRequest> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "UndeleteDatabaseInstanceRequest",
-  }) as any as Schema.Schema<UndeleteDatabaseInstanceRequest>;
+    identifier: "DisableDatabaseInstanceRequest",
+  }) as any as Schema.Schema<DisableDatabaseInstanceRequest>;
 
 export interface DatabaseInstance {
   /** Output only. The resource name of the project this instance belongs to. For example: `projects/{project-number}`. */
   project?: string;
   /** Output only. Output Only. The globally unique hostname of the database. */
   databaseUrl?: string;
-  /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
-  name?: string;
   /** Immutable. The database instance type. On creation only USER_DATABASE is allowed, which is also the default when omitted. */
   type?:
     | "DATABASE_INSTANCE_TYPE_UNSPECIFIED"
     | "DEFAULT_DATABASE"
     | "USER_DATABASE"
     | (string & {});
+  /** The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}`. */
+  name?: string;
   /** Output only. The database's lifecycle state. Read-only. */
   state?:
     | "LIFECYCLE_STATE_UNSPECIFIED"
@@ -56,8 +56,8 @@ export const DatabaseInstance: Schema.Schema<DatabaseInstance> =
     Schema.Struct({
       project: Schema.optional(Schema.String),
       databaseUrl: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
       type: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
       state: Schema.optional(Schema.String),
     }),
   ).annotate({
@@ -65,28 +65,28 @@ export const DatabaseInstance: Schema.Schema<DatabaseInstance> =
   }) as any as Schema.Schema<DatabaseInstance>;
 
 export interface ListDatabaseInstancesResponse {
-  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListDatabaseInstances` to find the next group of database instances. Page tokens are short-lived and should not be persisted. */
-  nextPageToken?: string;
   /** List of each DatabaseInstance that is in the parent Firebase project. */
   instances?: Array<DatabaseInstance>;
+  /** If the result list is too large to fit in a single response, then a token is returned. If the string is empty, then this response is the last page of results. This token can be used in a subsequent call to `ListDatabaseInstances` to find the next group of database instances. Page tokens are short-lived and should not be persisted. */
+  nextPageToken?: string;
 }
 
 export const ListDatabaseInstancesResponse: Schema.Schema<ListDatabaseInstancesResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
       instances: Schema.optional(Schema.Array(DatabaseInstance)),
+      nextPageToken: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "ListDatabaseInstancesResponse",
   }) as any as Schema.Schema<ListDatabaseInstancesResponse>;
 
-export interface DisableDatabaseInstanceRequest {}
+export interface UndeleteDatabaseInstanceRequest {}
 
-export const DisableDatabaseInstanceRequest: Schema.Schema<DisableDatabaseInstanceRequest> =
+export const UndeleteDatabaseInstanceRequest: Schema.Schema<UndeleteDatabaseInstanceRequest> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "DisableDatabaseInstanceRequest",
-  }) as any as Schema.Schema<DisableDatabaseInstanceRequest>;
+    identifier: "UndeleteDatabaseInstanceRequest",
+  }) as any as Schema.Schema<UndeleteDatabaseInstanceRequest>;
 
 export interface ReenableDatabaseInstanceRequest {}
 
@@ -99,25 +99,63 @@ export const ReenableDatabaseInstanceRequest: Schema.Schema<ReenableDatabaseInst
 // Operations
 // ==========================================================================
 
+export interface ReenableProjectsLocationsInstancesRequest {
+  /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
+  name: string;
+  /** Request body */
+  body?: ReenableDatabaseInstanceRequest;
+}
+
+export const ReenableProjectsLocationsInstancesRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(ReenableDatabaseInstanceRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ReenableProjectsLocationsInstancesRequest>;
+
+export type ReenableProjectsLocationsInstancesResponse = DatabaseInstance;
+export const ReenableProjectsLocationsInstancesResponse =
+  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
+
+export type ReenableProjectsLocationsInstancesError = DefaultErrors;
+
+/** Enables a DatabaseInstance. The database must have been disabled previously using DisableDatabaseInstance. The state of a successfully reenabled DatabaseInstance is ACTIVE. */
+export const reenableProjectsLocationsInstances: API.OperationMethod<
+  ReenableProjectsLocationsInstancesRequest,
+  ReenableProjectsLocationsInstancesResponse,
+  ReenableProjectsLocationsInstancesError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: ReenableProjectsLocationsInstancesRequest,
+  output: ReenableProjectsLocationsInstancesResponse,
+  errors: [],
+}));
+
 export interface ListProjectsLocationsInstancesRequest {
+  /** Token returned from a previous call to `ListDatabaseInstances` indicating where in the set of database instances to resume listing. */
+  pageToken?: string;
   /** The maximum number of database instances to return in the response. The server may return fewer than this at its discretion. If no value is specified (or too large a value is specified), then the server will impose its own limit. */
   pageSize?: number;
   /** Indicate that DatabaseInstances in the `DELETED` state should also be returned. */
   showDeleted?: boolean;
   /** Required. The parent project for which to list database instances, in the form: `projects/{project-number}/locations/{location-id}` To list across all locations, use a parent in the form: `projects/{project-number}/locations/-` */
   parent: string;
-  /** Token returned from a previous call to `ListDatabaseInstances` indicating where in the set of database instances to resume listing. */
-  pageToken?: string;
 }
 
 export const ListProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
     pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
     showDeleted: Schema.optional(Schema.Boolean).pipe(
       T.HttpQuery("showDeleted"),
     ),
     parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
   }).pipe(
     T.Http({
       method: "GET",
@@ -183,79 +221,49 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   errors: [],
 }));
 
-export interface UndeleteProjectsLocationsInstancesRequest {
-  /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
-  name: string;
+export interface CreateProjectsLocationsInstancesRequest {
+  /** When set to true, the request will be validated but not submitted. */
+  validateOnly?: boolean;
+  /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
+  parent: string;
+  /** The globally unique identifier of the database instance. */
+  databaseId?: string;
   /** Request body */
-  body?: UndeleteDatabaseInstanceRequest;
+  body?: DatabaseInstance;
 }
 
-export const UndeleteProjectsLocationsInstancesRequest =
+export const CreateProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-    body: Schema.optional(UndeleteDatabaseInstanceRequest).pipe(T.HttpBody()),
+    validateOnly: Schema.optional(Schema.Boolean).pipe(
+      T.HttpQuery("validateOnly"),
+    ),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
+    body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<UndeleteProjectsLocationsInstancesRequest>;
+  ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
 
-export type UndeleteProjectsLocationsInstancesResponse = DatabaseInstance;
-export const UndeleteProjectsLocationsInstancesResponse =
+export type CreateProjectsLocationsInstancesResponse = DatabaseInstance;
+export const CreateProjectsLocationsInstancesResponse =
   /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
-export type UndeleteProjectsLocationsInstancesError = DefaultErrors;
+export type CreateProjectsLocationsInstancesError = DefaultErrors;
 
-/** Restores a DatabaseInstance that was previously marked to be deleted. After the delete method is used, DatabaseInstances are set to the DELETED state for 20 days, and will be purged within 30 days. Databases in the DELETED state can be undeleted without losing any data. This method may only be used on a DatabaseInstance in the DELETED state. Purged DatabaseInstances may not be recovered. */
-export const undeleteProjectsLocationsInstances: API.OperationMethod<
-  UndeleteProjectsLocationsInstancesRequest,
-  UndeleteProjectsLocationsInstancesResponse,
-  UndeleteProjectsLocationsInstancesError,
+/** Requests that a new DatabaseInstance be created. The state of a successfully created DatabaseInstance is ACTIVE. Only available for projects on the Blaze plan. Projects can be upgraded using the Cloud Billing API https://cloud.google.com/billing/reference/rest/v1/projects/updateBillingInfo. Note that it might take a few minutes for billing enablement state to propagate to Firebase systems. */
+export const createProjectsLocationsInstances: API.OperationMethod<
+  CreateProjectsLocationsInstancesRequest,
+  CreateProjectsLocationsInstancesResponse,
+  CreateProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: UndeleteProjectsLocationsInstancesRequest,
-  output: UndeleteProjectsLocationsInstancesResponse,
-  errors: [],
-}));
-
-export interface ReenableProjectsLocationsInstancesRequest {
-  /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
-  name: string;
-  /** Request body */
-  body?: ReenableDatabaseInstanceRequest;
-}
-
-export const ReenableProjectsLocationsInstancesRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-    body: Schema.optional(ReenableDatabaseInstanceRequest).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:reenable",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ReenableProjectsLocationsInstancesRequest>;
-
-export type ReenableProjectsLocationsInstancesResponse = DatabaseInstance;
-export const ReenableProjectsLocationsInstancesResponse =
-  /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
-
-export type ReenableProjectsLocationsInstancesError = DefaultErrors;
-
-/** Enables a DatabaseInstance. The database must have been disabled previously using DisableDatabaseInstance. The state of a successfully reenabled DatabaseInstance is ACTIVE. */
-export const reenableProjectsLocationsInstances: API.OperationMethod<
-  ReenableProjectsLocationsInstancesRequest,
-  ReenableProjectsLocationsInstancesResponse,
-  ReenableProjectsLocationsInstancesError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: ReenableProjectsLocationsInstancesRequest,
-  output: ReenableProjectsLocationsInstancesResponse,
+  input: CreateProjectsLocationsInstancesRequest,
+  output: CreateProjectsLocationsInstancesResponse,
   errors: [],
 }));
 
@@ -293,49 +301,41 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   errors: [],
 }));
 
-export interface CreateProjectsLocationsInstancesRequest {
-  /** Required. The parent project for which to create a database instance, in the form: `projects/{project-number}/locations/{location-id}`. */
-  parent: string;
-  /** The globally unique identifier of the database instance. */
-  databaseId?: string;
-  /** When set to true, the request will be validated but not submitted. */
-  validateOnly?: boolean;
+export interface UndeleteProjectsLocationsInstancesRequest {
+  /** Required. The fully qualified resource name of the database instance, in the form: `projects/{project-number}/locations/{location-id}/instances/{database-id}` */
+  name: string;
   /** Request body */
-  body?: DatabaseInstance;
+  body?: UndeleteDatabaseInstanceRequest;
 }
 
-export const CreateProjectsLocationsInstancesRequest =
+export const UndeleteProjectsLocationsInstancesRequest =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    databaseId: Schema.optional(Schema.String).pipe(T.HttpQuery("databaseId")),
-    validateOnly: Schema.optional(Schema.Boolean).pipe(
-      T.HttpQuery("validateOnly"),
-    ),
-    body: Schema.optional(DatabaseInstance).pipe(T.HttpBody()),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(UndeleteDatabaseInstanceRequest).pipe(T.HttpBody()),
   }).pipe(
     T.Http({
       method: "POST",
-      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances",
+      path: "v1beta/projects/{projectsId}/locations/{locationsId}/instances/{instancesId}:undelete",
       hasBody: true,
     }),
     svc,
-  ) as unknown as Schema.Schema<CreateProjectsLocationsInstancesRequest>;
+  ) as unknown as Schema.Schema<UndeleteProjectsLocationsInstancesRequest>;
 
-export type CreateProjectsLocationsInstancesResponse = DatabaseInstance;
-export const CreateProjectsLocationsInstancesResponse =
+export type UndeleteProjectsLocationsInstancesResponse = DatabaseInstance;
+export const UndeleteProjectsLocationsInstancesResponse =
   /*@__PURE__*/ /*#__PURE__*/ DatabaseInstance;
 
-export type CreateProjectsLocationsInstancesError = DefaultErrors;
+export type UndeleteProjectsLocationsInstancesError = DefaultErrors;
 
-/** Requests that a new DatabaseInstance be created. The state of a successfully created DatabaseInstance is ACTIVE. Only available for projects on the Blaze plan. Projects can be upgraded using the Cloud Billing API https://cloud.google.com/billing/reference/rest/v1/projects/updateBillingInfo. Note that it might take a few minutes for billing enablement state to propagate to Firebase systems. */
-export const createProjectsLocationsInstances: API.OperationMethod<
-  CreateProjectsLocationsInstancesRequest,
-  CreateProjectsLocationsInstancesResponse,
-  CreateProjectsLocationsInstancesError,
+/** Restores a DatabaseInstance that was previously marked to be deleted. After the delete method is used, DatabaseInstances are set to the DELETED state for 20 days, and will be purged within 30 days. Databases in the DELETED state can be undeleted without losing any data. This method may only be used on a DatabaseInstance in the DELETED state. Purged DatabaseInstances may not be recovered. */
+export const undeleteProjectsLocationsInstances: API.OperationMethod<
+  UndeleteProjectsLocationsInstancesRequest,
+  UndeleteProjectsLocationsInstancesResponse,
+  UndeleteProjectsLocationsInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectsLocationsInstancesRequest,
-  output: CreateProjectsLocationsInstancesResponse,
+  input: UndeleteProjectsLocationsInstancesRequest,
+  output: UndeleteProjectsLocationsInstancesResponse,
   errors: [],
 }));
 

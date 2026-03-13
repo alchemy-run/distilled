@@ -196,7 +196,9 @@ export const listKeylessCertificates: API.PaginatedOperationMethod<
     ListKeylessCertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListKeylessCertificatesRequest) => stream.Stream<
+  items: (
+    input: ListKeylessCertificatesRequest,
+  ) => stream.Stream<
     {
       id: string;
       createdOn: string;

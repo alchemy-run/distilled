@@ -22,13 +22,6 @@ const svc = T.Service({
 // Schemas
 // ==========================================================================
 
-export interface Automatic {}
-
-export const Automatic: Schema.Schema<Automatic> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "Automatic",
-  }) as any as Schema.Schema<Automatic>;
-
 export interface Replica {
   /** The canonical IDs of the location to replicate data. For example: `"us-east1"`. */
   location?: string;
@@ -55,94 +48,73 @@ export const UserManaged: Schema.Schema<UserManaged> =
     identifier: "UserManaged",
   }) as any as Schema.Schema<UserManaged>;
 
+export interface Automatic {}
+
+export const Automatic: Schema.Schema<Automatic> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Automatic",
+  }) as any as Schema.Schema<Automatic>;
+
 export interface Replication {
-  /** The Secret will automatically be replicated without any restrictions. */
-  automatic?: Automatic;
   /** The Secret will only be replicated into the locations specified. */
   userManaged?: UserManaged;
+  /** The Secret will automatically be replicated without any restrictions. */
+  automatic?: Automatic;
 }
 
 export const Replication: Schema.Schema<Replication> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      automatic: Schema.optional(Automatic),
       userManaged: Schema.optional(UserManaged),
+      automatic: Schema.optional(Automatic),
     }),
   ).annotate({
     identifier: "Replication",
   }) as any as Schema.Schema<Replication>;
 
-export interface SecretVersion {
-  /** Output only. The time this SecretVersion was destroyed. Only present if state is DESTROYED. */
-  destroyTime?: string;
-  /** Output only. The current state of the SecretVersion. */
-  state?:
-    | "STATE_UNSPECIFIED"
-    | "ENABLED"
-    | "DISABLED"
-    | "DESTROYED"
-    | (string & {});
-  /** Output only. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. SecretVersion IDs in a Secret start at 1 and are incremented for each subsequent version of the secret. */
-  name?: string;
-  /** Output only. The time at which the SecretVersion was created. */
-  createTime?: string;
-}
-
-export const SecretVersion: Schema.Schema<SecretVersion> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      destroyTime: Schema.optional(Schema.String),
-      state: Schema.optional(Schema.String),
-      name: Schema.optional(Schema.String),
-      createTime: Schema.optional(Schema.String),
-    }),
-  ).annotate({
-    identifier: "SecretVersion",
-  }) as any as Schema.Schema<SecretVersion>;
-
-export interface ListSecretVersionsResponse {
-  /** A token to retrieve the next page of results. Pass this value in ListSecretVersionsRequest.page_token to retrieve the next page. */
-  nextPageToken?: string;
-  /** The list of SecretVersions sorted in reverse by create_time (newest first). */
-  versions?: Array<SecretVersion>;
-  /** The total number of SecretVersions. */
-  totalSize?: number;
-}
-
-export const ListSecretVersionsResponse: Schema.Schema<ListSecretVersionsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      nextPageToken: Schema.optional(Schema.String),
-      versions: Schema.optional(Schema.Array(SecretVersion)),
-      totalSize: Schema.optional(Schema.Number),
-    }),
-  ).annotate({
-    identifier: "ListSecretVersionsResponse",
-  }) as any as Schema.Schema<ListSecretVersionsResponse>;
-
 export interface Secret {
-  /** Required. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
-  replication?: Replication;
-  /** Output only. The time at which the Secret was created. */
-  createTime?: string;
-  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
-  labels?: Record<string, string>;
   /** Output only. The resource name of the Secret in the format `projects/* /secrets/*`. */
   name?: string;
   /** Optional. Input only. Immutable. Mapping of Tag keys/values directly bound to this resource. For example: "123/environment": "production", "123/costCenter": "marketing" Tags are used to organize and group resources. Tags can be used to control policy evaluation for the resource. */
   tags?: Record<string, string>;
+  /** The labels assigned to this Secret. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `\p{Ll}\p{Lo}{0,62}` Label values must be between 0 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: `[\p{Ll}\p{Lo}\p{N}_-]{0,63}` No more than 64 labels can be assigned to a given resource. */
+  labels?: Record<string, string>;
+  /** Required. Immutable. The replication policy of the secret data attached to the Secret. The replication policy cannot be changed after the Secret has been created. */
+  replication?: Replication;
+  /** Output only. The time at which the Secret was created. */
+  createTime?: string;
 }
 
 export const Secret: Schema.Schema<Secret> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      replication: Schema.optional(Replication),
-      createTime: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
       name: Schema.optional(Schema.String),
       tags: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+      replication: Schema.optional(Replication),
+      createTime: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Secret" }) as any as Schema.Schema<Secret>;
+
+export interface ListSecretsResponse {
+  /** A token to retrieve the next page of results. Pass this value in ListSecretsRequest.page_token to retrieve the next page. */
+  nextPageToken?: string;
+  /** The list of Secrets sorted in reverse by create_time (newest first). */
+  secrets?: Array<Secret>;
+  /** The total number of Secrets. */
+  totalSize?: number;
+}
+
+export const ListSecretsResponse: Schema.Schema<ListSecretsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      secrets: Schema.optional(Schema.Array(Secret)),
+      totalSize: Schema.optional(Schema.Number),
+    }),
+  ).annotate({
+    identifier: "ListSecretsResponse",
+  }) as any as Schema.Schema<ListSecretsResponse>;
 
 export interface AuditLogConfig {
   /** The log type that this config enables. */
@@ -167,17 +139,17 @@ export const AuditLogConfig: Schema.Schema<AuditLogConfig> =
   }) as any as Schema.Schema<AuditLogConfig>;
 
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: Array<AuditLogConfig>;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string;
 }
 
 export const AuditConfig: Schema.Schema<AuditConfig> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      service: Schema.optional(Schema.String),
       auditLogConfigs: Schema.optional(Schema.Array(AuditLogConfig)),
+      service: Schema.optional(Schema.String),
     }),
   ).annotate({
     identifier: "AuditConfig",
@@ -186,21 +158,21 @@ export const AuditConfig: Schema.Schema<AuditConfig> =
 export interface Expr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
   description?: string;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
 }
 
 export const Expr: Schema.Schema<Expr> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
       description: Schema.optional(Schema.String),
+      expression: Schema.optional(Schema.String),
       location: Schema.optional(Schema.String),
       title: Schema.optional(Schema.String),
-      expression: Schema.optional(Schema.String),
     }),
   ).annotate({ identifier: "Expr" }) as any as Schema.Schema<Expr>;
 
@@ -223,86 +195,97 @@ export const Binding: Schema.Schema<Binding> =
   ).annotate({ identifier: "Binding" }) as any as Schema.Schema<Binding>;
 
 export interface Policy {
+  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  version?: number;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: Array<AuditConfig>;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
   bindings?: Array<Binding>;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string;
-  /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
 }
 
 export const Policy: Schema.Schema<Policy> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
+      version: Schema.optional(Schema.Number),
       auditConfigs: Schema.optional(Schema.Array(AuditConfig)),
       bindings: Schema.optional(Schema.Array(Binding)),
       etag: Schema.optional(Schema.String),
-      version: Schema.optional(Schema.Number),
     }),
   ).annotate({ identifier: "Policy" }) as any as Schema.Schema<Policy>;
 
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy;
 }
 
 export const SetIamPolicyRequest: Schema.Schema<SetIamPolicyRequest> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      policy: Schema.optional(Policy),
       updateMask: Schema.optional(Schema.String),
+      policy: Schema.optional(Policy),
     }),
   ).annotate({
     identifier: "SetIamPolicyRequest",
   }) as any as Schema.Schema<SetIamPolicyRequest>;
 
-export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: Array<Record<string, unknown>>;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
-}
+export interface Empty {}
 
-export const Status: Schema.Schema<Status> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      message: Schema.optional(Schema.String),
-      details: Schema.optional(
-        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
-      ),
-      code: Schema.optional(Schema.Number),
-    }),
-  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+export const Empty: Schema.Schema<Empty> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "Empty",
+  }) as any as Schema.Schema<Empty>;
 
-export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: Record<string, unknown>;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+export interface SecretVersion {
+  /** Output only. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. SecretVersion IDs in a Secret start at 1 and are incremented for each subsequent version of the secret. */
   name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: Record<string, unknown>;
+  /** Output only. The time at which the SecretVersion was created. */
+  createTime?: string;
+  /** Output only. The current state of the SecretVersion. */
+  state?:
+    | "STATE_UNSPECIFIED"
+    | "ENABLED"
+    | "DISABLED"
+    | "DESTROYED"
+    | (string & {});
+  /** Output only. The time this SecretVersion was destroyed. Only present if state is DESTROYED. */
+  destroyTime?: string;
 }
 
-export const Operation: Schema.Schema<Operation> =
+export const SecretVersion: Schema.Schema<SecretVersion> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
       name: Schema.optional(Schema.String),
-      done: Schema.optional(Schema.Boolean),
-      error: Schema.optional(Status),
-      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      createTime: Schema.optional(Schema.String),
+      state: Schema.optional(Schema.String),
+      destroyTime: Schema.optional(Schema.String),
     }),
-  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
+  ).annotate({
+    identifier: "SecretVersion",
+  }) as any as Schema.Schema<SecretVersion>;
+
+export interface ListSecretVersionsResponse {
+  /** A token to retrieve the next page of results. Pass this value in ListSecretVersionsRequest.page_token to retrieve the next page. */
+  nextPageToken?: string;
+  /** The total number of SecretVersions. */
+  totalSize?: number;
+  /** The list of SecretVersions sorted in reverse by create_time (newest first). */
+  versions?: Array<SecretVersion>;
+}
+
+export const ListSecretVersionsResponse: Schema.Schema<ListSecretVersionsResponse> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      nextPageToken: Schema.optional(Schema.String),
+      totalSize: Schema.optional(Schema.Number),
+      versions: Schema.optional(Schema.Array(SecretVersion)),
+    }),
+  ).annotate({
+    identifier: "ListSecretVersionsResponse",
+  }) as any as Schema.Schema<ListSecretVersionsResponse>;
 
 export interface SecretPayload {
   /** The secret data. Must be no larger than 64KiB. */
@@ -318,34 +301,6 @@ export const SecretPayload: Schema.Schema<SecretPayload> =
     identifier: "SecretPayload",
   }) as any as Schema.Schema<SecretPayload>;
 
-export interface TestIamPermissionsRequest {
-  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: Array<string>;
-}
-
-export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      permissions: Schema.optional(Schema.Array(Schema.String)),
-    }),
-  ).annotate({
-    identifier: "TestIamPermissionsRequest",
-  }) as any as Schema.Schema<TestIamPermissionsRequest>;
-
-export interface Empty {}
-
-export const Empty: Schema.Schema<Empty> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "Empty",
-  }) as any as Schema.Schema<Empty>;
-
-export interface EnableSecretVersionRequest {}
-
-export const EnableSecretVersionRequest: Schema.Schema<EnableSecretVersionRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "EnableSecretVersionRequest",
-  }) as any as Schema.Schema<EnableSecretVersionRequest>;
-
 export interface AddSecretVersionRequest {
   /** Required. The secret payload of the SecretVersion. */
   payload?: SecretPayload;
@@ -360,63 +315,85 @@ export const AddSecretVersionRequest: Schema.Schema<AddSecretVersionRequest> =
     identifier: "AddSecretVersionRequest",
   }) as any as Schema.Schema<AddSecretVersionRequest>;
 
-export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: Record<string, unknown>;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: Record<string, string>;
-  /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+export interface OperationMetadata {
+  /** Output only. The time the operation was created. */
+  createTime?: string;
+  /** Output only. Server-defined resource path for the target of the operation. */
+  target?: string;
+  /** Output only. The time the operation finished running. */
+  endTime?: string;
+  /** Output only. API version used to start the operation. */
+  apiVersion?: string;
+  /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have google.longrunning.Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
+  requestedCancellation?: boolean;
+  /** Output only. Name of the verb executed by the operation. */
+  verb?: string;
+  /** Output only. Human-readable status of the operation, if any. */
+  statusMessage?: string;
 }
 
-export const Location: Schema.Schema<Location> =
+export const OperationMetadata: Schema.Schema<OperationMetadata> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
-      name: Schema.optional(Schema.String),
-      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
-      locationId: Schema.optional(Schema.String),
-      displayName: Schema.optional(Schema.String),
-    }),
-  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
-
-export interface ListLocationsResponse {
-  /** A list of locations that matches the specified filter in the request. */
-  locations?: Array<Location>;
-  /** The standard List next-page token. */
-  nextPageToken?: string;
-}
-
-export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
-    Schema.Struct({
-      locations: Schema.optional(Schema.Array(Location)),
-      nextPageToken: Schema.optional(Schema.String),
+      createTime: Schema.optional(Schema.String),
+      target: Schema.optional(Schema.String),
+      endTime: Schema.optional(Schema.String),
+      apiVersion: Schema.optional(Schema.String),
+      requestedCancellation: Schema.optional(Schema.Boolean),
+      verb: Schema.optional(Schema.String),
+      statusMessage: Schema.optional(Schema.String),
     }),
   ).annotate({
-    identifier: "ListLocationsResponse",
-  }) as any as Schema.Schema<ListLocationsResponse>;
+    identifier: "OperationMetadata",
+  }) as any as Schema.Schema<OperationMetadata>;
 
-export interface AccessSecretVersionResponse {
-  /** The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. */
-  name?: string;
-  /** Secret payload */
-  payload?: SecretPayload;
+export interface EnableSecretVersionRequest {}
+
+export const EnableSecretVersionRequest: Schema.Schema<EnableSecretVersionRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "EnableSecretVersionRequest",
+  }) as any as Schema.Schema<EnableSecretVersionRequest>;
+
+export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: Array<Record<string, unknown>>;
 }
 
-export const AccessSecretVersionResponse: Schema.Schema<AccessSecretVersionResponse> =
+export const Status: Schema.Schema<Status> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      name: Schema.optional(Schema.String),
-      payload: Schema.optional(SecretPayload),
+      code: Schema.optional(Schema.Number),
+      message: Schema.optional(Schema.String),
+      details: Schema.optional(
+        Schema.Array(Schema.Record(Schema.String, Schema.Unknown)),
+      ),
+    }),
+  ).annotate({ identifier: "Status" }) as any as Schema.Schema<Status>;
+
+export interface TestIamPermissionsRequest {
+  /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
+  permissions?: Array<string>;
+}
+
+export const TestIamPermissionsRequest: Schema.Schema<TestIamPermissionsRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      permissions: Schema.optional(Schema.Array(Schema.String)),
     }),
   ).annotate({
-    identifier: "AccessSecretVersionResponse",
-  }) as any as Schema.Schema<AccessSecretVersionResponse>;
+    identifier: "TestIamPermissionsRequest",
+  }) as any as Schema.Schema<TestIamPermissionsRequest>;
+
+export interface DisableSecretVersionRequest {}
+
+export const DisableSecretVersionRequest: Schema.Schema<DisableSecretVersionRequest> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
+    identifier: "DisableSecretVersionRequest",
+  }) as any as Schema.Schema<DisableSecretVersionRequest>;
 
 export interface DestroySecretVersionRequest {}
 
@@ -439,68 +416,169 @@ export const TestIamPermissionsResponse: Schema.Schema<TestIamPermissionsRespons
     identifier: "TestIamPermissionsResponse",
   }) as any as Schema.Schema<TestIamPermissionsResponse>;
 
-export interface ListSecretsResponse {
-  /** The total number of Secrets. */
-  totalSize?: number;
-  /** The list of Secrets sorted in reverse by create_time (newest first). */
-  secrets?: Array<Secret>;
-  /** A token to retrieve the next page of results. Pass this value in ListSecretsRequest.page_token to retrieve the next page. */
+export interface Location {
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: Record<string, unknown>;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string;
+  /** The canonical id for this location. For example: `"us-east1"`. */
+  locationId?: string;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: Record<string, string>;
+}
+
+export const Location: Schema.Schema<Location> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      locationId: Schema.optional(Schema.String),
+      displayName: Schema.optional(Schema.String),
+      labels: Schema.optional(Schema.Record(Schema.String, Schema.String)),
+    }),
+  ).annotate({ identifier: "Location" }) as any as Schema.Schema<Location>;
+
+export interface ListLocationsResponse {
+  /** The standard List next-page token. */
   nextPageToken?: string;
+  /** A list of locations that matches the specified filter in the request. */
+  locations?: Array<Location>;
 }
 
-export const ListSecretsResponse: Schema.Schema<ListSecretsResponse> =
+export const ListLocationsResponse: Schema.Schema<ListLocationsResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      totalSize: Schema.optional(Schema.Number),
-      secrets: Schema.optional(Schema.Array(Secret)),
       nextPageToken: Schema.optional(Schema.String),
+      locations: Schema.optional(Schema.Array(Location)),
     }),
   ).annotate({
-    identifier: "ListSecretsResponse",
-  }) as any as Schema.Schema<ListSecretsResponse>;
+    identifier: "ListLocationsResponse",
+  }) as any as Schema.Schema<ListLocationsResponse>;
 
-export interface DisableSecretVersionRequest {}
-
-export const DisableSecretVersionRequest: Schema.Schema<DisableSecretVersionRequest> =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() => Schema.Struct({})).annotate({
-    identifier: "DisableSecretVersionRequest",
-  }) as any as Schema.Schema<DisableSecretVersionRequest>;
-
-export interface OperationMetadata {
-  /** Output only. The time the operation was created. */
-  createTime?: string;
-  /** Output only. Name of the verb executed by the operation. */
-  verb?: string;
-  /** Output only. Server-defined resource path for the target of the operation. */
-  target?: string;
-  /** Output only. The time the operation finished running. */
-  endTime?: string;
-  /** Output only. Human-readable status of the operation, if any. */
-  statusMessage?: string;
-  /** Output only. Identifies whether the user has requested cancellation of the operation. Operations that have been cancelled successfully have google.longrunning.Operation.error value with a google.rpc.Status.code of `1`, corresponding to `Code.CANCELLED`. */
-  requestedCancellation?: boolean;
-  /** Output only. API version used to start the operation. */
-  apiVersion?: string;
+export interface AccessSecretVersionResponse {
+  /** The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. */
+  name?: string;
+  /** Secret payload */
+  payload?: SecretPayload;
 }
 
-export const OperationMetadata: Schema.Schema<OperationMetadata> =
+export const AccessSecretVersionResponse: Schema.Schema<AccessSecretVersionResponse> =
   /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
     Schema.Struct({
-      createTime: Schema.optional(Schema.String),
-      verb: Schema.optional(Schema.String),
-      target: Schema.optional(Schema.String),
-      endTime: Schema.optional(Schema.String),
-      statusMessage: Schema.optional(Schema.String),
-      requestedCancellation: Schema.optional(Schema.Boolean),
-      apiVersion: Schema.optional(Schema.String),
+      name: Schema.optional(Schema.String),
+      payload: Schema.optional(SecretPayload),
     }),
   ).annotate({
-    identifier: "OperationMetadata",
-  }) as any as Schema.Schema<OperationMetadata>;
+    identifier: "AccessSecretVersionResponse",
+  }) as any as Schema.Schema<AccessSecretVersionResponse>;
+
+export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: Record<string, unknown>;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: Record<string, unknown>;
+}
+
+export const Operation: Schema.Schema<Operation> =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.suspend(() =>
+    Schema.Struct({
+      done: Schema.optional(Schema.Boolean),
+      metadata: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+      name: Schema.optional(Schema.String),
+      error: Schema.optional(Status),
+      response: Schema.optional(Schema.Record(Schema.String, Schema.Unknown)),
+    }),
+  ).annotate({ identifier: "Operation" }) as any as Schema.Schema<Operation>;
 
 // ==========================================================================
 // Operations
 // ==========================================================================
+
+export interface TestIamPermissionsProjectsSecretsRequest {
+  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+  /** Request body */
+  body?: TestIamPermissionsRequest;
+}
+
+export const TestIamPermissionsProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}:testIamPermissions",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<TestIamPermissionsProjectsSecretsRequest>;
+
+export type TestIamPermissionsProjectsSecretsResponse =
+  TestIamPermissionsResponse;
+export const TestIamPermissionsProjectsSecretsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
+
+export type TestIamPermissionsProjectsSecretsError = DefaultErrors;
+
+/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
+export const testIamPermissionsProjectsSecrets: API.OperationMethod<
+  TestIamPermissionsProjectsSecretsRequest,
+  TestIamPermissionsProjectsSecretsResponse,
+  TestIamPermissionsProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: TestIamPermissionsProjectsSecretsRequest,
+  output: TestIamPermissionsProjectsSecretsResponse,
+  errors: [],
+}));
+
+export interface GetIamPolicyProjectsSecretsRequest {
+  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  "options.requestedPolicyVersion"?: number;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
+}
+
+export const GetIamPolicyProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
+      T.HttpQuery("options.requestedPolicyVersion"),
+    ),
+    resource: Schema.String.pipe(T.HttpPath("resource")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}:getIamPolicy",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetIamPolicyProjectsSecretsRequest>;
+
+export type GetIamPolicyProjectsSecretsResponse = Policy;
+export const GetIamPolicyProjectsSecretsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ Policy;
+
+export type GetIamPolicyProjectsSecretsError = DefaultErrors;
+
+/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
+export const getIamPolicyProjectsSecrets: API.OperationMethod<
+  GetIamPolicyProjectsSecretsRequest,
+  GetIamPolicyProjectsSecretsResponse,
+  GetIamPolicyProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetIamPolicyProjectsSecretsRequest,
+  output: GetIamPolicyProjectsSecretsResponse,
+  errors: [],
+}));
 
 export interface AddVersionProjectsSecretsRequest {
   /** Required. The resource name of the Secret to associate with the SecretVersion in the format `projects/* /secrets/*`. */
@@ -537,6 +615,152 @@ export const addVersionProjectsSecrets: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: AddVersionProjectsSecretsRequest,
   output: AddVersionProjectsSecretsResponse,
+  errors: [],
+}));
+
+export interface PatchProjectsSecretsRequest {
+  /** Required. Specifies the fields to be updated. */
+  updateMask?: string;
+  /** Output only. The resource name of the Secret in the format `projects/* /secrets/*`. */
+  name: string;
+  /** Request body */
+  body?: Secret;
+}
+
+export const PatchProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    body: Schema.optional(Secret).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "PATCH",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<PatchProjectsSecretsRequest>;
+
+export type PatchProjectsSecretsResponse = Secret;
+export const PatchProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
+
+export type PatchProjectsSecretsError = DefaultErrors;
+
+/** Updates metadata of an existing Secret. */
+export const patchProjectsSecrets: API.OperationMethod<
+  PatchProjectsSecretsRequest,
+  PatchProjectsSecretsResponse,
+  PatchProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PatchProjectsSecretsRequest,
+  output: PatchProjectsSecretsResponse,
+  errors: [],
+}));
+
+export interface GetProjectsSecretsRequest {
+  /** Required. The resource name of the Secret, in the format `projects/* /secrets/*`. */
+  name: string;
+}
+
+export const GetProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<GetProjectsSecretsRequest>;
+
+export type GetProjectsSecretsResponse = Secret;
+export const GetProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
+
+export type GetProjectsSecretsError = DefaultErrors;
+
+/** Gets metadata for a given Secret. */
+export const getProjectsSecrets: API.OperationMethod<
+  GetProjectsSecretsRequest,
+  GetProjectsSecretsResponse,
+  GetProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetProjectsSecretsRequest,
+  output: GetProjectsSecretsResponse,
+  errors: [],
+}));
+
+export interface DeleteProjectsSecretsRequest {
+  /** Required. The resource name of the Secret to delete in the format `projects/* /secrets/*`. */
+  name: string;
+}
+
+export const DeleteProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "DELETE",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<DeleteProjectsSecretsRequest>;
+
+export type DeleteProjectsSecretsResponse = Empty;
+export const DeleteProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
+
+export type DeleteProjectsSecretsError = DefaultErrors;
+
+/** Deletes a Secret. */
+export const deleteProjectsSecrets: API.OperationMethod<
+  DeleteProjectsSecretsRequest,
+  DeleteProjectsSecretsResponse,
+  DeleteProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteProjectsSecretsRequest,
+  output: DeleteProjectsSecretsResponse,
+  errors: [],
+}));
+
+export interface CreateProjectsSecretsRequest {
+  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*`. */
+  parent: string;
+  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
+  secretId?: string;
+  /** Request body */
+  body?: Secret;
+}
+
+export const CreateProjectsSecretsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    secretId: Schema.optional(Schema.String).pipe(T.HttpQuery("secretId")),
+    body: Schema.optional(Secret).pipe(T.HttpBody()),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      path: "v1beta1/projects/{projectsId}/secrets",
+      hasBody: true,
+    }),
+    svc,
+  ) as unknown as Schema.Schema<CreateProjectsSecretsRequest>;
+
+export type CreateProjectsSecretsResponse = Secret;
+export const CreateProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
+
+export type CreateProjectsSecretsError = DefaultErrors;
+
+/** Creates a new Secret containing no SecretVersions. */
+export const createProjectsSecrets: API.OperationMethod<
+  CreateProjectsSecretsRequest,
+  CreateProjectsSecretsResponse,
+  CreateProjectsSecretsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: CreateProjectsSecretsRequest,
+  output: CreateProjectsSecretsResponse,
   errors: [],
 }));
 
@@ -581,124 +805,6 @@ export const listProjectsSecrets: API.PaginatedOperationMethod<
   },
 }));
 
-export interface GetIamPolicyProjectsSecretsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
-}
-
-export const GetIamPolicyProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    resource: Schema.String.pipe(T.HttpPath("resource")),
-    "options.requestedPolicyVersion": Schema.optional(Schema.Number).pipe(
-      T.HttpQuery("options.requestedPolicyVersion"),
-    ),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}:getIamPolicy",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetIamPolicyProjectsSecretsRequest>;
-
-export type GetIamPolicyProjectsSecretsResponse = Policy;
-export const GetIamPolicyProjectsSecretsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ Policy;
-
-export type GetIamPolicyProjectsSecretsError = DefaultErrors;
-
-/** Gets the access control policy for a secret. Returns empty policy if the secret exists and does not have a policy set. */
-export const getIamPolicyProjectsSecrets: API.OperationMethod<
-  GetIamPolicyProjectsSecretsRequest,
-  GetIamPolicyProjectsSecretsResponse,
-  GetIamPolicyProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetIamPolicyProjectsSecretsRequest,
-  output: GetIamPolicyProjectsSecretsResponse,
-  errors: [],
-}));
-
-export interface CreateProjectsSecretsRequest {
-  /** Required. The resource name of the project to associate with the Secret, in the format `projects/*`. */
-  parent: string;
-  /** Required. This must be unique within the project. A secret ID is a string with a maximum length of 255 characters and can contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and underscore (`_`) characters. */
-  secretId?: string;
-  /** Request body */
-  body?: Secret;
-}
-
-export const CreateProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    secretId: Schema.optional(Schema.String).pipe(T.HttpQuery("secretId")),
-    body: Schema.optional(Secret).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1beta1/projects/{projectsId}/secrets",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<CreateProjectsSecretsRequest>;
-
-export type CreateProjectsSecretsResponse = Secret;
-export const CreateProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
-
-export type CreateProjectsSecretsError = DefaultErrors;
-
-/** Creates a new Secret containing no SecretVersions. */
-export const createProjectsSecrets: API.OperationMethod<
-  CreateProjectsSecretsRequest,
-  CreateProjectsSecretsResponse,
-  CreateProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: CreateProjectsSecretsRequest,
-  output: CreateProjectsSecretsResponse,
-  errors: [],
-}));
-
-export interface TestIamPermissionsProjectsSecretsRequest {
-  /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
-  /** Request body */
-  body?: TestIamPermissionsRequest;
-}
-
-export const TestIamPermissionsProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    resource: Schema.String.pipe(T.HttpPath("resource")),
-    body: Schema.optional(TestIamPermissionsRequest).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}:testIamPermissions",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<TestIamPermissionsProjectsSecretsRequest>;
-
-export type TestIamPermissionsProjectsSecretsResponse =
-  TestIamPermissionsResponse;
-export const TestIamPermissionsProjectsSecretsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ TestIamPermissionsResponse;
-
-export type TestIamPermissionsProjectsSecretsError = DefaultErrors;
-
-/** Returns permissions that a caller has for the specified secret. If the secret does not exist, this call returns an empty set of permissions, not a NOT_FOUND error. Note: This operation is designed to be used for building permission-aware UIs and command-line tools, not for authorization checking. This operation may "fail open" without warning. */
-export const testIamPermissionsProjectsSecrets: API.OperationMethod<
-  TestIamPermissionsProjectsSecretsRequest,
-  TestIamPermissionsProjectsSecretsResponse,
-  TestIamPermissionsProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: TestIamPermissionsProjectsSecretsRequest,
-  output: TestIamPermissionsProjectsSecretsResponse,
-  errors: [],
-}));
-
 export interface SetIamPolicyProjectsSecretsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
@@ -737,156 +843,6 @@ export const setIamPolicyProjectsSecrets: API.OperationMethod<
   errors: [],
 }));
 
-export interface PatchProjectsSecretsRequest {
-  /** Output only. The resource name of the Secret in the format `projects/* /secrets/*`. */
-  name: string;
-  /** Required. Specifies the fields to be updated. */
-  updateMask?: string;
-  /** Request body */
-  body?: Secret;
-}
-
-export const PatchProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-    updateMask: Schema.optional(Schema.String).pipe(T.HttpQuery("updateMask")),
-    body: Schema.optional(Secret).pipe(T.HttpBody()),
-  }).pipe(
-    T.Http({
-      method: "PATCH",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
-      hasBody: true,
-    }),
-    svc,
-  ) as unknown as Schema.Schema<PatchProjectsSecretsRequest>;
-
-export type PatchProjectsSecretsResponse = Secret;
-export const PatchProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
-
-export type PatchProjectsSecretsError = DefaultErrors;
-
-/** Updates metadata of an existing Secret. */
-export const patchProjectsSecrets: API.OperationMethod<
-  PatchProjectsSecretsRequest,
-  PatchProjectsSecretsResponse,
-  PatchProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: PatchProjectsSecretsRequest,
-  output: PatchProjectsSecretsResponse,
-  errors: [],
-}));
-
-export interface DeleteProjectsSecretsRequest {
-  /** Required. The resource name of the Secret to delete in the format `projects/* /secrets/*`. */
-  name: string;
-}
-
-export const DeleteProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "DELETE",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<DeleteProjectsSecretsRequest>;
-
-export type DeleteProjectsSecretsResponse = Empty;
-export const DeleteProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Empty;
-
-export type DeleteProjectsSecretsError = DefaultErrors;
-
-/** Deletes a Secret. */
-export const deleteProjectsSecrets: API.OperationMethod<
-  DeleteProjectsSecretsRequest,
-  DeleteProjectsSecretsResponse,
-  DeleteProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: DeleteProjectsSecretsRequest,
-  output: DeleteProjectsSecretsResponse,
-  errors: [],
-}));
-
-export interface GetProjectsSecretsRequest {
-  /** Required. The resource name of the Secret, in the format `projects/* /secrets/*`. */
-  name: string;
-}
-
-export const GetProjectsSecretsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<GetProjectsSecretsRequest>;
-
-export type GetProjectsSecretsResponse = Secret;
-export const GetProjectsSecretsResponse = /*@__PURE__*/ /*#__PURE__*/ Secret;
-
-export type GetProjectsSecretsError = DefaultErrors;
-
-/** Gets metadata for a given Secret. */
-export const getProjectsSecrets: API.OperationMethod<
-  GetProjectsSecretsRequest,
-  GetProjectsSecretsResponse,
-  GetProjectsSecretsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: GetProjectsSecretsRequest,
-  output: GetProjectsSecretsResponse,
-  errors: [],
-}));
-
-export interface ListProjectsSecretsVersionsRequest {
-  /** Required. The resource name of the Secret associated with the SecretVersions to list, in the format `projects/* /secrets/*`. */
-  parent: string;
-  /** Optional. Pagination token, returned earlier via ListSecretVersionsResponse.next_page_token][]. */
-  pageToken?: string;
-  /** Optional. The maximum number of results to be returned in a single page. If set to 0, the server decides the number of results to return. If the number is greater than 25000, it is capped at 25000. */
-  pageSize?: number;
-}
-
-export const ListProjectsSecretsVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    parent: Schema.String.pipe(T.HttpPath("parent")),
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}/versions",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsSecretsVersionsRequest>;
-
-export type ListProjectsSecretsVersionsResponse = ListSecretVersionsResponse;
-export const ListProjectsSecretsVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListSecretVersionsResponse;
-
-export type ListProjectsSecretsVersionsError = DefaultErrors;
-
-/** Lists SecretVersions. This call does not return secret data. */
-export const listProjectsSecretsVersions: API.PaginatedOperationMethod<
-  ListProjectsSecretsVersionsRequest,
-  ListProjectsSecretsVersionsResponse,
-  ListProjectsSecretsVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsSecretsVersionsRequest,
-  output: ListProjectsSecretsVersionsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
-}));
-
 export interface EnableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to enable in the format `projects/* /secrets/* /versions/*`. */
   name: string;
@@ -922,40 +878,6 @@ export const enableProjectsSecretsVersions: API.OperationMethod<
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: EnableProjectsSecretsVersionsRequest,
   output: EnableProjectsSecretsVersionsResponse,
-  errors: [],
-}));
-
-export interface AccessProjectsSecretsVersionsRequest {
-  /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. */
-  name: string;
-}
-
-export const AccessProjectsSecretsVersionsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    name: Schema.String.pipe(T.HttpPath("name")),
-  }).pipe(
-    T.Http({
-      method: "GET",
-      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}/versions/{versionsId}:access",
-    }),
-    svc,
-  ) as unknown as Schema.Schema<AccessProjectsSecretsVersionsRequest>;
-
-export type AccessProjectsSecretsVersionsResponse = AccessSecretVersionResponse;
-export const AccessProjectsSecretsVersionsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ AccessSecretVersionResponse;
-
-export type AccessProjectsSecretsVersionsError = DefaultErrors;
-
-/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the `latest` SecretVersion. */
-export const accessProjectsSecretsVersions: API.OperationMethod<
-  AccessProjectsSecretsVersionsRequest,
-  AccessProjectsSecretsVersionsResponse,
-  AccessProjectsSecretsVersionsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
-  input: AccessProjectsSecretsVersionsRequest,
-  output: AccessProjectsSecretsVersionsResponse,
   errors: [],
 }));
 
@@ -997,6 +919,40 @@ export const destroyProjectsSecretsVersions: API.OperationMethod<
   errors: [],
 }));
 
+export interface AccessProjectsSecretsVersionsRequest {
+  /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. */
+  name: string;
+}
+
+export const AccessProjectsSecretsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    name: Schema.String.pipe(T.HttpPath("name")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}/versions/{versionsId}:access",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<AccessProjectsSecretsVersionsRequest>;
+
+export type AccessProjectsSecretsVersionsResponse = AccessSecretVersionResponse;
+export const AccessProjectsSecretsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ AccessSecretVersionResponse;
+
+export type AccessProjectsSecretsVersionsError = DefaultErrors;
+
+/** Accesses a SecretVersion. This call returns the secret data. `projects/* /secrets/* /versions/latest` is an alias to the `latest` SecretVersion. */
+export const accessProjectsSecretsVersions: API.OperationMethod<
+  AccessProjectsSecretsVersionsRequest,
+  AccessProjectsSecretsVersionsResponse,
+  AccessProjectsSecretsVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: AccessProjectsSecretsVersionsRequest,
+  output: AccessProjectsSecretsVersionsResponse,
+  errors: [],
+}));
+
 export interface DisableProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion to disable in the format `projects/* /secrets/* /versions/*`. */
   name: string;
@@ -1035,6 +991,50 @@ export const disableProjectsSecretsVersions: API.OperationMethod<
   errors: [],
 }));
 
+export interface ListProjectsSecretsVersionsRequest {
+  /** Optional. The maximum number of results to be returned in a single page. If set to 0, the server decides the number of results to return. If the number is greater than 25000, it is capped at 25000. */
+  pageSize?: number;
+  /** Required. The resource name of the Secret associated with the SecretVersions to list, in the format `projects/* /secrets/*`. */
+  parent: string;
+  /** Optional. Pagination token, returned earlier via ListSecretVersionsResponse.next_page_token][]. */
+  pageToken?: string;
+}
+
+export const ListProjectsSecretsVersionsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+    parent: Schema.String.pipe(T.HttpPath("parent")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+  }).pipe(
+    T.Http({
+      method: "GET",
+      path: "v1beta1/projects/{projectsId}/secrets/{secretsId}/versions",
+    }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsSecretsVersionsRequest>;
+
+export type ListProjectsSecretsVersionsResponse = ListSecretVersionsResponse;
+export const ListProjectsSecretsVersionsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListSecretVersionsResponse;
+
+export type ListProjectsSecretsVersionsError = DefaultErrors;
+
+/** Lists SecretVersions. This call does not return secret data. */
+export const listProjectsSecretsVersions: API.PaginatedOperationMethod<
+  ListProjectsSecretsVersionsRequest,
+  ListProjectsSecretsVersionsResponse,
+  ListProjectsSecretsVersionsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsSecretsVersionsRequest,
+  output: ListProjectsSecretsVersionsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
 export interface GetProjectsSecretsVersionsRequest {
   /** Required. The resource name of the SecretVersion in the format `projects/* /secrets/* /versions/*`. `projects/* /secrets/* /versions/latest` is an alias to the `latest` SecretVersion. */
   name: string;
@@ -1069,6 +1069,55 @@ export const getProjectsSecretsVersions: API.OperationMethod<
   errors: [],
 }));
 
+export interface ListProjectsLocationsRequest {
+  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: string[];
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number;
+}
+
+export const ListProjectsLocationsRequest =
+  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
+    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
+      T.HttpQuery("extraLocationTypes"),
+    ),
+    name: Schema.String.pipe(T.HttpPath("name")),
+    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
+    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
+    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
+  }).pipe(
+    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
+    svc,
+  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
+
+export type ListProjectsLocationsResponse = ListLocationsResponse;
+export const ListProjectsLocationsResponse =
+  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
+
+export type ListProjectsLocationsError = DefaultErrors;
+
+/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
+export const listProjectsLocations: API.PaginatedOperationMethod<
+  ListProjectsLocationsRequest,
+  ListProjectsLocationsResponse,
+  ListProjectsLocationsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListProjectsLocationsRequest,
+  output: ListProjectsLocationsResponse,
+  errors: [],
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+  },
+}));
+
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
   name: string;
@@ -1101,53 +1150,4 @@ export const getProjectsLocations: API.OperationMethod<
   input: GetProjectsLocationsRequest,
   output: GetProjectsLocationsResponse,
   errors: [],
-}));
-
-export interface ListProjectsLocationsRequest {
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
-  /** Optional. Do not use this field. It is unsupported and is ignored unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: string[];
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
-}
-
-export const ListProjectsLocationsRequest =
-  /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    pageToken: Schema.optional(Schema.String).pipe(T.HttpQuery("pageToken")),
-    extraLocationTypes: Schema.optional(Schema.Array(Schema.String)).pipe(
-      T.HttpQuery("extraLocationTypes"),
-    ),
-    name: Schema.String.pipe(T.HttpPath("name")),
-    pageSize: Schema.optional(Schema.Number).pipe(T.HttpQuery("pageSize")),
-    filter: Schema.optional(Schema.String).pipe(T.HttpQuery("filter")),
-  }).pipe(
-    T.Http({ method: "GET", path: "v1beta1/projects/{projectsId}/locations" }),
-    svc,
-  ) as unknown as Schema.Schema<ListProjectsLocationsRequest>;
-
-export type ListProjectsLocationsResponse = ListLocationsResponse;
-export const ListProjectsLocationsResponse =
-  /*@__PURE__*/ /*#__PURE__*/ ListLocationsResponse;
-
-export type ListProjectsLocationsError = DefaultErrors;
-
-/** Lists information about the supported locations for this service. This method can be called in two ways: * **List all public locations:** Use the path `GET /v1/locations`. * **List project-visible locations:** Use the path `GET /v1/projects/{project_id}/locations`. This may include public locations as well as private or other locations specifically visible to the project. */
-export const listProjectsLocations: API.PaginatedOperationMethod<
-  ListProjectsLocationsRequest,
-  ListProjectsLocationsResponse,
-  ListProjectsLocationsError,
-  Credentials | HttpClient.HttpClient
-> = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
-  input: ListProjectsLocationsRequest,
-  output: ListProjectsLocationsResponse,
-  errors: [],
-  pagination: {
-    inputToken: "pageToken",
-    outputToken: "nextPageToken",
-  },
 }));

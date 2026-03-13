@@ -1,6 +1,7 @@
 import * as Schema from "effect/Schema";
 import { API } from "../client";
 import * as T from "../traits";
+import { SensitiveString } from "../sensitive";
 
 // Input Schema
 export const GetProjectBranchRolePasswordInput =
@@ -20,7 +21,7 @@ export type GetProjectBranchRolePasswordInput =
 // Output Schema
 export const GetProjectBranchRolePasswordOutput =
   /*@__PURE__*/ /*#__PURE__*/ Schema.Struct({
-    password: Schema.String,
+    password: SensitiveString,
   });
 export type GetProjectBranchRolePasswordOutput =
   typeof GetProjectBranchRolePasswordOutput.Type;

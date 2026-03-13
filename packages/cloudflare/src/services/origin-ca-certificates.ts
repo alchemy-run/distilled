@@ -201,7 +201,9 @@ export const listOriginCACertificates: API.PaginatedOperationMethod<
     ListOriginCACertificatesError,
     Credentials | HttpClient.HttpClient
   >;
-  items: (input: ListOriginCACertificatesRequest) => stream.Stream<
+  items: (
+    input: ListOriginCACertificatesRequest,
+  ) => stream.Stream<
     {
       csr: string;
       hostnames: string[];

@@ -1398,16 +1398,63 @@ export const BooleanOperands = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "BooleanOperands",
 }) as any as S.Schema<BooleanOperands>;
+export interface CompoundCondition {
+  conditions: BooleanCondition[];
+}
+export const CompoundCondition = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
+  S.Struct({
+    conditions: S.suspend(() => BooleanConditionList).annotate({
+      identifier: "BooleanConditionList",
+    }),
+  }),
+).annotate({
+  identifier: "CompoundCondition",
+}) as any as S.Schema<CompoundCondition>;
 export type BooleanCondition =
-  | { equalTo: BooleanOperands; notEqualTo?: never }
-  | { equalTo?: never; notEqualTo: BooleanOperands };
+  | {
+      equalTo: BooleanOperands;
+      notEqualTo?: never;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo: BooleanOperands;
+      andAll?: never;
+      orAll?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      andAll: CompoundCondition;
+      orAll?: never;
+    }
+  | {
+      equalTo?: never;
+      notEqualTo?: never;
+      andAll?: never;
+      orAll: CompoundCondition;
+    };
 export const BooleanCondition = /*@__PURE__*/ /*#__PURE__*/ S.Union([
   S.Struct({ equalTo: BooleanOperands }),
   S.Struct({ notEqualTo: BooleanOperands }),
-]);
+  S.Struct({
+    andAll: S.suspend(
+      (): S.Schema<CompoundCondition> => CompoundCondition,
+    ).annotate({ identifier: "CompoundCondition" }),
+  }),
+  S.Struct({
+    orAll: S.suspend(
+      (): S.Schema<CompoundCondition> => CompoundCondition,
+    ).annotate({ identifier: "CompoundCondition" }),
+  }),
+]) as any as S.Schema<BooleanCondition>;
 export type BooleanConditionList = BooleanCondition[];
-export const BooleanConditionList =
-  /*@__PURE__*/ /*#__PURE__*/ S.Array(BooleanCondition);
+export const BooleanConditionList = /*@__PURE__*/ /*#__PURE__*/ S.Array(
+  S.suspend(() => BooleanCondition).annotate({
+    identifier: "BooleanCondition",
+  }),
+) as any as S.Schema<BooleanConditionList>;
 export interface RequiredCaseRule {
   defaultValue: boolean;
   conditions: BooleanCondition[];
