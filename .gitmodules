@@ -46,3 +46,6 @@
 [submodule "packages/kubernetes/specs/kubernetes"]
 	path = packages/kubernetes/specs/kubernetes
 	url = https://github.com/kubernetes/kubernetes
+[submodule "packages/azure/specs/azure-rest-api-specs"]
+	path = packages/azure/specs/azure-rest-api-specs
+	url = https://github.com/Azure/azure-rest-api-specs

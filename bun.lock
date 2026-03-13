@@ -49,6 +49,23 @@
         "effect": "catalog:",
       },
     },
+    "packages/azure": {
+      "name": "@distilled.cloud/azure",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
     "packages/cloudflare": {
       "name": "@distilled.cloud/cloudflare",
       "version": "0.5.0",
@@ -373,6 +390,8 @@
     "@aws/lambda-invoke-store": ["@aws/lambda-invoke-store@0.2.3", "", {}, "sha512-oLvsaPMTBejkkmHhjf09xTgk71mOqyr/409NKhRIL08If7AhVfUsJhVsx386uJaqNd42v9kWamQ9lFbkoC2dYw=="],
 
     "@distilled.cloud/aws": ["@distilled.cloud/aws@workspace:packages/aws"],
+
+    "@distilled.cloud/azure": ["@distilled.cloud/azure@workspace:packages/azure"],
 
     "@distilled.cloud/cloudflare": ["@distilled.cloud/cloudflare@workspace:packages/cloudflare"],
 
