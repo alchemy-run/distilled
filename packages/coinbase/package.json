@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/coinbase",
-  "version": "0.0.0-john",
+  "version": "0.5.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/alchemy-run/distilled",
