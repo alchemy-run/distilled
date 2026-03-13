@@ -141,7 +141,3 @@ The TDD workflow for discovering and patching missing errors:
 5. Import the typed error and handle it
 
 See [AGENTS.md](./AGENTS.md) for detailed development guidelines.
-
-## License
-
-MIT
