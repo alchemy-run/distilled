@@ -12,6 +12,7 @@ npm install @distilled.cloud/supabase effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { v1ListAllProjects } from "@distilled.cloud/supabase/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/supabase";

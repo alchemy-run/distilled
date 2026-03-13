@@ -12,6 +12,7 @@ npm install @distilled.cloud/fly-io effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { AppsList } from "@distilled.cloud/fly-io/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/fly-io";

@@ -12,6 +12,7 @@ npm install @distilled.cloud/neon effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { listProjects } from "@distilled.cloud/neon/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/neon";

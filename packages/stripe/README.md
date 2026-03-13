@@ -12,6 +12,7 @@ npm install @distilled.cloud/stripe effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { GetCustomersSearch } from "@distilled.cloud/stripe/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/stripe";

@@ -12,6 +12,7 @@ npm install @distilled.cloud/coinbase effect
 
 ```typescript
 import { Effect, Layer } from "effect";
+import * as Stream from "effect/Stream";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { listEvmAccounts } from "@distilled.cloud/coinbase/Operations";
 import { CredentialsFromEnv } from "@distilled.cloud/coinbase";
