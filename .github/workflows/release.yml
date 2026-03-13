@@ -32,7 +32,7 @@ jobs:
       version: ${{ steps.bump.outputs.version }}
       sha: ${{ steps.sha.outputs.sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ github.event.inputs.ref || github.ref }}
           fetch-depth: 0
@@ -95,12 +95,12 @@ jobs:
     needs: bump
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -150,7 +150,7 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-large-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
@@ -158,7 +158,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y unzip
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -211,12 +211,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -269,12 +269,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -327,12 +327,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -385,12 +385,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -443,12 +443,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -501,12 +501,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -559,12 +559,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -617,12 +617,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -675,12 +675,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -733,12 +733,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22
@@ -791,12 +791,12 @@ jobs:
     needs: [bump, publish-core]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           ref: ${{ needs.bump.outputs.sha }}
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 22

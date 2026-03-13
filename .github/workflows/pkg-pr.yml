@@ -24,8 +24,8 @@ jobs:
       fly-io: ${{ steps.changes.outputs.fly-io }}
       turso: ${{ steps.changes.outputs.turso }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v4
         id: changes
         with:
           filters: |
@@ -81,7 +81,7 @@ jobs:
     if: needs.detect-changes.outputs.core == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -96,7 +96,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.aws == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -113,7 +113,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.cloudflare == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -130,7 +130,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.gcp == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -147,7 +147,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.neon == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -164,7 +164,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.planetscale == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -181,7 +181,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.prisma-postgres == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -198,7 +198,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.stripe == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -215,7 +215,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.supabase == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -232,7 +232,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.coinbase == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -249,7 +249,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.mongodb-atlas == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -266,7 +266,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.fly-io == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -283,7 +283,7 @@ jobs:
     if: always() && !failure() && !cancelled() && needs.detect-changes.outputs.turso == 'true'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
