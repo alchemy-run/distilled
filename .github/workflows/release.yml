@@ -14,11 +14,6 @@ on:
         description: "Exact version override (e.g. 0.2.0-alpha). Leave empty to use bump type."
         required: false
         type: string
-      skip-github-release:
-        description: "Skip creating git tag and GitHub release"
-        required: false
-        type: boolean
-        default: false
 
 permissions:
   contents: write
@@ -69,13 +64,13 @@ jobs:
         run: echo "sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
-        if: ${{ !inputs.skip-github-release }}
+        if: ${{ !contains(steps.bump.outputs.version, '-') }}
         run: |
           git tag -a "v${{ steps.bump.outputs.version }}" -m "Release v${{ steps.bump.outputs.version }}"
           git push --tags
 
       - name: Create GitHub Release
-        if: ${{ !inputs.skip-github-release }}
+        if: ${{ !contains(steps.bump.outputs.version, '-') }}
         run: |
           if ! gh release view "v${{ steps.bump.outputs.version }}" >/dev/null 2>&1; then
             PREV_TAG=$(git describe --tags --abbrev=0 HEAD~1 2>/dev/null || echo "")
