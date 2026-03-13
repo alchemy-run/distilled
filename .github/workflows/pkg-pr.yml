@@ -57,6 +57,7 @@ jobs:
               - 'packages/supabase/**'
             azure:
               - 'packages/azure/**'
+              - 'packages/core/**'
             kubernetes:
               - 'packages/kubernetes/**'
               - 'packages/core/**'
