@@ -59,7 +59,7 @@
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
     "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
-    "specs:fetch": "git submodule update --force --init --recursive specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",
+    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/cloudflare-typescript && git -C specs/cloudflare-typescript checkout -- .",
     "specs:update": "git -C specs/cloudflare-typescript fetch && git -C specs/cloudflare-typescript checkout main && git -C specs/cloudflare-typescript pull"
   },
   "dependencies": {

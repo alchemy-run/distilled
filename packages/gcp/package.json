@@ -53,7 +53,7 @@
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
     "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
-    "specs:fetch": "git submodule update --force --init --recursive specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
+    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/distilled-spec-gcp && git -C specs/distilled-spec-gcp checkout -- .",
     "specs:update": "git -C specs/distilled-spec-gcp fetch && git -C specs/distilled-spec-gcp checkout main && git -C specs/distilled-spec-gcp pull"
   },
   "dependencies": {
