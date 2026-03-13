@@ -18,6 +18,7 @@ jobs:
       prisma-postgres: ${{ steps.changes.outputs.prisma-postgres }}
       stripe: ${{ steps.changes.outputs.stripe }}
       supabase: ${{ steps.changes.outputs.supabase }}
+      kubernetes: ${{ steps.changes.outputs.kubernetes }}
       coinbase: ${{ steps.changes.outputs.coinbase }}
       mongodb-atlas: ${{ steps.changes.outputs.mongodb-atlas }}
       fly-io: ${{ steps.changes.outputs.fly-io }}
@@ -53,6 +54,8 @@ jobs:
               - 'packages/core/**'
             supabase:
               - 'packages/supabase/**'
+            kubernetes:
+              - 'packages/kubernetes/**'
               - 'packages/core/**'
             coinbase:
               - 'packages/coinbase/**'
@@ -291,3 +294,20 @@ jobs:
         working-directory: packages/turso
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/turso
+
+  pkg-pr-kubernetes:
+    needs: [detect-changes, pkg-pr-supabase]
+    if: ${{ !failure() && needs.detect-changes.outputs.kubernetes == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install
+      - run: bun run build
+        working-directory: packages/core
+      - run: bun run build
+        working-directory: packages/kubernetes
+      - run: bun scripts/generate-pnpm-workspace.yaml.ts
+      - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/kubernetes

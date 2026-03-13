@@ -20,145 +20,146 @@
  *   --specs              One or more spec sources (git repo URLs ending in .git, or HTTP URLs to fetch)
  */
 
+import { BunRuntime, BunServices } from "@effect/platform-bun";
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
-import * as path from "node:path";
-
-const ROOT = path.resolve(import.meta.dir, "..");
+import { Console, Data, Effect, type PlatformError, Stream } from "effect";
+import * as FileSystem from "effect/FileSystem";
+import * as Path from "effect/Path";
+import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process";
+import { Argument, Command, Flag } from "effect/unstable/cli";
 
 // ============================================================================
-// CLI Argument Parsing
+// Error Types
 // ============================================================================
 
-interface Args {
-  name: string;
-  specs: string[];
-  registerPackage: boolean;
-}
+/** Unified error type for both shell commands and filesystem operations. */
+type SdkError = CommandError | PlatformError.PlatformError;
 
-function parseArgs(): Args {
-  const argv = process.argv.slice(2);
-  let name: string | undefined;
-  const specs: string[] = [];
-  let registerPackage = false;
-  let parsingSpecs = false;
-
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i];
-    if (arg === "--register-package") {
-      registerPackage = true;
-      parsingSpecs = false;
-    } else if (arg === "--specs") {
-      parsingSpecs = true;
-    } else if (parsingSpecs && !arg.startsWith("--")) {
-      specs.push(arg);
-    } else if (!arg.startsWith("--") && !name) {
-      name = arg;
-      parsingSpecs = false;
-    } else {
-      parsingSpecs = false;
-    }
-  }
-
-  if (!name) {
-    console.error(
-      "Usage: bun scripts/create-sdk.ts <name> --specs <url-or-repo>... [--register-package]",
-    );
-    process.exit(1);
-  }
-
-  return { name, specs, registerPackage };
-}
+class CommandError extends Data.TaggedError("CommandError")<{
+  readonly command: string;
+  readonly code: number;
+  readonly stderr: string;
+}> {}
 
 // ============================================================================
 // Shell Helpers
 // ============================================================================
 
-// On Windows with shell: true, args containing spaces get re-split.
-// Quote them so the shell treats each as a single token.
-function shellQuoteArgs(args: string[]): string[] {
-  if (process.platform !== "win32") return args;
-  return args.map((a) => (a.includes(" ") ? `"${a}"` : a));
-}
-
-function run(
+/**
+ * Run a shell command, capturing stdout/stderr. Fails with CommandError on non-zero exit
+ * unless ignoreError is set.
+ */
+const exec = (
   cmd: string,
   args: string[],
-  opts?: { cwd?: string; ignoreError?: boolean; interactive?: boolean },
-): Promise<{ stdout: string; stderr: string; code: number }> {
-  const isWin = process.platform === "win32";
-  const quotedArgs = shellQuoteArgs(args);
+  opts?: { cwd?: string; ignoreError?: boolean },
+): Effect.Effect<
+  { stdout: string; stderr: string; code: number },
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner
+> =>
+  Effect.gen(function* () {
+    const spawner = yield* ChildProcessSpawner.ChildProcessSpawner;
+    const command = ChildProcess.make(cmd, args, {
+      cwd: opts?.cwd,
+      shell: process.platform === "win32",
+      stdin: "ignore",
+    });
 
-  return new Promise((resolve, reject) => {
-    // Interactive mode inherits stdio so the user can respond to prompts
-    // (e.g. npm hardware key OTP, browser auth flows)
-    if (opts?.interactive) {
-      const cp = spawn(cmd, quotedArgs, {
-        cwd: opts?.cwd ?? ROOT,
-        stdio: "inherit",
-        shell: isWin,
+    const handle = yield* spawner.spawn(command);
+    const stdoutChunks = yield* Stream.runCollect(
+      Stream.decodeText(handle.stdout),
+    );
+    const stderrChunks = yield* Stream.runCollect(
+      Stream.decodeText(handle.stderr),
+    );
+    const exitCode = yield* handle.exitCode;
+
+    const stdout = Array.from(stdoutChunks).join("");
+    const stderr = Array.from(stderrChunks).join("");
+    const code = exitCode as number;
+
+    if (code !== 0 && !opts?.ignoreError) {
+      return yield* new CommandError({
+        command: `${cmd} ${args.join(" ")}`,
+        code,
+        stderr,
       });
-      cp.on("close", (code: number) => {
-        if (code !== 0 && !opts?.ignoreError) {
-          reject(
-            new Error(
-              `Command failed (${code}): ${cmd} ${args.join(" ")}`,
-            ),
-          );
-        } else {
-          resolve({ stdout: "", stderr: "", code: code ?? 0 });
-        }
-      });
-      cp.on("error", reject);
-      return;
     }
 
-    const cp = spawn(cmd, quotedArgs, {
-      cwd: opts?.cwd ?? ROOT,
-      stdio: ["ignore", "pipe", "pipe"],
-      shell: isWin,
-    });
-    let stdout = "";
-    let stderr = "";
-    cp.stdout.on("data", (d: Buffer) => {
-      stdout += d.toString();
-    });
-    cp.stderr.on("data", (d: Buffer) => {
-      stderr += d.toString();
-      process.stderr.write(d);
+    return { stdout, stderr, code };
+  }).pipe(Effect.scoped);
+
+/**
+ * Run a command interactively (inherits stdio for user prompts like npm publish).
+ * Uses node:child_process directly since ChildProcess doesn't support full inherit mode
+ * with interactive prompts.
+ */
+const execInteractive = (
+  cmd: string,
+  args: string[],
+  opts?: { cwd?: string },
+): Effect.Effect<{ code: number }, never, never> =>
+  Effect.callback<{ code: number }, never>((resume) => {
+    const cp = spawn(cmd, args, {
+      cwd: opts?.cwd,
+      stdio: "inherit",
+      shell: process.platform === "win32",
     });
     cp.on("close", (code: number) => {
-      if (code !== 0 && !opts?.ignoreError) {
-        reject(
-          new Error(
-            `Command failed (${code}): ${cmd} ${args.join(" ")}\nstderr: ${stderr}`,
-          ),
-        );
-      } else {
-        resolve({ stdout, stderr, code });
-      }
+      resume(Effect.succeed({ code: code ?? 1 }));
     });
-    cp.on("error", reject);
+    cp.on("error", () => {
+      resume(Effect.succeed({ code: 1 }));
+    });
   });
+
+// ============================================================================
+// Opencode Helper
+// ============================================================================
+
+interface OpencodeResult {
+  readonly stdout: string;
+  readonly sessionId: string | undefined;
+  readonly killed: boolean;
 }
 
-function runOpencode(
+/**
+ * Run opencode with inactivity timeout detection and session ID extraction.
+ *
+ * Uses node:child_process directly because the inactivity timer pattern
+ * (reset on each chunk of output) doesn't map cleanly to Effect streams.
+ * Wrapped in Effect.async for composability.
+ */
+const runOpencode = (
   prompt: string,
-  opts?: { cwd?: string; model?: string; inactivityTimeoutMs?: number },
-): Promise<string> {
-  const model = opts?.model ?? "anthropic/claude-opus-4-6";
-  const cwd = opts?.cwd ?? ROOT;
-  // Kill if no output for 8 minutes — means it's stuck, not just slow
-  const inactivityTimeoutMs = opts?.inactivityTimeoutMs ?? 8 * 60 * 1000;
-  return new Promise((resolve, reject) => {
-    const cp = spawn("opencode", ["run", "--model", model, prompt], {
-      cwd,
+  opts?: {
+    cwd?: string;
+    model?: string;
+    inactivityTimeoutMs?: number;
+    sessionId?: string;
+  },
+): Effect.Effect<OpencodeResult, CommandError, never> =>
+  Effect.callback<OpencodeResult, CommandError>((resume) => {
+    const model = opts?.model ?? "anthropic/claude-opus-4-6";
+    const inactivityTimeoutMs = opts?.inactivityTimeoutMs ?? 8 * 60 * 1000;
+
+    // Build args: use --session to continue an existing session, or start fresh
+    const args = ["run", "--format", "json", "--model", model];
+    if (opts?.sessionId) {
+      args.push("--session", opts.sessionId);
+    }
+    args.push(prompt);
+
+    const cp = spawn("opencode", args, {
+      cwd: opts?.cwd,
       stdio: ["ignore", "pipe", "pipe"],
       shell: process.platform === "win32",
     });
     let stdout = "";
     let stderr = "";
     let killed = false;
+    let sessionId: string | undefined;
 
     // Reset this timer every time we get output
     let inactivityTimer = setTimeout(onInactive, inactivityTimeoutMs);
@@ -170,7 +171,9 @@ function runOpencode(
       );
       cp.kill("SIGTERM");
       setTimeout(() => {
-        try { cp.kill("SIGKILL"); } catch {}
+        try {
+          cp.kill("SIGKILL");
+        } catch {}
       }, 5000);
     }
 
@@ -180,8 +183,60 @@ function runOpencode(
     }
 
     cp.stdout.on("data", (d: Buffer) => {
-      stdout += d.toString();
+      const chunk = d.toString();
+      stdout += chunk;
       resetInactivityTimer();
+
+      // Parse JSON events and print human-readable output
+      for (const line of chunk.split("\n")) {
+        if (!line.trim()) continue;
+        try {
+          const event = JSON.parse(line);
+
+          // Extract sessionID from first event that has one
+          if (!sessionId && event.sessionID) {
+            sessionId = event.sessionID;
+          }
+
+          // Print human-readable output based on event type
+          switch (event.type) {
+            case "text":
+              if (event.part?.text) {
+                process.stdout.write(event.part.text);
+              }
+              break;
+            case "tool_use":
+              if (event.part?.tool) {
+                const tool = event.part.tool;
+                const status = event.part.state?.status ?? "";
+                const title = event.part.state?.title ?? "";
+                if (status === "completed") {
+                  console.log(`\n  🔧 ${tool}: ${title}`);
+                } else if (status === "running") {
+                  console.log(`\n  ⏳ ${tool}: ${title || "(running)"}`);
+                }
+              }
+              break;
+            case "step_finish":
+              // Print cost/token info if available
+              if (event.part?.tokens) {
+                const t = event.part.tokens;
+                const cost = event.part.cost;
+                if (cost > 0) {
+                  console.log(
+                    `\n  📊 tokens: ${t.total} (in: ${t.input}, out: ${t.output}, cached: ${t.cache?.read ?? 0}) | cost: $${cost.toFixed(4)}`,
+                  );
+                }
+              }
+              break;
+          }
+        } catch {
+          // Not JSON — print as-is
+          if (line.trim()) {
+            process.stdout.write(line);
+          }
+        }
+      }
     });
     cp.stderr.on("data", (d: Buffer) => {
       stderr += d.toString();
@@ -191,198 +246,285 @@ function runOpencode(
     cp.on("close", (code: number) => {
       clearTimeout(inactivityTimer);
       if (killed) {
-        reject(
-          new Error(
-            `opencode stuck (no output for ${inactivityTimeoutMs / 1000}s)\nstderr (last 500 chars): ${stderr.slice(-500)}`,
-          ),
-        );
+        // Resolve with killed=true so caller can resume the session
+        resume(Effect.succeed({ stdout, sessionId, killed: true }));
       } else if (code === 0) {
-        resolve(stdout);
+        resume(Effect.succeed({ stdout, sessionId, killed: false }));
       } else {
-        reject(
-          new Error(`opencode exited with code ${code}\nstderr: ${stderr}`),
+        resume(
+          Effect.fail(
+            new CommandError({
+              command: `opencode ${args.join(" ")}`,
+              code,
+              stderr,
+            }),
+          ),
         );
       }
     });
     cp.on("error", (err) => {
       clearTimeout(inactivityTimer);
-      reject(err);
+      resume(
+        Effect.fail(
+          new CommandError({
+            command: `opencode ${args.join(" ")}`,
+            code: 1,
+            stderr: String(err),
+          }),
+        ),
+      );
     });
   });
-}
+
+// ============================================================================
+// Utilities
+// ============================================================================
+
+const capitalize = (s: string): string =>
+  s.charAt(0).toUpperCase() + s.slice(1);
+
+const isGitRepoUrl = (url: string): boolean =>
+  url.endsWith(".git") ||
+  url.match(/^https:\/\/github\.com\/[^/]+\/[^/]+\/?$/) !== null;
+
+/**
+ * Write a file only if it doesn't already exist.
+ */
+const writeIfNotExists = (
+  filePath: string,
+  content: string,
+): Effect.Effect<void, PlatformError.PlatformError, FileSystem.FileSystem> =>
+  Effect.gen(function* () {
+    const fs = yield* FileSystem.FileSystem;
+    const exists = yield* fs.exists(filePath);
+    if (!exists) {
+      yield* fs.writeFileString(filePath, content);
+    }
+  });
+
+/**
+ * Check if the operations directory has generated files (more than just index.ts).
+ */
+const hasGeneratedOperations = (
+  root: string,
+  name: string,
+): Effect.Effect<boolean, PlatformError.PlatformError, FileSystem.FileSystem | Path.Path> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const opsDir = path.join(root, "packages", name, "src", "operations");
+    const exists = yield* fs.exists(opsDir);
+    if (!exists) return false;
+
+    const files = yield* fs.readDirectory(opsDir);
+    const tsFiles = files.filter((f: string) => f.endsWith(".ts"));
+    return tsFiles.length > 1;
+  });
 
 // ============================================================================
 // Step 1: Register NPM Package
 // ============================================================================
 
-async function registerNpmPackage(name: string): Promise<void> {
-  const pkgName = `@distilled.cloud/${name}`;
-  console.log(`\n📦 Registering npm package: ${pkgName}@0.0.0`);
+const registerNpmPackage = (
+  root: string,
+  name: string,
+): Effect.Effect<
+  void,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const pkgName = `@distilled.cloud/${name}`;
+    yield* Console.log(`\n📦 Registering npm package: ${pkgName}@0.0.0`);
 
-  // Check if package already exists on npm
-  // npm view returns 0 if found, non-zero if not (including 404)
-  const { code, stdout } = await run(
-    "npm",
-    ["view", pkgName, "version"],
-    { ignoreError: true },
-  );
-
-  if (code === 0 && stdout.trim().length > 0) {
-    console.log(
-      `⚠️  Package ${pkgName}@${stdout.trim()} already exists on npm, skipping registration`,
+    // Check if package already exists on npm
+    const { code, stdout } = yield* exec(
+      "npm",
+      ["view", pkgName, "version"],
+      { ignoreError: true },
     );
-    return;
-  }
 
-  // Also check specifically for 0.0.0 — registry propagation can be slow
-  const { code: code2 } = await run(
-    "npm",
-    ["view", `${pkgName}@0.0.0`, "version"],
-    { ignoreError: true },
-  );
+    if (code === 0 && stdout.trim().length > 0) {
+      yield* Console.log(
+        `⚠️  Package ${pkgName}@${stdout.trim()} already exists on npm, skipping registration`,
+      );
+      return;
+    }
 
-  if (code2 === 0) {
-    console.log(
-      `⚠️  Package ${pkgName}@0.0.0 already exists on npm, skipping registration`,
+    // Also check specifically for 0.0.0
+    const { code: code2 } = yield* exec(
+      "npm",
+      ["view", `${pkgName}@0.0.0`, "version"],
+      { ignoreError: true },
     );
-    return;
-  }
 
-  // Create a temporary directory for the placeholder package
-  const tmpDir = path.join(ROOT, ".ai-workspace", `npm-register-${name}`);
-  mkdirSync(tmpDir, { recursive: true });
+    if (code2 === 0) {
+      yield* Console.log(
+        `⚠️  Package ${pkgName}@0.0.0 already exists on npm, skipping registration`,
+      );
+      return;
+    }
 
-  const placeholderPkg = {
-    name: pkgName,
-    version: "0.0.0",
-    description: `${capitalize(name)} SDK for Effect (placeholder)`,
-    type: "module",
-    main: "index.js",
-    files: ["index.js"],
-    repository: {
-      type: "git",
-      url: "https://github.com/alchemy-run/distilled",
-      directory: `packages/${name}`,
-    },
-    license: "MIT",
-  };
+    // Create a temporary directory for the placeholder package
+    const tmpDir = path.join(root, ".ai-workspace", `npm-register-${name}`);
+    yield* fs.makeDirectory(tmpDir, { recursive: true });
 
-  writeFileSync(
-    path.join(tmpDir, "package.json"),
-    JSON.stringify(placeholderPkg, null, 2),
-  );
-  writeFileSync(
-    path.join(tmpDir, "index.js"),
-    `// Placeholder — this package will be replaced by the generated SDK.\nexport {};\n`,
-  );
+    const placeholderPkg = {
+      name: pkgName,
+      version: "0.0.0",
+      description: `${capitalize(name)} SDK for Effect (placeholder)`,
+      type: "module",
+      main: "index.js",
+      files: ["index.js"],
+      repository: {
+        type: "git",
+        url: "https://github.com/alchemy-run/distilled",
+        directory: `packages/${name}`,
+      },
+      license: "MIT",
+    };
 
-  const { code: publishCode } = await run(
-    "npm",
-    ["publish", "--access", "public"],
-    { cwd: tmpDir, interactive: true, ignoreError: true },
-  );
-
-  if (publishCode === 0) {
-    console.log(`✅ Published ${pkgName}@0.0.0`);
-  } else {
-    console.log(
-      `⚠️  npm publish exited with code ${publishCode} — package may already exist or auth was cancelled. Continuing...`,
+    yield* fs.writeFileString(
+      path.join(tmpDir, "package.json"),
+      JSON.stringify(placeholderPkg, null, 2),
     );
-  }
-}
+    yield* fs.writeFileString(
+      path.join(tmpDir, "index.js"),
+      `// Placeholder — this package will be replaced by the generated SDK.\nexport {};\n`,
+    );
+
+    const { code: publishCode } = yield* execInteractive(
+      "npm",
+      ["publish", "--access", "public"],
+      { cwd: tmpDir },
+    );
+
+    if (publishCode === 0) {
+      yield* Console.log(`✅ Published ${pkgName}@0.0.0`);
+    } else {
+      yield* Console.log(
+        `⚠️  npm publish exited with code ${publishCode} — package may already exist or auth was cancelled. Continuing...`,
+      );
+    }
+  });
 
 // ============================================================================
 // Step 2: Setup Specs (Submodule or Spec Mirror Repo)
 // ============================================================================
 
-function isGitRepoUrl(url: string): boolean {
-  return url.endsWith(".git") || url.match(/^https:\/\/github\.com\/[^/]+\/[^/]+\/?$/) !== null;
+interface SpecInfo {
+  readonly submodulePaths: string[];
+  readonly hasSpecMirror: boolean;
 }
 
-async function setupSpecsGitSubmodule(
+const setupSpecsGitSubmodule = (
+  root: string,
   name: string,
   repoUrl: string,
-): Promise<string> {
-  const submodulePath = `packages/${name}/specs/${repoUrl.split("/").pop()?.replace(/\.git$/, "")}`;
+): Effect.Effect<
+  string,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const submodulePath = `packages/${name}/specs/${repoUrl.split("/").pop()?.replace(/\.git$/, "")}`;
 
-  console.log(`\n🔗 Adding git submodule: ${repoUrl} → ${submodulePath}`);
+    yield* Console.log(
+      `\n🔗 Adding git submodule: ${repoUrl} → ${submodulePath}`,
+    );
 
-  // Check if submodule already exists
-  const gitmodules = existsSync(path.join(ROOT, ".gitmodules"))
-    ? readFileSync(path.join(ROOT, ".gitmodules"), "utf8")
-    : "";
+    // Check if submodule already exists
+    const gitmodulesPath = path.join(root, ".gitmodules");
+    const gitmodulesExists = yield* fs.exists(gitmodulesPath);
+    const gitmodules = gitmodulesExists
+      ? yield* fs.readFileString(gitmodulesPath)
+      : "";
 
-  if (gitmodules.includes(submodulePath)) {
-    console.log(`⚠️  Submodule ${submodulePath} already registered, skipping`);
+    if (gitmodules.includes(submodulePath)) {
+      yield* Console.log(
+        `⚠️  Submodule ${submodulePath} already registered, skipping`,
+      );
+      return submodulePath;
+    }
+
+    // Ensure parent dir exists
+    const specsDir = path.join(root, `packages/${name}/specs`);
+    yield* fs.makeDirectory(specsDir, { recursive: true });
+
+    yield* exec("git", ["submodule", "add", repoUrl, submodulePath], {
+      cwd: root,
+    });
+    yield* Console.log(`✅ Submodule added: ${submodulePath}`);
+
     return submodulePath;
-  }
+  });
 
-  // Ensure parent dir exists
-  const specsDir = path.join(ROOT, `packages/${name}/specs`);
-  mkdirSync(specsDir, { recursive: true });
-
-  await run("git", ["submodule", "add", repoUrl, submodulePath]);
-  console.log(`✅ Submodule added: ${submodulePath}`);
-
-  return submodulePath;
-}
-
-async function setupSpecMirrorRepo(
+const setupSpecMirrorRepo = (
+  root: string,
   name: string,
   specUrls: string[],
-): Promise<string> {
-  const repoName = `distilled-spec-${name}`;
-  const repoFullName = `alchemy-run/${repoName}`;
-  const submodulePath = `packages/${name}/specs/${repoName}`;
+): Effect.Effect<
+  string,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const repoName = `distilled-spec-${name}`;
+    const repoFullName = `alchemy-run/${repoName}`;
+    const submodulePath = `packages/${name}/specs/${repoName}`;
 
-  console.log(
-    `\n🏗️  Setting up spec mirror repo: ${repoFullName} for ${specUrls.length} URL(s)`,
-  );
+    yield* Console.log(
+      `\n🏗️  Setting up spec mirror repo: ${repoFullName} for ${specUrls.length} URL(s)`,
+    );
 
-  // Check if the GitHub repo already exists
-  const { code: repoExists } = await run(
-    "gh",
-    ["repo", "view", repoFullName, "--json", "name"],
-    { ignoreError: true },
-  );
+    // Check if the GitHub repo already exists
+    const { code: repoExists } = yield* exec(
+      "gh",
+      ["repo", "view", repoFullName, "--json", "name"],
+      { ignoreError: true },
+    );
 
-  if (repoExists === 0) {
-    console.log(`⚠️  Repo ${repoFullName} already exists on GitHub`);
-  } else {
-    // Create the repo on GitHub
-    console.log(`Creating GitHub repo: ${repoFullName}`);
-    await run("gh", [
-      "repo",
-      "create",
-      repoFullName,
-      "--public",
-      "--description",
-      `A git mirror of ${capitalize(name)}'s API spec. Updated daily.`,
-    ]);
-    console.log(`✅ Created GitHub repo: ${repoFullName}`);
-  }
+    if (repoExists === 0) {
+      yield* Console.log(
+        `⚠️  Repo ${repoFullName} already exists on GitHub`,
+      );
+    } else {
+      yield* Console.log(`Creating GitHub repo: ${repoFullName}`);
+      yield* exec("gh", [
+        "repo",
+        "create",
+        repoFullName,
+        "--public",
+        "--description",
+        `A git mirror of ${capitalize(name)}'s API spec. Updated daily.`,
+      ]);
+      yield* Console.log(`✅ Created GitHub repo: ${repoFullName}`);
+    }
 
-  // Build the spec mirror repo content locally
-  const tmpDir = path.join(ROOT, ".ai-workspace", `spec-repo-${name}`);
-  mkdirSync(path.join(tmpDir, ".meta"), { recursive: true });
-  mkdirSync(path.join(tmpDir, ".github", "workflows"), { recursive: true });
-  mkdirSync(path.join(tmpDir, "specs"), { recursive: true });
+    // Build the spec mirror repo content locally
+    const tmpDir = path.join(root, ".ai-workspace", `spec-repo-${name}`);
+    yield* fs.makeDirectory(path.join(tmpDir, ".meta"), { recursive: true });
+    yield* fs.makeDirectory(path.join(tmpDir, ".github", "workflows"), {
+      recursive: true,
+    });
+    yield* fs.makeDirectory(path.join(tmpDir, "specs"), { recursive: true });
 
-  // .gitignore
-  writeFileSync(
-    path.join(tmpDir, ".gitignore"),
-    `node_modules/\n.env\ndist/\n*.tsbuildinfo\n`,
-  );
+    // .gitignore
+    yield* fs.writeFileString(
+      path.join(tmpDir, ".gitignore"),
+      `node_modules/\n.env\ndist/\n*.tsbuildinfo\n`,
+    );
 
-  // readme.md
-  const specUrlDisplay =
-    specUrls.length === 1
-      ? specUrls[0]
-      : `${specUrls.length} API spec URLs`;
-
-  writeFileSync(
-    path.join(tmpDir, "readme.md"),
-    `# ${repoName}
+    // readme.md
+    yield* fs.writeFileString(
+      path.join(tmpDir, "readme.md"),
+      `# ${repoName}
 
 A git mirror of ${capitalize(name)}'s API spec. The spec is fetched and committed as a JSON file so the repo serves as a versioned snapshot.
 
@@ -407,86 +549,86 @@ bun install
 bun run fetch-specs
 \`\`\`
 `,
-  );
+    );
 
-  // .meta/package.json
-  writeFileSync(
-    path.join(tmpDir, ".meta", "package.json"),
-    JSON.stringify(
-      {
-        name: `${name}-spec`,
-        private: true,
-        type: "module",
-        scripts: {
-          "fetch-specs": "bun run fetch-specs.ts",
-          tsc: "tsc --noEmit",
-          lint: "oxlint .",
-          fmt: "oxfmt --write .",
-          "fmt:check": "oxfmt --check .",
-          check: "bun run tsc && bun run lint && bun run fmt:check",
-        },
-        workspaces: {
-          catalog: {
-            "@typescript/native-preview": "latest",
-            oxfmt: "0.21.0",
-            oxlint: "1.36.0",
+    // .meta/package.json
+    yield* fs.writeFileString(
+      path.join(tmpDir, ".meta", "package.json"),
+      JSON.stringify(
+        {
+          name: `${name}-spec`,
+          private: true,
+          type: "module",
+          scripts: {
+            "fetch-specs": "bun run fetch-specs.ts",
+            tsc: "tsc --noEmit",
+            lint: "oxlint .",
+            fmt: "oxfmt --write .",
+            "fmt:check": "oxfmt --check .",
+            check: "bun run tsc && bun run lint && bun run fmt:check",
+          },
+          workspaces: {
+            catalog: {
+              "@typescript/native-preview": "latest",
+              oxfmt: "0.21.0",
+              oxlint: "1.36.0",
+            },
+          },
+          dependencies: {
+            "@typescript/native-preview": "catalog:",
+          },
+          devDependencies: {
+            oxfmt: "catalog:",
+            oxlint: "catalog:",
           },
         },
-        dependencies: {
-          "@typescript/native-preview": "catalog:",
-        },
-        devDependencies: {
-          oxfmt: "catalog:",
-          oxlint: "catalog:",
-        },
-      },
-      null,
-      2,
-    ),
-  );
+        null,
+        2,
+      ),
+    );
 
-  // .meta/tsconfig.json
-  writeFileSync(
-    path.join(tmpDir, ".meta", "tsconfig.json"),
-    JSON.stringify(
-      {
-        exclude: ["node_modules", "dist"],
-        compilerOptions: {
-          lib: ["ESNext", "DOM"],
-          target: "ESNext",
-          moduleDetection: "force",
-          jsx: "react-jsx",
-          allowJs: true,
-          esModuleInterop: true,
-          noEmit: true,
-          module: "Preserve",
-          moduleResolution: "Bundler",
-          allowImportingTsExtensions: true,
-          rewriteRelativeImportExtensions: true,
-          verbatimModuleSyntax: true,
-          strict: true,
-          skipLibCheck: true,
-          noFallthroughCasesInSwitch: true,
-          noUnusedLocals: false,
-          noUnusedParameters: false,
-          noPropertyAccessFromIndexSignature: false,
-          noImplicitThis: true,
-          sourceMap: true,
-          declaration: true,
-          declarationMap: true,
-          noErrorTruncation: true,
+    // .meta/tsconfig.json
+    yield* fs.writeFileString(
+      path.join(tmpDir, ".meta", "tsconfig.json"),
+      JSON.stringify(
+        {
+          exclude: ["node_modules", "dist"],
+          compilerOptions: {
+            lib: ["ESNext", "DOM"],
+            target: "ESNext",
+            moduleDetection: "force",
+            jsx: "react-jsx",
+            allowJs: true,
+            esModuleInterop: true,
+            noEmit: true,
+            module: "Preserve",
+            moduleResolution: "Bundler",
+            allowImportingTsExtensions: true,
+            rewriteRelativeImportExtensions: true,
+            verbatimModuleSyntax: true,
+            strict: true,
+            skipLibCheck: true,
+            noFallthroughCasesInSwitch: true,
+            noUnusedLocals: false,
+            noUnusedParameters: false,
+            noPropertyAccessFromIndexSignature: false,
+            noImplicitThis: true,
+            sourceMap: true,
+            declaration: true,
+            declarationMap: true,
+            noErrorTruncation: true,
+          },
         },
-      },
-      null,
-      2,
-    ),
-  );
+        null,
+        2,
+      ),
+    );
 
-  // .meta/fetch-specs.ts
-  if (specUrls.length === 1) {
-    writeFileSync(
-      path.join(tmpDir, ".meta", "fetch-specs.ts"),
-      `#!/usr/bin/env bun
+    // .meta/fetch-specs.ts
+    if (specUrls.length === 1) {
+      yield* fs.writeFileString(
+        path.join(tmpDir, ".meta", "fetch-specs.ts"),
+        `#!/usr/bin/env bun
 /**
  * Fetches the ${capitalize(name)} OpenAPI spec to ../specs/.
  *
@@ -532,12 +674,11 @@ main().catch((err) => {
   process.exit(1);
 });
 `,
-    );
-  } else {
-    // Multiple URLs — fetch all and write to separate files
-    writeFileSync(
-      path.join(tmpDir, ".meta", "fetch-specs.ts"),
-      `#!/usr/bin/env bun
+      );
+    } else {
+      yield* fs.writeFileString(
+        path.join(tmpDir, ".meta", "fetch-specs.ts"),
+        `#!/usr/bin/env bun
 /**
  * Fetches the ${capitalize(name)} API specs to ../specs/.
  *
@@ -586,13 +727,13 @@ main().catch((err) => {
   process.exit(1);
 });
 `,
-    );
-  }
+      );
+    }
 
-  // .github/workflows/update-specs.yml
-  writeFileSync(
-    path.join(tmpDir, ".github", "workflows", "update-specs.yml"),
-    `name: Update Specs
+    // .github/workflows/update-specs.yml
+    yield* fs.writeFileString(
+      path.join(tmpDir, ".github", "workflows", "update-specs.yml"),
+      `name: Update Specs
 
 on:
   schedule:
@@ -630,330 +771,346 @@ jobs:
             git push
           fi
 `,
-  );
+    );
 
-  // Initialize git, commit, and push
-  console.log("Initializing spec repo and pushing to GitHub...");
+    // Initialize git, commit, and push
+    yield* Console.log("Initializing spec repo and pushing to GitHub...");
 
-  // Check if it's already a git repo (idempotent)
-  if (!existsSync(path.join(tmpDir, ".git"))) {
-    await run("git", ["init"], { cwd: tmpDir });
-    await run("git", ["checkout", "-b", "main"], { cwd: tmpDir });
-  }
+    const gitDirExists = yield* fs.exists(path.join(tmpDir, ".git"));
+    if (!gitDirExists) {
+      yield* exec("git", ["init"], { cwd: tmpDir });
+      yield* exec("git", ["checkout", "-b", "main"], { cwd: tmpDir });
+    }
 
-  // Install deps and fetch specs
-  console.log("Installing deps in spec repo...");
-  await run("bun", ["install"], { cwd: path.join(tmpDir, ".meta") });
+    yield* Console.log("Installing deps in spec repo...");
+    yield* exec("bun", ["install"], {
+      cwd: path.join(tmpDir, ".meta"),
+    });
 
-  console.log("Fetching specs...");
-  await run("bun", ["run", "fetch-specs"], {
-    cwd: path.join(tmpDir, ".meta"),
-  });
+    yield* Console.log("Fetching specs...");
+    yield* exec("bun", ["run", "fetch-specs"], {
+      cwd: path.join(tmpDir, ".meta"),
+    });
 
-  // Commit and push
-  await run("git", ["add", "-A"], { cwd: tmpDir });
-  const { code: noChanges } = await run(
-    "git",
-    ["diff", "--cached", "--quiet"],
-    { cwd: tmpDir, ignoreError: true },
-  );
+    // Commit and push
+    yield* exec("git", ["add", "-A"], { cwd: tmpDir });
+    const { code: noChanges } = yield* exec(
+      "git",
+      ["diff", "--cached", "--quiet"],
+      { cwd: tmpDir, ignoreError: true },
+    );
 
-  if (noChanges !== 0) {
-    await run("git", ["commit", "-m", "feat: initial spec fetch"], {
+    if (noChanges !== 0) {
+      yield* exec("git", ["commit", "-m", "feat: initial spec fetch"], {
+        cwd: tmpDir,
+      });
+    }
+
+    const { code: hasRemote } = yield* exec(
+      "git",
+      ["remote", "get-url", "origin"],
+      { cwd: tmpDir, ignoreError: true },
+    );
+
+    if (hasRemote !== 0) {
+      yield* exec(
+        "git",
+        [
+          "remote",
+          "add",
+          "origin",
+          `https://github.com/${repoFullName}.git`,
+        ],
+        { cwd: tmpDir },
+      );
+    }
+
+    yield* exec("git", ["push", "-u", "origin", "main", "--force"], {
       cwd: tmpDir,
     });
-  }
 
-  // Set remote and push
-  const { code: hasRemote } = await run(
-    "git",
-    ["remote", "get-url", "origin"],
-    { cwd: tmpDir, ignoreError: true },
-  );
-
-  if (hasRemote !== 0) {
-    await run(
-      "git",
-      [
-        "remote",
-        "add",
-        "origin",
-        `https://github.com/${repoFullName}.git`,
-      ],
-      { cwd: tmpDir },
+    yield* Console.log(
+      `✅ Spec repo pushed to https://github.com/${repoFullName}`,
     );
-  }
 
-  await run("git", ["push", "-u", "origin", "main", "--force"], {
-    cwd: tmpDir,
+    // Now add as a submodule in the main repo
+    const gitmodulesPath = path.join(root, ".gitmodules");
+    const gitmodulesExists = yield* fs.exists(gitmodulesPath);
+    const gitmodules = gitmodulesExists
+      ? yield* fs.readFileString(gitmodulesPath)
+      : "";
+
+    if (gitmodules.includes(submodulePath)) {
+      yield* Console.log(
+        `⚠️  Submodule ${submodulePath} already registered, skipping`,
+      );
+    } else {
+      const specsDir = path.join(root, `packages/${name}/specs`);
+      yield* fs.makeDirectory(specsDir, { recursive: true });
+
+      yield* exec(
+        "git",
+        [
+          "submodule",
+          "add",
+          `https://github.com/${repoFullName}.git`,
+          submodulePath,
+        ],
+        { cwd: root },
+      );
+      yield* Console.log(`✅ Submodule added: ${submodulePath}`);
+    }
+
+    return submodulePath;
   });
 
-  console.log(`✅ Spec repo pushed to https://github.com/${repoFullName}`);
-
-  // Now add as a submodule in the main repo
-  const gitmodules = existsSync(path.join(ROOT, ".gitmodules"))
-    ? readFileSync(path.join(ROOT, ".gitmodules"), "utf8")
-    : "";
-
-  if (gitmodules.includes(submodulePath)) {
-    console.log(`⚠️  Submodule ${submodulePath} already registered, skipping`);
-  } else {
-    const specsDir = path.join(ROOT, `packages/${name}/specs`);
-    mkdirSync(specsDir, { recursive: true });
-
-    await run("git", [
-      "submodule",
-      "add",
-      `https://github.com/${repoFullName}.git`,
-      submodulePath,
-    ]);
-    console.log(`✅ Submodule added: ${submodulePath}`);
-  }
-
-  return submodulePath;
-}
-
-async function setupSpecs(
+const setupSpecs = (
+  root: string,
   name: string,
   specs: string[],
-): Promise<{ submodulePaths: string[]; hasSpecMirror: boolean }> {
-  if (specs.length === 0) {
-    console.log("\n⚠️  No specs provided, skipping spec setup");
-    return { submodulePaths: [], hasSpecMirror: false };
-  }
+): Effect.Effect<
+  SpecInfo,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    if (specs.length === 0) {
+      yield* Console.log("\n⚠️  No specs provided, skipping spec setup");
+      return { submodulePaths: [], hasSpecMirror: false } as SpecInfo;
+    }
 
-  const gitRepos = specs.filter(isGitRepoUrl);
-  const urls = specs.filter((s) => !isGitRepoUrl(s));
-  const paths: string[] = [];
+    const gitRepos = specs.filter(isGitRepoUrl);
+    const urls = specs.filter((s) => !isGitRepoUrl(s));
+    const paths: string[] = [];
 
-  // Add git repos as direct submodules
-  for (const repo of gitRepos) {
-    const p = await setupSpecsGitSubmodule(name, repo);
-    paths.push(p);
-  }
+    for (const repo of gitRepos) {
+      const p = yield* setupSpecsGitSubmodule(root, name, repo);
+      paths.push(p);
+    }
 
-  // Create a distilled-spec-* mirror repo for any plain URLs
-  if (urls.length > 0) {
-    const p = await setupSpecMirrorRepo(name, urls);
-    paths.push(p);
-  }
+    if (urls.length > 0) {
+      const p = yield* setupSpecMirrorRepo(root, name, urls);
+      paths.push(p);
+    }
 
-  return { submodulePaths: paths, hasSpecMirror: urls.length > 0 };
-}
+    return {
+      submodulePaths: paths,
+      hasSpecMirror: urls.length > 0,
+    } as SpecInfo;
+  });
 
 // ============================================================================
 // Step 3: Scaffold SDK Package
 // ============================================================================
 
-function scaffoldPackage(
+const scaffoldPackage = (
+  root: string,
   name: string,
-  specInfo: { submodulePaths: string[]; hasSpecMirror: boolean },
-): void {
-  const pkgDir = path.join(ROOT, "packages", name);
-  const srcDir = path.join(pkgDir, "src");
-  const operationsDir = path.join(srcDir, "operations");
-  const scriptsDir = path.join(pkgDir, "scripts");
-  const patchesDir = path.join(pkgDir, "patches");
-  const testDir = path.join(pkgDir, "test");
+  specInfo: SpecInfo,
+): Effect.Effect<void, PlatformError.PlatformError, FileSystem.FileSystem | Path.Path> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const pkgDir = path.join(root, "packages", name);
+    const srcDir = path.join(pkgDir, "src");
+    const operationsDir = path.join(srcDir, "operations");
+    const scriptsDir = path.join(pkgDir, "scripts");
+    const patchesDir = path.join(pkgDir, "patches");
+    const testDir = path.join(pkgDir, "test");
 
-  console.log(`\n🏗️  Scaffolding SDK package: packages/${name}/`);
+    yield* Console.log(`\n🏗️  Scaffolding SDK package: packages/${name}/`);
 
-  // Create directories
-  for (const dir of [srcDir, operationsDir, scriptsDir, patchesDir, testDir]) {
-    mkdirSync(dir, { recursive: true });
-  }
+    for (const dir of [
+      srcDir,
+      operationsDir,
+      scriptsDir,
+      patchesDir,
+      testDir,
+    ]) {
+      yield* fs.makeDirectory(dir, { recursive: true });
+    }
 
-  const capitalName = capitalize(name);
-
-  // Derive submodule names from paths (last segment of each path)
-  const submoduleNames = specInfo.submodulePaths.map(
-    (p) => p.split("/").pop()!,
-  );
-
-  // --- package.json ---
-  if (!existsSync(path.join(pkgDir, "package.json"))) {
-    // specs:fetch and specs:update handle all submodules
-    const specsFetchCmds = submoduleNames.map(
-      (sm) =>
-        `git submodule update --force --init --recursive specs/${sm} && git -C specs/${sm} checkout -- .`,
-    );
-    const specsUpdateCmds = submoduleNames.map(
-      (sm) =>
-        `git -C specs/${sm} fetch && git -C specs/${sm} checkout main && git -C specs/${sm} pull`,
+    const capitalName = capitalize(name);
+    const submoduleNames = specInfo.submodulePaths.map(
+      (p) => p.split("/").pop()!,
     );
 
-    writeFileSync(
-      path.join(pkgDir, "package.json"),
-      JSON.stringify(
-        {
-          name: `@distilled.cloud/${name}`,
-          version: "0.2.0-alpha",
-          repository: {
-            type: "git",
-            url: "https://github.com/alchemy-run/distilled",
-            directory: `packages/${name}`,
+    // --- package.json ---
+    const pkgJsonPath = path.join(pkgDir, "package.json");
+    const pkgJsonExists = yield* fs.exists(pkgJsonPath);
+    if (!pkgJsonExists) {
+      const specsFetchCmds = submoduleNames.map(
+        (sm) =>
+          `git submodule update --force --init --recursive specs/${sm} && git -C specs/${sm} checkout -- .`,
+      );
+      const specsUpdateCmds = submoduleNames.map(
+        (sm) =>
+          `git -C specs/${sm} fetch && git -C specs/${sm} checkout main && git -C specs/${sm} pull`,
+      );
+
+      yield* fs.writeFileString(
+        pkgJsonPath,
+        JSON.stringify(
+          {
+            name: `@distilled.cloud/${name}`,
+            version: "0.2.0-alpha",
+            repository: {
+              type: "git",
+              url: "https://github.com/alchemy-run/distilled",
+              directory: `packages/${name}`,
+            },
+            type: "module",
+            sideEffects: false,
+            module: "src/index.ts",
+            files: ["lib", "src"],
+            exports: {
+              ".": {
+                types: "./lib/index.d.ts",
+                bun: "./src/index.ts",
+                default: "./lib/index.js",
+              },
+              "./Category": {
+                types: "./lib/category.d.ts",
+                bun: "./src/category.ts",
+                default: "./lib/category.js",
+              },
+              "./Client": {
+                types: "./lib/client.d.ts",
+                bun: "./src/client.ts",
+                default: "./lib/client.js",
+              },
+              "./Credentials": {
+                types: "./lib/credentials.d.ts",
+                bun: "./src/credentials.ts",
+                default: "./lib/credentials.js",
+              },
+              "./Errors": {
+                types: "./lib/errors.d.ts",
+                bun: "./src/errors.ts",
+                default: "./lib/errors.js",
+              },
+              "./Operations": {
+                types: "./lib/operations/index.d.ts",
+                bun: "./src/operations/index.ts",
+                default: "./lib/operations/index.js",
+              },
+              "./Retry": {
+                types: "./lib/retry.d.ts",
+                bun: "./src/retry.ts",
+                default: "./lib/retry.js",
+              },
+              "./Sensitive": {
+                types: "./lib/sensitive.d.ts",
+                bun: "./src/sensitive.ts",
+                default: "./lib/sensitive.js",
+              },
+              "./Traits": {
+                types: "./lib/traits.d.ts",
+                bun: "./src/traits.ts",
+                default: "./lib/traits.js",
+              },
+            },
+            scripts: {
+              typecheck: "tsgo",
+              build: "tsgo -b",
+              fmt: "oxfmt --write src",
+              lint: "oxlint --fix src",
+              check: "tsgo && oxlint src && oxfmt --check src",
+              test: "bunx vitest run test",
+              "publish:npm": "bun run build && bun publish --access public",
+              generate:
+                "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
+              "specs:fetch":
+                specsFetchCmds.join(" && ") || "echo 'No specs configured'",
+              "specs:update":
+                specsUpdateCmds.join(" && ") || "echo 'No specs configured'",
+            },
+            dependencies: {
+              "@distilled.cloud/core": "workspace:*",
+              effect: "catalog:",
+            },
+            devDependencies: {
+              "@types/bun": "catalog:",
+              "@types/node": "catalog:",
+              dotenv: "catalog:",
+              vitest: "catalog:",
+            },
+            peerDependencies: {
+              effect: "catalog:",
+            },
           },
-          type: "module",
-          sideEffects: false,
-          module: "src/index.ts",
-          files: ["lib", "src"],
-          exports: {
-            ".": {
-              types: "./lib/index.d.ts",
-              bun: "./src/index.ts",
-              default: "./lib/index.js",
-            },
-            "./Category": {
-              types: "./lib/category.d.ts",
-              bun: "./src/category.ts",
-              default: "./lib/category.js",
-            },
-            "./Client": {
-              types: "./lib/client.d.ts",
-              bun: "./src/client.ts",
-              default: "./lib/client.js",
-            },
-            "./Credentials": {
-              types: "./lib/credentials.d.ts",
-              bun: "./src/credentials.ts",
-              default: "./lib/credentials.js",
-            },
-            "./Errors": {
-              types: "./lib/errors.d.ts",
-              bun: "./src/errors.ts",
-              default: "./lib/errors.js",
-            },
-            "./Operations": {
-              types: "./lib/operations/index.d.ts",
-              bun: "./src/operations/index.ts",
-              default: "./lib/operations/index.js",
-            },
-            "./Retry": {
-              types: "./lib/retry.d.ts",
-              bun: "./src/retry.ts",
-              default: "./lib/retry.js",
-            },
-            "./Sensitive": {
-              types: "./lib/sensitive.d.ts",
-              bun: "./src/sensitive.ts",
-              default: "./lib/sensitive.js",
-            },
-            "./Traits": {
-              types: "./lib/traits.d.ts",
-              bun: "./src/traits.ts",
-              default: "./lib/traits.js",
+          null,
+          2,
+        ),
+      );
+      yield* Console.log("  ✅ package.json");
+    } else {
+      yield* Console.log("  ⚠️  package.json already exists, skipping");
+    }
+
+    // --- tsconfig.json ---
+    const tsconfigPath = path.join(pkgDir, "tsconfig.json");
+    const tsconfigExists = yield* fs.exists(tsconfigPath);
+    if (!tsconfigExists) {
+      yield* fs.writeFileString(
+        tsconfigPath,
+        JSON.stringify(
+          {
+            include: ["src/**/*.ts"],
+            compilerOptions: {
+              lib: ["ESNext"],
+              target: "ESNext",
+              module: "Preserve",
+              moduleDetection: "force",
+              allowJs: true,
+              moduleResolution: "bundler",
+              verbatimModuleSyntax: true,
+              rewriteRelativeImportExtensions: true,
+              noEmit: false,
+              composite: true,
+              outDir: "./lib",
+              rootDir: "./src",
+              declaration: true,
+              declarationMap: true,
+              sourceMap: true,
+              strict: true,
+              skipLibCheck: true,
+              noFallthroughCasesInSwitch: true,
+              noUnusedLocals: false,
+              noUnusedParameters: false,
+              noPropertyAccessFromIndexSignature: false,
             },
           },
-          scripts: {
-            typecheck: "tsgo",
-            build: "tsgo -b",
-            fmt: "oxfmt --write src",
-            lint: "oxlint --fix src",
-            check: "tsgo && oxlint src && oxfmt --check src",
-            test: "bunx vitest run test",
-            "publish:npm": "bun run build && bun publish --access public",
-            generate:
-              "bun run scripts/generate.ts && oxfmt --write src && oxlint --fix src",
-            "specs:fetch": specsFetchCmds.join(" && ") || "echo 'No specs configured'",
-            "specs:update": specsUpdateCmds.join(" && ") || "echo 'No specs configured'",
-          },
-          dependencies: {
-            "@distilled.cloud/core": "workspace:*",
-            effect: "catalog:",
-          },
-          devDependencies: {
-            "@types/bun": "catalog:",
-            "@types/node": "catalog:",
-            dotenv: "catalog:",
-            vitest: "catalog:",
-          },
-          peerDependencies: {
-            effect: "catalog:",
-          },
-        },
-        null,
-        2,
-      ),
+          null,
+          2,
+        ),
+      );
+      yield* Console.log("  ✅ tsconfig.json");
+    } else {
+      yield* Console.log("  ⚠️  tsconfig.json already exists, skipping");
+    }
+
+    // --- Source files ---
+    yield* writeIfNotExists(
+      path.join(srcDir, "traits.ts"),
+      `/**\n * Re-export the shared traits system from sdk-core.\n */\nexport * from "@distilled.cloud/core/traits";\n`,
     );
-    console.log("  ✅ package.json");
-  } else {
-    console.log("  ⚠️  package.json already exists, skipping");
-  }
 
-  // --- tsconfig.json ---
-  if (!existsSync(path.join(pkgDir, "tsconfig.json"))) {
-    writeFileSync(
-      path.join(pkgDir, "tsconfig.json"),
-      JSON.stringify(
-        {
-          include: ["src/**/*.ts"],
-          compilerOptions: {
-            lib: ["ESNext"],
-            target: "ESNext",
-            module: "Preserve",
-            moduleDetection: "force",
-            allowJs: true,
-            moduleResolution: "bundler",
-            verbatimModuleSyntax: true,
-            rewriteRelativeImportExtensions: true,
-            noEmit: false,
-            composite: true,
-            outDir: "./lib",
-            rootDir: "./src",
-            declaration: true,
-            declarationMap: true,
-            sourceMap: true,
-            strict: true,
-            skipLibCheck: true,
-            noFallthroughCasesInSwitch: true,
-            noUnusedLocals: false,
-            noUnusedParameters: false,
-            noPropertyAccessFromIndexSignature: false,
-          },
-        },
-        null,
-        2,
-      ),
+    yield* writeIfNotExists(
+      path.join(srcDir, "category.ts"),
+      `/**\n * Re-export the shared category system from sdk-core.\n */\nexport * from "@distilled.cloud/core/category";\n`,
     );
-    console.log("  ✅ tsconfig.json");
-  } else {
-    console.log("  ⚠️  tsconfig.json already exists, skipping");
-  }
 
-  // --- src/traits.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "traits.ts"),
-    `/**
- * Re-export the shared traits system from sdk-core.
- */
-export * from "@distilled.cloud/core/traits";
-`,
-  );
+    yield* writeIfNotExists(
+      path.join(srcDir, "sensitive.ts"),
+      `/**\n * Re-export sensitive data schemas from sdk-core.\n */\nexport * from "@distilled.cloud/core/sensitive";\n`,
+    );
 
-  // --- src/category.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "category.ts"),
-    `/**
- * Re-export the shared category system from sdk-core.
- */
-export * from "@distilled.cloud/core/category";
-`,
-  );
-
-  // --- src/sensitive.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "sensitive.ts"),
-    `/**
- * Re-export sensitive data schemas from sdk-core.
- */
-export * from "@distilled.cloud/core/sensitive";
-`,
-  );
-
-  // --- src/errors.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "errors.ts"),
-    `/**
+    // --- src/errors.ts ---
+    const envVarName = `${name.toUpperCase().replace(/-/g, "_")}_API_KEY`;
+    yield* writeIfNotExists(
+      path.join(srcDir, "errors.ts"),
+      `/**
  * ${capitalName}-specific error types.
  *
  * Re-exports common HTTP errors from sdk-core and adds ${capitalName}-specific
@@ -1001,13 +1158,12 @@ export class ${capitalName}ParseError extends Schema.TaggedErrorClass<${capitalN
   },
 ).pipe(Category.withParseError) {}
 `,
-  );
+    );
 
-  // --- src/credentials.ts ---
-  const envVarName = `${name.toUpperCase().replace(/-/g, "_")}_API_KEY`;
-  writeIfNotExists(
-    path.join(srcDir, "credentials.ts"),
-    `import * as Effect from "effect/Effect";
+    // --- src/credentials.ts ---
+    yield* writeIfNotExists(
+      path.join(srcDir, "credentials.ts"),
+      `import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as ServiceMap from "effect/ServiceMap";
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -1038,12 +1194,12 @@ export const CredentialsFromEnv = Layer.effect(
   }),
 );
 `,
-  );
+    );
 
-  // --- src/client.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "client.ts"),
-    `/**
+    // --- src/client.ts ---
+    yield* writeIfNotExists(
+      path.join(srcDir, "client.ts"),
+      `/**
  * ${capitalName} API Client.
  *
  * Wraps the shared REST client from sdk-core with ${capitalName}-specific
@@ -1096,18 +1252,18 @@ export const API = makeAPI({
   credentials: Credentials as any,
   getBaseUrl: (creds: any) => creds.apiBaseUrl,
   getAuthHeaders: (creds: any) => ({
-    Authorization: \`Bearer \${creds.apiKey}\`,
+    Authorization: \\\`Bearer \\\${creds.apiKey}\\\`,
   }),
   matchError,
   ParseError: ${capitalName}ParseError as any,
 });
 `,
-  );
+    );
 
-  // --- src/retry.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "retry.ts"),
-    `/**
+    // --- src/retry.ts ---
+    yield* writeIfNotExists(
+      path.join(srcDir, "retry.ts"),
+      `/**
  * ${capitalName} retry configuration.
  */
 import * as Effect from "effect/Effect";
@@ -1143,18 +1299,18 @@ export const none = Effect.provide(
   Layer.succeed(Retry, { while: () => false }),
 );
 `,
-  );
+    );
 
-  // --- src/index.ts ---
-  writeIfNotExists(
-    path.join(srcDir, "index.ts"),
-    `/**
+    // --- src/index.ts ---
+    yield* writeIfNotExists(
+      path.join(srcDir, "index.ts"),
+      `/**
  * ${capitalName} SDK for Effect
  *
  * @example
- * \`\`\`ts
+ * \\\`\\\`\\\`ts
  * import * as ${capitalName} from "@distilled.cloud/${name}";
- * \`\`\`
+ * \\\`\\\`\\\`
  */
 export * from "./credentials.ts";
 export * as Category from "./category.ts";
@@ -1164,114 +1320,86 @@ export { API } from "./client.ts";
 export * from "./errors.ts";
 export { SensitiveString, SensitiveNullableString } from "./sensitive.ts";
 `,
-  );
+    );
 
-  // --- src/operations/index.ts (placeholder) ---
-  writeIfNotExists(
-    path.join(operationsDir, "index.ts"),
-    `// Generated operations will be placed here by the code generator.\n// Run \`bun run generate\` to populate this directory.\n`,
-  );
+    // --- src/operations/index.ts (placeholder) ---
+    yield* writeIfNotExists(
+      path.join(operationsDir, "index.ts"),
+      `// Generated operations will be placed here by the code generator.\n// Run \`bun run generate\` to populate this directory.\n`,
+    );
 
-  // --- scripts/generate.ts ---
-  // Try to find the primary OpenAPI spec file across all submodules.
-  // The opencode refinement step will fix this if it's wrong.
-  function findSpecPath(): string {
-    for (const sm of submoduleNames) {
-      const candidates = [
-        `specs/${sm}/specs/openapi.json`,
-        `specs/${sm}/openapi/spec3.json`,
-        `specs/${sm}/openapi.json`,
-        `specs/${sm}/spec/openapi.json`,
-        `specs/${sm}/api/openapi.json`,
-        `specs/${sm}/openapi/spec3.yaml`,
-      ];
-      const found = candidates.find((p) => existsSync(path.join(pkgDir, p)));
-      if (found) return found;
-    }
-    // Fallback: best guess based on what type of specs we have
-    if (specInfo.hasSpecMirror) {
-      return `specs/distilled-spec-${name}/specs/openapi.json`;
-    }
-    if (submoduleNames[0]) {
-      return `specs/${submoduleNames[0]}/openapi/spec3.json`;
-    }
-    return `specs/openapi.json`;
-  }
-  const specPath = findSpecPath();
-
-  writeIfNotExists(
-    path.join(scriptsDir, "generate.ts"),
-    `/**
+    // --- scripts/generate.ts ---
+    yield* writeIfNotExists(
+      path.join(scriptsDir, "generate.ts"),
+      `/**
  * ${capitalName} SDK Code Generator
  *
- * Uses the shared OpenAPI generator from sdk-core to generate operations
- * from the ${capitalName} OpenAPI spec.
+ * TODO: This is a placeholder. You must update this file to work with the
+ * actual spec format found in the specs/ submodule(s).
+ *
+ * If the spec is OpenAPI, use generateFromOpenAPI from @distilled.cloud/core/openapi/generate.
+ * If it's another format (TypeScript SDK, Smithy, protobuf, Go types, etc.),
+ * write a custom generator. See packages/cloudflare/ and packages/aws/ for examples
+ * of non-OpenAPI generators.
  */
-import * as path from "path";
-import { generateFromOpenAPI } from "@distilled.cloud/core/openapi/generate";
 
-const rootDir = path.join(import.meta.dir, "..");
-
-generateFromOpenAPI({
-  specPath: path.join(rootDir, "${specPath}"),
-  patchDir: path.join(rootDir, "patches"),
-  outputDir: path.join(rootDir, "src/operations"),
-  importPrefix: "..",
-  clientImport: "../client",
-  traitsImport: "../traits",
-  sensitiveImport: "../sensitive",
-  errorsImport: "../errors",
-  includeOperationErrors: false, // ${capitalName} handles errors globally by HTTP status
-  skipDeprecated: true,
-});
+throw new Error(
+  "generate.ts has not been configured yet. " +
+  "Inspect the specs/ submodule to determine the spec format, " +
+  "then update this file with the appropriate generator."
+);
 `,
-  );
+    );
 
-  console.log(
-    "  ✅ All source files scaffolded (category, traits, sensitive, errors, credentials, client, retry, index, operations/index, scripts/generate)",
-  );
-}
+    yield* Console.log(
+      "  ✅ All source files scaffolded (category, traits, sensitive, errors, credentials, client, retry, index, operations/index, scripts/generate)",
+    );
+  });
 
 // ============================================================================
 // Step 4: Update CI Workflows
 // ============================================================================
 
-function updateTestYml(name: string): void {
-  const testYmlPath = path.join(ROOT, ".github", "workflows", "test.yml");
-  let content = readFileSync(testYmlPath, "utf8");
+const updateTestYml = (
+  root: string,
+  name: string,
+): Effect.Effect<void, PlatformError.PlatformError, FileSystem.FileSystem | Path.Path> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const testYmlPath = path.join(root, ".github", "workflows", "test.yml");
+    let content = yield* fs.readFileString(testYmlPath);
 
-  // Check if already present
-  if (content.includes(`ci-${name}:`)) {
-    console.log(`\n⚠️  test.yml already has ci-${name}, skipping`);
-    return;
-  }
+    if (content.includes(`ci-${name}:`)) {
+      yield* Console.log(
+        `\n⚠️  test.yml already has ci-${name}, skipping`,
+      );
+      return;
+    }
 
-  console.log(`\n📝 Updating test.yml with ci-${name} job`);
+    yield* Console.log(`\n📝 Updating test.yml with ci-${name} job`);
 
-  // Add to detect-changes outputs
-  const outputsMatch = content.match(
-    /(      supabase: \$\{\{ steps\.changes\.outputs\.supabase \}\})/,
-  );
-  if (outputsMatch) {
-    content = content.replace(
-      outputsMatch[1],
-      `${outputsMatch[1]}\n      ${name}: \${{ steps.changes.outputs.${name} }}`,
+    const outputsMatch = content.match(
+      /(      supabase: \$\{\{ steps\.changes\.outputs\.supabase \}\})/,
     );
-  }
+    if (outputsMatch) {
+      content = content.replace(
+        outputsMatch[1],
+        `${outputsMatch[1]}\n      ${name}: \${{ steps.changes.outputs.${name} }}`,
+      );
+    }
 
-  // Add to detect-changes filters
-  const filtersMatch = content.match(
-    /(            supabase:\n              - 'packages\/supabase\/\*\*'\n              - 'packages\/core\/\*\*')/,
-  );
-  if (filtersMatch) {
-    content = content.replace(
-      filtersMatch[1],
-      `${filtersMatch[1]}\n            ${name}:\n              - 'packages/${name}/**'\n              - 'packages/core/**'`,
+    const filtersMatch = content.match(
+      /(            supabase:\n              - 'packages\/supabase\/\*\*'\n              - 'packages\/core\/\*\*')/,
     );
-  }
+    if (filtersMatch) {
+      content = content.replace(
+        filtersMatch[1],
+        `${filtersMatch[1]}\n            ${name}:\n              - 'packages/${name}/**'\n              - 'packages/core/**'`,
+      );
+    }
 
-  // Add CI job (check only, no test — user can add secrets/test later)
-  const newJob = `
+    const newJob = `
   ci-${name}:
     needs: detect-changes
     if: needs.detect-changes.outputs.${name} == 'true'
@@ -1287,47 +1415,54 @@ function updateTestYml(name: string): void {
       - run: bun run check
         working-directory: packages/${name}`;
 
-  content = content.trimEnd() + "\n" + newJob + "\n";
+    content = content.trimEnd() + "\n" + newJob + "\n";
 
-  writeFileSync(testYmlPath, content);
-  console.log(`  ✅ Added ci-${name} job to test.yml`);
-}
+    yield* fs.writeFileString(testYmlPath, content);
+    yield* Console.log(`  ✅ Added ci-${name} job to test.yml`);
+  });
 
-function updatePkgPrYml(name: string): void {
-  const ymlPath = path.join(ROOT, ".github", "workflows", "pkg-pr.yml");
-  let content = readFileSync(ymlPath, "utf8");
+const updatePkgPrYml = (
+  root: string,
+  name: string,
+): Effect.Effect<void, PlatformError.PlatformError, FileSystem.FileSystem | Path.Path> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const ymlPath = path.join(root, ".github", "workflows", "pkg-pr.yml");
+    let content = yield* fs.readFileString(ymlPath);
 
-  if (content.includes(`pkg-pr-${name}:`)) {
-    console.log(`\n⚠️  pkg-pr.yml already has pkg-pr-${name}, skipping`);
-    return;
-  }
+    if (content.includes(`pkg-pr-${name}:`)) {
+      yield* Console.log(
+        `\n⚠️  pkg-pr.yml already has pkg-pr-${name}, skipping`,
+      );
+      return;
+    }
 
-  console.log(`\n📝 Updating pkg-pr.yml with pkg-pr-${name} job`);
-
-  // Add to detect-changes outputs
-  const outputsMatch = content.match(
-    /(      supabase: \$\{\{ steps\.changes\.outputs\.supabase \}\})/,
-  );
-  if (outputsMatch) {
-    content = content.replace(
-      outputsMatch[1],
-      `${outputsMatch[1]}\n      ${name}: \${{ steps.changes.outputs.${name} }}`,
+    yield* Console.log(
+      `\n📝 Updating pkg-pr.yml with pkg-pr-${name} job`,
     );
-  }
 
-  // Add to detect-changes filters
-  const filtersMatch = content.match(
-    /(            supabase:\n              - 'packages\/supabase\/\*\*')/,
-  );
-  if (filtersMatch) {
-    content = content.replace(
-      filtersMatch[1],
-      `${filtersMatch[1]}\n            ${name}:\n              - 'packages/${name}/**'`,
+    const outputsMatch = content.match(
+      /(      supabase: \$\{\{ steps\.changes\.outputs\.supabase \}\})/,
     );
-  }
+    if (outputsMatch) {
+      content = content.replace(
+        outputsMatch[1],
+        `${outputsMatch[1]}\n      ${name}: \${{ steps.changes.outputs.${name} }}`,
+      );
+    }
 
-  // Add pkg-pr job after the last existing one (supabase)
-  const newJob = `
+    const filtersMatch = content.match(
+      /(            supabase:\n              - 'packages\/supabase\/\*\*')/,
+    );
+    if (filtersMatch) {
+      content = content.replace(
+        filtersMatch[1],
+        `${filtersMatch[1]}\n            ${name}:\n              - 'packages/${name}/**'`,
+      );
+    }
+
+    const newJob = `
   pkg-pr-${name}:
     needs: [detect-changes, pkg-pr-supabase]
     if: \${{ !failure() && needs.detect-changes.outputs.${name} == 'true' }}
@@ -1345,145 +1480,185 @@ function updatePkgPrYml(name: string): void {
       - run: bun scripts/generate-pnpm-workspace.yaml.ts
       - run: bun add -D pnpm && bunx pkg-pr-new publish --pnpm ./packages/${name}`;
 
-  content = content.trimEnd() + "\n" + newJob + "\n";
+    content = content.trimEnd() + "\n" + newJob + "\n";
 
-  writeFileSync(ymlPath, content);
-  console.log(`  ✅ Added pkg-pr-${name} job to pkg-pr.yml`);
-}
+    yield* fs.writeFileString(ymlPath, content);
+    yield* Console.log(`  ✅ Added pkg-pr-${name} job to pkg-pr.yml`);
+  });
 
-function updateReleaseYml(name: string): void {
-  const ymlPath = path.join(ROOT, ".github", "workflows", "release.yml");
-  let content = readFileSync(ymlPath, "utf8");
+const updateReleaseYml = (
+  root: string,
+  name: string,
+): Effect.Effect<void, PlatformError.PlatformError, FileSystem.FileSystem | Path.Path> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const fs = yield* FileSystem.FileSystem;
+    const ymlPath = path.join(root, ".github", "workflows", "release.yml");
+    let content = yield* fs.readFileString(ymlPath);
 
-  // Check if the PACKAGES array already includes the name
-  const pkgArrayMatch = content.match(/PACKAGES=\(([^)]+)\)/);
-  if (pkgArrayMatch) {
-    const pkgs = pkgArrayMatch[1].trim().split(/\s+/);
-    if (pkgs.includes(name)) {
-      console.log(`\n⚠️  release.yml already includes ${name}, skipping`);
-      return;
+    const pkgArrayMatch = content.match(/PACKAGES=\(([^)]+)\)/);
+    if (pkgArrayMatch) {
+      const pkgs = pkgArrayMatch[1].trim().split(/\s+/);
+      if (pkgs.includes(name)) {
+        yield* Console.log(
+          `\n⚠️  release.yml already includes ${name}, skipping`,
+        );
+        return;
+      }
     }
-  }
 
-  console.log(`\n📝 Updating release.yml with ${name}`);
+    yield* Console.log(`\n📝 Updating release.yml with ${name}`);
 
-  // Add to PACKAGES array
-  content = content.replace(
-    /PACKAGES=\(([^)]+)\)/,
-    (match, pkgList: string) => {
-      const trimmed = pkgList.trim();
-      return `PACKAGES=(${trimmed} ${name})`;
-    },
-  );
+    content = content.replace(
+      /PACKAGES=\(([^)]+)\)/,
+      (_match: string, pkgList: string) => {
+        const trimmed = pkgList.trim();
+        return `PACKAGES=(${trimmed} ${name})`;
+      },
+    );
 
-  writeFileSync(ymlPath, content);
-  console.log(`  ✅ Added ${name} to release.yml PACKAGES`);
-}
+    yield* fs.writeFileString(ymlPath, content);
+    yield* Console.log(`  ✅ Added ${name} to release.yml PACKAGES`);
+  });
 
 // ============================================================================
 // Step 5: Run Generation & OpenCode for SDK Refinement
 // ============================================================================
 
-/**
- * Check if the operations directory has generated files (more than just index.ts).
- */
-function hasGeneratedOperations(name: string): boolean {
-  const opsDir = path.join(ROOT, "packages", name, "src", "operations");
-  if (!existsSync(opsDir)) return false;
-
-  const files = readdirSync(opsDir).filter((f) => f.endsWith(".ts"));
-  // Must have more than just index.ts
-  return files.length > 1;
-}
-
-async function installAndGenerate(name: string): Promise<void> {
-  const pkgDir = path.join(ROOT, "packages", name);
-
-  console.log("\n📦 Running bun install...");
-  await run("bun", ["install"], { cwd: ROOT });
-
-  console.log("\n🔨 Building core...");
-  await run("bun", ["run", "build"], {
-    cwd: path.join(ROOT, "packages", "core"),
-  });
-
-  console.log("\n🔧 Fetching specs...");
-  await run("bun", ["run", "specs:fetch"], {
-    cwd: pkgDir,
-    ignoreError: true,
-  });
-
-  console.log("\n⚡ Running code generation...");
-  await run("bun", ["run", "generate"], {
-    cwd: pkgDir,
-    ignoreError: true,
-  });
-
-  // Check if generation produced actual operation files
-  if (hasGeneratedOperations(name)) {
-    console.log("  ✅ Operations generated successfully");
-  } else {
-    console.log(
-      "  ⚠️  Operations directory is empty (only index.ts) — opencode will attempt to fix the spec path and regenerate",
-    );
-  }
-}
-
-async function refineWithOpencode(
+const installAndGenerate = (
+  root: string,
   name: string,
-  specInfo: { submodulePaths: string[]; hasSpecMirror: boolean },
-): Promise<void> {
-  const capitalName = capitalize(name);
-  const operationsEmpty = !hasGeneratedOperations(name);
+): Effect.Effect<
+  void,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const path = yield* Path.Path;
+    const pkgDir = path.join(root, "packages", name);
 
-  console.log(`\n🤖 Calling opencode to refine ${capitalName} SDK...`);
+    yield* Console.log("\n📦 Running bun install...");
+    yield* exec("bun", ["install"], { cwd: root });
 
-  const specLocations =
-    specInfo.submodulePaths.length > 0
-      ? specInfo.submodulePaths
-          .map((p) => `  - ${p}`)
-          .join("\n")
-      : "  (no spec submodules)";
+    yield* Console.log("\n🔨 Building core...");
+    yield* exec("bun", ["run", "build"], {
+      cwd: path.join(root, "packages", "core"),
+    });
 
-  const prompt = `
+    yield* Console.log("\n🔧 Fetching specs...");
+    yield* exec("bun", ["run", "specs:fetch"], {
+      cwd: pkgDir,
+      ignoreError: true,
+    });
+
+    yield* Console.log("\n⚡ Running code generation...");
+    yield* exec("bun", ["run", "generate"], {
+      cwd: pkgDir,
+      ignoreError: true,
+    });
+
+    const hasOps = yield* hasGeneratedOperations(root, name);
+    if (hasOps) {
+      yield* Console.log("  ✅ Operations generated successfully");
+    } else {
+      yield* Console.log(
+        "  ⚠️  Operations directory is empty (only index.ts) — opencode will write the generator for the spec format found in the submodule",
+      );
+    }
+  });
+
+const refineWithOpencode = (
+  root: string,
+  name: string,
+  specInfo: SpecInfo,
+): Effect.Effect<
+  void,
+  SdkError,
+  ChildProcessSpawner.ChildProcessSpawner | FileSystem.FileSystem | Path.Path
+> =>
+  Effect.gen(function* () {
+    const capitalName = capitalize(name);
+    const operationsEmpty = !(yield* hasGeneratedOperations(root, name));
+
+    yield* Console.log(
+      `\n🤖 Calling opencode to refine ${capitalName} SDK...`,
+    );
+
+    const specLocations =
+      specInfo.submodulePaths.length > 0
+        ? specInfo.submodulePaths.map((p) => `  - ${p}`).join("\n")
+        : "  (no spec submodules)";
+
+    const envVarName = `${name.toUpperCase().replace(/-/g, "_")}_API_KEY`;
+
+    const initialPrompt = `
 You are refining a newly scaffolded SDK package for ${capitalName} at packages/${name}/.
 
 The package has been scaffolded with boilerplate files and the code generator has been run.
 
-## Step 0: Find the OpenAPI spec
+## Step 0: Understand the spec source
 
 The spec submodules are at:
 ${specLocations}
 
-Each submodule is a cloned git repo. The OpenAPI spec file could be anywhere inside it. Your FIRST action must be to recursively list the contents of every submodule directory under packages/${name}/specs/ to find the actual spec file. Use \`find\` or \`ls -R\` on each submodule. Look for .json and .yaml files. Read the first few lines of candidates to confirm they are OpenAPI/Swagger specs (look for "openapi", "swagger", "paths", etc.).
+Each submodule is a cloned git repo that IS the authoritative source for this SDK's API definition. **The submodule content is what you must work with — do NOT go fetch a spec from somewhere else.**
 
-Do NOT guess the path. Do NOT assume it's at a conventional location. Actually look at the files.
-${operationsEmpty ? `
-## ⚠️  GENERATION FAILED — operations directory is EMPTY
+The submodule could contain ANY of these formats:
+- An OpenAPI 3.x or Swagger 2.0 spec (JSON or YAML)
+- A TypeScript SDK source (like packages/cloudflare/ uses)
+- Smithy models (like packages/aws/ uses)
+- Go types, protobuf definitions, or other IDL formats
+- API documentation in Markdown, HTML, or other formats
+- A combination of the above
 
-packages/${name}/src/operations/ only has a placeholder index.ts. The spec path in packages/${name}/scripts/generate.ts is almost certainly wrong.
+**CRITICAL: Do NOT assume OpenAPI. Do NOT try to fetch an OpenAPI spec from the internet.** The submodule IS the spec source. Your job is to figure out what format it's in and write a generator that works with THAT format.
 
-After you find the real spec file in Step 0:
-1. Update the \`specPath\` in packages/${name}/scripts/generate.ts to point to the correct file
+Your FIRST action must be to recursively list the contents of every submodule directory under packages/${name}/specs/ to understand the structure. Use \`find\` or \`ls -R\` on each submodule. Look for .json, .yaml, .yml, .ts, .go, .proto, .smithy, and .md files. Read the first few lines of candidates to understand what they contain.
+
+After you understand the format:
+- If it's OpenAPI → use \`generateFromOpenAPI\` from \`@distilled.cloud/core/openapi/generate\`
+- If it's a TypeScript SDK → study packages/cloudflare/scripts/generate.ts for how to extract types from TS source
+- If it's Smithy models → study packages/aws/scripts/generate.ts
+- If it's something else → write a custom generator that parses the format and generates Effect operations
+
+The scaffolded generate.ts is a **placeholder that throws an error**. You MUST replace it with a working generator for whatever format you find.
+${
+  operationsEmpty
+    ? `
+## ⚠️  GENERATION NOT YET CONFIGURED — operations directory is EMPTY
+
+packages/${name}/src/operations/ only has a placeholder index.ts. The scaffolded generate.ts is a placeholder that needs to be replaced with a working generator.
+
+After you figure out the spec format in Step 0:
+1. Rewrite packages/${name}/scripts/generate.ts to work with whatever spec format you found in the submodule
 2. Run \`bun run generate\` from packages/${name}/
 3. List packages/${name}/src/operations/ — it MUST have more than just index.ts
-4. If still empty, you got the path wrong. Go back to Step 0 and look harder.
-` : ""}
-## Step 1: Update generate.ts
+4. If still empty, debug the generator and fix it.
+`
+    : ""
+}
+## Step 1: Write generate.ts
 
-Read packages/${name}/scripts/generate.ts. Make sure the \`specPath\` points to the actual spec file you found in Step 0. If it's wrong, fix it. Run \`bun run generate\` from packages/${name}/ and confirm operations were generated (more than just index.ts in src/operations/).
+The scaffolded generate.ts is a placeholder that throws an error. Based on what you found in Step 0, **rewrite it entirely** with a working generator for the spec format you found.
+
+- If OpenAPI: use \`generateFromOpenAPI\` from \`@distilled.cloud/core/openapi/generate\` (see packages/neon/scripts/generate.ts for an example)
+- If TypeScript SDK: study packages/cloudflare/scripts/generate.ts
+- If Smithy: study packages/aws/scripts/generate.ts
+- If something else: write a custom generator
+
+Run \`bun run generate\` from packages/${name}/ and confirm operations were generated (more than just index.ts in src/operations/).
 
 ## Step 2: Update credentials.ts
 
-Read the OpenAPI spec you found. Look at:
-- \`servers\` array (OpenAPI 3.x) or \`host\` + \`basePath\` (Swagger 2.0) → set \`DEFAULT_API_BASE_URL\`
-- \`components.securitySchemes\` or \`securityDefinitions\` → determine auth scheme and env var names
+Based on the API spec/documentation you found, determine:
+- The base URL for the API → set \`DEFAULT_API_BASE_URL\`
+- The authentication scheme (Bearer token, API key header, OAuth, etc.) → update the \`Config\` interface and env var names
 
 Update packages/${name}/src/credentials.ts accordingly.
 
 ## Step 3: Update client.ts
 
-Read error response schemas from the OpenAPI spec (\`components.schemas\`, response bodies on 4xx/5xx). Update:
+Based on the API spec/documentation, update:
 - \`ApiErrorResponse\` schema to match the API's actual error shape
 - \`getAuthHeaders\` — use the correct header (Bearer, X-API-Key, etc.)
 - \`matchError\` — parse errors according to the actual format
@@ -1511,7 +1686,7 @@ Create a README.md at packages/${name}/README.md following the pattern of other 
 1. **Title & description** — \`# @distilled.cloud/${name}\` followed by a one-line description of what the SDK covers and where the spec comes from
 2. **Installation** — \`npm install @distilled.cloud/${name} effect\`
 3. **Quick Start** — a working example using \`Effect.gen\`, importing an operation from \`@distilled.cloud/${name}/operations\`, using \`CredentialsFromEnv\`, and providing \`FetchHttpClient.layer\`
-4. **Configuration** — list the environment variable(s) from credentials.ts (e.g. \`${name.toUpperCase().replace(/-/g, "_")}_API_KEY\`)
+4. **Configuration** — list the environment variable(s) from credentials.ts (e.g. \`${envVarName}\`)
 5. **Error Handling** — a code example showing \`Effect.catchTags\` with a typed error (e.g. \`NotFound\`) and the Unknown error class
 6. **Services** — a bullet list of the key operation areas (group related operations, e.g. "Machines — create, start, stop, delete")
 7. **License** — MIT
@@ -1536,109 +1711,182 @@ If any fail, fix and retry until all pass.
 - Use .ai-workspace/ for scratch files
 `.trim();
 
-  let attempt = 0;
-  while (true) {
-    attempt++;
-    try {
-      await runOpencode(prompt, { model: "anthropic/claude-opus-4-6" });
-    } catch (err: any) {
-      const isStuck = err?.message?.includes("no output for");
-      if (isStuck) {
-        console.log(
-          `\n🔄 opencode got stuck (attempt ${attempt}), retrying...`,
+    let attempt = 0;
+    let sessionId: string | undefined;
+
+    while (true) {
+      attempt++;
+
+      // On first attempt, send the full initial prompt.
+      // On retries, continue the same session with a nudge to keep going.
+      const isRetry = sessionId !== undefined;
+      const hasOps = yield* hasGeneratedOperations(root, name);
+      const prompt = isRetry
+        ? `You were interrupted or timed out. Continue where you left off.${
+            !hasOps
+              ? ` The operations directory at packages/${name}/src/operations/ is still empty (only index.ts). You MUST get operations generated before you're done.`
+              : ""
+          } Pick up from whatever step you were on and finish all remaining steps through Step 6 (final verification).`
+        : initialPrompt;
+
+      const result = yield* runOpencode(prompt, {
+        model: "anthropic/claude-opus-4-6",
+        sessionId,
+        cwd: root,
+      }).pipe(
+        Effect.catch((err: CommandError) =>
+          Effect.gen(function* () {
+            yield* Console.error(`\n⚠️  opencode failed: ${err.stderr}`);
+            return {
+              stdout: "",
+              sessionId: undefined,
+              killed: false,
+            } as OpencodeResult;
+          }),
+        ),
+      );
+
+      // Capture session ID so retries continue the same conversation
+      if (result.sessionId) {
+        sessionId = result.sessionId;
+      }
+
+      if (result.killed) {
+        yield* Console.log(
+          `\n🔄 opencode got stuck (attempt ${attempt}), resuming session ${sessionId ?? "(unknown)"}...`,
         );
         continue;
       }
-      // Non-stuck error (actual failure) — warn and move on
-      console.error(
-        `\n⚠️  opencode failed: ${err?.message ?? err}`,
+
+      // opencode exited 0 — but did it actually produce operations?
+      const hasOpsNow = yield* hasGeneratedOperations(root, name);
+      if (hasOpsNow) {
+        yield* Console.log(
+          `✅ OpenCode refinement complete — operations generated successfully`,
+        );
+        break;
+      }
+
+      // If we got here from an error (no sessionId captured), break
+      if (!result.sessionId && !sessionId) {
+        break;
+      }
+
+      yield* Console.log(
+        `\n🔄 opencode exited successfully but operations directory is still empty (attempt ${attempt}), resuming session ${sessionId ?? "(unknown)"}...`,
       );
-      break;
     }
 
-    // opencode exited 0 — but did it actually produce operations?
-    if (hasGeneratedOperations(name)) {
-      console.log(`✅ OpenCode refinement complete — operations generated successfully`);
-      break;
+    const finalHasOps = yield* hasGeneratedOperations(root, name);
+    if (!finalHasOps) {
+      yield* Console.log(
+        `\n⚠️  Operations directory is still empty after refinement — you may need to manually check the spec path in packages/${name}/scripts/generate.ts`,
+      );
     }
-
-    console.log(
-      `\n🔄 opencode exited successfully but operations directory is still empty (attempt ${attempt}), retrying...`,
-    );
-  }
-
-  if (!hasGeneratedOperations(name)) {
-    console.log(
-      `\n⚠️  Operations directory is still empty after refinement — you may need to manually check the spec path in packages/${name}/scripts/generate.ts`,
-    );
-  }
-}
+  });
 
 // ============================================================================
-// Utilities
+// CLI Command Definition
 // ============================================================================
 
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+const createSdk = Command.make(
+  "create-sdk",
+  {
+    name: Argument.string("name").pipe(
+      Argument.withDescription("SDK package name (e.g. stripe, neon, fly-io)"),
+    ),
+    specs: Flag.string("specs").pipe(
+      Flag.withDescription(
+        "Spec source (git repo URL or HTTP URL to fetch). Can be repeated.",
+      ),
+      Flag.atLeast(0),
+    ),
+    registerPackage: Flag.boolean("register-package").pipe(
+      Flag.withDefault(false),
+      Flag.withDescription(
+        "Publish a 0.0.0 placeholder to npm as @distilled.cloud/<name>",
+      ),
+    ),
+  },
+  (config) =>
+    Effect.gen(function* () {
+      const path = yield* Path.Path;
+      const root = path.resolve(import.meta.dir, "..");
 
-function writeIfNotExists(filePath: string, content: string): void {
-  if (!existsSync(filePath)) {
-    writeFileSync(filePath, content);
-  }
-}
+      yield* Console.log(`\n🚀 Creating SDK: @distilled.cloud/${config.name}`);
+      yield* Console.log(
+        `   Specs: ${config.specs.length > 0 ? Array.from(config.specs).join(", ") : "(none)"}`,
+      );
+      yield* Console.log(`   Register package: ${config.registerPackage}`);
 
-// ============================================================================
-// Main
-// ============================================================================
+      // Step 1: Register npm package
+      if (config.registerPackage) {
+        yield* registerNpmPackage(root, config.name);
+      }
 
-async function main() {
-  const args = parseArgs();
-  const { name, specs, registerPackage } = args;
+      // Step 2: Setup specs (submodule or mirror repo)
+      const specInfo = yield* setupSpecs(
+        root,
+        config.name,
+        Array.from(config.specs),
+      );
 
-  console.log(`\n🚀 Creating SDK: @distilled.cloud/${name}`);
-  console.log(`   Specs: ${specs.length > 0 ? specs.join(", ") : "(none)"}`);
-  console.log(`   Register package: ${registerPackage}`);
+      // Step 3: Scaffold the SDK package
+      yield* scaffoldPackage(root, config.name, specInfo);
 
-  // Step 1: Register npm package
-  if (registerPackage) {
-    await registerNpmPackage(name);
-  }
+      // Step 4: Update CI workflows
+      yield* updateTestYml(root, config.name);
+      yield* updatePkgPrYml(root, config.name);
+      yield* updateReleaseYml(root, config.name);
 
-  // Step 2: Setup specs (submodule or mirror repo)
-  const specInfo = await setupSpecs(name, specs);
+      // Step 5: Install dependencies and run generator
+      yield* installAndGenerate(root, config.name);
 
-  // Step 3: Scaffold the SDK package
-  scaffoldPackage(name, specInfo);
+      // Step 6: Refine with opencode
+      yield* refineWithOpencode(root, config.name, specInfo);
 
-  // Step 4: Update CI workflows
-  updateTestYml(name);
-  updatePkgPrYml(name);
-  updateReleaseYml(name);
-
-  // Step 5: Install dependencies and run generator
-  await installAndGenerate(name);
-
-  // Step 6: Refine with opencode
-  await refineWithOpencode(name, specInfo);
-
-  console.log(`
+      yield* Console.log(`
 ✨ SDK package created successfully!
 
-  Package: @distilled.cloud/${name}
-  Location: packages/${name}/
-  ${registerPackage ? `NPM: https://www.npmjs.com/package/@distilled.cloud/${name}` : ""}
+  Package: @distilled.cloud/${config.name}
+  Location: packages/${config.name}/
+  ${config.registerPackage ? `NPM: https://www.npmjs.com/package/@distilled.cloud/${config.name}` : ""}
 
 Next steps:
-  1. Review the generated code in packages/${name}/src/
+  1. Review the generated code in packages/${config.name}/src/
   2. Update credentials.ts with correct API base URL and auth scheme
   3. Add API key secrets to GitHub repository settings
-  4. Run tests: cd packages/${name} && bun run test
+  4. Run tests: cd packages/${config.name} && bun run test
   5. Update the website: add the new SDK card to www/distilled.cloud/index.html (SDK section)
 `);
-}
+    }),
+).pipe(
+  Command.withDescription(
+    "Create a new SDK package for the Distilled monorepo",
+  ),
+  Command.withExamples([
+    {
+      command:
+        "bun scripts/create-sdk.ts stripe --specs https://raw.githubusercontent.com/stripe/openapi/master/openapi/spec3.json",
+      description: "OpenAPI spec URL → creates distilled-spec-* mirror repo",
+    },
+    {
+      command:
+        "bun scripts/create-sdk.ts stripe --specs https://github.com/stripe/openapi.git",
+      description: "Git repo → adds as direct submodule",
+    },
+    {
+      command:
+        "bun scripts/create-sdk.ts stripe --specs https://github.com/stripe/openapi.git --register-package",
+      description: "Git repo + register placeholder on npm",
+    },
+  ]),
+);
 
-main().catch((err) => {
-  console.error("\n❌ Fatal error:", err);
-  process.exit(1);
-});
+// ============================================================================
+// Entry Point
+// ============================================================================
+
+const program = Command.run(createSdk, { version: "1.0.0" });
+
+BunRuntime.runMain(Effect.provide(program, BunServices.layer));

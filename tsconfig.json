@@ -9,5 +9,6 @@
         { "path": "./packages/supabase/tsconfig.json" },
         { "path": "./packages/coinbase/tsconfig.json" },
         { "path": "./packages/planetscale/tsconfig.json" },
+        { "path": "./scripts/tsconfig.json" },
     ]
 }

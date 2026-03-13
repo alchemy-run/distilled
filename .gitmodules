@@ -43,3 +43,6 @@
 [submodule "packages/coinbase/specs/cdp-sdk"]
 	path = packages/coinbase/specs/cdp-sdk
 	url = https://github.com/coinbase/cdp-sdk
+[submodule "packages/kubernetes/specs/kubernetes"]
+	path = packages/kubernetes/specs/kubernetes
+	url = https://github.com/kubernetes/kubernetes
