@@ -941,7 +941,7 @@ const scaffoldPackage = (
     if (!pkgJsonExists) {
       const specsFetchCmds = submoduleNames.map(
         (sm) =>
-          `git submodule update --force --init --recursive specs/${sm} && git -C specs/${sm} checkout -- .`,
+          `git submodule update --force --init --recursive --depth=1 specs/${sm} && git -C specs/${sm} checkout -- .`,
       );
       const specsUpdateCmds = submoduleNames.map(
         (sm) =>

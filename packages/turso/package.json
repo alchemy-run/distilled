@@ -69,7 +69,7 @@
     "test": "bunx vitest run test",
     "publish:npm": "bun run build && bun publish --access public",
     "generate": "bun run scripts/generate.ts && oxlint --fix src && oxfmt --write src && oxfmt --write src",
-    "specs:fetch": "git submodule update --force --init --recursive specs/turso-docs && git -C specs/turso-docs checkout -- .",
+    "specs:fetch": "git submodule update --force --init --recursive --depth=1 specs/turso-docs && git -C specs/turso-docs checkout -- .",
     "specs:update": "git -C specs/turso-docs fetch && git -C specs/turso-docs checkout main && git -C specs/turso-docs pull"
   },
   "dependencies": {
