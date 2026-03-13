@@ -5,3 +5,4 @@ lib/
 .env
 pnpm-workspace.yaml
 .ai-workspace
+.gen-tmp

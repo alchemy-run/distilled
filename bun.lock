@@ -4,6 +4,10 @@
   "workspaces": {
     "": {
       "name": "distilled",
+      "dependencies": {
+        "@effect/platform-bun": "catalog:",
+        "effect": "catalog:",
+      },
       "devDependencies": {
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
@@ -125,6 +129,23 @@
       "devDependencies": {
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
+      },
+      "peerDependencies": {
+        "effect": "catalog:",
+      },
+    },
+    "packages/kubernetes": {
+      "name": "@distilled.cloud/kubernetes",
+      "version": "0.2.0-alpha",
+      "dependencies": {
+        "@distilled.cloud/core": "workspace:*",
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "dotenv": "catalog:",
+        "vitest": "catalog:",
       },
       "peerDependencies": {
         "effect": "catalog:",
@@ -362,6 +383,8 @@
     "@distilled.cloud/fly-io": ["@distilled.cloud/fly-io@workspace:packages/fly-io"],
 
     "@distilled.cloud/gcp": ["@distilled.cloud/gcp@workspace:packages/gcp"],
+
+    "@distilled.cloud/kubernetes": ["@distilled.cloud/kubernetes@workspace:packages/kubernetes"],
 
     "@distilled.cloud/mongodb-atlas": ["@distilled.cloud/mongodb-atlas@workspace:packages/mongodb-atlas"],
 
