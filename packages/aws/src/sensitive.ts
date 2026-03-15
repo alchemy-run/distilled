@@ -8,6 +8,7 @@
 import * as Redacted from "effect/Redacted";
 import * as S from "effect/Schema";
 import * as SchemaTransformation from "effect/SchemaTransformation";
+import { toBase64 } from "@smithy/util-base64";
 
 /**
  * smithy.api#sensitive - Marks data as sensitive, wrapping in Effect's Redacted type.
@@ -75,7 +76,7 @@ export const SensitiveBlob = Sensitive(
       S.instanceOf(Uint8Array),
       SchemaTransformation.transform({
         decode: (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0)),
-        encode: (bytes) => btoa(String.fromCharCode(...bytes)),
+        encode: toBase64,
       }),
     ),
   ),
