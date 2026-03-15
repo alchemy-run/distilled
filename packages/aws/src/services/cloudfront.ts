@@ -2816,7 +2816,7 @@ export const CreateKeyValueStoreRequest = /*@__PURE__*/ /*#__PURE__*/ S.suspend(
 export interface KeyValueStore {
   Name: string;
   Id: string;
-  Comment: string;
+  Comment?: string;
   ARN: string;
   Status?: string;
   LastModifiedTime: Date;
@@ -2825,7 +2825,7 @@ export const KeyValueStore = /*@__PURE__*/ /*#__PURE__*/ S.suspend(() =>
   S.Struct({
     Name: S.String,
     Id: S.String,
-    Comment: S.String,
+    Comment: S.optional(S.String),
     ARN: S.String,
     Status: S.optional(S.String),
     LastModifiedTime: T.DateFromString,

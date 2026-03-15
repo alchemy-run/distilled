@@ -6,6 +6,13 @@
     }
   },
   "structures": {
+    "KeyValueStore": {
+      "members": {
+        "Comment": {
+          "optional": true
+        }
+      }
+    },
     "DistributionList": {
       "members": {
         "Marker": {
