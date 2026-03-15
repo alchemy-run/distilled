@@ -12,19 +12,25 @@ import {
   createDistribution,
   createInvalidation,
   createOriginAccessControl,
+  createKeyValueStore,
   deleteDistribution,
+  deleteKeyValueStore,
   deleteOriginAccessControl,
   DistributionAlreadyExists,
+  EntityAlreadyExists,
   getDistribution,
   getDistributionConfig,
   getOriginAccessControl,
+  describeKeyValueStore,
   listDistributions,
   listInvalidations,
+  listKeyValueStores,
   listOriginAccessControls,
   listTagsForResource,
   OriginAccessControlAlreadyExists,
   tagResource,
   untagResource,
+  updateKeyValueStore,
   updateOriginAccessControl,
 } from "../../src/services/cloudfront.ts";
 import { test, testRunId } from "../test.ts";
@@ -204,9 +210,99 @@ const withDistribution = <A, E, R>(
     );
   });
 
+/**
+ * Delete a KeyValueStore by name, fetching the latest ETag first
+ */
+const deleteKeyValueStoreByName = (name: string) =>
+  describeKeyValueStore({ Name: name }).pipe(
+    Effect.flatMap((r) =>
+      r.ETag
+        ? deleteKeyValueStore({ Name: name, IfMatch: r.ETag })
+        : Effect.void,
+    ),
+    Effect.ignore,
+  );
+
+/**
+ * Idempotent helper for KeyValueStore - creates or reuses existing
+ */
+const withKeyValueStore = <A, E, R>(
+  name: string,
+  testFn: (name: string, etag: string) => Effect.Effect<A, E, R>,
+) =>
+  Effect.gen(function* () {
+    const resolvedName = `${name}-${testRunId}`;
+    const { etag } = yield* createKeyValueStore({
+      Name: resolvedName,
+    }).pipe(
+      Effect.map((result) => ({
+        etag: result.ETag!,
+      })),
+      Effect.catchTag("EntityAlreadyExists", () =>
+        describeKeyValueStore({ Name: resolvedName }).pipe(
+          Effect.flatMap((result) =>
+            result.ETag
+              ? Effect.succeed({ etag: result.ETag })
+              : Effect.fail(
+                  new EntityAlreadyExists({
+                    Message: `KeyValueStore "${resolvedName}" exists but could not be recovered`,
+                  }),
+                ),
+          ),
+        ),
+      ),
+    );
+
+    return yield* testFn(resolvedName, etag).pipe(
+      Effect.ensuring(deleteKeyValueStoreByName(resolvedName)),
+    );
+  });
+
 // ============================================================================
 // Origin Access Control Tests
 // ============================================================================
+
+test(
+  "create key value store without comment, describe, list, update, and delete",
+  Effect.gen(function* () {
+    if (isLocalStack) {
+      yield* Effect.logInfo(
+        "Skipping test: CloudFront not available in LocalStack",
+      );
+      return;
+    }
+
+    yield* withKeyValueStore("distilled-cf-kvs-lifecycle", (name, etag) =>
+      Effect.gen(function* () {
+        const described = yield* describeKeyValueStore({ Name: name });
+        expect(described.KeyValueStore?.Name).toEqual(name);
+        expect(described.KeyValueStore?.Comment).toBeUndefined();
+
+        const listResult = yield* listKeyValueStores({});
+        const foundStore = listResult.KeyValueStoreList?.Items?.find(
+          (store) => store.Name === name,
+        );
+        expect(foundStore).toBeDefined();
+        expect(foundStore?.Comment).toBeUndefined();
+
+        const updated = yield* updateKeyValueStore({
+          Name: name,
+          Comment: "Updated key value store comment",
+          IfMatch: etag,
+        });
+        expect(updated.KeyValueStore?.Name).toEqual(name);
+        expect(updated.KeyValueStore?.Comment).toEqual(
+          "Updated key value store comment",
+        );
+
+        const describedUpdated = yield* describeKeyValueStore({ Name: name });
+        expect(describedUpdated.KeyValueStore?.Comment).toEqual(
+          "Updated key value store comment",
+        );
+      }),
+    );
+  }),
+);
 
 test(
   "create origin access control, get, list, and delete",
@@ -432,6 +528,13 @@ test(
 test(
   "listDistributions.pages() streams full response pages with nested items",
   Effect.gen(function* () {
+    if (isLocalStack) {
+      yield* Effect.logInfo(
+        "Skipping test: CloudFront not available in LocalStack",
+      );
+      return;
+    }
+
     // CloudFront uses nested paths (DistributionList.Items) so we use .pages()
     // and extract distributions from the nested structure
     const distributions = yield* listDistributions.pages({}).pipe(
