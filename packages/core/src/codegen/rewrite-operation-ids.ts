@@ -41,6 +41,13 @@ const VERB_ALIAS: Readonly<Record<string, string>> = {
 };
 
 /**
+ * Rails `index` is a verb only when it is the whole id or a whole `_`
+ * segment (`index`, `Apps_index`). Joined into a camel id it is the noun
+ * (`InfoIndex`, `IndexCreate`, `IndexDocument`).
+ */
+const isIndexVerb = (raw: string): boolean => raw.toLowerCase() === "index";
+
+/**
  * Unambiguous verbs. An id that STARTS with one is already verb-first and
  * is never reordered (`WatchPodList`, `InsertCalendarList`,
  * `BulkDeleteMessages`); one found in the middle of a resource name
@@ -655,9 +662,14 @@ export const toVerbNoun = (operationId: string): string => {
     // Segments before the verb are the resource by construction, so a
     // verb-looking token inside them (`OpenIdConnectProvider_get`) is a
     // noun. Only the object after the verb can make this a compound.
-    const verbSeg = segments.findIndex(
-      (seg, i) => i > 0 && isTrailingVerb(splitIdent(seg)[0] ?? ""),
-    );
+    const verbSeg = segments.findIndex((seg, i) => {
+      if (i === 0) return false;
+      const tokens = splitIdent(seg);
+      const head = tokens[0] ?? "";
+      // `Apps_index` lists; `Apps_indexInfo` is about the index entity.
+      if (isIndexVerb(head)) return tokens.length === 1;
+      return isTrailingVerb(head);
+    });
     if (verbSeg > 0) {
       const head = segments.slice(0, verbSeg).flatMap(splitIdent);
       const [verb, ...objectHere] = splitIdent(segments[verbSeg]!);
@@ -674,16 +686,24 @@ export const toVerbNoun = (operationId: string): string => {
   }
 
   const parts = splitIdent(trimmed);
-  if (parts.length <= 1) {
-    return parts.length === 1 && isTrailingVerb(parts[0]!)
-      ? alias(parts[0]!)
+  // `Index1`, `Index2`: a converter's duplicate-route suffix on a bare id.
+  if (parts.length <= 1 || parts.slice(1).every((p) => /^\d+$/.test(p))) {
+    return parts.length >= 1 && isTrailingVerb(parts[0]!)
+      ? alias(parts[0]!) + parts.slice(1).join("")
       : lowerFirst(trimmed);
   }
 
   const first = parts[0]!;
   const last = parts.at(-1)!;
 
-  if (isStrongVerb(first)) {
+  // A camel id never uses Rails `index` as its verb: `InfoIndex`,
+  // `IndexCreate`, `IndexDocument` all name the index entity.
+  const strong = (raw: string) => !isIndexVerb(raw) && isStrongVerb(raw);
+  const trailing = (raw: string) => !isIndexVerb(raw) && isTrailingVerb(raw);
+  const weakLeading = (raw: string) =>
+    !isIndexVerb(raw) && isWeakLeadingVerb(raw);
+
+  if (strong(first)) {
     return alias(first) + parts.slice(1).map(pascalToken).join("");
   }
   if (parts.some((p) => /^(or|and)$/i.test(p))) return lowerFirst(trimmed);
@@ -694,26 +714,24 @@ export const toVerbNoun = (operationId: string): string => {
   // `operationNames`; a middle verb is too often a noun (`environmentPatchCommit`).
   if (
     parts.length >= 3 &&
-    !isWeakLeadingVerb(first) &&
+    !weakLeading(first) &&
     !isVersionToken(first) &&
-    isStrongVerb(parts[1]!) &&
+    strong(parts[1]!) &&
     singularize(parts[2]!).toLowerCase() === singularize(first).toLowerCase() &&
-    !parts.slice(2).some(isStrongVerb)
+    !parts.slice(2).some(strong)
   ) {
     return alias(parts[1]!) + parts.slice(2).map(pascalToken).join("");
   }
 
-  const reorder = isWeakLeadingVerb(first)
-    ? isStrongVerb(last)
-    : isTrailingVerb(last);
+  const reorder = weakLeading(first) ? strong(last) : trailing(last);
   if (!reorder) {
-    return isWeakLeadingVerb(first)
+    return weakLeading(first)
       ? alias(first) + parts.slice(1).map(pascalToken).join("")
       : lowerFirst(trimmed);
   }
 
   const nouns = parts.slice(0, -1);
-  if (nouns.slice(1).some(isStrongVerb)) return lowerFirst(trimmed);
+  if (nouns.slice(1).some(strong)) return lowerFirst(trimmed);
   const modifier = nouns.at(-1);
   if (
     nouns.length > 1 &&
@@ -1047,8 +1065,11 @@ export const pathToVerbNoun = (
 
   const tokens = literal.map((seg) => splitIdent(seg));
   const lastTokens = tokens.at(-1)!;
+  // `/papers/index`, `/opensearch/index` address an index resource, not a
+  // Rails `index` action.
   const lastIsVerb =
     lastTokens.length > 0 &&
+    !isIndexVerb(lastTokens[0]!) &&
     (isTrailingVerb(lastTokens[0]!) || isStrongVerb(lastTokens[0]!)) &&
     !endsWithParam &&
     method === "post";

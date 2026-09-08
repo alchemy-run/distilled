@@ -1,0 +1,17 @@
+{
+  "description": "A zone that has never had a snippet-rule list 404s with a generic 'could not find entrypoint ruleset in the http_request_snippets phase'; alchemy catches that by tag, so listRules declares SnippetRulesNotFound (and the plan-gated Forbidden) in its typed error union.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.snippets#ListRules/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.snippets#SnippetRulesNotFound"
+        },
+        {
+          "target": "com.cloudflare.snippets#Forbidden"
+        }
+      ]
+    }
+  ]
+}

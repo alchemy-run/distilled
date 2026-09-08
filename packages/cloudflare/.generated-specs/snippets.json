@@ -24,12 +24,6 @@
       "snippetName": "snippet_name",
       "totalCount": "total_count"
     },
-    "opAliases": [
-      {
-        "alias": "listRules",
-        "target": "getRule"
-      }
-    ],
     "distilled.finalized": true
   },
   "shapes": {
@@ -62,55 +56,6 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.snippets#ListResultItem"
-      }
-    },
-    "com.cloudflare.snippets#ListRulesRequest": {
-      "type": "structure",
-      "members": {
-        "zone_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Use this field to specify the unique ID of the zone.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.cloudflare.snippets#ListRulesResponse": {
-      "type": "structure",
-      "members": {
-        "result": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.cloudflare.protocols#envelopePayload": {},
-            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
-    "com.cloudflare.snippets#ListRules": {
-      "type": "operation",
-      "input": {
-        "target": "com.cloudflare.snippets#ListRulesRequest"
-      },
-      "output": {
-        "target": "com.cloudflare.snippets#ListRulesResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/zones/{zone_id}/snippets/snippet_rules",
-          "code": 200
-        },
-        "smithy.api#documentation": "Fetches all snippet rules belonging to the zone.",
-        "smithy.api#readonly": {}
       }
     },
     "com.cloudflare.snippets#RulesUpdateRequestRulesItem": {
@@ -155,9 +100,6 @@
       "version": "4.0",
       "operations": [
         {
-          "target": "com.cloudflare.snippets#ListRules"
-        },
-        {
           "target": "com.cloudflare.snippets#DeleteRule"
         },
         {
@@ -167,10 +109,10 @@
           "target": "com.cloudflare.snippets#GetContent"
         },
         {
-          "target": "com.cloudflare.snippets#GetRule"
+          "target": "com.cloudflare.snippets#GetSnippet"
         },
         {
-          "target": "com.cloudflare.snippets#GetSnippet"
+          "target": "com.cloudflare.snippets#ListRules"
         },
         {
           "target": "com.cloudflare.snippets#ListSnippets"
@@ -443,63 +385,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.cloudflare.snippets#GetRule": {
-      "type": "operation",
-      "input": {
-        "target": "com.cloudflare.snippets#GetRuleRequest"
-      },
-      "output": {
-        "target": "com.cloudflare.snippets#GetRuleResponse"
-      },
-      "traits": {
-        "smithy.api#http": {
-          "method": "GET",
-          "uri": "/zones/{zone_id}/snippets/snippet_rules",
-          "code": 200
-        },
-        "smithy.api#documentation": "Fetches all snippet rules belonging to the zone.",
-        "smithy.api#readonly": {}
-      },
-      "errors": [
-        {
-          "target": "com.cloudflare.snippets#SnippetRulesNotFound"
-        },
-        {
-          "target": "com.cloudflare.snippets#Forbidden"
-        }
-      ]
-    },
-    "com.cloudflare.snippets#GetRuleRequest": {
-      "type": "structure",
-      "members": {
-        "zone_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Use this field to specify the unique ID of the zone.",
-            "smithy.api#httpLabel": {},
-            "smithy.api#required": {}
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#input": {}
-      }
-    },
-    "com.cloudflare.snippets#GetRuleResponse": {
-      "type": "structure",
-      "members": {
-        "result": {
-          "target": "smithy.api#Document",
-          "traits": {
-            "com.cloudflare.protocols#envelopePayload": {},
-            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#output": {}
-      }
-    },
     "com.cloudflare.snippets#GetSnippet": {
       "type": "operation",
       "input": {
@@ -574,6 +459,63 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.snippets#ListRules": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.snippets#ListRulesRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.snippets#ListRulesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/zones/{zone_id}/snippets/snippet_rules",
+          "code": 200
+        },
+        "smithy.api#documentation": "Fetches all snippet rules belonging to the zone.",
+        "smithy.api#readonly": {}
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.snippets#SnippetRulesNotFound"
+        },
+        {
+          "target": "com.cloudflare.snippets#Forbidden"
+        }
+      ]
+    },
+    "com.cloudflare.snippets#ListRulesRequest": {
+      "type": "structure",
+      "members": {
+        "zone_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Use this field to specify the unique ID of the zone.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.snippets#ListRulesResponse": {
+      "type": "structure",
+      "members": {
+        "result": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#documentation": "The unwrapped `result` payload of the v4 response envelope."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.cloudflare.snippets#ListSnippets": {

@@ -38415,6 +38415,26 @@ export const DeleteIndexResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteIndexResponse",
 }) as any as S.Schema<DeleteIndexResponse>;
 
+export interface DeleteIndexTemplateRequest {
+  /** Comma-separated list of index template names used to limit the request. Wildcard (*) expressions are supported. */
+  name: string;
+  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
+  master_timeout?: TypesDuration;
+  /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
+  timeout?: TypesDuration;
+}
+export const DeleteIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
+    timeout: S.optional(TypesDuration.pipe(T.Query())),
+  }).pipe(
+    T.Http({ method: "DELETE", uri: "/_index_template/{name}", code: 200 }),
+  ),
+).annotate({
+  identifier: "DeleteIndexTemplateRequest",
+}) as any as S.Schema<DeleteIndexTemplateRequest>;
+
 export interface DeleteInferenceRequest {
   /** The inference identifier. */
   inference_id: string;
@@ -42592,6 +42612,209 @@ export const GetIndexResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetIndexResponse",
 }) as any as S.Schema<GetIndexResponse>;
+
+export interface GetIndexTemplateRequest {
+  /** If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node. */
+  local?: boolean;
+  /** If true, returns settings in flat format. */
+  flat_settings?: boolean;
+  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
+  master_timeout?: TypesDuration;
+  /** If true, returns all relevant default configurations for the index template. */
+  include_defaults?: boolean;
+}
+export const GetIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    local: S.optional(S.Boolean.pipe(T.Query())),
+    flat_settings: S.optional(S.Boolean.pipe(T.Query())),
+    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
+    include_defaults: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/_index_template", code: 200 })),
+).annotate({
+  identifier: "GetIndexTemplateRequest",
+}) as any as S.Schema<GetIndexTemplateRequest>;
+
+/** Aliases to add. If the index template includes a `data_stream` object, these are data stream aliases. Otherwise, these are index aliases. Data stream aliases ignore the `index_routing`, `routing`, and `search_routing` options. */
+export type IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap = {
+  [key: string]: IndicesTypesAlias | undefined;
+};
+export const IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap =
+  /*@__PURE__*/ S.Record(
+    S.String,
+    IndicesTypesAlias,
+  ) as any as S.Schema<IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap>;
+
+export interface IndicesTypesIndexTemplateSummaryWithRollover {
+  lifecycle?: IndicesTypesDataStreamLifecycleWithRollover;
+  /** Aliases to add. If the index template includes a `data_stream` object, these are data stream aliases. Otherwise, these are index aliases. Data stream aliases ignore the `index_routing`, `routing`, and `search_routing` options. */
+  aliases?: IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap;
+  /** Mapping for fields in the index. If specified, this mapping can include field names, field data types, and mapping parameters. */
+  mappings?: TypesMappingTypeMapping;
+  /** Configuration options for the index. */
+  settings?: IndicesTypesIndexSettings;
+  data_stream_options?: IndicesTypesDataStreamOptions;
+}
+export const IndicesTypesIndexTemplateSummaryWithRollover =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      lifecycle: S.optional(IndicesTypesDataStreamLifecycleWithRollover),
+      aliases: S.optional(
+        IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap,
+      ),
+      mappings: S.optional(TypesMappingTypeMapping),
+      settings: S.optional(IndicesTypesIndexSettings),
+      data_stream_options: S.optional(IndicesTypesDataStreamOptions),
+    }),
+  ).annotate({
+    identifier: "IndicesTypesIndexTemplateSummaryWithRollover",
+  }) as any as S.Schema<IndicesTypesIndexTemplateSummaryWithRollover>;
+
+/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+export type IndicesTypesIndexTemplateWithRolloverComposedOfList = Array<string>;
+export const IndicesTypesIndexTemplateWithRolloverComposedOfList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IndicesTypesIndexTemplateWithRolloverComposedOfList>;
+
+export interface IndicesTypesIndexTemplateDataStreamConfiguration {
+  /** If true, the data stream is hidden. */
+  hidden?: boolean;
+  /** If true, the data stream supports custom routing. */
+  allow_custom_routing?: boolean;
+}
+export const IndicesTypesIndexTemplateDataStreamConfiguration =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      hidden: S.optional(S.Boolean),
+      allow_custom_routing: S.optional(S.Boolean),
+    }),
+  ).annotate({
+    identifier: "IndicesTypesIndexTemplateDataStreamConfiguration",
+  }) as any as S.Schema<IndicesTypesIndexTemplateDataStreamConfiguration>;
+
+export interface IndicesTypesIndexTemplateWithRollover {
+  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
+  template?: IndicesTypesIndexTemplateSummaryWithRollover;
+  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
+  index_patterns: TypesNames;
+  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+  composed_of: IndicesTypesIndexTemplateWithRolloverComposedOfList;
+  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. */
+  version?: number;
+  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
+  priority?: number;
+  /** Optional user metadata about the index template. May have any contents. This map is not automatically generated by Elasticsearch. */
+  _meta?: TypesMetadata;
+  allow_auto_create?: boolean;
+  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
+  data_stream?: IndicesTypesIndexTemplateDataStreamConfiguration;
+  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
+  deprecated?: boolean;
+  /** A list of component template names that are allowed to be absent. */
+  ignore_missing_component_templates?: TypesNames;
+  /** Date and time when the index template was created. Only returned if the `human` query parameter is `true`. */
+  created_date?: TypesDateTime;
+  /** Date and time when the index template was created, in milliseconds since the epoch. */
+  created_date_millis?: number;
+  /** Date and time when the index template was last modified. Only returned if the `human` query parameter is `true`. */
+  modified_date?: TypesDateTime;
+  /** Date and time when the index template was last modified, in milliseconds since the epoch. */
+  modified_date_millis?: number;
+}
+export const IndicesTypesIndexTemplateWithRollover = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      template: S.optional(IndicesTypesIndexTemplateSummaryWithRollover),
+      index_patterns: TypesNames,
+      composed_of: IndicesTypesIndexTemplateWithRolloverComposedOfList,
+      version: S.optional(S.Number),
+      priority: S.optional(S.Number),
+      _meta: S.optional(TypesMetadata),
+      allow_auto_create: S.optional(S.Boolean),
+      data_stream: S.optional(IndicesTypesIndexTemplateDataStreamConfiguration),
+      deprecated: S.optional(S.Boolean),
+      ignore_missing_component_templates: S.optional(TypesNames),
+      created_date: S.optional(TypesDateTime),
+      created_date_millis: S.optional(S.Number),
+      modified_date: S.optional(TypesDateTime),
+      modified_date_millis: S.optional(S.Number),
+    }),
+).annotate({
+  identifier: "IndicesTypesIndexTemplateWithRollover",
+}) as any as S.Schema<IndicesTypesIndexTemplateWithRollover>;
+
+export interface IndicesGetIndexTemplateIndexTemplateItem {
+  name: string;
+  index_template: IndicesTypesIndexTemplateWithRollover;
+}
+export const IndicesGetIndexTemplateIndexTemplateItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      index_template: IndicesTypesIndexTemplateWithRollover,
+    }),
+).annotate({
+  identifier: "IndicesGetIndexTemplateIndexTemplateItem",
+}) as any as S.Schema<IndicesGetIndexTemplateIndexTemplateItem>;
+
+export type GetIndexTemplateResponseIndexTemplatesList =
+  Array<IndicesGetIndexTemplateIndexTemplateItem>;
+export const GetIndexTemplateResponseIndexTemplatesList = /*@__PURE__*/ S.Array(
+  IndicesGetIndexTemplateIndexTemplateItem,
+) as any as S.Schema<GetIndexTemplateResponseIndexTemplatesList>;
+
+export interface GetIndexTemplateResponse {
+  index_templates: GetIndexTemplateResponseIndexTemplatesList;
+}
+export const GetIndexTemplateResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    index_templates: GetIndexTemplateResponseIndexTemplatesList,
+  }),
+).annotate({
+  identifier: "GetIndexTemplateResponse",
+}) as any as S.Schema<GetIndexTemplateResponse>;
+
+export interface GetIndexTemplate1Request {
+  /** Name of index template to retrieve. Wildcard (*) expressions are supported. */
+  name: string;
+  /** If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node. */
+  local?: boolean;
+  /** If true, returns settings in flat format. */
+  flat_settings?: boolean;
+  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
+  master_timeout?: TypesDuration;
+  /** If true, returns all relevant default configurations for the index template. */
+  include_defaults?: boolean;
+}
+export const GetIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    local: S.optional(S.Boolean.pipe(T.Query())),
+    flat_settings: S.optional(S.Boolean.pipe(T.Query())),
+    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
+    include_defaults: S.optional(S.Boolean.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/_index_template/{name}", code: 200 })),
+).annotate({
+  identifier: "GetIndexTemplate1Request",
+}) as any as S.Schema<GetIndexTemplate1Request>;
+
+export type GetIndexTemplate1ResponseIndexTemplatesList =
+  Array<IndicesGetIndexTemplateIndexTemplateItem>;
+export const GetIndexTemplate1ResponseIndexTemplatesList =
+  /*@__PURE__*/ S.Array(
+    IndicesGetIndexTemplateIndexTemplateItem,
+  ) as any as S.Schema<GetIndexTemplate1ResponseIndexTemplatesList>;
+
+export interface GetIndexTemplate1Response {
+  index_templates: GetIndexTemplate1ResponseIndexTemplatesList;
+}
+export const GetIndexTemplate1Response = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    index_templates: GetIndexTemplate1ResponseIndexTemplatesList,
+  }),
+).annotate({
+  identifier: "GetIndexTemplate1Response",
+}) as any as S.Schema<GetIndexTemplate1Response>;
 
 export interface GetInferenceRequest {}
 export const GetInferenceRequest = /*@__PURE__*/ S.suspend(() =>
@@ -47114,26 +47337,6 @@ export const IndicesDeleteDataStreamOptionsRequest = /*@__PURE__*/ S.suspend(
   identifier: "IndicesDeleteDataStreamOptionsRequest",
 }) as any as S.Schema<IndicesDeleteDataStreamOptionsRequest>;
 
-export interface IndicesDeleteIndexTemplateRequest {
-  /** Comma-separated list of index template names used to limit the request. Wildcard (*) expressions are supported. */
-  name: string;
-  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
-  master_timeout?: TypesDuration;
-  /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
-  timeout?: TypesDuration;
-}
-export const IndicesDeleteIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-    timeout: S.optional(TypesDuration.pipe(T.Query())),
-  }).pipe(
-    T.Http({ method: "DELETE", uri: "/_index_template/{name}", code: 200 }),
-  ),
-).annotate({
-  identifier: "IndicesDeleteIndexTemplateRequest",
-}) as any as S.Schema<IndicesDeleteIndexTemplateRequest>;
-
 export interface IndicesDiskUsageRequest {
   /** Comma-separated list of data streams, indices, and aliases used to limit the request. It’s recommended to execute this API with a single index (or the latest backing index of a data stream) as the API consumes resources significantly. */
   index: string;
@@ -48313,210 +48516,6 @@ export const IndicesGetFieldMapping1Response = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "IndicesGetFieldMapping1Response",
 }) as any as S.Schema<IndicesGetFieldMapping1Response>;
-
-export interface IndicesGetIndexTemplateRequest {
-  /** If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node. */
-  local?: boolean;
-  /** If true, returns settings in flat format. */
-  flat_settings?: boolean;
-  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
-  master_timeout?: TypesDuration;
-  /** If true, returns all relevant default configurations for the index template. */
-  include_defaults?: boolean;
-}
-export const IndicesGetIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    local: S.optional(S.Boolean.pipe(T.Query())),
-    flat_settings: S.optional(S.Boolean.pipe(T.Query())),
-    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-    include_defaults: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/_index_template", code: 200 })),
-).annotate({
-  identifier: "IndicesGetIndexTemplateRequest",
-}) as any as S.Schema<IndicesGetIndexTemplateRequest>;
-
-/** Aliases to add. If the index template includes a `data_stream` object, these are data stream aliases. Otherwise, these are index aliases. Data stream aliases ignore the `index_routing`, `routing`, and `search_routing` options. */
-export type IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap = {
-  [key: string]: IndicesTypesAlias | undefined;
-};
-export const IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap =
-  /*@__PURE__*/ S.Record(
-    S.String,
-    IndicesTypesAlias,
-  ) as any as S.Schema<IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap>;
-
-export interface IndicesTypesIndexTemplateSummaryWithRollover {
-  lifecycle?: IndicesTypesDataStreamLifecycleWithRollover;
-  /** Aliases to add. If the index template includes a `data_stream` object, these are data stream aliases. Otherwise, these are index aliases. Data stream aliases ignore the `index_routing`, `routing`, and `search_routing` options. */
-  aliases?: IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap;
-  /** Mapping for fields in the index. If specified, this mapping can include field names, field data types, and mapping parameters. */
-  mappings?: TypesMappingTypeMapping;
-  /** Configuration options for the index. */
-  settings?: IndicesTypesIndexSettings;
-  data_stream_options?: IndicesTypesDataStreamOptions;
-}
-export const IndicesTypesIndexTemplateSummaryWithRollover =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      lifecycle: S.optional(IndicesTypesDataStreamLifecycleWithRollover),
-      aliases: S.optional(
-        IndicesTypesIndexTemplateSummaryWithRolloverAliasesMap,
-      ),
-      mappings: S.optional(TypesMappingTypeMapping),
-      settings: S.optional(IndicesTypesIndexSettings),
-      data_stream_options: S.optional(IndicesTypesDataStreamOptions),
-    }),
-  ).annotate({
-    identifier: "IndicesTypesIndexTemplateSummaryWithRollover",
-  }) as any as S.Schema<IndicesTypesIndexTemplateSummaryWithRollover>;
-
-/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-export type IndicesTypesIndexTemplateWithRolloverComposedOfList = Array<string>;
-export const IndicesTypesIndexTemplateWithRolloverComposedOfList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesTypesIndexTemplateWithRolloverComposedOfList>;
-
-export interface IndicesTypesIndexTemplateDataStreamConfiguration {
-  /** If true, the data stream is hidden. */
-  hidden?: boolean;
-  /** If true, the data stream supports custom routing. */
-  allow_custom_routing?: boolean;
-}
-export const IndicesTypesIndexTemplateDataStreamConfiguration =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      hidden: S.optional(S.Boolean),
-      allow_custom_routing: S.optional(S.Boolean),
-    }),
-  ).annotate({
-    identifier: "IndicesTypesIndexTemplateDataStreamConfiguration",
-  }) as any as S.Schema<IndicesTypesIndexTemplateDataStreamConfiguration>;
-
-export interface IndicesTypesIndexTemplateWithRollover {
-  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
-  template?: IndicesTypesIndexTemplateSummaryWithRollover;
-  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
-  index_patterns: TypesNames;
-  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-  composed_of: IndicesTypesIndexTemplateWithRolloverComposedOfList;
-  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. */
-  version?: number;
-  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
-  priority?: number;
-  /** Optional user metadata about the index template. May have any contents. This map is not automatically generated by Elasticsearch. */
-  _meta?: TypesMetadata;
-  allow_auto_create?: boolean;
-  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
-  data_stream?: IndicesTypesIndexTemplateDataStreamConfiguration;
-  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
-  deprecated?: boolean;
-  /** A list of component template names that are allowed to be absent. */
-  ignore_missing_component_templates?: TypesNames;
-  /** Date and time when the index template was created. Only returned if the `human` query parameter is `true`. */
-  created_date?: TypesDateTime;
-  /** Date and time when the index template was created, in milliseconds since the epoch. */
-  created_date_millis?: number;
-  /** Date and time when the index template was last modified. Only returned if the `human` query parameter is `true`. */
-  modified_date?: TypesDateTime;
-  /** Date and time when the index template was last modified, in milliseconds since the epoch. */
-  modified_date_millis?: number;
-}
-export const IndicesTypesIndexTemplateWithRollover = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      template: S.optional(IndicesTypesIndexTemplateSummaryWithRollover),
-      index_patterns: TypesNames,
-      composed_of: IndicesTypesIndexTemplateWithRolloverComposedOfList,
-      version: S.optional(S.Number),
-      priority: S.optional(S.Number),
-      _meta: S.optional(TypesMetadata),
-      allow_auto_create: S.optional(S.Boolean),
-      data_stream: S.optional(IndicesTypesIndexTemplateDataStreamConfiguration),
-      deprecated: S.optional(S.Boolean),
-      ignore_missing_component_templates: S.optional(TypesNames),
-      created_date: S.optional(TypesDateTime),
-      created_date_millis: S.optional(S.Number),
-      modified_date: S.optional(TypesDateTime),
-      modified_date_millis: S.optional(S.Number),
-    }),
-).annotate({
-  identifier: "IndicesTypesIndexTemplateWithRollover",
-}) as any as S.Schema<IndicesTypesIndexTemplateWithRollover>;
-
-export interface IndicesGetIndexTemplateIndexTemplateItem {
-  name: string;
-  index_template: IndicesTypesIndexTemplateWithRollover;
-}
-export const IndicesGetIndexTemplateIndexTemplateItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      index_template: IndicesTypesIndexTemplateWithRollover,
-    }),
-).annotate({
-  identifier: "IndicesGetIndexTemplateIndexTemplateItem",
-}) as any as S.Schema<IndicesGetIndexTemplateIndexTemplateItem>;
-
-export type IndicesGetIndexTemplateResponseIndexTemplatesList =
-  Array<IndicesGetIndexTemplateIndexTemplateItem>;
-export const IndicesGetIndexTemplateResponseIndexTemplatesList =
-  /*@__PURE__*/ S.Array(
-    IndicesGetIndexTemplateIndexTemplateItem,
-  ) as any as S.Schema<IndicesGetIndexTemplateResponseIndexTemplatesList>;
-
-export interface IndicesGetIndexTemplateResponse {
-  index_templates: IndicesGetIndexTemplateResponseIndexTemplatesList;
-}
-export const IndicesGetIndexTemplateResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    index_templates: IndicesGetIndexTemplateResponseIndexTemplatesList,
-  }),
-).annotate({
-  identifier: "IndicesGetIndexTemplateResponse",
-}) as any as S.Schema<IndicesGetIndexTemplateResponse>;
-
-export interface IndicesGetIndexTemplate1Request {
-  /** Name of index template to retrieve. Wildcard (*) expressions are supported. */
-  name: string;
-  /** If true, the request retrieves information from the local node only. Defaults to false, which means information is retrieved from the master node. */
-  local?: boolean;
-  /** If true, returns settings in flat format. */
-  flat_settings?: boolean;
-  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
-  master_timeout?: TypesDuration;
-  /** If true, returns all relevant default configurations for the index template. */
-  include_defaults?: boolean;
-}
-export const IndicesGetIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    local: S.optional(S.Boolean.pipe(T.Query())),
-    flat_settings: S.optional(S.Boolean.pipe(T.Query())),
-    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-    include_defaults: S.optional(S.Boolean.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/_index_template/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesGetIndexTemplate1Request",
-}) as any as S.Schema<IndicesGetIndexTemplate1Request>;
-
-export type IndicesGetIndexTemplate1ResponseIndexTemplatesList =
-  Array<IndicesGetIndexTemplateIndexTemplateItem>;
-export const IndicesGetIndexTemplate1ResponseIndexTemplatesList =
-  /*@__PURE__*/ S.Array(
-    IndicesGetIndexTemplateIndexTemplateItem,
-  ) as any as S.Schema<IndicesGetIndexTemplate1ResponseIndexTemplatesList>;
-
-export interface IndicesGetIndexTemplate1Response {
-  index_templates: IndicesGetIndexTemplate1ResponseIndexTemplatesList;
-}
-export const IndicesGetIndexTemplate1Response = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    index_templates: IndicesGetIndexTemplate1ResponseIndexTemplatesList,
-  }),
-).annotate({
-  identifier: "IndicesGetIndexTemplate1Response",
-}) as any as S.Schema<IndicesGetIndexTemplate1Response>;
 
 export interface IndicesGetMappingRequest {
   /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
@@ -49750,159 +49749,6 @@ export const IndicesPutDataStreamSettingsResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "IndicesPutDataStreamSettingsResponse",
 }) as any as S.Schema<IndicesPutDataStreamSettingsResponse>;
-
-/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-export type IndicesPutIndexTemplateRequestComposedOfList = Array<string>;
-export const IndicesPutIndexTemplateRequestComposedOfList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesPutIndexTemplateRequestComposedOfList>;
-
-export interface IndicesTypesDataStreamVisibility {
-  hidden?: boolean;
-  allow_custom_routing?: boolean;
-  failure_store?: boolean;
-}
-export const IndicesTypesDataStreamVisibility = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hidden: S.optional(S.Boolean),
-    allow_custom_routing: S.optional(S.Boolean),
-    failure_store: S.optional(S.Boolean),
-  }),
-).annotate({
-  identifier: "IndicesTypesDataStreamVisibility",
-}) as any as S.Schema<IndicesTypesDataStreamVisibility>;
-
-/** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
-export type IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList =
-  Array<string>;
-export const IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList>;
-
-export interface IndicesPutIndexTemplateRequest {
-  /** Index or template name */
-  name: string;
-  /** If `true`, this request cannot replace or update existing index templates. */
-  create?: boolean;
-  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
-  master_timeout?: TypesDuration;
-  /** User defined reason for creating or updating the index template */
-  cause?: string;
-  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
-  index_patterns?: TypesIndices;
-  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-  composed_of?: IndicesPutIndexTemplateRequestComposedOfList;
-  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
-  template?: IndicesPutIndexTemplateIndexTemplateMapping;
-  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
-  data_stream?: IndicesTypesDataStreamVisibility;
-  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
-  priority?: number;
-  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. External systems can use these version numbers to simplify template management. To unset a version, replace the template without specifying one. */
-  version?: number;
-  /** Optional user metadata about the index template. It may have any contents. It is not automatically generated or used by Elasticsearch. This user-defined object is stored in the cluster state, so keeping it short is preferable To unset the metadata, replace the template without specifying it. */
-  _meta?: TypesMetadata;
-  /** This setting overrides the value of the `action.auto_create_index` cluster setting. If set to `true` in a template, then indices can be automatically created using that template even if auto-creation of indices is disabled via `actions.auto_create_index`. If set to `false`, then indices or data streams matching the template must always be explicitly created, and may never be automatically created. */
-  allow_auto_create?: boolean;
-  /** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
-  ignore_missing_component_templates?: IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList;
-  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
-  deprecated?: boolean;
-}
-export const IndicesPutIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    create: S.optional(S.Boolean.pipe(T.Query())),
-    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-    cause: S.optional(S.String.pipe(T.Query())),
-    index_patterns: S.optional(TypesIndices),
-    composed_of: S.optional(IndicesPutIndexTemplateRequestComposedOfList),
-    template: S.optional(IndicesPutIndexTemplateIndexTemplateMapping),
-    data_stream: S.optional(IndicesTypesDataStreamVisibility),
-    priority: S.optional(S.Number),
-    version: S.optional(S.Number),
-    _meta: S.optional(TypesMetadata),
-    allow_auto_create: S.optional(S.Boolean),
-    ignore_missing_component_templates: S.optional(
-      IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList,
-    ),
-    deprecated: S.optional(S.Boolean),
-  }).pipe(T.Http({ method: "PUT", uri: "/_index_template/{name}", code: 200 })),
-).annotate({
-  identifier: "IndicesPutIndexTemplateRequest",
-}) as any as S.Schema<IndicesPutIndexTemplateRequest>;
-
-/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-export type IndicesPutIndexTemplate1RequestComposedOfList = Array<string>;
-export const IndicesPutIndexTemplate1RequestComposedOfList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesPutIndexTemplate1RequestComposedOfList>;
-
-/** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
-export type IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList =
-  Array<string>;
-export const IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList>;
-
-export interface IndicesPutIndexTemplate1Request {
-  /** Index or template name */
-  name: string;
-  /** If `true`, this request cannot replace or update existing index templates. */
-  create?: boolean;
-  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
-  master_timeout?: TypesDuration;
-  /** User defined reason for creating or updating the index template */
-  cause?: string;
-  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
-  index_patterns?: TypesIndices;
-  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
-  composed_of?: IndicesPutIndexTemplate1RequestComposedOfList;
-  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
-  template?: IndicesPutIndexTemplateIndexTemplateMapping;
-  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
-  data_stream?: IndicesTypesDataStreamVisibility;
-  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
-  priority?: number;
-  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. External systems can use these version numbers to simplify template management. To unset a version, replace the template without specifying one. */
-  version?: number;
-  /** Optional user metadata about the index template. It may have any contents. It is not automatically generated or used by Elasticsearch. This user-defined object is stored in the cluster state, so keeping it short is preferable To unset the metadata, replace the template without specifying it. */
-  _meta?: TypesMetadata;
-  /** This setting overrides the value of the `action.auto_create_index` cluster setting. If set to `true` in a template, then indices can be automatically created using that template even if auto-creation of indices is disabled via `actions.auto_create_index`. If set to `false`, then indices or data streams matching the template must always be explicitly created, and may never be automatically created. */
-  allow_auto_create?: boolean;
-  /** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
-  ignore_missing_component_templates?: IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList;
-  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
-  deprecated?: boolean;
-}
-export const IndicesPutIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    create: S.optional(S.Boolean.pipe(T.Query())),
-    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
-    cause: S.optional(S.String.pipe(T.Query())),
-    index_patterns: S.optional(TypesIndices),
-    composed_of: S.optional(IndicesPutIndexTemplate1RequestComposedOfList),
-    template: S.optional(IndicesPutIndexTemplateIndexTemplateMapping),
-    data_stream: S.optional(IndicesTypesDataStreamVisibility),
-    priority: S.optional(S.Number),
-    version: S.optional(S.Number),
-    _meta: S.optional(TypesMetadata),
-    allow_auto_create: S.optional(S.Boolean),
-    ignore_missing_component_templates: S.optional(
-      IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList,
-    ),
-    deprecated: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({ method: "POST", uri: "/_index_template/{name}", code: 200 }),
-  ),
-).annotate({
-  identifier: "IndicesPutIndexTemplate1Request",
-}) as any as S.Schema<IndicesPutIndexTemplate1Request>;
 
 /** If date detection is enabled then new string fields are checked against 'dynamic_date_formats' and if the value matches then a new date field is added instead of string. */
 export type IndicesPutMappingRequestDynamicDateFormatsList = Array<string>;
@@ -51196,6 +51042,137 @@ export const IndicesResolveCluster1Response = /*@__PURE__*/ S.suspend(() =>
   identifier: "IndicesResolveCluster1Response",
 }) as any as S.Schema<IndicesResolveCluster1Response>;
 
+export type IndicesResolveIndexRequestModeCase1List = Array<
+  IndicesTypesIndexMode | (string & {})
+>;
+export const IndicesResolveIndexRequestModeCase1List = /*@__PURE__*/ S.Array(
+  IndicesTypesIndexMode,
+) as any as S.Schema<IndicesResolveIndexRequestModeCase1List>;
+
+export type IndicesResolveIndexRequestMode =
+  | IndicesTypesIndexMode
+  | IndicesResolveIndexRequestModeCase1List;
+export const IndicesResolveIndexRequestMode =
+  /*@__PURE__*/ S.Unknown as any as S.Schema<IndicesResolveIndexRequestMode>;
+
+export interface IndicesResolveIndexRequest {
+  /** Comma-separated name(s) or index pattern(s) of the indices, aliases, and data streams to resolve. Resources on remote clusters can be specified using the `<cluster>`:`<name>` syntax. */
+  name: string;
+  /** Type of index that wildcard patterns can match. If the request can target data streams, this argument determines whether wildcard expressions match hidden data streams. Supports comma-separated values, such as `open,hidden`. */
+  expand_wildcards?: TypesExpandWildcards;
+  /** If `false`, the request returns an error if it targets a concrete (non-wildcarded) index, alias, or data stream that is missing, closed, or otherwise unavailable. If `true`, unavailable concrete targets are silently ignored. */
+  ignore_unavailable?: boolean;
+  /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
+  allow_no_indices?: boolean;
+  /** Filter indices by index mode - standard, lookup, time_series, etc. Comma-separated list of IndexMode. Empty means no filter. */
+  mode?: IndicesResolveIndexRequestMode;
+}
+export const IndicesResolveIndexRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
+    ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
+    allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
+    mode: S.optional(IndicesResolveIndexRequestMode.pipe(T.Query())),
+  }).pipe(T.Http({ method: "GET", uri: "/_resolve/index/{name}", code: 200 })),
+).annotate({
+  identifier: "IndicesResolveIndexRequest",
+}) as any as S.Schema<IndicesResolveIndexRequest>;
+
+export type IndicesResolveIndexResolveIndexItemAliasesList = Array<string>;
+export const IndicesResolveIndexResolveIndexItemAliasesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IndicesResolveIndexResolveIndexItemAliasesList>;
+
+export type IndicesResolveIndexResolveIndexItemAttributesList = Array<string>;
+export const IndicesResolveIndexResolveIndexItemAttributesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<IndicesResolveIndexResolveIndexItemAttributesList>;
+
+export interface IndicesResolveIndexResolveIndexItem {
+  name: string;
+  aliases?: IndicesResolveIndexResolveIndexItemAliasesList;
+  attributes: IndicesResolveIndexResolveIndexItemAttributesList;
+  data_stream?: string;
+  mode?: IndicesTypesIndexMode;
+}
+export const IndicesResolveIndexResolveIndexItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+    aliases: S.optional(IndicesResolveIndexResolveIndexItemAliasesList),
+    attributes: IndicesResolveIndexResolveIndexItemAttributesList,
+    data_stream: S.optional(S.String),
+    mode: S.optional(IndicesTypesIndexMode),
+  }),
+).annotate({
+  identifier: "IndicesResolveIndexResolveIndexItem",
+}) as any as S.Schema<IndicesResolveIndexResolveIndexItem>;
+
+export type IndicesResolveIndexResponseIndicesList =
+  Array<IndicesResolveIndexResolveIndexItem>;
+export const IndicesResolveIndexResponseIndicesList = /*@__PURE__*/ S.Array(
+  IndicesResolveIndexResolveIndexItem,
+) as any as S.Schema<IndicesResolveIndexResponseIndicesList>;
+
+export interface IndicesResolveIndexResolveIndexAliasItem {
+  name: string;
+  indices: TypesIndices;
+}
+export const IndicesResolveIndexResolveIndexAliasItem = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      name: S.String,
+      indices: TypesIndices,
+    }),
+).annotate({
+  identifier: "IndicesResolveIndexResolveIndexAliasItem",
+}) as any as S.Schema<IndicesResolveIndexResolveIndexAliasItem>;
+
+export type IndicesResolveIndexResponseAliasesList =
+  Array<IndicesResolveIndexResolveIndexAliasItem>;
+export const IndicesResolveIndexResponseAliasesList = /*@__PURE__*/ S.Array(
+  IndicesResolveIndexResolveIndexAliasItem,
+) as any as S.Schema<IndicesResolveIndexResponseAliasesList>;
+
+export interface IndicesResolveIndexResolveIndexDataStreamsItem {
+  name: string;
+  timestamp_field: string;
+  backing_indices: TypesIndices;
+}
+export const IndicesResolveIndexResolveIndexDataStreamsItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      name: S.String,
+      timestamp_field: S.String,
+      backing_indices: TypesIndices,
+    }),
+  ).annotate({
+    identifier: "IndicesResolveIndexResolveIndexDataStreamsItem",
+  }) as any as S.Schema<IndicesResolveIndexResolveIndexDataStreamsItem>;
+
+export type IndicesResolveIndexResponseDataStreamsList =
+  Array<IndicesResolveIndexResolveIndexDataStreamsItem>;
+export const IndicesResolveIndexResponseDataStreamsList = /*@__PURE__*/ S.Array(
+  IndicesResolveIndexResolveIndexDataStreamsItem,
+) as any as S.Schema<IndicesResolveIndexResponseDataStreamsList>;
+
+export interface IndicesResolveIndexResponse {
+  indices: IndicesResolveIndexResponseIndicesList;
+  aliases: IndicesResolveIndexResponseAliasesList;
+  data_streams: IndicesResolveIndexResponseDataStreamsList;
+}
+export const IndicesResolveIndexResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    indices: IndicesResolveIndexResponseIndicesList,
+    aliases: IndicesResolveIndexResponseAliasesList,
+    data_streams: IndicesResolveIndexResponseDataStreamsList,
+  }),
+).annotate({
+  identifier: "IndicesResolveIndexResponse",
+}) as any as S.Schema<IndicesResolveIndexResponse>;
+
 export type IndicesResolveIndex1RequestModeCase1List = Array<
   IndicesTypesIndexMode | (string & {})
 >;
@@ -51233,78 +51210,17 @@ export const IndicesResolveIndex1Request = /*@__PURE__*/ S.suspend(() =>
   identifier: "IndicesResolveIndex1Request",
 }) as any as S.Schema<IndicesResolveIndex1Request>;
 
-export type IndicesResolveIndexResolveIndexItemAliasesList = Array<string>;
-export const IndicesResolveIndexResolveIndexItemAliasesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesResolveIndexResolveIndexItemAliasesList>;
-
-export type IndicesResolveIndexResolveIndexItemAttributesList = Array<string>;
-export const IndicesResolveIndexResolveIndexItemAttributesList =
-  /*@__PURE__*/ S.Array(
-    S.String,
-  ) as any as S.Schema<IndicesResolveIndexResolveIndexItemAttributesList>;
-
-export interface IndicesResolveIndexResolveIndexItem {
-  name: string;
-  aliases?: IndicesResolveIndexResolveIndexItemAliasesList;
-  attributes: IndicesResolveIndexResolveIndexItemAttributesList;
-  data_stream?: string;
-  mode?: IndicesTypesIndexMode;
-}
-export const IndicesResolveIndexResolveIndexItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String,
-    aliases: S.optional(IndicesResolveIndexResolveIndexItemAliasesList),
-    attributes: IndicesResolveIndexResolveIndexItemAttributesList,
-    data_stream: S.optional(S.String),
-    mode: S.optional(IndicesTypesIndexMode),
-  }),
-).annotate({
-  identifier: "IndicesResolveIndexResolveIndexItem",
-}) as any as S.Schema<IndicesResolveIndexResolveIndexItem>;
-
 export type IndicesResolveIndex1ResponseIndicesList =
   Array<IndicesResolveIndexResolveIndexItem>;
 export const IndicesResolveIndex1ResponseIndicesList = /*@__PURE__*/ S.Array(
   IndicesResolveIndexResolveIndexItem,
 ) as any as S.Schema<IndicesResolveIndex1ResponseIndicesList>;
 
-export interface IndicesResolveIndexResolveIndexAliasItem {
-  name: string;
-  indices: TypesIndices;
-}
-export const IndicesResolveIndexResolveIndexAliasItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      name: S.String,
-      indices: TypesIndices,
-    }),
-).annotate({
-  identifier: "IndicesResolveIndexResolveIndexAliasItem",
-}) as any as S.Schema<IndicesResolveIndexResolveIndexAliasItem>;
-
 export type IndicesResolveIndex1ResponseAliasesList =
   Array<IndicesResolveIndexResolveIndexAliasItem>;
 export const IndicesResolveIndex1ResponseAliasesList = /*@__PURE__*/ S.Array(
   IndicesResolveIndexResolveIndexAliasItem,
 ) as any as S.Schema<IndicesResolveIndex1ResponseAliasesList>;
-
-export interface IndicesResolveIndexResolveIndexDataStreamsItem {
-  name: string;
-  timestamp_field: string;
-  backing_indices: TypesIndices;
-}
-export const IndicesResolveIndexResolveIndexDataStreamsItem =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-      timestamp_field: S.String,
-      backing_indices: TypesIndices,
-    }),
-  ).annotate({
-    identifier: "IndicesResolveIndexResolveIndexDataStreamsItem",
-  }) as any as S.Schema<IndicesResolveIndexResolveIndexDataStreamsItem>;
 
 export type IndicesResolveIndex1ResponseDataStreamsList =
   Array<IndicesResolveIndexResolveIndexDataStreamsItem>;
@@ -52266,6 +52182,21 @@ export const IndicesSimulateTemplateRequestComposedOfList =
   /*@__PURE__*/ S.Array(
     S.String,
   ) as any as S.Schema<IndicesSimulateTemplateRequestComposedOfList>;
+
+export interface IndicesTypesDataStreamVisibility {
+  hidden?: boolean;
+  allow_custom_routing?: boolean;
+  failure_store?: boolean;
+}
+export const IndicesTypesDataStreamVisibility = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    hidden: S.optional(S.Boolean),
+    allow_custom_routing: S.optional(S.Boolean),
+    failure_store: S.optional(S.Boolean),
+  }),
+).annotate({
+  identifier: "IndicesTypesDataStreamVisibility",
+}) as any as S.Schema<IndicesTypesDataStreamVisibility>;
 
 /** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
 export type IndicesSimulateTemplateRequestIgnoreMissingComponentTemplatesList =
@@ -63018,76 +62949,6 @@ export const ListConnectorSyncJobResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ListConnectorSyncJobResponse",
 }) as any as S.Schema<ListConnectorSyncJobResponse>;
-
-export type ListIndicesResolveRequestModeCase1List = Array<
-  IndicesTypesIndexMode | (string & {})
->;
-export const ListIndicesResolveRequestModeCase1List = /*@__PURE__*/ S.Array(
-  IndicesTypesIndexMode,
-) as any as S.Schema<ListIndicesResolveRequestModeCase1List>;
-
-export type ListIndicesResolveRequestMode =
-  | IndicesTypesIndexMode
-  | ListIndicesResolveRequestModeCase1List;
-export const ListIndicesResolveRequestMode =
-  /*@__PURE__*/ S.Unknown as any as S.Schema<ListIndicesResolveRequestMode>;
-
-export interface ListIndicesResolveRequest {
-  /** Comma-separated name(s) or index pattern(s) of the indices, aliases, and data streams to resolve. Resources on remote clusters can be specified using the `<cluster>`:`<name>` syntax. */
-  name: string;
-  /** Type of index that wildcard patterns can match. If the request can target data streams, this argument determines whether wildcard expressions match hidden data streams. Supports comma-separated values, such as `open,hidden`. */
-  expand_wildcards?: TypesExpandWildcards;
-  /** If `false`, the request returns an error if it targets a concrete (non-wildcarded) index, alias, or data stream that is missing, closed, or otherwise unavailable. If `true`, unavailable concrete targets are silently ignored. */
-  ignore_unavailable?: boolean;
-  /** A setting that does two separate checks on the index expression. If `false`, the request returns an error (1) if any wildcard expression (including `_all` and `*`) resolves to zero matching indices or (2) if the complete set of resolved indices, aliases or data streams is empty after all expressions are evaluated. If `true`, index expressions that resolve to no indices are allowed and the request returns an empty result. */
-  allow_no_indices?: boolean;
-  /** Filter indices by index mode - standard, lookup, time_series, etc. Comma-separated list of IndexMode. Empty means no filter. */
-  mode?: ListIndicesResolveRequestMode;
-}
-export const ListIndicesResolveRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    name: S.String.pipe(T.Label()),
-    expand_wildcards: S.optional(TypesExpandWildcards.pipe(T.Query())),
-    ignore_unavailable: S.optional(S.Boolean.pipe(T.Query())),
-    allow_no_indices: S.optional(S.Boolean.pipe(T.Query())),
-    mode: S.optional(ListIndicesResolveRequestMode.pipe(T.Query())),
-  }).pipe(T.Http({ method: "GET", uri: "/_resolve/index/{name}", code: 200 })),
-).annotate({
-  identifier: "ListIndicesResolveRequest",
-}) as any as S.Schema<ListIndicesResolveRequest>;
-
-export type ListIndicesResolveResponseIndicesList =
-  Array<IndicesResolveIndexResolveIndexItem>;
-export const ListIndicesResolveResponseIndicesList = /*@__PURE__*/ S.Array(
-  IndicesResolveIndexResolveIndexItem,
-) as any as S.Schema<ListIndicesResolveResponseIndicesList>;
-
-export type ListIndicesResolveResponseAliasesList =
-  Array<IndicesResolveIndexResolveIndexAliasItem>;
-export const ListIndicesResolveResponseAliasesList = /*@__PURE__*/ S.Array(
-  IndicesResolveIndexResolveIndexAliasItem,
-) as any as S.Schema<ListIndicesResolveResponseAliasesList>;
-
-export type ListIndicesResolveResponseDataStreamsList =
-  Array<IndicesResolveIndexResolveIndexDataStreamsItem>;
-export const ListIndicesResolveResponseDataStreamsList = /*@__PURE__*/ S.Array(
-  IndicesResolveIndexResolveIndexDataStreamsItem,
-) as any as S.Schema<ListIndicesResolveResponseDataStreamsList>;
-
-export interface ListIndicesResolveResponse {
-  indices: ListIndicesResolveResponseIndicesList;
-  aliases: ListIndicesResolveResponseAliasesList;
-  data_streams: ListIndicesResolveResponseDataStreamsList;
-}
-export const ListIndicesResolveResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    indices: ListIndicesResolveResponseIndicesList,
-    aliases: ListIndicesResolveResponseAliasesList,
-    data_streams: ListIndicesResolveResponseDataStreamsList,
-  }),
-).annotate({
-  identifier: "ListIndicesResolveResponse",
-}) as any as S.Schema<ListIndicesResolveResponse>;
 
 export interface ListReindexRequest {
   /** If `true`, include detailed task status information in the response. */
@@ -79171,6 +79032,142 @@ export const PutConnectorResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "PutConnectorResponse",
 }) as any as S.Schema<PutConnectorResponse>;
+
+/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+export type PutIndexTemplateRequestComposedOfList = Array<string>;
+export const PutIndexTemplateRequestComposedOfList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PutIndexTemplateRequestComposedOfList>;
+
+/** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
+export type PutIndexTemplateRequestIgnoreMissingComponentTemplatesList =
+  Array<string>;
+export const PutIndexTemplateRequestIgnoreMissingComponentTemplatesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutIndexTemplateRequestIgnoreMissingComponentTemplatesList>;
+
+export interface PutIndexTemplateRequest {
+  /** Index or template name */
+  name: string;
+  /** If `true`, this request cannot replace or update existing index templates. */
+  create?: boolean;
+  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
+  master_timeout?: TypesDuration;
+  /** User defined reason for creating or updating the index template */
+  cause?: string;
+  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
+  index_patterns?: TypesIndices;
+  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+  composed_of?: PutIndexTemplateRequestComposedOfList;
+  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
+  template?: IndicesPutIndexTemplateIndexTemplateMapping;
+  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
+  data_stream?: IndicesTypesDataStreamVisibility;
+  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
+  priority?: number;
+  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. External systems can use these version numbers to simplify template management. To unset a version, replace the template without specifying one. */
+  version?: number;
+  /** Optional user metadata about the index template. It may have any contents. It is not automatically generated or used by Elasticsearch. This user-defined object is stored in the cluster state, so keeping it short is preferable To unset the metadata, replace the template without specifying it. */
+  _meta?: TypesMetadata;
+  /** This setting overrides the value of the `action.auto_create_index` cluster setting. If set to `true` in a template, then indices can be automatically created using that template even if auto-creation of indices is disabled via `actions.auto_create_index`. If set to `false`, then indices or data streams matching the template must always be explicitly created, and may never be automatically created. */
+  allow_auto_create?: boolean;
+  /** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
+  ignore_missing_component_templates?: PutIndexTemplateRequestIgnoreMissingComponentTemplatesList;
+  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
+  deprecated?: boolean;
+}
+export const PutIndexTemplateRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    create: S.optional(S.Boolean.pipe(T.Query())),
+    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
+    cause: S.optional(S.String.pipe(T.Query())),
+    index_patterns: S.optional(TypesIndices),
+    composed_of: S.optional(PutIndexTemplateRequestComposedOfList),
+    template: S.optional(IndicesPutIndexTemplateIndexTemplateMapping),
+    data_stream: S.optional(IndicesTypesDataStreamVisibility),
+    priority: S.optional(S.Number),
+    version: S.optional(S.Number),
+    _meta: S.optional(TypesMetadata),
+    allow_auto_create: S.optional(S.Boolean),
+    ignore_missing_component_templates: S.optional(
+      PutIndexTemplateRequestIgnoreMissingComponentTemplatesList,
+    ),
+    deprecated: S.optional(S.Boolean),
+  }).pipe(T.Http({ method: "PUT", uri: "/_index_template/{name}", code: 200 })),
+).annotate({
+  identifier: "PutIndexTemplateRequest",
+}) as any as S.Schema<PutIndexTemplateRequest>;
+
+/** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+export type PutIndexTemplate1RequestComposedOfList = Array<string>;
+export const PutIndexTemplate1RequestComposedOfList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PutIndexTemplate1RequestComposedOfList>;
+
+/** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
+export type PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList =
+  Array<string>;
+export const PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList>;
+
+export interface PutIndexTemplate1Request {
+  /** Index or template name */
+  name: string;
+  /** If `true`, this request cannot replace or update existing index templates. */
+  create?: boolean;
+  /** Period to wait for a connection to the master node. If no response is received before the timeout expires, the request fails and returns an error. */
+  master_timeout?: TypesDuration;
+  /** User defined reason for creating or updating the index template */
+  cause?: string;
+  /** Array of wildcard (`*`) expressions used to match the names of data streams and indices during creation. */
+  index_patterns?: TypesIndices;
+  /** An ordered list of component template names. Component templates are merged in the order specified, meaning that the last component template specified has the highest precedence. */
+  composed_of?: PutIndexTemplate1RequestComposedOfList;
+  /** Template to be applied. It may optionally include an `aliases`, `mappings`, or `settings` configuration. */
+  template?: IndicesPutIndexTemplateIndexTemplateMapping;
+  /** If this object is included, the template is used to create data streams and their backing indices. Supports an empty object. Data streams require a matching index template with a `data_stream` object. */
+  data_stream?: IndicesTypesDataStreamVisibility;
+  /** Priority to determine index template precedence when a new data stream or index is created. The index template with the highest priority is chosen. If no priority is specified the template is treated as though it is of priority 0 (lowest priority). This number is not automatically generated by Elasticsearch. */
+  priority?: number;
+  /** Version number used to manage index templates externally. This number is not automatically generated by Elasticsearch. External systems can use these version numbers to simplify template management. To unset a version, replace the template without specifying one. */
+  version?: number;
+  /** Optional user metadata about the index template. It may have any contents. It is not automatically generated or used by Elasticsearch. This user-defined object is stored in the cluster state, so keeping it short is preferable To unset the metadata, replace the template without specifying it. */
+  _meta?: TypesMetadata;
+  /** This setting overrides the value of the `action.auto_create_index` cluster setting. If set to `true` in a template, then indices can be automatically created using that template even if auto-creation of indices is disabled via `actions.auto_create_index`. If set to `false`, then indices or data streams matching the template must always be explicitly created, and may never be automatically created. */
+  allow_auto_create?: boolean;
+  /** The configuration option ignore_missing_component_templates can be used when an index template references a component template that might not exist */
+  ignore_missing_component_templates?: PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList;
+  /** Marks this index template as deprecated. When creating or updating a non-deprecated index template that uses deprecated components, Elasticsearch will emit a deprecation warning. */
+  deprecated?: boolean;
+}
+export const PutIndexTemplate1Request = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String.pipe(T.Label()),
+    create: S.optional(S.Boolean.pipe(T.Query())),
+    master_timeout: S.optional(TypesDuration.pipe(T.Query())),
+    cause: S.optional(S.String.pipe(T.Query())),
+    index_patterns: S.optional(TypesIndices),
+    composed_of: S.optional(PutIndexTemplate1RequestComposedOfList),
+    template: S.optional(IndicesPutIndexTemplateIndexTemplateMapping),
+    data_stream: S.optional(IndicesTypesDataStreamVisibility),
+    priority: S.optional(S.Number),
+    version: S.optional(S.Number),
+    _meta: S.optional(TypesMetadata),
+    allow_auto_create: S.optional(S.Boolean),
+    ignore_missing_component_templates: S.optional(
+      PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList,
+    ),
+    deprecated: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({ method: "POST", uri: "/_index_template/{name}", code: 200 }),
+  ),
+).annotate({
+  identifier: "PutIndexTemplate1Request",
+}) as any as S.Schema<PutIndexTemplate1Request>;
 
 export interface PutInferenceRequest {
   /** The inference Id */
@@ -104245,6 +104242,21 @@ export const deleteIndex: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type DeleteIndexTemplateError = ElasticsearchOpError;
+/** Delete an index template The provided <index-template> may contain multiple template names separated by a comma. If multiple template names are specified then there is no wildcard support and the provided names should match completely with existing templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
+export const deleteIndexTemplate: API.OperationMethod<
+  DeleteIndexTemplateRequest,
+  TypesAcknowledgedResponseBase,
+  DeleteIndexTemplateError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteIndexTemplateRequest,
+  output: TypesAcknowledgedResponseBase,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
 export type DeleteInferenceError = ElasticsearchOpError;
 /** Delete an inference endpoint This API requires the manage_inference cluster privilege (the built-in `inference_admin` role grants this privilege). */
 export const deleteInference: API.OperationMethod<
@@ -105085,6 +105097,36 @@ export const getIndex: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type GetIndexTemplateError = ElasticsearchOpError;
+/** Get index templates Get information about one or more index templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
+export const getIndexTemplate: API.OperationMethod<
+  GetIndexTemplateRequest,
+  GetIndexTemplateResponse,
+  GetIndexTemplateError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIndexTemplateRequest,
+  output: GetIndexTemplateResponse,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetIndexTemplate1Error = ElasticsearchOpError;
+/** Get index templates Get information about one or more index templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
+export const getIndexTemplate1: API.OperationMethod<
+  GetIndexTemplate1Request,
+  GetIndexTemplate1Response,
+  GetIndexTemplate1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetIndexTemplate1Request,
+  output: GetIndexTemplate1Response,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
 export type GetInferenceError = ElasticsearchOpError;
 /** Get an inference endpoint This API requires the `monitor_inference` cluster privilege (the built-in `inference_admin` and `inference_user` roles grant this privilege). */
 export const getInference: API.OperationMethod<
@@ -105805,21 +105847,6 @@ export const indicesDeleteDataStreamOptions: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type IndicesDeleteIndexTemplateError = ElasticsearchOpError;
-/** Delete an index template The provided <index-template> may contain multiple template names separated by a comma. If multiple template names are specified then there is no wildcard support and the provided names should match completely with existing templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
-export const indicesDeleteIndexTemplate: API.OperationMethod<
-  IndicesDeleteIndexTemplateRequest,
-  TypesAcknowledgedResponseBase,
-  IndicesDeleteIndexTemplateError,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IndicesDeleteIndexTemplateRequest,
-  output: TypesAcknowledgedResponseBase,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
 export type IndicesDiskUsageError = ElasticsearchOpError;
 /** Analyze the index disk usage Analyze the disk usage of each field of an index or data stream. This API might not support indices created in previous Elasticsearch versions. The result of a small index can be inaccurate as some parts of an index might not be analyzed by the API. NOTE: The total size of fields of the analyzed shards of the index in the response is usually smaller than the index `store_size` value because some small metadata files are ignored and some parts of data files might not be scanned by the API. Since stored fields are stored together in a compressed format, the sizes of stored fields are also estimates and can be inaccurate. The stored size of the `_id` field is likely underestimated while the `_source` field is overestimated. For usage examples see the External documentation or refer to [Analyze the index disk usage example](https://www.elastic.co/docs/reference/elasticsearch/rest-apis/index-disk-usage) for an example. */
 export const indicesDiskUsage: API.OperationMethod<
@@ -106150,36 +106177,6 @@ export const indicesGetFieldMapping1: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type IndicesGetIndexTemplateError = ElasticsearchOpError;
-/** Get index templates Get information about one or more index templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
-export const indicesGetIndexTemplate: API.OperationMethod<
-  IndicesGetIndexTemplateRequest,
-  IndicesGetIndexTemplateResponse,
-  IndicesGetIndexTemplateError,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IndicesGetIndexTemplateRequest,
-  output: IndicesGetIndexTemplateResponse,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IndicesGetIndexTemplate1Error = ElasticsearchOpError;
-/** Get index templates Get information about one or more index templates. ## Required authorization * Cluster privileges: `manage_index_templates` */
-export const indicesGetIndexTemplate1: API.OperationMethod<
-  IndicesGetIndexTemplate1Request,
-  IndicesGetIndexTemplate1Response,
-  IndicesGetIndexTemplate1Error,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IndicesGetIndexTemplate1Request,
-  output: IndicesGetIndexTemplate1Response,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
 export type IndicesGetMappingError = ElasticsearchOpError;
 /** Get mapping definitions For data streams, the API retrieves mappings for the stream’s backing indices. ## Required authorization * Index privileges: `view_index_metadata` */
 export const indicesGetMapping: API.OperationMethod<
@@ -106480,36 +106477,6 @@ export const indicesPutDataStreamSettings: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type IndicesPutIndexTemplateError = ElasticsearchOpError;
-/** Create or update an index template Index templates define settings, mappings, and aliases that can be applied automatically to new indices. Elasticsearch applies templates to new indices based on an wildcard pattern that matches the index name. Index templates are applied during data stream or index creation. For data streams, these settings and mappings are applied when the stream's backing indices are created. Settings and mappings specified in a create index API request override any settings or mappings specified in an index template. Changes to index templates do not affect existing indices, including the existing backing indices of a data stream. You can use C-style `/* *\/` block comments in index templates. You can include comments anywhere in the request body, except before the opening curly bracket. **Multiple matching templates** If multiple index templates match the name of a new index or data stream, the template with the highest priority is used. Multiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities. **Composing aliases, mappings, and settings** When multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates. Any mappings, settings, or aliases from the parent index template are merged in next. Finally, any configuration on the index request itself is merged. Mapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration. If a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one. This recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`. If an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end. If an entry already exists with the same key, then it is overwritten by the new definition. ## Required authorization * Cluster privileges: `manage_index_templates` */
-export const indicesPutIndexTemplate: API.OperationMethod<
-  IndicesPutIndexTemplateRequest,
-  TypesAcknowledgedResponseBase,
-  IndicesPutIndexTemplateError,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IndicesPutIndexTemplateRequest,
-  output: TypesAcknowledgedResponseBase,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
-export type IndicesPutIndexTemplate1Error = ElasticsearchOpError;
-/** Create or update an index template Index templates define settings, mappings, and aliases that can be applied automatically to new indices. Elasticsearch applies templates to new indices based on an wildcard pattern that matches the index name. Index templates are applied during data stream or index creation. For data streams, these settings and mappings are applied when the stream's backing indices are created. Settings and mappings specified in a create index API request override any settings or mappings specified in an index template. Changes to index templates do not affect existing indices, including the existing backing indices of a data stream. You can use C-style `/* *\/` block comments in index templates. You can include comments anywhere in the request body, except before the opening curly bracket. **Multiple matching templates** If multiple index templates match the name of a new index or data stream, the template with the highest priority is used. Multiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities. **Composing aliases, mappings, and settings** When multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates. Any mappings, settings, or aliases from the parent index template are merged in next. Finally, any configuration on the index request itself is merged. Mapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration. If a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one. This recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`. If an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end. If an entry already exists with the same key, then it is overwritten by the new definition. ## Required authorization * Cluster privileges: `manage_index_templates` */
-export const indicesPutIndexTemplate1: API.OperationMethod<
-  IndicesPutIndexTemplate1Request,
-  TypesAcknowledgedResponseBase,
-  IndicesPutIndexTemplate1Error,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: IndicesPutIndexTemplate1Request,
-  output: TypesAcknowledgedResponseBase,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
 export type IndicesPutMappingError = ElasticsearchOpError;
 /** Update field mappings Add new fields to an existing data stream or index. You can use the update mapping API to: - Add a new field to an existing index - Update mappings for multiple indices in a single request - Add new properties to an object field - Enable multi-fields for an existing field - Update supported mapping parameters - Change a field's mapping using reindexing - Rename a field using a field alias Learn how to use the update mapping API with practical examples in the [Update mapping API examples](https://www.elastic.co/docs/manage-data/data-store/mapping/update-mappings-examples) guide. ## Required authorization * Index privileges: `manage` */
 export const indicesPutMapping: API.OperationMethod<
@@ -106715,6 +106682,21 @@ export const indicesResolveCluster1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: IndicesResolveCluster1Request,
   output: IndicesResolveCluster1Response,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type IndicesResolveIndexError = ElasticsearchOpError;
+/** Resolve indices Resolve the names and/or index patterns for indices, aliases, and data streams. Multiple patterns and remote clusters are supported. ## Required authorization * Index privileges: `view_index_metadata` */
+export const indicesResolveIndex: API.OperationMethod<
+  IndicesResolveIndexRequest,
+  IndicesResolveIndexResponse,
+  IndicesResolveIndexError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: IndicesResolveIndexRequest,
+  output: IndicesResolveIndexResponse,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
@@ -108155,21 +108137,6 @@ export const listConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListConnectorSyncJobRequest,
   output: ListConnectorSyncJobResponse,
-  errors: [UnknownElasticsearchError],
-  protocol: ElasticsearchProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListIndicesResolveError = ElasticsearchOpError;
-/** Resolve indices Resolve the names and/or index patterns for indices, aliases, and data streams. Multiple patterns and remote clusters are supported. ## Required authorization * Index privileges: `view_index_metadata` */
-export const listIndicesResolve: API.OperationMethod<
-  ListIndicesResolveRequest,
-  ListIndicesResolveResponse,
-  ListIndicesResolveError,
-  ElasticsearchOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListIndicesResolveRequest,
-  output: ListIndicesResolveResponse,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
@@ -110540,6 +110507,36 @@ export const putConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: PutConnectorRequest,
   output: PutConnectorResponse,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutIndexTemplateError = ElasticsearchOpError;
+/** Create or update an index template Index templates define settings, mappings, and aliases that can be applied automatically to new indices. Elasticsearch applies templates to new indices based on an wildcard pattern that matches the index name. Index templates are applied during data stream or index creation. For data streams, these settings and mappings are applied when the stream's backing indices are created. Settings and mappings specified in a create index API request override any settings or mappings specified in an index template. Changes to index templates do not affect existing indices, including the existing backing indices of a data stream. You can use C-style `/* *\/` block comments in index templates. You can include comments anywhere in the request body, except before the opening curly bracket. **Multiple matching templates** If multiple index templates match the name of a new index or data stream, the template with the highest priority is used. Multiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities. **Composing aliases, mappings, and settings** When multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates. Any mappings, settings, or aliases from the parent index template are merged in next. Finally, any configuration on the index request itself is merged. Mapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration. If a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one. This recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`. If an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end. If an entry already exists with the same key, then it is overwritten by the new definition. ## Required authorization * Cluster privileges: `manage_index_templates` */
+export const putIndexTemplate: API.OperationMethod<
+  PutIndexTemplateRequest,
+  TypesAcknowledgedResponseBase,
+  PutIndexTemplateError,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutIndexTemplateRequest,
+  output: TypesAcknowledgedResponseBase,
+  errors: [UnknownElasticsearchError],
+  protocol: ElasticsearchProtocol,
+  retry: Retry.Retry,
+}));
+
+export type PutIndexTemplate1Error = ElasticsearchOpError;
+/** Create or update an index template Index templates define settings, mappings, and aliases that can be applied automatically to new indices. Elasticsearch applies templates to new indices based on an wildcard pattern that matches the index name. Index templates are applied during data stream or index creation. For data streams, these settings and mappings are applied when the stream's backing indices are created. Settings and mappings specified in a create index API request override any settings or mappings specified in an index template. Changes to index templates do not affect existing indices, including the existing backing indices of a data stream. You can use C-style `/* *\/` block comments in index templates. You can include comments anywhere in the request body, except before the opening curly bracket. **Multiple matching templates** If multiple index templates match the name of a new index or data stream, the template with the highest priority is used. Multiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities. **Composing aliases, mappings, and settings** When multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates. Any mappings, settings, or aliases from the parent index template are merged in next. Finally, any configuration on the index request itself is merged. Mapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration. If a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one. This recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`. If an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end. If an entry already exists with the same key, then it is overwritten by the new definition. ## Required authorization * Cluster privileges: `manage_index_templates` */
+export const putIndexTemplate1: API.OperationMethod<
+  PutIndexTemplate1Request,
+  TypesAcknowledgedResponseBase,
+  PutIndexTemplate1Error,
+  ElasticsearchOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: PutIndexTemplate1Request,
+  output: TypesAcknowledgedResponseBase,
   errors: [UnknownElasticsearchError],
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,

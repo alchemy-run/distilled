@@ -680,6 +680,31 @@ export const CreateDbaasLogOutputOpensearchAliasRequest =
     identifier: "CreateDbaasLogOutputOpensearchAliasRequest",
   }) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasRequest>;
 
+export interface CreateDbaasLogOutputOpensearchAliasIndexRequest {
+  /** Service name */
+  serviceName: string;
+  /** Alias ID */
+  aliasId: string;
+  /** Index ID */
+  indexId: string;
+}
+export const CreateDbaasLogOutputOpensearchAliasIndexRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      serviceName: S.String.pipe(T.Label()),
+      aliasId: S.String.pipe(T.Label()),
+      indexId: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/dbaas/logs/{serviceName}/output/opensearch/alias/{aliasId}/index",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateDbaasLogOutputOpensearchAliasIndexRequest",
+  }) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasIndexRequest>;
+
 export interface CreateDbaasLogOutputOpensearchAliasStreamRequest {
   /** Service name */
   serviceName: string;
@@ -704,6 +729,37 @@ export const CreateDbaasLogOutputOpensearchAliasStreamRequest =
   ).annotate({
     identifier: "CreateDbaasLogOutputOpensearchAliasStreamRequest",
   }) as any as S.Schema<CreateDbaasLogOutputOpensearchAliasStreamRequest>;
+
+export interface CreateDbaasLogOutputOpensearchIndexRequest {
+  /** Service name */
+  serviceName: string;
+  /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
+  alertNotifyEnabled?: boolean | null;
+  /** Description */
+  description: string;
+  /** Number of shard */
+  nbShard?: number | null;
+  /** Suffix */
+  suffix: string;
+}
+export const CreateDbaasLogOutputOpensearchIndexRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      serviceName: S.String.pipe(T.Label()),
+      alertNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
+      description: S.String,
+      nbShard: S.optional(S.NullOr(S.Number)),
+      suffix: S.String,
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/dbaas/logs/{serviceName}/output/opensearch/index",
+        code: 200,
+      }),
+    ),
+  ).annotate({
+    identifier: "CreateDbaasLogOutputOpensearchIndexRequest",
+  }) as any as S.Schema<CreateDbaasLogOutputOpensearchIndexRequest>;
 
 export interface CreateDbaasLogOutputOpensearchOsdRequest {
   /** Service name */
@@ -834,6 +890,34 @@ export const CreateDbaasLogRolePermissionDashboardRequest =
   ).annotate({
     identifier: "CreateDbaasLogRolePermissionDashboardRequest",
   }) as any as S.Schema<CreateDbaasLogRolePermissionDashboardRequest>;
+
+export interface CreateDbaasLogRolePermissionIndexRequest {
+  /** Service name */
+  serviceName: string;
+  /** Role ID */
+  roleId: string;
+  /** Index ID */
+  indexId: string;
+  /** Permission type */
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+}
+export const CreateDbaasLogRolePermissionIndexRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      serviceName: S.String.pipe(T.Label()),
+      roleId: S.String.pipe(T.Label()),
+      indexId: S.String,
+      permissionType: S.optional(S.NullOr(DbaasLogsPermissionTypeEnum)),
+    }).pipe(
+      T.Http({
+        method: "POST",
+        uri: "/dbaas/logs/{serviceName}/role/{roleId}/permission/index",
+        code: 200,
+      }),
+    ),
+).annotate({
+  identifier: "CreateDbaasLogRolePermissionIndexRequest",
+}) as any as S.Schema<CreateDbaasLogRolePermissionIndexRequest>;
 
 export interface CreateDbaasLogRolePermissionOsdRequest {
   /** Service name */
@@ -4456,89 +4540,6 @@ export const ListDbaasLogsResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListDbaasLogsResponse",
 }) as any as S.Schema<ListDbaasLogsResponse>;
 
-export interface ListDbaasLogsOutputOpensearchRequest {
-  /** Service name */
-  serviceName: string;
-  /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
-  /** Description */
-  description: string;
-  /** Number of shard */
-  nbShard?: number | null;
-  /** Suffix */
-  suffix: string;
-}
-export const ListDbaasLogsOutputOpensearchRequest = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      serviceName: S.String.pipe(T.Label()),
-      alertNotifyEnabled: S.optional(S.NullOr(S.Boolean)),
-      description: S.String,
-      nbShard: S.optional(S.NullOr(S.Number)),
-      suffix: S.String,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/dbaas/logs/{serviceName}/output/opensearch/index",
-        code: 200,
-      }),
-    ),
-).annotate({
-  identifier: "ListDbaasLogsOutputOpensearchRequest",
-}) as any as S.Schema<ListDbaasLogsOutputOpensearchRequest>;
-
-export interface ListDbaasLogsOutputOpensearchAliasRequest {
-  /** Service name */
-  serviceName: string;
-  /** Alias ID */
-  aliasId: string;
-  /** Index ID */
-  indexId: string;
-}
-export const ListDbaasLogsOutputOpensearchAliasRequest =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      serviceName: S.String.pipe(T.Label()),
-      aliasId: S.String.pipe(T.Label()),
-      indexId: S.String,
-    }).pipe(
-      T.Http({
-        method: "POST",
-        uri: "/dbaas/logs/{serviceName}/output/opensearch/alias/{aliasId}/index",
-        code: 200,
-      }),
-    ),
-  ).annotate({
-    identifier: "ListDbaasLogsOutputOpensearchAliasRequest",
-  }) as any as S.Schema<ListDbaasLogsOutputOpensearchAliasRequest>;
-
-export interface ListDbaasLogsRolePermissionRequest {
-  /** Service name */
-  serviceName: string;
-  /** Role ID */
-  roleId: string;
-  /** Index ID */
-  indexId: string;
-  /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
-}
-export const ListDbaasLogsRolePermissionRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    serviceName: S.String.pipe(T.Label()),
-    roleId: S.String.pipe(T.Label()),
-    indexId: S.String,
-    permissionType: S.optional(S.NullOr(DbaasLogsPermissionTypeEnum)),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/dbaas/logs/{serviceName}/role/{roleId}/permission/index",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "ListDbaasLogsRolePermissionRequest",
-}) as any as S.Schema<ListDbaasLogsRolePermissionRequest>;
-
 export interface ListDbaasLogTokenRequest {
   /** Service name */
   serviceName: string;
@@ -5448,6 +5449,25 @@ export const createDbaasLogOutputOpensearchAlias: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateDbaasLogOutputOpensearchAliasIndexError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | OvhOpError;
+/** Attach a OpenSearch index to specified OpenSearch alias */
+export const createDbaasLogOutputOpensearchAliasIndex: API.OperationMethod<
+  CreateDbaasLogOutputOpensearchAliasIndexRequest,
+  DbaasLogsOperation,
+  CreateDbaasLogOutputOpensearchAliasIndexError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDbaasLogOutputOpensearchAliasIndexRequest,
+  output: DbaasLogsOperation,
+  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateDbaasLogOutputOpensearchAliasStreamError =
   | Forbidden
   | NotFound
@@ -5462,6 +5482,25 @@ export const createDbaasLogOutputOpensearchAliasStream: API.OperationMethod<
   input: CreateDbaasLogOutputOpensearchAliasStreamRequest,
   output: DbaasLogsOperation,
   errors: [Forbidden, NotFound, UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateDbaasLogOutputOpensearchIndexError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | OvhOpError;
+/** Register a new OpenSearch index */
+export const createDbaasLogOutputOpensearchIndex: API.OperationMethod<
+  CreateDbaasLogOutputOpensearchIndexRequest,
+  DbaasLogsOperation,
+  CreateDbaasLogOutputOpensearchIndexError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDbaasLogOutputOpensearchIndexRequest,
+  output: DbaasLogsOperation,
+  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
 }));
@@ -5550,6 +5589,25 @@ export const createDbaasLogRolePermissionDashboard: API.OperationMethod<
   OvhOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateDbaasLogRolePermissionDashboardRequest,
+  output: DbaasLogsOperation,
+  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
+  protocol: OvhProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreateDbaasLogRolePermissionIndexError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | OvhOpError;
+/** Append a elasticsearch index permission to role */
+export const createDbaasLogRolePermissionIndex: API.OperationMethod<
+  CreateDbaasLogRolePermissionIndexRequest,
+  DbaasLogsOperation,
+  CreateDbaasLogRolePermissionIndexError,
+  OvhOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateDbaasLogRolePermissionIndexRequest,
   output: DbaasLogsOperation,
   errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
@@ -6892,63 +6950,6 @@ export const listDbaasLogs: API.OperationMethod<
   input: ListDbaasLogsRequest,
   output: ListDbaasLogsResponse,
   errors: [UnknownOvhError],
-  protocol: OvhProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListDbaasLogsOutputOpensearchError =
-  | Forbidden
-  | NotFound
-  | Conflict
-  | OvhOpError;
-/** Register a new OpenSearch index */
-export const listDbaasLogsOutputOpensearch: API.OperationMethod<
-  ListDbaasLogsOutputOpensearchRequest,
-  DbaasLogsOperation,
-  ListDbaasLogsOutputOpensearchError,
-  OvhOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListDbaasLogsOutputOpensearchRequest,
-  output: DbaasLogsOperation,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
-  protocol: OvhProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListDbaasLogsOutputOpensearchAliasError =
-  | Forbidden
-  | NotFound
-  | Conflict
-  | OvhOpError;
-/** Attach a OpenSearch index to specified OpenSearch alias */
-export const listDbaasLogsOutputOpensearchAlias: API.OperationMethod<
-  ListDbaasLogsOutputOpensearchAliasRequest,
-  DbaasLogsOperation,
-  ListDbaasLogsOutputOpensearchAliasError,
-  OvhOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListDbaasLogsOutputOpensearchAliasRequest,
-  output: DbaasLogsOperation,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
-  protocol: OvhProtocol,
-  retry: Retry.Retry,
-}));
-
-export type ListDbaasLogsRolePermissionError =
-  | Forbidden
-  | NotFound
-  | Conflict
-  | OvhOpError;
-/** Append a elasticsearch index permission to role */
-export const listDbaasLogsRolePermission: API.OperationMethod<
-  ListDbaasLogsRolePermissionRequest,
-  DbaasLogsOperation,
-  ListDbaasLogsRolePermissionError,
-  OvhOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: ListDbaasLogsRolePermissionRequest,
-  output: DbaasLogsOperation,
-  errors: [Forbidden, NotFound, Conflict, UnknownOvhError],
   protocol: OvhProtocol,
   retry: Retry.Retry,
 }));
