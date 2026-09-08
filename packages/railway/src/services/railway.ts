@@ -78,7 +78,7 @@ export const AddAccessGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation accessGroupMemberAdd($input: AccessGroupMemberInput!) {\n  accessGroupMemberAdd(input: $input) {\n    accessGroup {\n      createdAt\n      id\n      name\n      role\n      source\n      updatedAt\n      workspaceId\n    }\n    accessGroupId\n    createdAt\n    id\n    updatedAt\n    user {\n      agreedFairUse\n      avatar\n      banReason\n      createdAt\n      email\n      featureFlags\n      flags\n      githubProviderId\n      githubUsername\n      has2FA\n      hasPasskeys\n      id\n      isAdmin\n      isConductor\n      isVerified\n      lastLogin\n      name\n      platformFeatureFlags\n      registrationStatus\n      riskLevel\n      termsAgreedOn\n      username\n    }\n    userId\n  }\n}",
+          "mutation accessGroupMemberAdd($input: AccessGroupMemberInput!) {\n  accessGroupMemberAdd(input: $input) {\n    accessGroup {\n      createdAt\n      id\n      name\n      role\n      source\n      updatedAt\n      workspaceId\n    }\n    accessGroupId\n    createdAt\n    id\n    updatedAt\n    user {\n      agreedFairUse\n      avatar\n      banReason\n      createdAt\n      email\n      featureFlags\n      flags\n      githubProviderId\n      githubUsername\n      has2FA\n      hasPasskeys\n      id\n      isAdmin\n      isConductor\n      isVerified\n      lastLogin\n      name\n      registrationStatus\n      riskLevel\n      termsAgreedOn\n      username\n    }\n    userId\n  }\n}",
         operationName: "accessGroupMemberAdd",
         type: "mutation",
       }),
@@ -122,6 +122,7 @@ export type ActiveFeatureFlag =
   | "CLOUD_AGENTS"
   | "CLOUD_AGENT_CHAT"
   | "DEBUG_SMART_DIAGNOSIS"
+  | "EMAIL_FORWARDING"
   | "IN_DASHBOARD_SUPPORT"
   | "MAGIC_CONFIG"
   | "MYSQL_PITR"
@@ -129,6 +130,7 @@ export type ActiveFeatureFlag =
   | "PROJECT_FAVORITES"
   | "PROJECT_SANDBOXES"
   | "TEMPLATE_CHAT"
+  | "USAGE_INSIGHTS"
   | "VM_STORAGE_TRACES";
 export const ActiveFeatureFlag = /*@__PURE__*/ S.String;
 
@@ -146,51 +148,6 @@ export type AddAccessGroupMemberResponseUserFlagsList = Array<UserFlag>;
 export const AddAccessGroupMemberResponseUserFlagsList = /*@__PURE__*/ S.Array(
   UserFlag,
 ) as any as S.Schema<AddAccessGroupMemberResponseUserFlagsList>;
-
-export type ActivePlatformFlag =
-  | "AGENT_USAGE_CH_INGEST"
-  | "AGENT_USAGE_WARNINGS"
-  | "ALERT_SUS_USERS_CRON_KILLSWITCH"
-  | "BUILD_DEPLOY_QUEUE_V2"
-  | "CAC_T0_KILLSWITCH"
-  | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
-  | "CHAT_SANDBOX"
-  | "CLICKHOUSE_WORKSPACE_LIMIT_ENFORCE"
-  | "CS_MCP"
-  | "CTRD_IMAGE_STORE_ROLLOUT"
-  | "DEFAULT_USAGE_ALERTS"
-  | "DEMO_PERCENTAGE_ROLLOUT"
-  | "DEPLOYMENT_DIAGNOSIS_KILLSWITCH"
-  | "DEPLOY_SUPERSEDE_ON_PUSH"
-  | "DEV_STUDIO"
-  | "DEV_STUDIO_ANON_PROVISIONS"
-  | "DOMAIN_RECONCILE_KILLSWITCH"
-  | "IN_DASHBOARD_SUPPORT"
-  | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
-  | "LOGS_LONG_WINDOW_CHUNKING"
-  | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
-  | "OAUTH_DCR_KILLSWITCH"
-  | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
-  | "PROJECT_FAVORITES"
-  | "REMOVE_DEPLOYMENT_COMPACT"
-  | "RESTRICTION_APPEALS"
-  | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
-  | "SPLIT_USAGE_QUERIES"
-  | "STRIPE_METERS_NEW_ACCOUNTS"
-  | "STRIPE_METERS_SHADOW_ENABLED"
-  | "UPDATED_VM_QUERIES"
-  | "USAGE_CH_READ"
-  | "VM_COUPON_MIGRATION"
-  | "VM_USAGE_CH_INGEST"
-  | "WORKSPACE_MCP_KILLSWITCH";
-export const ActivePlatformFlag = /*@__PURE__*/ S.String;
-
-export type AddAccessGroupMemberResponseUserPlatformFeatureFlagsList =
-  Array<ActivePlatformFlag>;
-export const AddAccessGroupMemberResponseUserPlatformFeatureFlagsList =
-  /*@__PURE__*/ S.Array(
-    ActivePlatformFlag,
-  ) as any as S.Schema<AddAccessGroupMemberResponseUserPlatformFeatureFlagsList>;
 
 export type RegistrationStatus = "ONBOARDED" | "REGISTERED" | "WAITLISTED";
 export const RegistrationStatus = /*@__PURE__*/ S.String;
@@ -213,7 +170,6 @@ export interface AddAccessGroupMemberResponseUser {
   isVerified: boolean;
   lastLogin: string;
   name: string | null;
-  platformFeatureFlags: AddAccessGroupMemberResponseUserPlatformFeatureFlagsList;
   registrationStatus: RegistrationStatus;
   riskLevel: number | null;
   termsAgreedOn: string | null;
@@ -238,8 +194,6 @@ export const AddAccessGroupMemberResponseUser = /*@__PURE__*/ S.suspend(() =>
     isVerified: S.Boolean,
     lastLogin: S.String,
     name: S.NullOr(S.String),
-    platformFeatureFlags:
-      AddAccessGroupMemberResponseUserPlatformFeatureFlagsList,
     registrationStatus: RegistrationStatus,
     riskLevel: S.NullOr(S.Number),
     termsAgreedOn: S.NullOr(S.String),
@@ -664,7 +618,7 @@ export const AgentUsageRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query agentUsage($workspaceId: String!) {\n  agentUsage(workspaceId: $workspaceId) {\n    billingPeriodEnd\n    hardLimitCents\n    softLimitCents\n    totalUsedCents\n    usageRemaining\n  }\n}",
+          "query agentUsage($workspaceId: String!) {\n  agentUsage(workspaceId: $workspaceId) {\n    billingPeriodEnd\n    hardLimitCents\n    hasCustomHardLimit\n    softLimitCents\n    totalUsedCents\n    usageRemaining\n  }\n}",
         operationName: "agentUsage",
         type: "query",
       }),
@@ -677,6 +631,7 @@ export const AgentUsageRequest = /*@__PURE__*/ S.suspend(() =>
 export interface AgentUsageResponse {
   billingPeriodEnd: string;
   hardLimitCents: number | null;
+  hasCustomHardLimit: boolean | null;
   softLimitCents: number | null;
   totalUsedCents: number;
   usageRemaining: number | null;
@@ -685,6 +640,7 @@ export const AgentUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     billingPeriodEnd: S.String,
     hardLimitCents: S.NullOr(S.Number),
+    hasCustomHardLimit: S.NullOr(S.Boolean),
     softLimitCents: S.NullOr(S.Number),
     totalUsedCents: S.Number,
     usageRemaining: S.NullOr(S.Number),
@@ -727,6 +683,7 @@ export type PlatformFeatureFlag =
   | "DEV_STUDIO"
   | "DEV_STUDIO_ANON_PROVISIONS"
   | "DOMAIN_RECONCILE_KILLSWITCH"
+  | "EMAIL_FORWARDING_KILLSWITCH"
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
@@ -734,15 +691,16 @@ export type PlatformFeatureFlag =
   | "OAUTH_DCR_KILLSWITCH"
   | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
   | "PROJECT_FAVORITES"
+  | "PROJECT_HISTORY_DUAL_WRITE"
+  | "PROJECT_HISTORY_READ_FROM_CH"
   | "REMOVE_DEPLOYMENT_COMPACT"
   | "RESTRICTION_APPEALS"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "STRIPE_METERS_NEW_ACCOUNTS"
   | "STRIPE_METERS_SHADOW_ENABLED"
+  | "UNIFIED_TOKENS_AUTHORIZATION_SHADOW"
   | "UPDATED_VM_QUERIES"
-  | "USAGE_CH_READ"
-  | "VM_COUPON_MIGRATION"
   | "VM_USAGE_CH_INGEST"
   | "WORKSPACE_MCP_KILLSWITCH";
 export const PlatformFeatureFlag = /*@__PURE__*/ S.String;
@@ -1817,7 +1775,7 @@ export const ClaimProjectRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation projectClaim($id: String!, $workspaceId: String!) {\n  projectClaim(id: $id, workspaceId: $workspaceId) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation projectClaim($id: String!, $workspaceId: String!) {\n  projectClaim(id: $id, workspaceId: $workspaceId) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "projectClaim",
         type: "mutation",
       }),
@@ -1862,9 +1820,6 @@ export const ClaimProjectResponseMembersList = /*@__PURE__*/ S.Array(
   ClaimProjectResponseMembersItem,
 ) as any as S.Schema<ClaimProjectResponseMembersList>;
 
-export type SupportTierOverride = "BUSINESS_CLASS" | "BUSINESS_CLASS_TRIAL";
-export const SupportTierOverride = /*@__PURE__*/ S.String;
-
 export interface ClaimProjectResponseTeam {
   adoptionLevel: number;
   avatar: string | null;
@@ -1873,7 +1828,6 @@ export interface ClaimProjectResponseTeam {
   name: string;
   preferredRegion: string | null;
   slackChannelId: string | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
 }
 export const ClaimProjectResponseTeam = /*@__PURE__*/ S.suspend(() =>
@@ -1885,7 +1839,6 @@ export const ClaimProjectResponseTeam = /*@__PURE__*/ S.suspend(() =>
     name: S.String,
     preferredRegion: S.NullOr(S.String),
     slackChannelId: S.NullOr(S.String),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
   }),
 ).annotate({
@@ -1925,7 +1878,6 @@ export interface ClaimProjectResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: ClaimProjectResponseWorkspaceUsersWithout2FAList;
 }
@@ -1951,7 +1903,6 @@ export const ClaimProjectResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: ClaimProjectResponseWorkspaceUsersWithout2FAList,
   }),
@@ -3461,7 +3412,7 @@ export const CreateAccessGroupRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation accessGroupCreate($input: AccessGroupCreateInput!) {\n  accessGroupCreate(input: $input) {\n    createdAt\n    id\n    name\n    role\n    source\n    updatedAt\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation accessGroupCreate($input: AccessGroupCreateInput!) {\n  accessGroupCreate(input: $input) {\n    createdAt\n    id\n    name\n    role\n    source\n    updatedAt\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "accessGroupCreate",
         type: "mutation",
       }),
@@ -3498,7 +3449,6 @@ export interface CreateAccessGroupResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: CreateAccessGroupResponseWorkspaceUsersWithout2FAList;
 }
@@ -3524,7 +3474,6 @@ export const CreateAccessGroupResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: CreateAccessGroupResponseWorkspaceUsersWithout2FAList,
   }),
@@ -4760,7 +4709,7 @@ export const CreateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation projectCreate($input: ProjectCreateInput!) {\n  projectCreate(input: $input) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation projectCreate($input: ProjectCreateInput!) {\n  projectCreate(input: $input) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "projectCreate",
         type: "mutation",
       }),
@@ -4819,7 +4768,6 @@ export interface CreateProjectResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: CreateProjectResponseWorkspaceUsersWithout2FAList;
 }
@@ -4845,7 +4793,6 @@ export const CreateProjectResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: CreateProjectResponseWorkspaceUsersWithout2FAList,
   }),
@@ -5110,8 +5057,82 @@ export const CreateRailwayDomainDnsRecordResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateRailwayDomainDnsRecordResponse",
 }) as any as S.Schema<CreateRailwayDomainDnsRecordResponse>;
 
+export interface RailwayDomainEmailForwardingRuleCreateInput {
+  alias: string;
+  destination: string;
+  domain: string;
+  workspaceId: string;
+}
+export const RailwayDomainEmailForwardingRuleCreateInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      destination: S.String,
+      domain: S.String,
+      workspaceId: S.String,
+    }),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRuleCreateInput",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRuleCreateInput>;
+
+export interface CreateRailwayDomainEmailForwardingRuleRequest {
+  input: RailwayDomainEmailForwardingRuleCreateInput;
+}
+export const CreateRailwayDomainEmailForwardingRuleRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      input: RailwayDomainEmailForwardingRuleCreateInput,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "mutation railwayDomainEmailForwardingRuleCreate($input: RailwayDomainEmailForwardingRuleCreateInput!) {\n  railwayDomainEmailForwardingRuleCreate(input: $input) {\n    alias\n    destination\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRuleCreate",
+          type: "mutation",
+        }),
+      ),
+  ).annotate({
+    identifier: "CreateRailwayDomainEmailForwardingRuleRequest",
+  }) as any as S.Schema<CreateRailwayDomainEmailForwardingRuleRequest>;
+
+/** Selection set for `railwayDomainEmailForwardingRuleCreate` (unwrapped from the GraphQL `data` envelope). */
+export interface CreateRailwayDomainEmailForwardingRuleResponse {
+  alias: string;
+  destination: string;
+}
+export const CreateRailwayDomainEmailForwardingRuleResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      destination: S.String,
+    }).pipe(T.ResponsePath("railwayDomainEmailForwardingRuleCreate")),
+  ).annotate({
+    identifier: "CreateRailwayDomainEmailForwardingRuleResponse",
+  }) as any as S.Schema<CreateRailwayDomainEmailForwardingRuleResponse>;
+
 export type SandboxNetworkIsolation = "ISOLATED" | "PRIVATE";
 export const SandboxNetworkIsolation = /*@__PURE__*/ S.String;
+
+export interface SandboxDomainInput {
+  /** Target port on the sandbox, from 1 through 65535. */
+  port: number;
+  /** Optional DNS label prefix for the generated domain. When omitted, a prefix is generated from the project name. Custom prefixes must be lowercase alphanumeric with optional interior hyphens, up to 46 characters. */
+  prefix?: string | null;
+}
+export const SandboxDomainInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    port: S.Number,
+    prefix: S.optional(S.NullOr(S.String)),
+  }),
+).annotate({
+  identifier: "SandboxDomainInput",
+}) as any as S.Schema<SandboxDomainInput>;
+
+export type SandboxDomainInputList = Array<SandboxDomainInput>;
+export const SandboxDomainInputList = /*@__PURE__*/ S.Array(
+  SandboxDomainInput,
+) as any as S.Schema<SandboxDomainInputList>;
 
 export interface SandboxTemplateInput {
   /** Build a template by running these shell instructions on the base image. Mutually exclusive with name. */
@@ -5138,8 +5159,10 @@ export interface SandboxCreateInput {
   environmentId: string;
   /** Minutes of inactivity before the sandbox is destroyed. Any value <= 0 means never idle out (plan-gated). Defaults to the plan's default idle timeout. */
   idleTimeoutMinutes?: number | null;
-  /** Network access for the sandbox. Defaults to ISOLATED (no private network access). */
+  /** Network access for the sandbox. Defaults to ISOLATED (no private network access). Public domains require PRIVATE to be selected explicitly. */
   networkIsolation?: SandboxNetworkIsolation | (string & {}) | null;
+  /** Railway-provided HTTP domains to publish, one per unique prefix and port. Supports up to 10 and requires explicitly selecting PRIVATE networking. Domain prefixes are generated when omitted. */
+  publicDomains?: SandboxDomainInputList | null;
   /** Region to place the sandbox in (e.g. us-west2, us-east4-eqdc4a). Defaults to the platform default region when omitted. */
   region?: string | null;
   /** Fork an existing running sandbox in this environment. Mutually exclusive with template. */
@@ -5153,6 +5176,7 @@ export const SandboxCreateInput = /*@__PURE__*/ S.suspend(() =>
     environmentId: S.String,
     idleTimeoutMinutes: S.optional(S.NullOr(S.Number)),
     networkIsolation: S.optional(S.NullOr(SandboxNetworkIsolation)),
+    publicDomains: S.optional(S.NullOr(SandboxDomainInputList)),
     region: S.optional(S.NullOr(S.String)),
     sourceSandboxId: S.optional(S.NullOr(S.String)),
     template: S.optional(S.NullOr(SandboxTemplateInput)),
@@ -5173,7 +5197,7 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation sandboxCreate($input: SandboxCreateInput!) {\n  sandboxCreate(input: $input) {\n    createdAt\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
+          "mutation sandboxCreate($input: SandboxCreateInput!) {\n  sandboxCreate(input: $input) {\n    createdAt\n    domains {\n      domain\n      port\n      prefix\n    }\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
         operationName: "sandboxCreate",
         type: "mutation",
       }),
@@ -5181,6 +5205,15 @@ export const CreateSandboxRequest = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "CreateSandboxRequest",
 }) as any as S.Schema<CreateSandboxRequest>;
+
+export type CreateSandboxResponseDomainsItem = CloudAgentResponseDomainsItem;
+export const CreateSandboxResponseDomainsItem = CloudAgentResponseDomainsItem;
+
+export type CreateSandboxResponseDomainsList =
+  Array<CloudAgentResponseDomainsItem>;
+export const CreateSandboxResponseDomainsList = /*@__PURE__*/ S.Array(
+  CloudAgentResponseDomainsItem,
+) as any as S.Schema<CreateSandboxResponseDomainsList>;
 
 export type SandboxStatus =
   | "CREATING"
@@ -5193,6 +5226,7 @@ export const SandboxStatus = /*@__PURE__*/ S.String;
 /** Selection set for `sandboxCreate` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateSandboxResponse {
   createdAt: string;
+  domains: CreateSandboxResponseDomainsList;
   environmentId: string;
   id: string;
   idleTimeoutMinutes: number | null;
@@ -5203,6 +5237,7 @@ export interface CreateSandboxResponse {
 export const CreateSandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.String,
+    domains: CreateSandboxResponseDomainsList,
     environmentId: S.String,
     id: S.String,
     idleTimeoutMinutes: S.NullOr(S.Number),
@@ -6710,12 +6745,15 @@ export const DeleteProjectTokenResponse = /*@__PURE__*/ S.suspend(() =>
 export interface RailwayDomainDnsRecordDeleteInput {
   domain: string;
   recordId: number;
+  /** Confirms that deleting a mail exchange may also remove every forwarding address and its sibling exchanges. */
+  removeEmailForwarding?: boolean | null;
   workspaceId: string;
 }
 export const RailwayDomainDnsRecordDeleteInput = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     domain: S.String,
     recordId: S.Number,
+    removeEmailForwarding: S.optional(S.NullOr(S.Boolean)),
     workspaceId: S.String,
   }),
 ).annotate({
@@ -6752,6 +6790,54 @@ export const DeleteRailwayDomainDnsRecordResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeleteRailwayDomainDnsRecordResponse",
 }) as any as S.Schema<DeleteRailwayDomainDnsRecordResponse>;
+
+export interface RailwayDomainEmailForwardingRuleDeleteInput {
+  alias: string;
+  domain: string;
+  workspaceId: string;
+}
+export const RailwayDomainEmailForwardingRuleDeleteInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      domain: S.String,
+      workspaceId: S.String,
+    }),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRuleDeleteInput",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRuleDeleteInput>;
+
+export interface DeleteRailwayDomainEmailForwardingRuleRequest {
+  input: RailwayDomainEmailForwardingRuleDeleteInput;
+}
+export const DeleteRailwayDomainEmailForwardingRuleRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      input: RailwayDomainEmailForwardingRuleDeleteInput,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "mutation railwayDomainEmailForwardingRuleDelete($input: RailwayDomainEmailForwardingRuleDeleteInput!) {\n  railwayDomainEmailForwardingRuleDelete(input: $input) {\n    __typename\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRuleDelete",
+          type: "mutation",
+        }),
+      ),
+  ).annotate({
+    identifier: "DeleteRailwayDomainEmailForwardingRuleRequest",
+  }) as any as S.Schema<DeleteRailwayDomainEmailForwardingRuleRequest>;
+
+export type DeleteRailwayDomainEmailForwardingRuleResponse = boolean;
+export const DeleteRailwayDomainEmailForwardingRuleResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Boolean.pipe(
+      T.GraphQLPayloadRoot(),
+      T.ResponsePath("railwayDomainEmailForwardingRuleDelete"),
+    ),
+  ).annotate({
+    identifier: "DeleteRailwayDomainEmailForwardingRuleResponse",
+  }) as any as S.Schema<DeleteRailwayDomainEmailForwardingRuleResponse>;
 
 export interface DeleteSandboxCheckpointRequest {
   environmentId: string;
@@ -9438,6 +9524,153 @@ export const EnvironmentHasLegacyStaticEgressResponse = /*@__PURE__*/ S.suspend(
   identifier: "EnvironmentHasLegacyStaticEgressResponse",
 }) as any as S.Schema<EnvironmentHasLegacyStaticEgressResponse>;
 
+export interface HistoryFilterInput {
+  actions?: StringList | null;
+  objects?: StringList | null;
+  /** Any of '', 'applied', 'failed'. */
+  outcomes?: StringList | null;
+  serviceIds?: StringList | null;
+}
+export const HistoryFilterInput = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    actions: S.optional(S.NullOr(StringList)),
+    objects: S.optional(S.NullOr(StringList)),
+    outcomes: S.optional(S.NullOr(StringList)),
+    serviceIds: S.optional(S.NullOr(StringList)),
+  }),
+).annotate({
+  identifier: "HistoryFilterInput",
+}) as any as S.Schema<HistoryFilterInput>;
+
+export interface EnvironmentHistoryRequest {
+  after?: string | null;
+  environmentId: string;
+  filter?: HistoryFilterInput | null;
+  first?: number | null;
+}
+export const EnvironmentHistoryRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    after: S.optional(S.NullOr(S.String)),
+    environmentId: S.String,
+    filter: S.optional(S.NullOr(HistoryFilterInput)),
+    first: S.optional(S.NullOr(S.Number)),
+  })
+    .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+    .pipe(
+      T.GraphQLOp({
+        query:
+          "query environmentHistory($after: String, $environmentId: String!, $filter: HistoryFilterInput, $first: Int) {\n  environmentHistory(after: $after, environmentId: $environmentId, filter: $filter, first: $first) {\n    edges {\n      cursor\n      node {\n        action\n        activityPayload\n        actor {\n          onBehalfOf\n          principal\n          surface\n        }\n        changes\n        createdAt\n        id\n        object\n        operationKind\n        outcome\n        parentRef\n        payload\n        severity\n        source\n        workflowId\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}",
+        operationName: "environmentHistory",
+        type: "query",
+      }),
+    ),
+).annotate({
+  identifier: "EnvironmentHistoryRequest",
+}) as any as S.Schema<EnvironmentHistoryRequest>;
+
+export interface EnvironmentHistoryResponseEdgesItemNodeActor {
+  onBehalfOf: string | null;
+  principal: string | null;
+  surface: string | null;
+}
+export const EnvironmentHistoryResponseEdgesItemNodeActor =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      onBehalfOf: S.NullOr(S.String),
+      principal: S.NullOr(S.String),
+      surface: S.NullOr(S.String),
+    }),
+  ).annotate({
+    identifier: "EnvironmentHistoryResponseEdgesItemNodeActor",
+  }) as any as S.Schema<EnvironmentHistoryResponseEdgesItemNodeActor>;
+
+export type EventSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
+export const EventSeverity = /*@__PURE__*/ S.String;
+
+export interface EnvironmentHistoryResponseEdgesItemNode {
+  action: string;
+  activityPayload: unknown | null;
+  actor: EnvironmentHistoryResponseEdgesItemNodeActor;
+  changes: unknown;
+  createdAt: string;
+  id: string;
+  object: string;
+  operationKind: string;
+  outcome: string;
+  parentRef: string | null;
+  payload: unknown | null;
+  severity: EventSeverity;
+  source: string;
+  workflowId: string | null;
+}
+export const EnvironmentHistoryResponseEdgesItemNode = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      action: S.String,
+      activityPayload: S.NullOr(S.Unknown),
+      actor: EnvironmentHistoryResponseEdgesItemNodeActor,
+      changes: S.Unknown,
+      createdAt: S.String,
+      id: S.String,
+      object: S.String,
+      operationKind: S.String,
+      outcome: S.String,
+      parentRef: S.NullOr(S.String),
+      payload: S.NullOr(S.Unknown),
+      severity: EventSeverity,
+      source: S.String,
+      workflowId: S.NullOr(S.String),
+    }),
+).annotate({
+  identifier: "EnvironmentHistoryResponseEdgesItemNode",
+}) as any as S.Schema<EnvironmentHistoryResponseEdgesItemNode>;
+
+export interface EnvironmentHistoryResponseEdgesItem {
+  cursor: string;
+  node: EnvironmentHistoryResponseEdgesItemNode;
+}
+export const EnvironmentHistoryResponseEdgesItem = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cursor: S.String,
+    node: EnvironmentHistoryResponseEdgesItemNode,
+  }),
+).annotate({
+  identifier: "EnvironmentHistoryResponseEdgesItem",
+}) as any as S.Schema<EnvironmentHistoryResponseEdgesItem>;
+
+export type EnvironmentHistoryResponseEdgesList =
+  Array<EnvironmentHistoryResponseEdgesItem>;
+export const EnvironmentHistoryResponseEdgesList = /*@__PURE__*/ S.Array(
+  EnvironmentHistoryResponseEdgesItem,
+) as any as S.Schema<EnvironmentHistoryResponseEdgesList>;
+
+export interface EnvironmentHistoryResponsePageInfo {
+  endCursor: string | null;
+  hasNextPage: boolean;
+}
+export const EnvironmentHistoryResponsePageInfo = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    endCursor: S.NullOr(S.String),
+    hasNextPage: S.Boolean,
+  }),
+).annotate({
+  identifier: "EnvironmentHistoryResponsePageInfo",
+}) as any as S.Schema<EnvironmentHistoryResponsePageInfo>;
+
+/** Selection set for `environmentHistory` (unwrapped from the GraphQL `data` envelope). */
+export interface EnvironmentHistoryResponse {
+  edges: EnvironmentHistoryResponseEdgesList;
+  pageInfo: EnvironmentHistoryResponsePageInfo;
+}
+export const EnvironmentHistoryResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    edges: EnvironmentHistoryResponseEdgesList,
+    pageInfo: EnvironmentHistoryResponsePageInfo,
+  }).pipe(T.ResponsePath("environmentHistory")),
+).annotate({
+  identifier: "EnvironmentHistoryResponse",
+}) as any as S.Schema<EnvironmentHistoryResponse>;
+
 export interface EnvironmentLogsRequest {
   /** Latest date to look for logs after the anchor */
   afterDate?: string | null;
@@ -9647,7 +9880,11 @@ export type EnvironmentPatchesResponseEdgesItemNodeEnvironment =
 export const EnvironmentPatchesResponseEdgesItemNodeEnvironment =
   AdminVolumeInstancesForVolumeResultItemEnvironment;
 
-export type EnvironmentPatchStatus = "APPLYING" | "COMMITTED" | "STAGED";
+export type EnvironmentPatchStatus =
+  | "APPLYING"
+  | "COMMITTED"
+  | "FAILED"
+  | "STAGED";
 export const EnvironmentPatchStatus = /*@__PURE__*/ S.String;
 
 export interface EnvironmentPatchesResponseEdgesItemNode {
@@ -9716,6 +9953,66 @@ export const EnvironmentPatchesResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnvironmentPatchesResponse",
 }) as any as S.Schema<EnvironmentPatchesResponse>;
 
+export interface EnvironmentPatchRestageRequest {
+  patchId: string;
+}
+export const EnvironmentPatchRestageRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    patchId: S.String,
+  })
+    .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+    .pipe(
+      T.GraphQLOp({
+        query:
+          "mutation environmentPatchRestage($patchId: String!) {\n  environmentPatchRestage(patchId: $patchId) {\n    appliedAt\n    appliedBy {\n      avatar\n      email\n      id\n      name\n      username\n    }\n    createdAt\n    environment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    environmentId\n    id\n    lastAppliedError\n    message\n    status\n    updatedAt\n  }\n}",
+        operationName: "environmentPatchRestage",
+        type: "mutation",
+      }),
+    ),
+).annotate({
+  identifier: "EnvironmentPatchRestageRequest",
+}) as any as S.Schema<EnvironmentPatchRestageRequest>;
+
+export type EnvironmentPatchRestageResponseAppliedBy =
+  EnvironmentPatchesResponseEdgesItemNodeAppliedBy;
+export const EnvironmentPatchRestageResponseAppliedBy =
+  EnvironmentPatchesResponseEdgesItemNodeAppliedBy;
+
+export type EnvironmentPatchRestageResponseEnvironment =
+  AdminVolumeInstancesForVolumeResultItemEnvironment;
+export const EnvironmentPatchRestageResponseEnvironment =
+  AdminVolumeInstancesForVolumeResultItemEnvironment;
+
+/** Selection set for `environmentPatchRestage` (unwrapped from the GraphQL `data` envelope). */
+export interface EnvironmentPatchRestageResponse {
+  appliedAt: string | null;
+  appliedBy: EnvironmentPatchesResponseEdgesItemNodeAppliedBy | null;
+  createdAt: string;
+  environment: AdminVolumeInstancesForVolumeResultItemEnvironment;
+  environmentId: string;
+  id: string;
+  lastAppliedError: string | null;
+  message: string | null;
+  status: EnvironmentPatchStatus;
+  updatedAt: string;
+}
+export const EnvironmentPatchRestageResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    appliedAt: S.NullOr(S.String),
+    appliedBy: S.NullOr(EnvironmentPatchesResponseEdgesItemNodeAppliedBy),
+    createdAt: S.String,
+    environment: AdminVolumeInstancesForVolumeResultItemEnvironment,
+    environmentId: S.String,
+    id: S.String,
+    lastAppliedError: S.NullOr(S.String),
+    message: S.NullOr(S.String),
+    status: EnvironmentPatchStatus,
+    updatedAt: S.String,
+  }).pipe(T.ResponsePath("environmentPatchRestage")),
+).annotate({
+  identifier: "EnvironmentPatchRestageResponse",
+}) as any as S.Schema<EnvironmentPatchRestageResponse>;
+
 export interface EnvironmentPendingWorkRequest {
   environmentId: string;
 }
@@ -9736,27 +10033,16 @@ export const EnvironmentPendingWorkRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "EnvironmentPendingWorkRequest",
 }) as any as S.Schema<EnvironmentPendingWorkRequest>;
 
-export interface EnvironmentPendingWorkResultItemActor {
-  onBehalfOf: string | null;
-  principal: string | null;
-  surface: string | null;
-}
-export const EnvironmentPendingWorkResultItemActor = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      onBehalfOf: S.NullOr(S.String),
-      principal: S.NullOr(S.String),
-      surface: S.NullOr(S.String),
-    }),
-).annotate({
-  identifier: "EnvironmentPendingWorkResultItemActor",
-}) as any as S.Schema<EnvironmentPendingWorkResultItemActor>;
+export type EnvironmentPendingWorkResultItemActor =
+  EnvironmentHistoryResponseEdgesItemNodeActor;
+export const EnvironmentPendingWorkResultItemActor =
+  EnvironmentHistoryResponseEdgesItemNodeActor;
 
 export type OperationStatus = "applied" | "applying" | "failed" | "staged";
 export const OperationStatus = /*@__PURE__*/ S.String;
 
 export interface EnvironmentPendingWorkResultItem {
-  actor: EnvironmentPendingWorkResultItemActor;
+  actor: EnvironmentHistoryResponseEdgesItemNodeActor;
   changes: unknown;
   environmentId: string;
   finishedAt: string | null;
@@ -9769,7 +10055,7 @@ export interface EnvironmentPendingWorkResultItem {
 }
 export const EnvironmentPendingWorkResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    actor: EnvironmentPendingWorkResultItemActor,
+    actor: EnvironmentHistoryResponseEdgesItemNodeActor,
     changes: S.Unknown,
     environmentId: S.String,
     finishedAt: S.NullOr(S.String),
@@ -10226,9 +10512,6 @@ export const EventsResponseEdgesItemNodeProject = /*@__PURE__*/ S.suspend(() =>
   identifier: "EventsResponseEdgesItemNodeProject",
 }) as any as S.Schema<EventsResponseEdgesItemNodeProject>;
 
-export type EventSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
-export const EventSeverity = /*@__PURE__*/ S.String;
-
 export interface EventsResponseEdgesItemNode {
   action: string;
   activityPayload: unknown | null;
@@ -10350,7 +10633,7 @@ export const ExternalWorkspacesRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query externalWorkspaces($projectId: String) {\n  externalWorkspaces(projectId: $projectId) {\n    allowDeprecatedRegions\n    avatar\n    banReason\n    createdAt\n    currentSessionHasAccess\n    customerId\n    customerState\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasBAA\n    hasGuardrailsAccess\n    hasRBAC\n    hasSAML\n    id\n    isTrialing\n    name\n    plan\n    preferredRegion\n    projects {\n      baseEnvironmentId\n      botPrEnvironments\n      createdAt\n      deletedAt\n      description\n      expiredAt\n      featureFlags\n      focusedPrEnvironments\n      id\n      isPublic\n      isTempProject\n      name\n      prDeploys\n      primaryEnvironmentId\n      subscriptionPlanLimit\n      subscriptionType\n      teamId\n      updatedAt\n      viewerRole\n      workspaceId\n    }\n    redactedDueTo2FAPending\n    subscriptionPlanLimit\n    supportTierOverride\n    teamId\n  }\n}",
+          "query externalWorkspaces($projectId: String) {\n  externalWorkspaces(projectId: $projectId) {\n    allowDeprecatedRegions\n    avatar\n    banReason\n    createdAt\n    currentSessionHasAccess\n    customerId\n    customerState\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasBAA\n    hasGuardrailsAccess\n    hasRBAC\n    hasSAML\n    id\n    isTrialing\n    name\n    plan\n    preferredRegion\n    projects {\n      baseEnvironmentId\n      botPrEnvironments\n      createdAt\n      deletedAt\n      description\n      expiredAt\n      featureFlags\n      focusedPrEnvironments\n      id\n      isPublic\n      isTempProject\n      name\n      prDeploys\n      primaryEnvironmentId\n      subscriptionPlanLimit\n      subscriptionType\n      teamId\n      updatedAt\n      viewerRole\n      workspaceId\n    }\n    redactedDueTo2FAPending\n    subscriptionPlanLimit\n    teamId\n  }\n}",
         operationName: "externalWorkspaces",
         type: "query",
       }),
@@ -10453,7 +10736,6 @@ export interface ExternalWorkspacesResultItem {
   projects: ExternalWorkspacesResultItemProjectsList;
   redactedDueTo2FAPending: boolean;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: string | null;
   teamId: string | null;
 }
 export const ExternalWorkspacesResultItem = /*@__PURE__*/ S.suspend(() =>
@@ -10480,7 +10762,6 @@ export const ExternalWorkspacesResultItem = /*@__PURE__*/ S.suspend(() =>
     projects: ExternalWorkspacesResultItemProjectsList,
     redactedDueTo2FAPending: S.Boolean,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(S.String),
     teamId: S.NullOr(S.String),
   }),
 ).annotate({
@@ -12143,7 +12424,7 @@ export const InviteCodeUseRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation inviteCodeUse($code: String!) {\n  inviteCodeUse(code: $code) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation inviteCodeUse($code: String!) {\n  inviteCodeUse(code: $code) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "inviteCodeUse",
         type: "mutation",
       }),
@@ -12202,7 +12483,6 @@ export interface InviteCodeUseResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: InviteCodeUseResponseWorkspaceUsersWithout2FAList;
 }
@@ -12228,7 +12508,6 @@ export const InviteCodeUseResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: InviteCodeUseResponseWorkspaceUsersWithout2FAList,
   }),
@@ -12658,7 +12937,7 @@ export const MeRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query me {\n  me {\n    agreedFairUse\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    email\n    featureFlags\n    flags\n    githubProviderId\n    githubUsername\n    has2FA\n    hasPasskeys\n    id\n    isAdmin\n    isConductor\n    isVerified\n    lastLogin\n    name\n    platformFeatureFlags\n    profile {\n      bio\n      isPublic\n      website\n    }\n    registrationStatus\n    riskLevel\n    termsAgreedOn\n    username\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaces {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n  }\n}",
+          "query me {\n  me {\n    agreedFairUse\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    email\n    featureFlags\n    flags\n    githubProviderId\n    githubUsername\n    has2FA\n    hasPasskeys\n    id\n    isAdmin\n    isConductor\n    isVerified\n    lastLogin\n    name\n    profile {\n      bio\n      isPublic\n      website\n    }\n    registrationStatus\n    riskLevel\n    termsAgreedOn\n    username\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaces {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n  }\n}",
         operationName: "me",
         type: "query",
       }),
@@ -12687,11 +12966,6 @@ export type MeResponseFlagsList = Array<UserFlag>;
 export const MeResponseFlagsList = /*@__PURE__*/ S.Array(
   UserFlag,
 ) as any as S.Schema<MeResponseFlagsList>;
-
-export type MeResponsePlatformFeatureFlagsList = Array<ActivePlatformFlag>;
-export const MeResponsePlatformFeatureFlagsList = /*@__PURE__*/ S.Array(
-  ActivePlatformFlag,
-) as any as S.Schema<MeResponsePlatformFeatureFlagsList>;
 
 export interface MeResponseProfile {
   bio: string | null;
@@ -12734,7 +13008,6 @@ export interface MeResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: MeResponseWorkspaceUsersWithout2FAList;
 }
@@ -12760,7 +13033,6 @@ export const MeResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: MeResponseWorkspaceUsersWithout2FAList,
   }),
@@ -12795,7 +13067,6 @@ export interface MeResponseWorkspacesItem {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: MeResponseWorkspacesItemUsersWithout2FAList;
 }
@@ -12821,7 +13092,6 @@ export const MeResponseWorkspacesItem = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: MeResponseWorkspacesItemUsersWithout2FAList,
   }),
@@ -12854,7 +13124,6 @@ export interface MeResponse {
   isVerified: boolean;
   lastLogin: string;
   name: string | null;
-  platformFeatureFlags: MeResponsePlatformFeatureFlagsList;
   profile: MeResponseProfile | null;
   registrationStatus: RegistrationStatus;
   riskLevel: number | null;
@@ -12883,7 +13152,6 @@ export const MeResponse = /*@__PURE__*/ S.suspend(() =>
     isVerified: S.Boolean,
     lastLogin: S.String,
     name: S.NullOr(S.String),
-    platformFeatureFlags: MeResponsePlatformFeatureFlagsList,
     profile: S.NullOr(MeResponseProfile),
     registrationStatus: RegistrationStatus,
     riskLevel: S.NullOr(S.Number),
@@ -13146,6 +13414,61 @@ export const MyCloudAgentsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "MyCloudAgentsResponse",
 }) as any as S.Schema<MyCloudAgentsResponse>;
+
+export interface MysqlPitrRestorableWindowRequest {
+  environmentId: string;
+  serviceId: string;
+}
+export const MysqlPitrRestorableWindowRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    environmentId: S.String,
+    serviceId: S.String,
+  })
+    .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+    .pipe(
+      T.GraphQLOp({
+        query:
+          "query mysqlPitrRestorableWindow($environmentId: String!, $serviceId: String!) {\n  mysqlPitrRestorableWindow(environmentId: $environmentId, serviceId: $serviceId) {\n    archiveConfigured\n    ceilingAt\n    fetchedAt\n    floorAt\n    fullBackupCount\n    fullBackupsTakenAt\n    lineageCount\n    listingTruncated\n  }\n}",
+        operationName: "mysqlPitrRestorableWindow",
+        type: "query",
+      }),
+    ),
+).annotate({
+  identifier: "MysqlPitrRestorableWindowRequest",
+}) as any as S.Schema<MysqlPitrRestorableWindowRequest>;
+
+export type MysqlPitrRestorableWindowResponseFullBackupsTakenAtList =
+  Array<string>;
+export const MysqlPitrRestorableWindowResponseFullBackupsTakenAtList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<MysqlPitrRestorableWindowResponseFullBackupsTakenAtList>;
+
+/** Selection set for `mysqlPitrRestorableWindow` (unwrapped from the GraphQL `data` envelope). */
+export interface MysqlPitrRestorableWindowResponse {
+  archiveConfigured: boolean;
+  ceilingAt: string | null;
+  fetchedAt: string;
+  floorAt: string | null;
+  fullBackupCount: number;
+  fullBackupsTakenAt: MysqlPitrRestorableWindowResponseFullBackupsTakenAtList;
+  lineageCount: number;
+  listingTruncated: boolean;
+}
+export const MysqlPitrRestorableWindowResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    archiveConfigured: S.Boolean,
+    ceilingAt: S.NullOr(S.String),
+    fetchedAt: S.String,
+    floorAt: S.NullOr(S.String),
+    fullBackupCount: S.Number,
+    fullBackupsTakenAt: MysqlPitrRestorableWindowResponseFullBackupsTakenAtList,
+    lineageCount: S.Number,
+    listingTruncated: S.Boolean,
+  }).pipe(T.ResponsePath("mysqlPitrRestorableWindow")),
+).annotate({
+  identifier: "MysqlPitrRestorableWindowResponse",
+}) as any as S.Schema<MysqlPitrRestorableWindowResponse>;
 
 export interface NetworkFlowLogsRequest {
   /** Latest date to look for logs after the anchor */
@@ -13933,7 +14256,7 @@ export const PitrHaWorkflowProgressRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query pitrHaWorkflowProgress($environmentId: String!, $rootServiceId: String!) {\n  pitrHaWorkflowProgress(environmentId: $environmentId, rootServiceId: $rootServiceId) {\n    clusterMutated\n    completedAt\n    currentMemberServiceId\n    direction\n    environmentId\n    errorMessage\n    failedAtPhase\n    members {\n      isLeader\n      serviceId\n      serviceName\n      status\n    }\n    newLeaderServiceId\n    phase\n    projectId\n    rootServiceId\n    startedAt\n    updatedAt\n    workflowId\n  }\n}",
+          "query pitrHaWorkflowProgress($environmentId: String!, $rootServiceId: String!) {\n  pitrHaWorkflowProgress(environmentId: $environmentId, rootServiceId: $rootServiceId) {\n    clusterMutated\n    completedAt\n    currentMemberServiceId\n    direction\n    engine\n    environmentId\n    errorMessage\n    failedAtPhase\n    members {\n      isLeader\n      serviceId\n      serviceName\n      status\n    }\n    newLeaderServiceId\n    phase\n    projectId\n    rootServiceId\n    startedAt\n    updatedAt\n    workflowId\n  }\n}",
         operationName: "pitrHaWorkflowProgress",
         type: "query",
       }),
@@ -13996,6 +14319,7 @@ export interface PitrHaWorkflowProgressResponse {
   completedAt: string | null;
   currentMemberServiceId: string | null;
   direction: PitrHaWorkflowDirection;
+  engine: string | null;
   environmentId: string;
   errorMessage: string | null;
   failedAtPhase: PitrHaWorkflowPhase | null;
@@ -14014,6 +14338,7 @@ export const PitrHaWorkflowProgressResponse = /*@__PURE__*/ S.suspend(() =>
     completedAt: S.NullOr(S.String),
     currentMemberServiceId: S.NullOr(S.String),
     direction: PitrHaWorkflowDirection,
+    engine: S.NullOr(S.String),
     environmentId: S.String,
     errorMessage: S.NullOr(S.String),
     failedAtPhase: S.NullOr(PitrHaWorkflowPhase),
@@ -15541,7 +15866,7 @@ export const ProjectsByIdsRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query projectsByIds($ids: [String!]!) {\n  projectsByIds(ids: $ids) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "query projectsByIds($ids: [String!]!) {\n  projectsByIds(ids: $ids) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "projectsByIds",
         type: "query",
       }),
@@ -15602,7 +15927,6 @@ export interface ProjectsByIdsResultItemWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: ProjectsByIdsResultItemWorkspaceUsersWithout2FAList;
 }
@@ -15628,7 +15952,6 @@ export const ProjectsByIdsResultItemWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: ProjectsByIdsResultItemWorkspaceUsersWithout2FAList,
   }),
@@ -15805,18 +16128,10 @@ export const ProjectServiceUsageRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ProjectServiceUsageRequest",
 }) as any as S.Schema<ProjectServiceUsageRequest>;
 
-export interface ProjectServiceUsageResponsePageInfo {
-  endCursor: string | null;
-  hasNextPage: boolean;
-}
-export const ProjectServiceUsageResponsePageInfo = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    endCursor: S.NullOr(S.String),
-    hasNextPage: S.Boolean,
-  }),
-).annotate({
-  identifier: "ProjectServiceUsageResponsePageInfo",
-}) as any as S.Schema<ProjectServiceUsageResponsePageInfo>;
+export type ProjectServiceUsageResponsePageInfo =
+  EnvironmentHistoryResponsePageInfo;
+export const ProjectServiceUsageResponsePageInfo =
+  EnvironmentHistoryResponsePageInfo;
 
 export interface ProjectServiceUsageResponseUsageItem {
   measurement: MetricMeasurement;
@@ -15840,12 +16155,12 @@ export const ProjectServiceUsageResponseUsageList = /*@__PURE__*/ S.Array(
 
 /** Selection set for `projectServiceUsage` (unwrapped from the GraphQL `data` envelope). */
 export interface ProjectServiceUsageResponse {
-  pageInfo: ProjectServiceUsageResponsePageInfo;
+  pageInfo: EnvironmentHistoryResponsePageInfo;
   usage: ProjectServiceUsageResponseUsageList;
 }
 export const ProjectServiceUsageResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    pageInfo: ProjectServiceUsageResponsePageInfo,
+    pageInfo: EnvironmentHistoryResponsePageInfo,
     usage: ProjectServiceUsageResponseUsageList,
   }).pipe(T.ResponsePath("projectServiceUsage")),
 ).annotate({
@@ -16718,6 +17033,229 @@ export const RailwayDomainDnsRecordsResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "RailwayDomainDnsRecordsResponse",
 }) as any as S.Schema<RailwayDomainDnsRecordsResponse>;
+
+export interface RailwayDomainEmailForwardingEligibilityRequest {
+  domain: string;
+  workspaceId: string;
+}
+export const RailwayDomainEmailForwardingEligibilityRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domain: S.String,
+      workspaceId: S.String,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "query railwayDomainEmailForwardingEligibility($domain: String!, $workspaceId: String!) {\n  railwayDomainEmailForwardingEligibility(domain: $domain, workspaceId: $workspaceId) {\n    __typename\n  }\n}",
+          operationName: "railwayDomainEmailForwardingEligibility",
+          type: "query",
+        }),
+      ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingEligibilityRequest",
+  }) as any as S.Schema<RailwayDomainEmailForwardingEligibilityRequest>;
+
+export type RailwayDomainEmailForwardingEligibility2 =
+  | "DELEGATED"
+  | "ELIGIBLE"
+  | "EXTERNAL_MAIL"
+  | "UNKNOWN";
+export const RailwayDomainEmailForwardingEligibility2 = /*@__PURE__*/ S.String;
+
+export type RailwayDomainEmailForwardingEligibilityResponse =
+  RailwayDomainEmailForwardingEligibility2;
+export const RailwayDomainEmailForwardingEligibilityResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    RailwayDomainEmailForwardingEligibility2.pipe(
+      T.GraphQLPayloadRoot(),
+      T.ResponsePath("railwayDomainEmailForwardingEligibility"),
+    ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingEligibilityResponse",
+  }) as any as S.Schema<RailwayDomainEmailForwardingEligibilityResponse>;
+
+export interface RailwayDomainEmailForwardingLimitsRequest {
+  workspaceId?: string | null;
+}
+export const RailwayDomainEmailForwardingLimitsRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      workspaceId: S.optional(S.NullOr(S.String)),
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "query railwayDomainEmailForwardingLimits($workspaceId: String) {\n  railwayDomainEmailForwardingLimits(workspaceId: $workspaceId) {\n    maxAliases\n  }\n}",
+          operationName: "railwayDomainEmailForwardingLimits",
+          type: "query",
+        }),
+      ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingLimitsRequest",
+  }) as any as S.Schema<RailwayDomainEmailForwardingLimitsRequest>;
+
+/** Selection set for `railwayDomainEmailForwardingLimits` (unwrapped from the GraphQL `data` envelope). */
+export interface RailwayDomainEmailForwardingLimitsResponse {
+  maxAliases: number;
+}
+export const RailwayDomainEmailForwardingLimitsResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      maxAliases: S.Number,
+    }).pipe(T.ResponsePath("railwayDomainEmailForwardingLimits")),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingLimitsResponse",
+  }) as any as S.Schema<RailwayDomainEmailForwardingLimitsResponse>;
+
+export interface RailwayDomainEmailForwardingRemoveAllInput {
+  domain: string;
+  workspaceId: string;
+}
+export const RailwayDomainEmailForwardingRemoveAllInput =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      domain: S.String,
+      workspaceId: S.String,
+    }),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRemoveAllInput",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRemoveAllInput>;
+
+export interface RailwayDomainEmailForwardingRemoveAllRequest {
+  input: RailwayDomainEmailForwardingRemoveAllInput;
+}
+export const RailwayDomainEmailForwardingRemoveAllRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      input: RailwayDomainEmailForwardingRemoveAllInput,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "mutation railwayDomainEmailForwardingRemoveAll($input: RailwayDomainEmailForwardingRemoveAllInput!) {\n  railwayDomainEmailForwardingRemoveAll(input: $input) {\n    addressesRemoved\n    mailRecordsRemoved\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRemoveAll",
+          type: "mutation",
+        }),
+      ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRemoveAllRequest",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRemoveAllRequest>;
+
+/** Selection set for `railwayDomainEmailForwardingRemoveAll` (unwrapped from the GraphQL `data` envelope). */
+export interface RailwayDomainEmailForwardingRemoveAllResponse {
+  addressesRemoved: number;
+  mailRecordsRemoved: number;
+}
+export const RailwayDomainEmailForwardingRemoveAllResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      addressesRemoved: S.Number,
+      mailRecordsRemoved: S.Number,
+    }).pipe(T.ResponsePath("railwayDomainEmailForwardingRemoveAll")),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRemoveAllResponse",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRemoveAllResponse>;
+
+export interface RailwayDomainEmailForwardingRulesRequest {
+  domain: string;
+  workspaceId: string;
+}
+export const RailwayDomainEmailForwardingRulesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      domain: S.String,
+      workspaceId: S.String,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "query railwayDomainEmailForwardingRules($domain: String!, $workspaceId: String!) {\n  railwayDomainEmailForwardingRules(domain: $domain, workspaceId: $workspaceId) {\n    alias\n    destination\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRules",
+          type: "query",
+        }),
+      ),
+).annotate({
+  identifier: "RailwayDomainEmailForwardingRulesRequest",
+}) as any as S.Schema<RailwayDomainEmailForwardingRulesRequest>;
+
+export interface RailwayDomainEmailForwardingRulesResultItem {
+  alias: string;
+  destination: string;
+}
+export const RailwayDomainEmailForwardingRulesResultItem =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      destination: S.String,
+    }),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRulesResultItem",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRulesResultItem>;
+
+export type RailwayDomainEmailForwardingRulesResultList =
+  Array<RailwayDomainEmailForwardingRulesResultItem>;
+export const RailwayDomainEmailForwardingRulesResultList =
+  /*@__PURE__*/ S.Array(
+    RailwayDomainEmailForwardingRulesResultItem,
+  ) as any as S.Schema<RailwayDomainEmailForwardingRulesResultList>;
+
+export type RailwayDomainEmailForwardingRulesResponse =
+  RailwayDomainEmailForwardingRulesResultList;
+export const RailwayDomainEmailForwardingRulesResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    RailwayDomainEmailForwardingRulesResultList.pipe(
+      T.GraphQLPayloadRoot(),
+      T.ResponsePath("railwayDomainEmailForwardingRules"),
+    ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRulesResponse",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRulesResponse>;
+
+export type RailwayDomainEmailForwardingRuleTestInput =
+  RailwayDomainEmailForwardingRuleDeleteInput;
+export const RailwayDomainEmailForwardingRuleTestInput =
+  RailwayDomainEmailForwardingRuleDeleteInput;
+
+export interface RailwayDomainEmailForwardingRuleSendTestRequest {
+  input: RailwayDomainEmailForwardingRuleDeleteInput;
+}
+export const RailwayDomainEmailForwardingRuleSendTestRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      input: RailwayDomainEmailForwardingRuleDeleteInput,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "mutation railwayDomainEmailForwardingRuleSendTest($input: RailwayDomainEmailForwardingRuleTestInput!) {\n  railwayDomainEmailForwardingRuleSendTest(input: $input) {\n    alias\n    destination\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRuleSendTest",
+          type: "mutation",
+        }),
+      ),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRuleSendTestRequest",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRuleSendTestRequest>;
+
+/** Selection set for `railwayDomainEmailForwardingRuleSendTest` (unwrapped from the GraphQL `data` envelope). */
+export interface RailwayDomainEmailForwardingRuleSendTestResponse {
+  alias: string;
+  destination: string;
+}
+export const RailwayDomainEmailForwardingRuleSendTestResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      destination: S.String,
+    }).pipe(T.ResponsePath("railwayDomainEmailForwardingRuleSendTest")),
+  ).annotate({
+    identifier: "RailwayDomainEmailForwardingRuleSendTestResponse",
+  }) as any as S.Schema<RailwayDomainEmailForwardingRuleSendTestResponse>;
 
 export interface RailwayDomainsRequest {
   status?: RailwayDomainStatus | (string & {}) | null;
@@ -18048,16 +18586,25 @@ export const SandboxRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query sandbox($environmentId: String!, $id: String!) {\n  sandbox(environmentId: $environmentId, id: $id) {\n    createdAt\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
+          "query sandbox($environmentId: String!, $id: String!) {\n  sandbox(environmentId: $environmentId, id: $id) {\n    createdAt\n    domains {\n      domain\n      port\n      prefix\n    }\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
         operationName: "sandbox",
         type: "query",
       }),
     ),
 ).annotate({ identifier: "SandboxRequest" }) as any as S.Schema<SandboxRequest>;
 
+export type SandboxResponseDomainsItem = CloudAgentResponseDomainsItem;
+export const SandboxResponseDomainsItem = CloudAgentResponseDomainsItem;
+
+export type SandboxResponseDomainsList = Array<CloudAgentResponseDomainsItem>;
+export const SandboxResponseDomainsList = /*@__PURE__*/ S.Array(
+  CloudAgentResponseDomainsItem,
+) as any as S.Schema<SandboxResponseDomainsList>;
+
 /** Selection set for `sandbox` (unwrapped from the GraphQL `data` envelope). */
 export interface SandboxResponse {
   createdAt: string;
+  domains: SandboxResponseDomainsList;
   environmentId: string;
   id: string;
   idleTimeoutMinutes: number | null;
@@ -18068,6 +18615,7 @@ export interface SandboxResponse {
 export const SandboxResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.String,
+    domains: SandboxResponseDomainsList,
     environmentId: S.String,
     id: S.String,
     idleTimeoutMinutes: S.NullOr(S.Number),
@@ -18144,7 +18692,7 @@ export const SandboxDestroyRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation sandboxDestroy($environmentId: String!, $id: String!) {\n  sandboxDestroy(environmentId: $environmentId, id: $id) {\n    createdAt\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
+          "mutation sandboxDestroy($environmentId: String!, $id: String!) {\n  sandboxDestroy(environmentId: $environmentId, id: $id) {\n    createdAt\n    domains {\n      domain\n      port\n      prefix\n    }\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
         operationName: "sandboxDestroy",
         type: "mutation",
       }),
@@ -18153,9 +18701,19 @@ export const SandboxDestroyRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxDestroyRequest",
 }) as any as S.Schema<SandboxDestroyRequest>;
 
+export type SandboxDestroyResponseDomainsItem = CloudAgentResponseDomainsItem;
+export const SandboxDestroyResponseDomainsItem = CloudAgentResponseDomainsItem;
+
+export type SandboxDestroyResponseDomainsList =
+  Array<CloudAgentResponseDomainsItem>;
+export const SandboxDestroyResponseDomainsList = /*@__PURE__*/ S.Array(
+  CloudAgentResponseDomainsItem,
+) as any as S.Schema<SandboxDestroyResponseDomainsList>;
+
 /** Selection set for `sandboxDestroy` (unwrapped from the GraphQL `data` envelope). */
 export interface SandboxDestroyResponse {
   createdAt: string;
+  domains: SandboxDestroyResponseDomainsList;
   environmentId: string;
   id: string;
   idleTimeoutMinutes: number | null;
@@ -18166,6 +18724,7 @@ export interface SandboxDestroyResponse {
 export const SandboxDestroyResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.String,
+    domains: SandboxDestroyResponseDomainsList,
     environmentId: S.String,
     id: S.String,
     idleTimeoutMinutes: S.NullOr(S.Number),
@@ -18199,7 +18758,7 @@ export const SandboxesRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query sandboxes($active: Boolean, $after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) {\n  sandboxes(active: $active, after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) {\n    edges {\n      cursor\n      node {\n        createdAt\n        environmentId\n        id\n        idleTimeoutMinutes\n        networkIsolation\n        region\n        status\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}",
+          "query sandboxes($active: Boolean, $after: String, $before: String, $environmentId: String!, $first: Int, $last: Int) {\n  sandboxes(active: $active, after: $after, before: $before, environmentId: $environmentId, first: $first, last: $last) {\n    edges {\n      cursor\n      node {\n        createdAt\n        domains {\n          domain\n          port\n          prefix\n        }\n        environmentId\n        id\n        idleTimeoutMinutes\n        networkIsolation\n        region\n        status\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}",
         operationName: "sandboxes",
         type: "query",
       }),
@@ -18208,8 +18767,20 @@ export const SandboxesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxesRequest",
 }) as any as S.Schema<SandboxesRequest>;
 
+export type SandboxesResponseEdgesItemNodeDomainsItem =
+  CloudAgentResponseDomainsItem;
+export const SandboxesResponseEdgesItemNodeDomainsItem =
+  CloudAgentResponseDomainsItem;
+
+export type SandboxesResponseEdgesItemNodeDomainsList =
+  Array<CloudAgentResponseDomainsItem>;
+export const SandboxesResponseEdgesItemNodeDomainsList = /*@__PURE__*/ S.Array(
+  CloudAgentResponseDomainsItem,
+) as any as S.Schema<SandboxesResponseEdgesItemNodeDomainsList>;
+
 export interface SandboxesResponseEdgesItemNode {
   createdAt: string;
+  domains: SandboxesResponseEdgesItemNodeDomainsList;
   environmentId: string;
   id: string;
   idleTimeoutMinutes: number | null;
@@ -18220,6 +18791,7 @@ export interface SandboxesResponseEdgesItemNode {
 export const SandboxesResponseEdgesItemNode = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.String,
+    domains: SandboxesResponseEdgesItemNodeDomainsList,
     environmentId: S.String,
     id: S.String,
     idleTimeoutMinutes: S.NullOr(S.Number),
@@ -18279,7 +18851,7 @@ export const SandboxHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation sandboxHeartbeat($environmentId: String!, $id: String!) {\n  sandboxHeartbeat(environmentId: $environmentId, id: $id) {\n    createdAt\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
+          "mutation sandboxHeartbeat($environmentId: String!, $id: String!) {\n  sandboxHeartbeat(environmentId: $environmentId, id: $id) {\n    createdAt\n    domains {\n      domain\n      port\n      prefix\n    }\n    environmentId\n    id\n    idleTimeoutMinutes\n    networkIsolation\n    region\n    status\n  }\n}",
         operationName: "sandboxHeartbeat",
         type: "mutation",
       }),
@@ -18288,9 +18860,20 @@ export const SandboxHeartbeatRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SandboxHeartbeatRequest",
 }) as any as S.Schema<SandboxHeartbeatRequest>;
 
+export type SandboxHeartbeatResponseDomainsItem = CloudAgentResponseDomainsItem;
+export const SandboxHeartbeatResponseDomainsItem =
+  CloudAgentResponseDomainsItem;
+
+export type SandboxHeartbeatResponseDomainsList =
+  Array<CloudAgentResponseDomainsItem>;
+export const SandboxHeartbeatResponseDomainsList = /*@__PURE__*/ S.Array(
+  CloudAgentResponseDomainsItem,
+) as any as S.Schema<SandboxHeartbeatResponseDomainsList>;
+
 /** Selection set for `sandboxHeartbeat` (unwrapped from the GraphQL `data` envelope). */
 export interface SandboxHeartbeatResponse {
   createdAt: string;
+  domains: SandboxHeartbeatResponseDomainsList;
   environmentId: string;
   id: string;
   idleTimeoutMinutes: number | null;
@@ -18301,6 +18884,7 @@ export interface SandboxHeartbeatResponse {
 export const SandboxHeartbeatResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     createdAt: S.String,
+    domains: SandboxHeartbeatResponseDomainsList,
     environmentId: S.String,
     id: S.String,
     idleTimeoutMinutes: S.NullOr(S.Number),
@@ -21844,7 +22428,7 @@ export const UpdateAccessGroupRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation accessGroupUpdate($id: String!, $input: AccessGroupUpdateInput!) {\n  accessGroupUpdate(id: $id, input: $input) {\n    createdAt\n    id\n    name\n    role\n    source\n    updatedAt\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation accessGroupUpdate($id: String!, $input: AccessGroupUpdateInput!) {\n  accessGroupUpdate(id: $id, input: $input) {\n    createdAt\n    id\n    name\n    role\n    source\n    updatedAt\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "accessGroupUpdate",
         type: "mutation",
       }),
@@ -21881,7 +22465,6 @@ export interface UpdateAccessGroupResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: UpdateAccessGroupResponseWorkspaceUsersWithout2FAList;
 }
@@ -21907,7 +22490,6 @@ export const UpdateAccessGroupResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: UpdateAccessGroupResponseWorkspaceUsersWithout2FAList,
   }),
@@ -22399,7 +22981,7 @@ export const UpdateProjectRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation projectUpdate($id: String!, $input: ProjectUpdateInput!) {\n  projectUpdate(id: $id, input: $input) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
+          "mutation projectUpdate($id: String!, $input: ProjectUpdateInput!) {\n  projectUpdate(id: $id, input: $input) {\n    baseEnvironment {\n      canAccess\n      canvasGroupRefs\n      configEtag\n      createdAt\n      deletedAt\n      iacPartials\n      id\n      isEphemeral\n      name\n      projectId\n      unmergedChangesCount\n      updatedAt\n    }\n    baseEnvironmentId\n    botPrEnvironments\n    createdAt\n    deletedAt\n    description\n    expiredAt\n    featureFlags\n    focusedPrEnvironments\n    id\n    isPublic\n    isTempProject\n    members {\n      avatar\n      email\n      id\n      name\n      role\n    }\n    name\n    prDeploys\n    primaryEnvironmentId\n    subscriptionPlanLimit\n    subscriptionType\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    teamId\n    updatedAt\n    viewerRole\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaceId\n  }\n}",
         operationName: "projectUpdate",
         type: "mutation",
       }),
@@ -22458,7 +23040,6 @@ export interface UpdateProjectResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: UpdateProjectResponseWorkspaceUsersWithout2FAList;
 }
@@ -22484,7 +23065,6 @@ export const UpdateProjectResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: UpdateProjectResponseWorkspaceUsersWithout2FAList,
   }),
@@ -22769,6 +23349,47 @@ export const UpdateRailwayDomainDnsRecordResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "UpdateRailwayDomainDnsRecordResponse",
 }) as any as S.Schema<UpdateRailwayDomainDnsRecordResponse>;
+
+export type RailwayDomainEmailForwardingRuleUpdateInput =
+  RailwayDomainEmailForwardingRuleCreateInput;
+export const RailwayDomainEmailForwardingRuleUpdateInput =
+  RailwayDomainEmailForwardingRuleCreateInput;
+
+export interface UpdateRailwayDomainEmailForwardingRuleRequest {
+  input: RailwayDomainEmailForwardingRuleCreateInput;
+}
+export const UpdateRailwayDomainEmailForwardingRuleRequest =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      input: RailwayDomainEmailForwardingRuleCreateInput,
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "mutation railwayDomainEmailForwardingRuleUpdate($input: RailwayDomainEmailForwardingRuleUpdateInput!) {\n  railwayDomainEmailForwardingRuleUpdate(input: $input) {\n    alias\n    destination\n  }\n}",
+          operationName: "railwayDomainEmailForwardingRuleUpdate",
+          type: "mutation",
+        }),
+      ),
+  ).annotate({
+    identifier: "UpdateRailwayDomainEmailForwardingRuleRequest",
+  }) as any as S.Schema<UpdateRailwayDomainEmailForwardingRuleRequest>;
+
+/** Selection set for `railwayDomainEmailForwardingRuleUpdate` (unwrapped from the GraphQL `data` envelope). */
+export interface UpdateRailwayDomainEmailForwardingRuleResponse {
+  alias: string;
+  destination: string;
+}
+export const UpdateRailwayDomainEmailForwardingRuleResponse =
+  /*@__PURE__*/ S.suspend(() =>
+    S.Struct({
+      alias: S.String,
+      destination: S.String,
+    }).pipe(T.ResponsePath("railwayDomainEmailForwardingRuleUpdate")),
+  ).annotate({
+    identifier: "UpdateRailwayDomainEmailForwardingRuleResponse",
+  }) as any as S.Schema<UpdateRailwayDomainEmailForwardingRuleResponse>;
 
 export interface ReferralInfoUpdateInput {
   code: string;
@@ -23528,7 +24149,7 @@ export const UpdateUserTermRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation userTermsUpdate {\n  userTermsUpdate {\n    agreedFairUse\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    email\n    featureFlags\n    flags\n    githubProviderId\n    githubUsername\n    has2FA\n    hasPasskeys\n    id\n    isAdmin\n    isConductor\n    isVerified\n    lastLogin\n    name\n    platformFeatureFlags\n    profile {\n      bio\n      isPublic\n      website\n    }\n    registrationStatus\n    riskLevel\n    termsAgreedOn\n    username\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n    workspaces {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      supportTierOverride\n      updatedAt\n      usersWithout2FA\n    }\n  }\n}",
+          "mutation userTermsUpdate {\n  userTermsUpdate {\n    agreedFairUse\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    email\n    featureFlags\n    flags\n    githubProviderId\n    githubUsername\n    has2FA\n    hasPasskeys\n    id\n    isAdmin\n    isConductor\n    isVerified\n    lastLogin\n    name\n    profile {\n      bio\n      isPublic\n      website\n    }\n    registrationStatus\n    riskLevel\n    termsAgreedOn\n    username\n    workspace {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n    workspaces {\n      adoptionLevel\n      allowDeprecatedRegions\n      avatar\n      banReason\n      createdAt\n      discordRole\n      has2FAEnforcement\n      hasAutomaticDiagnosis\n      hasGuardrailsAccess\n      hasHipaaBAA\n      hasSAML\n      id\n      name\n      plan\n      preferredRegion\n      redactedDueTo2FAPending\n      restrictProjectVisibilityToGroups\n      slackChannelId\n      subscriptionModel\n      subscriptionPlanLimit\n      updatedAt\n      usersWithout2FA\n    }\n  }\n}",
         operationName: "userTermsUpdate",
         type: "mutation",
       }),
@@ -23551,13 +24172,6 @@ export type UpdateUserTermResponseFlagsList = Array<UserFlag>;
 export const UpdateUserTermResponseFlagsList = /*@__PURE__*/ S.Array(
   UserFlag,
 ) as any as S.Schema<UpdateUserTermResponseFlagsList>;
-
-export type UpdateUserTermResponsePlatformFeatureFlagsList =
-  Array<ActivePlatformFlag>;
-export const UpdateUserTermResponsePlatformFeatureFlagsList =
-  /*@__PURE__*/ S.Array(
-    ActivePlatformFlag,
-  ) as any as S.Schema<UpdateUserTermResponsePlatformFeatureFlagsList>;
 
 export type UpdateUserTermResponseProfile = MeResponseProfile;
 export const UpdateUserTermResponseProfile = MeResponseProfile;
@@ -23589,7 +24203,6 @@ export interface UpdateUserTermResponseWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: UpdateUserTermResponseWorkspaceUsersWithout2FAList;
 }
@@ -23615,7 +24228,6 @@ export const UpdateUserTermResponseWorkspace = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     updatedAt: S.String,
     usersWithout2FA: UpdateUserTermResponseWorkspaceUsersWithout2FAList,
   }),
@@ -23651,7 +24263,6 @@ export interface UpdateUserTermResponseWorkspacesItem {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: UpdateUserTermResponseWorkspacesItemUsersWithout2FAList;
 }
@@ -23678,7 +24289,6 @@ export const UpdateUserTermResponseWorkspacesItem = /*@__PURE__*/ S.suspend(
       slackChannelId: S.NullOr(S.String),
       subscriptionModel: SubscriptionModel,
       subscriptionPlanLimit: S.NullOr(S.Unknown),
-      supportTierOverride: S.NullOr(SupportTierOverride),
       updatedAt: S.String,
       usersWithout2FA: UpdateUserTermResponseWorkspacesItemUsersWithout2FAList,
     }),
@@ -23712,7 +24322,6 @@ export interface UpdateUserTermResponse {
   isVerified: boolean;
   lastLogin: string;
   name: string | null;
-  platformFeatureFlags: UpdateUserTermResponsePlatformFeatureFlagsList;
   profile: MeResponseProfile | null;
   registrationStatus: RegistrationStatus;
   riskLevel: number | null;
@@ -23741,7 +24350,6 @@ export const UpdateUserTermResponse = /*@__PURE__*/ S.suspend(() =>
     isVerified: S.Boolean,
     lastLogin: S.String,
     name: S.NullOr(S.String),
-    platformFeatureFlags: UpdateUserTermResponsePlatformFeatureFlagsList,
     profile: S.NullOr(MeResponseProfile),
     registrationStatus: RegistrationStatus,
     riskLevel: S.NullOr(S.Number),
@@ -24910,7 +25518,7 @@ export const WorkspaceRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query workspace($workspaceId: String!) {\n  workspace(workspaceId: $workspaceId) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n      usageLimit {\n        agentHardLimitCents\n        agentSoftLimitCents\n        customerId\n        hardLimit\n        id\n        isOverLimit\n        softLimit\n      }\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    supportTierOverride\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
+          "query workspace($workspaceId: String!) {\n  workspace(workspaceId: $workspaceId) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n      usageLimit {\n        agentHardLimitCents\n        agentSoftLimitCents\n        customerId\n        hardLimit\n        id\n        isOverLimit\n        softLimit\n      }\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
         operationName: "workspace",
         type: "query",
       }),
@@ -25193,7 +25801,6 @@ export interface WorkspaceResponse {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   team: ClaimProjectResponseTeam | null;
   updatedAt: string;
   usersWithout2FA: WorkspaceResponseUsersWithout2FAList;
@@ -25226,7 +25833,6 @@ export const WorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     team: S.NullOr(ClaimProjectResponseTeam),
     updatedAt: S.String,
     usersWithout2FA: WorkspaceResponseUsersWithout2FAList,
@@ -25246,7 +25852,7 @@ export const WorkspaceByCodeRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query workspaceByCode($code: String!) {\n  workspaceByCode(code: $code) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n      usageLimit {\n        agentHardLimitCents\n        agentSoftLimitCents\n        customerId\n        hardLimit\n        id\n        isOverLimit\n        softLimit\n      }\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    supportTierOverride\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
+          "query workspaceByCode($code: String!) {\n  workspaceByCode(code: $code) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n      usageLimit {\n        agentHardLimitCents\n        agentSoftLimitCents\n        customerId\n        hardLimit\n        id\n        isOverLimit\n        softLimit\n      }\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
         operationName: "workspaceByCode",
         type: "query",
       }),
@@ -25410,7 +26016,6 @@ export interface WorkspaceByCodeResponse {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   team: ClaimProjectResponseTeam | null;
   updatedAt: string;
   usersWithout2FA: WorkspaceByCodeResponseUsersWithout2FAList;
@@ -25443,7 +26048,6 @@ export const WorkspaceByCodeResponse = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     team: S.NullOr(ClaimProjectResponseTeam),
     updatedAt: S.String,
     usersWithout2FA: WorkspaceByCodeResponseUsersWithout2FAList,
@@ -25471,7 +26075,7 @@ export const WorkspaceIdentityProvidersRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "query workspaceIdentityProviders($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) {\n  workspaceIdentityProviders(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) {\n    edges {\n      cursor\n      node {\n        connection {\n          createdAt\n          provider\n          status\n          updatedAt\n        }\n        createdAt\n        enforcementEnabledAt\n        id\n        updatedAt\n        workspace {\n          adoptionLevel\n          allowDeprecatedRegions\n          avatar\n          banReason\n          createdAt\n          discordRole\n          has2FAEnforcement\n          hasAutomaticDiagnosis\n          hasGuardrailsAccess\n          hasHipaaBAA\n          hasSAML\n          id\n          name\n          plan\n          preferredRegion\n          redactedDueTo2FAPending\n          restrictProjectVisibilityToGroups\n          slackChannelId\n          subscriptionModel\n          subscriptionPlanLimit\n          supportTierOverride\n          updatedAt\n          usersWithout2FA\n        }\n        workspaceId\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}",
+          "query workspaceIdentityProviders($after: String, $before: String, $first: Int, $last: Int, $workspaceId: String!) {\n  workspaceIdentityProviders(after: $after, before: $before, first: $first, last: $last, workspaceId: $workspaceId) {\n    edges {\n      cursor\n      node {\n        connection {\n          createdAt\n          provider\n          status\n          updatedAt\n        }\n        createdAt\n        enforcementEnabledAt\n        id\n        updatedAt\n        workspace {\n          adoptionLevel\n          allowDeprecatedRegions\n          avatar\n          banReason\n          createdAt\n          discordRole\n          has2FAEnforcement\n          hasAutomaticDiagnosis\n          hasGuardrailsAccess\n          hasHipaaBAA\n          hasSAML\n          id\n          name\n          plan\n          preferredRegion\n          redactedDueTo2FAPending\n          restrictProjectVisibilityToGroups\n          slackChannelId\n          subscriptionModel\n          subscriptionPlanLimit\n          updatedAt\n          usersWithout2FA\n        }\n        workspaceId\n      }\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n      hasPreviousPage\n      startCursor\n    }\n  }\n}",
         operationName: "workspaceIdentityProviders",
         type: "query",
       }),
@@ -25534,7 +26138,6 @@ export interface WorkspaceIdentityProvidersResponseEdgesItemNodeWorkspace {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   updatedAt: string;
   usersWithout2FA: WorkspaceIdentityProvidersResponseEdgesItemNodeWorkspaceUsersWithout2FAList;
 }
@@ -25561,7 +26164,6 @@ export const WorkspaceIdentityProvidersResponseEdgesItemNodeWorkspace =
       slackChannelId: S.NullOr(S.String),
       subscriptionModel: SubscriptionModel,
       subscriptionPlanLimit: S.NullOr(S.Unknown),
-      supportTierOverride: S.NullOr(SupportTierOverride),
       updatedAt: S.String,
       usersWithout2FA:
         WorkspaceIdentityProvidersResponseEdgesItemNodeWorkspaceUsersWithout2FAList,
@@ -25645,7 +26247,7 @@ export const WorkspaceInviteCodeUseRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation workspaceInviteCodeUse($code: String!) {\n  workspaceInviteCodeUse(code: $code) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    restrictProjectVisibilityToGroups\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    supportTierOverride\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      supportTierOverride\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
+          "mutation workspaceInviteCodeUse($code: String!) {\n  workspaceInviteCodeUse(code: $code) {\n    adoptionHistory {\n      adoptionLevel\n      createdAt\n      deltaLevel\n      id\n      matchedIcpEmail\n      monthlyEstimatedUsage\n      numConfigFile\n      numCronSchedule\n      numDeploys\n      numEnvs\n      numFailedDeploys\n      numHealthcheck\n      numIconConfig\n      numRegion\n      numReplicas\n      numRootDirectory\n      numSeats\n      numServices\n      numVariables\n      numWatchPatterns\n      totalCores\n      totalDisk\n      totalNetwork\n      updatedAt\n    }\n    adoptionLevel\n    allowDeprecatedRegions\n    apiTokenRateLimit {\n      remainingPoints\n      resetsAt\n    }\n    avatar\n    banReason\n    createdAt\n    customer {\n      appliedCredits\n      billingEmail\n      creditBalance\n      currentUsage\n      defaultPaymentMethodId\n      hasExhaustedFreePlan\n      id\n      isPrepaying\n      isTrialing\n      isUsageSubscriber\n      isWithdrawingToCredits\n      remainingUsageCreditBalance\n      state\n      stripeCustomerId\n      supportedWithdrawalPlatforms\n      trialDaysRemaining\n    }\n    discordRole\n    has2FAEnforcement\n    hasAutomaticDiagnosis\n    hasGuardrailsAccess\n    hasHipaaBAA\n    hasSAML\n    id\n    members {\n      avatar\n      email\n      featureFlags\n      id\n      name\n      role\n      twoFactorAuthEnabled\n    }\n    name\n    partnerProfile {\n      category\n      description\n      slug\n      type\n      website\n    }\n    plan\n    preferredRegion\n    redactedDueTo2FAPending\n    referredUsers {\n      code\n      id\n      status\n    }\n    restrictProjectVisibilityToGroups\n    slackChannelId\n    subscriptionModel\n    subscriptionPlanLimit\n    team {\n      adoptionLevel\n      avatar\n      createdAt\n      id\n      name\n      preferredRegion\n      slackChannelId\n      updatedAt\n    }\n    updatedAt\n    usersWithout2FA\n  }\n}",
         operationName: "workspaceInviteCodeUse",
         type: "mutation",
       }),
@@ -25814,7 +26416,6 @@ export interface WorkspaceInviteCodeUseResponse {
   slackChannelId: string | null;
   subscriptionModel: SubscriptionModel;
   subscriptionPlanLimit: unknown | null;
-  supportTierOverride: SupportTierOverride | null;
   team: ClaimProjectResponseTeam | null;
   updatedAt: string;
   usersWithout2FA: WorkspaceInviteCodeUseResponseUsersWithout2FAList;
@@ -25847,7 +26448,6 @@ export const WorkspaceInviteCodeUseResponse = /*@__PURE__*/ S.suspend(() =>
     slackChannelId: S.NullOr(S.String),
     subscriptionModel: SubscriptionModel,
     subscriptionPlanLimit: S.NullOr(S.Unknown),
-    supportTierOverride: S.NullOr(SupportTierOverride),
     team: S.NullOr(ClaimProjectResponseTeam),
     updatedAt: S.String,
     usersWithout2FA: WorkspaceInviteCodeUseResponseUsersWithout2FAList,
@@ -25958,7 +26558,7 @@ export const WorkspacePolicyDeploySourceAllowlistAddRequest =
       .pipe(
         T.GraphQLOp({
           query:
-            "mutation workspacePolicyDeploySourceAllowlistAdd($sourceId: String!, $sourceType: WorkspacePolicyDeploySourceType!, $workspaceId: String!) {\n  workspacePolicyDeploySourceAllowlistAdd(sourceId: $sourceId, sourceType: $sourceType, workspaceId: $workspaceId) {\n    addedBy {\n      agreedFairUse\n      avatar\n      banReason\n      createdAt\n      email\n      featureFlags\n      flags\n      githubProviderId\n      githubUsername\n      has2FA\n      hasPasskeys\n      id\n      isAdmin\n      isConductor\n      isVerified\n      lastLogin\n      name\n      platformFeatureFlags\n      registrationStatus\n      riskLevel\n      termsAgreedOn\n      username\n    }\n    createdAt\n    id\n    sourceIcon\n    sourceId\n    sourceName\n    sourceType\n  }\n}",
+            "mutation workspacePolicyDeploySourceAllowlistAdd($sourceId: String!, $sourceType: WorkspacePolicyDeploySourceType!, $workspaceId: String!) {\n  workspacePolicyDeploySourceAllowlistAdd(sourceId: $sourceId, sourceType: $sourceType, workspaceId: $workspaceId) {\n    addedBy {\n      agreedFairUse\n      avatar\n      banReason\n      createdAt\n      email\n      featureFlags\n      flags\n      githubProviderId\n      githubUsername\n      has2FA\n      hasPasskeys\n      id\n      isAdmin\n      isConductor\n      isVerified\n      lastLogin\n      name\n      registrationStatus\n      riskLevel\n      termsAgreedOn\n      username\n    }\n    createdAt\n    id\n    sourceIcon\n    sourceId\n    sourceName\n    sourceType\n  }\n}",
           operationName: "workspacePolicyDeploySourceAllowlistAdd",
           type: "mutation",
         }),
@@ -25981,13 +26581,6 @@ export const WorkspacePolicyDeploySourceAllowlistAddResponseAddedByFlagsList =
     UserFlag,
   ) as any as S.Schema<WorkspacePolicyDeploySourceAllowlistAddResponseAddedByFlagsList>;
 
-export type WorkspacePolicyDeploySourceAllowlistAddResponseAddedByPlatformFeatureFlagsList =
-  Array<ActivePlatformFlag>;
-export const WorkspacePolicyDeploySourceAllowlistAddResponseAddedByPlatformFeatureFlagsList =
-  /*@__PURE__*/ S.Array(
-    ActivePlatformFlag,
-  ) as any as S.Schema<WorkspacePolicyDeploySourceAllowlistAddResponseAddedByPlatformFeatureFlagsList>;
-
 export interface WorkspacePolicyDeploySourceAllowlistAddResponseAddedBy {
   agreedFairUse: boolean;
   avatar: string | null;
@@ -26006,7 +26599,6 @@ export interface WorkspacePolicyDeploySourceAllowlistAddResponseAddedBy {
   isVerified: boolean;
   lastLogin: string;
   name: string | null;
-  platformFeatureFlags: WorkspacePolicyDeploySourceAllowlistAddResponseAddedByPlatformFeatureFlagsList;
   registrationStatus: RegistrationStatus;
   riskLevel: number | null;
   termsAgreedOn: string | null;
@@ -26033,8 +26625,6 @@ export const WorkspacePolicyDeploySourceAllowlistAddResponseAddedBy =
       isVerified: S.Boolean,
       lastLogin: S.String,
       name: S.NullOr(S.String),
-      platformFeatureFlags:
-        WorkspacePolicyDeploySourceAllowlistAddResponseAddedByPlatformFeatureFlagsList,
       registrationStatus: RegistrationStatus,
       riskLevel: S.NullOr(S.Number),
       termsAgreedOn: S.NullOr(S.String),
@@ -26856,7 +27446,7 @@ export const cancelLoginSession: API.OperationMethod<
 }));
 
 export type CancelPitrHaWorkflowError = RailwayOpError;
-/** Cancels an in-progress PITR enable/disable rollout on a Postgres HA cluster and resets its progress so the UI re-reads from the live cluster. No-ops when nothing is running. */
+/** Cancels an in-progress PITR enable/disable rollout on an HA database cluster and resets its progress so the UI re-reads from the live cluster. No-ops when nothing is running. */
 export const cancelPitrHaWorkflow: API.OperationMethod<
   CancelPitrHaWorkflowRequest,
   CancelPitrHaWorkflowResponse,
@@ -27464,6 +28054,21 @@ export const createRailwayDomainDnsRecord: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreateRailwayDomainEmailForwardingRuleError = RailwayOpError;
+/** Forward an address on this domain to an external inbox */
+export const createRailwayDomainEmailForwardingRule: API.OperationMethod<
+  CreateRailwayDomainEmailForwardingRuleRequest,
+  CreateRailwayDomainEmailForwardingRuleResponse,
+  CreateRailwayDomainEmailForwardingRuleError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreateRailwayDomainEmailForwardingRuleRequest,
+  output: CreateRailwayDomainEmailForwardingRuleResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateSandboxError = RailwayOpError;
 /** Create a sandbox in an environment. */
 export const createSandbox: API.OperationMethod<
@@ -27954,6 +28559,21 @@ export const deleteRailwayDomainDnsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRailwayDomainDnsRecordRequest,
   output: DeleteRailwayDomainDnsRecordResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeleteRailwayDomainEmailForwardingRuleError = RailwayOpError;
+/** Stop forwarding an address on this domain */
+export const deleteRailwayDomainEmailForwardingRule: API.OperationMethod<
+  DeleteRailwayDomainEmailForwardingRuleRequest,
+  DeleteRailwayDomainEmailForwardingRuleResponse,
+  DeleteRailwayDomainEmailForwardingRuleError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeleteRailwayDomainEmailForwardingRuleRequest,
+  output: DeleteRailwayDomainEmailForwardingRuleResponse,
   errors: [UnknownRailwayError, RailwayParseError],
   protocol: RailwayGraphqlProtocol,
   retry: Retry.Retry,
@@ -28458,7 +29078,7 @@ export const detachAccessGroupProject: API.OperationMethod<
 }));
 
 export type DisablePitrForHaClusterError = RailwayOpError;
-/** Disables point-in-time recovery on a Postgres HA cluster with the same rolling rollout as enable. The backup bucket is left intact, so existing backup history is preserved. */
+/** Disables point-in-time recovery on an HA database cluster with the same rolling rollout as enable. The backup bucket is left intact, so existing backup history is preserved. */
 export const disablePitrForHaCluster: API.OperationMethod<
   DisablePitrForHaClusterRequest,
   DisablePitrForHaClusterResponse,
@@ -28623,7 +29243,7 @@ export const emailChangeInitiate: API.OperationMethod<
 }));
 
 export type EnablePitrForHaClusterError = RailwayOpError;
-/** Enables point-in-time recovery on a Postgres HA cluster with a rolling, near-zero-downtime rollout across its members. Safe to retry. */
+/** Enables point-in-time recovery on an HA database cluster (Postgres HA, MySQL HA) with a rolling, near-zero-downtime rollout across its members. Safe to retry. */
 export const enablePitrForHaCluster: API.OperationMethod<
   EnablePitrForHaClusterRequest,
   EnablePitrForHaClusterResponse,
@@ -28697,6 +29317,33 @@ export const environmentHasLegacyStaticEgress: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type EnvironmentHistoryError = RailwayOpError;
+/** Settled history for an environment (system events + terminal operations), newest first. Cursor-paginated. */
+export const environmentHistory: API.PaginatedOperationMethod<
+  EnvironmentHistoryRequest,
+  EnvironmentHistoryResponse,
+  EnvironmentHistoryError,
+  RailwayOpContext,
+  EnvironmentHistoryResponseEdgesItemNode
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: EnvironmentHistoryRequest,
+    output: EnvironmentHistoryResponse,
+    errors: [UnknownRailwayError, RailwayParseError],
+    protocol: RailwayGraphqlProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "relay",
+      inputToken: "after",
+      outputToken: "pageInfo.endCursor",
+      hasNextPage: "pageInfo.hasNextPage",
+      items: "edges.node",
+      pageSize: "first",
+    } as const,
+  }),
+  paginateRelay,
+) as any;
+
 export type EnvironmentLogsError = RailwayOpError;
 /** Fetch logs for a project environment. Build logs are excluded unless a snapshot ID is explicitly provided in the filter */
 export const environmentLogs: API.OperationMethod<
@@ -28768,6 +29415,21 @@ export const environmentPatches: API.PaginatedOperationMethod<
   }),
   paginateRelay,
 ) as any;
+
+export type EnvironmentPatchRestageError = RailwayOpError;
+/** Copy a FAILED patch's changes into the environment's staged patch (creating one if needed). The FAILED patch is left untouched. */
+export const environmentPatchRestage: API.OperationMethod<
+  EnvironmentPatchRestageRequest,
+  EnvironmentPatchRestageResponse,
+  EnvironmentPatchRestageError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: EnvironmentPatchRestageRequest,
+  output: EnvironmentPatchRestageResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
 
 export type EnvironmentPendingWorkError = RailwayOpError;
 /** Pending project-mutating work for an environment. Unions registered OperationSources (patches, standalone deploys) and returns parent rows only — not a stored inbox. */
@@ -29567,6 +30229,21 @@ export const myCloudAgents: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type MysqlPitrRestorableWindowError = RailwayOpError;
+/** The point-in-time window a MySQL service's binlog archive can restore to, resolved from the archive bucket: the oldest full backup (floor), the newest shipped binlog (ceiling) and every full backup's timestamp. archiveConfigured is false when the service carries no complete BINLOG_ARCHIVE_* contract. */
+export const mysqlPitrRestorableWindow: API.OperationMethod<
+  MysqlPitrRestorableWindowRequest,
+  MysqlPitrRestorableWindowResponse,
+  MysqlPitrRestorableWindowError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: MysqlPitrRestorableWindowRequest,
+  output: MysqlPitrRestorableWindowResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
 export type NetworkFlowLogsError = RailwayOpError;
 /** Fetch individual network flow logs for an environment */
 export const networkFlowLogs: API.OperationMethod<
@@ -29709,7 +30386,7 @@ export const patchEnvironment: API.OperationMethod<
 }));
 
 export type PitrHaClusterReplicationHealthError = RailwayOpError;
-/** Live replication health for a Postgres HA cluster. Use it to gate the Enable/Disable PITR buttons so a rollout can't start while a replica is too far behind to rejoin. Returns null when the service isn't an HA root. */
+/** Live replication health for an HA database cluster (Postgres HA, MySQL HA). Use it to gate the Enable/Disable PITR buttons so a rollout can't start while a member is too far behind to rejoin. Returns null when the service isn't an HA root. */
 export const pitrHaClusterReplicationHealth: API.OperationMethod<
   PitrHaClusterReplicationHealthRequest,
   PitrHaClusterReplicationHealthResponse,
@@ -29724,7 +30401,7 @@ export const pitrHaClusterReplicationHealth: API.OperationMethod<
 }));
 
 export type PitrHaWorkflowProgressError = RailwayOpError;
-/** One-shot read of the current progress of a PITR enable/disable rollout on a Postgres HA cluster. Use it to rehydrate state on page load, then poll this field for updates. Returns null when no rollout has run recently. */
+/** One-shot read of the current progress of a PITR enable/disable rollout on an HA database cluster. Use it to rehydrate state on page load, then poll this field for updates. Returns null when no rollout has run recently. */
 export const pitrHaWorkflowProgress: API.OperationMethod<
   PitrHaWorkflowProgressRequest,
   PitrHaWorkflowProgressResponse,
@@ -30282,6 +30959,81 @@ export const railwayDomainDnsRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: RailwayDomainDnsRecordsRequest,
   output: RailwayDomainDnsRecordsResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RailwayDomainEmailForwardingEligibilityError = RailwayOpError;
+/** Whether email forwarding can be offered on this domain, or why it can't. */
+export const railwayDomainEmailForwardingEligibility: API.OperationMethod<
+  RailwayDomainEmailForwardingEligibilityRequest,
+  RailwayDomainEmailForwardingEligibilityResponse,
+  RailwayDomainEmailForwardingEligibilityError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RailwayDomainEmailForwardingEligibilityRequest,
+  output: RailwayDomainEmailForwardingEligibilityResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RailwayDomainEmailForwardingLimitsError = RailwayOpError;
+/** Caps the forwarding UI surfaces before a rule is rejected server-side. Pass workspaceId for that workspace's alias allowance; without it the highest plan's is returned. */
+export const railwayDomainEmailForwardingLimits: API.OperationMethod<
+  RailwayDomainEmailForwardingLimitsRequest,
+  RailwayDomainEmailForwardingLimitsResponse,
+  RailwayDomainEmailForwardingLimitsError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RailwayDomainEmailForwardingLimitsRequest,
+  output: RailwayDomainEmailForwardingLimitsResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RailwayDomainEmailForwardingRemoveAllError = RailwayOpError;
+/** Stop forwarding every address on this domain, and remove the mail records that delivered them */
+export const railwayDomainEmailForwardingRemoveAll: API.OperationMethod<
+  RailwayDomainEmailForwardingRemoveAllRequest,
+  RailwayDomainEmailForwardingRemoveAllResponse,
+  RailwayDomainEmailForwardingRemoveAllError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RailwayDomainEmailForwardingRemoveAllRequest,
+  output: RailwayDomainEmailForwardingRemoveAllResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RailwayDomainEmailForwardingRulesError = RailwayOpError;
+/** List email forwarding rules for a Railway domain */
+export const railwayDomainEmailForwardingRules: API.OperationMethod<
+  RailwayDomainEmailForwardingRulesRequest,
+  RailwayDomainEmailForwardingRulesResponse,
+  RailwayDomainEmailForwardingRulesError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RailwayDomainEmailForwardingRulesRequest,
+  output: RailwayDomainEmailForwardingRulesResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type RailwayDomainEmailForwardingRuleSendTestError = RailwayOpError;
+/** Send a message to a forwarded address so the customer can confirm it delivers. */
+export const railwayDomainEmailForwardingRuleSendTest: API.OperationMethod<
+  RailwayDomainEmailForwardingRuleSendTestRequest,
+  RailwayDomainEmailForwardingRuleSendTestResponse,
+  RailwayDomainEmailForwardingRuleSendTestError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: RailwayDomainEmailForwardingRuleSendTestRequest,
+  output: RailwayDomainEmailForwardingRuleSendTestResponse,
   errors: [UnknownRailwayError, RailwayParseError],
   protocol: RailwayGraphqlProtocol,
   retry: Retry.Retry,
@@ -31851,6 +32603,21 @@ export const updateRailwayDomainDnsRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRailwayDomainDnsRecordRequest,
   output: UpdateRailwayDomainDnsRecordResponse,
+  errors: [UnknownRailwayError, RailwayParseError],
+  protocol: RailwayGraphqlProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UpdateRailwayDomainEmailForwardingRuleError = RailwayOpError;
+/** Change where a forwarded address delivers */
+export const updateRailwayDomainEmailForwardingRule: API.OperationMethod<
+  UpdateRailwayDomainEmailForwardingRuleRequest,
+  UpdateRailwayDomainEmailForwardingRuleResponse,
+  UpdateRailwayDomainEmailForwardingRuleError,
+  RailwayOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UpdateRailwayDomainEmailForwardingRuleRequest,
+  output: UpdateRailwayDomainEmailForwardingRuleResponse,
   errors: [UnknownRailwayError, RailwayParseError],
   protocol: RailwayGraphqlProtocol,
   retry: Retry.Retry,
