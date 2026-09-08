@@ -1,0 +1,15 @@
+{
+  "description": "The create and get responses always populate `ssh_key`; the spec leaves the envelope member optional. Required removes phantom-undefined handling in consumers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/responses/sshKeys_new/content/application~1json/schema/required",
+      "value": ["ssh_key"]
+    },
+    {
+      "op": "add",
+      "path": "/components/responses/sshKeys_existing/content/application~1json/schema/required",
+      "value": ["ssh_key"]
+    }
+  ]
+}
