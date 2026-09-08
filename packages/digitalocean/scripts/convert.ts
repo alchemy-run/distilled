@@ -28,5 +28,10 @@ await runOpenApiConvert({
     namespace: "com.digitalocean.api",
     serviceName: "DigitalOcean",
     skipDeprecated: true,
+    // Async-accept endpoints (droplet create, firewall create, droplet and
+    // firewall actions) answer 202 with the created resource in the body.
+    // Without it the converter finds no success schema and emits an empty
+    // response struct, so the created id is unreachable.
+    successStatuses: ["200", "201", "202", "204"],
   },
 });
