@@ -88457,7 +88457,7 @@
         "smithy.api#documentation": "Delete data stream options\n\nRemoves the data stream options from a data stream."
       }
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplate1Request": {
+    "com.elasticsearch.api#GetIndexTemplate1Request": {
       "type": "structure",
       "members": {
         "name": {
@@ -88677,18 +88677,18 @@
       },
       "traits": {}
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplate1ResponseIndexTemplatesList": {
+    "com.elasticsearch.api#GetIndexTemplate1ResponseIndexTemplatesList": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesGetIndexTemplateIndexTemplateItem"
       },
       "traits": {}
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplate1Response": {
+    "com.elasticsearch.api#GetIndexTemplate1Response": {
       "type": "structure",
       "members": {
         "index_templates": {
-          "target": "com.elasticsearch.api#IndicesGetIndexTemplate1ResponseIndexTemplatesList",
+          "target": "com.elasticsearch.api#GetIndexTemplate1ResponseIndexTemplatesList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -88698,13 +88698,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplate1": {
+    "com.elasticsearch.api#GetIndexTemplate1": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#IndicesGetIndexTemplate1Request"
+        "target": "com.elasticsearch.api#GetIndexTemplate1Request"
       },
       "output": {
-        "target": "com.elasticsearch.api#IndicesGetIndexTemplate1Response"
+        "target": "com.elasticsearch.api#GetIndexTemplate1Response"
       },
       "traits": {
         "smithy.api#http": {
@@ -88715,7 +88715,7 @@
         "smithy.api#documentation": "Get index templates\n\nGet information about one or more index templates.\n\n## Required authorization\n\n* Cluster privileges: `manage_index_templates`"
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplate1RequestComposedOfList": {
+    "com.elasticsearch.api#PutIndexTemplate1RequestComposedOfList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -88739,7 +88739,7 @@
       },
       "traits": {}
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList": {
+    "com.elasticsearch.api#PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -88748,7 +88748,7 @@
         "smithy.api#documentation": "The configuration option ignore_missing_component_templates can be used when an index template\nreferences a component template that might not exist"
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplate1Request": {
+    "com.elasticsearch.api#PutIndexTemplate1Request": {
       "type": "structure",
       "members": {
         "name": {
@@ -88787,7 +88787,7 @@
           }
         },
         "composed_of": {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplate1RequestComposedOfList",
+          "target": "com.elasticsearch.api#PutIndexTemplate1RequestComposedOfList",
           "traits": {
             "smithy.api#documentation": "An ordered list of component template names.\nComponent templates are merged in the order specified, meaning that the last component template specified has the highest precedence."
           }
@@ -88829,7 +88829,7 @@
           }
         },
         "ignore_missing_component_templates": {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplate1RequestIgnoreMissingComponentTemplatesList",
+          "target": "com.elasticsearch.api#PutIndexTemplate1RequestIgnoreMissingComponentTemplatesList",
           "traits": {
             "smithy.api#documentation": "The configuration option ignore_missing_component_templates can be used when an index template\nreferences a component template that might not exist"
           }
@@ -88845,10 +88845,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplate1": {
+    "com.elasticsearch.api#PutIndexTemplate1": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#IndicesPutIndexTemplate1Request"
+        "target": "com.elasticsearch.api#PutIndexTemplate1Request"
       },
       "output": {
         "target": "com.elasticsearch.api#TypesAcknowledgedResponseBase"
@@ -88862,7 +88862,7 @@
         "smithy.api#documentation": "Create or update an index template\n\nIndex templates define settings, mappings, and aliases that can be applied automatically to new indices.\n\nElasticsearch applies templates to new indices based on an wildcard pattern that matches the index name.\nIndex templates are applied during data stream or index creation.\nFor data streams, these settings and mappings are applied when the stream's backing indices are created.\nSettings and mappings specified in a create index API request override any settings or mappings specified in an index template.\nChanges to index templates do not affect existing indices, including the existing backing indices of a data stream.\n\nYou can use C-style `/* *\\/` block comments in index templates.\nYou can include comments anywhere in the request body, except before the opening curly bracket.\n\n**Multiple matching templates**\n\nIf multiple index templates match the name of a new index or data stream, the template with the highest priority is used.\n\nMultiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities.\n\n**Composing aliases, mappings, and settings**\n\nWhen multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates.\nAny mappings, settings, or aliases from the parent index template are merged in next.\nFinally, any configuration on the index request itself is merged.\nMapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration.\nIf a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one.\nThis recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`.\nIf an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end.\nIf an entry already exists with the same key, then it is overwritten by the new definition.\n\n## Required authorization\n\n* Cluster privileges: `manage_index_templates`"
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplateRequestComposedOfList": {
+    "com.elasticsearch.api#PutIndexTemplateRequestComposedOfList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -88871,7 +88871,7 @@
         "smithy.api#documentation": "An ordered list of component template names.\nComponent templates are merged in the order specified, meaning that the last component template specified has the highest precedence."
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList": {
+    "com.elasticsearch.api#PutIndexTemplateRequestIgnoreMissingComponentTemplatesList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -88880,7 +88880,7 @@
         "smithy.api#documentation": "The configuration option ignore_missing_component_templates can be used when an index template\nreferences a component template that might not exist"
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplateRequest": {
+    "com.elasticsearch.api#PutIndexTemplateRequest": {
       "type": "structure",
       "members": {
         "name": {
@@ -88919,7 +88919,7 @@
           }
         },
         "composed_of": {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplateRequestComposedOfList",
+          "target": "com.elasticsearch.api#PutIndexTemplateRequestComposedOfList",
           "traits": {
             "smithy.api#documentation": "An ordered list of component template names.\nComponent templates are merged in the order specified, meaning that the last component template specified has the highest precedence."
           }
@@ -88961,7 +88961,7 @@
           }
         },
         "ignore_missing_component_templates": {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplateRequestIgnoreMissingComponentTemplatesList",
+          "target": "com.elasticsearch.api#PutIndexTemplateRequestIgnoreMissingComponentTemplatesList",
           "traits": {
             "smithy.api#documentation": "The configuration option ignore_missing_component_templates can be used when an index template\nreferences a component template that might not exist"
           }
@@ -88977,10 +88977,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.elasticsearch.api#IndicesPutIndexTemplate": {
+    "com.elasticsearch.api#PutIndexTemplate": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#IndicesPutIndexTemplateRequest"
+        "target": "com.elasticsearch.api#PutIndexTemplateRequest"
       },
       "output": {
         "target": "com.elasticsearch.api#TypesAcknowledgedResponseBase"
@@ -88994,7 +88994,7 @@
         "smithy.api#documentation": "Create or update an index template\n\nIndex templates define settings, mappings, and aliases that can be applied automatically to new indices.\n\nElasticsearch applies templates to new indices based on an wildcard pattern that matches the index name.\nIndex templates are applied during data stream or index creation.\nFor data streams, these settings and mappings are applied when the stream's backing indices are created.\nSettings and mappings specified in a create index API request override any settings or mappings specified in an index template.\nChanges to index templates do not affect existing indices, including the existing backing indices of a data stream.\n\nYou can use C-style `/* *\\/` block comments in index templates.\nYou can include comments anywhere in the request body, except before the opening curly bracket.\n\n**Multiple matching templates**\n\nIf multiple index templates match the name of a new index or data stream, the template with the highest priority is used.\n\nMultiple templates with overlapping index patterns at the same priority are not allowed and an error will be thrown when attempting to create a template matching an existing index template at identical priorities.\n\n**Composing aliases, mappings, and settings**\n\nWhen multiple component templates are specified in the `composed_of` field for an index template, they are merged in the order specified, meaning that later component templates override earlier component templates.\nAny mappings, settings, or aliases from the parent index template are merged in next.\nFinally, any configuration on the index request itself is merged.\nMapping definitions are merged recursively, which means that later mapping components can introduce new field mappings and update the mapping configuration.\nIf a field mapping is already contained in an earlier component, its definition will be completely overwritten by the later one.\nThis recursive merging strategy applies not only to field mappings, but also root options like `dynamic_templates` and `meta`.\nIf an earlier component contains a `dynamic_templates` block, then by default new `dynamic_templates` entries are appended onto the end.\nIf an entry already exists with the same key, then it is overwritten by the new definition.\n\n## Required authorization\n\n* Cluster privileges: `manage_index_templates`"
       }
     },
-    "com.elasticsearch.api#IndicesDeleteIndexTemplateRequest": {
+    "com.elasticsearch.api#DeleteIndexTemplateRequest": {
       "type": "structure",
       "members": {
         "name": {
@@ -89024,10 +89024,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.elasticsearch.api#IndicesDeleteIndexTemplate": {
+    "com.elasticsearch.api#DeleteIndexTemplate": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#IndicesDeleteIndexTemplateRequest"
+        "target": "com.elasticsearch.api#DeleteIndexTemplateRequest"
       },
       "output": {
         "target": "com.elasticsearch.api#TypesAcknowledgedResponseBase"
@@ -91328,7 +91328,7 @@
         "smithy.api#documentation": "Get mapping definitions\n\nRetrieves mapping definitions for one or more fields.\nFor data streams, the API retrieves field mappings for the stream’s backing indices.\n\nThis API is useful if you don't need a complete mapping or if an index mapping contains a large number of fields.\n\n## Required authorization\n\n* Index privileges: `view_index_metadata`"
       }
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplateRequest": {
+    "com.elasticsearch.api#GetIndexTemplateRequest": {
       "type": "structure",
       "members": {
         "local": {
@@ -91364,18 +91364,18 @@
         "smithy.api#input": {}
       }
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplateResponseIndexTemplatesList": {
+    "com.elasticsearch.api#GetIndexTemplateResponseIndexTemplatesList": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesGetIndexTemplateIndexTemplateItem"
       },
       "traits": {}
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplateResponse": {
+    "com.elasticsearch.api#GetIndexTemplateResponse": {
       "type": "structure",
       "members": {
         "index_templates": {
-          "target": "com.elasticsearch.api#IndicesGetIndexTemplateResponseIndexTemplatesList",
+          "target": "com.elasticsearch.api#GetIndexTemplateResponseIndexTemplatesList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -91385,13 +91385,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.elasticsearch.api#IndicesGetIndexTemplate": {
+    "com.elasticsearch.api#GetIndexTemplate": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#IndicesGetIndexTemplateRequest"
+        "target": "com.elasticsearch.api#GetIndexTemplateRequest"
       },
       "output": {
-        "target": "com.elasticsearch.api#IndicesGetIndexTemplateResponse"
+        "target": "com.elasticsearch.api#GetIndexTemplateResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -95007,26 +95007,26 @@
         "smithy.api#documentation": "Resolve the cluster\n\nResolve the specified index expressions to return information about each cluster, including the local \"querying\" cluster, if included.\nIf no index expression is provided, the API will return information about all the remote clusters that are configured on the querying cluster.\n\nThis endpoint is useful before doing a cross-cluster search in order to determine which remote clusters should be included in a search.\n\nYou use the same index expression with this endpoint as you would for cross-cluster search.\nIndex and cluster exclusions are also supported with this endpoint.\n\nFor each cluster in the index expression, information is returned about:\n\n* Whether the querying (\"local\") cluster is currently connected to each remote cluster specified in the index expression. Note that this endpoint actively attempts to contact the remote clusters, unlike the `remote/info` endpoint.\n* Whether each remote cluster is configured with `skip_unavailable` as `true` or `false`.\n* Whether there are any indices, aliases, or data streams on that cluster that match the index expression.\n* Whether the search is likely to have errors returned when you do the cross-cluster search (including any authorization errors if you do not have permission to query the index).\n* Cluster version information, including the Elasticsearch server version.\n\nFor example, `GET /_resolve/cluster/my-index-*,cluster*:my-index-*` returns information about the local cluster and all remotely configured clusters that start with the alias `cluster*`.\nEach cluster returns information about whether it has any indices, aliases or data streams that match `my-index-*`.\n\n## Note on backwards compatibility\nThe ability to query without an index expression was added in version 8.18, so when\nquerying remote clusters older than that, the local cluster will send the index\nexpression `dummy*` to those remote clusters. Thus, if an errors occur, you may see a reference\nto that index expression even though you didn't request it. If it causes a problem, you can\ninstead include an index expression like `*:*` to bypass the issue.\n\n## Advantages of using this endpoint before a cross-cluster search\n\nYou may want to exclude a cluster or index from a search when:\n\n* A remote cluster is not currently connected and is configured with `skip_unavailable=false`. Running a cross-cluster search under those conditions will cause the entire search to fail.\n* A cluster has no matching indices, aliases or data streams for the index expression (or your user does not have permissions to search them). For example, suppose your index expression is `logs*,remote1:logs*` and the remote1 cluster has no indices, aliases or data streams that match `logs*`. In that case, that cluster will return no results from that cluster if you include it in a cross-cluster search.\n* The index expression (combined with any query parameters you specify) will likely cause an exception to be thrown when you do the search. In these cases, the \"error\" field in the `_resolve/cluster` response will be present. (This is also where security/permission errors will be shown.)\n* A remote cluster is an older version that does not support the feature you want to use in your search.\n\n## Test availability of remote clusters\n\nThe `remote/info` endpoint is commonly used to test whether the \"local\" cluster (the cluster being queried) is connected to its remote clusters, but it does not necessarily reflect whether the remote cluster is available or not.\nThe remote cluster may be available, while the local cluster is not currently connected to it.\n\nYou can use the `_resolve/cluster` API to attempt to reconnect to remote clusters.\nFor example with `GET _resolve/cluster` or `GET _resolve/cluster/*:*`.\nThe `connected` field in the response will indicate whether it was successful.\nIf a connection was (re-)established, this will also cause the `remote/info` endpoint to now indicate a connected status.\n\n## Required authorization\n\n* Index privileges: `view_index_metadata`"
       }
     },
-    "com.elasticsearch.api#ListIndicesResolveRequestModeCase1List": {
+    "com.elasticsearch.api#IndicesResolveIndexRequestModeCase1List": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesTypesIndexMode"
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveRequestMode": {
+    "com.elasticsearch.api#IndicesResolveIndexRequestMode": {
       "type": "union",
       "members": {
         "IndicesTypesIndexMode": {
           "target": "com.elasticsearch.api#IndicesTypesIndexMode"
         },
         "Case1": {
-          "target": "com.elasticsearch.api#ListIndicesResolveRequestModeCase1List"
+          "target": "com.elasticsearch.api#IndicesResolveIndexRequestModeCase1List"
         }
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveRequest": {
+    "com.elasticsearch.api#IndicesResolveIndexRequest": {
       "type": "structure",
       "members": {
         "name": {
@@ -95059,7 +95059,7 @@
           }
         },
         "mode": {
-          "target": "com.elasticsearch.api#ListIndicesResolveRequestMode",
+          "target": "com.elasticsearch.api#IndicesResolveIndexRequestMode",
           "traits": {
             "smithy.api#httpQuery": "mode",
             "smithy.api#documentation": "Filter indices by index mode - standard, lookup, time_series, etc. Comma-separated list of IndexMode. Empty means no filter."
@@ -95111,7 +95111,7 @@
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveResponseIndicesList": {
+    "com.elasticsearch.api#IndicesResolveIndexResponseIndicesList": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesResolveIndexResolveIndexItem"
@@ -95136,7 +95136,7 @@
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveResponseAliasesList": {
+    "com.elasticsearch.api#IndicesResolveIndexResponseAliasesList": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesResolveIndexResolveIndexAliasItem"
@@ -95167,30 +95167,30 @@
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveResponseDataStreamsList": {
+    "com.elasticsearch.api#IndicesResolveIndexResponseDataStreamsList": {
       "type": "list",
       "member": {
         "target": "com.elasticsearch.api#IndicesResolveIndexResolveIndexDataStreamsItem"
       },
       "traits": {}
     },
-    "com.elasticsearch.api#ListIndicesResolveResponse": {
+    "com.elasticsearch.api#IndicesResolveIndexResponse": {
       "type": "structure",
       "members": {
         "indices": {
-          "target": "com.elasticsearch.api#ListIndicesResolveResponseIndicesList",
+          "target": "com.elasticsearch.api#IndicesResolveIndexResponseIndicesList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "aliases": {
-          "target": "com.elasticsearch.api#ListIndicesResolveResponseAliasesList",
+          "target": "com.elasticsearch.api#IndicesResolveIndexResponseAliasesList",
           "traits": {
             "smithy.api#required": {}
           }
         },
         "data_streams": {
-          "target": "com.elasticsearch.api#ListIndicesResolveResponseDataStreamsList",
+          "target": "com.elasticsearch.api#IndicesResolveIndexResponseDataStreamsList",
           "traits": {
             "smithy.api#required": {}
           }
@@ -95200,13 +95200,13 @@
         "smithy.api#output": {}
       }
     },
-    "com.elasticsearch.api#ListIndicesResolve": {
+    "com.elasticsearch.api#IndicesResolveIndex": {
       "type": "operation",
       "input": {
-        "target": "com.elasticsearch.api#ListIndicesResolveRequest"
+        "target": "com.elasticsearch.api#IndicesResolveIndexRequest"
       },
       "output": {
-        "target": "com.elasticsearch.api#ListIndicesResolveResponse"
+        "target": "com.elasticsearch.api#IndicesResolveIndexResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -187715,16 +187715,16 @@
           "target": "com.elasticsearch.api#IndicesDeleteDataStreamOptions"
         },
         {
-          "target": "com.elasticsearch.api#IndicesGetIndexTemplate1"
+          "target": "com.elasticsearch.api#GetIndexTemplate1"
         },
         {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplate1"
+          "target": "com.elasticsearch.api#PutIndexTemplate1"
         },
         {
-          "target": "com.elasticsearch.api#IndicesPutIndexTemplate"
+          "target": "com.elasticsearch.api#PutIndexTemplate"
         },
         {
-          "target": "com.elasticsearch.api#IndicesDeleteIndexTemplate"
+          "target": "com.elasticsearch.api#DeleteIndexTemplate"
         },
         {
           "target": "com.elasticsearch.api#IndicesDiskUsage"
@@ -187790,7 +187790,7 @@
           "target": "com.elasticsearch.api#IndicesGetFieldMapping1"
         },
         {
-          "target": "com.elasticsearch.api#IndicesGetIndexTemplate"
+          "target": "com.elasticsearch.api#GetIndexTemplate"
         },
         {
           "target": "com.elasticsearch.api#IndicesGetMapping"
@@ -187871,7 +187871,7 @@
           "target": "com.elasticsearch.api#IndicesResolveCluster1"
         },
         {
-          "target": "com.elasticsearch.api#ListIndicesResolve"
+          "target": "com.elasticsearch.api#IndicesResolveIndex"
         },
         {
           "target": "com.elasticsearch.api#IndicesResolveIndex1"

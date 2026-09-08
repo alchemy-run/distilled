@@ -157,31 +157,6 @@ export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetContentResponse",
 }) as any as S.Schema<GetContentResponse>;
 
-export interface GetRuleRequest {
-  /** Use this field to specify the unique ID of the zone. */
-  zoneId: string;
-}
-export const GetRuleRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    zoneId: S.String.pipe(T.Label("zone_id")),
-  })
-    .pipe(
-      T.Http({
-        method: "GET",
-        uri: "/zones/{zone_id}/snippets/snippet_rules",
-        code: 200,
-      }),
-    )
-    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({ identifier: "GetRuleRequest" }) as any as S.Schema<GetRuleRequest>;
-
-export type GetRuleResponse = unknown;
-export const GetRuleResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Unknown.pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
-).annotate({
-  identifier: "GetRuleResponse",
-}) as any as S.Schema<GetRuleResponse>;
-
 export interface GetSnippetRequest {
   /** Use this field to specify the unique ID of the zone. */
   zoneId: string;
@@ -473,26 +448,6 @@ export const getContent: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetRuleError = SnippetRulesNotFound | Forbidden | CloudflareOpError;
-/** Fetches all snippet rules belonging to the zone. */
-export const getRule: API.OperationMethod<
-  GetRuleRequest,
-  GetRuleResponse,
-  GetRuleError,
-  CloudflareOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: GetRuleRequest,
-  output: GetRuleResponse,
-  errors: [
-    SnippetRulesNotFound,
-    Forbidden,
-    CloudflareRateLimited,
-    CloudflareError,
-  ],
-  protocol: CloudflareProtocol,
-  retry: Retry.Retry,
-}));
-
 export type GetSnippetError = SnippetNotFound | CloudflareOpError;
 /** Fetches a snippet belonging to the zone. */
 export const getSnippet: API.OperationMethod<
@@ -508,7 +463,10 @@ export const getSnippet: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type ListRulesError = CloudflareOpError;
+export type ListRulesError =
+  | SnippetRulesNotFound
+  | Forbidden
+  | CloudflareOpError;
 /** Fetches all snippet rules belonging to the zone. */
 export const listRules: API.OperationMethod<
   ListRulesRequest,
@@ -518,7 +476,12 @@ export const listRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: ListRulesRequest,
   output: ListRulesResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    SnippetRulesNotFound,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

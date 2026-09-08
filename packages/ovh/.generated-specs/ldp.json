@@ -7704,7 +7704,7 @@
         "smithy.api#documentation": "Returns the list of OpenSearch indexes attached to specified OpenSearch alias"
       }
     },
-    "com.ovh.ldp#ListDbaasLogsOutputOpensearchAliasRequest": {
+    "com.ovh.ldp#CreateDbaasLogOutputOpensearchAliasIndexRequest": {
       "type": "structure",
       "members": {
         "serviceName": {
@@ -7735,10 +7735,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.ovh.ldp#ListDbaasLogsOutputOpensearchAlias": {
+    "com.ovh.ldp#CreateDbaasLogOutputOpensearchAliasIndex": {
       "type": "operation",
       "input": {
-        "target": "com.ovh.ldp#ListDbaasLogsOutputOpensearchAliasRequest"
+        "target": "com.ovh.ldp#CreateDbaasLogOutputOpensearchAliasIndexRequest"
       },
       "output": {
         "target": "com.ovh.ldp#DbaasLogsOperation"
@@ -8136,7 +8136,7 @@
         "smithy.api#documentation": "Returns the list of OpenSearch indexes"
       }
     },
-    "com.ovh.ldp#ListDbaasLogsOutputOpensearchRequest": {
+    "com.ovh.ldp#CreateDbaasLogOutputOpensearchIndexRequest": {
       "type": "structure",
       "members": {
         "serviceName": {
@@ -8180,10 +8180,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.ovh.ldp#ListDbaasLogsOutputOpensearch": {
+    "com.ovh.ldp#CreateDbaasLogOutputOpensearchIndex": {
       "type": "operation",
       "input": {
-        "target": "com.ovh.ldp#ListDbaasLogsOutputOpensearchRequest"
+        "target": "com.ovh.ldp#CreateDbaasLogOutputOpensearchIndexRequest"
       },
       "output": {
         "target": "com.ovh.ldp#DbaasLogsOperation"
@@ -9777,7 +9777,7 @@
         "smithy.api#documentation": "Append a graylog dashboard permission to role"
       }
     },
-    "com.ovh.ldp#ListDbaasLogsRolePermissionRequest": {
+    "com.ovh.ldp#CreateDbaasLogRolePermissionIndexRequest": {
       "type": "structure",
       "members": {
         "serviceName": {
@@ -9815,10 +9815,10 @@
         "smithy.api#input": {}
       }
     },
-    "com.ovh.ldp#ListDbaasLogsRolePermission": {
+    "com.ovh.ldp#CreateDbaasLogRolePermissionIndex": {
       "type": "operation",
       "input": {
-        "target": "com.ovh.ldp#ListDbaasLogsRolePermissionRequest"
+        "target": "com.ovh.ldp#CreateDbaasLogRolePermissionIndexRequest"
       },
       "output": {
         "target": "com.ovh.ldp#DbaasLogsOperation"
@@ -11080,7 +11080,7 @@
           "target": "com.ovh.ldp#ListDbaasLogOutputOpensearchAliasIndex"
         },
         {
-          "target": "com.ovh.ldp#ListDbaasLogsOutputOpensearchAlias"
+          "target": "com.ovh.ldp#CreateDbaasLogOutputOpensearchAliasIndex"
         },
         {
           "target": "com.ovh.ldp#DeleteDbaasLogOutputOpensearchAliasIndex"
@@ -11101,7 +11101,7 @@
           "target": "com.ovh.ldp#ListDbaasLogOutputOpensearchIndex"
         },
         {
-          "target": "com.ovh.ldp#ListDbaasLogsOutputOpensearch"
+          "target": "com.ovh.ldp#CreateDbaasLogOutputOpensearchIndex"
         },
         {
           "target": "com.ovh.ldp#GetDbaasLogOutputOpensearchIndex"
@@ -11173,7 +11173,7 @@
           "target": "com.ovh.ldp#CreateDbaasLogRolePermissionDashboard"
         },
         {
-          "target": "com.ovh.ldp#ListDbaasLogsRolePermission"
+          "target": "com.ovh.ldp#CreateDbaasLogRolePermissionIndex"
         },
         {
           "target": "com.ovh.ldp#CreateDbaasLogRolePermissionOsd"

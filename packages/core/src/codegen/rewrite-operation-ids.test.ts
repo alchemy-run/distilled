@@ -141,6 +141,15 @@ const cases: ReadonlyArray<readonly [string, string]> = [
   ["DatabasesGet", "getDatabase"],
   ["ResponsesGet", "getResponse"],
   ["IndexesList", "listIndexes"],
+  // `index` is the Rails verb only on its own or as a whole `_` segment;
+  // joined into a camel id it names the index entity.
+  ["Apps_index", "listApps"],
+  ["InfoIndex", "infoIndex"],
+  ["QueryIndex", "queryIndex"],
+  ["IndexCreate", "createIndex"],
+  ["IndexDocument", "indexDocument"],
+  ["GetIndexInfo", "getIndexInfo"],
+  ["MetadataIndexList", "listMetadataIndex"],
   ["ProxiesList", "listProxies"],
   ["ProcessesGet", "getProcess"],
   ["Ec2AddressesGet", "getEc2Address"],
@@ -477,6 +486,7 @@ describe("pathToVerbNoun", () => {
     ["delete", "/users/{id}", "deleteUser"],
     ["post", "/users/{id}/reset", "resetUser"],
     ["post", "/emails/{email_id}/cancel", "cancelEmail"],
+    ["post", "/api/papers/index", "createPaperIndex"],
     ["get", "/orgs/{org}/repos", "listOrgRepos"],
     ["get", "/api/v1/annotation_layer", "listAnnotationLayer"],
     ["get", "/api/card", "listCard"],
