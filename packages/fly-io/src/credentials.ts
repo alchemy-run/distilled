@@ -7,7 +7,7 @@
  *
  * Alchemy and `flyctl` read `FLY_API_TOKEN`. `FLY_IO_API_KEY` is kept as a
  * fallback for older distilled consumers. Optional `FLY_API_HOSTNAME`
- * overrides the Machines API root (default `https://api.machines.dev/v1`).
+ * overrides the Machines API host (default `https://api.machines.dev`).
  *
  * Managed REST (MPG), GraphQL add-ons (Tigris, Redis), and Sprites all
  * reuse this token. Sprites never reads a separate env var: the protocol
@@ -20,7 +20,12 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 
-export const DEFAULT_API_BASE_URL = "https://api.machines.dev/v1";
+/**
+ * Machines API host. The generated Machines routes carry the `/v1` prefix
+ * (`/v1/apps/{app_name}/machines`), as the upstream OpenAPI spells them, so
+ * the base URL must not.
+ */
+export const DEFAULT_API_BASE_URL = "https://api.machines.dev";
 
 /** UI-EX REST + GraphQL host (MPG, Tigris, Redis). Not overridable via an invented env var. */
 export const DEFAULT_FLY_API_BASE_URL = "https://api.fly.io";
@@ -29,17 +34,18 @@ export const DEFAULT_FLY_API_BASE_URL = "https://api.fly.io";
 export const DEFAULT_SPRITES_API_BASE_URL = "https://api.sprites.dev/v1";
 
 /**
- * Normalize a Fly API hostname into the Machines API root.
+ * Normalize a Fly API hostname into the Machines API base URL.
  *
- * - unset / empty → `https://api.machines.dev/v1`
- * - already ends with `/v1` → used as-is (trailing slashes stripped)
- * - otherwise `/v1` is appended
+ * - unset / empty → `https://api.machines.dev`
+ * - trailing slashes stripped
+ * - a trailing `/v1` is dropped: `flyctl` and older consumers set
+ *   `FLY_API_HOSTNAME` to the `/v1` root, and the routes already carry it
  */
 export const normalizeApiBaseUrl = (hostname?: string): string => {
   if (hostname === undefined) return DEFAULT_API_BASE_URL;
   const trimmed = hostname.trim().replace(/\/+$/, "");
   if (trimmed.length === 0) return DEFAULT_API_BASE_URL;
-  return trimmed.endsWith("/v1") ? trimmed : `${trimmed}/v1`;
+  return trimmed.endsWith("/v1") ? trimmed.slice(0, -3) : trimmed;
 };
 
 export interface Config {

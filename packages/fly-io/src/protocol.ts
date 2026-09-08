@@ -3,7 +3,7 @@
  * Sprites REST.
  *
  * Machines (`FlyIoProtocol`) is a plain bearer-token JSON API at
- * `api.machines.dev/v1`. MPG (`FlyApiProtocol`) is the same token against
+ * `api.machines.dev` (routes carry the `/v1` prefix). MPG (`FlyApiProtocol`) is the same token against
  * `https://api.fly.io`. GraphQL add-ons (`FlyGraphqlProtocol`) POST
  * `{ query, operationName, variables }` to `https://api.fly.io/graphql`.
  *
@@ -355,7 +355,7 @@ const discoverOrgSlug = (fly: Config) =>
     const token = Redacted.value(fly.apiKey);
     const machinesRoot = fly.apiBaseUrl.replace(/\/+$/, "");
     const currentReq = HttpClientRequest.make("GET")(
-      `${machinesRoot}/tokens/current`,
+      `${machinesRoot}/v1/tokens/current`,
     ).pipe(
       HttpClientRequest.setHeaders({
         Authorization: `Bearer ${token}`,
