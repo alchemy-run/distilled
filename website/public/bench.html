@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Benchmarks — Distilled</title>
+    <meta
+      name="description"
+      content="What a Distilled SDK costs at runtime and in your bundle: per-call CPU with the network mocked, and rolldown output size and tree-shaking for one imported operation."
+    />
+    <link rel="canonical" href="https://distilled.cloud/bench" />
+    <meta name="theme-color" content="#0d0c0a" />
+    <meta property="og:site_name" content="Distilled" />
+    <meta property="og:title" content="Benchmarks — Distilled" />
+    <meta
+      property="og:description"
+      content="Per-call CPU cost and bundle size of Distilled SDKs, measured, not promised."
+    />
+    <meta property="og:url" content="https://distilled.cloud/bench" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://distilled.cloud/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://distilled.cloud/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-bench">
+    <a class="skip" href="#bundle">Skip to results</a>
+
+    <header class="top">
+      <div class="top__inner">
+        <a class="brand" href="/" aria-label="Distilled home">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M12 3h8v7.5l7 12.5a3 3 0 0 1-2.6 4.5H7.6A3 3 0 0 1 5 23L12 10.5V3z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path d="M8.2 20h15.6" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="16" cy="24" r="1.6" fill="var(--accent)" />
+          </svg>
+          <span class="brand__name">Distilled</span>
+        </a>
+        <nav class="top__nav" aria-label="Primary">
+          <a href="/#how">How it works</a>
+          <a href="/#packages">Packages</a>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >GitHub</a
+          >
+          <a href="https://www.npmjs.com/org/distilled.cloud" rel="noopener"
+            >npm</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="bench-hero" aria-labelledby="bench-title">
+        <p class="eyebrow">
+          <span
+            class="eyebrow__dot eyebrow__dot--bench"
+            aria-hidden="true"
+          ></span>
+          Benchmarks
+        </p>
+        <h1 id="bench-title">
+          What an SDK <em>costs</em>. Measured, not promised.
+        </h1>
+        <p class="lede">
+          Two questions a generated SDK has to answer: how much of your bundle
+          does importing one operation drag in, and how much CPU does calling it
+          burn once the network is out of the picture. These are the numbers,
+          straight from the harnesses in
+          <a
+            href="https://github.com/alchemy-run/distilled/tree/main/benches"
+            rel="noopener"
+            ><code>benches/</code></a
+          >.
+        </p>
+        <!-- BENCH_NOTICE -->
+      </section>
+
+      <nav class="bench-tabs" aria-label="Sections">
+        <a href="#bundle">Bundle size</a>
+        <a href="#runtime">Runtime</a>
+        <a href="#method">Method</a>
+      </nav>
+
+      <!-- ───────────── Bundle ───────────── -->
+      <section id="bundle" class="bench-section" aria-labelledby="bundle-title">
+        <!-- BENCH_BUNDLE -->
+      </section>
+
+      <!-- ───────────── Runtime ───────────── -->
+      <section
+        id="runtime"
+        class="bench-section"
+        aria-labelledby="runtime-title"
+      >
+        <!-- BENCH_RUNTIME -->
+      </section>
+
+      <section id="method" class="method" aria-labelledby="method-title">
+        <h2 id="method-title">How this is measured</h2>
+        <ul>
+          <li>
+            <strong>Bundle.</strong> A tiny worker-shaped entry imports one
+            Distilled operation and calls it, bundled with
+            <a href="https://rolldown.rs" rel="noopener">rolldown</a> using the
+            same options
+            <a href="https://alchemy.run" rel="noopener">Alchemy</a> uses for
+            Cloudflare Workers: <code>bun</code> resolve conditions, minified
+            single ESM chunk, PURE annotations on. Size is the chunk; gzip is
+            what the wire sees. Tree-shake quality is the number of operations
+            that survive minification out of the service's total, with a check
+            that no other service or provider leaked in.
+          </li>
+          <li>
+            <strong>Runtime.</strong> The <code>HttpClient</code> is replaced by
+            one that returns a canned response, so what remains is the SDK's own
+            work: schema encode, request build (including SigV4 for AWS),
+            response parse, envelope decode, retry wrapper. Numbers are per
+            call, measured with
+            <a href="https://github.com/evanwashere/mitata" rel="noopener"
+              >mitata</a
+            >
+            on Bun. The <em>baseline</em> row is the mocked round-trip with no
+            SDK in the loop; subtract it to see the SDK's share.
+          </li>
+          <li>
+            <strong>Caveats.</strong> One developer machine, quick profile.
+            Bytes are stable; milliseconds move ±30% between runs and boxes.
+            Nothing here is compared against a vendor SDK yet. Treat it as a
+            shape, not a guarantee.
+          </li>
+          <li>
+            Reproduce: <code>pnpm bench:bundle</code> and
+            <code>pnpm bench:runtime</code> from the repo root.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot__inner">
+        <p>
+          <span class="brand__name">Distilled</span>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          Apache-2.0
+          <span class="foot__sep" aria-hidden="true">·</span>
+          built for <a href="https://effect.website" rel="noopener">Effect</a>
+        </p>
+        <p>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >alchemy-run/distilled</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="/shame">Wall of shame</a>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://alchemy.run" rel="noopener">alchemy.run</a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Stage tabs in the runtime table: show one stage at a time.
+      for (const group of document.querySelectorAll("[data-stages]")) {
+        const buttons = [...group.querySelectorAll("[data-stage]")];
+        const rows = [...group.querySelectorAll("[data-row-stage]")];
+        const show = (stage) => {
+          for (const b of buttons) {
+            const on = b.dataset.stage === stage;
+            b.setAttribute("aria-pressed", String(on));
+          }
+          for (const r of rows) r.hidden = r.dataset.rowStage !== stage;
+        };
+        for (const b of buttons)
+          b.addEventListener("click", () => show(b.dataset.stage));
+        show(buttons[0]?.dataset.stage);
+      }
+    </script>
+  </body>
+</html>

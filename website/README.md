@@ -14,6 +14,14 @@ operations and the homepage award names the largest unpatched SDK; both are
 computed at build time by `scripts/patch-stats.ts` from
 `packages/*/patches` and `packages/*/src/services`.
 
+`/bench` (`public/bench.html`) renders the runtime and bundle benchmarks.
+`scripts/bench-data.ts` reads `benches/runtime/results/latest.json` and
+`benches/bundle/results/latest.json` (written by `pnpm bench:runtime:record`
+and `pnpm --filter @distilled.cloud/bench-bundle record`). If a file is
+missing it falls back to `data/bench-*.seed.json`, a snapshot flagged
+`seed: true` that the page labels as interim; delete the seeds once both
+artifacts are on `main`. If neither exists, that section is omitted.
+
 `public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
 which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
 committed so the site build never needs a browser. Display type is

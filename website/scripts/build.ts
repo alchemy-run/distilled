@@ -2,6 +2,13 @@
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import {
+  readBundleBench,
+  readRuntimeBench,
+  type BundleBench,
+  type BundleRow,
+  type RuntimeBench,
+} from "./bench-data.ts";
 import { readPatchStats, type PatchStats } from "./patch-stats.ts";
 
 const websiteRoot = fileURLToPath(new URL("..", import.meta.url));
@@ -420,8 +427,224 @@ const awardHtml = (ranked: Ranked[]): string => {
   );
 };
 
+// ───────────── /bench ─────────────
+
+const kb = (bytes: number) => `${fmt1.format(bytes / 1024)} KB`;
+const ms = (n: number) =>
+  n >= 1000 ? `${fmt1.format(n / 1000)} s` : `${fmt.format(Math.round(n))} ms`;
+const ns = (n: number) =>
+  n >= 1e6
+    ? `${fmt1.format(n / 1e6)} ms`
+    : n >= 1e3
+      ? `${fmt.format(Math.round(n / 1e3))} µs`
+      : `${fmt.format(Math.round(n))} ns`;
+const kops = (n: number) =>
+  n >= 1e6
+    ? `${fmt1.format(n / 1e6)}M`
+    : n >= 1e3
+      ? `${fmt.format(Math.round(n / 1e3))}k`
+      : fmt.format(Math.round(n));
+
+const shortDate = (iso: string): string => {
+  const d = new Date(iso);
+  return Number.isNaN(d.getTime())
+    ? escapeHtml(iso)
+    : d.toISOString().slice(0, 10);
+};
+
+/** Escape, then turn `code` spans into <code>; bench descriptions use them. */
+const inlineCode = (text: string): string =>
+  escapeHtml(text).replace(/`([^`]+)`/g, "<code>$1</code>");
+
+const benchNotice = (
+  runtime: RuntimeBench | null,
+  bundle: BundleBench | null,
+): string => {
+  const seeded = [
+    runtime?.seed ? "runtime" : "",
+    bundle?.seed ? "bundle" : "",
+  ].filter(Boolean);
+  if (seeded.length === 0) return "";
+  return (
+    `<p class="notice"><b>Interim numbers.</b> The ${seeded.join(" and ")} figures below are the values the benchmark authors posted while their harnesses land ` +
+    `(<a href="https://github.com/alchemy-run/distilled/pull/567" rel="noopener">#567</a>, ` +
+    `<a href="https://github.com/alchemy-run/distilled/pull/569" rel="noopener">#569</a>). ` +
+    `This page switches to the committed <code>results/latest.json</code> automatically once it exists.</p>`
+  );
+};
+
+const bundleSection = (b: BundleBench | null): string => {
+  if (!b) return "";
+  const rows = [...b.rows];
+  const maxBytes = Math.max(...rows.map((r) => r.bytes));
+  const base = (fixture: string) =>
+    rows.find((r) => r.fixture === fixture && r.variant === "bun");
+  const s3 = base("aws-s3-deep");
+  const cf = base("cf-workers-deep");
+  const both = base("combined-worker");
+  const headline = [s3, cf, both]
+    .filter((r): r is BundleRow => r !== undefined)
+    .map((r) => {
+      const label =
+        r.fixture === "aws-s3-deep"
+          ? "one S3 operation"
+          : r.fixture === "cf-workers-deep"
+            ? "one Workers operation"
+            : "S3 + Workers together";
+      return `<div class="stat"><span class="stat__n">${kb(r.gzipBytes)}</span><span class="stat__l">${label} · gzip</span></div>`;
+    })
+    .join("");
+
+  const row = (r: BundleRow) => {
+    const gzW = Math.max(1.5, (r.gzipBytes / maxBytes) * 100);
+    const rawW = Math.max(gzW, (r.bytes / maxBytes) * 100);
+    const shake = r.opsRetained
+      .map(
+        (o) =>
+          `<span class="shake${o.retained <= 1 ? " shake--ok" : ""}"><b>${o.retained}</b>/${o.total} ${escapeHtml(o.service)}</span>`,
+      )
+      .join("");
+    const leak =
+      r.leaks > 0
+        ? `<span class="shake shake--bad">${r.leaks} leak${r.leaks === 1 ? "" : "s"}</span>`
+        : `<span class="shake shake--ok">no leaks</span>`;
+    const variant =
+      r.variant === "bun"
+        ? ""
+        : `<span class="variant">${escapeHtml(r.variant.replace("bun+", "+"))}</span>`;
+    return (
+      `<li class="brow">` +
+      `<div class="brow__head">` +
+      `<span class="brow__name"><code>${escapeHtml(r.fixture)}</code>${variant}</span>` +
+      `<span class="brow__desc">${inlineCode(r.description ?? "")}</span>` +
+      `</div>` +
+      `<div class="brow__bar" aria-hidden="true">` +
+      `<span class="brow__raw" style="width:${rawW.toFixed(1)}%"></span>` +
+      `<span class="brow__gz" style="width:${gzW.toFixed(1)}%"></span>` +
+      `</div>` +
+      `<div class="brow__nums">` +
+      `<span><b>${kb(r.gzipBytes)}</b> gzip</span>` +
+      `<span>${kb(r.bytes)} raw</span>` +
+      `<span><b>${ms(r.coldMs)}</b> cold</span>` +
+      (r.warmMs === null ? "" : `<span>${ms(r.warmMs)} warm</span>`) +
+      `</div>` +
+      `<div class="brow__shake">${shake}${leak}</div>` +
+      `</li>`
+    );
+  };
+
+  return (
+    `<div class="section__head">` +
+    `<p class="eyebrow">Bundle size</p>` +
+    `<h2 id="bundle-title">Import one operation, pay for <em>one</em> operation.</h2>` +
+    `<p class="section__lede">Each row is a small worker that imports a single Distilled operation and calls it, bundled the way Alchemy bundles for Cloudflare Workers. Deep and barrel imports produce the same bytes; the barrel just costs bundle time.</p>` +
+    `</div>` +
+    `<div class="shame-stats bench-stats">${headline}</div>` +
+    `<ul class="brows">${rows.map(row).join("")}</ul>` +
+    `<p class="bench-meta">rolldown ${escapeHtml(b.rolldown)} · bun ${escapeHtml(b.bun)}${b.host?.cpu ? ` · ${escapeHtml(b.host.cpu)}` : ""} · ${b.runs} run${b.runs === 1 ? "" : "s"} · ${shortDate(b.generatedAt)} · <code>${escapeHtml(b.commit)}</code></p>`
+  );
+};
+
+const STAGE_LABELS: Record<string, string> = {
+  call: "Full call",
+  build: "Build request",
+  "wire-decode": "Parse response",
+  encode: "Encode input",
+  decode: "Decode output",
+  "call-error": "Typed error",
+};
+const STAGE_ORDER = [
+  "call",
+  "build",
+  "wire-decode",
+  "decode",
+  "encode",
+  "call-error",
+];
+
+const runtimeSection = (r: RuntimeBench | null): string => {
+  if (!r) return "";
+  const results = [...r.results];
+  const baseline =
+    results.find((x) => x.name === "baseline/mock-http/roundtrip/call") ??
+    results.find((x) => x.provider === "baseline" && x.stage === "call");
+  const stages = STAGE_ORDER.filter((s) => results.some((x) => x.stage === s));
+  const byStage = (s: string) =>
+    results
+      .filter((x) => x.stage === s && x.provider !== "baseline")
+      .sort((a, b) => b.opsPerSec - a.opsPerSec);
+
+  const fastest = (provider: string) =>
+    byStage("call").find((x) => x.provider === provider);
+  const cfBest = fastest("cloudflare");
+  const awsBest = fastest("aws");
+  const headline = [
+    baseline
+      ? `<div class="stat"><span class="stat__n">${ns(baseline.p50)}</span><span class="stat__l">mock round-trip, no SDK</span></div>`
+      : "",
+    cfBest
+      ? `<div class="stat"><span class="stat__n">${ns(cfBest.p50)}</span><span class="stat__l">cloudflare ${escapeHtml(cfBest.op)} · p50</span></div>`
+      : "",
+    awsBest
+      ? `<div class="stat"><span class="stat__n">${ns(awsBest.p50)}</span><span class="stat__l">aws ${escapeHtml(awsBest.op)} · p50 (SigV4)</span></div>`
+      : "",
+  ].join("");
+
+  const rowsHtml = stages
+    .map((stage) => {
+      const list = byStage(stage);
+      const maxP50 = Math.max(...list.map((x) => x.p50));
+      return list
+        .map((x) => {
+          const w = Math.max(1.5, (x.p50 / maxP50) * 100);
+          const baseW =
+            baseline && stage === "call"
+              ? Math.min(w, (baseline.p50 / maxP50) * 100)
+              : 0;
+          return (
+            `<tr data-row-stage="${escapeHtml(stage)}" hidden>` +
+            `<th scope="row"><span class="rrow__prov rrow__prov--${escapeHtml(x.provider)}">${escapeHtml(x.provider)}</span><code>${escapeHtml(x.service)}.${escapeHtml(x.op)}</code>${x.note ? `<span class="rrow__note">${escapeHtml(x.note)}</span>` : ""}</th>` +
+            `<td class="num"><b>${kops(x.opsPerSec)}</b><span class="unit">ops/s</span></td>` +
+            `<td class="num">${ns(x.p50)}</td>` +
+            `<td class="num muted">${ns(x.p99)}</td>` +
+            `<td class="barcell"><span class="rbar" aria-hidden="true"><i style="width:${w.toFixed(1)}%"></i>${baseW > 0 ? `<em style="width:${baseW.toFixed(1)}%" title="mock round-trip"></em>` : ""}</span></td>` +
+            `</tr>`
+          );
+        })
+        .join("");
+    })
+    .join("");
+
+  const tabs = stages
+    .map(
+      (s) =>
+        `<button type="button" data-stage="${escapeHtml(s)}" aria-pressed="false">${STAGE_LABELS[s] ?? escapeHtml(s)}</button>`,
+    )
+    .join("");
+
+  return (
+    `<div class="section__head">` +
+    `<p class="eyebrow">Runtime</p>` +
+    `<h2 id="runtime-title">Per call, with the network <em>removed</em>.</h2>` +
+    `<p class="section__lede">The HTTP client is mocked, so this is only the SDK's own work: encode, sign, serialize, parse, decode. Lower p50 is better; the faint bar on <em>Full call</em> rows is the mocked round-trip with no SDK at all.</p>` +
+    `</div>` +
+    `<div class="shame-stats bench-stats">${headline}</div>` +
+    `<div class="rtable" data-stages>` +
+    `<div class="stage-tabs" role="group" aria-label="Stage">${tabs}</div>` +
+    `<div class="rtable__scroll"><table>` +
+    `<thead><tr><th scope="col">operation</th><th scope="col" class="num">throughput</th><th scope="col" class="num">p50</th><th scope="col" class="num muted">p99</th><th scope="col" class="barcell"><span class="sr-only">relative p50</span></th></tr></thead>` +
+    `<tbody>${rowsHtml}</tbody></table></div>` +
+    `</div>` +
+    `<p class="bench-meta">${escapeHtml(r.machine.runtime)}${r.machine.cpu ? ` · ${escapeHtml(r.machine.cpu)}` : ""} · ${escapeHtml(r.profile)} profile · ${shortDate(r.generatedAt)} · <code>${escapeHtml(r.commit)}</code></p>`
+  );
+};
+
 const packages = await readPackages();
 const ranked = await rankStats(packages);
+const [runtimeBench, bundleBench] = await Promise.all([
+  readRuntimeBench(repoRoot, websiteRoot),
+  readBundleBench(repoRoot, websiteRoot),
+]);
 const offenders = ranked
   .filter((s) => s.fixes > 0)
   .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0) || b.fixes - a.fixes);
@@ -454,6 +677,24 @@ shame = shame.replace(
 );
 await writeFile(shamePath, shame);
 
+const benchPath = join(distDir, "bench.html");
+let bench = await readFile(benchPath, "utf8");
+bench = bench.replace(
+  "<!-- BENCH_NOTICE -->",
+  benchNotice(runtimeBench, bundleBench),
+);
+bench = bench.replace("<!-- BENCH_BUNDLE -->", bundleSection(bundleBench));
+bench = bench.replace("<!-- BENCH_RUNTIME -->", runtimeSection(runtimeBench));
+await writeFile(benchPath, bench);
+
+const benchNote = [
+  runtimeBench
+    ? `runtime ${runtimeBench.results.length}${runtimeBench.seed ? " (seed)" : ""}`
+    : "runtime —",
+  bundleBench
+    ? `bundle ${bundleBench.rows.length}${bundleBench.seed ? " (seed)" : ""}`
+    : "bundle —",
+].join(", ");
 console.log(
-  `built ${packages.length} packages, ${offenders.length} shamed, ${honour.length} honoured → ${distDir}`,
+  `built ${packages.length} packages, ${offenders.length} shamed, ${honour.length} honoured, bench: ${benchNote} → ${distDir}`,
 );
