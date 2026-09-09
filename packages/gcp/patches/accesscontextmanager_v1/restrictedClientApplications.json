@@ -1,0 +1,30 @@
+{
+  "description": "Keep GcpUserAccessBinding.restrictedClientApplications (array of Application) after Google's discovery drop. The property is deprecated in favor of scoped_access_settings, but Alchemy still sends it. spec-mirror dbcaa3b (discovery revision 20260819) still has it; live discovery 20260827 removed it. Convert emits the member from the mirror; this patch re-adds ApplicationList, the member, and the scopedAccessSettings mutual-exclusion sentence so a later specs:update does not regress.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ApplicationList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.gcp.accesscontextmanager_v1#Application"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GcpUserAccessBinding/members/restrictedClientApplications",
+      "value": {
+        "target": "com.gcp.accesscontextmanager_v1#ApplicationList",
+        "traits": {
+          "smithy.api#documentation": "Optional. Deprecated: Use `scoped_access_settings` instead. A list of applications that are subject to this binding's restrictions. If the list is empty, the binding restrictions will universally apply to all applications."
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GcpUserAccessBinding/members/scopedAccessSettings/traits/smithy.api#documentation",
+      "value": "Optional. A list of scoped access settings that set this binding's restrictions on a subset of applications. This field cannot be set if restricted_client_applications is set."
+    }
+  ]
+}

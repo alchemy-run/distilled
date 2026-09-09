@@ -765,6 +765,17 @@ console.log(
   `✅ Converted ${converted} discovery documents to Smithy models` +
     (failed ? ` (${failed} failed)` : ""),
 );
-await finalizeConvert({ root, outDir: ".generated-specs/stable" });
-await finalizeConvert({ root, outDir: ".generated-specs/unstable" });
+// A filtered run only rewrote those models; siblings in the output dirs
+// already carry `distilled.finalized` and must not be walked.
+const include = serviceFilter
+  ? (resource: string) => {
+      const prefix = ident(serviceFilter);
+      if (versionFilter) {
+        return resource === `${prefix}_${ident(versionFilter)}`;
+      }
+      return resource === prefix || resource.startsWith(`${prefix}_`);
+    }
+  : undefined;
+await finalizeConvert({ root, outDir: ".generated-specs/stable", include });
+await finalizeConvert({ root, outDir: ".generated-specs/unstable", include });
 if (failed) process.exit(1);
