@@ -258645,7 +258645,12 @@
         },
         "smithy.api#documentation": "Delete a product\n\n<p>Delete a product. Deleting a product is only possible if it has no prices associated with it. Additionally, deleting a product with <code>type=good</code> is only possible if it has no SKUs associated with it.</p>",
         "com.distilled.openapi#contentType": "form-urlencoded"
-      }
+      },
+      "errors": [
+        {
+          "target": "com.stripe.api#ProductHasPrices"
+        }
+      ]
     },
     "com.stripe.api#GetProductFeaturesRequestExpandList": {
       "type": "list",
@@ -409637,6 +409642,30 @@
       "traits": {
         "smithy.api#title": "Stripe API",
         "smithy.api#documentation": "The Stripe REST API. Please see https://stripe.com/docs/api for more details."
+      }
+    },
+    "com.stripe.api#ProductHasPrices": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The product cannot be deleted because it has one or more user-created prices (Stripe `invalid_request_error`, HTTP 400).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "user-created prices"
+            }
+          }
+        ]
       }
     }
   }
