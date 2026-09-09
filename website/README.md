@@ -22,6 +22,11 @@ missing it falls back to `data/bench-*.seed.json`, a snapshot flagged
 `seed: true` that the page labels as interim; delete the seeds once both
 artifacts are on `main`. If neither exists, that section is omitted.
 
+Package cards show a brand mark from `data/brand-icons.json` (Simple Icons,
+CC0, plus official AWS/Azure/GCP marks), emitted once as an SVG sprite;
+packages without an entry get a monogram. Add a `{ viewBox, d }` entry
+keyed by `packages/<dir>` to give a new provider a mark.
+
 `public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
 which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
 committed so the site build never needs a browser. Display type is

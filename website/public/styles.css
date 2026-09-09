@@ -1342,9 +1342,25 @@ pre.code code {
 .offender__head {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.25rem 1rem;
+  align-items: center;
+  gap: 0.25rem 0.7rem;
+}
+.offender__head .pkg__mark {
+  width: 1.9rem;
+  height: 1.9rem;
+}
+.offender__head .pkg__mark svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+.offender__head .offender__score {
+  margin-left: auto;
+}
+.offender--gold .pkg__mark,
+.offender--silver .pkg__mark,
+.offender--bronze .pkg__mark {
+  color: var(--shame-2);
+  border-color: color-mix(in oklab, var(--shame) 45%, var(--line-2));
 }
 .offender__name {
   font-family: var(--mono);
@@ -1439,10 +1455,9 @@ pre.code code {
 }
 .honour__item a {
   display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding: 0.55rem 0.8rem;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 0.7rem 0.45rem 0.5rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: color-mix(in oklab, var(--bg-2) 80%, transparent);
@@ -1453,12 +1468,30 @@ pre.code code {
   border-color: color-mix(in oklab, var(--accent) 50%, var(--line-2));
 }
 .honour__name {
+  flex: 1;
+  min-width: 0;
   font-family: var(--mono);
   font-size: 0.86rem;
   color: var(--fg);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.honour__item .pkg__mark {
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: none;
+}
+.honour__item .pkg__mark svg {
+  width: 1rem;
+  height: 1rem;
+}
+.honour__item .pkg__mark--mono {
+  font-size: 0.85rem;
+}
+.honour__item a:hover .pkg__mark {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line-2));
 }
 .honour__ops {
   font-family: var(--mono);
@@ -2012,9 +2045,11 @@ pre.code code {
 .pkg {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.15rem 0.5rem;
-  padding: 0.7rem 0.85rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  gap: 0.1rem 0.7rem;
+  align-items: center;
+  padding: 0.65rem 0.85rem 0.65rem 0.7rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: color-mix(in oklab, var(--bg-2) 80%, transparent);
@@ -2026,8 +2061,43 @@ pre.code code {
   border-color: var(--line-2);
   background: var(--bg-2);
 }
-.pkg__name {
+.pkg__mark {
   grid-column: 1;
+  grid-row: 1 / span 2;
+  display: grid;
+  place-items: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--fg);
+  transition:
+    color 120ms ease,
+    border-color 120ms ease,
+    background-color 120ms ease;
+}
+.pkg__mark svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: currentColor;
+}
+.pkg__mark--mono {
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 48,
+    "SOFT" 30;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  color: var(--fg-2);
+}
+.pkg:hover .pkg__mark {
+  color: var(--g);
+  border-color: color-mix(in oklab, var(--g) 45%, var(--line-2));
+  background: color-mix(in oklab, var(--g) 8%, var(--bg));
+}
+.pkg__name {
+  grid-column: 2;
   font-family: var(--mono);
   font-size: 0.9rem;
   font-weight: 500;
@@ -2044,7 +2114,7 @@ pre.code code {
   border-radius: inherit;
 }
 .pkg__meta {
-  grid-column: 1;
+  grid-column: 2;
   display: flex;
   gap: 0.6rem;
   font-family: var(--mono);
@@ -2052,7 +2122,7 @@ pre.code code {
   color: var(--fg-3);
 }
 .pkg__src {
-  grid-column: 2;
+  grid-column: 3;
   grid-row: 1 / span 2;
   align-self: center;
   position: relative;
