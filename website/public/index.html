@@ -191,7 +191,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
           </p>
         </div>
 
-        <ol class="pipe" aria-label="Generation pipeline">
+        <ol class="pipe" aria-label="Generation pipeline" data-reveal>
           <li class="pipe__step">
             <span class="pipe__n">01</span>
             <h3>Source</h3>
@@ -209,6 +209,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
           <li class="pipe__arrow" aria-hidden="true">
             <svg viewBox="0 0 48 24">
               <path
+                class="pipe__line"
                 d="M2 12h40m-8-8 8 8-8 8"
                 fill="none"
                 stroke="currentColor"
@@ -216,6 +217,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
+              <circle class="pipe__drop" r="2.4" cy="12" cx="2" />
             </svg>
           </li>
           <li class="pipe__step pipe__step--hot">
@@ -235,6 +237,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
           <li class="pipe__arrow" aria-hidden="true">
             <svg viewBox="0 0 48 24">
               <path
+                class="pipe__line"
                 d="M2 12h40m-8-8 8 8-8 8"
                 fill="none"
                 stroke="currentColor"
@@ -242,6 +245,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
                 stroke-linecap="round"
                 stroke-linejoin="round"
               />
+              <circle class="pipe__drop" r="2.4" cy="12" cx="2" />
             </svg>
           </li>
           <li class="pipe__step">
@@ -439,6 +443,35 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
           input?.focus();
         }
       });
+
+      // Scroll reveal: add .is-in once a [data-reveal] block is ~25% visible.
+      // Chips get --i for their stagger. Without IntersectionObserver, reveal
+      // immediately so nothing stays hidden.
+      for (const block of document.querySelectorAll("[data-reveal]")) {
+        block.querySelectorAll(".chips").forEach((list) => {
+          [...list.children].forEach((li, i) => li.style.setProperty("--i", i));
+        });
+      }
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add("is-in");
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { threshold: 0.25 },
+        );
+        document
+          .querySelectorAll("[data-reveal]")
+          .forEach((el) => io.observe(el));
+      } else {
+        document
+          .querySelectorAll("[data-reveal]")
+          .forEach((el) => el.classList.add("is-in"));
+      }
 
       // Copy buttons: copy the text of the element referenced by data-copy.
       for (const btn of document.querySelectorAll("[data-copy]")) {
