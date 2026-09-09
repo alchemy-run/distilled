@@ -679,6 +679,417 @@ pre.code code {
   color: var(--fg);
 }
 
+/* ───────────── Award (homepage) ───────────── */
+
+.award {
+  padding: clamp(2.5rem, 6vw, 4rem) 0 0;
+}
+.award:empty {
+  display: none;
+}
+
+.award__card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+  align-items: center;
+  padding: 1.6rem 1.75rem;
+  border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--line));
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      40rem 14rem at 0% 50%,
+      color-mix(in oklab, var(--accent) 14%, transparent),
+      transparent 70%
+    ),
+    color-mix(in oklab, var(--bg-2) 85%, transparent);
+}
+@media (min-width: 56rem) {
+  .award__card {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1.5rem 2rem;
+  }
+}
+
+.award__laurel {
+  width: 4rem;
+  height: 4rem;
+  color: var(--accent);
+  flex: none;
+}
+.award__body .eyebrow {
+  margin-bottom: 0.35rem;
+}
+.award__title {
+  font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
+  line-height: 1.05;
+}
+.award__title a {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.award__title a::before {
+  content: "@distilled.cloud/";
+  color: var(--fg-3);
+  font-weight: 400;
+}
+@media (max-width: 40rem) {
+  .award__title a::before {
+    display: block;
+    font-size: 0.6em;
+    line-height: 1.2;
+  }
+}
+.award__blurb {
+  margin: 0.5rem 0 0;
+  color: var(--fg-2);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+.award__blurb b {
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.award__aside {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 56rem) {
+  .award__aside {
+    grid-column: auto;
+    max-width: 18rem;
+    padding: 0 0 0 1.75rem;
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+}
+.award__worst {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+.award__worst a {
+  color: var(--fg);
+  font-family: var(--mono);
+  font-size: 0.92em;
+}
+.award__worst b {
+  color: var(--fg);
+}
+
+/* ───────────── /shame ───────────── */
+
+.page-shame {
+  /* Same grid, but the glow is ember-red instead of copper. */
+  background-image:
+    radial-gradient(
+      60rem 30rem at 70% -10%,
+      color-mix(in oklab, var(--shame) 14%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      color-mix(in oklab, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    );
+  --shame: #d9634a;
+  --shame-2: #f0846c;
+}
+@media (prefers-color-scheme: light) {
+  .page-shame {
+    --shame: #b3452f;
+    --shame-2: #8e3722;
+  }
+}
+
+.eyebrow__dot--shame {
+  background: var(--shame);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--shame) 22%, transparent);
+}
+
+.shame-hero {
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
+  max-width: 52rem;
+}
+.shame-hero h1 {
+  font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.2rem);
+}
+.shame-hero h1 em {
+  color: var(--accent-2);
+}
+.lede--small {
+  font-size: 1rem;
+  color: var(--fg-3);
+}
+.lede--small strong {
+  color: var(--fg-2);
+  font-weight: 600;
+}
+
+.shame-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+  margin-bottom: clamp(3rem, 7vw, 5rem);
+}
+@media (min-width: 48rem) {
+  .shame-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.stat {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1.25rem 1.4rem;
+  border-left: 1px solid var(--line);
+}
+.stat:first-child {
+  border-left: 0;
+}
+@media (max-width: 47.99rem) {
+  .stat:nth-child(odd) {
+    border-left: 0;
+  }
+  .stat:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+}
+.stat__n {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.stat__l {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.board {
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+
+.offenders {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.offender {
+  display: grid;
+  grid-template-columns: 2.6rem minmax(0, 1fr);
+  gap: 0 1rem;
+  padding: 1.1rem 1.25rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+}
+.offender--gold {
+  border-color: color-mix(in oklab, var(--shame) 55%, var(--line));
+  background:
+    radial-gradient(
+      36rem 10rem at 0% 0%,
+      color-mix(in oklab, var(--shame) 16%, transparent),
+      transparent 70%
+    ),
+    color-mix(in oklab, var(--bg-2) 85%, transparent);
+}
+.offender--silver {
+  border-color: color-mix(in oklab, var(--shame) 32%, var(--line));
+}
+.offender--bronze {
+  border-color: color-mix(in oklab, var(--shame) 18%, var(--line));
+}
+
+.offender__rank {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--fg-3);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.1rem;
+}
+.offender--gold .offender__rank,
+.offender--silver .offender__rank,
+.offender--bronze .offender__rank {
+  color: var(--shame-2);
+}
+
+.offender__body {
+  min-width: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+.offender__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+.offender__name {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--fg);
+}
+.offender__name::before {
+  content: "@distilled.cloud/";
+  color: var(--fg-3);
+  font-weight: 400;
+}
+.offender__score {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--fg-3);
+  white-space: nowrap;
+}
+.offender__score b {
+  font-size: 1.05rem;
+  color: var(--shame-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.bar {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.bar__fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--shame));
+}
+
+.offender__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--fg-3);
+}
+.offender__meta b {
+  color: var(--fg-2);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.offender__link {
+  margin-left: auto;
+  color: var(--fg-2);
+}
+
+.offender__ops {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.op {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--fg-3);
+  background: var(--bg);
+}
+.op b {
+  color: var(--fg-2);
+  font-weight: 500;
+}
+.op--remove {
+  border-color: color-mix(in oklab, var(--shame) 45%, var(--line-2));
+}
+
+.honour {
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+.honour h2 em {
+  color: var(--accent-2);
+}
+.honour__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+  gap: 0.45rem;
+}
+.honour__item a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--bg-2) 80%, transparent);
+  transition: border-color 120ms ease;
+}
+.honour__item a:hover {
+  text-decoration: none;
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--line-2));
+}
+.honour__name {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  color: var(--fg);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.honour__ops {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--fg-3);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.method {
+  max-width: var(--measure);
+  padding-top: clamp(2rem, 5vw, 3rem);
+  border-top: 1px solid var(--line);
+}
+.method h2 {
+  font-size: 1.6rem;
+  margin-bottom: 0.75rem;
+}
+.method ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--fg-2);
+  display: grid;
+  gap: 0.5rem;
+}
+.method a {
+  color: var(--accent);
+}
+
 /* ───────────── Package catalogue ───────────── */
 
 .catalog {

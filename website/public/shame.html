@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wall of Shame — Distilled</title>
+    <meta
+      name="description"
+      content="Which cloud providers ship an API description that needs the most fixing before it can be turned into a working SDK. Ranked by patches per 100 operations."
+    />
+    <link rel="canonical" href="https://distilled.cloud/shame" />
+    <meta name="theme-color" content="#0d0c0a" />
+    <meta property="og:site_name" content="Distilled" />
+    <meta property="og:title" content="Wall of Shame — Distilled" />
+    <meta
+      property="og:description"
+      content="Providers ranked by how many patches their API description needs before it generates a working SDK."
+    />
+    <meta property="og:url" content="https://distilled.cloud/shame" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://distilled.cloud/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://distilled.cloud/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-shame">
+    <a class="skip" href="#board">Skip to the board</a>
+
+    <header class="top">
+      <div class="top__inner">
+        <a class="brand" href="/" aria-label="Distilled home">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M12 3h8v7.5l7 12.5a3 3 0 0 1-2.6 4.5H7.6A3 3 0 0 1 5 23L12 10.5V3z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path d="M8.2 20h15.6" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="16" cy="24" r="1.6" fill="var(--accent)" />
+          </svg>
+          <span class="brand__name">Distilled</span>
+        </a>
+        <nav class="top__nav" aria-label="Primary">
+          <a href="/#how">How it works</a>
+          <a href="/#packages">Packages</a>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >GitHub</a
+          >
+          <a href="https://www.npmjs.com/org/distilled.cloud" rel="noopener"
+            >npm</a
+          >
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="shame-hero" aria-labelledby="shame-title">
+        <p class="eyebrow">
+          <span
+            class="eyebrow__dot eyebrow__dot--shame"
+            aria-hidden="true"
+          ></span>
+          Wall of shame
+        </p>
+        <h1 id="shame-title">
+          Some specs arrive <em>clean</em>. Some need work.
+        </h1>
+        <p class="lede">
+          Every Distilled SDK is generated from the provider's own API
+          description. When that description is wrong — a missing error
+          response, a field marked required that isn't, a type that lies — we
+          fix it with an RFC-6902 patch against the spec so the generator can do
+          its job. This page counts those patches.
+        </p>
+        <p class="lede lede--small">
+          Ranked by <strong>fixes per 100 operations</strong>, so a huge API
+          isn't punished for being huge. Providers with no patches at all are in
+          the honour roll below. Numbers come from
+          <code>packages/*/patches</code> at build time.
+        </p>
+      </section>
+
+      <section class="shame-stats" aria-label="Totals">
+        <!-- SHAME_TOTALS -->
+      </section>
+
+      <section id="board" class="board" aria-labelledby="board-title">
+        <div class="section__head">
+          <p class="eyebrow">Worst offenders</p>
+          <h2 id="board-title">Most patched, per 100 operations.</h2>
+        </div>
+        <ol class="offenders">
+          <!-- SHAME_OFFENDERS -->
+        </ol>
+      </section>
+
+      <section class="honour" aria-labelledby="honour-title">
+        <div class="section__head">
+          <p class="eyebrow">Honour roll</p>
+          <h2 id="honour-title">Zero patches. <em>Not one.</em></h2>
+          <p class="section__lede">
+            Their API description generated a working SDK as published. This is
+            what a spec is supposed to do.
+          </p>
+        </div>
+        <ul class="honour__list">
+          <!-- SHAME_HONOUR -->
+        </ul>
+      </section>
+
+      <section class="method" aria-labelledby="method-title">
+        <h2 id="method-title">How this is counted</h2>
+        <ul>
+          <li>
+            A <strong>fix</strong> is one RFC-6902 operation (<code>add</code>,
+            <code>replace</code>, <code>remove</code>, <code>move</code>, …) in
+            a file under <code>packages/&lt;provider&gt;/patches/</code>. For
+            AWS, whose patches are declarative, each named operation, structure
+            or error entry counts as one.
+          </li>
+          <li>
+            An <strong>operation</strong> is one generated SDK call — an
+            exported <code>OperationMethod</code> in <code>src/services/</code>.
+          </li>
+          <li>
+            Patches are how we keep SDKs correct without editing generated code;
+            they survive regeneration. A high count says something about the
+            spec, not the provider's API.
+          </li>
+          <li>
+            Wrong? Send a spec fix upstream and the patch goes away —
+            <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+              >alchemy-run/distilled</a
+            >.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot__inner">
+        <p>
+          <span class="brand__name">Distilled</span>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          Apache-2.0
+          <span class="foot__sep" aria-hidden="true">·</span>
+          built for <a href="https://effect.website" rel="noopener">Effect</a>
+        </p>
+        <p>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >alchemy-run/distilled</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://www.npmjs.com/org/distilled.cloud" rel="noopener"
+            >npm</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://alchemy.run" rel="noopener">alchemy.run</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

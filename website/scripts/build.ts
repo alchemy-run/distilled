@@ -2,6 +2,7 @@
 import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { readPatchStats, type PatchStats } from "./patch-stats.ts";
 
 const websiteRoot = fileURLToPath(new URL("..", import.meta.url));
 const repoRoot = join(websiteRoot, "..");
@@ -288,7 +289,146 @@ const renderGroups = (packages: Pkg[]): string =>
     )
     .join("\n");
 
+// ───────────── /shame ─────────────
+
+type Ranked = PatchStats & { short: string; name: string };
+
+const fmt = new Intl.NumberFormat("en-US");
+const fmt1 = new Intl.NumberFormat("en-US", {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+
+const npmUrl = (name: string) => `https://www.npmjs.com/package/${name}`;
+const patchesUrl = (dir: string) =>
+  `https://github.com/alchemy-run/distilled/tree/main/packages/${dir}/patches`;
+
+const OP_LABELS: Record<string, string> = {
+  add: "added",
+  replace: "replaced",
+  remove: "removed",
+  move: "moved",
+  copy: "copied",
+  test: "tested",
+  declare: "declared",
+  other: "other",
+};
+
+const opBreakdown = (ops: Readonly<Record<string, number>>): string =>
+  Object.entries(ops)
+    .filter(([, n]) => n > 0)
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([kind, n]) =>
+        `<span class="op op--${escapeHtml(kind)}"><b>${fmt.format(n)}</b> ${OP_LABELS[kind] ?? escapeHtml(kind)}</span>`,
+    )
+    .join("");
+
+const rankStats = async (packages: Pkg[]): Promise<Ranked[]> => {
+  const all = await Promise.all(
+    packages.map(async (pkg) => ({
+      ...(await readPatchStats(packagesDir, pkg.dir)),
+      name: pkg.name,
+      short: pkg.name.replace("@distilled.cloud/", ""),
+    })),
+  );
+  // Only packages that actually expose operations are ranked.
+  return all.filter((s) => s.operations > 0);
+};
+
+const offenderRow = (s: Ranked, rank: number, max: number): string => {
+  const per100 = s.per100 ?? 0;
+  const width = Math.max(2, Math.round((per100 / max) * 100));
+  const tier =
+    rank === 1 ? "gold" : rank === 2 ? "silver" : rank === 3 ? "bronze" : "";
+  return (
+    `<li class="offender${tier ? ` offender--${tier}` : ""}">` +
+    `<span class="offender__rank" aria-label="Rank ${rank}">${String(rank).padStart(2, "0")}</span>` +
+    `<div class="offender__body">` +
+    `<div class="offender__head">` +
+    `<a class="offender__name" href="${npmUrl(s.name)}" rel="noopener">${escapeHtml(s.short)}</a>` +
+    `<span class="offender__score"><b>${fmt1.format(per100)}</b> fixes / 100 ops</span>` +
+    `</div>` +
+    `<div class="bar" aria-hidden="true"><span class="bar__fill" style="width:${width}%"></span></div>` +
+    `<div class="offender__meta">` +
+    `<span><b>${fmt.format(s.fixes)}</b> fixes</span>` +
+    `<span><b>${fmt.format(s.operations)}</b> operations</span>` +
+    `<span><b>${fmt.format(s.files)}</b> patch file${s.files === 1 ? "" : "s"}</span>` +
+    `<a class="offender__link" href="${patchesUrl(s.dir)}" rel="noopener">see patches →</a>` +
+    `</div>` +
+    `<div class="offender__ops">${opBreakdown(s.ops)}</div>` +
+    `</div>` +
+    `</li>`
+  );
+};
+
+const honourItem = (s: Ranked): string =>
+  `<li class="honour__item"><a href="${npmUrl(s.name)}" rel="noopener"><span class="honour__name">${escapeHtml(s.short)}</span><span class="honour__ops">${fmt.format(s.operations)} ops</span></a></li>`;
+
+const totalsHtml = (ranked: Ranked[]): string => {
+  const patched = ranked.filter((s) => s.fixes > 0);
+  const clean = ranked.length - patched.length;
+  const fixes = ranked.reduce((n, s) => n + s.fixes, 0);
+  const files = ranked.reduce((n, s) => n + s.files, 0);
+  const stat = (n: string, label: string) =>
+    `<div class="stat"><span class="stat__n">${n}</span><span class="stat__l">${label}</span></div>`;
+  return [
+    stat(fmt.format(fixes), "spec fixes carried"),
+    stat(fmt.format(files), "patch files"),
+    stat(fmt.format(patched.length), "providers patched"),
+    stat(fmt.format(clean), "providers untouched"),
+  ].join("");
+};
+
+/**
+ * The award goes to the largest SDK (by operations) with zero patches, which
+ * is the least flattering comparison for everyone else. Ties are impossible
+ * unless two providers expose the same operation count.
+ */
+const pickAward = (ranked: Ranked[]): Ranked | undefined =>
+  ranked
+    .filter((s) => s.fixes === 0)
+    .sort((a, b) => b.operations - a.operations)[0];
+
+const awardHtml = (ranked: Ranked[]): string => {
+  const winner = pickAward(ranked);
+  const worst = [...ranked]
+    .filter((s) => s.fixes > 0)
+    .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0))[0];
+  if (!winner) return "";
+  const laurel =
+    `<svg class="award__laurel" viewBox="0 0 64 64" aria-hidden="true">` +
+    `<path d="M32 10c-9 6-14 15-14 26 0 6 2 11 5 15M32 10c9 6 14 15 14 26 0 6-2 11-5 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>` +
+    `<path d="M22 20c-4 0-7 3-7 7 4 0 7-3 7-7zm-4 12c-4 0-7 3-7 7 4 0 7-3 7-7zm1 11c-4 1-6 4-5 8 4-1 6-4 5-8zM42 20c4 0 7 3 7 7-4 0-7-3-7-7zm4 12c4 0 7 3 7 7-4 0-7-3-7-7zm-1 11c4 1 6 4 5 8-4-1-6-4-5-8z" fill="currentColor"/>` +
+    `<circle cx="32" cy="34" r="6" fill="none" stroke="currentColor" stroke-width="2"/>` +
+    `</svg>`;
+  return (
+    `<div class="award__card">` +
+    laurel +
+    `<div class="award__body">` +
+    `<p class="eyebrow">Least patched SDK</p>` +
+    `<h2 id="award-title" class="award__title"><a href="${npmUrl(winner.name)}" rel="noopener">${escapeHtml(winner.short)}</a></h2>` +
+    `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations generated straight from the spec. Zero patches. The description was right.</p>` +
+    `</div>` +
+    `<div class="award__aside">` +
+    (worst
+      ? `<p class="award__worst">At the other end: <a href="/shame">${escapeHtml(worst.short)}</a> needs <b>${fmt1.format(worst.per100 ?? 0)}</b> fixes per 100 operations.</p>`
+      : "") +
+    `<a class="btn btn--ghost" href="/shame">Wall of shame →</a>` +
+    `</div>` +
+    `</div>`
+  );
+};
+
 const packages = await readPackages();
+const ranked = await rankStats(packages);
+const offenders = ranked
+  .filter((s) => s.fixes > 0)
+  .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0) || b.fixes - a.fixes);
+const honour = ranked
+  .filter((s) => s.fixes === 0)
+  .sort((a, b) => b.operations - a.operations);
+const maxPer100 = offenders[0]?.per100 ?? 1;
 
 await rm(distDir, { recursive: true, force: true });
 await mkdir(distDir, { recursive: true });
@@ -297,7 +437,23 @@ await cp(publicDir, distDir, { recursive: true });
 const indexPath = join(distDir, "index.html");
 let html = await readFile(indexPath, "utf8");
 html = html.replace("<!-- PACKAGES -->", renderGroups(packages));
+html = html.replace("<!-- AWARD -->", awardHtml(ranked));
 html = html.replaceAll("<!-- PACKAGE_COUNT -->", String(packages.length));
 await writeFile(indexPath, html);
 
-console.log(`built ${packages.length} packages → ${distDir}`);
+const shamePath = join(distDir, "shame.html");
+let shame = await readFile(shamePath, "utf8");
+shame = shame.replace("<!-- SHAME_TOTALS -->", totalsHtml(ranked));
+shame = shame.replace(
+  "<!-- SHAME_OFFENDERS -->",
+  offenders.map((s, i) => offenderRow(s, i + 1, maxPer100)).join("\n"),
+);
+shame = shame.replace(
+  "<!-- SHAME_HONOUR -->",
+  honour.map(honourItem).join("\n"),
+);
+await writeFile(shamePath, shame);
+
+console.log(
+  `built ${packages.length} packages, ${offenders.length} shamed, ${honour.length} honoured → ${distDir}`,
+);
