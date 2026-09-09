@@ -38,6 +38,51 @@ const EXPIRE_WINDOW_MS = 5 * 60 * 1000;
 
 const REFRESH_MESSAGE = `To refresh this SSO session run 'aws sso login' with the corresponding profile.`;
 
+/**
+ * Shape of `~/.aws/sso/cache/<key>.credentials.json`, the cached role
+ * credentials minted from an SSO token. `sso_account_id` / `sso_role_name`
+ * record which role the keys belong to; a file that does not name the
+ * profile's account and role is not a cache hit.
+ */
+export interface CachedSsoRoleCredentials {
+  accessKeyId: string;
+  secretAccessKey: string;
+  sessionToken?: string;
+  /** Epoch milliseconds, as returned by the SSO portal. */
+  expiry: number;
+  sso_account_id: string;
+  sso_role_name: string;
+}
+
+const sha1 = (input: string) => createHash("sha1").update(input).digest("hex");
+
+/**
+ * Cache file name (without extension) of the SSO access token: sha1 of the
+ * `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
+ * Matches the AWS CLI, so one `aws sso login` serves every profile in the
+ * session.
+ */
+export const ssoTokenCacheName = (ssoCacheKey: string) => sha1(ssoCacheKey);
+
+/**
+ * Cache file name (without extension) of the role credentials for a profile:
+ * sha1 of `<sso_session | sso_start_url>\n<sso_account_id>\n<sso_role_name>`.
+ * The token is per session; the role credentials are per account + role.
+ */
+export const ssoRoleCredentialsCacheName = (
+  profile: Pick<
+    AwsProfileConfig,
+    "sso_session" | "sso_start_url" | "sso_account_id" | "sso_role_name"
+  >,
+) =>
+  sha1(
+    [
+      profile.sso_session ?? profile.sso_start_url ?? "",
+      profile.sso_account_id ?? "",
+      profile.sso_role_name ?? "",
+    ].join("\n"),
+  );
+
 export const Default = Effect.serviceOption(Auth).pipe(
   Effect.map(Option.getOrUndefined),
   Effect.flatMap((c) => (c ? Effect.succeed(c) : makeAuthService())),
@@ -138,7 +183,8 @@ export const makeAuthService = () =>
               )}\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
           });
         }
-        return profile;
+        // Every field in `ssoFields` was just checked to be present.
+        return profile as SsoProfileConfig;
       }
 
       return yield* new ProfileNotFound({
@@ -164,12 +210,19 @@ export const makeAuthService = () =>
       // `sso_session` name (modern) or the `sso_start_url` (legacy inline format).
       const ssoCacheKey = profile.sso_session ?? profile.sso_start_url;
       if (ssoCacheKey) {
-        const hasher = createHash("sha1");
-        const cacheName = hasher.update(ssoCacheKey).digest("hex");
-        const ssoTokenFilepath = path.join(cachePath, `${cacheName}.json`);
+        const ssoTokenFilepath = path.join(
+          cachePath,
+          `${ssoTokenCacheName(ssoCacheKey)}.json`,
+        );
+        // The token is one login per session, but the role credentials it
+        // mints are per `sso_account_id` + `sso_role_name`. Several profiles
+        // normally share one `[sso-session]`, so the credentials file must
+        // be keyed on the account and role too — keyed on the session alone,
+        // every profile in the session read whichever account's keys were
+        // fetched first (#565).
         const cachedCredsFilePath = path.join(
           cachePath,
-          `${cacheName}.credentials.json`,
+          `${ssoRoleCredentialsCacheName(profile)}.credentials.json`,
         );
 
         // `Effect.try` so a `JSON.parse` throw on an empty/partial file
@@ -180,12 +233,11 @@ export const makeAuthService = () =>
         const cachedCreds = yield* fs.readFileString(cachedCredsFilePath).pipe(
           Effect.flatMap((text) =>
             Effect.try({
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              try: (): any => JSON.parse(text),
+              try: (): Partial<CachedSsoRoleCredentials> => JSON.parse(text),
               catch: (cause) => cause,
             }),
           ),
-          Effect.catch(() => Effect.void),
+          Effect.catch(() => Effect.succeed(undefined)),
         );
 
         const isExpired = (expiry: number | string | undefined) => {
@@ -195,7 +247,22 @@ export const makeAuthService = () =>
           );
         };
 
-        if (cachedCreds && !isExpired(cachedCreds.expiry)) {
+        // A hit must name the account and role being resolved. Files
+        // written before the key included them carry neither, so they are
+        // never reused for a different account.
+        const isCacheHit = (
+          creds: Partial<CachedSsoRoleCredentials> | undefined,
+        ): creds is CachedSsoRoleCredentials =>
+          creds !== undefined &&
+          creds !== null &&
+          typeof creds.accessKeyId === "string" &&
+          typeof creds.secretAccessKey === "string" &&
+          typeof creds.expiry === "number" &&
+          creds.sso_account_id === profile.sso_account_id &&
+          creds.sso_role_name === profile.sso_role_name &&
+          !isExpired(creds.expiry);
+
+        if (isCacheHit(cachedCreds)) {
           return {
             accessKeyId: Redacted.make(cachedCreds.accessKeyId),
             secretAccessKey: Redacted.make(cachedCreds.secretAccessKey),
@@ -281,7 +348,9 @@ export const makeAuthService = () =>
             secretAccessKey: credentials.secretAccessKey,
             sessionToken: credentials.sessionToken,
             expiry: credentials.expiration,
-          }),
+            sso_account_id: profile.sso_account_id,
+            sso_role_name: profile.sso_role_name,
+          } satisfies CachedSsoRoleCredentials),
         );
 
         return {
