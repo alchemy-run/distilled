@@ -594,6 +594,151 @@ pre.code code {
     display: block;
   }
 }
+.pipe__drop {
+  fill: var(--accent);
+  opacity: 0;
+}
+
+/* ── Pipeline motion ──
+   Cards and chips rise in once the list scrolls into view; a copper drop
+   then travels each arrow on a loop and the Distill card simmers. Static
+   when motion is reduced or JS never adds `.is-in`. */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] .pipe__step,
+  [data-reveal] .pipe__arrow {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  [data-reveal] .pipe__step:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  [data-reveal] .pipe__arrow:nth-child(2) {
+    transition-delay: 180ms;
+  }
+  [data-reveal] .pipe__step:nth-child(3) {
+    transition-delay: 260ms;
+  }
+  [data-reveal] .pipe__arrow:nth-child(4) {
+    transition-delay: 440ms;
+  }
+  [data-reveal] .pipe__step:nth-child(5) {
+    transition-delay: 520ms;
+  }
+  [data-reveal].is-in .pipe__step,
+  [data-reveal].is-in .pipe__arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  [data-reveal] .chips li {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 400ms ease,
+      transform 400ms ease;
+  }
+  [data-reveal].is-in .chips li {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal].is-in .pipe__step:nth-child(1) .chips li {
+    transition-delay: calc(350ms + var(--i) * 60ms);
+  }
+  [data-reveal].is-in .pipe__step:nth-child(3) .chips li {
+    transition-delay: calc(610ms + var(--i) * 60ms);
+  }
+  [data-reveal].is-in .pipe__step:nth-child(5) .chips li {
+    transition-delay: calc(870ms + var(--i) * 60ms);
+  }
+
+  /* Drop runs the arrow; second arrow lags half a cycle so it reads as one flow. */
+  [data-reveal].is-in .pipe__drop {
+    animation: pipe-drop 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+    animation-delay: 900ms;
+  }
+  [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__drop {
+    animation-delay: 2100ms;
+  }
+  [data-reveal].is-in .pipe__line {
+    stroke-dasharray: 64;
+    stroke-dashoffset: 64;
+    animation: pipe-draw 700ms ease-out forwards;
+  }
+  [data-reveal].is-in .pipe__arrow:nth-child(2) .pipe__line {
+    animation-delay: 260ms;
+  }
+  [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__line {
+    animation-delay: 520ms;
+  }
+
+  /* Distill: the glow at the bottom breathes, the number pulses with the drop. */
+  [data-reveal].is-in .pipe__step--hot::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      28rem 12rem at 50% 120%,
+      color-mix(in oklab, var(--accent) 22%, transparent),
+      transparent 70%
+    );
+    animation: simmer 3.2s ease-in-out infinite;
+  }
+  [data-reveal].is-in .pipe__step--hot .pipe__n {
+    animation: tick 2.4s ease-in-out infinite;
+    animation-delay: 1700ms;
+  }
+  .pipe__step--hot > * {
+    position: relative;
+  }
+}
+
+@keyframes pipe-drop {
+  0% {
+    cx: 2;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    cx: 42;
+    opacity: 0;
+  }
+}
+@keyframes pipe-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes simmer {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes tick {
+  0%,
+  100% {
+    color: var(--accent);
+  }
+  50% {
+    color: var(--accent-2);
+    text-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+}
 
 .chips {
   list-style: none;
