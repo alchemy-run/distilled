@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Distilled — Effect-native SDKs for cloud providers</title>
+    <meta
+      name="description"
+      content="Effect-native SDKs for cloud providers, generated from first-party API descriptions."
+    />
+    <link rel="canonical" href="https://distilled.cloud/" />
+    <meta property="og:title" content="Distilled" />
+    <meta
+      property="og:description"
+      content="Effect-native SDKs for cloud providers, generated from first-party API descriptions."
+    />
+    <meta property="og:url" content="https://distilled.cloud/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="bar">
+      <a class="wordmark" href="/">Distilled</a>
+      <nav>
+        <a href="https://github.com/alchemy-run/distilled">GitHub</a>
+        <a href="https://www.npmjs.com/org/distilled.cloud">npm</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="eyebrow">@distilled.cloud</p>
+        <h1>Effect-native SDKs for cloud providers</h1>
+        <p class="lede">
+          Distilled generates typed
+          <a href="https://effect.website">Effect</a> SDKs from first-party API
+          descriptions — OpenAPI, Smithy, GraphQL, discovery docs. One package
+          per provider, committed and published, Apache-2.0.
+        </p>
+        <p>
+          <a class="button" href="https://github.com/alchemy-run/distilled"
+            >View on GitHub</a
+          >
+        </p>
+      </section>
+
+      <section>
+        <h2>Install</h2>
+        <p>
+          Each provider is its own npm package. Pair it with
+          <code>effect</code>:
+        </p>
+        <pre><code>npm install @distilled.cloud/aws effect</code></pre>
+        <p class="muted">
+          Same shape for every provider:
+          <code>@distilled.cloud/cloudflare</code>,
+          <code>@distilled.cloud/stripe</code>,
+          <code>@distilled.cloud/github</code>, …
+        </p>
+      </section>
+
+      <section>
+        <h2>Packages</h2>
+        <p class="muted">
+          <!-- PACKAGE_COUNT -->
+          published packages, generated from each provider’s own spec.
+        </p>
+        <label class="filter">
+          <span class="sr-only">Filter packages</span>
+          <input
+            id="filter"
+            type="search"
+            placeholder="Filter packages"
+            autocomplete="off"
+          />
+        </label>
+        <ul id="packages" class="packages">
+          <!-- PACKAGES -->
+        </ul>
+      </section>
+    </main>
+
+    <footer class="bar">
+      <p>
+        Apache-2.0 ·
+        <a href="https://github.com/alchemy-run/distilled"
+          >alchemy-run/distilled</a
+        >
+      </p>
+    </footer>
+
+    <script>
+      const input = document.getElementById("filter");
+      const items = [...document.querySelectorAll("#packages li")];
+      input?.addEventListener("input", () => {
+        const q = input.value.trim().toLowerCase();
+        for (const li of items) {
+          const name = (
+            li.getAttribute("data-name") ??
+            li.textContent ??
+            ""
+          ).toLowerCase();
+          li.hidden = q !== "" && !name.includes(q);
+        }
+      });
+    </script>
+  </body>
+</html>
