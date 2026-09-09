@@ -2,6 +2,7 @@
 import * as S from "@distilled.cloud/core/schema";
 import * as Redacted from "effect/Redacted";
 import * as API from "@distilled.cloud/core/api";
+import * as C from "@distilled.cloud/core/category";
 import * as T from "../traits.ts";
 import {
   StripeProtocol,
@@ -13,6 +14,16 @@ import { UnknownStripeError } from "../errors.ts";
 import * as Retry from "../retry.ts";
 
 export type { StripeOpError, StripeOpContext };
+
+/** The product cannot be deleted because it has one or more user-created prices (Stripe `invalid_request_error`, HTTP 400). */
+export class ProductHasPrices
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ProductHasPrices>()("ProductHasPrices", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, message: { includes: "user-created prices" } }],
+  ) {}
 
 /** The applicant's gross annual revenue for its preceding fiscal year. */
 export interface CreateAccountRequestBusinessProfileAnnualRevenue {
@@ -188018,7 +188029,7 @@ export const DeletePlan: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteProductError = StripeOpError;
+export type DeleteProductError = ProductHasPrices | StripeOpError;
 /** Delete a product <p>Delete a product. Deleting a product is only possible if it has no prices associated with it. Additionally, deleting a product with <code>type=good</code> is only possible if it has no SKUs associated with it.</p> */
 export const DeleteProduct: API.OperationMethod<
   DeleteProductRequest,
@@ -188028,7 +188039,7 @@ export const DeleteProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteProductRequest,
   output: DeletedProduct,
-  errors: [UnknownStripeError],
+  errors: [ProductHasPrices, UnknownStripeError],
   protocol: StripeProtocol,
   retry: Retry.Retry,
 }));
