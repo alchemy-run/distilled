@@ -5,15 +5,16 @@
     <meta charset="utf-8" />
     <style>
       @font-face {
-        font-family: "Instrument Serif";
+        font-family: "Fraunces";
         font-style: normal;
-        src: url("../public/fonts/instrument-serif-latin.woff2") format("woff2");
+        font-weight: 100 900;
+        src: url("../public/fonts/fraunces-latin.woff2") format("woff2");
       }
       @font-face {
-        font-family: "Instrument Serif";
+        font-family: "Fraunces";
         font-style: italic;
-        src: url("../public/fonts/instrument-serif-italic-latin.woff2")
-          format("woff2");
+        font-weight: 100 900;
+        src: url("../public/fonts/fraunces-italic-latin.woff2") format("woff2");
       }
       html,
       body {
@@ -24,7 +25,7 @@
         height: 630px;
         overflow: hidden;
         position: relative;
-        background: #0d0c0a;
+        background: #0f0c12;
         background-image:
           radial-gradient(
             70rem 34rem at 80% -10%,
@@ -37,8 +38,11 @@
           auto,
           48px 48px,
           48px 48px;
-        color: #ece6da;
-        font-family: "Instrument Serif", Georgia, serif;
+        color: #efe8f3;
+        font-family: "Fraunces", Georgia, serif;
+        font-variation-settings:
+          "opsz" 144,
+          "SOFT" 30;
       }
       .brand {
         position: absolute;
@@ -62,12 +66,16 @@
         top: 220px;
         margin: 0;
         font-weight: 400;
-        font-size: 108px;
+        font-size: 100px;
         line-height: 0.98;
         letter-spacing: -0.005em;
       }
       h1 em {
-        color: #f2c98a;
+        background: linear-gradient(100deg, #ffc384, #ff7a9e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding-right: 0.04em;
       }
       .mono {
         position: absolute;
@@ -80,7 +88,7 @@
         color: #b5ac9c;
       }
       .cmd b {
-        color: #e0a458;
+        color: #f0a35a;
         font-weight: 400;
         margin-right: 14px;
       }
@@ -95,7 +103,7 @@
         right: 88px;
         top: 106px;
         font-size: 22px;
-        color: #e0a458;
+        color: #f0a35a;
       }
     </style>
   </head>
@@ -104,7 +112,7 @@
       <svg
         viewBox="0 0 32 32"
         fill="none"
-        stroke="#ece6da"
+        stroke="#efe8f3"
         stroke-width="1.9"
         stroke-linejoin="round"
       >
@@ -112,7 +120,7 @@
           d="M12 5h8v6.5l6.6 11.8A2.6 2.6 0 0 1 24.3 27H7.7a2.6 2.6 0 0 1-2.3-3.7L12 11.5V5z"
         />
         <path d="M8.4 20.5h15.2" />
-        <circle cx="16" cy="24" r="1.7" fill="#e0a458" stroke="none" />
+        <circle cx="16" cy="24" r="1.7" fill="#f0a35a" stroke="none" />
       </svg>
       <span>Distilled</span>
     </div>
