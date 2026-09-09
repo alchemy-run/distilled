@@ -728,6 +728,27 @@ const indexPath = join(distDir, "index.html");
 let html = await readFile(indexPath, "utf8");
 html = html.replace("<!-- PACKAGES -->", iconSprite() + renderGroups(packages));
 html = html.replace("<!-- AWARD -->", awardHtml(ranked));
+{
+  const row = (fixture: string) =>
+    bundleBench?.rows.find((r) => r.fixture === fixture && r.variant === "bun");
+  const rt = (name: string) =>
+    runtimeBench?.results.find((r) => r.name === name);
+  const s3 = row("aws-s3-deep");
+  const cf = row("cf-workers-deep");
+  const cfCall = runtimeBench?.results
+    .filter((r) => r.provider === "cloudflare" && r.stage === "call")
+    .sort((a, b) => a.p50 - b.p50)[0];
+  const awsCall =
+    rt("aws/sts/GetCallerIdentity/call") ??
+    runtimeBench?.results
+      .filter((r) => r.provider === "aws" && r.stage === "call")
+      .sort((a, b) => a.p50 - b.p50)[0];
+  html = html
+    .replace("<!-- BENCH_S3_GZ -->", s3 ? kb(s3.gzipBytes) : "—")
+    .replace("<!-- BENCH_CF_GZ -->", cf ? kb(cf.gzipBytes) : "—")
+    .replace("<!-- BENCH_CF_P50 -->", cfCall ? ns(cfCall.p50) : "—")
+    .replace("<!-- BENCH_AWS_P50 -->", awsCall ? ns(awsCall.p50) : "—");
+}
 html = html.replaceAll("<!-- PACKAGE_COUNT -->", String(packages.length));
 html = html.replaceAll(
   "<!-- FIX_COUNT -->",

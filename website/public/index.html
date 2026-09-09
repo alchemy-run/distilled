@@ -520,65 +520,173 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
             Not a wrapper. <em>Effect all the way down.</em>
           </h2>
           <p class="section__lede">
-            The generator does not emit fetch calls with types bolted on. Every
-            operation is an Effect, so errors, pagination, configuration and
-            bundling behave the way the rest of your program does.
+            Every operation is an Effect, so failure, retry, streaming,
+            configuration and tracing are not SDK features you learn — they are
+            the same primitives the rest of your program already uses.
           </p>
         </div>
 
         <div class="caps" data-reveal>
-          <article class="cap cap--copper">
-            <span class="cap__n" aria-hidden="true">01</span>
+          <article class="cap">
             <h3>Errors you can match on</h3>
             <p class="cap__claim">
-              Every failure the provider documents is a typed case.
+              Every failure the spec documents is a typed case — and every case
+              carries a category.
             </p>
+            <pre
+              class="snippet"
+            ><code>S3.<span class="f">getObject</span>({ Bucket, Key }).<span class="f">pipe</span>(
+  Effect.<span class="f">catchTags</span>({
+    <span class="t">NoSuchKey</span>:     () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
+    <span class="t">AccessDenied</span>:  (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Forbidden</span>(e)),
+  }),
+  Effect.<span class="f">catchIf</span>(<span class="f">isThrottlingError</span>, () => backOff),  <span class="m">// by category</span>
+)</code></pre>
             <p>
               <code>catchTags</code> is exhaustive; nothing arrives as
-              <code>unknown</code>, and nothing has to be re-thrown.
+              <code>unknown</code>. Categories — <code>ThrottlingError</code>,
+              <code>NotFoundError</code>, <code>ConflictError</code>… — are
+              attached to every error class, so you can handle a <em>kind</em>
+              of failure without naming each provider-specific tag.
+            </p>
+          </article>
+
+          <article class="cap">
+            <h3>Retry is a Layer, not a loop</h3>
+            <p class="cap__claim">
+              One policy for the whole SDK. Server hints honoured. Throttles
+              retried, 404s never.
             </p>
             <pre
               class="snippet"
-            ><code>Effect.<span class="f">catchTag</span>(<span class="s">"CardError"</span>, retryWithBackupCard)</code></pre>
-          </article>
-          <article class="cap cap--teal">
-            <span class="cap__n" aria-hidden="true">02</span>
-            <h3>Pagination as a Stream</h3>
-            <p class="cap__claim">A listing is lazy until you pull from it.</p>
+            ><code><span class="m">// Default: exponential from 250ms, capped 5s, jittered, 8 tries,</span>
+<span class="m">// transient + throttling only, server Retry-After honoured.</span>
+program.<span class="f">pipe</span>(AWS.Retry.<span class="f">throttling</span>)   <span class="m">// retry throttles forever</span>
+program.<span class="f">pipe</span>(AWS.Retry.<span class="f">none</span>)         <span class="m">// or not at all</span>
+program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({      <span class="m">// or your own</span>
+  while:    <span class="f">isTransientError</span>,
+  schedule: Schedule.<span class="f">exponential</span>(<span class="s">"100 millis"</span>)
+              .<span class="f">pipe</span>(Schedule.<span class="f">recurs</span>(<span class="c">3</span>)),
+}))</code></pre>
             <p>
-              Paginated operations expose <code>.items()</code>: take ten,
-              filter, or run to completion — the pages fetch themselves.
+              Every generated operation runs under the SDK's
+              <code>Retry</code> service. Provide it once and every call below
+              it inherits the policy; swap it per test, per request, or drop to
+              a plain Effect <code>Schedule</code> when you need something
+              exotic.
+            </p>
+          </article>
+
+          <article class="cap">
+            <h3>Streams, not arrays</h3>
+            <p class="cap__claim">
+              Pages, items and bytes are all lazy. Pull what you need; the rest
+              is never fetched.
             </p>
             <pre
               class="snippet"
-            ><code>Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(Stream.<span class="f">take</span>(<span class="c">10</span>))</code></pre>
+            ><code><span class="m">// Paginated: every page fetches itself, on demand.</span>
+<span class="k">const</span> stale = Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(
+  Stream.<span class="f">filter</span>((fn) => fn.Runtime === <span class="s">"nodejs16.x"</span>),
+  Stream.<span class="f">take</span>(<span class="c">50</span>),
+  Stream.<span class="f">runCollect</span>,
+)
+
+<span class="m">// Bodies: a Stream&lt;Uint8Array&gt; in and out — no buffering the file.</span>
+<span class="k">const</span> copy = S3.<span class="f">getObject</span>({ Bucket: src, Key }).<span class="f">pipe</span>(
+  Effect.<span class="f">flatMap</span>((o) =>
+    S3.<span class="f">putObject</span>({ Bucket: dst, Key, Body: o.Body! })),
+)</code></pre>
+            <p>
+              <code>.items()</code> and <code>.pages()</code> on every paginated
+              operation. Streaming request and response bodies for S3 and
+              friends, so a multi-gigabyte object moves without touching memory.
+              Back-pressure and cancellation come from Effect for free.
+            </p>
           </article>
-          <article class="cap cap--violet">
-            <span class="cap__n" aria-hidden="true">03</span>
+
+          <article class="cap">
             <h3>Configuration as Layers</h3>
             <p class="cap__claim">
-              Provide credentials once. Swap them in tests.
-            </p>
-            <p>
-              Credentials, region, base URL and the HTTP client are services,
-              never arguments you thread by hand.
+              Credentials, region, endpoint, HTTP client: services you provide,
+              never arguments you thread.
             </p>
             <pre
               class="snippet"
-            ><code>Effect.<span class="f">provide</span>(Credentials.<span class="f">fromEnv</span>())</code></pre>
+            ><code><span class="k">const</span> AwsLive = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  Region.<span class="f">fromEnv</span>(),
+  Credentials.<span class="f">fromChain</span>(),   <span class="m">// env → ~/.aws → SSO → IMDS</span>
+)
+
+<span class="m">// In tests: same program, fake wire.</span>
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(MockHttpClient))</code></pre>
+            <p>
+              The program never mentions where credentials come from. Swap the
+              HTTP client for a recorded one and the whole SDK runs offline; the
+              benchmarks on this site are built exactly that way.
+            </p>
           </article>
-          <article class="cap cap--rose">
-            <span class="cap__n" aria-hidden="true">04</span>
-            <h3>Tree-shakeable modules</h3>
-            <p class="cap__claim">Import one service, ship one service.</p>
-            <p>
-              One S3 operation is 118 KB gzipped, not the whole of AWS. Runs on
-              Node, Bun and Workers.
-              <a class="cap__more" href="/bench">See the numbers →</a>
+
+          <article class="cap">
+            <h3>Traces out of the box</h3>
+            <p class="cap__claim">
+              Every request is a span. Point an exporter at it and you have a
+              waterfall.
             </p>
             <pre
               class="snippet"
-            ><code><span class="k">import</span> * <span class="k">as</span> Zones <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/zones"</span></code></pre>
+            ><code><span class="m">// Effect's HttpClient opens a span per request, tagged with</span>
+<span class="m">// http.request.method, server.address, http.response.status_code.</span>
+program.<span class="f">pipe</span>(
+  Effect.<span class="f">withSpan</span>(<span class="s">"provision-bucket"</span>),
+  Effect.<span class="f">provide</span>(OtlpTracer.<span class="f">layer</span>({
+    url: <span class="s">"http://collector:4318/v1/traces"</span>,
+  })),
+)</code></pre>
+            <p>
+              No SDK-specific tracing API to learn: the spans are Effect spans,
+              so they nest under yours and ship to Axiom, Datadog, Honeycomb or
+              any OTLP endpoint through the exporter layer you already use.
+              <span class="cap__soon"
+                >Per-operation spans with service and operation names are
+                next.</span
+              >
+            </p>
+          </article>
+
+          <article class="cap">
+            <h3>Small, fast, tree-shakeable</h3>
+            <p class="cap__claim">
+              Import one service, ship one service. Measured, not promised.
+            </p>
+            <pre
+              class="snippet"
+            ><code><span class="m">// one service, not the 430-service barrel</span>
+<span class="k">import</span> * <span class="k">as</span> S3 <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span></code></pre>
+            <dl class="cap__stats">
+              <div>
+                <dt>gzipped, one S3 op</dt>
+                <dd><!-- BENCH_S3_GZ --></dd>
+              </div>
+              <div>
+                <dt>gzipped, one Workers op</dt>
+                <dd><!-- BENCH_CF_GZ --></dd>
+              </div>
+              <div>
+                <dt>Cloudflare call, p50</dt>
+                <dd><!-- BENCH_CF_P50 --></dd>
+              </div>
+              <div>
+                <dt>AWS call incl. SigV4, p50</dt>
+                <dd><!-- BENCH_AWS_P50 --></dd>
+              </div>
+            </dl>
+            <p>
+              Deep imports and barrels produce the same bytes; the barrel just
+              costs bundle time. Runs on Node, Bun and Workers.
+              <a class="cap__more" href="/bench">All the numbers →</a>
+            </p>
           </article>
         </div>
       </section>
