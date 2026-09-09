@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Hand-written — always check it for real.
+    "noCheck": false,
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "composite": false,
+    "types": ["bun"],
+    // Resolve the SDKs from source (what the `bun` export condition does at
+    // bundle time) so the fixtures typecheck without a `tsc -b` of every
+    // package first. Same approach as benches/runtime.
+    "paths": {
+      "@distilled.cloud/core/*": ["../../packages/core/src/*"],
+      "@distilled.cloud/aws": ["../../packages/aws/src/index.ts"],
+      "@distilled.cloud/aws/Credentials": [
+        "../../packages/aws/src/credentials.ts"
+      ],
+      "@distilled.cloud/aws/*": ["../../packages/aws/src/services/*"],
+      "@distilled.cloud/cloudflare": ["../../packages/cloudflare/src/index.ts"],
+      "@distilled.cloud/cloudflare/Credentials": [
+        "../../packages/cloudflare/src/credentials.ts"
+      ],
+      "@distilled.cloud/cloudflare/*": [
+        "../../packages/cloudflare/src/services/*"
+      ]
+    }
+  },
+  "include": ["run.ts", "src/**/*.ts", "fixtures/**/*.ts"]
+}
