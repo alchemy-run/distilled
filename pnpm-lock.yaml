@@ -157,6 +157,15 @@ importers:
         specifier: catalog:build
         version: 7.0.2
 
+  benches/typecheck:
+    devDependencies:
+      '@types/bun':
+        specifier: catalog:tooling
+        version: 1.4.1
+      typescript:
+        specifier: catalog:build
+        version: 7.0.2
+
   packages/adyen:
     dependencies:
       '@distilled.cloud/core':

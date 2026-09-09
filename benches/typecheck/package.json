@@ -1,0 +1,15 @@
+{
+  "name": "@distilled.cloud/bench-typecheck",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "bun run.ts",
+    "bench:full": "bun run.ts --full",
+    "bench:record": "bun run.ts --record",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:tooling",
+    "typescript": "catalog:build"
+  }
+}
