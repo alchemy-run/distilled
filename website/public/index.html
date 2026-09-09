@@ -307,62 +307,74 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
       </section>
 
       <!-- ───────────── Capabilities ───────────── -->
-      <section class="caps" aria-label="What you get">
-        <article class="cap">
-          <h3>
-            <span class="cap__glyph" aria-hidden="true">⊢</span> Errors you can
-            match on
-          </h3>
-          <p>
-            Every operation declares the errors the provider documents for it.
-            <code>catchTags</code> is exhaustive; nothing is
-            <code>unknown</code>.
+      <section class="why rule" id="why" aria-labelledby="why-title">
+        <div class="section__head">
+          <p class="eyebrow">What you get</p>
+          <h2 id="why-title">
+            Not a wrapper. <em>Effect all the way down.</em>
+          </h2>
+          <p class="section__lede">
+            The generator does not emit fetch calls with types bolted on. Every
+            operation is an Effect, so errors, pagination, configuration and
+            bundling behave the way the rest of your program does.
           </p>
-          <pre
-            class="snippet"
-          ><code>Effect.<span class="f">catchTag</span>(<span class="s">"CardError"</span>, retryWithBackupCard)</code></pre>
-        </article>
-        <article class="cap">
-          <h3>
-            <span class="cap__glyph" aria-hidden="true">≡</span> Pagination as a
-            Stream
-          </h3>
-          <p>
-            Paginated operations expose <code>.items()</code>, so a listing is a
-            lazy <code>Stream</code> you take from, filter, or run to
-            completion.
-          </p>
-          <pre
-            class="snippet"
-          ><code>Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(Stream.<span class="f">take</span>(<span class="c">10</span>))</code></pre>
-        </article>
-        <article class="cap">
-          <h3>
-            <span class="cap__glyph" aria-hidden="true">⧉</span> Configuration
-            as Layers
-          </h3>
-          <p>
-            Credentials, region, base URL and the HTTP client are services.
-            Provide them once, swap them in tests, never thread them by hand.
-          </p>
-          <pre
-            class="snippet"
-          ><code>Effect.<span class="f">provide</span>(Credentials.<span class="f">fromEnv</span>())</code></pre>
-        </article>
-        <article class="cap">
-          <h3>
-            <span class="cap__glyph" aria-hidden="true">∷</span> Tree-shakeable
-            modules
-          </h3>
-          <p>
-            Import the service you use — <code>@distilled.cloud/aws/s3</code> —
-            and the bundle carries only that surface. Runs on Node, Bun and
-            Workers.
-          </p>
-          <pre
-            class="snippet"
-          ><code><span class="k">import</span> * <span class="k">as</span> Zones <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/zones"</span></code></pre>
-        </article>
+        </div>
+
+        <div class="caps" data-reveal>
+          <article class="cap cap--copper">
+            <span class="cap__n" aria-hidden="true">01</span>
+            <h3>Errors you can match on</h3>
+            <p class="cap__claim">
+              Every failure the provider documents is a typed case.
+            </p>
+            <p>
+              <code>catchTags</code> is exhaustive; nothing arrives as
+              <code>unknown</code>, and nothing has to be re-thrown.
+            </p>
+            <pre
+              class="snippet"
+            ><code>Effect.<span class="f">catchTag</span>(<span class="s">"CardError"</span>, retryWithBackupCard)</code></pre>
+          </article>
+          <article class="cap cap--teal">
+            <span class="cap__n" aria-hidden="true">02</span>
+            <h3>Pagination as a Stream</h3>
+            <p class="cap__claim">A listing is lazy until you pull from it.</p>
+            <p>
+              Paginated operations expose <code>.items()</code>: take ten,
+              filter, or run to completion — the pages fetch themselves.
+            </p>
+            <pre
+              class="snippet"
+            ><code>Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(Stream.<span class="f">take</span>(<span class="c">10</span>))</code></pre>
+          </article>
+          <article class="cap cap--violet">
+            <span class="cap__n" aria-hidden="true">03</span>
+            <h3>Configuration as Layers</h3>
+            <p class="cap__claim">
+              Provide credentials once. Swap them in tests.
+            </p>
+            <p>
+              Credentials, region, base URL and the HTTP client are services,
+              never arguments you thread by hand.
+            </p>
+            <pre
+              class="snippet"
+            ><code>Effect.<span class="f">provide</span>(Credentials.<span class="f">fromEnv</span>())</code></pre>
+          </article>
+          <article class="cap cap--rose">
+            <span class="cap__n" aria-hidden="true">04</span>
+            <h3>Tree-shakeable modules</h3>
+            <p class="cap__claim">Import one service, ship one service.</p>
+            <p>
+              One S3 operation is 118 KB gzipped, not the whole of AWS. Runs on
+              Node, Bun and Workers.
+              <a class="cap__more" href="/bench">See the numbers →</a>
+            </p>
+            <pre
+              class="snippet"
+            ><code><span class="k">import</span> * <span class="k">as</span> Zones <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/zones"</span></code></pre>
+          </article>
+        </div>
       </section>
 
       <!-- ───────────── Award ───────────── -->
