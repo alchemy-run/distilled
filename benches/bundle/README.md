@@ -143,7 +143,12 @@ Timings are one laptop run; treat ±30% as noise. Bytes are stable.
      minified, ~70% of the module) are unreferenced.** 106 are
      `/*@__PURE__*/ S.Unknown.pipe(T.UnionCases([...]))` schemas — the outer
      `.pipe` is annotated but the inner `T.UnionCases(...)` argument is not,
-     and rolldown treats an unannotated call argument as a side effect. 35
+     and rolldown treats an unannotated call argument as a side effect. The
+     opaque `Unknown.pipe(UnionCases(keySets))` form itself is intentional
+     for Cloudflare object unions; the missing inner annotation is the
+     shake bug. Of the 107 such schemas in `workers.ts`, 44 have only empty
+     key-sets (`UnionCases([[], []])` — scalar/array unions such as
+     `boolean | string[]`, where the annotation carries no information). 35
      are error classes of the same
      `class X extends /*@__PURE__*/ T.applyErrorMatchers(/*@__PURE__*/ S.TaggedError()(…)) {}`
      shape. Verified with a micro-fixture: annotating the inner
