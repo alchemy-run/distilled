@@ -67,7 +67,7 @@
           <span class="brand__name">Distilled</span>
         </a>
         <nav class="top__nav" aria-label="Primary">
-          <a href="#how">How it works</a>
+          <a href="#problem">Why</a>
           <a href="#packages" aria-current="page">Packages</a>
           <a href="/bench">Benchmarks</a>
           <a href="/shame" class="top__shame">Shame</a>
@@ -254,6 +254,123 @@
 
 program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLive), Effect.runPromise)</code></pre>
         </figure>
+      </section>
+
+      <!-- ───────────── The problem ───────────── -->
+      <section
+        class="problem rule"
+        id="problem"
+        aria-labelledby="problem-title"
+      >
+        <div class="section__head">
+          <p class="eyebrow">The problem</p>
+          <h2 id="problem-title">
+            The spec is the only source. <em>The spec is incomplete.</em>
+          </h2>
+          <p class="section__lede">
+            Every generated SDK — ours, the vendor's, the one you'd write — is
+            only as true as the API description it was built from. And those
+            descriptions routinely leave out what happens when a call fails. The
+            types compile. The happy path works. Then production sends a status
+            code the spec never mentioned, and your typed client hands you an
+            untyped error.
+          </p>
+        </div>
+
+        <div class="evidence" data-reveal>
+          <figure class="ev ev--spec">
+            <figcaption>
+              <span class="ev__tag">What Fly's spec declares</span>
+              <span class="ev__src"
+                ><code>POST /v1/apps/{app}/machines</code></span
+              >
+            </figcaption>
+            <pre class="ev__code"><code><span class="m">responses:</span>
+  <span class="s">"200"</span>: OK
+<span class="ev__ghost">  <span class="ev__missing">— that's it —</span></span></code></pre>
+            <p class="ev__note">
+              One response. No <code>400</code> for a bad config, no
+              <code>403</code> for a scoped token, no <code>409</code> when the
+              name is taken. All three happen the first week you use it.
+            </p>
+          </figure>
+
+          <div class="ev__arrow" aria-hidden="true">
+            <svg viewBox="0 0 48 24">
+              <path
+                d="M2 12h40m-8-8 8 8-8 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span>Alchemy hits it</span>
+          </div>
+
+          <figure class="ev ev--sdk">
+            <figcaption>
+              <span class="ev__tag">What Distilled ships</span>
+              <span class="ev__src"
+                ><code>Fly.Machines.createMachine</code></span
+              >
+            </figcaption>
+            <pre class="ev__code"><code><span class="k">errors</span>: [
+  <span class="ev__added"><span class="t">BadRequest</span>,</span>   <span class="m">// 400 · seen live</span>
+  <span class="ev__added"><span class="t">Forbidden</span>,</span>    <span class="m">// 403 · seen live</span>
+  <span class="ev__added"><span class="t">NotFound</span>,</span>     <span class="m">// 404</span>
+  <span class="ev__added"><span class="t">Conflict</span>,</span>     <span class="m">// 409 · name-taken race</span>
+]</code></pre>
+            <p class="ev__note">
+              Four typed failures you can <code>catchTag</code>, each added as a
+              patch to the spec the moment a real deploy surfaced it.
+            </p>
+          </figure>
+        </div>
+
+        <ul class="facts" aria-label="More evidence">
+          <li class="fact">
+            <span class="fact__n">20 <span class="fact__of">of 112</span></span>
+            <span class="fact__l"
+              >S3 operations in AWS's own model declare <em>any</em> error at
+              all. <code>DeleteBucket</code> declares none — not even
+              <code>NoSuchBucket</code> or <code>BucketNotEmpty</code>.</span
+            >
+          </li>
+          <li class="fact">
+            <span class="fact__n">49 <span class="fact__of">of 98</span></span>
+            <span class="fact__l"
+              >Fly Machines operations list a single 4xx response. Half the API
+              is documented as if it cannot fail.</span
+            >
+          </li>
+          <li class="fact">
+            <span class="fact__n">required</span>
+            <span class="fact__l"
+              >PlanetScale marks <code>storage</code> and
+              <code>provider</code> as required on cluster SKUs while sending
+              them as <code>null</code>. A strict decoder rejects a valid
+              response.</span
+            >
+          </li>
+          <li class="fact">
+            <span class="fact__n"><!-- FIX_COUNT --></span>
+            <span class="fact__l"
+              >spec fixes carried across
+              <!-- PATCHED_COUNT -->
+              providers today, every one found by running real infrastructure
+              through the SDK. <a href="/shame">See the tally →</a></span
+            >
+          </li>
+        </ul>
+
+        <p class="problem__turn">
+          You could fix this by hand-editing generated code — and lose it on the
+          next regeneration. Or you could fix the <em>description</em>, once,
+          and let every future build inherit the correction. That second thing
+          is what Distilled is.
+        </p>
       </section>
 
       <!-- ───────────── How it works ───────────── -->
