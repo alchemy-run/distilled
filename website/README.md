@@ -1,12 +1,18 @@
 # Distilled website
 
-Plain landing page for [distilled.cloud](https://distilled.cloud), deployed
-as an Alchemy stack. Same stage topology as alchemy's website: production,
+Landing page for [distilled.cloud](https://distilled.cloud), deployed as an
+Alchemy stack. Same stage topology as alchemy's website: production,
 staging, a `preview-base` parent, and opt-in PR versions.
 
 The site is static HTML. `scripts/build.ts` copies `public/` to `dist/` and
-injects the published `@distilled.cloud/*` package list from
-`packages/*/package.json`. There is no Starlight docs portal.
+injects the published `@distilled.cloud/*` package catalogue from
+`packages/*/package.json`, grouped by the `GROUPS` table in that script (an
+unlisted package lands in "More"). There is no Starlight docs portal.
+
+`public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
+which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
+committed so the site build never needs a browser. Display type is
+Instrument Serif (OFL), self-hosted from `public/fonts/`.
 
 ## Stages
 

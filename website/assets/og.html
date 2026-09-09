@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- Source for public/og.png. Regenerate with `bun scripts/og.ts`. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Instrument Serif";
+        font-style: normal;
+        src: url("../public/fonts/instrument-serif-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Instrument Serif";
+        font-style: italic;
+        src: url("../public/fonts/instrument-serif-italic-latin.woff2")
+          format("woff2");
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        background: #0d0c0a;
+        background-image:
+          radial-gradient(
+            70rem 34rem at 80% -10%,
+            rgba(224, 164, 88, 0.26),
+            transparent 70%
+          ),
+          linear-gradient(rgba(42, 38, 33, 0.9) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 38, 33, 0.9) 1px, transparent 1px);
+        background-size:
+          auto,
+          48px 48px,
+          48px 48px;
+        color: #ece6da;
+        font-family: "Instrument Serif", Georgia, serif;
+      }
+      .brand {
+        position: absolute;
+        left: 88px;
+        top: 84px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .brand svg {
+        width: 64px;
+        height: 64px;
+      }
+      .brand span {
+        font-size: 44px;
+        line-height: 1;
+      }
+      h1 {
+        position: absolute;
+        left: 88px;
+        top: 220px;
+        margin: 0;
+        font-weight: 400;
+        font-size: 108px;
+        line-height: 0.98;
+        letter-spacing: -0.005em;
+      }
+      h1 em {
+        color: #f2c98a;
+      }
+      .mono {
+        position: absolute;
+        left: 88px;
+        font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+      }
+      .cmd {
+        top: 486px;
+        font-size: 26px;
+        color: #b5ac9c;
+      }
+      .cmd b {
+        color: #e0a458;
+        font-weight: 400;
+        margin-right: 14px;
+      }
+      .tags {
+        top: 548px;
+        font-size: 18px;
+        letter-spacing: 0.12em;
+        color: #7f776a;
+      }
+      .url {
+        left: auto;
+        right: 88px;
+        top: 106px;
+        font-size: 22px;
+        color: #e0a458;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brand">
+      <svg
+        viewBox="0 0 32 32"
+        fill="none"
+        stroke="#ece6da"
+        stroke-width="1.9"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 5h8v6.5l6.6 11.8A2.6 2.6 0 0 1 24.3 27H7.7a2.6 2.6 0 0 1-2.3-3.7L12 11.5V5z"
+        />
+        <path d="M8.4 20.5h15.2" />
+        <circle cx="16" cy="24" r="1.7" fill="#e0a458" stroke="none" />
+      </svg>
+      <span>Distilled</span>
+    </div>
+    <h1>Cloud APIs, <em>distilled</em><br />into Effect.</h1>
+    <p class="mono cmd"><b>$</b>npm install @distilled.cloud/aws effect</p>
+    <p class="mono tags">
+      TYPED ERRORS · PAGINATION AS STREAMS · CREDENTIALS AS LAYERS
+    </p>
+    <p class="mono url">distilled.cloud</p>
+  </body>
+</html>

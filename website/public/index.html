@@ -6,105 +6,453 @@
     <title>Distilled — Effect-native SDKs for cloud providers</title>
     <meta
       name="description"
-      content="Effect-native SDKs for cloud providers, generated from first-party API descriptions."
+      content="Effect-native TypeScript SDKs for cloud providers, generated from each provider's own API description. Typed errors, streaming pagination, credentials as layers. One package per provider."
     />
     <link rel="canonical" href="https://distilled.cloud/" />
-    <meta property="og:title" content="Distilled" />
+    <meta name="theme-color" content="#0d0c0a" />
+    <meta property="og:site_name" content="Distilled" />
+    <meta
+      property="og:title"
+      content="Distilled — Effect-native SDKs for cloud providers"
+    />
     <meta
       property="og:description"
-      content="Effect-native SDKs for cloud providers, generated from first-party API descriptions."
+      content="Effect-native TypeScript SDKs, generated from each provider's own API description. One package per provider, Apache-2.0."
     />
     <meta property="og:url" content="https://distilled.cloud/" />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://distilled.cloud/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Distilled — Effect-native SDKs for cloud providers"
+    />
+    <meta
+      name="twitter:description"
+      content="Effect-native TypeScript SDKs, generated from each provider's own API description. One package per provider, Apache-2.0."
+    />
+    <meta name="twitter:image" content="https://distilled.cloud/og.png" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <header class="bar">
-      <a class="wordmark" href="/">Distilled</a>
-      <nav>
-        <a href="https://github.com/alchemy-run/distilled">GitHub</a>
-        <a href="https://www.npmjs.com/org/distilled.cloud">npm</a>
-      </nav>
+    <a class="skip" href="#packages">Skip to packages</a>
+
+    <header class="top">
+      <div class="top__inner">
+        <a class="brand" href="/" aria-label="Distilled home">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M12 3h8v7.5l7 12.5a3 3 0 0 1-2.6 4.5H7.6A3 3 0 0 1 5 23L12 10.5V3z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path d="M8.2 20h15.6" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="16" cy="24" r="1.6" fill="var(--accent)" />
+          </svg>
+          <span class="brand__name">Distilled</span>
+        </a>
+        <nav class="top__nav" aria-label="Primary">
+          <a href="#how">How it works</a>
+          <a href="#packages">Packages</a>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >GitHub</a
+          >
+          <a href="https://www.npmjs.com/org/distilled.cloud" rel="noopener"
+            >npm</a
+          >
+        </nav>
+      </div>
     </header>
 
     <main>
-      <section class="hero">
-        <p class="eyebrow">@distilled.cloud</p>
-        <h1>Effect-native SDKs for cloud providers</h1>
-        <p class="lede">
-          Distilled generates typed
-          <a href="https://effect.website">Effect</a> SDKs from first-party API
-          descriptions — OpenAPI, Smithy, GraphQL, discovery docs. One package
-          per provider, committed and published, Apache-2.0.
-        </p>
-        <p>
-          <a class="button" href="https://github.com/alchemy-run/distilled"
-            >View on GitHub</a
+      <!-- ───────────── Hero ───────────── -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy">
+          <p class="eyebrow eyebrow--scope">
+            <span class="eyebrow__dot" aria-hidden="true"></span>
+            @distilled.cloud &nbsp;·&nbsp;
+            <!-- PACKAGE_COUNT -->
+            packages &nbsp;·&nbsp; Apache-2.0
+          </p>
+          <h1 id="hero-title">Cloud APIs, <em>distilled</em> into Effect.</h1>
+          <p class="lede">
+            Every provider publishes a description of its API — OpenAPI, Smithy,
+            GraphQL, a discovery document. Distilled reads that source and
+            generates a typed, Effect-native TypeScript SDK from it. Nothing
+            hand-written, nothing to drift.
+          </p>
+          <div class="cta">
+            <a class="btn btn--primary" href="#packages">Browse packages</a>
+            <a
+              class="btn btn--ghost"
+              href="https://github.com/alchemy-run/distilled"
+              rel="noopener"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                width="16"
+                height="16"
+                aria-hidden="true"
+              >
+                <path
+                  fill="currentColor"
+                  d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"
+                />
+              </svg>
+              Source
+            </a>
+          </div>
+          <div class="install">
+            <span class="install__prompt" aria-hidden="true">$</span>
+            <code id="install-cmd"
+              >npm install @distilled.cloud/aws effect</code
+            >
+            <button
+              class="copy"
+              type="button"
+              data-copy="#install-cmd"
+              aria-label="Copy install command"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                width="14"
+                height="14"
+                aria-hidden="true"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  d="M5.5 3.5h7v9h-7z"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.4"
+                  d="M3.5 10.5v-8h6"
+                />
+              </svg>
+              <span class="copy__label">Copy</span>
+            </button>
+          </div>
+        </div>
+
+        <figure class="hero__code">
+          <figcaption class="code__bar">
+            <span class="code__dots" aria-hidden="true"
+              ><i></i><i></i><i></i
+            ></span>
+            <span class="code__file">fetch-object.ts</span>
+            <span class="code__tag">@distilled.cloud/aws</span>
+          </figcaption>
+          <pre
+            class="code"
+          ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
+<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> * <span class="k">as</span> S3 <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span>
+<span class="k">import</span> { Credentials, Region } <span class="k">from</span> <span class="s">"@distilled.cloud/aws"</span>
+
+<span class="k">const</span> <span class="v">program</span> = S3.<span class="f">getObject</span>({ Bucket: <span class="s">"photos"</span>, Key: <span class="s">"hero.png"</span> }).<span class="f">pipe</span>(
+  Effect.<span class="f">catchTags</span>({
+    <span class="t">NoSuchKey</span>:    () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),   <span class="m">// typed per operation</span>
+    <span class="t">AccessDenied</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+  }),
+)
+
+<span class="k">const</span> <span class="v">AwsLive</span> = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  Region.<span class="f">fromEnv</span>(),          <span class="m">// AWS_REGION</span>
+  Credentials.<span class="f">fromChain</span>(),   <span class="m">// env → ~/.aws → SSO → IMDS</span>
+)
+
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLive), Effect.runPromise)</code></pre>
+        </figure>
+      </section>
+
+      <!-- ───────────── How it works ───────────── -->
+      <section class="how" id="how" aria-labelledby="how-title">
+        <div class="section__head">
+          <p class="eyebrow">How it works</p>
+          <h2 id="how-title">
+            From the provider's description to <em>your</em> import.
+          </h2>
+          <p class="section__lede">
+            The SDK is a pure function of the spec. When a provider ships a new
+            endpoint, the mirror moves, the generator runs, and the package
+            follows. Fixes are RFC-6902 patches applied to the spec, so they
+            survive every regeneration.
+          </p>
+        </div>
+
+        <ol class="pipe" aria-label="Generation pipeline">
+          <li class="pipe__step">
+            <span class="pipe__n">01</span>
+            <h3>Source</h3>
+            <p>
+              The provider's first-party API description, pinned in a spec
+              mirror.
+            </p>
+            <ul class="chips" aria-label="Supported formats">
+              <li>OpenAPI</li>
+              <li>Smithy</li>
+              <li>GraphQL</li>
+              <li>Discovery</li>
+            </ul>
+          </li>
+          <li class="pipe__arrow" aria-hidden="true">
+            <svg viewBox="0 0 48 24">
+              <path
+                d="M2 12h40m-8-8 8 8-8 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+          <li class="pipe__step pipe__step--hot">
+            <span class="pipe__n">02</span>
+            <h3>Distill</h3>
+            <p>
+              Convert to one model, apply patches, emit Effect schemas,
+              operations, errors and pagination.
+            </p>
+            <ul class="chips" aria-label="What is generated">
+              <li>Schema</li>
+              <li>Errors</li>
+              <li>Retry</li>
+              <li>Paging</li>
+            </ul>
+          </li>
+          <li class="pipe__arrow" aria-hidden="true">
+            <svg viewBox="0 0 48 24">
+              <path
+                d="M2 12h40m-8-8 8 8-8 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </li>
+          <li class="pipe__step">
+            <span class="pipe__n">03</span>
+            <h3>Publish</h3>
+            <p>
+              One npm package per provider. Committed, reviewed, released
+              together.
+            </p>
+            <ul class="chips" aria-label="Example packages">
+              <li>aws</li>
+              <li>cloudflare</li>
+              <li>stripe</li>
+              <li>github</li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ───────────── Capabilities ───────────── -->
+      <section class="caps" aria-label="What you get">
+        <article class="cap">
+          <h3>
+            <span class="cap__glyph" aria-hidden="true">⊢</span> Errors you can
+            match on
+          </h3>
+          <p>
+            Every operation declares the errors the provider documents for it.
+            <code>catchTags</code> is exhaustive; nothing is
+            <code>unknown</code>.
+          </p>
+          <pre
+            class="snippet"
+          ><code>Effect.<span class="f">catchTag</span>(<span class="s">"CardError"</span>, retryWithBackupCard)</code></pre>
+        </article>
+        <article class="cap">
+          <h3>
+            <span class="cap__glyph" aria-hidden="true">≡</span> Pagination as a
+            Stream
+          </h3>
+          <p>
+            Paginated operations expose <code>.items()</code>, so a listing is a
+            lazy <code>Stream</code> you take from, filter, or run to
+            completion.
+          </p>
+          <pre
+            class="snippet"
+          ><code>Lambda.listFunctions.<span class="f">items</span>({}).<span class="f">pipe</span>(Stream.<span class="f">take</span>(<span class="c">10</span>))</code></pre>
+        </article>
+        <article class="cap">
+          <h3>
+            <span class="cap__glyph" aria-hidden="true">⧉</span> Configuration
+            as Layers
+          </h3>
+          <p>
+            Credentials, region, base URL and the HTTP client are services.
+            Provide them once, swap them in tests, never thread them by hand.
+          </p>
+          <pre
+            class="snippet"
+          ><code>Effect.<span class="f">provide</span>(Credentials.<span class="f">fromEnv</span>())</code></pre>
+        </article>
+        <article class="cap">
+          <h3>
+            <span class="cap__glyph" aria-hidden="true">∷</span> Tree-shakeable
+            modules
+          </h3>
+          <p>
+            Import the service you use — <code>@distilled.cloud/aws/s3</code> —
+            and the bundle carries only that surface. Runs on Node, Bun and
+            Workers.
+          </p>
+          <pre
+            class="snippet"
+          ><code><span class="k">import</span> * <span class="k">as</span> Zones <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/zones"</span></code></pre>
+        </article>
+      </section>
+
+      <!-- ───────────── Packages ───────────── -->
+      <section class="catalog" id="packages" aria-labelledby="packages-title">
+        <div class="catalog__head">
+          <div>
+            <p class="eyebrow">Packages</p>
+            <h2 id="packages-title">
+              <span class="count"><!-- PACKAGE_COUNT --></span> providers, one
+              shape.
+            </h2>
+            <p class="section__lede">
+              Each package is generated from its provider's own spec and
+              published to npm as
+              <code>@distilled.cloud/&lt;provider&gt;</code>. Pair it with
+              <code>effect</code>.
+            </p>
+          </div>
+          <label class="filter">
+            <span class="sr-only">Filter packages</span>
+            <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+              <circle
+                cx="7"
+                cy="7"
+                r="4.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+              />
+              <path
+                d="m10.5 10.5 3 3"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            <input
+              id="filter"
+              type="search"
+              placeholder="Filter — try “postgres” or “auth”"
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <kbd aria-hidden="true">/</kbd>
+          </label>
+        </div>
+
+        <div id="package-groups" class="groups">
+          <!-- PACKAGES -->
+        </div>
+        <p id="no-match" class="empty" hidden>
+          Nothing matches.
+          <a
+            href="https://github.com/alchemy-run/distilled/issues/new?title=Provider%20request%3A%20"
+            rel="noopener"
+            >Request a provider →</a
           >
         </p>
       </section>
-
-      <section>
-        <h2>Install</h2>
-        <p>
-          Each provider is its own npm package. Pair it with
-          <code>effect</code>:
-        </p>
-        <pre><code>npm install @distilled.cloud/aws effect</code></pre>
-        <p class="muted">
-          Same shape for every provider:
-          <code>@distilled.cloud/cloudflare</code>,
-          <code>@distilled.cloud/stripe</code>,
-          <code>@distilled.cloud/github</code>, …
-        </p>
-      </section>
-
-      <section>
-        <h2>Packages</h2>
-        <p class="muted">
-          <!-- PACKAGE_COUNT -->
-          published packages, generated from each provider’s own spec.
-        </p>
-        <label class="filter">
-          <span class="sr-only">Filter packages</span>
-          <input
-            id="filter"
-            type="search"
-            placeholder="Filter packages"
-            autocomplete="off"
-          />
-        </label>
-        <ul id="packages" class="packages">
-          <!-- PACKAGES -->
-        </ul>
-      </section>
     </main>
 
-    <footer class="bar">
-      <p>
-        Apache-2.0 ·
-        <a href="https://github.com/alchemy-run/distilled"
-          >alchemy-run/distilled</a
-        >
-      </p>
+    <footer class="foot">
+      <div class="foot__inner">
+        <p>
+          <span class="brand__name">Distilled</span>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          Apache-2.0
+          <span class="foot__sep" aria-hidden="true">·</span>
+          built for <a href="https://effect.website" rel="noopener">Effect</a>
+        </p>
+        <p>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >alchemy-run/distilled</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://www.npmjs.com/org/distilled.cloud" rel="noopener"
+            >npm</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://alchemy.run" rel="noopener">alchemy.run</a>
+        </p>
+      </div>
     </footer>
 
     <script>
+      // Package filter: matches on name, directory and tags; hides empty groups.
       const input = document.getElementById("filter");
-      const items = [...document.querySelectorAll("#packages li")];
-      input?.addEventListener("input", () => {
+      const groups = [...document.querySelectorAll("#package-groups .group")];
+      const items = [...document.querySelectorAll("#package-groups .pkg")];
+      const empty = document.getElementById("no-match");
+      const apply = () => {
         const q = input.value.trim().toLowerCase();
+        let shown = 0;
         for (const li of items) {
-          const name = (
-            li.getAttribute("data-name") ??
-            li.textContent ??
-            ""
-          ).toLowerCase();
-          li.hidden = q !== "" && !name.includes(q);
+          const hay = (li.getAttribute("data-search") ?? "").toLowerCase();
+          const hit = q === "" || hay.includes(q);
+          li.hidden = !hit;
+          if (hit) shown++;
+        }
+        for (const g of groups) {
+          g.hidden = !g.querySelector(".pkg:not([hidden])");
+        }
+        empty.hidden = shown !== 0;
+      };
+      input?.addEventListener("input", apply);
+      document.addEventListener("keydown", (e) => {
+        if (
+          e.key === "/" &&
+          document.activeElement !== input &&
+          !e.metaKey &&
+          !e.ctrlKey
+        ) {
+          e.preventDefault();
+          input?.focus();
         }
       });
+
+      // Copy buttons: copy the text of the element referenced by data-copy.
+      for (const btn of document.querySelectorAll("[data-copy]")) {
+        btn.addEventListener("click", async () => {
+          const target = document.querySelector(btn.getAttribute("data-copy"));
+          const label = btn.querySelector(".copy__label");
+          try {
+            await navigator.clipboard.writeText(target?.textContent ?? "");
+            btn.classList.add("is-copied");
+            if (label) label.textContent = "Copied";
+          } catch {
+            if (label) label.textContent = "Select";
+          }
+          setTimeout(() => {
+            btn.classList.remove("is-copied");
+            if (label) label.textContent = "Copy";
+          }, 1600);
+        });
+      }
     </script>
   </body>
 </html>
