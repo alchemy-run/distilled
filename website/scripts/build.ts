@@ -729,6 +729,14 @@ let html = await readFile(indexPath, "utf8");
 html = html.replace("<!-- PACKAGES -->", iconSprite() + renderGroups(packages));
 html = html.replace("<!-- AWARD -->", awardHtml(ranked));
 html = html.replaceAll("<!-- PACKAGE_COUNT -->", String(packages.length));
+html = html.replaceAll(
+  "<!-- FIX_COUNT -->",
+  fmt.format(ranked.reduce((n, s) => n + s.fixes, 0)),
+);
+html = html.replaceAll(
+  "<!-- PATCHED_COUNT -->",
+  String(ranked.filter((s) => s.fixes > 0).length),
+);
 await writeFile(indexPath, html);
 
 const shamePath = join(distDir, "shame.html");
