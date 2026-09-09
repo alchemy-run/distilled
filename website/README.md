@@ -25,7 +25,7 @@ artifacts are on `main`. If neither exists, that section is omitted.
 `public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
 which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
 committed so the site build never needs a browser. Display type is
-Instrument Serif (OFL), self-hosted from `public/fonts/`.
+Fraunces (OFL, variable), self-hosted from `public/fonts/`.
 
 ## Stages
 
