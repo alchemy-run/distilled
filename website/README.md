@@ -9,6 +9,11 @@ injects the published `@distilled.cloud/*` package catalogue from
 `packages/*/package.json`, grouped by the `GROUPS` table in that script (an
 unlisted package lands in "More"). There is no Starlight docs portal.
 
+`/shame` (`public/shame.html`) ranks providers by spec patches per 100 SDK
+operations and the homepage award names the largest unpatched SDK; both are
+computed at build time by `scripts/patch-stats.ts` from
+`packages/*/patches` and `packages/*/src/services`.
+
 `public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
 which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
 committed so the site build never needs a browser. Display type is
