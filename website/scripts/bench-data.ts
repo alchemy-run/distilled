@@ -2,12 +2,11 @@
  * Benchmark inputs for /bench.
  *
  * Source of truth is the committed artifact each bench writes:
- *   benches/runtime/results/latest.json   (bench-runtime, PR #567)
- *   benches/bundle/results/latest.json    (bench-bundle,  PR #569)
- * Until those exist on the branch being built, `website/data/*.seed.json`
- * carries the numbers the bench agents posted, flagged `seed: true` so the
- * page can label them as interim. A missing/unparsable file yields `null`
- * and the section is omitted — the site never fails on bench data.
+ *   benches/runtime/results/latest.json   (`pnpm bench:runtime:record`)
+ *   benches/bundle/results/latest.json    (`pnpm --filter @distilled.cloud/bench-bundle record`)
+ * A missing/unparsable file yields `null` and that section is omitted — the
+ * site never fails on bench data. `seed` is kept on the types so an ad-hoc
+ * snapshot can still be flagged as interim if one is ever needed.
  */
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
@@ -99,10 +98,7 @@ export const readRuntimeBench = (
   websiteRoot: string,
 ): Promise<RuntimeBench | null> =>
   firstOf<RuntimeBench>(
-    [
-      join(repoRoot, "benches", "runtime", "results", "latest.json"),
-      join(websiteRoot, "data", "bench-runtime.seed.json"),
-    ],
+    [join(repoRoot, "benches", "runtime", "results", "latest.json")],
     (d) => d.schema === 1 && Array.isArray(d.results) && d.results.length > 0,
   );
 
@@ -111,9 +107,6 @@ export const readBundleBench = (
   websiteRoot: string,
 ): Promise<BundleBench | null> =>
   firstOf<BundleBench>(
-    [
-      join(repoRoot, "benches", "bundle", "results", "latest.json"),
-      join(websiteRoot, "data", "bench-bundle.seed.json"),
-    ],
+    [join(repoRoot, "benches", "bundle", "results", "latest.json")],
     (d) => d.schema === 1 && Array.isArray(d.rows) && d.rows.length > 0,
   );
