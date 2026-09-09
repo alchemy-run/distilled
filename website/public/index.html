@@ -124,10 +124,11 @@
           </p>
           <h1 id="hero-title">Cloud APIs, <em>distilled</em> into Effect.</h1>
           <p class="lede">
-            Every provider publishes a description of its API — OpenAPI, Smithy,
-            GraphQL, a discovery document. Distilled reads that source and
-            generates a typed, Effect-native TypeScript SDK from it. Nothing
-            hand-written, nothing to drift.
+            Typed, Effect-native TypeScript SDKs for
+            <!-- PACKAGE_COUNT -->
+            cloud providers, generated straight from each provider's own API
+            spec. Nothing hand-written, nothing to drift — and when the spec is
+            wrong, the fix is a patch, not a fork.
           </p>
           <div class="cta">
             <a class="btn btn--primary" href="#packages">Browse packages</a>
@@ -252,7 +253,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
               <li>OpenAPI</li>
               <li>Smithy</li>
               <li>GraphQL</li>
-              <li>Discovery</li>
+              <li title="Google's API description format">Google Discovery</li>
             </ul>
           </li>
           <li class="pipe__arrow" aria-hidden="true">
