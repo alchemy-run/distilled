@@ -410,7 +410,7 @@ const offenderRow = (s: Ranked, rank: number, max: number): string => {
     brandMark(s, s.short) +
     `<a class="offender__name" href="${npmUrl(s.name)}" rel="noopener">${escapeHtml(s.short)}</a>` +
     (alchemyUsed.has(s.dir)
-      ? `<span class="proven" title="Imported by Alchemy resources on main">in production</span>`
+      ? `<span class="proven" title="Imported by Alchemy resources on main">used in Alchemy</span>`
       : "") +
     `<span class="offender__score"><b>${fmt1.format(per100)}</b> fixes / 100 ops</span>` +
     `</div>` +
@@ -443,7 +443,7 @@ const totalsHtml = (ranked: Ranked[]): string => {
     stat(fmt.format(fixes), "spec fixes carried"),
     stat(fmt.format(files), "patch files"),
     stat(fmt.format(patched.length), "providers patched"),
-    stat(fmt.format(clean), "clean & in production"),
+    stat(fmt.format(clean), "clean & used in Alchemy"),
   ].join("");
 };
 
@@ -476,11 +476,11 @@ const awardHtml = (ranked: Ranked[]): string => {
     `<div class="award__card">` +
     laurel +
     `<div class="award__body">` +
-    `<p class="eyebrow">Least patched, in production</p>` +
+    `<p class="eyebrow">Least patched, used in Alchemy</p>` +
     `<h2 id="award-title" class="award__title"><a href="${npmUrl(winner.name)}" rel="noopener">${escapeHtml(winner.short)}</a></h2>` +
     (winner.fixes === 0
-      ? `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations, in production under Alchemy, zero patches. The description was right.</p>`
-      : `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations, in production under Alchemy, and only <b>${fmt.format(winner.fixes)}</b> ${winner.fixes === 1 ? "fix" : "fixes"} needed — <b>${fmt1.format(winner.per100 ?? 0)}</b> per 100.</p>`) +
+      ? `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations backing Alchemy resources, zero patches. The description was right.</p>`
+      : `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations backing Alchemy resources, and only <b>${fmt.format(winner.fixes)}</b> ${winner.fixes === 1 ? "fix" : "fixes"} needed — <b>${fmt1.format(winner.per100 ?? 0)}</b> per 100.</p>`) +
     `</div>` +
     `<div class="award__aside">` +
     (worst
@@ -719,6 +719,24 @@ await rm(distDir, { recursive: true, force: true });
 await mkdir(distDir, { recursive: true });
 await cp(publicDir, distDir, { recursive: true });
 
+// Display font from the npm package (OFL). The latin "full" cut carries
+// every axis (wght, opsz, SOFT, WONK) so the CSS can pin WONK off. Copied at
+// build time so no font binaries live in the repo.
+const fontSrc = join(
+  websiteRoot,
+  "node_modules",
+  "@fontsource-variable",
+  "fraunces",
+  "files",
+);
+await mkdir(join(distDir, "fonts"), { recursive: true });
+for (const [from, to] of [
+  ["fraunces-latin-full-normal.woff2", "fraunces-latin.woff2"],
+  ["fraunces-latin-full-italic.woff2", "fraunces-italic-latin.woff2"],
+]) {
+  await cp(join(fontSrc, from), join(distDir, "fonts", to));
+}
+
 const indexPath = join(distDir, "index.html");
 let html = await readFile(indexPath, "utf8");
 html = html.replace("<!-- PACKAGES -->", iconSprite() + renderGroups(packages));
@@ -767,7 +785,7 @@ shame = shame.replace(
   iconSprite() +
     (honour.length > 0
       ? honour.map(honourItem).join("\n")
-      : `<li class="honour__empty">Nobody. Every package Alchemy uses in production has needed at least one spec fix. The bar is here; nobody has cleared it yet.</li>`),
+      : `<li class="honour__empty">Nobody. Every package Alchemy uses has needed at least one spec fix. The bar is here; nobody has cleared it yet.</li>`),
 );
 shame = shame.replace(
   "<!-- SHAME_UNPROVEN -->",

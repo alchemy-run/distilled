@@ -371,6 +371,10 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
           and let every future build inherit the correction. That second thing
           is what Distilled is.
         </p>
+
+        <section class="award award--inline" aria-labelledby="award-title">
+          <!-- AWARD -->
+        </section>
       </section>
 
       <!-- ───────────── How it works ───────────── -->
@@ -381,171 +385,130 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
             Generated from the spec. <em>Proven</em> by Alchemy.
           </h2>
           <p class="section__lede">
-            A spec is a claim about an API, and claims are wrong in the details.
-            Distilled generates the SDK from the provider's own description,
-            then
-            <a href="https://alchemy.run" rel="noopener">Alchemy</a> builds real
-            infrastructure resources on top of it — creating, updating and
-            destroying things against the live API. Every mismatch that surfaces
-            becomes a patch to the spec, not a hand-edit to the code, and the
-            next regeneration carries it forward.
+            Distilled turns each provider's API description into an SDK. Alchemy
+            pulls Distilled in as a submodule and builds real infrastructure on
+            it — resources, providers, tests against the live API. Every place
+            the description turns out to be wrong comes back as a patch, and the
+            next generation starts from the corrected spec.
           </p>
         </div>
 
         <div class="loop" data-reveal>
-          <svg class="loop__svg" viewBox="0 0 1000 620" aria-hidden="true">
-            <defs>
-              <linearGradient
-                id="loop-fwd-grad"
-                gradientUnits="userSpaceOnUse"
-                x1="150"
-                y1="110"
-                x2="850"
-                y2="510"
-              >
-                <stop offset="0" stop-color="var(--teal)" />
-                <stop offset="0.5" stop-color="var(--accent)" />
-                <stop offset="1" stop-color="var(--violet)" />
-              </linearGradient>
-            </defs>
-            <!-- Ring, clockwise from Source (top-left): → Distill (top-right) → Alchemy (bottom-right) → Patch (bottom-left) → back. -->
-            <path
-              id="loop-all"
-              class="loop__track"
-              d="M 150 110 H 770 A 80 80 0 0 1 850 190 V 430 A 80 80 0 0 1 770 510 H 230 A 80 80 0 0 1 150 430 V 190 A 80 80 0 0 1 230 110 H 150"
-            />
-            <!-- forward: Source → Distill → Alchemy -->
-            <path
-              class="loop__path loop__path--fwd"
-              d="M 150 110 H 770 A 80 80 0 0 1 850 190 V 430 A 80 80 0 0 1 770 510"
-              pathLength="100"
-            />
-            <!-- return: Alchemy → Patch → Source (feedback, dashed) -->
-            <path
-              class="loop__path loop__path--ret"
-              d="M 770 510 H 230 A 80 80 0 0 1 150 430 V 190 A 80 80 0 0 1 230 110"
+          <svg class="loop__svg" viewBox="0 0 1000 520" aria-hidden="true">
+            <!-- Box geometry (matches the CSS): Alchemy x 60..380, Distilled x 560..800, both y 200..460.
+                 Spec is a small box centred at (920, 120). -->
+            <!-- Spec → Distilled -->
+            <line
+              class="loop__edge loop__edge--spec"
+              x1="868"
+              y1="150"
+              x2="790"
+              y2="204"
               pathLength="100"
             />
             <path
-              class="loop__head loop__head--fwd"
-              d="M -7 -8 L 9 0 L -7 8 Z"
-              transform="translate(500 110)"
+              class="loop__head loop__head--spec"
+              d="M -8 -7 L 6 0 L -8 7 Z"
+              transform="translate(790 204) rotate(145.3)"
+            />
+            <!-- Distilled → Alchemy: submodule -->
+            <line
+              class="loop__edge loop__edge--sub"
+              x1="560"
+              y1="330"
+              x2="380"
+              y2="330"
+              pathLength="100"
             />
             <path
-              class="loop__head loop__head--fwd"
-              d="M -7 -8 L 9 0 L -7 8 Z"
-              transform="translate(850 310) rotate(90)"
+              class="loop__head loop__head--sub"
+              d="M -8 -7 L 6 0 L -8 7 Z"
+              transform="translate(380 330) rotate(180)"
             />
-            <path
-              class="loop__head loop__head--ret"
-              d="M -7 -8 L 9 0 L -7 8 Z"
-              transform="translate(500 510) rotate(180)"
-            />
-            <path
-              class="loop__head loop__head--ret"
-              d="M -7 -8 L 9 0 L -7 8 Z"
-              transform="translate(150 310) rotate(-90)"
-            />
-            <!-- leg labels -->
-            <text class="loop__leg" x="500" y="92" text-anchor="middle">
-              generate
+            <text class="loop__leg" x="470" y="318" text-anchor="middle">
+              submodule
             </text>
-            <text class="loop__leg" x="872" y="316" text-anchor="start">
-              deploy · test · destroy
-            </text>
+            <!-- Alchemy → Distilled: patches, dashed arc over the top -->
+            <path
+              class="loop__edge loop__edge--patch"
+              d="M 300 200 C 300 60, 680 60, 680 200"
+              pathLength="100"
+            />
+            <path
+              class="loop__head loop__head--patch"
+              d="M -8 -7 L 6 0 L -8 7 Z"
+              transform="translate(680 200) rotate(90)"
+            />
             <text
-              class="loop__leg loop__leg--ret"
-              x="500"
-              y="540"
+              class="loop__leg loop__leg--patch"
+              x="490"
+              y="40"
               text-anchor="middle"
             >
-              every mismatch → a patch
+              patches
             </text>
             <text
-              class="loop__leg loop__leg--ret"
-              x="128"
-              y="316"
-              text-anchor="end"
+              class="loop__leg loop__leg--sub"
+              x="490"
+              y="62"
+              text-anchor="middle"
             >
-              corrected spec
+              tagged errors · schema bugs · missing operations
             </text>
-            <circle class="loop__drop loop__drop--a" r="6">
-              <animateMotion dur="9s" repeatCount="indefinite">
-                <mpath href="#loop-all" />
-              </animateMotion>
+            <circle class="loop__drop loop__drop--a" r="5">
+              <animateMotion
+                dur="3.2s"
+                repeatCount="indefinite"
+                path="M 560 330 L 380 330"
+              />
             </circle>
-            <circle class="loop__drop loop__drop--b" r="6">
-              <animateMotion dur="9s" begin="4.5s" repeatCount="indefinite">
-                <mpath href="#loop-all" />
-              </animateMotion>
+            <circle class="loop__drop loop__drop--b" r="5">
+              <animateMotion
+                dur="4.8s"
+                begin="1.4s"
+                repeatCount="indefinite"
+                path="M 300 200 C 300 60, 680 60, 680 200"
+              />
             </circle>
-            <text class="loop__centre" x="500" y="296" text-anchor="middle">
-              every build starts from
-            </text>
-            <text class="loop__centre" x="500" y="334" text-anchor="middle">
-              the
-              <tspan class="loop__centre-em">corrected</tspan>
-              spec
-            </text>
           </svg>
 
-          <ol class="loop__nodes" aria-label="Generation and feedback loop">
-            <li class="node node--source">
-              <span class="node__n">01</span>
-              <h3>Source</h3>
-              <p>
-                The provider's own API description, pinned in a spec mirror.
-              </p>
-              <ul class="chips" aria-label="Supported formats">
+          <ol
+            class="loop__nodes"
+            aria-label="How Distilled and Alchemy fit together"
+          >
+            <li class="node node--alchemy">
+              <h3>Alchemy</h3>
+              <p class="node__role">Infrastructure as code, in TypeScript.</p>
+              <ul class="node__list">
+                <li>
+                  Resources: <code>Bucket</code>, <code>Table</code>,
+                  <code>Machine</code>
+                </li>
+                <li>Providers: reconcile, update, delete</li>
+                <li>Tests against the actual API</li>
+                <li>Bindings: <code>S3.GetObject</code> from a Worker</li>
+              </ul>
+            </li>
+            <li class="node node--distilled">
+              <h3>Distilled</h3>
+              <p class="node__role">Effect-native SDKs, generated.</p>
+              <ul class="node__list">
+                <li>One package per provider</li>
+                <li>Schemas, operations, typed errors</li>
+                <li>Retry, pagination, streaming</li>
+                <li>
+                  <code>aws</code> <code>cloudflare</code> <code>fly-io</code> …
+                </li>
+              </ul>
+            </li>
+            <li class="node node--spec">
+              <h3>Spec</h3>
+              <p class="node__role">The provider's own API description.</p>
+              <ul class="node__list node__list--chips">
                 <li>OpenAPI</li>
                 <li>Smithy</li>
                 <li>GraphQL</li>
-                <li title="Google's API description format">
-                  Google Discovery
-                </li>
-              </ul>
-            </li>
-            <li class="node node--distill">
-              <span class="node__n">02</span>
-              <h3>Distill</h3>
-              <p>
-                One model, patches applied. Effect schemas, operations, typed
-                errors and pagination out.
-              </p>
-              <ul class="chips" aria-label="What is generated">
-                <li>Schema</li>
-                <li>Errors</li>
-                <li>Retry</li>
-                <li>Paging</li>
-              </ul>
-            </li>
-            <li class="node node--alchemy">
-              <span class="node__n">03</span>
-              <h3>Alchemy</h3>
-              <p>
-                Real resources — a Fly machine, a Neon branch, a Cloudflare
-                worker — deployed, tested and destroyed through the SDK.
-              </p>
-              <ul class="chips" aria-label="What exercises it">
-                <li>deploy</li>
-                <li>test</li>
-                <li>destroy</li>
-              </ul>
-            </li>
-            <li class="node node--patch">
-              <span class="node__n">04</span>
-              <h3>Patch</h3>
-              <p>
-                The spec said 201, the API said 409. Fix the
-                <em>description</em> with a JSON patch; it survives every
-                regeneration.
-              </p>
-              <ul class="chips" aria-label="Example">
-                <li
-                  title="A real patch on fly-io: type Conflict (409) on machinesCreate"
-                >
-                  +409 machinesCreate
-                </li>
+                <li>Discovery</li>
               </ul>
             </li>
           </ol>
@@ -556,22 +519,20 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
       <section class="why rule" id="why" aria-labelledby="why-title">
         <div class="section__head">
           <p class="eyebrow">What you get</p>
-          <h2 id="why-title">
-            Not a wrapper. <em>Effect all the way down.</em>
-          </h2>
+          <h2 id="why-title">Built on <em>Effect</em>, not wrapped in it.</h2>
           <p class="section__lede">
-            Every operation is an Effect, so failure, retry, streaming,
-            configuration and tracing are not SDK features you learn — they are
-            the same primitives the rest of your program already uses.
+            Every operation returns an Effect. So the things an SDK usually
+            bolts on — error handling, retries, pagination, configuration,
+            tracing — are the Effect features you already use, with the
+            provider's specifics filled in.
           </p>
         </div>
 
         <div class="caps" data-reveal>
           <article class="cap">
-            <h3>Errors you can match on</h3>
+            <h3>Typed errors</h3>
             <p class="cap__claim">
-              Every failure the spec documents is a typed case — and every case
-              carries a category.
+              Every error the API can return is in the type signature.
             </p>
             <pre
               class="snippet"
@@ -583,19 +544,17 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
   Effect.<span class="f">catchIf</span>(<span class="f">isThrottlingError</span>, () => backOff),  <span class="m">// by category</span>
 )</code></pre>
             <p>
-              <code>catchTags</code> is exhaustive; nothing arrives as
-              <code>unknown</code>. Categories — <code>ThrottlingError</code>,
-              <code>NotFoundError</code>, <code>ConflictError</code>… — are
-              attached to every error class, so you can handle a <em>kind</em>
-              of failure without naming each provider-specific tag.
+              Match the exact error with <code>catchTags</code>, or a category —
+              throttling, not-found, conflict — with <code>catchIf</code>.
+              Nothing is <code>unknown</code>, and the compiler tells you when
+              you've missed one.
             </p>
           </article>
 
           <article class="cap">
-            <h3>Retry is a Layer, not a loop</h3>
+            <h3>Retries</h3>
             <p class="cap__claim">
-              One policy for the whole SDK. Server hints honoured. Throttles
-              retried, 404s never.
+              Sensible retries by default. Change them in one place.
             </p>
             <pre
               class="snippet"
@@ -609,19 +568,18 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
               .<span class="f">pipe</span>(Schedule.<span class="f">recurs</span>(<span class="c">3</span>)),
 }))</code></pre>
             <p>
-              Every generated operation runs under the SDK's
-              <code>Retry</code> service. Provide it once and every call below
-              it inherits the policy; swap it per test, per request, or drop to
-              a plain Effect <code>Schedule</code> when you need something
-              exotic.
+              Transient and throttling errors are retried with backoff and
+              jitter; a 404 never is. The API's own <code>Retry-After</code> is
+              respected. Override the policy for one call or for the whole
+              program — it's a Layer.
             </p>
           </article>
 
           <article class="cap">
-            <h3>Streams, not arrays</h3>
+            <h3>Pagination and streaming</h3>
             <p class="cap__claim">
-              Pages, items and bytes are all lazy. Pull what you need; the rest
-              is never fetched.
+              List results and object bodies are Streams. Take ten items and
+              only the first page is fetched.
             </p>
             <pre
               class="snippet"
@@ -638,18 +596,18 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
     S3.<span class="f">putObject</span>({ Bucket: dst, Key, Body: o.Body! })),
 )</code></pre>
             <p>
-              <code>.items()</code> and <code>.pages()</code> on every paginated
-              operation. Streaming request and response bodies for S3 and
-              friends, so a multi-gigabyte object moves without touching memory.
-              Back-pressure and cancellation come from Effect for free.
+              Every paginated operation has <code>.items()</code> and
+              <code>.pages()</code>. Large bodies — an S3 object, an upload —
+              stream in and out without being held in memory. Cancel the Effect
+              and the requests stop.
             </p>
           </article>
 
           <article class="cap">
-            <h3>Configuration as Layers</h3>
+            <h3>Configuration</h3>
             <p class="cap__claim">
-              Credentials, region, endpoint, HTTP client: services you provide,
-              never arguments you thread.
+              Credentials, region and the HTTP client are provided once, not
+              passed to every call.
             </p>
             <pre
               class="snippet"
@@ -662,17 +620,18 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
 <span class="m">// In tests: same program, fake wire.</span>
 program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(MockHttpClient))</code></pre>
             <p>
-              The program never mentions where credentials come from. Swap the
-              HTTP client for a recorded one and the whole SDK runs offline; the
-              benchmarks on this site are built exactly that way.
+              Your code calls <code>S3.getObject</code>; where the credentials
+              come from is decided at the edge of the program. In tests, swap
+              the HTTP client for a fake and nothing else changes — that is how
+              the benchmarks on this site run without a network.
             </p>
           </article>
 
           <article class="cap">
-            <h3>Traces out of the box</h3>
+            <h3>Tracing</h3>
             <p class="cap__claim">
-              Every request is a span. Point an exporter at it and you have a
-              waterfall.
+              Every request is already a span. Add an exporter and you have
+              traces.
             </p>
             <pre
               class="snippet"
@@ -685,20 +644,20 @@ program.<span class="f">pipe</span>(
   })),
 )</code></pre>
             <p>
-              No SDK-specific tracing API to learn: the spans are Effect spans,
-              so they nest under yours and ship to Axiom, Datadog, Honeycomb or
-              any OTLP endpoint through the exporter layer you already use.
+              They are ordinary Effect spans, so they nest inside yours and go
+              wherever your OpenTelemetry exporter sends them — Axiom, Datadog,
+              Honeycomb, a local collector.
               <span class="cap__soon"
-                >Per-operation spans with service and operation names are
-                next.</span
+                >Next: a named span per operation (<code>S3.GetObject</code>),
+                not just per request.</span
               >
             </p>
           </article>
 
           <article class="cap">
-            <h3>Small, fast, tree-shakeable</h3>
+            <h3>Bundle size and speed</h3>
             <p class="cap__claim">
-              Import one service, ship one service. Measured, not promised.
+              Import one service and your bundle contains one service.
             </p>
             <pre
               class="snippet"
@@ -723,17 +682,12 @@ program.<span class="f">pipe</span>(
               </div>
             </dl>
             <p>
-              Deep imports and barrels produce the same bytes; the barrel just
-              costs bundle time. Runs on Node, Bun and Workers.
-              <a class="cap__more" href="/bench">All the numbers →</a>
+              Measured with the bundler settings Alchemy uses for Cloudflare
+              Workers. Runs on Node, Bun and Workers.
+              <a class="cap__more" href="/bench">See all the numbers →</a>
             </p>
           </article>
         </div>
-      </section>
-
-      <!-- ───────────── Award ───────────── -->
-      <section class="award" aria-labelledby="award-title">
-        <!-- AWARD -->
       </section>
 
       <!-- ───────────── Packages ───────────── -->

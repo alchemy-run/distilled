@@ -19,10 +19,11 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "alchemy": "2.0.0-beta.74",
-    "effect": "4.0.0-rc.112",
     "@effect/platform-bun": "4.0.0-rc.112",
-    "@effect/platform-node": "4.0.0-rc.112"
+    "@effect/platform-node": "4.0.0-rc.112",
+    "@fontsource-variable/fraunces": "5.3.0",
+    "alchemy": "2.0.0-beta.74",
+    "effect": "4.0.0-rc.112"
   },
   "devDependencies": {
     "@types/bun": "catalog:tooling",
