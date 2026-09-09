@@ -3,6 +3,8 @@ packages:
   # Deployment stacks. Not published, not part of `tsc -b` — but members so
   # one `pnpm install` covers them and their versions live in one lockfile.
   - stacks/*
+  # Benchmark suites. Not published, not part of `tsc -b`; run with bun.
+  - benches/*
 
 allowBuilds:
   msgpackr-extract: true
@@ -10,6 +12,9 @@ allowBuilds:
   workerd: true
 
 catalogs:
+  bench:
+    mitata: ^1.0.34
+    rolldown: 1.2.5
   aws:
     "@aws-crypto/crc32": ^5.2.0
     "@aws-crypto/util": ^5.2.0
