@@ -285,6 +285,45 @@ h2 em {
   top: 1rem;
 }
 
+/* Page-level dividers. The body grid has 3rem cells and sections are not
+   grid multiples, so a bare 1px border lands a pixel or two from a grid line
+   and reads as doubled. Instead of a border, draw the rule as a hairline
+   with a soft mask that fades the grid out around it. */
+.rule {
+  position: relative;
+}
+.rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -0.6rem;
+  height: 1.2rem;
+  background: linear-gradient(
+    transparent,
+    var(--bg) 40%,
+    var(--bg) 60%,
+    transparent
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+.rule::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--line);
+  pointer-events: none;
+  z-index: 0;
+}
+.rule > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* ───────────── Header ───────────── */
 
 .top {
@@ -677,7 +716,6 @@ pre.code code {
 
 .how {
   padding: clamp(3rem, 7vw, 5.5rem) 0;
-  border-top: 1px solid var(--line);
 }
 
 .pipe {
@@ -1433,7 +1471,6 @@ pre.code code {
 .method {
   max-width: var(--measure);
   padding-top: clamp(2rem, 5vw, 3rem);
-  border-top: 1px solid var(--line);
 }
 .method h2 {
   font-size: 1.6rem;
@@ -2049,7 +2086,7 @@ pre.code code {
 
 .foot {
   border-top: 1px solid var(--line);
-  background: color-mix(in oklab, var(--bg) 70%, transparent);
+  background: var(--bg);
 }
 .foot__inner {
   max-width: var(--wrap);
