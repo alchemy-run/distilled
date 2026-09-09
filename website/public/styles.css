@@ -449,6 +449,22 @@ h2 em {
 .top__nav a:hover {
   color: var(--fg);
 }
+.top__nav a[aria-current="page"] {
+  color: var(--fg);
+}
+.top__shame {
+  color: var(--rose);
+}
+.top__shame:hover {
+  color: var(--rose-2);
+}
+.link-shame {
+  color: var(--rose);
+  white-space: nowrap;
+}
+.link-shame:hover {
+  color: var(--rose-2);
+}
 
 /* ───────────── Layout helpers ───────────── */
 
@@ -2189,12 +2205,39 @@ pre.code code {
 /* ───────────── Small screens ───────────── */
 
 @media (max-width: 40rem) {
-  .top__nav {
-    gap: 1rem;
-    font-size: 0.86rem;
+  .top__inner {
+    gap: 0.6rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
-  .top__nav a:first-child {
+  .top__nav {
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    min-width: 0;
+    flex-shrink: 1;
+  }
+  .top__nav a {
+    white-space: nowrap;
+  }
+  /* Keep Packages · Bench · Shame · GitHub · toggle; drop the rest. */
+  .top__nav a:first-child,
+  .top__nav a[href*="npmjs.com"] {
     display: none;
+  }
+  .top__nav a[href="/bench"] {
+    font-size: 0;
+  }
+  .top__nav a[href="/bench"]::before {
+    content: "Bench";
+    font-size: 0.84rem;
+  }
+  .brand__name {
+    font-size: 1.15rem;
+  }
+  .theme {
+    flex: none;
+    width: 1.8rem;
+    height: 1.8rem;
   }
   .install {
     width: 100%;
