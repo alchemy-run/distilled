@@ -117,8 +117,8 @@
           Every Distilled SDK is generated from the provider's own API
           description. When that description is wrong — a missing error
           response, a field marked required that isn't, a type that lies — we
-          fix it with an RFC-6902 patch against the spec so the generator can do
-          its job. This page counts those patches.
+          fix it with a JSON patch against the spec so the generator can do its
+          job. This page counts those patches.
         </p>
         <p class="lede lede--small">
           Ranked by <strong>fixes per 100 operations</strong>, so a huge API
@@ -179,11 +179,13 @@
         <h2 id="method-title">How this is counted</h2>
         <ul>
           <li>
-            A <strong>fix</strong> is one RFC-6902 operation (<code>add</code>,
-            <code>replace</code>, <code>remove</code>, <code>move</code>, …) in
-            a file under <code>packages/&lt;provider&gt;/patches/</code>. For
-            AWS, whose patches are declarative, each named operation, structure
-            or error entry counts as one.
+            A <strong>fix</strong> is one
+            <a href="https://jsonpatch.com" rel="noopener">JSON Patch</a>
+            operation (<code>add</code>, <code>replace</code>,
+            <code>remove</code>, <code>move</code>, …) in a file under
+            <code>packages/&lt;provider&gt;/patches/</code>. For AWS, whose
+            patches are declarative, each named operation, structure or error
+            entry counts as one.
           </li>
           <li>
             An <strong>operation</strong> is one generated SDK call — an
