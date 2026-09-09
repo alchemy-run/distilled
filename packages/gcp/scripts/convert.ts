@@ -742,6 +742,7 @@ fs.mkdirSync(UNSTABLE_DIR, { recursive: true });
 
 let converted = 0;
 let failed = 0;
+const written = new Set<string>();
 for (const entry of entries) {
   try {
     const doc: DiscoveryDoc = JSON.parse(
@@ -755,6 +756,7 @@ for (const entry of entries) {
       JSON.stringify(model, null, 2) + "\n",
       "utf-8",
     );
+    written.add(outName.replace(/\.json$/, ""));
     converted++;
   } catch (err) {
     failed++;
@@ -765,17 +767,19 @@ console.log(
   `✅ Converted ${converted} discovery documents to Smithy models` +
     (failed ? ` (${failed} failed)` : ""),
 );
-// A filtered run only rewrote those models; siblings in the output dirs
-// already carry `distilled.finalized` and must not be walked.
+// A filtered run only rewrites the matching models; skip already-finalized
+// siblings or finalizeConvert throws (it is not idempotent).
 const include = serviceFilter
-  ? (resource: string) => {
-      const prefix = ident(serviceFilter);
-      if (versionFilter) {
-        return resource === `${prefix}_${ident(versionFilter)}`;
-      }
-      return resource === prefix || resource.startsWith(`${prefix}_`);
-    }
+  ? (resource: string) => written.has(resource)
   : undefined;
-await finalizeConvert({ root, outDir: ".generated-specs/stable", include });
-await finalizeConvert({ root, outDir: ".generated-specs/unstable", include });
+await finalizeConvert({
+  root,
+  outDir: ".generated-specs/stable",
+  include,
+});
+await finalizeConvert({
+  root,
+  outDir: ".generated-specs/unstable",
+  include,
+});
 if (failed) process.exit(1);
