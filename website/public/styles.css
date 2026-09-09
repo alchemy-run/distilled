@@ -379,6 +379,42 @@ h2 em {
   color: var(--fg-2);
 }
 
+.top__social {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-left: 0.25rem;
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--line);
+}
+.ico {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  color: var(--fg-2);
+  transition:
+    color 120ms ease,
+    background-color 120ms ease;
+}
+.ico:hover {
+  color: var(--fg);
+  background: var(--bg-3);
+  text-decoration: none;
+}
+.ico svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  fill: currentColor;
+}
+.ico[aria-label="Discord"]:hover {
+  color: #5865f2;
+}
+.ico[aria-label="npm"]:hover {
+  color: #cb3837;
+}
+
 .theme {
   display: inline-grid;
   place-items: center;
@@ -2362,10 +2398,24 @@ pre.code code {
   .top__nav a {
     white-space: nowrap;
   }
-  /* Keep Packages · Bench · Shame · GitHub · toggle; drop the rest. */
-  .top__nav a:first-child,
-  .top__nav a[href*="npmjs.com"] {
+  /* Keep Bench · Shame · GitHub · Discord · toggle; drop the rest. */
+  .top__nav > a:first-child,
+  .top__nav > a[href$="#packages"],
+  .top__social .ico[aria-label="npm"] {
     display: none;
+  }
+  .top__social {
+    gap: 0.1rem;
+    padding-left: 0.5rem;
+    margin-left: 0;
+  }
+  .ico {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .ico svg {
+    width: 0.95rem;
+    height: 0.95rem;
   }
   .top__nav a[href="/bench"] {
     font-size: 0;
