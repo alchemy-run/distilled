@@ -268,6 +268,47 @@ const groupPackages = (
   return groups;
 };
 
+type BrandIcon = { readonly viewBox: string; readonly d: string };
+const brandIcons = JSON.parse(
+  await readFile(join(websiteRoot, "data", "brand-icons.json"), "utf8"),
+) as Record<string, BrandIcon | string>;
+
+const hasIcon = (dir: string): boolean =>
+  typeof brandIcons[dir] === "object" && brandIcons[dir] !== null;
+
+/** One <symbol> per brand; referenced by <use> from each card. */
+const iconSprite = (): string =>
+  `<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" style="display:none">` +
+  Object.entries(brandIcons)
+    .filter(
+      (e): e is [string, BrandIcon] =>
+        typeof e[1] === "object" && e[1] !== null,
+    )
+    .map(
+      ([dir, icon]) =>
+        `<symbol id="i-${escapeHtml(dir)}" viewBox="${escapeHtml(icon.viewBox)}"><path d="${escapeHtml(icon.d)}"/></symbol>`,
+    )
+    .join("") +
+  `</svg>`;
+
+/** Monogram for brands without a mark: first letter, or two for hyphenated names. */
+const monogram = (short: string): string => {
+  const parts = short.split("-").filter(Boolean);
+  const letters =
+    parts.length > 1
+      ? parts
+          .slice(0, 2)
+          .map((p) => p[0])
+          .join("")
+      : short.slice(0, 1);
+  return letters.toUpperCase();
+};
+
+const brandMark = (pkg: { readonly dir: string }, short: string): string =>
+  hasIcon(pkg.dir)
+    ? `<span class="pkg__mark"><svg aria-hidden="true"><use href="#i-${escapeHtml(pkg.dir)}"/></svg></span>`
+    : `<span class="pkg__mark pkg__mark--mono" aria-hidden="true">${escapeHtml(monogram(short))}</span>`;
+
 const packageCard = (pkg: Pkg): string => {
   const name = escapeHtml(pkg.name);
   const short = escapeHtml(pkg.name.replace("@distilled.cloud/", ""));
@@ -277,7 +318,8 @@ const packageCard = (pkg: Pkg): string => {
     [pkg.name, pkg.dir, SEARCH_HINTS[pkg.dir] ?? ""].join(" "),
   );
   return [
-    `<li class="pkg" data-search="${search}">`,
+    `<li class="pkg${hasIcon(pkg.dir) ? "" : " pkg--nomark"}" data-search="${search}">`,
+    brandMark(pkg, short),
     `<a class="pkg__name" href="https://www.npmjs.com/package/${name}" rel="noopener">${short}</a>`,
     `<span class="pkg__meta">${version ? `<span>${version}</span>` : ""}</span>`,
     `<a class="pkg__src" href="https://github.com/alchemy-run/distilled/tree/main/packages/${dir}" rel="noopener" aria-label="${short} source on GitHub">src</a>`,
@@ -353,6 +395,7 @@ const offenderRow = (s: Ranked, rank: number, max: number): string => {
     `<span class="offender__rank" aria-label="Rank ${rank}">${String(rank).padStart(2, "0")}</span>` +
     `<div class="offender__body">` +
     `<div class="offender__head">` +
+    brandMark(s, s.short) +
     `<a class="offender__name" href="${npmUrl(s.name)}" rel="noopener">${escapeHtml(s.short)}</a>` +
     `<span class="offender__score"><b>${fmt1.format(per100)}</b> fixes / 100 ops</span>` +
     `</div>` +
@@ -370,7 +413,7 @@ const offenderRow = (s: Ranked, rank: number, max: number): string => {
 };
 
 const honourItem = (s: Ranked): string =>
-  `<li class="honour__item"><a href="${npmUrl(s.name)}" rel="noopener"><span class="honour__name">${escapeHtml(s.short)}</span><span class="honour__ops">${fmt.format(s.operations)} ops</span></a></li>`;
+  `<li class="honour__item"><a href="${npmUrl(s.name)}" rel="noopener">${brandMark(s, s.short)}<span class="honour__name">${escapeHtml(s.short)}</span><span class="honour__ops">${fmt.format(s.operations)} ops</span></a></li>`;
 
 const totalsHtml = (ranked: Ranked[]): string => {
   const patched = ranked.filter((s) => s.fixes > 0);
@@ -659,7 +702,7 @@ await cp(publicDir, distDir, { recursive: true });
 
 const indexPath = join(distDir, "index.html");
 let html = await readFile(indexPath, "utf8");
-html = html.replace("<!-- PACKAGES -->", renderGroups(packages));
+html = html.replace("<!-- PACKAGES -->", iconSprite() + renderGroups(packages));
 html = html.replace("<!-- AWARD -->", awardHtml(ranked));
 html = html.replaceAll("<!-- PACKAGE_COUNT -->", String(packages.length));
 await writeFile(indexPath, html);
@@ -673,7 +716,7 @@ shame = shame.replace(
 );
 shame = shame.replace(
   "<!-- SHAME_HONOUR -->",
-  honour.map(honourItem).join("\n"),
+  iconSprite() + honour.map(honourItem).join("\n"),
 );
 await writeFile(shamePath, shame);
 
