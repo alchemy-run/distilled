@@ -1004,294 +1004,83 @@ pre.code code {
   padding: clamp(3rem, 7vw, 5.5rem) 0;
 }
 
-.pipe {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  align-items: stretch;
-}
+/* ───────────── The loop ─────────────
+   A ring (SVG) with four nodes at its sides. The forward half is solid,
+   the return half (Alchemy → Patch → Source) is dashed to read as feedback.
+   Two drops ride the whole ring via SMIL animateMotion; reduced-motion
+   hides them. Below 64rem the ring is hidden and the nodes stack. */
 
-@media (min-width: 68rem) {
-  .pipe {
-    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
-    gap: 0.5rem;
-  }
-}
-
-.pipe__step {
+.loop {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.5rem 1.35rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
-}
-.pipe__step--hot {
-  border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
-  background:
-    radial-gradient(
-      28rem 12rem at 50% 120%,
-      color-mix(in oklab, var(--accent) 16%, transparent),
-      transparent 70%
-    ),
-    color-mix(in oklab, var(--bg-2) 85%, transparent);
-}
-.pipe__n {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-}
-.pipe__step:nth-child(1) {
-  --step: var(--teal);
-}
-.pipe__step:nth-child(3) {
-  --step: var(--accent);
-}
-.pipe__step:nth-child(5) {
-  --step: var(--violet);
-}
-.pipe__step:nth-child(7) {
-  --step: var(--rose);
-}
-.pipe__step--patch .chips li {
-  font-size: 0.7rem;
-  color: var(--rose);
-  border-color: color-mix(in oklab, var(--rose) 45%, var(--line-2));
-  white-space: nowrap;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.pipe__loopnote {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  margin: 1rem 0 0;
-  font-family: var(--mono);
-  font-size: 0.76rem;
-  color: var(--fg-3);
-}
-.pipe__loopnote b {
-  color: var(--accent);
-  font-weight: 500;
-}
-.pipe__loopnote svg {
-  color: var(--rose);
-  flex: none;
-}
-.pipe__step .pipe__n {
-  color: var(--step, var(--accent));
-}
-.pipe__step {
-  border-top: 2px solid
-    color-mix(in oklab, var(--step, var(--accent)) 70%, var(--line));
-}
-.pipe__step .chips li {
-  border-color: color-mix(
-    in oklab,
-    var(--step, var(--accent)) 35%,
-    var(--line-2)
-  );
-}
-.pipe__step h3 {
-  margin: 0.5rem 0 0.4rem;
-  font-family: var(--serif);
-  font-variation-settings:
-    "opsz" 72,
-    "SOFT" 30;
-  font-size: 1.55rem;
-  line-height: 1.1;
-}
-.pipe__step p {
-  flex: 1;
-  margin: 0 0 1rem;
-  color: var(--fg-2);
-  font-size: 0.95rem;
+  --node-w: 14.5rem;
 }
 
-.pipe__arrow {
+.loop__svg {
   display: none;
-  align-self: center;
-  color: var(--fg-3);
-  width: 2.5rem;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
 }
-@media (min-width: 68rem) {
-  .pipe__arrow {
-    display: block;
-  }
+.loop__nodes {
+  position: relative;
+  z-index: 1;
 }
-@media (min-width: 40rem) and (max-width: 67.99rem) {
-  .pipe {
-    grid-template-columns: 1fr 1fr;
-  }
+.loop__track {
+  fill: none;
+  stroke: none;
 }
-.pipe__drop {
+.loop__path {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.loop__path--fwd {
+  stroke: url(#loop-fwd-grad);
+}
+.loop__path--ret {
+  stroke: var(--rose);
+  stroke-dasharray: 8 6;
+}
+.loop__head--fwd {
   fill: var(--accent);
-  opacity: 0;
 }
-.pipe__arrow:nth-child(6) .pipe__drop {
+.loop__leg {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  fill: var(--fg-3);
+}
+.loop__leg--ret {
   fill: var(--rose);
 }
-
-/* ── Pipeline motion ──
-   Cards and chips rise in once the list scrolls into view; a copper drop
-   then travels each arrow on a loop and the Distill card simmers. Static
-   when motion is reduced or JS never adds `.is-in`. */
-
-@media (prefers-reduced-motion: no-preference) {
-  [data-reveal] .pipe__step,
-  [data-reveal] .pipe__arrow {
-    opacity: 0;
-    transform: translateY(14px);
-    transition:
-      opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  }
-  [data-reveal] .pipe__step:nth-child(1) {
-    transition-delay: 0ms;
-  }
-  [data-reveal] .pipe__arrow:nth-child(2) {
-    transition-delay: 180ms;
-  }
-  [data-reveal] .pipe__step:nth-child(3) {
-    transition-delay: 260ms;
-  }
-  [data-reveal] .pipe__arrow:nth-child(4) {
-    transition-delay: 440ms;
-  }
-  [data-reveal] .pipe__step:nth-child(5) {
-    transition-delay: 520ms;
-  }
-  [data-reveal] .pipe__arrow:nth-child(6) {
-    transition-delay: 700ms;
-  }
-  [data-reveal] .pipe__step:nth-child(7) {
-    transition-delay: 780ms;
-  }
-  [data-reveal].is-in .pipe__step,
-  [data-reveal].is-in .pipe__arrow {
-    opacity: 1;
-    transform: none;
-  }
-
-  [data-reveal] .chips li {
-    opacity: 0;
-    transform: translateY(6px);
-    transition:
-      opacity 400ms ease,
-      transform 400ms ease;
-  }
-  [data-reveal].is-in .chips li {
-    opacity: 1;
-    transform: none;
-  }
-  [data-reveal].is-in .pipe__step:nth-child(1) .chips li {
-    transition-delay: calc(350ms + var(--i) * 60ms);
-  }
-  [data-reveal].is-in .pipe__step:nth-child(3) .chips li {
-    transition-delay: calc(610ms + var(--i) * 60ms);
-  }
-  [data-reveal].is-in .pipe__step:nth-child(5) .chips li {
-    transition-delay: calc(870ms + var(--i) * 60ms);
-  }
-  [data-reveal].is-in .pipe__step:nth-child(7) .chips li {
-    transition-delay: calc(1130ms + var(--i) * 60ms);
-  }
-
-  /* Drop runs the arrow; second arrow lags half a cycle so it reads as one flow. */
-  [data-reveal].is-in .pipe__drop {
-    animation: pipe-drop 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-    animation-delay: 900ms;
-  }
-  [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__drop {
-    animation-delay: 1700ms;
-  }
-  [data-reveal].is-in .pipe__arrow:nth-child(6) .pipe__drop {
-    animation-delay: 2500ms;
-  }
-  [data-reveal].is-in .pipe__line {
-    stroke-dasharray: 64;
-    stroke-dashoffset: 64;
-    animation: pipe-draw 700ms ease-out forwards;
-  }
-  [data-reveal].is-in .pipe__arrow:nth-child(2) .pipe__line {
-    animation-delay: 260ms;
-  }
-  [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__line {
-    animation-delay: 520ms;
-  }
-  [data-reveal].is-in .pipe__arrow:nth-child(6) .pipe__line {
-    animation-delay: 780ms;
-  }
-
-  /* Distill: the glow at the bottom breathes, the number pulses with the drop. */
-  [data-reveal].is-in .pipe__step--hot::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(
-      28rem 12rem at 50% 120%,
-      color-mix(in oklab, var(--accent) 22%, transparent),
-      transparent 70%
-    );
-    animation: simmer 3.2s ease-in-out infinite;
-  }
-  [data-reveal].is-in .pipe__step--hot .pipe__n {
-    animation: tick 2.4s ease-in-out infinite;
-    animation-delay: 1700ms;
-  }
-  .pipe__step--hot > * {
-    position: relative;
-  }
+.loop__head--ret {
+  fill: var(--rose);
 }
-
-@keyframes pipe-drop {
-  0% {
-    cx: 2;
-    opacity: 0;
-  }
-  12% {
-    opacity: 1;
-  }
-  78% {
-    opacity: 1;
-  }
-  90%,
-  100% {
-    cx: 42;
-    opacity: 0;
-  }
+.loop__drop {
+  fill: var(--accent);
+  filter: drop-shadow(
+    0 0 6px color-mix(in oklab, var(--accent) 70%, transparent)
+  );
 }
-@keyframes pipe-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
+.loop__drop--b {
+  fill: var(--rose);
+  filter: drop-shadow(
+    0 0 6px color-mix(in oklab, var(--rose) 70%, transparent)
+  );
 }
-@keyframes simmer {
-  0%,
-  100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 1;
-  }
+.loop__centre {
+  font-family: var(--serif);
+  font-size: 30px;
+  fill: var(--fg);
 }
-@keyframes tick {
-  0%,
-  100% {
-    color: var(--accent);
-  }
-  50% {
-    color: var(--accent-2);
-    text-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
-  }
+.loop__centre-em {
+  font-style: italic;
+  fill: var(--accent-2);
 }
 
 .chips {
@@ -1304,12 +1093,212 @@ pre.code code {
 }
 .chips li {
   font-family: var(--mono);
-  font-size: 0.75rem;
-  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  padding: 0.18rem 0.55rem;
   border-radius: 999px;
   border: 1px solid var(--line-2);
   color: var(--fg-2);
   background: var(--bg);
+}
+
+.loop__nodes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.node {
+  position: relative;
+  min-width: 0;
+  padding: 1.25rem 1.35rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  --step: var(--accent);
+}
+.node--source {
+  --step: var(--teal);
+}
+.node--distill {
+  --step: var(--accent);
+}
+.node--alchemy {
+  --step: var(--violet);
+}
+.node--patch {
+  --step: var(--rose);
+}
+.node__n {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--step);
+}
+.node h3 {
+  margin: 0.35rem 0 0.35rem;
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 72,
+    "SOFT" 30;
+  font-size: 1.5rem;
+  line-height: 1.1;
+}
+.node p {
+  margin: 0 0 0.85rem;
+  color: var(--fg-2);
+  font-size: 0.92rem;
+  text-wrap: pretty;
+}
+.node p em {
+  color: var(--fg);
+}
+.node .chips li {
+  border-color: color-mix(in oklab, var(--step) 35%, var(--line-2));
+}
+.node--patch .chips li {
+  color: var(--rose);
+  font-size: 0.7rem;
+  white-space: nowrap;
+}
+
+/* Wide: nodes on the ring. The SVG viewBox is 1000×560; the grid below
+   mirrors it so node centres land on the ring's four sides. */
+@media (min-width: 64rem) {
+  .loop {
+    aspect-ratio: 1000 / 620;
+    max-width: 66rem;
+    margin: 2rem auto 0;
+  }
+  .node p {
+    font-size: 0.88rem;
+  }
+  .loop__svg {
+    display: block;
+  }
+  .loop__nodes {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .node {
+    position: absolute;
+    width: var(--node-w);
+    box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.6);
+  }
+  /* Nodes sit on the ring's four corners (ring box 150..850 × 110..510 of
+     1000×620), each centred on its corner so every side stays visible. */
+  .node--source {
+    left: calc(150 / 1000 * 100%);
+    top: calc(110 / 620 * 100%);
+    transform: translate(-50%, -50%);
+  }
+  .node--distill {
+    left: calc(850 / 1000 * 100%);
+    top: calc(110 / 620 * 100%);
+    transform: translate(-50%, -50%);
+  }
+  .node--alchemy {
+    left: calc(850 / 1000 * 100%);
+    top: calc(510 / 620 * 100%);
+    transform: translate(-50%, -50%);
+  }
+  .node--patch {
+    left: calc(150 / 1000 * 100%);
+    top: calc(510 / 620 * 100%);
+    transform: translate(-50%, -50%);
+  }
+}
+@media (min-width: 40rem) and (max-width: 63.99rem) {
+  .loop__nodes {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Motion: nodes rise in with a stagger; ring draws itself; then drops run. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] .node {
+    opacity: 0;
+    transition:
+      opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  [data-reveal] .node--source {
+    transition-delay: 0ms;
+  }
+  [data-reveal] .node--distill {
+    transition-delay: 150ms;
+  }
+  [data-reveal] .node--alchemy {
+    transition-delay: 300ms;
+  }
+  [data-reveal] .node--patch {
+    transition-delay: 450ms;
+  }
+  [data-reveal].is-in .node {
+    opacity: 1;
+  }
+  [data-reveal] .loop__path {
+    stroke-dashoffset: 100;
+  }
+  [data-reveal] .loop__path--fwd {
+    stroke-dasharray: 100;
+  }
+  [data-reveal].is-in .loop__path--fwd {
+    animation: loop-draw 900ms ease-out 200ms forwards;
+  }
+  [data-reveal].is-in .loop__path--ret {
+    animation: loop-draw-dashed 900ms ease-out 700ms forwards;
+  }
+  [data-reveal] .loop__head,
+  [data-reveal] .loop__drop,
+  [data-reveal] .loop__centre {
+    opacity: 0;
+    transition: opacity 400ms ease 1500ms;
+  }
+  [data-reveal].is-in .loop__head,
+  [data-reveal].is-in .loop__drop,
+  [data-reveal].is-in .loop__centre {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loop__drop {
+    display: none;
+  }
+}
+@keyframes loop-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes loop-draw-dashed {
+  from {
+    stroke-dashoffset: 100;
+    stroke-dasharray: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+    stroke-dasharray: 8 6;
+  }
+}
+
+/* Chips stagger (shared with capability cards' [data-reveal]) */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] .chips li {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 400ms ease,
+      transform 400ms ease;
+  }
+  [data-reveal].is-in .chips li {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(500ms + var(--i, 0) * 60ms);
+  }
 }
 
 /* ───────────── Capabilities ───────────── */
