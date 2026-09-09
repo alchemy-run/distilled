@@ -744,9 +744,9 @@ pre.code code {
   align-items: stretch;
 }
 
-@media (min-width: 56rem) {
+@media (min-width: 68rem) {
   .pipe {
-    grid-template-columns: 1fr auto 1fr auto 1fr;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
     gap: 0.5rem;
   }
 }
@@ -785,6 +785,35 @@ pre.code code {
 .pipe__step:nth-child(5) {
   --step: var(--violet);
 }
+.pipe__step:nth-child(7) {
+  --step: var(--rose);
+}
+.pipe__step--patch .chips li {
+  font-size: 0.7rem;
+  color: var(--rose);
+  border-color: color-mix(in oklab, var(--rose) 45%, var(--line-2));
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pipe__loopnote {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 1rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  color: var(--fg-3);
+}
+.pipe__loopnote b {
+  color: var(--accent);
+  font-weight: 500;
+}
+.pipe__loopnote svg {
+  color: var(--rose);
+  flex: none;
+}
 .pipe__step .pipe__n {
   color: var(--step, var(--accent));
 }
@@ -821,14 +850,22 @@ pre.code code {
   color: var(--fg-3);
   width: 2.5rem;
 }
-@media (min-width: 56rem) {
+@media (min-width: 68rem) {
   .pipe__arrow {
     display: block;
+  }
+}
+@media (min-width: 40rem) and (max-width: 67.99rem) {
+  .pipe {
+    grid-template-columns: 1fr 1fr;
   }
 }
 .pipe__drop {
   fill: var(--accent);
   opacity: 0;
+}
+.pipe__arrow:nth-child(6) .pipe__drop {
+  fill: var(--rose);
 }
 
 /* ── Pipeline motion ──
@@ -860,6 +897,12 @@ pre.code code {
   [data-reveal] .pipe__step:nth-child(5) {
     transition-delay: 520ms;
   }
+  [data-reveal] .pipe__arrow:nth-child(6) {
+    transition-delay: 700ms;
+  }
+  [data-reveal] .pipe__step:nth-child(7) {
+    transition-delay: 780ms;
+  }
   [data-reveal].is-in .pipe__step,
   [data-reveal].is-in .pipe__arrow {
     opacity: 1;
@@ -886,6 +929,9 @@ pre.code code {
   [data-reveal].is-in .pipe__step:nth-child(5) .chips li {
     transition-delay: calc(870ms + var(--i) * 60ms);
   }
+  [data-reveal].is-in .pipe__step:nth-child(7) .chips li {
+    transition-delay: calc(1130ms + var(--i) * 60ms);
+  }
 
   /* Drop runs the arrow; second arrow lags half a cycle so it reads as one flow. */
   [data-reveal].is-in .pipe__drop {
@@ -893,7 +939,10 @@ pre.code code {
     animation-delay: 900ms;
   }
   [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__drop {
-    animation-delay: 2100ms;
+    animation-delay: 1700ms;
+  }
+  [data-reveal].is-in .pipe__arrow:nth-child(6) .pipe__drop {
+    animation-delay: 2500ms;
   }
   [data-reveal].is-in .pipe__line {
     stroke-dasharray: 64;
@@ -905,6 +954,9 @@ pre.code code {
   }
   [data-reveal].is-in .pipe__arrow:nth-child(4) .pipe__line {
     animation-delay: 520ms;
+  }
+  [data-reveal].is-in .pipe__arrow:nth-child(6) .pipe__line {
+    animation-delay: 780ms;
   }
 
   /* Distill: the glow at the bottom breathes, the number pulses with the drop. */

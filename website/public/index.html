@@ -222,17 +222,25 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
         <div class="section__head">
           <p class="eyebrow">How it works</p>
           <h2 id="how-title">
-            From the provider's description to <em>your</em> import.
+            Generated from the spec. <em>Proven</em> by Alchemy.
           </h2>
           <p class="section__lede">
-            The SDK is a pure function of the spec. When a provider ships a new
-            endpoint, the mirror moves, the generator runs, and the package
-            follows. Fixes are RFC-6902 patches applied to the spec, so they
-            survive every regeneration.
+            A spec is a claim about an API, and claims are wrong in the details.
+            Distilled generates the SDK from the provider's own description,
+            then
+            <a href="https://alchemy.run" rel="noopener">Alchemy</a> builds real
+            infrastructure resources on top of it — creating, updating and
+            destroying things against the live API. Every mismatch that surfaces
+            becomes a patch to the spec, not a hand-edit to the code, and the
+            next regeneration carries it forward.
           </p>
         </div>
 
-        <ol class="pipe" aria-label="Generation pipeline" data-reveal>
+        <ol
+          class="pipe pipe--loop"
+          aria-label="Generation and feedback loop"
+          data-reveal
+        >
           <li class="pipe__step">
             <span class="pipe__n">01</span>
             <h3>Source</h3>
@@ -265,8 +273,8 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
             <span class="pipe__n">02</span>
             <h3>Distill</h3>
             <p>
-              Convert to one model, apply patches, emit Effect schemas,
-              operations, errors and pagination.
+              Convert to one model, apply the patches, emit Effect schemas,
+              operations, typed errors and pagination.
             </p>
             <ul class="chips" aria-label="What is generated">
               <li>Schema</li>
@@ -289,21 +297,63 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
               <circle class="pipe__drop" r="2.4" cy="12" cx="2" />
             </svg>
           </li>
-          <li class="pipe__step">
+          <li class="pipe__step pipe__step--alchemy">
             <span class="pipe__n">03</span>
-            <h3>Publish</h3>
+            <h3>Alchemy</h3>
             <p>
-              One npm package per provider. Committed, reviewed, released
-              together.
+              Real resources — a Fly machine, a Neon branch, a Cloudflare worker
+              — deployed, tested and torn down through the SDK.
             </p>
-            <ul class="chips" aria-label="Example packages">
-              <li>aws</li>
-              <li>cloudflare</li>
-              <li>stripe</li>
-              <li>github</li>
+            <ul class="chips" aria-label="What exercises it">
+              <li>deploy</li>
+              <li>test</li>
+              <li>destroy</li>
+            </ul>
+          </li>
+          <li class="pipe__arrow" aria-hidden="true">
+            <svg viewBox="0 0 48 24">
+              <path
+                class="pipe__line"
+                d="M2 12h40m-8-8 8 8-8 8"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <circle class="pipe__drop" r="2.4" cy="12" cx="2" />
+            </svg>
+          </li>
+          <li class="pipe__step pipe__step--patch">
+            <span class="pipe__n">04</span>
+            <h3>Patch</h3>
+            <p>
+              The spec said 201, the API returned 409. Fix the description with
+              an RFC-6902 patch; it survives every regeneration.
+            </p>
+            <ul class="chips" aria-label="Example">
+              <li
+                title="A real patch on fly-io: type Conflict (409) on machinesCreate"
+              >
+                +409 machinesCreate
+              </li>
             </ul>
           </li>
         </ol>
+        <p class="pipe__loopnote" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="14" height="14">
+            <path
+              d="M20 12a8 8 0 1 1-3.1-6.3M20 3v5h-5"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Patches feed back into <b>02</b> — the next build starts from the
+          corrected spec.
+        </p>
       </section>
 
       <!-- ───────────── Capabilities ───────────── -->
