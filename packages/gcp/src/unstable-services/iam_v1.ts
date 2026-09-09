@@ -65,6 +65,30 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** IAM rate quota for creating service accounts in a project is exhausted (quota metric 'Service accounts created per minute per project', typically HTTP 429 RESOURCE_EXHAUSTED). Transient — retry. */
+export class ServiceAccountQuotaExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ServiceAccountQuotaExceeded>()(
+      "ServiceAccountQuotaExceeded",
+      {
+        code: S.optional(S.Number),
+        message: S.String,
+        status: S.optional(S.String),
+        reason: S.optional(S.String),
+        domain: S.optional(S.String),
+        details: S.optional(S.Array(S.Unknown)),
+      },
+    ).pipe(C.withThrottlingError),
+    [
+      { status: 429 },
+      {
+        message: {
+          includes: "Service accounts created per minute per project",
+        },
+      },
+    ],
+  ) {}
+
 /** Defines which workloads can receive an identity within a pool. When an AttestationRule is defined under a managed identity, matching workloads may receive that identity. */
 export interface AttestationRule {
   /** Optional. A single workload operating on Google Cloud. For example: `//compute.googleapis.com/projects/123/uid/zones/us-central1-a/instances/12345`. */
@@ -5631,6 +5655,7 @@ export const createProjectsRoles: API.OperationMethod<
 }));
 
 export type CreateProjectsServiceAccountsError =
+  | ServiceAccountQuotaExceeded
   | NotFound
   | Forbidden
   | BadRequest
@@ -5645,7 +5670,14 @@ export const createProjectsServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: CreateProjectsServiceAccountsRequest,
   output: ServiceAccount,
-  errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
+  errors: [
+    ServiceAccountQuotaExceeded,
+    NotFound,
+    Forbidden,
+    BadRequest,
+    Conflict,
+    UnknownGCPError,
+  ],
   protocol: GcpProtocol,
   retry: Retry.Retry,
 }));
