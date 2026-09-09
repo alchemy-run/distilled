@@ -1323,120 +1323,109 @@ pre.code code {
   grid-template-columns: 1fr;
   gap: 0.75rem;
 }
-@media (min-width: 48rem) {
+@media (min-width: 56rem) {
   .caps {
     grid-template-columns: 1fr 1fr;
   }
 }
 
 .cap {
-  --c: var(--accent);
-  --c2: var(--accent-2);
-  position: relative;
   min-width: 0;
-  padding: 1.5rem 1.6rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.5rem 1.6rem 1.6rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background:
-    radial-gradient(
-      26rem 10rem at 0% 0%,
-      color-mix(in oklab, var(--c) 12%, transparent),
-      transparent 70%
-    ),
-    color-mix(in oklab, var(--bg-2) 85%, transparent);
-  overflow: hidden;
-  transition:
-    border-color 160ms ease,
-    transform 160ms ease;
-}
-.cap::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 3px;
-  background: linear-gradient(var(--c2), var(--c));
+  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+  transition: border-color 160ms ease;
 }
 .cap:hover {
-  border-color: color-mix(in oklab, var(--c) 45%, var(--line));
-  transform: translateY(-2px);
-}
-.cap--copper {
-  --c: var(--accent);
-  --c2: var(--accent-2);
-}
-.cap--teal {
-  --c: var(--teal);
-  --c2: var(--teal-2);
-}
-.cap--violet {
-  --c: var(--violet);
-  --c2: color-mix(in oklab, var(--violet) 70%, white);
-}
-.cap--rose {
-  --c: var(--rose);
-  --c2: var(--rose-2);
-}
-
-.cap__n {
-  position: absolute;
-  top: 1.1rem;
-  right: 1.2rem;
-  font-family: var(--serif);
-  font-variation-settings:
-    "opsz" 72,
-    "SOFT" 30;
-  font-size: 2.4rem;
-  line-height: 1;
-  color: color-mix(in oklab, var(--c) 35%, transparent);
-  pointer-events: none;
+  border-color: var(--line-2);
 }
 
 .cap h3 {
   font-family: var(--sans);
   font-weight: 600;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--c);
+  color: var(--fg-3);
 }
 .cap__claim {
-  margin: 0.45rem 0 0.35rem;
+  margin: 0;
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
     "SOFT" 30;
-  font-size: 1.45rem;
-  line-height: 1.2;
+  font-size: 1.4rem;
+  line-height: 1.22;
   color: var(--fg);
   text-wrap: balance;
-  max-width: 26ch;
 }
 .cap p:not(.cap__claim) {
-  margin: 0 0 1rem;
+  margin: 0;
   color: var(--fg-2);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   text-wrap: pretty;
+}
+.cap__soon {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--fg-3);
 }
 .cap__more {
   display: inline-block;
   margin-left: 0.35rem;
-  color: var(--c);
+  color: var(--accent);
   white-space: nowrap;
 }
 
 .snippet {
-  margin: 0;
-  padding: 0.6rem 0.8rem;
-  border-radius: 7px;
+  margin: 0.2rem 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
   background: var(--bg);
   border: 1px solid var(--line);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+  line-height: 1.6;
   overflow-x: auto;
   white-space: pre;
   color: var(--fg);
 }
 
-/* Reveal: cards rise in with a short stagger (shares the [data-reveal] hook). */
+.cap__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0.2rem 0;
+}
+.cap__stats > div {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+}
+.cap__stats dt {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.cap__stats dd {
+  margin: 0.15rem 0 0;
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 48,
+    "SOFT" 30;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--teal-2);
+  font-variant-numeric: tabular-nums;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] .cap {
     opacity: 0;
@@ -1454,12 +1443,15 @@ pre.code code {
   [data-reveal] .cap:nth-child(4) {
     transition-delay: 270ms;
   }
+  [data-reveal] .cap:nth-child(5) {
+    transition-delay: 360ms;
+  }
+  [data-reveal] .cap:nth-child(6) {
+    transition-delay: 450ms;
+  }
   [data-reveal].is-in .cap {
     opacity: 1;
     transform: none;
-  }
-  [data-reveal].is-in .cap:hover {
-    transform: translateY(-2px);
   }
 }
 
