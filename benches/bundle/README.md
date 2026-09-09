@@ -11,10 +11,11 @@ bun benches/bundle/run.ts --only aws-s3-deep,cf-workers-deep --runs 5
 bun benches/bundle/run.ts --all-variants --keep     # keep .out/<fixture>/<variant>/index.js
 ```
 
-Flags: `--runs N` (builds per fixture, default 3), `--only a,b`,
-`--variants bun,bun+nopure,bun+nominify`, `--all-variants`, `--keep`
-(leave bundles in `.out/`), `--json` (append a compact JSON line),
-`--out <file>` (write the slim committed artifact; see `results/README.md`).
+Flags: `--runs N` (builds per fixture; default `$BENCH_RUNS`, then 3),
+`--only a,b`, `--variants bun,bun+nopure,bun+nominify`, `--all-variants`,
+`--keep` (leave bundles in `.out/`), `--json` (print the slim artifact JSON
+to stdout instead of the markdown, for piping), `--out <file>` (write the
+slim committed artifact; see `results/README.md`).
 `pnpm --filter @distilled.cloud/bench-bundle record` refreshes
 `results/latest.json`, which the website reads at build time.
 

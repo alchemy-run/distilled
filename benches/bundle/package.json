@@ -6,7 +6,7 @@
   "description": "Rolldown bundle-size / tree-shake / bundle-time measurements for Distilled SDKs, using Alchemy's bundler settings.",
   "scripts": {
     "bench": "bun run.ts",
-    "record": "bun run.ts --runs 3 --out results/latest.json",
+    "record": "bun run.ts --out results/latest.json",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {

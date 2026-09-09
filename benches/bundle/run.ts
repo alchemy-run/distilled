@@ -9,7 +9,9 @@
  * build in that process, warm = median of the remaining `--runs`). Prints a
  * markdown report and writes `.out/report.md` + `.out/results.json`.
  * `--out` additionally writes the slim, committed-artifact shape
- * (`schema: 1`) that the website reads; see `results/README.md`.
+ * (`schema: 1`) that the website reads; see `results/README.md`. `--json`
+ * prints that same shape to stdout instead of the markdown. `--runs`
+ * defaults to `$BENCH_RUNS`, then 3.
  */
 import * as fs from "node:fs/promises";
 import * as os from "node:os";
@@ -31,7 +33,7 @@ const flag = (name: string): string | undefined => {
 };
 const has = (name: string) => args.includes(`--${name}`);
 
-const runs = Number(flag("runs") ?? 3);
+const runs = Number(flag("runs") ?? process.env.BENCH_RUNS ?? 3);
 const only = flag("only")?.split(",").filter(Boolean);
 const keep = has("keep");
 const outFile = flag("out");
@@ -419,19 +421,12 @@ if (!keep) {
     });
   }
 }
-console.log(md);
-console.log(
-  `\n_total wall time ${(wall / 1000).toFixed(1)} s · report: ${path.relative(process.cwd(), path.join(outRoot, "report.md"))}_`,
-);
-if (has("json"))
+if (has("json")) {
+  // Machine-readable only: the slim artifact shape on stdout, nothing else.
+  console.log(JSON.stringify(slimResults(rows, rolldownVersion)));
+} else {
+  console.log(md);
   console.log(
-    JSON.stringify(
-      rows.map((r) => ({
-        fixture: r.fixture.name,
-        variant: variantId(r.variant),
-        bytes: r.result.bytes,
-        gzip: r.result.gzipBytes,
-        timesMs: r.result.timesMs,
-      })),
-    ),
+    `\n_total wall time ${(wall / 1000).toFixed(1)} s · report: ${path.relative(process.cwd(), path.join(outRoot, "report.md"))}_`,
   );
+}
