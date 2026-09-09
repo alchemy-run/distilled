@@ -22,9 +22,8 @@ Alchemy adopts a new provider (the command is in the file).
 `scripts/bench-data.ts` reads `benches/runtime/results/latest.json` and
 `benches/bundle/results/latest.json` (written by `pnpm bench:runtime:record`
 and `pnpm --filter @distilled.cloud/bench-bundle record`). If a file is
-missing it falls back to `data/bench-*.seed.json`, a snapshot flagged
-`seed: true` that the page labels as interim; delete the seeds once both
-artifacts are on `main`. If neither exists, that section is omitted.
+missing, that section is omitted. The homepage "Small, fast" card pulls
+four headline numbers from the same files.
 
 Package cards show a brand mark from `data/brand-icons.json` (Simple Icons,
 CC0, plus official AWS/Azure/GCP marks), emitted once as an SVG sprite;

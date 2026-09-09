@@ -530,12 +530,7 @@ const benchNotice = (
     bundle?.seed ? "bundle" : "",
   ].filter(Boolean);
   if (seeded.length === 0) return "";
-  return (
-    `<p class="notice"><b>Interim numbers.</b> The ${seeded.join(" and ")} figures below are the values the benchmark authors posted while their harnesses land ` +
-    `(<a href="https://github.com/alchemy-run/distilled/pull/567" rel="noopener">#567</a>, ` +
-    `<a href="https://github.com/alchemy-run/distilled/pull/569" rel="noopener">#569</a>). ` +
-    `This page switches to the committed <code>results/latest.json</code> automatically once it exists.</p>`
-  );
+  return `<p class="notice"><b>Interim numbers.</b> The ${seeded.join(" and ")} figures below are a hand-entered snapshot, not the committed <code>results/latest.json</code>.</p>`;
 };
 
 const bundleSection = (b: BundleBench | null): string => {
