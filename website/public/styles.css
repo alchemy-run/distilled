@@ -992,13 +992,14 @@ pre.code code {
 
 /* ───────────── Capabilities ───────────── */
 
+.why {
+  padding: clamp(3rem, 7vw, 5.5rem) 0 0;
+}
+
 .caps {
   display: grid;
   grid-template-columns: 1fr;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+  gap: 0.75rem;
 }
 @media (min-width: 48rem) {
   .caps {
@@ -1007,77 +1008,97 @@ pre.code code {
 }
 
 .cap {
-  padding: 1.6rem 1.6rem 1.5rem;
-  border-top: 1px solid var(--line);
+  --c: var(--accent);
+  --c2: var(--accent-2);
+  position: relative;
   min-width: 0;
+  padding: 1.5rem 1.6rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(
+      26rem 10rem at 0% 0%,
+      color-mix(in oklab, var(--c) 12%, transparent),
+      transparent 70%
+    ),
+    color-mix(in oklab, var(--bg-2) 85%, transparent);
+  overflow: hidden;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
 }
-.cap:first-child {
-  border-top: 0;
+.cap::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: linear-gradient(var(--c2), var(--c));
 }
-@media (min-width: 48rem) {
-  .cap:nth-child(2) {
-    border-top: 0;
-  }
-  .cap:nth-child(even) {
-    border-left: 1px solid var(--line);
-  }
+.cap:hover {
+  border-color: color-mix(in oklab, var(--c) 45%, var(--line));
+  transform: translateY(-2px);
+}
+.cap--copper {
+  --c: var(--accent);
+  --c2: var(--accent-2);
+}
+.cap--teal {
+  --c: var(--teal);
+  --c2: var(--teal-2);
+}
+.cap--violet {
+  --c: var(--violet);
+  --c2: color-mix(in oklab, var(--violet) 70%, white);
+}
+.cap--rose {
+  --c: var(--rose);
+  --c2: var(--rose-2);
+}
+
+.cap__n {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.2rem;
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 72,
+    "SOFT" 30;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: color-mix(in oklab, var(--c) 35%, transparent);
+  pointer-events: none;
 }
 
 .cap h3 {
-  display: flex;
-  align-items: baseline;
-  gap: 0.6rem;
   font-family: var(--sans);
   font-weight: 600;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--c);
 }
-.cap__glyph {
-  font-family: var(--mono);
-  color: var(--accent);
-  font-size: 1.1rem;
+.cap__claim {
+  margin: 0.45rem 0 0.35rem;
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 48,
+    "SOFT" 30;
+  font-size: 1.45rem;
+  line-height: 1.2;
+  color: var(--fg);
+  text-wrap: balance;
+  max-width: 26ch;
 }
-.cap:nth-child(2) .cap__glyph {
-  color: var(--teal);
-}
-.cap:nth-child(3) .cap__glyph {
-  color: var(--violet);
-}
-.cap:nth-child(4) .cap__glyph {
-  color: var(--rose);
-}
-.cap {
-  background:
-    radial-gradient(
-      22rem 8rem at 0% 0%,
-      var(--cap-glow, transparent),
-      transparent 70%
-    ),
-    transparent;
-}
-.cap:nth-child(1) {
-  --cap-glow: color-mix(in oklab, var(--accent) 9%, transparent);
-}
-.cap:nth-child(2) {
-  --cap-glow: color-mix(in oklab, var(--teal) 9%, transparent);
-}
-.cap:nth-child(3) {
-  --cap-glow: color-mix(in oklab, var(--violet) 10%, transparent);
-}
-.cap:nth-child(4) {
-  --cap-glow: color-mix(in oklab, var(--rose) 9%, transparent);
-}
-.cap p {
-  margin: 0.6rem 0 0.9rem;
+.cap p:not(.cap__claim) {
+  margin: 0 0 1rem;
   color: var(--fg-2);
   font-size: 0.95rem;
   text-wrap: pretty;
 }
-
 .cap__more {
   display: inline-block;
   margin-left: 0.35rem;
-  color: var(--accent);
+  color: var(--c);
   white-space: nowrap;
 }
 
@@ -1091,6 +1112,33 @@ pre.code code {
   overflow-x: auto;
   white-space: pre;
   color: var(--fg);
+}
+
+/* Reveal: cards rise in with a short stagger (shares the [data-reveal] hook). */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] .cap {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  [data-reveal] .cap:nth-child(2) {
+    transition-delay: 90ms;
+  }
+  [data-reveal] .cap:nth-child(3) {
+    transition-delay: 180ms;
+  }
+  [data-reveal] .cap:nth-child(4) {
+    transition-delay: 270ms;
+  }
+  [data-reveal].is-in .cap {
+    opacity: 1;
+    transform: none;
+  }
+  [data-reveal].is-in .cap:hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* ───────────── Award (homepage) ───────────── */
