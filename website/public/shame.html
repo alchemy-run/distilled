@@ -145,14 +145,33 @@
       <section class="honour" aria-labelledby="honour-title">
         <div class="section__head">
           <p class="eyebrow">Honour roll</p>
-          <h2 id="honour-title">Zero patches. <em>Not one.</em></h2>
+          <h2 id="honour-title">Zero patches, <em>and</em> in production.</h2>
           <p class="section__lede">
-            Their API description generated a working SDK as published. This is
-            what a spec is supposed to do.
+            Used by real
+            <a href="https://alchemy.run" rel="noopener">Alchemy</a> resources
+            today <em>and</em> never needed a spec fix. The API description
+            generated a working SDK as published — which is what a spec is
+            supposed to do.
           </p>
         </div>
         <ul class="honour__list">
           <!-- SHAME_HONOUR -->
+        </ul>
+      </section>
+
+      <section class="unproven" aria-labelledby="unproven-title">
+        <div class="section__head">
+          <p class="eyebrow">Not yet exercised</p>
+          <h2 id="unproven-title">Zero patches, zero <em>evidence</em>.</h2>
+          <p class="section__lede">
+            <!-- UNPROVEN_COUNT -->
+            more packages have no patches, but no consumer has leaned on them
+            yet. A clean sheet here means <em>untested</em>, not
+            <em>correct</em> — they move up once something real depends on them.
+          </p>
+        </div>
+        <ul class="honour__list honour__list--muted">
+          <!-- SHAME_UNPROVEN -->
         </ul>
       </section>
 
@@ -174,6 +193,16 @@
             Patches are how we keep SDKs correct without editing generated code;
             they survive regeneration. A high count says something about the
             spec, not the provider's API.
+          </li>
+          <li>
+            <strong>In production</strong> means an
+            <a
+              href="https://github.com/alchemy-run/alchemy/tree/main/packages/alchemy/src"
+              rel="noopener"
+              >Alchemy resource</a
+            >
+            imports the package on <code>main</code>. Zero patches on a package
+            nobody consumes is not counted as clean.
           </li>
           <li>
             Wrong? Send a spec fix upstream and the patch goes away —

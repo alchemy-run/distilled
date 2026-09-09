@@ -1565,6 +1565,49 @@ pre.code code {
   font-variant-numeric: tabular-nums;
 }
 
+.honour__empty {
+  grid-column: 1 / -1;
+  padding: 1.4rem 1.5rem;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--radius);
+  color: var(--fg-2);
+  font-family: var(--serif);
+  font-variation-settings:
+    "opsz" 48,
+    "SOFT" 30;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  text-wrap: pretty;
+}
+
+.proven {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.14rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--teal) 55%, var(--line-2));
+  color: var(--teal);
+  white-space: nowrap;
+}
+
+.unproven {
+  padding-bottom: clamp(3rem, 7vw, 5rem);
+}
+.unproven h2 em {
+  color: var(--fg-3);
+}
+.honour__list--muted .honour__item a {
+  opacity: 0.72;
+}
+.honour__list--muted .honour__item a:hover {
+  opacity: 1;
+}
+.honour__list--muted .pkg__mark {
+  color: var(--fg-3);
+}
+
 .method {
   max-width: var(--measure);
   padding-top: clamp(2rem, 5vw, 3rem);

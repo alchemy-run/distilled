@@ -10,9 +10,13 @@ injects the published `@distilled.cloud/*` package catalogue from
 unlisted package lands in "More"). There is no Starlight docs portal.
 
 `/shame` (`public/shame.html`) ranks providers by spec patches per 100 SDK
-operations and the homepage award names the largest unpatched SDK; both are
-computed at build time by `scripts/patch-stats.ts` from
-`packages/*/patches` and `packages/*/src/services`.
+operations, computed at build time by `scripts/patch-stats.ts` from
+`packages/*/patches` and `packages/*/src/services`. `data/alchemy-providers.json`
+lists the packages Alchemy imports on `main`; only those count as "in
+production". The honour roll is zero-patch *and* in production, unused
+zero-patch packages are listed separately as unproven, and the homepage award
+goes to the least-patched in-production package. Refresh the list when
+Alchemy adopts a new provider (the command is in the file).
 
 `/bench` (`public/bench.html`) renders the runtime and bundle benchmarks.
 `scripts/bench-data.ts` reads `benches/runtime/results/latest.json` and

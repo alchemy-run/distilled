@@ -268,6 +268,18 @@ const groupPackages = (
   return groups;
 };
 
+/** Packages a real consumer (Alchemy) imports; see data/alchemy-providers.json. */
+const alchemyUsed = new Set(
+  (
+    JSON.parse(
+      await readFile(
+        join(websiteRoot, "data", "alchemy-providers.json"),
+        "utf8",
+      ),
+    ) as { used: string[] }
+  ).used,
+);
+
 type BrandIcon = { readonly viewBox: string; readonly d: string };
 const brandIcons = JSON.parse(
   await readFile(join(websiteRoot, "data", "brand-icons.json"), "utf8"),
@@ -397,6 +409,9 @@ const offenderRow = (s: Ranked, rank: number, max: number): string => {
     `<div class="offender__head">` +
     brandMark(s, s.short) +
     `<a class="offender__name" href="${npmUrl(s.name)}" rel="noopener">${escapeHtml(s.short)}</a>` +
+    (alchemyUsed.has(s.dir)
+      ? `<span class="proven" title="Imported by Alchemy resources on main">in production</span>`
+      : "") +
     `<span class="offender__score"><b>${fmt1.format(per100)}</b> fixes / 100 ops</span>` +
     `</div>` +
     `<div class="bar" aria-hidden="true"><span class="bar__fill" style="width:${width}%"></span></div>` +
@@ -417,7 +432,9 @@ const honourItem = (s: Ranked): string =>
 
 const totalsHtml = (ranked: Ranked[]): string => {
   const patched = ranked.filter((s) => s.fixes > 0);
-  const clean = ranked.length - patched.length;
+  const clean = ranked.filter(
+    (s) => s.fixes === 0 && alchemyUsed.has(s.dir),
+  ).length;
   const fixes = ranked.reduce((n, s) => n + s.fixes, 0);
   const files = ranked.reduce((n, s) => n + s.files, 0);
   const stat = (n: string, label: string) =>
@@ -426,19 +443,22 @@ const totalsHtml = (ranked: Ranked[]): string => {
     stat(fmt.format(fixes), "spec fixes carried"),
     stat(fmt.format(files), "patch files"),
     stat(fmt.format(patched.length), "providers patched"),
-    stat(fmt.format(clean), "providers untouched"),
+    stat(fmt.format(clean), "clean & in production"),
   ].join("");
 };
 
 /**
- * The award goes to the largest SDK (by operations) with zero patches, which
- * is the least flattering comparison for everyone else. Ties are impossible
- * unless two providers expose the same operation count.
+ * The award goes to the least-patched package among those a real consumer
+ * (Alchemy) exercises: lowest fixes per 100 operations, largest SDK on a tie.
+ * Unused packages are excluded — zero patches there is absence of evidence.
  */
 const pickAward = (ranked: Ranked[]): Ranked | undefined =>
   ranked
-    .filter((s) => s.fixes === 0)
-    .sort((a, b) => b.operations - a.operations)[0];
+    .filter((s) => alchemyUsed.has(s.dir))
+    .sort(
+      (a, b) =>
+        (a.per100 ?? 0) - (b.per100 ?? 0) || b.operations - a.operations,
+    )[0];
 
 const awardHtml = (ranked: Ranked[]): string => {
   const winner = pickAward(ranked);
@@ -456,9 +476,11 @@ const awardHtml = (ranked: Ranked[]): string => {
     `<div class="award__card">` +
     laurel +
     `<div class="award__body">` +
-    `<p class="eyebrow">Least patched SDK</p>` +
+    `<p class="eyebrow">Least patched, in production</p>` +
     `<h2 id="award-title" class="award__title"><a href="${npmUrl(winner.name)}" rel="noopener">${escapeHtml(winner.short)}</a></h2>` +
-    `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations generated straight from the spec. Zero patches. The description was right.</p>` +
+    (winner.fixes === 0
+      ? `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations, in production under Alchemy, zero patches. The description was right.</p>`
+      : `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations, in production under Alchemy, and only <b>${fmt.format(winner.fixes)}</b> ${winner.fixes === 1 ? "fix" : "fixes"} needed — <b>${fmt1.format(winner.per100 ?? 0)}</b> per 100.</p>`) +
     `</div>` +
     `<div class="award__aside">` +
     (worst
@@ -691,9 +713,11 @@ const [runtimeBench, bundleBench] = await Promise.all([
 const offenders = ranked
   .filter((s) => s.fixes > 0)
   .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0) || b.fixes - a.fixes);
-const honour = ranked
+const zeroPatch = ranked
   .filter((s) => s.fixes === 0)
   .sort((a, b) => b.operations - a.operations);
+const honour = zeroPatch.filter((s) => alchemyUsed.has(s.dir));
+const unproven = zeroPatch.filter((s) => !alchemyUsed.has(s.dir));
 const maxPer100 = offenders[0]?.per100 ?? 1;
 
 await rm(distDir, { recursive: true, force: true });
@@ -716,8 +740,17 @@ shame = shame.replace(
 );
 shame = shame.replace(
   "<!-- SHAME_HONOUR -->",
-  iconSprite() + honour.map(honourItem).join("\n"),
+  iconSprite() +
+    (honour.length > 0
+      ? honour.map(honourItem).join("\n")
+      : `<li class="honour__empty">Nobody. Every package Alchemy uses in production has needed at least one spec fix. The bar is here; nobody has cleared it yet.</li>`),
 );
+shame = shame.replace(
+  "<!-- SHAME_UNPROVEN -->",
+  unproven.map(honourItem).join("\n"),
+);
+shame = shame.replaceAll("<!-- UNPROVEN_COUNT -->", String(unproven.length));
+shame = shame.replaceAll("<!-- HONOUR_COUNT -->", String(honour.length));
 await writeFile(shamePath, shame);
 
 const benchPath = join(distDir, "bench.html");
@@ -739,5 +772,5 @@ const benchNote = [
     : "bundle —",
 ].join(", ");
 console.log(
-  `built ${packages.length} packages, ${offenders.length} shamed, ${honour.length} honoured, bench: ${benchNote} → ${distDir}`,
+  `built ${packages.length} packages, ${offenders.length} shamed, ${honour.length} honoured, ${unproven.length} unproven, bench: ${benchNote} → ${distDir}`,
 );
