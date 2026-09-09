@@ -17,12 +17,12 @@
  *   response: 2xx JSON body returned as-is (GCP wire names are already the
  *             TS-facing names). Failures carry the standard GCP error
  *             envelope `{ error: { code, message, status, details } }` —
- *             dispatch is purely by HTTP status via core's
- *             `HTTP_STATUS_MAP` (mirroring the distilled gcp client), with
- *             the envelope's gRPC-style `status` string and `details[]`
- *             tacked onto the instance so the per-service error classes'
- *             declared fields are populated at catch sites. Unmatched
- *             statuses → `UnknownGCPError`.
+ *             dispatch is per-op matcher classes (`matchTypedError`) then
+ *             HTTP status via core's `HTTP_STATUS_MAP`, with the envelope's
+ *             gRPC-style `status` string and `details[]` tacked onto the
+ *             instance so the per-service error classes' declared fields
+ *             are populated at catch sites. Unmatched statuses →
+ *             `UnknownGCPError`.
  */
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -37,6 +37,7 @@ import {
   getAnn,
   getProps,
   hasPropAnn,
+  matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import {
@@ -232,8 +233,16 @@ const encode = ({
     return request;
   });
 
+const tackEnvelope = <T>(instance: T, envelope: EnvelopeAddenda): T => {
+  const tackOn = instance as T & EnvelopeAddenda;
+  if (envelope.status !== undefined) tackOn.status = envelope.status;
+  if (envelope.details !== undefined) tackOn.details = envelope.details;
+  return instance;
+};
+
 const decode = ({
   response,
+  errors,
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
@@ -263,11 +272,21 @@ const decode = ({
       const message =
         envelope.message ?? (nonJson && text ? text : String(status));
 
-      // Status-map dispatch, exactly like the distilled gcp client: the
-      // constructed instance shares its `_tag` with the per-service typed
-      // error classes (NotFound/Forbidden/BadRequest/Conflict/…), and the
-      // envelope's `status` / `details` are tacked on so the per-service
-      // narrowed type sees them.
+      // 1. Per-operation typed error (matcher metadata on the class). A
+      //    message-or-status matcher (e.g. IAM ServiceAccountQuotaExceeded)
+      //    has to win over the generic HTTP_STATUS_MAP class, or quota
+      //    lands as UnknownGCPError / TooManyRequests with no catchable tag.
+      const typed = matchTypedError(errors, status, [
+        { code: envelope.code, message },
+      ]);
+      if (typed !== undefined) {
+        return yield* fail(tackEnvelope(typed, envelope));
+      }
+
+      // 2. Status-map dispatch: the constructed instance shares its `_tag`
+      //    with the per-service typed error classes, and the envelope's
+      //    `status` / `details` are tacked on so catch-site narrowing sees
+      //    them.
       const ErrorClass =
         HTTP_STATUS_MAP[status as keyof typeof HTTP_STATUS_MAP];
       if (ErrorClass) {
@@ -275,10 +294,7 @@ const decode = ({
           message,
           retryAfter: parseRetryAfterForStatus(status, headers),
         } as any);
-        const tackOn = instance as unknown as EnvelopeAddenda;
-        if (envelope.status !== undefined) tackOn.status = envelope.status;
-        if (envelope.details !== undefined) tackOn.details = envelope.details;
-        return yield* fail(instance);
+        return yield* fail(tackEnvelope(instance, envelope));
       }
 
       const unknownInstance = new UnknownGCPError({
@@ -286,11 +302,7 @@ const decode = ({
         message,
         body: json ?? text,
       });
-      const tackOnUnknown = unknownInstance as unknown as EnvelopeAddenda;
-      if (envelope.status !== undefined) {
-        tackOnUnknown.status = envelope.status;
-      }
-      return yield* fail(unknownInstance);
+      return yield* fail(tackEnvelope(unknownInstance, envelope));
     }
 
     // Success: the JSON body is the payload verbatim (GCP wire names are
