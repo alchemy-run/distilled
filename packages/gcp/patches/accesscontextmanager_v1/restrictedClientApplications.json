@@ -1,5 +1,5 @@
 {
-  "description": "Keep GcpUserAccessBinding.restrictedClientApplications (array of Application) after Google's discovery drop. The property is deprecated in favor of scoped_access_settings, but Alchemy still sends it. spec-mirror dbcaa3b (discovery revision 20260819) still has it; live discovery 20260827 removed it. Convert emits the member from the mirror; this patch re-adds ApplicationList, the member, and the scopedAccessSettings mutual-exclusion sentence so a later specs:update does not regress.",
+  "description": "Keep GcpUserAccessBinding.restrictedClientApplications (array of Application) after Google's discovery drop. The property is deprecated in favor of scoped_access_settings, but Alchemy still sends it. spec-mirror 436cb36 (discovery revision 20260827) removed it. This patch re-adds ApplicationList, the member, and the scopedAccessSettings mutual-exclusion sentence.",
   "patches": [
     {
       "op": "add",
