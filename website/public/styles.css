@@ -732,6 +732,52 @@ h1 {
   border: 1px solid var(--line-2);
   color: var(--accent);
 }
+.code__tabs {
+  margin-left: auto;
+  display: flex;
+  gap: 0.2rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.code__tabs button {
+  font: inherit;
+  font-size: 0.7rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--fg-3);
+  cursor: pointer;
+  transition:
+    color 120ms ease,
+    border-color 120ms ease,
+    background-color 120ms ease;
+}
+.code__tabs button:hover {
+  color: var(--fg);
+}
+.code__tabs button[aria-selected="true"] {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 50%, var(--line-2));
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
+}
+/* Panels share one box; the tallest sets the height so switching doesn't jump. */
+.hero__code {
+  display: grid;
+}
+.hero__code > .code {
+  grid-area: 2 / 1;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+.hero__code > .code.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+.hero__code > .code__bar {
+  grid-area: 1 / 1;
+}
 
 pre.code {
   margin: 0;
@@ -2418,15 +2464,19 @@ pre.code code {
 .group:nth-child(9) {
   --g: var(--accent);
 }
+.group:nth-child(10) {
+  --g: var(--teal);
+}
 .group__title::before {
   content: "";
   display: inline-block;
-  width: 0.55rem;
-  height: 0.55rem;
+  width: 0.5rem;
+  height: 0.5rem;
   margin-right: 0.55rem;
   border-radius: 2px;
   background: var(--g);
-  transform: rotate(45deg) translateY(-0.1rem);
+  vertical-align: 0.18em;
+  transform: rotate(45deg);
 }
 .pkg:hover {
   border-color: color-mix(in oklab, var(--g) 55%, var(--line-2));
@@ -2445,6 +2495,7 @@ pre.code code {
 .group__count {
   display: block;
   margin-top: 0.25rem;
+  padding-left: 1.05rem;
   font-family: var(--mono);
   font-size: 0.72rem;
   letter-spacing: 0.06em;
