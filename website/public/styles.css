@@ -1,5 +1,8 @@
-/* Fraunces — OFL-1.1, variable (wght 100–900, opsz 9–144), latin subset,
-   self-hosted. Display type only; body and code stay on system stacks. */
+/* Fraunces — OFL-1.1, from @fontsource-variable/fraunces. The "full" latin
+   cut carries every axis (wght, opsz, SOFT, WONK); build.ts copies it into
+   dist/fonts. Display type only; body and code stay on system stacks.
+   WONK is forced off everywhere: at display sizes Fraunces otherwise swaps
+   in swash forms of l, f, d and friends. */
 @font-face {
   font-family: "Fraunces";
   font-style: normal;
@@ -242,7 +245,8 @@ h2 {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 144,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-weight: 400;
   letter-spacing: -0.015em;
 }
@@ -364,7 +368,8 @@ h2 em {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-weight: 500;
   font-size: 1.3rem;
   line-height: 1;
@@ -938,7 +943,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 72,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 2rem;
   line-height: 1;
   color: var(--rose);
@@ -971,7 +977,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: clamp(1.25rem, 1.05rem + 0.8vw, 1.6rem);
   line-height: 1.35;
   color: var(--fg);
@@ -1005,14 +1012,13 @@ pre.code code {
 }
 
 /* ───────────── The loop ─────────────
-   A ring (SVG) with four nodes at its sides. The forward half is solid,
-   the return half (Alchemy → Patch → Source) is dashed to read as feedback.
-   Two drops ride the whole ring via SMIL animateMotion; reduced-motion
-   hides them. Below 64rem the ring is hidden and the nodes stack. */
+   Three actors, two arrows, one feedback arc — the whiteboard version.
+   Alchemy (left) ⇐ submodule ⇐ Distilled (right) ⇐ Spec (far right, small);
+   a dashed "patches" arc goes from Alchemy back over the top to Distilled.
+   Below 64rem the SVG is hidden and the nodes stack in reading order. */
 
 .loop {
   position: relative;
-  --node-w: 14.5rem;
 }
 
 .loop__svg {
@@ -1025,28 +1031,29 @@ pre.code code {
   pointer-events: none;
   z-index: 0;
 }
-.loop__nodes {
-  position: relative;
-  z-index: 1;
-}
-.loop__track {
-  fill: none;
-  stroke: none;
-}
-.loop__path {
+.loop__edge {
   fill: none;
   stroke-width: 2.5;
   stroke-linecap: round;
 }
-.loop__path--fwd {
-  stroke: url(#loop-fwd-grad);
+.loop__edge--sub {
+  stroke: var(--fg-2);
 }
-.loop__path--ret {
+.loop__edge--spec {
+  stroke: var(--teal);
+}
+.loop__edge--patch {
   stroke: var(--rose);
-  stroke-dasharray: 8 6;
+  stroke-dasharray: 8 7;
 }
-.loop__head--fwd {
-  fill: var(--accent);
+.loop__head--sub {
+  fill: var(--fg-2);
+}
+.loop__head--spec {
+  fill: var(--teal);
+}
+.loop__head--patch {
+  fill: var(--rose);
 }
 .loop__leg {
   font-family: var(--mono);
@@ -1055,11 +1062,15 @@ pre.code code {
   text-transform: uppercase;
   fill: var(--fg-3);
 }
-.loop__leg--ret {
+.loop__leg--patch {
   fill: var(--rose);
+  font-size: 15px;
 }
-.loop__head--ret {
-  fill: var(--rose);
+.loop__leg--sub {
+  font-size: 12.5px;
+  text-transform: none;
+  letter-spacing: 0.04em;
+  fill: color-mix(in oklab, var(--rose) 70%, var(--fg-3));
 }
 .loop__drop {
   fill: var(--accent);
@@ -1073,33 +1084,6 @@ pre.code code {
     0 0 6px color-mix(in oklab, var(--rose) 70%, transparent)
   );
 }
-.loop__centre {
-  font-family: var(--serif);
-  font-size: 30px;
-  fill: var(--fg);
-}
-.loop__centre-em {
-  font-style: italic;
-  fill: var(--accent-2);
-}
-
-.chips {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-.chips li {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  padding: 0.18rem 0.55rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-2);
-  color: var(--fg-2);
-  background: var(--bg);
-}
 
 .loop__nodes {
   list-style: none;
@@ -1108,72 +1092,86 @@ pre.code code {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.75rem;
+  position: relative;
+  z-index: 1;
 }
 
 .node {
-  position: relative;
   min-width: 0;
-  padding: 1.25rem 1.35rem 1.2rem;
+  padding: 1.35rem 1.5rem 1.4rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-2);
-  --step: var(--accent);
-}
-.node--source {
-  --step: var(--teal);
-}
-.node--distill {
-  --step: var(--accent);
-}
-.node--alchemy {
-  --step: var(--violet);
-}
-.node--patch {
-  --step: var(--rose);
-}
-.node__n {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  color: var(--step);
 }
 .node h3 {
-  margin: 0.35rem 0 0.35rem;
+  margin: 0;
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 72,
-    "SOFT" 30;
-  font-size: 1.5rem;
-  line-height: 1.1;
+    "SOFT" 30,
+    "WONK" 0;
+  font-size: 1.7rem;
+  line-height: 1.05;
 }
-.node p {
-  margin: 0 0 0.85rem;
+.node__role {
+  margin: 0.3rem 0 0.8rem;
   color: var(--fg-2);
   font-size: 0.92rem;
-  text-wrap: pretty;
 }
-.node p em {
+.node__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+  color: var(--fg-2);
+  font-size: 0.88rem;
+}
+.node__list li::before {
+  content: "—";
+  margin-right: 0.5rem;
+  color: var(--fg-3);
+}
+.node__list code {
+  font-size: 0.8rem;
   color: var(--fg);
 }
-.node .chips li {
-  border-color: color-mix(in oklab, var(--step) 35%, var(--line-2));
+.node__list--chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
 }
-.node--patch .chips li {
-  color: var(--rose);
-  font-size: 0.7rem;
-  white-space: nowrap;
+.node__list--chips li {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--fg-2);
+  background: var(--bg);
+}
+.node__list--chips li::before {
+  content: none;
+}
+.node--alchemy {
+  border-color: color-mix(in oklab, var(--violet) 45%, var(--line));
+}
+.node--distilled {
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+}
+.node--spec {
+  border-color: color-mix(in oklab, var(--teal) 45%, var(--line));
+}
+.node--spec h3 {
+  font-size: 1.35rem;
 }
 
-/* Wide: nodes on the ring. The SVG viewBox is 1000×560; the grid below
-   mirrors it so node centres land on the ring's four sides. */
+/* Wide: absolute layout matching the SVG's 1000×520 box. */
 @media (min-width: 64rem) {
   .loop {
-    aspect-ratio: 1000 / 620;
+    aspect-ratio: 1000 / 520;
     max-width: 66rem;
-    margin: 2rem auto 0;
-  }
-  .node p {
-    font-size: 0.88rem;
+    margin: 1.5rem auto 0;
   }
   .loop__svg {
     display: block;
@@ -1185,82 +1183,83 @@ pre.code code {
   }
   .node {
     position: absolute;
-    width: var(--node-w);
     box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.6);
   }
-  /* Nodes sit on the ring's four corners (ring box 150..850 × 110..510 of
-     1000×620), each centred on its corner so every side stays visible. */
-  .node--source {
-    left: calc(150 / 1000 * 100%);
-    top: calc(110 / 620 * 100%);
-    transform: translate(-50%, -50%);
-  }
-  .node--distill {
-    left: calc(850 / 1000 * 100%);
-    top: calc(110 / 620 * 100%);
-    transform: translate(-50%, -50%);
-  }
   .node--alchemy {
-    left: calc(850 / 1000 * 100%);
-    top: calc(510 / 620 * 100%);
-    transform: translate(-50%, -50%);
+    left: 6%;
+    top: calc(200 / 520 * 100%);
+    width: 32%;
   }
-  .node--patch {
-    left: calc(150 / 1000 * 100%);
-    top: calc(510 / 620 * 100%);
+  .node--distilled {
+    left: 56%;
+    top: calc(200 / 520 * 100%);
+    width: 26%;
+  }
+  .node--spec {
+    left: 92%;
+    top: calc(120 / 520 * 100%);
+    width: 15%;
     transform: translate(-50%, -50%);
+    padding: 0.9rem 1rem 0.95rem;
+  }
+  .node--spec .node__role {
+    font-size: 0.8rem;
+    margin-bottom: 0.55rem;
+  }
+  .node--spec .node__list--chips li {
+    font-size: 0.64rem;
+    padding: 0.1rem 0.42rem;
   }
 }
 @media (min-width: 40rem) and (max-width: 63.99rem) {
   .loop__nodes {
     grid-template-columns: 1fr 1fr;
   }
+  .node--spec {
+    grid-column: 1 / -1;
+  }
 }
 
-/* Motion: nodes rise in with a stagger; ring draws itself; then drops run. */
+/* Motion: nodes rise in; edges draw; drops run. */
 @media (prefers-reduced-motion: no-preference) {
   [data-reveal] .node {
     opacity: 0;
-    transition:
-      opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1),
-      transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    transition: opacity 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
-  [data-reveal] .node--source {
+  [data-reveal] .node--spec {
     transition-delay: 0ms;
   }
-  [data-reveal] .node--distill {
+  [data-reveal] .node--distilled {
     transition-delay: 150ms;
   }
   [data-reveal] .node--alchemy {
     transition-delay: 300ms;
   }
-  [data-reveal] .node--patch {
-    transition-delay: 450ms;
-  }
   [data-reveal].is-in .node {
     opacity: 1;
   }
-  [data-reveal] .loop__path {
+  [data-reveal] .loop__edge {
+    stroke-dasharray: 100;
     stroke-dashoffset: 100;
   }
-  [data-reveal] .loop__path--fwd {
-    stroke-dasharray: 100;
+  [data-reveal].is-in .loop__edge--spec {
+    animation: loop-draw 500ms ease-out 150ms forwards;
   }
-  [data-reveal].is-in .loop__path--fwd {
-    animation: loop-draw 900ms ease-out 200ms forwards;
+  [data-reveal].is-in .loop__edge--sub {
+    animation: loop-draw 600ms ease-out 450ms forwards;
   }
-  [data-reveal].is-in .loop__path--ret {
-    animation: loop-draw-dashed 900ms ease-out 700ms forwards;
+  [data-reveal].is-in .loop__edge--patch {
+    animation: loop-draw-dashed 900ms ease-out 900ms forwards;
   }
   [data-reveal] .loop__head,
   [data-reveal] .loop__drop,
-  [data-reveal] .loop__centre {
+  [data-reveal] .loop__leg {
     opacity: 0;
-    transition: opacity 400ms ease 1500ms;
+    transition: opacity 400ms ease 1600ms;
   }
   [data-reveal].is-in .loop__head,
   [data-reveal].is-in .loop__drop,
-  [data-reveal].is-in .loop__centre {
+  [data-reveal].is-in .loop__leg {
     opacity: 1;
   }
 }
@@ -1281,7 +1280,7 @@ pre.code code {
   }
   to {
     stroke-dashoffset: 0;
-    stroke-dasharray: 8 6;
+    stroke-dasharray: 8 7;
   }
 }
 
@@ -1346,7 +1345,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 1.4rem;
   line-height: 1.22;
   color: var(--fg);
@@ -1408,7 +1408,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 1.5rem;
   line-height: 1;
   color: var(--teal-2);
@@ -1448,6 +1449,9 @@ pre.code code {
 
 .award {
   padding: clamp(2.5rem, 6vw, 4rem) 0 0;
+}
+.award--inline {
+  padding-top: clamp(2rem, 4vw, 2.75rem);
 }
 .award:empty {
   display: none;
@@ -1633,7 +1637,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 72,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 2.1rem;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -1688,7 +1693,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 72,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 1.8rem;
   line-height: 1;
   color: var(--fg-3);
@@ -1877,7 +1883,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 1.25rem;
   line-height: 1.35;
   text-wrap: pretty;
@@ -2429,7 +2436,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 1.35rem;
   line-height: 1.15;
   color: var(--fg);
@@ -2496,7 +2504,8 @@ pre.code code {
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
-    "SOFT" 30;
+    "SOFT" 30,
+    "WONK" 0;
   font-size: 0.95rem;
   letter-spacing: 0.02em;
   color: var(--fg-2);

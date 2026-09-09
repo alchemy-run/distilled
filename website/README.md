@@ -33,7 +33,9 @@ keyed by `packages/<dir>` to give a new provider a mark.
 `public/og.png` is rendered from `assets/og.html` by `bun scripts/og.ts`,
 which needs a local Chromium (Playwright's cache or `CHROMIUM=…`). It is
 committed so the site build never needs a browser. Display type is
-Fraunces (OFL, variable), self-hosted from `public/fonts/`.
+Fraunces (OFL) from `@fontsource-variable/fraunces`; `build.ts` copies the
+latin "full" cut into `dist/fonts/` (no font binaries committed) and the CSS
+pins the WONK axis off so `l`/`f` keep their plain forms at display sizes.
 
 ## Stages
 
