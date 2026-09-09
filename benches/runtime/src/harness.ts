@@ -30,33 +30,38 @@ export interface BenchOptions {
   readonly filter: RegExp | undefined;
   /** `--json`: emit machine-readable results instead of the table. */
   readonly json: boolean;
+  /** `--record`: write `results/latest.json` (the committed artifact). */
+  readonly record: boolean;
 }
 
 export const parseArgs = (argv: ReadonlyArray<string>): BenchOptions => {
   let full = false;
   let json = false;
+  let record = false;
   let filter: RegExp | undefined;
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i]!;
     if (a === "--full") full = true;
     else if (a === "--json") json = true;
+    else if (a === "--record") record = true;
     else if (a === "--filter") filter = new RegExp(argv[++i] ?? "");
     else if (a.startsWith("--filter=")) filter = new RegExp(a.slice(9));
     else if (a === "-h" || a === "--help") {
       console.log(
-        "usage: bun run.ts [--full] [--json] [--filter <regex>]\n" +
+        "usage: bun run.ts [--full] [--json] [--record] [--filter <regex>]\n" +
           "  --full     mitata's default sampling budget (~0.6s CPU per case)\n" +
           "  --json     print results as JSON\n" +
+          "  --record   write results/latest.json (committed; read by the website)\n" +
           "  --filter   only run cases whose 'provider/service/op/stage' matches",
       );
       process.exit(0);
     }
   }
-  return { full, filter, json };
+  return { full, filter, json, record };
 };
 
 /**
- * mitata measurement budget. The quick profile keeps the whole suite (~70
+ * mitata measurement budget. The quick profile keeps the whole suite (~80
  * cases) inside a couple of minutes; `--full` uses mitata's defaults.
  */
 export const measureOptions = (opts: BenchOptions) =>

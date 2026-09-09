@@ -5,6 +5,8 @@
  *   bun run.ts --full          mitata's default budget per case (longer)
  *   bun run.ts --filter aws/   only cases whose name matches
  *   bun run.ts --json          JSON results on stdout (for CI artifacts)
+ *   bun run.ts --record        also write results/latest.json (committed;
+ *                              the distilled.cloud website reads it)
  *
  * Case names are `provider/service/op/stage`. See README.md for what each
  * stage measures and how to read the table.
@@ -13,6 +15,9 @@ import { awsCases } from "./src/aws.ts";
 import { baselineCases } from "./src/baseline.ts";
 import { cloudflareCases } from "./src/cloudflare.ts";
 import { parseArgs, printTable, runCases, type Result } from "./src/harness.ts";
+import { toRecordFile, writeRecordFile } from "./src/record.ts";
+
+const RESULTS_PATH = new URL("./results/latest.json", import.meta.url).pathname;
 
 const opts = parseArgs(process.argv.slice(2));
 const started = performance.now();
@@ -67,6 +72,18 @@ if (opts.json) {
   );
   console.log("times are per call; ops/sec = 1e9 / avg ns\n");
   printTable(results);
+}
+
+if (opts.record) {
+  if (opts.filter) {
+    console.error("--record refuses to write a partial table; drop --filter");
+    process.exit(2);
+  }
+  const file = toRecordFile(results, opts.full ? "full" : "quick");
+  writeRecordFile(RESULTS_PATH, file);
+  console.error(
+    `wrote ${RESULTS_PATH} (${file.results.length} cases, ${file.commit})`,
+  );
 }
 
 if (results.some((r) => r.error)) process.exit(1);

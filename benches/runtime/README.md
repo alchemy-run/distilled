@@ -9,6 +9,7 @@ pnpm bench:runtime                       # quick profile, ~30 s
 pnpm bench:runtime -- --full             # mitata's default budget, several minutes
 pnpm bench:runtime -- --filter aws/s3    # regex over provider/service/op/stage
 pnpm bench:runtime -- --json > out.json  # machine-readable results
+pnpm bench:runtime:record                # refresh results/latest.json (committed)
 pnpm --filter @distilled.cloud/bench-runtime bench
 ```
 
@@ -94,11 +95,45 @@ Quick-profile results on one dev box (bun 1.3.13, Linux x64) — expect
   except DynamoDB `PutItem` (~11–15 µs) where the `AttributeValue` union is
   resolved per attribute.
 
+## Committed results: `results/latest.json`
+
+`pnpm bench:runtime:record` runs the quick profile and rewrites
+`results/latest.json`. The distilled.cloud website reads that file at build
+time (`website/scripts/build.ts`) to render its benchmark page; if the file
+is absent the site builds without the section. Refreshing it is manual —
+rerun the script on a change that should move the numbers and commit the
+file alongside.
+
+```jsonc
+{
+  "schema": 1,
+  "generatedAt": "2026-09-09T18:00:00.000Z",  // ISO 8601
+  "commit": "9b3f5da1d",                       // short sha the run was on
+  "machine": { "runtime": "bun 1.3.13", "cpu": "…", "os": "linux … x64", "host": "…" },
+  "profile": "quick",                          // or "full"
+  "results": [
+    { "name": "aws/sts/GetCallerIdentity/call", "provider": "aws", "service": "sts",
+      "op": "GetCallerIdentity", "stage": "call", "note": "aws-query + SigV4, XML result",
+      "opsPerSec": 1500.2, "p50": 516700, "p99": 3134000, "samples": 128 }
+  ]
+}
+```
+
+`p50` / `p99` are nanoseconds. Cases that errored are omitted. `--record`
+refuses to combine with `--filter` so the file is always the whole table.
+
+**These numbers are not portable.** They come from one machine and one
+run; expect ±30 % between boxes and runs, and the p99 column is noisy at
+the quick budget. `machine` and `generatedAt` are recorded so a reader can
+tell which box and when. Compare runs on the same host only.
+
 ## Layout
 
 ```
-run.ts              CLI: arg parsing, progress, table/JSON output
+run.ts              CLI: arg parsing, progress, table/JSON output, --record
+results/latest.json committed snapshot (see above)
 src/harness.ts      mock HttpClient, mitata wrapper, Case/Result types, table
+src/record.ts       results/latest.json shape + writer
 src/baseline.ts     runtime/mock overhead rows
 src/aws.ts          AWS fixtures + cases
 src/cloudflare.ts   Cloudflare fixtures + cases
