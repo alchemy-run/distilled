@@ -812,6 +812,13 @@ pre.code code {
   text-wrap: pretty;
 }
 
+.cap__more {
+  display: inline-block;
+  margin-left: 0.35rem;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
 .snippet {
   margin: 0;
   padding: 0.6rem 0.8rem;
@@ -1233,6 +1240,387 @@ pre.code code {
 }
 .method a {
   color: var(--accent);
+}
+
+/* ───────────── /bench ───────────── */
+
+.page-bench {
+  --bench: #6fb3a8;
+  --bench-2: #9ad3c9;
+  background-image:
+    radial-gradient(
+      60rem 30rem at 70% -10%,
+      color-mix(in oklab, var(--bench) 14%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(
+      color-mix(in oklab, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in oklab, var(--line) 55%, transparent) 1px,
+      transparent 1px
+    );
+}
+@media (prefers-color-scheme: light) {
+  .page-bench {
+    --bench: #2f7f73;
+    --bench-2: #1f5f56;
+  }
+}
+.eyebrow__dot--bench {
+  background: var(--bench);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--bench) 22%, transparent);
+}
+
+.bench-hero {
+  padding: clamp(3rem, 8vw, 6rem) 0 clamp(1.5rem, 3vw, 2rem);
+  max-width: 52rem;
+}
+.bench-hero h1 {
+  font-size: clamp(2.5rem, 1.6rem + 3.8vw, 4.2rem);
+}
+.bench-hero .lede a {
+  color: var(--fg);
+}
+
+.notice {
+  margin: 0;
+  padding: 0.8rem 1rem;
+  border: 1px solid color-mix(in oklab, var(--accent) 45%, var(--line));
+  border-left-width: 3px;
+  border-radius: 8px;
+  background: color-mix(in oklab, var(--accent) 8%, var(--bg-2));
+  color: var(--fg-2);
+  font-size: 0.92rem;
+  max-width: 60ch;
+}
+.notice b {
+  color: var(--fg);
+}
+.notice a {
+  color: var(--accent);
+}
+
+.page-bench {
+  scroll-padding-top: 8rem;
+}
+.bench-tabs {
+  position: sticky;
+  top: 3.7rem;
+  z-index: 5;
+  display: flex;
+  gap: 0.25rem;
+  margin: 1.5rem 0 0;
+  padding: 0.35rem;
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.bench-tabs a {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  color: var(--fg-2);
+}
+.bench-tabs a:hover {
+  text-decoration: none;
+  color: var(--fg);
+  background: var(--bg-3);
+}
+
+.bench-section {
+  padding: clamp(3rem, 7vw, 5rem) 0 0;
+}
+.bench-section:empty {
+  display: none;
+}
+.bench-section h2 em {
+  color: var(--bench-2);
+}
+.bench-stats {
+  margin-bottom: 2rem;
+}
+.bench-stats .stat__n {
+  color: var(--bench-2);
+}
+.bench-meta {
+  margin: 1rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  color: var(--fg-3);
+}
+.bench-meta code {
+  color: var(--fg-2);
+}
+
+/* Bundle rows */
+
+.brows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+.brow {
+  display: grid;
+  gap: 0.55rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+}
+.brow__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.9rem;
+}
+.brow__name code {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--fg);
+}
+.variant {
+  margin-left: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--fg-3);
+}
+.brow__desc {
+  font-size: 0.9rem;
+  color: var(--fg-2);
+}
+.brow__bar {
+  position: relative;
+  height: 0.55rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.brow__raw,
+.brow__gz {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+}
+.brow__raw {
+  background: color-mix(in oklab, var(--bench) 28%, transparent);
+}
+.brow__gz {
+  background: linear-gradient(90deg, var(--bench-2), var(--bench));
+}
+.brow__nums {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--fg-3);
+}
+.brow__nums b {
+  color: var(--fg);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+.brow__shake {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.shake {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  color: var(--fg-3);
+  background: var(--bg);
+}
+.shake b {
+  color: var(--fg-2);
+  font-weight: 500;
+}
+.shake--ok {
+  border-color: color-mix(in oklab, var(--bench) 45%, var(--line-2));
+  color: var(--bench-2);
+}
+.shake--ok b {
+  color: var(--bench-2);
+}
+.shake--bad {
+  border-color: color-mix(in oklab, #d9634a 55%, var(--line-2));
+  color: #f0846c;
+}
+
+/* Runtime table */
+
+.rtable {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in oklab, var(--bg-2) 85%, transparent);
+  overflow: hidden;
+}
+.stage-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  padding: 0.7rem 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+.stage-tabs button {
+  font: inherit;
+  font-size: 0.82rem;
+  padding: 0.32rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-2);
+  background: transparent;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease;
+}
+.stage-tabs button:hover {
+  color: var(--fg);
+  border-color: var(--fg-3);
+}
+.stage-tabs button[aria-pressed="true"] {
+  background: var(--bench);
+  border-color: var(--bench);
+  color: var(--accent-ink);
+}
+@media (prefers-color-scheme: light) {
+  .stage-tabs button[aria-pressed="true"] {
+    color: #fff;
+  }
+}
+
+.rtable__scroll {
+  overflow-x: auto;
+}
+.rtable table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+.rtable th,
+.rtable td {
+  padding: 0.65rem 0.9rem;
+  border-top: 1px solid var(--line);
+  text-align: left;
+  vertical-align: middle;
+}
+.rtable thead th {
+  border-top: 0;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: 400;
+}
+.rtable tbody th {
+  font-weight: 400;
+  min-width: 14rem;
+}
+.rtable tbody th code {
+  color: var(--fg);
+  font-size: 0.86rem;
+}
+.rrow__prov {
+  display: inline-block;
+  margin-right: 0.5rem;
+  padding: 0.05rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  border: 1px solid var(--line-2);
+}
+.rrow__prov--aws {
+  color: var(--accent);
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line-2));
+}
+.rrow__prov--cloudflare {
+  color: var(--bench-2);
+  border-color: color-mix(in oklab, var(--bench) 45%, var(--line-2));
+}
+.rrow__note {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.76rem;
+  color: var(--fg-3);
+}
+.rtable .num {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.rtable .num b {
+  color: var(--fg);
+  font-weight: 500;
+}
+.rtable .unit {
+  margin-left: 0.3rem;
+  color: var(--fg-3);
+  font-size: 0.7rem;
+}
+.rtable .muted {
+  color: var(--fg-3);
+}
+.rtable .barcell {
+  width: 26%;
+  min-width: 8rem;
+}
+.rbar {
+  position: relative;
+  display: block;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.rbar i,
+.rbar em {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+}
+.rbar i {
+  background: linear-gradient(90deg, var(--bench-2), var(--bench));
+}
+.rbar em {
+  background: repeating-linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--fg) 45%, transparent) 0 3px,
+    transparent 3px 6px
+  );
+}
+
+@media (max-width: 40rem) {
+  .bench-tabs {
+    top: 3.2rem;
+  }
+  .rtable .barcell {
+    display: none;
+  }
 }
 
 /* ───────────── Package catalogue ───────────── */
