@@ -5,8 +5,7 @@
   "machine": {
     "runtime": "bun 1.3.13",
     "cpu": "Intel(R) Core(TM) Ultra X7 358H",
-    "os": "linux 7.1.8-1-cachyos x64",
-    "host": "flying-cow"
+    "os": "linux 7.1.8-1-cachyos x64"
   },
   "profile": "quick",
   "results": [

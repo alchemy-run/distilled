@@ -109,7 +109,7 @@ file alongside.
   "schema": 1,
   "generatedAt": "2026-09-09T18:00:00.000Z",  // ISO 8601
   "commit": "9b3f5da1d",                       // short sha the run was on
-  "machine": { "runtime": "bun 1.3.13", "cpu": "…", "os": "linux … x64", "host": "…" },
+  "machine": { "runtime": "bun 1.3.13", "cpu": "…", "os": "linux … x64" },
   "profile": "quick",                          // or "full"
   "results": [
     { "name": "aws/sts/GetCallerIdentity/call", "provider": "aws", "service": "sts",

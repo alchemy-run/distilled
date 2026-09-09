@@ -8,9 +8,10 @@
  * The numbers are from ONE machine and ONE run of the quick profile. They
  * are not portable: expect ±30 % between boxes and runs, and the p99 column
  * is noisy at the quick budget. `machine` and `generatedAt` are there so a
- * reader can tell which box and when.
+ * reader can tell which box and when; the hostname is deliberately not
+ * recorded (this file is public), cpu + os identify the box well enough.
  */
-import { cpus, hostname, platform, release, arch } from "node:os";
+import { cpus, platform, release, arch } from "node:os";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 import type { Result } from "./harness.ts";
@@ -41,7 +42,6 @@ export interface RecordFile {
     readonly runtime: string;
     readonly cpu: string;
     readonly os: string;
-    readonly host: string;
   };
   readonly profile: "quick" | "full";
   readonly results: ReadonlyArray<RecordedResult>;
@@ -77,7 +77,6 @@ export const toRecordFile = (
     runtime: `bun ${Bun.version}`,
     cpu: cpus()[0]?.model ?? "unknown",
     os: `${platform()} ${release()} ${arch()}`,
-    host: hostname(),
   },
   profile,
   results: results
