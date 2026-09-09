@@ -30,6 +30,10 @@ catalogs:
     aws4fetch:
       specifier: ^1.0.20
       version: 1.0.20
+  bench:
+    mitata:
+      specifier: ^1.0.34
+      version: 1.0.34
   build:
     typescript:
       specifier: ^7.0.2
@@ -90,6 +94,31 @@ importers:
       oxlint:
         specifier: catalog:tooling
         version: 1.81.0
+      typescript:
+        specifier: catalog:build
+        version: 7.0.2
+
+  benches/runtime:
+    dependencies:
+      '@distilled.cloud/aws':
+        specifier: workspace:*
+        version: link:../../packages/aws
+      '@distilled.cloud/cloudflare':
+        specifier: workspace:*
+        version: link:../../packages/cloudflare
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      effect:
+        specifier: catalog:effect
+        version: 4.0.0-rc.112
+      mitata:
+        specifier: catalog:bench
+        version: 1.0.34
+    devDependencies:
+      '@types/bun':
+        specifier: catalog:tooling
+        version: 1.4.1
       typescript:
         specifier: catalog:build
         version: 7.0.2
@@ -3705,6 +3734,9 @@ packages:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
 
+  mitata@1.0.34:
+    resolution: {integrity: sha512-Mc3zrtNBKIMeHSCQ0XqRLo1vbdIx1wvFV9c8NJAiyho6AjNfMY8bVhbS12bwciUdd1t4rj8099CH3N3NFahaUA==}
+
   minipass@3.3.6:
     resolution: {integrity: sha512-DxiNidxSEK+tHG6zOIklvNOwm3hvCrbUrdtzY74U6HKTJxvIDfOUL5W5P2Ghd3DTkhhKPYGqeNUIh5qcM4YBfw==}
     engines: {node: '>=8'}
@@ -6051,6 +6083,8 @@ snapshots:
   mime@4.1.0: {}
 
   mimic-fn@2.1.0: {}
+
+  mitata@1.0.34: {}
 
   minipass@3.3.6:
     dependencies:

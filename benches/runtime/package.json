@@ -1,0 +1,21 @@
+{
+  "name": "@distilled.cloud/bench-runtime",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "bun run.ts",
+    "bench:full": "bun run.ts --full",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@distilled.cloud/aws": "workspace:*",
+    "@distilled.cloud/cloudflare": "workspace:*",
+    "@distilled.cloud/core": "workspace:*",
+    "effect": "catalog:effect",
+    "mitata": "catalog:bench"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:tooling",
+    "typescript": "catalog:build"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Hand-written — always check it for real.
+    "noCheck": false,
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "composite": false,
+    "types": ["bun"],
+    // Resolve the SDKs from source, the same way their own tsconfigs do, so
+    // the benches typecheck without a `tsc -b` of every package first.
+    "paths": {
+      "@distilled.cloud/core/*": ["../../packages/core/src/*"],
+      "@distilled.cloud/aws/Credentials": [
+        "../../packages/aws/src/credentials.ts"
+      ],
+      "@distilled.cloud/aws/*": ["../../packages/aws/src/services/*"],
+      "@distilled.cloud/cloudflare/Credentials": [
+        "../../packages/cloudflare/src/credentials.ts"
+      ],
+      "@distilled.cloud/cloudflare/Traits": [
+        "../../packages/cloudflare/src/traits.ts"
+      ],
+      "@distilled.cloud/cloudflare/*": [
+        "../../packages/cloudflare/src/services/*"
+      ]
+    }
+  },
+  "include": ["run.ts", "src/**/*.ts"]
+}
