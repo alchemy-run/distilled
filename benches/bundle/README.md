@@ -13,7 +13,10 @@ bun benches/bundle/run.ts --all-variants --keep     # keep .out/<fixture>/<varia
 
 Flags: `--runs N` (builds per fixture, default 3), `--only a,b`,
 `--variants bun,bun+nopure,bun+nominify`, `--all-variants`, `--keep`
-(leave bundles in `.out/`), `--json` (append a compact JSON line).
+(leave bundles in `.out/`), `--json` (append a compact JSON line),
+`--out <file>` (write the slim committed artifact; see `results/README.md`).
+`pnpm --filter @distilled.cloud/bench-bundle record` refreshes
+`results/latest.json`, which the website reads at build time.
 
 Output: markdown to stdout, plus `.out/report.md` and `.out/results.json`
 (per-module composition and per-service analysis). `.out/` is gitignored.

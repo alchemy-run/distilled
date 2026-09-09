@@ -3,12 +3,16 @@
  *
  *   bun benches/bundle/run.ts [--runs N] [--only name,…] [--variants a,b]
  *                             [--all-variants] [--json] [--keep]
+ *                             [--out results/latest.json]
  *
  * Each fixture × variant is built in a fresh `bun` process (cold = first
  * build in that process, warm = median of the remaining `--runs`). Prints a
  * markdown report and writes `.out/report.md` + `.out/results.json`.
+ * `--out` additionally writes the slim, committed-artifact shape
+ * (`schema: 1`) that the website reads; see `results/README.md`.
  */
 import * as fs from "node:fs/promises";
+import * as os from "node:os";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { BuildRequest, BuildResult } from "./src/build.ts";
@@ -30,6 +34,7 @@ const has = (name: string) => args.includes(`--${name}`);
 const runs = Number(flag("runs") ?? 3);
 const only = flag("only")?.split(",").filter(Boolean);
 const keep = has("keep");
+const outFile = flag("out");
 
 /**
  * Default variant matrix. `bun` = Alchemy's `BUN_CONDITION_NAMES` with the
@@ -287,6 +292,52 @@ function report(rows: Row[], rolldownVersion: string): string {
   return lines.join("\n");
 }
 
+/**
+ * Committed-artifact shape (`--out`). Contract agreed with the website:
+ * schema 1, headline numbers only; `leaks` is the count of tree-shake
+ * expectations that failed (0 = clean).
+ */
+function slimResults(rows: Row[], rolldownVersion: string) {
+  return {
+    schema: 1,
+    generatedAt: new Date().toISOString(),
+    commit: gitShortSha(),
+    host: {
+      platform: `${os.platform()}-${os.arch()}`,
+      cpu: os.cpus()[0]?.model ?? null,
+      cores: os.cpus().length,
+      memoryGb: Math.round(os.totalmem() / 1024 ** 3),
+    },
+    rolldown: rolldownVersion,
+    bun: Bun.version,
+    runs,
+    rows: rows.map((r) => {
+      const [cold, ...rest] = r.result.timesMs;
+      return {
+        fixture: r.fixture.name,
+        variant: variantId(r.variant),
+        description: r.fixture.description,
+        coldMs: Math.round(cold!),
+        warmMs: rest.length ? Math.round(median(rest)) : null,
+        bytes: r.result.bytes,
+        gzipBytes: r.result.gzipBytes,
+        moduleCount: r.result.moduleCount,
+        opsRetained: r.opsRetained,
+        leaks: r.forbidPresent.length + r.expectMissing.length,
+      };
+    }),
+  };
+}
+
+function gitShortSha(): string | null {
+  const proc = Bun.spawnSync(["git", "rev-parse", "--short", "HEAD"], {
+    cwd: repoRoot,
+    stdout: "pipe",
+    stderr: "ignore",
+  });
+  return proc.exitCode === 0 ? proc.stdout.toString().trim() : null;
+}
+
 // --- main -------------------------------------------------------------------
 const selected = fixtures.filter((f) => !only || only.includes(f.name));
 if (selected.length === 0) {
@@ -351,6 +402,15 @@ await fs.writeFile(
     2,
   ),
 );
+if (outFile !== undefined) {
+  const target = path.resolve(process.cwd(), outFile);
+  await fs.mkdir(path.dirname(target), { recursive: true });
+  await fs.writeFile(
+    target,
+    `${JSON.stringify(slimResults(rows, rolldownVersion), null, 2)}\n`,
+  );
+  process.stderr.write(`wrote ${path.relative(process.cwd(), target)}\n`);
+}
 if (!keep) {
   for (const r of rows) {
     await fs.rm(path.dirname(r.result.outputFile), {
