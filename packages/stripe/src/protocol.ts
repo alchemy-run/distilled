@@ -21,7 +21,8 @@
  *   response: 2xx JSON is the payload (no envelope) → wire→TS key mapping →
  *             Redacted wrapping of sensitive members; failures parse the
  *             `{ error: { type, code, message, … } }` envelope and dispatch
- *             by `error.type` first (card_error → CardError,
+ *             by per-op matcher classes first (`matchTypedError`, e.g.
+ *             ProductHasPrices), then `error.type` (card_error → CardError,
  *             idempotency_error → IdempotencyError, invalid_request_error →
  *             InvalidRequestError, api_error → ApiError), then the
  *             Stripe-specific status map (402 → PaymentError, 424 →
@@ -46,6 +47,7 @@ import {
   getProps,
   hasPropAnn,
   mapKeys,
+  matchTypedError,
   nameOf,
 } from "@distilled.cloud/core/protocol-http";
 import {
@@ -430,27 +432,39 @@ const coreStatusMap: Readonly<
   Record<number, (new (args: any) => unknown) | undefined>
 > = HTTP_STATUS_MAP;
 
+/** Stripe's `{ error: { type, message, … } }` object, when present. */
+const stripeErrorEnvelope = (
+  errorBody: unknown,
+): Record<string, unknown> | undefined => {
+  const envelope =
+    errorBody !== null && typeof errorBody === "object"
+      ? (errorBody as Record<string, unknown>).error
+      : undefined;
+  return envelope !== null && typeof envelope === "object"
+    ? (envelope as Record<string, unknown>)
+    : undefined;
+};
+
+const stripeErrorMessage = (errorBody: unknown): string | undefined => {
+  const message = stripeErrorEnvelope(errorBody)?.message;
+  return typeof message === "string" ? message : undefined;
+};
+
 /**
  * Match a Stripe API error response to the appropriate error class.
  *
  * Stripe dispatches errors by:
- * 1. The `error.type` field (card_error, idempotency_error,
+ * 1. Per-operation matcher classes (`matchTypedError`) — see decode
+ * 2. The `error.type` field (card_error, idempotency_error,
  *    invalid_request_error, api_error)
- * 2. HTTP status code (402/424 Stripe-specific, then the core status map)
+ * 3. HTTP status code (402/424 Stripe-specific, then the core status map)
  */
 const matchStripeError = (
   status: number,
   errorBody: unknown,
   headers: Record<string, string | undefined>,
 ): unknown => {
-  const envelope =
-    errorBody !== null && typeof errorBody === "object"
-      ? (errorBody as Record<string, unknown>).error
-      : undefined;
-  const err =
-    envelope !== null && typeof envelope === "object"
-      ? (envelope as Record<string, unknown>)
-      : undefined;
+  const err = stripeErrorEnvelope(errorBody);
   // v0 parity: an unparseable envelope (no `error.type` string) is an
   // UnknownStripeError carrying the raw body.
   if (!err || typeof err.type !== "string") {
@@ -533,6 +547,7 @@ const matchStripeError = (
 const decode = ({
   response,
   outputAst,
+  errors: errorClasses,
 }: {
   readonly response: HttpClientResponse.HttpClientResponse;
   readonly outputAst: AST.AST;
@@ -557,9 +572,13 @@ const decode = ({
     const headers = response.headers as Record<string, string | undefined>;
 
     if (status >= 400) {
-      return yield* fail(
-        matchStripeError(status, nonJson ? text : json, headers),
-      );
+      const errorBody: unknown = nonJson ? text : json;
+      const message =
+        stripeErrorMessage(errorBody) ??
+        (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+      const typed = matchTypedError(errorClasses, status, [{ message }]);
+      if (typed !== undefined) return yield* fail(typed);
+      return yield* fail(matchStripeError(status, errorBody, headers));
     }
 
     // 2xx: the response body IS the payload (no envelope). Wire→TS key

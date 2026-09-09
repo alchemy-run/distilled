@@ -16,7 +16,9 @@
  * v0 parity notes:
  *   • `statusToErrorClass: {}` ⇔ v0's `includeOperationErrors: false` —
  *     Stripe answers every failure with the single `{ error: { type, … } }`
- *     envelope, dispatched by the protocol, so no per-op typed errors.
+ *     envelope, dispatched by the protocol, so convert does not emit
+ *     per-status error classes. Per-op tagged errors (e.g. ProductHasPrices)
+ *     are added by patches and matched by the protocol.
  *   • `skipDeprecated: true` is load-bearing (v0 skipped deprecated ops).
  *   • Nearly every operation's request body is
  *     `application/x-www-form-urlencoded` (the converter stamps
