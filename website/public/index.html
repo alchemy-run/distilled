@@ -224,16 +224,39 @@
           </div>
         </div>
 
-        <figure class="hero__code">
+        <figure class="hero__code" data-samples>
           <figcaption class="code__bar">
             <span class="code__dots" aria-hidden="true"
               ><i></i><i></i><i></i
             ></span>
-            <span class="code__file">fetch-object.ts</span>
-            <span class="code__tag">@distilled.cloud/aws</span>
+            <span class="code__file" data-sample-file>fetch-object.ts</span>
+            <div class="code__tabs" role="tablist" aria-label="Provider">
+              <button role="tab" aria-selected="true" data-sample="aws">
+                aws
+              </button>
+              <button role="tab" aria-selected="false" data-sample="cloudflare">
+                cloudflare
+              </button>
+              <button role="tab" aria-selected="false" data-sample="gcp">
+                gcp
+              </button>
+              <button
+                role="tab"
+                aria-selected="false"
+                data-sample="planetscale"
+              >
+                planetscale
+              </button>
+              <button role="tab" aria-selected="false" data-sample="stripe">
+                stripe
+              </button>
+            </div>
           </figcaption>
+
           <pre
             class="code"
+            data-sample-panel="aws"
+            data-file="fetch-object.ts"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
 <span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
 <span class="k">import</span> * <span class="k">as</span> S3 <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span>
@@ -253,6 +276,112 @@
 )
 
 program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLive), Effect.runPromise)</code></pre>
+
+          <pre
+            class="code"
+            data-sample-panel="cloudflare"
+            data-file="get-worker.ts"
+            aria-hidden="true"
+          ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
+<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> * <span class="k">as</span> Workers <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/workers"</span>
+<span class="k">import</span> { Credentials } <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare"</span>
+
+<span class="k">const</span> <span class="v">program</span> = Workers.<span class="f">getScript</span>({
+  account_id: accountId,
+  script_name: <span class="s">"api"</span>,
+}).<span class="f">pipe</span>(
+  Effect.<span class="f">catchTags</span>({
+    <span class="t">WorkerNotFound</span>:        () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
+    <span class="t">CloudflareRateLimited</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+  }),
+)
+
+<span class="k">const</span> <span class="v">CfLive</span> = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  Credentials.<span class="f">fromEnv</span>(),   <span class="m">// CLOUDFLARE_API_TOKEN</span>
+)
+
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(CfLive), Effect.runPromise)</code></pre>
+
+          <pre
+            class="code"
+            data-sample-panel="gcp"
+            data-file="list-buckets.ts"
+            aria-hidden="true"
+          ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
+<span class="k">import</span> * <span class="k">as</span> Stream <span class="k">from</span> <span class="s">"effect/Stream"</span>
+<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> * <span class="k">as</span> Storage <span class="k">from</span> <span class="s">"@distilled.cloud/gcp/storage_v1"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/gcp/Credentials"</span>
+
+<span class="m">// Paginated operations are Streams: pages fetch themselves on demand.</span>
+<span class="k">const</span> <span class="v">program</span> = Storage.listBuckets.<span class="f">items</span>({ project: <span class="s">"my-project"</span> }).<span class="f">pipe</span>(
+  Stream.<span class="f">filter</span>((b) => b.location === <span class="s">"EU"</span>),
+  Stream.<span class="f">take</span>(<span class="c">20</span>),
+  Stream.<span class="f">runCollect</span>,
+)
+
+<span class="k">const</span> <span class="v">GcpLive</span> = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  CredentialsFromEnv,   <span class="m">// GOOGLE_ACCESS_TOKEN / application default</span>
+)
+
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(GcpLive), Effect.runPromise)</code></pre>
+
+          <pre
+            class="code"
+            data-sample-panel="planetscale"
+            data-file="get-database.ts"
+            aria-hidden="true"
+          ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
+<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> * <span class="k">as</span> PlanetScale <span class="k">from</span> <span class="s">"@distilled.cloud/planetscale"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/planetscale/Credentials"</span>
+
+<span class="k">const</span> <span class="v">program</span> = PlanetScale.<span class="f">getDatabase</span>({
+  organization: <span class="s">"acme"</span>,
+  name: <span class="s">"orders"</span>,
+}).<span class="f">pipe</span>(
+  Effect.<span class="f">catchTags</span>({
+    <span class="t">NotFound</span>:  () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
+    <span class="t">Forbidden</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+  }),
+)
+
+<span class="k">const</span> <span class="v">PsLive</span> = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  CredentialsFromEnv,   <span class="m">// PLANETSCALE_SERVICE_TOKEN_ID / _TOKEN</span>
+)
+
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(PsLive), Effect.runPromise)</code></pre>
+
+          <pre
+            class="code"
+            data-sample-panel="stripe"
+            data-file="create-customer.ts"
+            aria-hidden="true"
+          ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
+<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> * <span class="k">as</span> Stripe <span class="k">from</span> <span class="s">"@distilled.cloud/stripe"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/stripe/Credentials"</span>
+
+<span class="k">const</span> <span class="v">program</span> = Stripe.<span class="f">CreateCustomer</span>({
+  email: <span class="s">"ada@example.com"</span>,
+  name: <span class="s">"Ada Lovelace"</span>,
+}).<span class="f">pipe</span>(
+  Effect.<span class="f">catchTags</span>({
+    <span class="t">InvalidRequestError</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+    <span class="t">CardError</span>:           (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+  }),
+)
+
+<span class="k">const</span> <span class="v">StripeLive</span> = Layer.<span class="f">mergeAll</span>(
+  FetchHttpClient.layer,
+  CredentialsFromEnv,   <span class="m">// STRIPE_SECRET_KEY</span>
+)
+
+program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(StripeLive), Effect.runPromise)</code></pre>
         </figure>
       </section>
 
@@ -848,6 +977,58 @@ program.<span class="f">pipe</span>(
         document
           .querySelectorAll("[data-reveal]")
           .forEach((el) => el.classList.add("is-in"));
+      }
+
+      // Hero code samples: tabs per provider; auto-advance every 6s until the
+      // user picks one, then stay put. Pauses while the tab is hidden.
+      for (const fig of document.querySelectorAll("[data-samples]")) {
+        const tabs = [...fig.querySelectorAll("[data-sample]")];
+        const panels = [...fig.querySelectorAll("[data-sample-panel]")];
+        const file = fig.querySelector("[data-sample-file]");
+        let i = 0;
+        let timer = null;
+        const show = (n) => {
+          i = (n + tabs.length) % tabs.length;
+          const key = tabs[i].dataset.sample;
+          for (const t of tabs)
+            t.setAttribute("aria-selected", String(t.dataset.sample === key));
+          for (const p of panels) {
+            const on = p.dataset.samplePanel === key;
+            p.classList.toggle("is-active", on);
+            p.setAttribute("aria-hidden", String(!on));
+          }
+          const active = panels.find((p) => p.dataset.samplePanel === key);
+          if (file && active) file.textContent = active.dataset.file;
+          const pkg = document.querySelector("[data-sample-pkg]");
+          if (pkg) pkg.textContent = key;
+        };
+        const start = () => {
+          if (timer || matchMedia("(prefers-reduced-motion: reduce)").matches)
+            return;
+          timer = setInterval(() => show(i + 1), 6000);
+        };
+        const stop = () => {
+          clearInterval(timer);
+          timer = null;
+        };
+        tabs.forEach((t, n) =>
+          t.addEventListener("click", () => {
+            stop();
+            show(n);
+          }),
+        );
+        fig.addEventListener("mouseenter", stop);
+        fig.addEventListener("mouseleave", () => {
+          if (!fig.dataset.pinned) start();
+        });
+        tabs.forEach((t) =>
+          t.addEventListener("click", () => (fig.dataset.pinned = "1")),
+        );
+        document.addEventListener("visibilitychange", () =>
+          document.hidden ? stop() : !fig.dataset.pinned && start(),
+        );
+        show(0);
+        start();
       }
 
       // Copy buttons: copy the text of the element referenced by data-copy.

@@ -111,19 +111,8 @@ const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "spacetimedb",
     ],
   ],
-  [
-    "Identity & secrets",
-    [
-      "auth0",
-      "clerk",
-      "workos",
-      "okta",
-      "onepassword",
-      "doppler",
-      "infisical",
-      "unkey",
-    ],
-  ],
+  ["Identity", ["auth0", "clerk", "workos", "okta"]],
+  ["Secrets", ["onepassword", "doppler", "infisical", "unkey"]],
   [
     "Payments",
     [
@@ -153,7 +142,7 @@ const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     ],
   ],
   [
-    "Messaging & support",
+    "Outreach",
     ["slack", "discord", "resend", "intercom", "zendesk", "customerio"],
   ],
   [
@@ -280,7 +269,7 @@ const alchemyUsed = new Set(
   ).used,
 );
 
-type BrandIcon = { readonly viewBox: string; readonly d: string };
+type BrandIcon = { readonly viewBox: string; readonly inner: string };
 const brandIcons = JSON.parse(
   await readFile(join(websiteRoot, "data", "brand-icons.json"), "utf8"),
 ) as Record<string, BrandIcon | string>;
@@ -298,7 +287,8 @@ const iconSprite = (): string =>
     )
     .map(
       ([dir, icon]) =>
-        `<symbol id="i-${escapeHtml(dir)}" viewBox="${escapeHtml(icon.viewBox)}"><path d="${escapeHtml(icon.d)}"/></symbol>`,
+        // `inner` is trusted SVG from data/brand-icons.json, not user input.
+        `<symbol id="i-${escapeHtml(dir)}" viewBox="${escapeHtml(icon.viewBox)}">${icon.inner}</symbol>`,
     )
     .join("") +
   `</svg>`;
