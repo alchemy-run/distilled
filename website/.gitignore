@@ -1,0 +1,3 @@
+# Local alchemy state cache. Real state lives in the remote Cloudflare state
+# store (`Cloudflare.state()`), so this directory is never authoritative.
+.alchemy/

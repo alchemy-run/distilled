@@ -1,0 +1,66 @@
+# Distilled website
+
+Plain landing page for [distilled.cloud](https://distilled.cloud), deployed
+as an Alchemy stack. Same stage topology as alchemy's website: production,
+staging, a `preview-base` parent, and opt-in PR versions.
+
+The site is static HTML. `scripts/build.ts` copies `public/` to `dist/` and
+injects the published `@distilled.cloud/*` package list from
+`packages/*/package.json`. There is no Starlight docs portal.
+
+## Stages
+
+| stage | worker | domain |
+| --- | --- | --- |
+| `prod` | `distilled-website-prod` | `https://distilled.cloud` |
+| `main` | `distilled-website-main` | `https://main.distilled.cloud` |
+| `preview-base` | `distilled-website-preview` | workers.dev (parent for PR versions) |
+| `pr-N` | version of `preview-base`, alias `pr-N` | workers.dev alias |
+
+`prod` is the only indexable origin. `src/worker.ts` serves
+`X-Robots-Tag: noindex` (and a no-sitemap `robots.txt`) on every other host.
+
+Non-`pr-*` stages use `RemovalPolicy.retain`. PR stages are destroyed on
+close or when the `deploy-website` label is removed.
+
+## CI
+
+[`.github/workflows/website.yml`](../.github/workflows/website.yml):
+
+- Push to `main` → stage `main`, then refresh `preview-base`.
+- `chore(release):` commit (from `release.yml`) or dispatch with `prod` →
+  stage `prod`.
+- Internal PR with the `deploy-website` label → stage `pr-{n}` plus a
+  GitHub comment with the preview URL (`BUILD_SHA` is the PR head SHA).
+- Close / unlabel → destroy **only** `pr-*`.
+
+Credentials are the repo's existing `WEBSITE_CLOUDFLARE_API_TOKEN`,
+`WEBSITE_CLOUDFLARE_ACCOUNT_ID`, and `WEBSITE_CLOUDFLARE_ZONE_ID`, passed
+through as `CLOUDFLARE_*`. Do not use `STACKS_CLOUDFLARE_*` (state-store
+only) and do not overwrite the generic `CLOUDFLARE_*` secrets.
+
+PR comments post as the same GitHub App as `release.yml`
+(`ALCHEMY_VERSION_BOT_ID` / `ALCHEMY_VERSION_BOT_PRIVATE_KEY`).
+
+## Local
+
+```sh
+pnpm install
+pnpm --filter "./website" run build     # writes dist/
+pnpm --filter "./website" run preview   # static server on :4173, no Cloudflare
+pnpm --filter "./website" run typecheck
+cd website && pnpm exec alchemy         # CLI; stack typechecks via tsc
+```
+
+`pnpm --filter "./website" run dev` is `alchemy dev` and needs a Cloudflare
+profile. Prefer `preview` when you only want the HTML.
+
+To deploy by hand (optional; CI owns prod/main):
+
+```sh
+cd website
+pnpm exec alchemy deploy --stage main --yes
+```
+
+Do not deploy `prod` from a laptop unless you mean to replace
+https://distilled.cloud.

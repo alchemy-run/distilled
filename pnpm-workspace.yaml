@@ -3,6 +3,9 @@ packages:
   # Deployment stacks. Not published, not part of `tsc -b` — but members so
   # one `pnpm install` covers them and their versions live in one lockfile.
   - stacks/*
+  # Landing page + Alchemy deploy stack. Private, not in the SDK tsconfig
+  # graph; CI typechecks it with `pnpm --filter "./website" run typecheck`.
+  - website
 
 allowBuilds:
   msgpackr-extract: true
