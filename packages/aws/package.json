@@ -111,7 +111,6 @@
     "@smithy/shared-ini-file-loader": "catalog:aws",
     "@smithy/types": "catalog:aws",
     "@smithy/util-base64": "catalog:aws",
-    "aws4fetch": "catalog:aws",
     "fast-xml-parser": "catalog:shared"
   },
   "devDependencies": {

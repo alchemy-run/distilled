@@ -23,7 +23,6 @@ catalogs:
     "@smithy/shared-ini-file-loader": ^4.4.3
     "@smithy/types": ^4.12.0
     "@smithy/util-base64": ^4.3.0
-    aws4fetch: ^1.0.20
   build:
     typescript: ^7.0.2
   effect:
