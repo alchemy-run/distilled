@@ -452,9 +452,6 @@ const pickAward = (ranked: Ranked[]): Ranked | undefined =>
 
 const awardHtml = (ranked: Ranked[]): string => {
   const winner = pickAward(ranked);
-  const worst = [...ranked]
-    .filter((s) => s.fixes > 0)
-    .sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0))[0];
   if (!winner) return "";
   const laurel =
     `<svg class="award__laurel" viewBox="0 0 64 64" aria-hidden="true">` +
@@ -473,9 +470,7 @@ const awardHtml = (ranked: Ranked[]): string => {
       : `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations backing Alchemy resources, and only <b>${fmt.format(winner.fixes)}</b> ${winner.fixes === 1 ? "fix" : "fixes"} needed — <b>${fmt1.format(winner.per100 ?? 0)}</b> per 100.</p>`) +
     `</div>` +
     `<div class="award__aside">` +
-    (worst
-      ? `<p class="award__worst">At the other end: <a href="/shame">${escapeHtml(worst.short)}</a> needs <b>${fmt1.format(worst.per100 ?? 0)}</b> fixes per 100 operations.</p>`
-      : "") +
+    `<p class="award__worst">Every patched service, ranked by fixes per 100 operations.</p>` +
     `<a class="btn btn--ghost" href="/shame">Wall of shame →</a>` +
     `</div>` +
     `</div>`
