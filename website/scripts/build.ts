@@ -722,6 +722,14 @@ const fontSrc = join(
   "fraunces",
   "files",
 );
+// Text-morph library for the install line (MIT, zero deps). The page has no
+// bundler, so the ESM build is served as-is from /vendor.
+await mkdir(join(distDir, "vendor"), { recursive: true });
+await cp(
+  join(websiteRoot, "node_modules", "torph", "dist", "index.mjs"),
+  join(distDir, "vendor", "torph.mjs"),
+);
+
 await mkdir(join(distDir, "fonts"), { recursive: true });
 for (const [from, to] of [
   ["fraunces-latin-full-normal.woff2", "fraunces-latin.woff2"],

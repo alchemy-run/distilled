@@ -638,55 +638,62 @@ h1 {
 }
 
 .install {
+  --pm-ch: 4;
   display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
+  align-items: stretch;
   max-width: 100%;
-  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--bg-2);
   font-family: var(--mono);
   font-size: 0.9rem;
+  overflow: hidden;
 }
 .install code {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.85rem;
   font-size: inherit;
   white-space: nowrap;
   overflow-x: auto;
   scrollbar-width: none;
 }
 
-/* Package-manager select styled as the command's first word. */
+/* Package-manager select: a flush segment, divided from the command by a
+   hairline, like a Grafana input with a leading picker. */
 .install__pm {
   position: relative;
   display: inline-flex;
-  align-items: center;
+  align-items: stretch;
   flex: none;
+  border-right: 1px solid var(--line);
+  background: var(--bg-3);
 }
 .install__pm select {
   appearance: none;
   -webkit-appearance: none;
   font: inherit;
-  padding: 0.3rem 1.35rem 0.3rem 0.6rem;
-  border: 1px solid var(--line-2);
-  border-radius: 6px;
-  background: var(--bg-3);
+  width: calc(var(--pm-ch) * 1ch + 2.3rem);
+  padding: 0.65rem 1.5rem 0.65rem 0.8rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: var(--accent);
   cursor: pointer;
-  transition:
-    border-color 120ms ease,
-    color 120ms ease;
+  transition: background-color 120ms ease;
 }
 .install__pm select:hover {
-  border-color: var(--fg-3);
+  background: color-mix(in oklab, var(--accent) 8%, transparent);
 }
 .install__pm select:focus-visible {
   outline: 2px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: -2px;
 }
 .install__caret {
   position: absolute;
-  right: 0.5rem;
+  right: 0.55rem;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: none;
   color: var(--fg-3);
 }
@@ -696,13 +703,15 @@ h1 {
   place-items: center;
   width: 2rem;
   height: 2rem;
-  margin-left: auto;
+  align-self: center;
+  margin: 0 0.4rem 0 auto;
   padding: 0;
   border: 1px solid var(--line-2);
   border-radius: 6px;
   background: var(--bg-3);
   color: var(--fg-2);
   cursor: pointer;
+  flex: none;
   transition:
     color 120ms ease,
     border-color 120ms ease;
@@ -877,6 +886,39 @@ h1 {
 .hero__code > .code.is-active {
   visibility: visible;
   opacity: 1;
+}
+/* Morph layer: the active sample as plain text, animated between providers.
+   It is the visible copy when torph is running; the coloured panels remain
+   for reduced-motion and no-JS. */
+.hero__code > .code--morph {
+  grid-area: 2 / 1;
+  visibility: hidden;
+  opacity: 0;
+  color: var(--fg);
+  white-space: pre;
+}
+.hero__code.is-morphing > .code--morph {
+  visibility: visible;
+  opacity: 1;
+  transition: none;
+}
+.hero__code.is-morphing > .code.is-active {
+  visibility: hidden;
+  opacity: 0;
+  transition: none;
+}
+/* Hand-back: when morphing ends the highlighted panel fades up over the plain layer. */
+.hero__code > .code.is-active {
+  transition: opacity 220ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__code > .code--morph {
+    display: none;
+  }
+  .hero__code.is-morphing > .code.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 .hero__code > .code__bar {
   grid-area: 1 / 1;
