@@ -1016,7 +1016,7 @@ pre.code code {
 }
 @media (min-width: 72rem) {
   .facts__list {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 .fact {
@@ -1031,12 +1031,15 @@ pre.code code {
   border-top: 0;
   border-left: 0;
 }
-@media (min-width: 48rem) {
+@media (min-width: 48rem) and (max-width: 71.99rem) {
   .fact:nth-child(2) {
     border-top: 0;
   }
   .fact:nth-child(odd) {
     border-left: 0;
+  }
+  .fact:nth-child(5) {
+    grid-column: 1 / -1;
   }
 }
 @media (min-width: 72rem) {
@@ -1565,116 +1568,6 @@ pre.code code {
     opacity: 1;
     transform: none;
   }
-}
-
-/* ───────────── Award (homepage) ───────────── */
-
-.award {
-  padding: clamp(2.5rem, 6vw, 4rem) 0 0;
-}
-.award--inline {
-  padding-top: clamp(2rem, 4vw, 2.75rem);
-}
-.award:empty {
-  display: none;
-}
-
-.award__card {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 1rem 1.5rem;
-  align-items: center;
-  padding: 1.6rem 1.75rem;
-  border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--line));
-  border-radius: var(--radius);
-  background:
-    radial-gradient(
-      40rem 14rem at 0% 50%,
-      color-mix(in oklab, var(--accent) 14%, transparent),
-      transparent 70%
-    ),
-    color-mix(in oklab, var(--bg-2) 85%, transparent);
-}
-@media (min-width: 56rem) {
-  .award__card {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    gap: 1.5rem 2rem;
-  }
-}
-
-.award__laurel {
-  width: 4rem;
-  height: 4rem;
-  color: var(--accent);
-  flex: none;
-}
-.award__body .eyebrow {
-  margin-bottom: 0.35rem;
-}
-.award__title {
-  font-size: clamp(1.9rem, 1.4rem + 1.8vw, 2.6rem);
-  line-height: 1.05;
-}
-.award__title a {
-  font-family: var(--mono);
-  font-size: 0.78em;
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
-.award__title a::before {
-  content: "@distilled.cloud/";
-  color: var(--fg-3);
-  font-weight: 400;
-}
-@media (max-width: 40rem) {
-  .award__title a::before {
-    display: block;
-    font-size: 0.6em;
-    line-height: 1.2;
-  }
-}
-.award__blurb {
-  margin: 0.5rem 0 0;
-  color: var(--fg-2);
-  max-width: 44ch;
-  text-wrap: pretty;
-}
-.award__blurb b {
-  color: var(--fg);
-  font-variant-numeric: tabular-nums;
-}
-
-.award__aside {
-  grid-column: 1 / -1;
-  display: grid;
-  gap: 0.75rem;
-  justify-items: start;
-  padding-top: 1rem;
-  border-top: 1px solid var(--line);
-}
-@media (min-width: 56rem) {
-  .award__aside {
-    grid-column: auto;
-    max-width: 18rem;
-    padding: 0 0 0 1.75rem;
-    border-top: 0;
-    border-left: 1px solid var(--line);
-  }
-}
-.award__worst {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--fg-2);
-  text-wrap: pretty;
-}
-.award__worst a {
-  color: var(--fg);
-  font-family: var(--mono);
-  font-size: 0.92em;
-}
-.award__worst b {
-  color: var(--fg);
 }
 
 /* ───────────── /shame ───────────── */

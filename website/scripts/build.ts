@@ -437,46 +437,6 @@ const totalsHtml = (ranked: Ranked[]): string => {
   ].join("");
 };
 
-/**
- * The award goes to the least-patched package among those a real consumer
- * (Alchemy) exercises: lowest fixes per 100 operations, largest SDK on a tie.
- * Unused packages are excluded — zero patches there is absence of evidence.
- */
-const pickAward = (ranked: Ranked[]): Ranked | undefined =>
-  ranked
-    .filter((s) => alchemyUsed.has(s.dir))
-    .sort(
-      (a, b) =>
-        (a.per100 ?? 0) - (b.per100 ?? 0) || b.operations - a.operations,
-    )[0];
-
-const awardHtml = (ranked: Ranked[]): string => {
-  const winner = pickAward(ranked);
-  if (!winner) return "";
-  const laurel =
-    `<svg class="award__laurel" viewBox="0 0 64 64" aria-hidden="true">` +
-    `<path d="M32 10c-9 6-14 15-14 26 0 6 2 11 5 15M32 10c9 6 14 15 14 26 0 6-2 11-5 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>` +
-    `<path d="M22 20c-4 0-7 3-7 7 4 0 7-3 7-7zm-4 12c-4 0-7 3-7 7 4 0 7-3 7-7zm1 11c-4 1-6 4-5 8 4-1 6-4 5-8zM42 20c4 0 7 3 7 7-4 0-7-3-7-7zm4 12c4 0 7 3 7 7-4 0-7-3-7-7zm-1 11c4 1 6 4 5 8-4-1-6-4-5-8z" fill="currentColor"/>` +
-    `<circle cx="32" cy="34" r="6" fill="none" stroke="currentColor" stroke-width="2"/>` +
-    `</svg>`;
-  return (
-    `<div class="award__card">` +
-    laurel +
-    `<div class="award__body">` +
-    `<p class="eyebrow">Least patched, used in Alchemy</p>` +
-    `<h2 id="award-title" class="award__title"><a href="${npmUrl(winner.name)}" rel="noopener">${escapeHtml(winner.short)}</a></h2>` +
-    (winner.fixes === 0
-      ? `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations backing Alchemy resources, zero patches. The description was right.</p>`
-      : `<p class="award__blurb"><b>${fmt.format(winner.operations)}</b> operations backing Alchemy resources, and only <b>${fmt.format(winner.fixes)}</b> ${winner.fixes === 1 ? "fix" : "fixes"} needed — <b>${fmt1.format(winner.per100 ?? 0)}</b> per 100.</p>`) +
-    `</div>` +
-    `<div class="award__aside">` +
-    `<p class="award__worst">Every patched service, ranked by fixes per 100 operations.</p>` +
-    `<a class="btn btn--ghost" href="/shame">Wall of shame →</a>` +
-    `</div>` +
-    `</div>`
-  );
-};
-
 // ───────────── /bench ─────────────
 
 const kb = (bytes: number) => `${fmt1.format(bytes / 1024)} KB`;
@@ -692,30 +652,40 @@ const factsHtml = (ranked: Ranked[]): string => {
   const patched = used.filter((s) => s.fixes > 0).length;
   const byRate = [...used].sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0));
   const worst = byRate[0];
+  const best = byRate[byRate.length - 1];
   const mid = byRate[Math.floor(byRate.length / 2)];
-  const fact = (n: string, unit: string, read: string) =>
-    `<li class="fact"><span class="fact__n">${n}</span><span class="fact__u">${unit}</span><span class="fact__r">${read}</span></li>`;
+  const fact = (n: string, unit: string, read: string, mod = "") =>
+    `<li class="fact${mod}"><span class="fact__n">${n}</span><span class="fact__u">${unit}</span><span class="fact__r">${read}</span></li>`;
   return [
     fact(
       fmt.format(fixes),
       "spec fixes",
-      `carried across the ${used.length} providers Alchemy builds on today.`,
+      `carried across the ${used.length} services Alchemy builds on today.`,
     ),
     fact(
       `${patched} of ${used.length}`,
-      "providers patched",
+      "services patched",
       `every one has needed at least one correction to its own API description.`,
     ),
     fact(
       fmt1.format(mid?.per100 ?? 0),
       "fixes per 100 operations",
-      `for the median provider — one correction for every three calls it exposes.`,
+      `for the median service — one correction for every three calls it exposes.`,
     ),
+    best
+      ? fact(
+          fmt1.format(best.per100 ?? 0),
+          `per 100 · best`,
+          `<a href="${npmUrl(best.name)}" rel="noopener">${escapeHtml(best.short)}</a>: ${fmt.format(best.fixes)} ${best.fixes === 1 ? "fix" : "fixes"} across ${fmt.format(best.operations)} operations.`,
+          " fact--best",
+        )
+      : "",
     worst
       ? fact(
           fmt1.format(worst.per100 ?? 0),
-          `per 100 on ${escapeHtml(worst.short)}`,
-          `the worst of them: more patches than operations. <a href="/shame">See the tally →</a>`,
+          `per 100 · worst`,
+          `<a href="${npmUrl(worst.name)}" rel="noopener">${escapeHtml(worst.short)}</a>: more patches than operations. <a href="/shame">See the tally →</a>`,
+          " fact--worst",
         )
       : "",
   ].join("");
@@ -762,7 +732,6 @@ for (const [from, to] of [
 const indexPath = join(distDir, "index.html");
 let html = await readFile(indexPath, "utf8");
 html = html.replace("<!-- PACKAGES -->", iconSprite() + renderGroups(packages));
-html = html.replace("<!-- AWARD -->", awardHtml(ranked));
 {
   const row = (fixture: string) =>
     bundleBench?.rows.find((r) => r.fixture === fixture && r.variant === "bun");
