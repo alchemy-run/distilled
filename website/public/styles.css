@@ -187,6 +187,16 @@ body {
   background-attachment: fixed, local, local;
 }
 
+/* While the theme flips, suspend every transition so the whole page changes
+   in one frame. Otherwise elements with hover transitions (cards, buttons)
+   fade over 120ms against a page that has already switched, which reads as
+   a flash. The class is added by the toggle and removed on the next frame. */
+:root.theme-switching *,
+:root.theme-switching *::before,
+:root.theme-switching *::after {
+  transition: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
