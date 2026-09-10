@@ -10,7 +10,7 @@ import * as SigV4 from "./sigv4.ts";
 // AWS SigV4 test-suite credentials (S3 "GET Object" / "PUT Object" examples).
 const creds = {
   accessKeyId: "AKIAIOSFODNN7EXAMPLE",
-  secretAccessKey: "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+  secretAccessKey: Redacted.make("wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"),
 };
 const datetime = "20130524T000000Z";
 
@@ -38,7 +38,7 @@ describe("SigV4.sign", () => {
     const signed = await Effect.runPromise(
       SigV4.sign({
         ...creds,
-        sessionToken: "TOKEN==",
+        sessionToken: Redacted.make("TOKEN=="),
         method: "POST",
         url: "https://dynamodb.us-west-2.amazonaws.com//x//y?b=2&a=1&a=0&=empty",
         headers: {
@@ -91,7 +91,7 @@ describe("SigV4.sign", () => {
     const signed = await Effect.runPromise(
       SigV4.sign({
         ...creds,
-        sessionToken: "TOK",
+        sessionToken: Redacted.make("TOK"),
         method: "GET",
         url: "https://examplebucket.s3.amazonaws.com/a b/(x)!*'.txt?X-Amz-Expires=900&foo=bar&foo=baz",
         headers: { "content-type": "image/png" },
@@ -133,7 +133,10 @@ describe("SigV4.sign", () => {
     // Churn well past the cache bound with distinct secrets.
     for (let i = 0; i < 200; i++) {
       await Effect.runPromise(
-        SigV4.sign({ ...request, secretAccessKey: `rotated-${i}` }),
+        SigV4.sign({
+          ...request,
+          secretAccessKey: Redacted.make(`rotated-${i}`),
+        }),
       );
     }
     const after = await Effect.runPromise(SigV4.sign(request));
@@ -144,7 +147,7 @@ describe("SigV4.sign", () => {
     const signed = await Effect.runPromise(
       SigV4.sign({
         ...creds,
-        sessionToken: "TOK",
+        sessionToken: Redacted.make("TOK"),
         url: "https://data.iot.us-east-1.amazonaws.com/mqtt",
         service: "iotdevicegateway",
         region: "us-east-1",
@@ -165,7 +168,7 @@ describe("Presign", () => {
       Credentials.Credentials,
       Effect.succeed({
         accessKeyId: Redacted.make(creds.accessKeyId),
-        secretAccessKey: Redacted.make(creds.secretAccessKey),
+        secretAccessKey: creds.secretAccessKey,
         region: "us-east-1" as Region.RegionName,
       }),
     ),

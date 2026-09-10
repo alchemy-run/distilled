@@ -420,10 +420,8 @@ const encode = ({
           ? undefined
           : resolvedRequest.body,
       accessKeyId: Redacted.value(credentials.accessKeyId),
-      secretAccessKey: Redacted.value(credentials.secretAccessKey),
-      sessionToken: credentials.sessionToken
-        ? Redacted.value(credentials.sessionToken)
-        : undefined,
+      secretAccessKey: credentials.secretAccessKey,
+      sessionToken: credentials.sessionToken,
       service: signingServiceName,
       region: signingRegion,
     });

@@ -74,10 +74,8 @@ export const presignUrl: (
     url: url.toString(),
     headers: options.headers,
     accessKeyId: Redacted.value(credentials.accessKeyId),
-    secretAccessKey: Redacted.value(credentials.secretAccessKey),
-    sessionToken: credentials.sessionToken
-      ? Redacted.value(credentials.sessionToken)
-      : undefined,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
     service: options.service,
     region,
     signQuery: true,
