@@ -530,13 +530,6 @@ main {
   text-transform: none;
   letter-spacing: 0.02em;
 }
-.eyebrow__dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--accent);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent) 22%, transparent);
-}
 
 .section__head {
   max-width: var(--measure);
@@ -1707,11 +1700,6 @@ pre.code code {
   --shame-2: var(--rose-2);
 }
 
-.eyebrow__dot--shame {
-  background: var(--shame);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--shame) 22%, transparent);
-}
-
 .shame-hero {
   padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 4vw, 3rem);
   max-width: 52rem;
@@ -2086,10 +2074,6 @@ pre.code code {
       color-mix(in oklab, var(--line) 55%, transparent) 1px,
       transparent 1px
     );
-}
-.eyebrow__dot--bench {
-  background: var(--bench);
-  box-shadow: 0 0 0 4px color-mix(in oklab, var(--bench) 22%, transparent);
 }
 
 .bench-hero {
