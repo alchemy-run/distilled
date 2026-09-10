@@ -213,12 +213,8 @@
                 />
               </svg>
             </label>
-            <code id="install-cmd"
-              ><span data-pm-verb>add</span> @distilled.cloud/<span
-                data-sample-pkg
-                >aws</span
-              >
-              effect</code
+            <code id="install-cmd" data-cmd
+              >pnpm add @distilled.cloud/aws effect</code
             >
             <button
               class="copy"
@@ -295,6 +291,10 @@
               </button>
             </div>
           </figcaption>
+          <pre
+            class="code code--morph"
+            aria-hidden="true"
+          ><code data-code-morph></code></pre>
 
           <pre
             class="code"
@@ -961,28 +961,47 @@ program.<span class="f">pipe</span>(
     </footer>
 
     <script>
-      // Theme toggle: flips between light and dark relative to the effective
-      // scheme and persists the choice; the head script re-applies it on load.
-      for (const btn of document.querySelectorAll("[data-theme-toggle]")) {
-        btn.addEventListener("click", () => {
-          const root = document.documentElement;
-          const stored = root.dataset.theme;
-          const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
-          const effectiveDark = stored ? stored === "dark" : systemDark;
-          const next = effectiveDark ? "light" : "dark";
-          root.classList.add("theme-switching");
-          root.dataset.theme = next;
-          try {
-            localStorage.setItem("theme", next);
-          } catch {}
-          // Two frames: one to apply the new colours, one to re-enable transitions.
-          requestAnimationFrame(() =>
-            requestAnimationFrame(() =>
-              root.classList.remove("theme-switching"),
-            ),
-          );
-        });
-      }
+      // Text morphing (torph, vendored at build). One controller per element;
+      // until the module resolves, updates fall back to plain textContent.
+      // The current value is kept on the element so copy/reads never see the
+      // engine's per-character fragments.
+      const morphs = new Map();
+      const morphInto = (el, text) => {
+        if (!el) return;
+        el.dataset.value = text;
+        const m = morphs.get(el);
+        if (m) m.update(text);
+        else el.textContent = text;
+      };
+      const valueOf = (el) => el?.dataset.value ?? el?.textContent ?? "";
+      const morphReady = import("/vendor/torph.mjs")
+        .then(({ TextMorph }) => {
+          for (const el of document.querySelectorAll(
+            "[data-cmd], [data-code-morph]",
+          )) {
+            const isCode = el.hasAttribute("data-code-morph");
+            const m = new TextMorph({
+              element: el,
+              duration: isCode ? 520 : 420,
+              ease: "cubic-bezier(0.19, 1, 0.22, 1)",
+              numbers: false,
+              // Code: morph as plain text, then reveal the highlighted panel.
+              onAnimationComplete: isCode
+                ? () =>
+                    el
+                      .closest("[data-samples]")
+                      ?.classList.remove("is-morphing")
+                : undefined,
+            });
+            morphs.set(el, m);
+            if (el.dataset.value) m.update(el.dataset.value);
+          }
+          document
+            .querySelector("[data-samples]")
+            ?.classList.add("morph-ready");
+        })
+        .catch(() => {});
+
       // Package filter: matches on name, directory and tags; hides empty groups.
       const input = document.getElementById("filter");
       const groups = [...document.querySelectorAll("#package-groups .group")];
@@ -1044,6 +1063,43 @@ program.<span class="f">pipe</span>(
           .forEach((el) => el.classList.add("is-in"));
       }
 
+      // Install line: "<pm> <verb> @distilled.cloud/<pkg> effect" as one
+      // morphing string; pm comes from the select (remembered), pkg from the
+      // active hero sample.
+      const VERB = { pnpm: "add", npm: "install", bun: "add" };
+      const installBox = document.querySelector("[data-install]");
+      const pmSelect = installBox?.querySelector("select[data-pm]");
+      const renderCmd = () => {
+        if (!installBox) return;
+        const pm = installBox.dataset.pm ?? "pnpm";
+        const pkg =
+          document.querySelector("[data-samples]")?.dataset.pkg ?? "aws";
+        // The select shows the manager; the morphing text starts at the verb.
+        morphInto(
+          installBox.querySelector("[data-cmd]"),
+          `${VERB[pm] ?? "add"} @distilled.cloud/${pkg} effect`,
+        );
+      };
+      if (installBox && pmSelect) {
+        const applyPm = (pm) => {
+          pmSelect.value = pm;
+          installBox.dataset.pm = pm;
+          installBox.style.setProperty("--pm-ch", String(pm.length));
+          renderCmd();
+        };
+        let stored = null;
+        try {
+          stored = localStorage.getItem("pm");
+        } catch {}
+        applyPm(stored && VERB[stored] ? stored : "pnpm");
+        pmSelect.addEventListener("change", () => {
+          applyPm(pmSelect.value);
+          try {
+            localStorage.setItem("pm", pmSelect.value);
+          } catch {}
+        });
+      }
+
       // Hero code samples: a dot per provider; the active dot expands to its
       // name and fills a ring over the auto-advance interval. Clicking a dot
       // pins it. Paused while hovered or when the tab is hidden.
@@ -1071,8 +1127,13 @@ program.<span class="f">pipe</span>(
           }
           const active = panels.find((p) => p.dataset.samplePanel === key);
           if (file && active) file.textContent = active.dataset.file;
-          const pkg = document.querySelector("[data-sample-pkg]");
-          if (pkg) pkg.textContent = key;
+          fig.dataset.pkg = key;
+          const layer = fig.querySelector("[data-code-morph]");
+          if (fig.classList.contains("morph-ready") && layer?.dataset.value) {
+            fig.classList.add("is-morphing"); // plain-text layer on top while it animates
+          }
+          morphInto(layer, active?.textContent ?? "");
+          renderCmd();
           startedAt = performance.now();
         };
         const tick = (now) => {
@@ -1110,36 +1171,12 @@ program.<span class="f">pipe</span>(
         start();
       }
 
-      // Install line: package manager select (remembered) rewrites the verb;
-      // the copied text is the full command including the manager.
-      const VERB = { pnpm: "add", npm: "install", bun: "add" };
-      for (const box of document.querySelectorAll("[data-install]")) {
-        const select = box.querySelector("[data-pm]");
-        const verb = box.querySelector("[data-pm-verb]");
-        const apply = (pm) => {
-          select.value = pm;
-          verb.textContent = VERB[pm] ?? "add";
-          box.dataset.pm = pm;
-        };
-        let stored = null;
-        try {
-          stored = localStorage.getItem("pm");
-        } catch {}
-        apply(stored && VERB[stored] ? stored : "pnpm");
-        select.addEventListener("change", () => {
-          apply(select.value);
-          try {
-            localStorage.setItem("pm", select.value);
-          } catch {}
-        });
-      }
-
       // Copy buttons: icon flips to a check for a moment.
       for (const btn of document.querySelectorAll("[data-copy]")) {
         btn.addEventListener("click", async () => {
           const target = document.querySelector(btn.getAttribute("data-copy"));
           const box = btn.closest("[data-install]");
-          const cmd = (target?.textContent ?? "").replace(/\s+/g, " ").trim();
+          const cmd = valueOf(target).replace(/\s+/g, " ").trim();
           const text = box ? `${box.dataset.pm} ${cmd}` : cmd;
           try {
             await navigator.clipboard.writeText(text);
