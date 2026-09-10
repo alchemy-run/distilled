@@ -34,7 +34,7 @@ export const AcceptProjectInvitationRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AcceptProjectInvitationRequest>;
 
 export type ProjectRole = "ADMIN" | "MEMBER" | "VIEWER";
-export const ProjectRole = /*@__PURE__*/ S.String;
+export const ProjectRole = S.String;
 
 /** Selection set for `projectInvitationAccept` (unwrapped from the GraphQL `data` envelope). */
 export interface AcceptProjectInvitationResponse {
@@ -88,7 +88,7 @@ export const AddAccessGroupMemberRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddAccessGroupMemberRequest>;
 
 export type AccessGroupSource = "MANUAL";
-export const AccessGroupSource = /*@__PURE__*/ S.String;
+export const AccessGroupSource = S.String;
 
 export interface AddAccessGroupMemberResponseAccessGroup {
   createdAt: string;
@@ -132,7 +132,7 @@ export type ActiveFeatureFlag =
   | "TEMPLATE_CHAT"
   | "USAGE_INSIGHTS"
   | "VM_STORAGE_TRACES";
-export const ActiveFeatureFlag = /*@__PURE__*/ S.String;
+export const ActiveFeatureFlag = S.String;
 
 export type AddAccessGroupMemberResponseUserFeatureFlagsList =
   Array<ActiveFeatureFlag>;
@@ -142,7 +142,7 @@ export const AddAccessGroupMemberResponseUserFeatureFlagsList =
   ) as any as S.Schema<AddAccessGroupMemberResponseUserFeatureFlagsList>;
 
 export type UserFlag = "BETA";
-export const UserFlag = /*@__PURE__*/ S.String;
+export const UserFlag = S.String;
 
 export type AddAccessGroupMemberResponseUserFlagsList = Array<UserFlag>;
 export const AddAccessGroupMemberResponseUserFlagsList = /*@__PURE__*/ S.Array(
@@ -150,7 +150,7 @@ export const AddAccessGroupMemberResponseUserFlagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AddAccessGroupMemberResponseUserFlagsList>;
 
 export type RegistrationStatus = "ONBOARDED" | "REGISTERED" | "WAITLISTED";
-export const RegistrationStatus = /*@__PURE__*/ S.String;
+export const RegistrationStatus = S.String;
 
 export interface AddAccessGroupMemberResponseUser {
   agreedFairUse: boolean;
@@ -266,7 +266,7 @@ export const AddFeatureFlagResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AddFeatureFlagResponse>;
 
 export type ActiveProjectFeatureFlag = "PLACEHOLDER";
-export const ActiveProjectFeatureFlag = /*@__PURE__*/ S.String;
+export const ActiveProjectFeatureFlag = S.String;
 
 export interface ProjectFeatureFlagToggleInput {
   flag: ActiveProjectFeatureFlag | (string & {});
@@ -372,7 +372,7 @@ export type ActiveServiceFeatureFlag =
   | "PLACEHOLDER"
   | "SKIPPED_BUILDS"
   | "USE_VM_RUNTIME";
-export const ActiveServiceFeatureFlag = /*@__PURE__*/ S.String;
+export const ActiveServiceFeatureFlag = S.String;
 
 export interface ServiceFeatureFlagToggleInput {
   flag: ActiveServiceFeatureFlag | (string & {});
@@ -527,7 +527,7 @@ export type VolumeState =
   | "READY"
   | "RESTORING"
   | "UPDATING";
-export const VolumeState = /*@__PURE__*/ S.String;
+export const VolumeState = S.String;
 
 export interface AdminVolumeInstancesForVolumeResultItemVolume {
   createdAt: string;
@@ -703,10 +703,10 @@ export type PlatformFeatureFlag =
   | "UPDATED_VM_QUERIES"
   | "VM_USAGE_CH_INGEST"
   | "WORKSPACE_MCP_KILLSWITCH";
-export const PlatformFeatureFlag = /*@__PURE__*/ S.String;
+export const PlatformFeatureFlag = S.String;
 
 export type PlatformFeatureFlagType = "BOOLEAN" | "PERCENTAGE";
-export const PlatformFeatureFlagType = /*@__PURE__*/ S.String;
+export const PlatformFeatureFlagType = S.String;
 
 export interface AllPlatformFeatureFlagsResultItem {
   flag: PlatformFeatureFlag;
@@ -1053,7 +1053,7 @@ export const AttachAccessGroupProjectResponseProjectFeatureFlagsList =
   ) as any as S.Schema<AttachAccessGroupProjectResponseProjectFeatureFlagsList>;
 
 export type SubscriptionPlanType = "free" | "hobby" | "pro" | "trial";
-export const SubscriptionPlanType = /*@__PURE__*/ S.String;
+export const SubscriptionPlanType = S.String;
 
 export interface AttachAccessGroupProjectResponseProject {
   baseEnvironmentId: string | null;
@@ -1254,7 +1254,7 @@ export const AuditLogFilterInput = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<AuditLogFilterInput>;
 
 export type SortOrder = "asc" | "desc";
-export const SortOrder = /*@__PURE__*/ S.String;
+export const SortOrder = S.String;
 
 export interface AuditLogsRequest {
   after?: string | null;
@@ -1846,10 +1846,10 @@ export const ClaimProjectResponseTeam = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ClaimProjectResponseTeam>;
 
 export type Plan = "FREE" | "HOBBY" | "PRO";
-export const Plan = /*@__PURE__*/ S.String;
+export const Plan = S.String;
 
 export type SubscriptionModel = "FREE" | "TEAM" | "USER";
-export const SubscriptionModel = /*@__PURE__*/ S.String;
+export const SubscriptionModel = S.String;
 
 export type ClaimProjectResponseWorkspaceUsersWithout2FAList = Array<string>;
 export const ClaimProjectResponseWorkspaceUsersWithout2FAList =
@@ -2303,7 +2303,7 @@ export const CloneTemplateResponseSimilarTemplatesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CloneTemplateResponseSimilarTemplatesList>;
 
 export type TemplateStatus = "HIDDEN" | "PUBLISHED" | "UNPUBLISHED";
-export const TemplateStatus = /*@__PURE__*/ S.String;
+export const TemplateStatus = S.String;
 
 export type CloneTemplateResponseTagsList = Array<string>;
 export const CloneTemplateResponseTagsList = /*@__PURE__*/ S.Array(
@@ -2465,7 +2465,7 @@ export const CloudAgentResponseSessionsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<CloudAgentResponseSessionsList>;
 
 export type CloudAgentSourceStatus = "CLONING" | "FAILED" | "READY";
-export const CloudAgentSourceStatus = /*@__PURE__*/ S.String;
+export const CloudAgentSourceStatus = S.String;
 
 export interface CloudAgentResponseSource {
   branch: string | null;
@@ -2491,7 +2491,7 @@ export type CloudAgentStatus =
   | "RUNNING"
   | "SLEEPING"
   | "STARTING";
-export const CloudAgentStatus = /*@__PURE__*/ S.String;
+export const CloudAgentStatus = S.String;
 
 /** Selection set for `cloudAgent` (unwrapped from the GraphQL `data` envelope). */
 export interface CloudAgentResponse {
@@ -2550,7 +2550,7 @@ export const CloudAgentCheckpointRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudAgentCheckpointRequest>;
 
 export type CloudAgentCheckpointStatus = "FAILED" | "IN_PROGRESS" | "SUCCEEDED";
-export const CloudAgentCheckpointStatus = /*@__PURE__*/ S.String;
+export const CloudAgentCheckpointStatus = S.String;
 
 /** Selection set for `cloudAgentCheckpoint` (unwrapped from the GraphQL `data` envelope). */
 export interface CloudAgentCheckpointResponse {
@@ -2694,7 +2694,7 @@ export const CloudAgentConsoleSessionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CloudAgentConsoleSessionsRequest>;
 
 export type SandboxSessionKind = "EXEC" | "SHELL";
-export const SandboxSessionKind = /*@__PURE__*/ S.String;
+export const SandboxSessionKind = S.String;
 
 export interface CloudAgentConsoleSessionsResponseEdgesItemNodeRunState {
   exitCode: number;
@@ -3882,7 +3882,7 @@ export type CnameCheckStatus =
   | "INVALID"
   | "VALID"
   | "WAITING";
-export const CnameCheckStatus = /*@__PURE__*/ S.String;
+export const CnameCheckStatus = S.String;
 
 export interface CreateCustomDomainResponseCnameCheck {
   link: string | null;
@@ -3904,7 +3904,7 @@ export type CDNProvider =
   | "DETECTED_CDN_PROVIDER_CLOUDFLARE"
   | "DETECTED_CDN_PROVIDER_UNSPECIFIED"
   | "UNRECOGNIZED";
-export const CDNProvider = /*@__PURE__*/ S.String;
+export const CDNProvider = S.String;
 
 export type CertificateErrorType =
   | "CERTIFICATE_ERROR_TYPE_AUTHORIZATION_FAILED"
@@ -3915,7 +3915,7 @@ export type CertificateErrorType =
   | "CERTIFICATE_ERROR_TYPE_RATE_LIMIT"
   | "CERTIFICATE_ERROR_TYPE_UNSPECIFIED"
   | "UNRECOGNIZED";
-export const CertificateErrorType = /*@__PURE__*/ S.String;
+export const CertificateErrorType = S.String;
 
 export type CertificateStatus =
   | "CERTIFICATE_STATUS_TYPE_ISSUE_FAILED"
@@ -3924,7 +3924,7 @@ export type CertificateStatus =
   | "CERTIFICATE_STATUS_TYPE_VALID"
   | "CERTIFICATE_STATUS_TYPE_VALIDATING_OWNERSHIP"
   | "UNRECOGNIZED";
-export const CertificateStatus = /*@__PURE__*/ S.String;
+export const CertificateStatus = S.String;
 
 export type CertificateStatusDetailed =
   | "CERTIFICATE_STATUS_TYPE_DETAILED_CLEANING_UP"
@@ -3940,7 +3940,7 @@ export type CertificateStatusDetailed =
   | "CERTIFICATE_STATUS_TYPE_DETAILED_PRESENTING_CHALLENGES"
   | "CERTIFICATE_STATUS_TYPE_DETAILED_UNSPECIFIED"
   | "UNRECOGNIZED";
-export const CertificateStatusDetailed = /*@__PURE__*/ S.String;
+export const CertificateStatusDetailed = S.String;
 
 export interface CreateCustomDomainResponseStatus {
   cdnProvider: CDNProvider | null;
@@ -3976,7 +3976,7 @@ export type CustomDomainSyncStatus =
   | "DELETING"
   | "UNSPECIFIED"
   | "UPDATING";
-export const CustomDomainSyncStatus = /*@__PURE__*/ S.String;
+export const CustomDomainSyncStatus = S.String;
 
 /** Selection set for `customDomainCreate` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateCustomDomainResponse {
@@ -4372,7 +4372,7 @@ export const DocumentList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DocumentList>;
 
 export type NotificationSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
-export const NotificationSeverity = /*@__PURE__*/ S.String;
+export const NotificationSeverity = S.String;
 
 export type NotificationSeverityList = Array<
   NotificationSeverity | (string & {})
@@ -4494,7 +4494,7 @@ export const CreateNotificationRuleResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateNotificationRuleResponse>;
 
 export type HttpMetricKind = "LATENCY" | "REQUESTS" | "STATUS_RATIO";
-export const HttpMetricKind = /*@__PURE__*/ S.String;
+export const HttpMetricKind = S.String;
 
 export type MetricMeasurement =
   | "AGENT_CACHE_READ_TOKENS"
@@ -4514,7 +4514,7 @@ export type MetricMeasurement =
   | "NETWORK_RX_GB"
   | "NETWORK_TX_GB"
   | "UNRECOGNIZED";
-export const MetricMeasurement = /*@__PURE__*/ S.String;
+export const MetricMeasurement = S.String;
 
 export type MetricMeasurementList = Array<MetricMeasurement | (string & {})>;
 export const MetricMeasurementList = /*@__PURE__*/ S.Array(
@@ -4529,7 +4529,7 @@ export type ProjectUsageProperty =
   | "ESTIMATED_USAGE"
   | "MEMORY_USAGE"
   | "NETWORK_USAGE";
-export const ProjectUsageProperty = /*@__PURE__*/ S.String;
+export const ProjectUsageProperty = S.String;
 
 export type ProjectUsagePropertyList = Array<
   ProjectUsageProperty | (string & {})
@@ -4567,7 +4567,7 @@ export type ObservabilityDashboardItemType =
   | "SERVICE_LOGS_ITEM"
   | "SERVICE_METRICS_ITEM"
   | "VOLUME_METRICS_ITEM";
-export const ObservabilityDashboardItemType = /*@__PURE__*/ S.String;
+export const ObservabilityDashboardItemType = S.String;
 
 export interface ObservabilityDashboardItemCreateInput {
   config: ObservabilityDashboardItemConfigInput;
@@ -4669,7 +4669,7 @@ export const ProjectCreateRepo = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectCreateRepo>;
 
 export type PublicRuntime = "LEGACY" | "UNSPECIFIED" | "V2";
-export const PublicRuntime = /*@__PURE__*/ S.String;
+export const PublicRuntime = S.String;
 
 export interface ProjectCreateInput {
   defaultEnvironmentName?: string | null;
@@ -4985,7 +4985,7 @@ export type RailwayDomainDnsRecordType =
   | "NS"
   | "SRV"
   | "TXT";
-export const RailwayDomainDnsRecordType = /*@__PURE__*/ S.String;
+export const RailwayDomainDnsRecordType = S.String;
 
 export interface RailwayDomainDnsRecordCreateInput {
   answer: string;
@@ -5112,7 +5112,7 @@ export const CreateRailwayDomainEmailForwardingRuleResponse =
   }) as any as S.Schema<CreateRailwayDomainEmailForwardingRuleResponse>;
 
 export type SandboxNetworkIsolation = "ISOLATED" | "PRIVATE";
-export const SandboxNetworkIsolation = /*@__PURE__*/ S.String;
+export const SandboxNetworkIsolation = S.String;
 
 export interface SandboxDomainInput {
   /** Target port on the sandbox, from 1 through 65535. */
@@ -5221,7 +5221,7 @@ export type SandboxStatus =
   | "DESTROYING"
   | "FAILED"
   | "RUNNING";
-export const SandboxStatus = /*@__PURE__*/ S.String;
+export const SandboxStatus = S.String;
 
 /** Selection set for `sandboxCreate` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateSandboxResponse {
@@ -5514,7 +5514,7 @@ export type ServiceDomainSyncStatus =
   | "DELETING"
   | "UNSPECIFIED"
   | "UPDATING";
-export const ServiceDomainSyncStatus = /*@__PURE__*/ S.String;
+export const ServiceDomainSyncStatus = S.String;
 
 /** Selection set for `serviceDomainCreate` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateServiceDomainResponse {
@@ -5557,7 +5557,7 @@ export const CreateServiceDomainResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateServiceDomainResponse>;
 
 export type SignalType = "bool" | "json" | "number" | "string";
-export const SignalType = /*@__PURE__*/ S.String;
+export const SignalType = S.String;
 
 export interface SignalCreateInput {
   default: unknown;
@@ -5738,7 +5738,7 @@ export type TCPProxySyncStatus =
   | "DELETING"
   | "UNSPECIFIED"
   | "UPDATING";
-export const TCPProxySyncStatus = /*@__PURE__*/ S.String;
+export const TCPProxySyncStatus = S.String;
 
 /** Selection set for `tcpProxyCreate` (unwrapped from the GraphQL `data` envelope). */
 export interface CreateTcpProxyResponse {
@@ -5806,7 +5806,7 @@ export const CreateTrustedDomainRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateTrustedDomainRequest>;
 
 export type TrustedDomainStatus = "FAILED" | "PENDING" | "VERIFIED";
-export const TrustedDomainStatus = /*@__PURE__*/ S.String;
+export const TrustedDomainStatus = S.String;
 
 export interface CreateTrustedDomainResponseVerificationData {
   dnsHost: string | null;
@@ -7467,7 +7467,7 @@ export type DeploymentInstanceStatus =
   | "RUNNING"
   | "SKIPPED"
   | "STOPPED";
-export const DeploymentInstanceStatus = /*@__PURE__*/ S.String;
+export const DeploymentInstanceStatus = S.String;
 
 export interface DeploymentResponseInstancesItem {
   id: string;
@@ -7568,7 +7568,7 @@ export type DeploymentStatus =
   | "SLEEPING"
   | "SUCCESS"
   | "WAITING";
-export const DeploymentStatus = /*@__PURE__*/ S.String;
+export const DeploymentStatus = S.String;
 
 /** Selection set for `deployment` (unwrapped from the GraphQL `data` envelope). */
 export interface DeploymentResponse {
@@ -7687,7 +7687,7 @@ export type DeploymentEventStep =
   | "PUBLISH_IMAGE"
   | "SNAPSHOT_CODE"
   | "WAIT_FOR_DEPENDENCIES";
-export const DeploymentEventStep = /*@__PURE__*/ S.String;
+export const DeploymentEventStep = S.String;
 
 export interface DeploymentEventsResponseEdgesItemNode {
   completedAt: string | null;
@@ -8883,7 +8883,7 @@ export const DnsQueryLogsResultItemCnameChainList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<DnsQueryLogsResultItemCnameChainList>;
 
 export type DnsQueryZone = "external" | "internal";
-export const DnsQueryZone = /*@__PURE__*/ S.String;
+export const DnsQueryZone = S.String;
 
 export interface DnsQueryLogsResultItem {
   answers: DnsQueryLogsResultItemAnswersList;
@@ -9242,7 +9242,7 @@ export const EnablePitrForHaClusterResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<EnablePitrForHaClusterResponse>;
 
 export type PurgeOnDeploy = "ALL" | "HTML" | "OFF";
-export const PurgeOnDeploy = /*@__PURE__*/ S.String;
+export const PurgeOnDeploy = S.String;
 
 export interface StaleWhileRevalidateInput {
   enabled: boolean;
@@ -9585,7 +9585,7 @@ export const EnvironmentHistoryResponseEdgesItemNodeActor =
   }) as any as S.Schema<EnvironmentHistoryResponseEdgesItemNodeActor>;
 
 export type EventSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
-export const EventSeverity = /*@__PURE__*/ S.String;
+export const EventSeverity = S.String;
 
 export interface EnvironmentHistoryResponseEdgesItemNode {
   action: string;
@@ -9885,7 +9885,7 @@ export type EnvironmentPatchStatus =
   | "COMMITTED"
   | "FAILED"
   | "STAGED";
-export const EnvironmentPatchStatus = /*@__PURE__*/ S.String;
+export const EnvironmentPatchStatus = S.String;
 
 export interface EnvironmentPatchesResponseEdgesItemNode {
   appliedAt: string | null;
@@ -10039,7 +10039,7 @@ export const EnvironmentPendingWorkResultItemActor =
   EnvironmentHistoryResponseEdgesItemNodeActor;
 
 export type OperationStatus = "applied" | "applying" | "failed" | "staged";
-export const OperationStatus = /*@__PURE__*/ S.String;
+export const OperationStatus = S.String;
 
 export interface EnvironmentPendingWorkResultItem {
   actor: EnvironmentHistoryResponseEdgesItemNodeActor;
@@ -10648,7 +10648,7 @@ export type SubscriptionState =
   | "INACTIVE"
   | "PAST_DUE"
   | "UNPAID";
-export const SubscriptionState = /*@__PURE__*/ S.String;
+export const SubscriptionState = S.String;
 
 export type ExternalWorkspacesResultItemProjectsItemFeatureFlagsList =
   Array<ActiveProjectFeatureFlag>;
@@ -10893,7 +10893,7 @@ export const ForkCloudAgentResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ForkCloudAgentResponse>;
 
 export type FunctionRuntimeName = "bun";
-export const FunctionRuntimeName = /*@__PURE__*/ S.String;
+export const FunctionRuntimeName = S.String;
 
 export interface FunctionRuntimeRequest {
   name: FunctionRuntimeName | (string & {});
@@ -12784,7 +12784,7 @@ export const ListVolumeInstanceBackupScheduleRequest = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ListVolumeInstanceBackupScheduleRequest>;
 
 export type VolumeInstanceBackupScheduleKind = "DAILY" | "MONTHLY" | "WEEKLY";
-export const VolumeInstanceBackupScheduleKind = /*@__PURE__*/ S.String;
+export const VolumeInstanceBackupScheduleKind = S.String;
 
 export interface ListVolumeInstanceBackupScheduleResultItem {
   createdAt: string;
@@ -13209,7 +13209,7 @@ export type MetricTag =
   | "VOLUME_ID"
   | "VOLUME_INSTANCE_ID"
   | "WORKLOAD_KIND";
-export const MetricTag = /*@__PURE__*/ S.String;
+export const MetricTag = S.String;
 
 export type MetricTagList = Array<MetricTag | (string & {})>;
 export const MetricTagList = /*@__PURE__*/ S.Array(
@@ -13515,10 +13515,10 @@ export const NetworkFlowLogsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NetworkFlowLogsRequest>;
 
 export type NetworkFlowDirection = "egress" | "ingress";
-export const NetworkFlowDirection = /*@__PURE__*/ S.String;
+export const NetworkFlowDirection = S.String;
 
 export type NetworkFlowState = "complete" | "partial";
-export const NetworkFlowState = /*@__PURE__*/ S.String;
+export const NetworkFlowState = S.String;
 
 export type NetworkFlowL4Protocol =
   | "icmp"
@@ -13526,7 +13526,7 @@ export type NetworkFlowL4Protocol =
   | "tcp"
   | "udp"
   | "unknown";
-export const NetworkFlowL4Protocol = /*@__PURE__*/ S.String;
+export const NetworkFlowL4Protocol = S.String;
 
 export type NetworkFlowPeerKind =
   | "edge_proxy"
@@ -13534,7 +13534,7 @@ export type NetworkFlowPeerKind =
   | "local_dns"
   | "service"
   | "unknown";
-export const NetworkFlowPeerKind = /*@__PURE__*/ S.String;
+export const NetworkFlowPeerKind = S.String;
 
 export interface NetworkFlowLogsResultItem {
   byteCount: number;
@@ -13599,10 +13599,10 @@ export const NetworkFlowLogsResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<NetworkFlowLogsResponse>;
 
 export type NotificationStatus = "ACTIVE" | "RESOLVED";
-export const NotificationStatus = /*@__PURE__*/ S.String;
+export const NotificationStatus = S.String;
 
 export type NotificationDeliveryType = "EMAIL" | "INAPP" | "WEBHOOK";
-export const NotificationDeliveryType = /*@__PURE__*/ S.String;
+export const NotificationDeliveryType = S.String;
 
 export interface NotificationDeliveryFilterInput {
   environmentId?: string | null;
@@ -13697,7 +13697,7 @@ export const NotificationDeliveriesResponseEdgesItemNodeNotificationInstance =
   }) as any as S.Schema<NotificationDeliveriesResponseEdgesItemNodeNotificationInstance>;
 
 export type NotificationDeliveryStatus = "FAILED" | "PENDING" | "SENT";
-export const NotificationDeliveryStatus = /*@__PURE__*/ S.String;
+export const NotificationDeliveryStatus = S.String;
 
 export interface NotificationDeliveriesResponseEdgesItemNode {
   createdAt: string;
@@ -14266,7 +14266,7 @@ export const PitrHaWorkflowProgressRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PitrHaWorkflowProgressRequest>;
 
 export type PitrHaWorkflowDirection = "DISABLE" | "ENABLE";
-export const PitrHaWorkflowDirection = /*@__PURE__*/ S.String;
+export const PitrHaWorkflowDirection = S.String;
 
 export type PitrHaWorkflowPhase =
   | "CREATING_BUCKET"
@@ -14280,14 +14280,14 @@ export type PitrHaWorkflowPhase =
   | "SWITCHING_OVER"
   | "VERIFYING"
   | "WRITING_VARIABLES";
-export const PitrHaWorkflowPhase = /*@__PURE__*/ S.String;
+export const PitrHaWorkflowPhase = S.String;
 
 export type PitrHaWorkflowMemberStatus =
   | "HEALTHY"
   | "PENDING"
   | "RESTARTING"
   | "SKIPPED";
-export const PitrHaWorkflowMemberStatus = /*@__PURE__*/ S.String;
+export const PitrHaWorkflowMemberStatus = S.String;
 
 export interface PitrHaWorkflowProgressResponseMembersItem {
   isLeader: boolean;
@@ -14376,7 +14376,7 @@ export type IncidentStatus =
   | "INVESTIGATING"
   | "MONITORING"
   | "RESOLVED";
-export const IncidentStatus = /*@__PURE__*/ S.String;
+export const IncidentStatus = S.String;
 
 export interface PlatformStatusResponseIncident {
   createdAt: string | null;
@@ -14398,7 +14398,7 @@ export const PlatformStatusResponseIncident = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PlatformStatusResponseIncident>;
 
 export type MaintenanceStatus = "COMPLETED" | "INPROGRESS" | "NOTSTARTEDYET";
-export const MaintenanceStatus = /*@__PURE__*/ S.String;
+export const MaintenanceStatus = S.String;
 
 export interface PlatformStatusResponseMaintenance {
   id: string;
@@ -14794,7 +14794,7 @@ export type PrivateNetworkEndpointSyncStatus =
   | "DELETING"
   | "UNSPECIFIED"
   | "UPDATING";
-export const PrivateNetworkEndpointSyncStatus = /*@__PURE__*/ S.String;
+export const PrivateNetworkEndpointSyncStatus = S.String;
 
 export type PrivateNetworkEndpointResponseTagsList = Array<string>;
 export const PrivateNetworkEndpointResponseTagsList = /*@__PURE__*/ S.Array(
@@ -15305,7 +15305,7 @@ export const ProjectComplianceResponseServiceBackupsList =
   ) as any as S.Schema<ProjectComplianceResponseServiceBackupsList>;
 
 export type TwoFactorMethodCompliance = "AUTHENTICATOR" | "PASSKEY";
-export const TwoFactorMethodCompliance = /*@__PURE__*/ S.String;
+export const TwoFactorMethodCompliance = S.String;
 
 export type ProjectComplianceResponseTwoFactorMembersItemEnabledMethodsList =
   Array<TwoFactorMethodCompliance>;
@@ -15366,7 +15366,7 @@ export type ProjectsOrderBy =
   | "CREATED_AT_DESC"
   | "NAME_ASC"
   | "UPDATED_AT_DESC";
-export const ProjectsOrderBy = /*@__PURE__*/ S.String;
+export const ProjectsOrderBy = S.String;
 
 export interface ProjectFavoritesRequest {
   orderBy?: ProjectsOrderBy | (string & {}) | null;
@@ -16485,7 +16485,7 @@ export const ProjectWorkspaceMembersRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ProjectWorkspaceMembersRequest>;
 
 export type TwoFactorMethodProjectWorkspace = "AUTHENTICATOR" | "PASSKEY";
-export const TwoFactorMethodProjectWorkspace = /*@__PURE__*/ S.String;
+export const TwoFactorMethodProjectWorkspace = S.String;
 
 export type ProjectWorkspaceMembersResponseMembersItemEnabledMethodsList =
   Array<TwoFactorMethodProjectWorkspace>;
@@ -16727,7 +16727,7 @@ export const PublishTemplateResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PublishTemplateResponse>;
 
 export type PurgeCacheScope = "ALL" | "HTML";
-export const PurgeCacheScope = /*@__PURE__*/ S.String;
+export const PurgeCacheScope = S.String;
 
 export interface PurgeServiceCacheInput {
   environmentId: string;
@@ -16840,7 +16840,7 @@ export type RailwayDomainStatus =
   | "EXPIRED"
   | "PURCHASING"
   | "REFUNDED";
-export const RailwayDomainStatus = /*@__PURE__*/ S.String;
+export const RailwayDomainStatus = S.String;
 
 /** Selection set for `railwayDomain` (unwrapped from the GraphQL `data` envelope). */
 export interface RailwayDomainResponse {
@@ -17062,7 +17062,7 @@ export type RailwayDomainEmailForwardingEligibility2 =
   | "ELIGIBLE"
   | "EXTERNAL_MAIL"
   | "UNKNOWN";
-export const RailwayDomainEmailForwardingEligibility2 = /*@__PURE__*/ S.String;
+export const RailwayDomainEmailForwardingEligibility2 = S.String;
 
 export type RailwayDomainEmailForwardingEligibilityResponse =
   RailwayDomainEmailForwardingEligibility2;
@@ -18401,7 +18401,7 @@ export const ResetObservabilityDashboardResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<ResetObservabilityDashboardResponse>;
 
 export type ResourceOwnerType = "WORKSPACE";
-export const ResourceOwnerType = /*@__PURE__*/ S.String;
+export const ResourceOwnerType = S.String;
 
 export interface ExplicitOwnerInput {
   /** The ID of the owner */
@@ -18991,7 +18991,7 @@ export type SandboxTemplateBuildStatus =
   | "FAILED"
   | "PENDING"
   | "READY";
-export const SandboxTemplateBuildStatus = /*@__PURE__*/ S.String;
+export const SandboxTemplateBuildStatus = S.String;
 
 /** Selection set for `sandboxTemplateBuild` (unwrapped from the GraphQL `data` envelope). */
 export interface SandboxTemplateBuildResponse {
@@ -19333,7 +19333,7 @@ export const ServiceInstanceResponseActiveDeploymentsList =
   ) as any as S.Schema<ServiceInstanceResponseActiveDeploymentsList>;
 
 export type Builder = "HEROKU" | "NIXPACKS" | "PAKETO" | "RAILPACK";
-export const Builder = /*@__PURE__*/ S.String;
+export const Builder = S.String;
 
 export interface ServiceInstanceResponseEdgeConfig {
   edgeRules: unknown | null;
@@ -19388,7 +19388,7 @@ export const ServiceInstanceResponseResolvedFileConfig =
   }) as any as S.Schema<ServiceInstanceResponseResolvedFileConfig>;
 
 export type RestartPolicyType = "ALWAYS" | "NEVER" | "ON_FAILURE";
-export const RestartPolicyType = /*@__PURE__*/ S.String;
+export const RestartPolicyType = S.String;
 
 export type ServiceInstanceResponseServiceFeatureFlagsList =
   Array<ActiveServiceFeatureFlag>;
@@ -20082,7 +20082,7 @@ export const SessionsRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SessionsRequest>;
 
 export type SessionType = "BROWSER" | "CLI" | "FORUMS";
-export const SessionType = /*@__PURE__*/ S.String;
+export const SessionType = S.String;
 
 export interface SessionsResponseEdgesItemNode {
   createdAt: string;
@@ -20553,7 +20553,7 @@ export const SharedVariableConfigureResponseEnvironment =
   AdminVolumeInstancesForVolumeResultItemEnvironment;
 
 export type PluginType = "mongodb" | "mysql" | "postgresql" | "redis";
-export const PluginType = /*@__PURE__*/ S.String;
+export const PluginType = S.String;
 
 export type PluginStatus =
   | "DEPRECATED"
@@ -20561,7 +20561,7 @@ export type PluginStatus =
   | "REMOVED"
   | "RUNNING"
   | "STOPPED";
-export const PluginStatus = /*@__PURE__*/ S.String;
+export const PluginStatus = S.String;
 
 export interface SharedVariableConfigureResponsePlugin {
   createdAt: string;
@@ -20761,7 +20761,7 @@ export type SignalChangeKind =
   | "rollback"
   | "set"
   | "unset";
-export const SignalChangeKind = /*@__PURE__*/ S.String;
+export const SignalChangeKind = S.String;
 
 export interface SignalChangesResultItem {
   authorId: string | null;
@@ -20900,7 +20900,7 @@ export const SignalEvaluateRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<SignalEvaluateRequest>;
 
 export type SignalEvaluationReason = "DEFAULT" | "SPLIT" | "TARGETING_MATCH";
-export const SignalEvaluationReason = /*@__PURE__*/ S.String;
+export const SignalEvaluationReason = S.String;
 
 /** Selection set for `signalEvaluate` (unwrapped from the GraphQL `data` envelope). */
 export interface SignalEvaluateResponse {
@@ -24617,7 +24617,7 @@ export type WorkspacePolicyName =
   | "RESTRICT_DEPLOYS_TO_ALLOWED_SOURCES"
   | "RESTRICT_PUBLIC_TCP_PROXIES"
   | "RESTRICT_RAILWAY_DOMAIN_GENERATION";
-export const WorkspacePolicyName = /*@__PURE__*/ S.String;
+export const WorkspacePolicyName = S.String;
 
 export interface WorkspacePolicyItemUpdateInput {
   enabled: boolean;
@@ -25491,7 +25491,7 @@ export const WorkflowStatusRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkflowStatusRequest>;
 
 export type WorkflowStatus2 = "Complete" | "Error" | "NotFound" | "Running";
-export const WorkflowStatus2 = /*@__PURE__*/ S.String;
+export const WorkflowStatus2 = S.String;
 
 /** Selection set for `workflowStatus` (unwrapped from the GraphQL `data` envelope). */
 export interface WorkflowStatusResponse {
@@ -25599,7 +25599,7 @@ export type WithdrawalPlatformTypes =
   | "GITHUB"
   | "PAYPAL"
   | "STRIPE_CONNECT";
-export const WithdrawalPlatformTypes = /*@__PURE__*/ S.String;
+export const WithdrawalPlatformTypes = S.String;
 
 export type WorkspaceResponseCustomerSupportedWithdrawalPlatformsList =
   Array<WithdrawalPlatformTypes>;
@@ -25683,7 +25683,7 @@ export const WorkspaceResponseMembersItemFeatureFlagsList =
   ) as any as S.Schema<WorkspaceResponseMembersItemFeatureFlagsList>;
 
 export type TeamRole = "ADMIN" | "MEMBER" | "VIEWER";
-export const TeamRole = /*@__PURE__*/ S.String;
+export const TeamRole = S.String;
 
 export interface WorkspaceResponseMembersItem {
   avatar: string | null;
@@ -25717,7 +25717,7 @@ export type PartnerProfileType =
   | "BASIC_PARTNER"
   | "LIMITED_PARTNER"
   | "TEMPLATE_MAINTAINER";
-export const PartnerProfileType = /*@__PURE__*/ S.String;
+export const PartnerProfileType = S.String;
 
 export interface WorkspaceResponsePartnerProfile {
   category: string;
@@ -25742,7 +25742,7 @@ export type ReferralStatus =
   | "REFEREE_CREDITED"
   | "REFERRER_CREDITED"
   | "REGISTERED";
-export const ReferralStatus = /*@__PURE__*/ S.String;
+export const ReferralStatus = S.String;
 
 export interface WorkspaceResponseReferredUsersItem {
   code: string;
@@ -26090,7 +26090,7 @@ export type WorkspaceIdPConnectionStatus =
   | "INACTIVE"
   | "PENDING"
   | "VALIDATING";
-export const WorkspaceIdPConnectionStatus = /*@__PURE__*/ S.String;
+export const WorkspaceIdPConnectionStatus = S.String;
 
 export interface WorkspaceIdentityProvidersResponseEdgesItemNodeConnection {
   createdAt: string | null;
@@ -26540,7 +26540,7 @@ export const WorkspacePolicyResponse = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<WorkspacePolicyResponse>;
 
 export type WorkspacePolicyDeploySourceType = "GITHUB_ORG";
-export const WorkspacePolicyDeploySourceType = /*@__PURE__*/ S.String;
+export const WorkspacePolicyDeploySourceType = S.String;
 
 export interface WorkspacePolicyDeploySourceAllowlistAddRequest {
   sourceId: string;
