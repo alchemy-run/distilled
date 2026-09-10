@@ -529,54 +529,88 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
 
         <div class="loop" data-reveal>
           <svg class="loop__svg" viewBox="0 0 1000 520" aria-hidden="true">
-            <!-- Box geometry (matches the CSS): Alchemy x 60..380, Distilled x 560..800, both y 200..460.
-                 Spec is a small box centred at (920, 120). -->
-            <!-- Spec → Distilled -->
-            <line
+            <defs>
+              <!-- Calligraphic arrowhead: a swept brush tip, oriented along the path's tangent. -->
+              <marker
+                id="tip-sub"
+                viewBox="0 0 24 24"
+                refX="21"
+                refY="12"
+                markerWidth="22"
+                markerHeight="22"
+                orient="auto-start-reverse"
+                markerUnits="userSpaceOnUse"
+              >
+                <path
+                  class="loop__tip loop__tip--sub"
+                  d="M1 3 C9 6, 17 9, 23 12 C17 15, 9 18, 1 21 C6 17.5, 8.5 14.5, 8.5 12 C8.5 9.5, 6 6.5, 1 3 Z"
+                />
+              </marker>
+              <marker
+                id="tip-spec"
+                viewBox="0 0 24 24"
+                refX="21"
+                refY="12"
+                markerWidth="22"
+                markerHeight="22"
+                orient="auto-start-reverse"
+                markerUnits="userSpaceOnUse"
+              >
+                <path
+                  class="loop__tip loop__tip--spec"
+                  d="M1 3 C9 6, 17 9, 23 12 C17 15, 9 18, 1 21 C6 17.5, 8.5 14.5, 8.5 12 C8.5 9.5, 6 6.5, 1 3 Z"
+                />
+              </marker>
+              <marker
+                id="tip-patch"
+                viewBox="0 0 24 24"
+                refX="21"
+                refY="12"
+                markerWidth="26"
+                markerHeight="26"
+                orient="auto-start-reverse"
+                markerUnits="userSpaceOnUse"
+              >
+                <path
+                  class="loop__tip loop__tip--patch"
+                  d="M1 3 C9 6, 17 9, 23 12 C17 15, 9 18, 1 21 C6 17.5, 8.5 14.5, 8.5 12 C8.5 9.5, 6 6.5, 1 3 Z"
+                />
+              </marker>
+            </defs>
+
+            <!-- Box geometry (matches the CSS): Alchemy x 60..380, Distilled x 560..820, both y 200..460.
+                 Spec is a small box centred at (920, 120). Arrows stop short of the boxes. -->
+
+            <!-- Spec → Distilled: short swept curve into Distilled's top-right -->
+            <path
               class="loop__edge loop__edge--spec"
-              x1="868"
-              y1="150"
-              x2="790"
-              y2="204"
+              d="M 866 152 C 846 174, 826 186, 804 200"
               pathLength="100"
+              marker-end="url(#tip-spec)"
             />
+
+            <!-- Distilled → Alchemy: submodule. Bows gently, ends short of Alchemy. -->
             <path
-              class="loop__head loop__head--spec"
-              d="M -8 -7 L 6 0 L -8 7 Z"
-              transform="translate(790 204) rotate(145.3)"
-            />
-            <!-- Distilled → Alchemy: submodule -->
-            <line
               class="loop__edge loop__edge--sub"
-              x1="560"
-              y1="330"
-              x2="380"
-              y2="330"
+              d="M 532 322 C 500 352, 440 352, 408 322"
               pathLength="100"
+              marker-end="url(#tip-sub)"
             />
-            <path
-              class="loop__head loop__head--sub"
-              d="M -8 -7 L 6 0 L -8 7 Z"
-              transform="translate(380 330) rotate(180)"
-            />
-            <text class="loop__leg" x="470" y="318" text-anchor="middle">
+            <text class="loop__leg" x="470" y="310" text-anchor="middle">
               submodule
             </text>
-            <!-- Alchemy → Distilled: patches, dashed arc over the top -->
+
+            <!-- Alchemy → Distilled: patches. Starts at Alchemy's top edge, arcs over, lands on Distilled's top edge. -->
             <path
               class="loop__edge loop__edge--patch"
-              d="M 300 200 C 300 60, 680 60, 680 200"
+              d="M 290 178 C 330 66, 640 66, 688 172"
               pathLength="100"
-            />
-            <path
-              class="loop__head loop__head--patch"
-              d="M -8 -7 L 6 0 L -8 7 Z"
-              transform="translate(680 200) rotate(90)"
+              marker-end="url(#tip-patch)"
             />
             <text
               class="loop__leg loop__leg--patch"
               x="490"
-              y="40"
+              y="48"
               text-anchor="middle"
             >
               patches
@@ -584,16 +618,17 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
             <text
               class="loop__leg loop__leg--sub"
               x="490"
-              y="62"
+              y="70"
               text-anchor="middle"
             >
               tagged errors · schema bugs · missing operations
             </text>
+
             <circle class="loop__drop loop__drop--a" r="5">
               <animateMotion
                 dur="3.2s"
                 repeatCount="indefinite"
-                path="M 560 330 L 380 330"
+                path="M 532 322 C 500 352, 440 352, 408 322"
               />
             </circle>
             <circle class="loop__drop loop__drop--b" r="5">
@@ -601,7 +636,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
                 dur="4.8s"
                 begin="1.4s"
                 repeatCount="indefinite"
-                path="M 300 200 C 300 60, 680 60, 680 200"
+                path="M 290 178 C 330 66, 640 66, 688 172"
               />
             </circle>
           </svg>

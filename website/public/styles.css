@@ -1131,7 +1131,7 @@ pre.code code {
 }
 .loop__edge {
   fill: none;
-  stroke-width: 2.5;
+  stroke-width: 3;
   stroke-linecap: round;
 }
 .loop__edge--sub {
@@ -1142,15 +1142,15 @@ pre.code code {
 }
 .loop__edge--patch {
   stroke: var(--rose);
-  stroke-dasharray: 8 7;
+  stroke-dasharray: 14 9;
 }
-.loop__head--sub {
+.loop__tip--sub {
   fill: var(--fg-2);
 }
-.loop__head--spec {
+.loop__tip--spec {
   fill: var(--teal);
 }
-.loop__head--patch {
+.loop__tip--patch {
   fill: var(--rose);
 }
 .loop__leg {
@@ -1349,16 +1349,31 @@ pre.code code {
   [data-reveal].is-in .loop__edge--patch {
     animation: loop-draw-dashed 900ms ease-out 900ms forwards;
   }
-  [data-reveal] .loop__head,
   [data-reveal] .loop__drop,
   [data-reveal] .loop__leg {
     opacity: 0;
     transition: opacity 400ms ease 1600ms;
   }
-  [data-reveal].is-in .loop__head,
   [data-reveal].is-in .loop__drop,
   [data-reveal].is-in .loop__leg {
     opacity: 1;
+  }
+  /* Marker tips can't be dash-drawn; fade each in as its edge finishes. */
+  [data-reveal] .loop__tip {
+    opacity: 0;
+    transition: opacity 250ms ease;
+  }
+  [data-reveal].is-in .loop__tip--spec {
+    opacity: 1;
+    transition-delay: 600ms;
+  }
+  [data-reveal].is-in .loop__tip--sub {
+    opacity: 1;
+    transition-delay: 1000ms;
+  }
+  [data-reveal].is-in .loop__tip--patch {
+    opacity: 1;
+    transition-delay: 1750ms;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -1378,7 +1393,7 @@ pre.code code {
   }
   to {
     stroke-dashoffset: 0;
-    stroke-dasharray: 8 7;
+    stroke-dasharray: 14 9;
   }
 }
 
