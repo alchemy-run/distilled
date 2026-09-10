@@ -27,9 +27,6 @@ catalogs:
     '@smithy/util-base64':
       specifier: ^4.3.0
       version: 4.6.0
-    aws4fetch:
-      specifier: ^1.0.20
-      version: 1.0.20
   bench:
     mitata:
       specifier: ^1.0.34
@@ -287,9 +284,6 @@ importers:
       '@smithy/util-base64':
         specifier: catalog:aws
         version: 4.6.0
-      aws4fetch:
-        specifier: catalog:aws
-        version: 1.0.20
       effect:
         specifier: catalog:effect
         version: 4.0.0-rc.113

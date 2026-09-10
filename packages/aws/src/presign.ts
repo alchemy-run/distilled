@@ -1,4 +1,3 @@
-import { AwsV4Signer } from "aws4fetch";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -6,6 +5,7 @@ import * as Redacted from "effect/Redacted";
 import * as Credentials from "./credentials.browser.ts";
 import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
+import * as SigV4 from "./sigv4.ts";
 
 /**
  * Options for {@link presignUrl}.
@@ -60,7 +60,7 @@ export const presignUrl: (
   options: PresignUrlOptions,
 ) => Effect.Effect<
   string,
-  Credentials.CredentialsError,
+  Credentials.CredentialsError | SigV4.SigningError,
   Credentials.Credentials | Region.Region
 > = Effect.fnUntraced(function* (options: PresignUrlOptions) {
   const credentials = yield* yield* Credentials.Credentials;
@@ -69,28 +69,25 @@ export const presignUrl: (
   const url = new URL(options.url);
   url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
 
-  const signer = new AwsV4Signer({
+  const signed = yield* SigV4.sign({
     method: options.method ?? "GET",
     url: url.toString(),
     headers: options.headers,
     accessKeyId: Redacted.value(credentials.accessKeyId),
-    secretAccessKey: Redacted.value(credentials.secretAccessKey),
-    sessionToken: credentials.sessionToken
-      ? Redacted.value(credentials.sessionToken)
-      : undefined,
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
     service: options.service,
     region,
     signQuery: true,
     datetime: options.datetime,
-    // aws4fetch excludes `content-type` (among others) from the signature by
+    // The signer excludes `content-type` (among others) from the signature by
     // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
     // want them pinned into the signature — e.g. the AWS SDK's getSignedUrl
     // signs `content-type` when a ContentType is given, which is what pins an
     // uploader to the declared type — so opt back in.
     allHeaders: options.headers !== undefined,
   });
-  const signed = yield* Effect.promise(() => signer.sign());
-  return signed.url.toString();
+  return signed.url;
 });
 
 /**
@@ -153,7 +150,7 @@ export const presignS3Url: (
   options: PresignS3UrlOptions,
 ) => Effect.Effect<
   string,
-  Credentials.CredentialsError,
+  Credentials.CredentialsError | SigV4.SigningError,
   Credentials.Credentials | Region.Region
 > = Effect.fnUntraced(function* (options: PresignS3UrlOptions) {
   const region = options.region ?? (yield* yield* Region.Region);
