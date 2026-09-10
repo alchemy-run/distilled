@@ -113,7 +113,7 @@ const encodeRfc3986 = (encoded: string): string =>
  * Scope of a derived signing key. `Redacted` hashes and compares by its
  * underlying value, so the secret never has to be unwrapped into a cache key.
  */
-interface SigningKeyScope {
+export interface SigningKeyScope {
   readonly secretAccessKey: Redacted.Redacted<string>;
   readonly date: string;
   readonly region: string;
