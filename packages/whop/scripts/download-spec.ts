@@ -152,11 +152,11 @@ const census = (spec: any): Census => {
 const downloadSpec = Command.make(
   "download-spec",
   {
-    origin: Flag.string("origin").pipe(
+    origin: Flag.String("origin").pipe(
       Flag.withDefault(ORIGIN),
       Flag.withDescription("Docs host serving the OpenAPI documents"),
     ),
-    out: Flag.string("out").pipe(
+    out: Flag.String("out").pipe(
       Flag.withDefault("specs"),
       Flag.withDescription(
         "Where to write the specs (relative to the whop package root)",

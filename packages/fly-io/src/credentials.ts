@@ -59,10 +59,10 @@ export class Credentials extends Context.Service<
 >()("Fly-ioCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("FLY_API_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.string("FLY_IO_API_KEY")),
+  apiKey: EffectConfig.String("FLY_API_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.String("FLY_IO_API_KEY")),
   ),
-  apiBaseUrl: EffectConfig.string("FLY_API_HOSTNAME").pipe(
+  apiBaseUrl: EffectConfig.String("FLY_API_HOSTNAME").pipe(
     EffectConfig.withDefault(""),
   ),
 });

@@ -40,14 +40,14 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
   // spelling. Either works, GITHUB_TOKEN first.
-  token: EffectConfig.string("GITHUB_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.string("GH_TOKEN")),
+  token: EffectConfig.String("GITHUB_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.String("GH_TOKEN")),
   ),
   // Actions sets GITHUB_API_URL; GHES runners set it to their own host.
-  apiBaseUrl: EffectConfig.string("GITHUB_API_URL").pipe(
+  apiBaseUrl: EffectConfig.String("GITHUB_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  userAgent: EffectConfig.string("GITHUB_USER_AGENT").pipe(
+  userAgent: EffectConfig.String("GITHUB_USER_AGENT").pipe(
     EffectConfig.withDefault(DEFAULT_USER_AGENT),
   ),
 });

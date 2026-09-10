@@ -1606,19 +1606,19 @@ const opIdentity = (relPath: string): { top: string; opName: string } => {
 const command = Command.make(
   "spec-to-smithy",
   {
-    specs: Flag.string("specs").pipe(
+    specs: Flag.String("specs").pipe(
       Flag.withDefault("specs/api/resources"),
       Flag.withDescription("Directory of downloaded markdown specs"),
     ),
-    out: Flag.string("out").pipe(
+    out: Flag.String("out").pipe(
       Flag.withDefault(".generated-specs"),
       Flag.withDescription("Output directory for Smithy JSON models"),
     ),
-    resource: Flag.string("resource").pipe(
+    resource: Flag.String("resource").pipe(
       Flag.withDefault(""),
       Flag.withDescription("Only convert this top-level resource (e.g. ai)"),
     ),
-    limit: Flag.integer("limit").pipe(
+    limit: Flag.Int("limit").pipe(
       Flag.withDefault(0),
       Flag.withDescription("Only convert the first N operations (0 = all)"),
     ),

@@ -43,11 +43,11 @@ catalogs:
       version: 7.0.2
   effect:
     '@effect/platform-bun':
-      specifier: '>=4.0.0-rc.112 || >=4.0.0'
-      version: 4.0.0-rc.112
+      specifier: '>=4.0.0-rc.113 || >=4.0.0'
+      version: 4.0.0-rc.113
     effect:
-      specifier: '>=4.0.0-rc.112 || >=4.0.0'
-      version: 4.0.0-rc.112
+      specifier: '>=4.0.0-rc.113 || >=4.0.0'
+      version: 4.0.0-rc.113
   shared:
     fast-xml-parser:
       specifier: ^5.3.4
@@ -55,10 +55,10 @@ catalogs:
   tooling:
     '@types/bun':
       specifier: latest
-      version: 1.4.1
+      version: 1.4.2
     '@types/node':
       specifier: latest
-      version: 26.4.1
+      version: 22.20.1
     dedent:
       specifier: ^1.7.0
       version: 1.7.2
@@ -67,10 +67,10 @@ catalogs:
       version: 9.1.7
     oxfmt:
       specifier: latest
-      version: 0.66.0
+      version: 0.67.0
     oxlint:
       specifier: latest
-      version: 1.81.0
+      version: 1.82.0
     pathe:
       specifier: ^2.0.3
       version: 2.0.3
@@ -81,10 +81,10 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
       changelogithub:
         specifier: ^13.16.1
         version: 13.16.1
@@ -93,10 +93,10 @@ importers:
         version: 9.1.7
       oxfmt:
         specifier: catalog:tooling
-        version: 0.66.0
+        version: 0.67.0
       oxlint:
         specifier: catalog:tooling
-        version: 1.81.0
+        version: 1.82.0
       typescript:
         specifier: catalog:build
         version: 7.0.2
@@ -114,17 +114,17 @@ importers:
         version: link:../../packages/core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@oxc-project/types':
         specifier: ^0.146.0
         version: 0.146.0
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
       rolldown:
         specifier: catalog:bench
         version: 1.2.5
@@ -145,14 +145,14 @@ importers:
         version: link:../../packages/core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
       mitata:
         specifier: catalog:bench
         version: 1.0.34
     devDependencies:
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       typescript:
         specifier: catalog:build
         version: 7.0.2
@@ -161,7 +161,7 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       typescript:
         specifier: catalog:build
         version: 7.0.2
@@ -173,17 +173,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/apache-superset:
     dependencies:
@@ -192,17 +192,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/archil:
     dependencies:
@@ -211,17 +211,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/argocd:
     dependencies:
@@ -230,17 +230,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/auth0:
     dependencies:
@@ -249,17 +249,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/aws:
     dependencies:
@@ -292,20 +292,20 @@ importers:
         version: 1.0.20
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
       fast-xml-parser:
         specifier: catalog:shared
         version: 5.10.1
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
       dedent:
         specifier: catalog:tooling
         version: 1.7.2
@@ -320,17 +320,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/azure:
     dependencies:
@@ -339,17 +339,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/chronosphere:
     dependencies:
@@ -358,17 +358,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/clerk:
     dependencies:
@@ -377,17 +377,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/cloudflare:
     dependencies:
@@ -396,17 +396,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/coinbase:
     dependencies:
@@ -415,17 +415,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/coolify:
     dependencies:
@@ -434,32 +434,32 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/core:
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
 
   packages/customerio:
     dependencies:
@@ -468,17 +468,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/datadog:
     dependencies:
@@ -487,17 +487,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/digitalocean:
     dependencies:
@@ -506,17 +506,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/discord:
     dependencies:
@@ -525,17 +525,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/docker:
     dependencies:
@@ -544,17 +544,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/doppler:
     dependencies:
@@ -563,17 +563,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/elasticsearch:
     dependencies:
@@ -582,17 +582,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/expo-eas:
     dependencies:
@@ -601,17 +601,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/fly-io:
     dependencies:
@@ -620,17 +620,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/forgejo:
     dependencies:
@@ -639,17 +639,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/gcp:
     dependencies:
@@ -658,17 +658,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/github:
     dependencies:
@@ -677,17 +677,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/google-workspace:
     dependencies:
@@ -696,17 +696,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/grafana:
     dependencies:
@@ -715,17 +715,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/growthbook:
     dependencies:
@@ -734,17 +734,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/gusto:
     dependencies:
@@ -753,17 +753,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/hetzner:
     dependencies:
@@ -772,17 +772,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/hostinger:
     dependencies:
@@ -791,17 +791,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/huggingface:
     dependencies:
@@ -810,17 +810,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/infisical:
     dependencies:
@@ -829,17 +829,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/inngest:
     dependencies:
@@ -848,17 +848,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/intercom:
     dependencies:
@@ -867,17 +867,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/kubernetes:
     dependencies:
@@ -886,17 +886,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/launchdarkly:
     dependencies:
@@ -905,17 +905,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/meilisearch:
     dependencies:
@@ -924,17 +924,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/mercury:
     dependencies:
@@ -943,17 +943,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/metabase:
     dependencies:
@@ -962,17 +962,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/modal:
     dependencies:
@@ -981,17 +981,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/modrinth:
     dependencies:
@@ -1000,17 +1000,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/mongodb-atlas:
     dependencies:
@@ -1019,17 +1019,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/neon:
     dependencies:
@@ -1038,17 +1038,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/okta:
     dependencies:
@@ -1057,17 +1057,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/onepassword:
     dependencies:
@@ -1076,17 +1076,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/opencode:
     dependencies:
@@ -1095,17 +1095,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/ovh:
     dependencies:
@@ -1114,17 +1114,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/paypal:
     dependencies:
@@ -1133,17 +1133,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/plaid:
     dependencies:
@@ -1152,17 +1152,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/planetscale:
     dependencies:
@@ -1171,17 +1171,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/polar:
     dependencies:
@@ -1190,17 +1190,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/porkbun:
     dependencies:
@@ -1209,17 +1209,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/posthog:
     dependencies:
@@ -1228,17 +1228,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/prisma-postgres:
     dependencies:
@@ -1247,17 +1247,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/railway:
     dependencies:
@@ -1266,17 +1266,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/redis-cloud:
     dependencies:
@@ -1285,17 +1285,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/remote:
     dependencies:
@@ -1304,17 +1304,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/render:
     dependencies:
@@ -1323,17 +1323,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/resend:
     dependencies:
@@ -1342,17 +1342,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/sentry:
     dependencies:
@@ -1361,17 +1361,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/slack:
     dependencies:
@@ -1380,17 +1380,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/spacetimedb:
     dependencies:
@@ -1399,17 +1399,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/squarespace:
     dependencies:
@@ -1418,17 +1418,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/stripe:
     dependencies:
@@ -1437,17 +1437,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/supabase:
     dependencies:
@@ -1456,17 +1456,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/surrealdb:
     dependencies:
@@ -1475,17 +1475,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/temporal:
     dependencies:
@@ -1494,17 +1494,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/trigger-dev:
     dependencies:
@@ -1513,17 +1513,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/turbopuffer:
     dependencies:
@@ -1532,17 +1532,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/turso:
     dependencies:
@@ -1551,17 +1551,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/typesense:
     dependencies:
@@ -1570,17 +1570,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/unkey:
     dependencies:
@@ -1589,17 +1589,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/vanta:
     dependencies:
@@ -1608,17 +1608,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/vercel:
     dependencies:
@@ -1627,17 +1627,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/whop:
     dependencies:
@@ -1646,17 +1646,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/workos:
     dependencies:
@@ -1665,17 +1665,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/xata:
     dependencies:
@@ -1684,17 +1684,17 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   packages/zendesk:
     dependencies:
@@ -1703,36 +1703,36 @@ importers:
         version: link:../core
       effect:
         specifier: catalog:effect
-        version: 4.0.0-rc.112
+        version: 4.0.0-rc.113
     devDependencies:
       '@effect/platform-bun':
         specifier: catalog:effect
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       '@types/node':
         specifier: catalog:tooling
-        version: 26.4.1
+        version: 22.20.1
 
   stacks/distilled-monorepo:
     dependencies:
       '@effect/platform-bun':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@effect/platform-node':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1)
       alchemy:
         specifier: 2.0.0-beta.74
-        version: 2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.4.1)(effect@4.0.0-rc.112)(typescript@7.0.2)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
+        version: 2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113))(@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1))(@types/node@22.20.1)(effect@4.0.0-rc.113)(typescript@7.0.2)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
       effect:
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113
     devDependencies:
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       typescript:
         specifier: catalog:build
         version: 7.0.2
@@ -1740,21 +1740,21 @@ importers:
   stacks/distilled-submodules:
     dependencies:
       '@effect/platform-bun':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)
       '@effect/platform-node':
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1)
       alchemy:
         specifier: 2.0.0-beta.74
-        version: 2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.4.1)(effect@4.0.0-rc.112)(typescript@7.0.2)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
+        version: 2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113))(@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1))(@types/node@22.20.1)(effect@4.0.0-rc.113)(typescript@7.0.2)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
       effect:
-        specifier: 4.0.0-rc.112
-        version: 4.0.0-rc.112
+        specifier: 4.0.0-rc.113
+        version: 4.0.0-rc.113
     devDependencies:
       '@types/bun':
         specifier: catalog:tooling
-        version: 1.4.1
+        version: 1.4.2
       graphql:
         specifier: ^16.9.0
         version: 16.14.2
@@ -1975,22 +1975,22 @@ packages:
     peerDependencies:
       effect: '>=4.0.0-rc.110 || >=4.0.0'
 
-  '@effect/platform-bun@4.0.0-rc.112':
-    resolution: {integrity: sha512-Y5n2HhV/vsbrJls9ukX42RL7zqXQxISHegWFsP9njsCyDmGTnq7QYSO82rglwrLPwtTrv5dkSRTuGw4+oXxgMg==}
+  '@effect/platform-bun@4.0.0-rc.113':
+    resolution: {integrity: sha512-EOn8doDVaiizfTpdmtRS0SZLAAt19yyHFKg+aV8YXJreNDYqXQLEt+/ThiEOurDimApVYhn2NZW52OJrZlybQw==}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: ^4.0.0-rc.113
 
-  '@effect/platform-node-shared@4.0.0-rc.112':
-    resolution: {integrity: sha512-ttjz0xKamFN7vL8pNDYVwddJLjZvqKePc05djlz2VcdaKbLsnYbtMnL1rbOfHgEnIUSHGh7FkjaN4DM1Ov81sQ==}
+  '@effect/platform-node-shared@4.0.0-rc.113':
+    resolution: {integrity: sha512-EPCfjvKlHmNDgqIlT85P1OcgNUNvRxNtBpTFOz1UGHwNJe6Ap7rP93Rue7kzFUeplQMy6EfoZEH4CJR4N0nJ1g==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: ^4.0.0-rc.113
 
-  '@effect/platform-node@4.0.0-rc.112':
-    resolution: {integrity: sha512-/BMAcdNGQQskLmI0Zoa95KfTZkr9HV9N4NSxaSrusG6GeW6Ulp9KvZ+Rlaiw8lnOt43CXjFLdfll5/k5rxL4hQ==}
+  '@effect/platform-node@4.0.0-rc.113':
+    resolution: {integrity: sha512-8luSE2JcGVsALQ6cZOWh5jdZu+VgcUKIKPfhN/MjX+ZzIuK/krm3jZBHYZdhqkXjM9s8aYGBxNMHGF0WzF+Gpg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
-      effect: ^4.0.0-rc.112
+      effect: ^4.0.0-rc.113
       redis: '>=5.0.0 <7.0.0'
 
   '@effect/sql-d1@4.0.0-rc.112':
@@ -2267,36 +2267,6 @@ packages:
     resolution: {integrity: sha512-XyroGQXcHrZdvmrGJvsA9KNeOOgGMg1Vg9OlheUsBOSKznLMDl+YChxbkboRHvtFYJEMRYmlV3uoo/njCw05iw==}
     engines: {node: '>=16'}
 
-  '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.4':
-    resolution: {integrity: sha512-LCkGo6JDfaBhgST7UpPWgNgLINpcpabaHfyz5OBx75nUYxBsaEPxjnyNjWpeb/xBup/682QnBfRBy2/LvPutZQ==}
-    cpu: [arm64]
-    os: [darwin]
-
-  '@msgpackr-extract/msgpackr-extract-darwin-x64@3.0.4':
-    resolution: {integrity: sha512-zExlW9zUJKZH/tOtVMttwjKa4Xm/3KcNjnE3dPN92uCktwavMxpgCA3MoJK/DOnTWsQgo224OaST27/mPNAf+w==}
-    cpu: [x64]
-    os: [darwin]
-
-  '@msgpackr-extract/msgpackr-extract-linux-arm64@3.0.4':
-    resolution: {integrity: sha512-dgX0P/9wGPJeHFBG+ZmhgE6bmtMt7NP5CRBGyyktpopdk/mW4POnrpQsSLtKI1dwpc+pPLuXHDh6vvskyQE/sw==}
-    cpu: [arm64]
-    os: [linux]
-
-  '@msgpackr-extract/msgpackr-extract-linux-arm@3.0.4':
-    resolution: {integrity: sha512-Tg3yX65f5GbtXLkrYEHE5oibZG9epyYWas7FogTTEJeDEF9JlXJzKgXaNhT3UXlTOeA+AfZpYZYZ0uPj7Cfquw==}
-    cpu: [arm]
-    os: [linux]
-
-  '@msgpackr-extract/msgpackr-extract-linux-x64@3.0.4':
-    resolution: {integrity: sha512-8TNXMEjJc3QEy7R/x1INhgiU+XakDAFUzBhaz7+Rbrs8NH5UQeHQxxmzsSBJGyV6I1jW79undiQm8tOI+D+8FQ==}
-    cpu: [x64]
-    os: [linux]
-
-  '@msgpackr-extract/msgpackr-extract-win32-x64@3.0.4':
-    resolution: {integrity: sha512-CmCXPQrkbwExx3j946/PtHWHbYJiCRBRDl4BlkRQcJB/YOwQxJRTpoo7aTsortjgoJ1x7opzTSxn7C+ASSLVjQ==}
-    cpu: [x64]
-    os: [win32]
-
   '@napi-rs/wasm-runtime@1.2.3':
     resolution: {integrity: sha512-UMduMbqO5s5zF2NkNacMT/yK5Y5QiKvWr2+50bzIIxFDwVJ2h49b+oyjaCGPhJxd2/gC2x39EHv/gHVuu36x2Q==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=23.5.0}
@@ -2400,246 +2370,246 @@ packages:
   '@oxc-project/types@0.147.0':
     resolution: {integrity: sha512-IJ3s6ltHLp45S0bh7phkX+gJO7A1Wuz2EaqpAhb8WjqDwbzMiWKHhyyT42tskaWjEYXtHtVCPpnBJVT9+dcRLg==}
 
-  '@oxfmt/binding-android-arm-eabi@0.66.0':
-    resolution: {integrity: sha512-2Me9eoptv6ERdEuI2P8AOlYdHHraXebJaM6SC0kc2Dfb+mLrep2db+fedBPKaYn673h/vBgvP4tkOdAbaudX6w==}
+  '@oxfmt/binding-android-arm-eabi@0.67.0':
+    resolution: {integrity: sha512-2olh3ioEmc4gRzQm7jxyB1b/PFBoFvTq8KdgYySeNpysDtA6DEg2Mvya4/I6flhL7G0eOrE8RD7JCNCIMhE16Q==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxfmt/binding-android-arm64@0.66.0':
-    resolution: {integrity: sha512-u7O+bSSF0HGsDKkQQxBqvLGVepu93RA+JKu+ONqvfh4sCnCEbj31wZj4iG5gk3XfRwrmYj0/8catkO2LcblQKQ==}
+  '@oxfmt/binding-android-arm64@0.67.0':
+    resolution: {integrity: sha512-ulfw8EHN1MBq/MFFDXw2/M1VAFu5mRUcnuZ8Hqbv9viAnFzO9t1jKSAsDqKYYDGMlytF/uj6Z5z5n/tHupnKhw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxfmt/binding-darwin-arm64@0.66.0':
-    resolution: {integrity: sha512-/ikyMIVjX/sdo7KtjxoEsSUosfPzveVhT9RWMx9yGqFDKFJ89JAEKuEeLBmurDjrkb4w8tOnAdSO3SBaplY3bw==}
+  '@oxfmt/binding-darwin-arm64@0.67.0':
+    resolution: {integrity: sha512-MfONZx/O2o9M5v2jDFol556G9+A+P9xCuJ4DZ+qhE+RnaCdoscy6Eu5nq1dbuNxhwdJyZ6kLI7fnG9mwEeOeGg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxfmt/binding-darwin-x64@0.66.0':
-    resolution: {integrity: sha512-q5xUsKeFqawa9NXa6ZGXWimFV19m8MogKPdTaSVDAAk2EQKBmBZRDeluwcl1p8ty/OFc9s9888OKEh3xfPVH0g==}
+  '@oxfmt/binding-darwin-x64@0.67.0':
+    resolution: {integrity: sha512-CYnIx5LvFVJnyJcCqwH2jxMKjFjqo5678MPjdmNFoSGMhlOvZ/xRZqvhDcolKrXc8fezW3AKh+C4wyoFuWOSSg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxfmt/binding-freebsd-x64@0.66.0':
-    resolution: {integrity: sha512-CR+x4VzMY0pRXLK/xFQ/RzsSFkP5t2Z2mef0QY6OP/rTRcMUoMLCOM62/3Fp/t0K+UDoBKxvMyeb6D0zPMjleA==}
+  '@oxfmt/binding-freebsd-x64@0.67.0':
+    resolution: {integrity: sha512-7/iF1orvIS9mxhKUqnmtMgm+OrSQ5acPwuvdQrm6ECgqbwPmC+Pw9cdke3sNfVN6pT2hbJ58+jP8BCThl5HXOg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxfmt/binding-linux-arm-gnueabihf@0.66.0':
-    resolution: {integrity: sha512-ZEYmO/LbH9tTQCADILHGZE4GeOXOAj2VzedHkASNwjmwlwtutJCLpCJbIs37wRGTFgWRoEcD72jpMX+IBJUGjQ==}
+  '@oxfmt/binding-linux-arm-gnueabihf@0.67.0':
+    resolution: {integrity: sha512-yy+OGys07IZOpOmYPZoObKyUQLkfxeQqeCypk+1jaZd8HGo77hzvU1Jg8X3+W75o+9lszOjBfg0nkGtlwYywXw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxfmt/binding-linux-arm-musleabihf@0.66.0':
-    resolution: {integrity: sha512-hNtR9/oU0CeTkq7JnRkmBQwqe17v2ZaAMLC4VcN7IIOWeRyWDk0knSPWS9iiLmtbZ2RRBBtsG01jQgkZmKCJeQ==}
+  '@oxfmt/binding-linux-arm-musleabihf@0.67.0':
+    resolution: {integrity: sha512-wPIeeigXgJpwNw3wydYRt3U9iN9Y/ejpOZuYL9IA7igxWs7LIQMOkhKxTumRvy6dIv0iXKk3RTw3Vmjg0i+2sg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxfmt/binding-linux-arm64-gnu@0.66.0':
-    resolution: {integrity: sha512-uwOVQ8i6I1LT/+eDzfsgrrcZp8Fn6NPVUPn8fF5gdFGekFf0PddF+LEuwsD0/pbNUcKZhDj2rQ5UpITh9gF4iQ==}
+  '@oxfmt/binding-linux-arm64-gnu@0.67.0':
+    resolution: {integrity: sha512-0+XNxcdbkTfxdcD4qW6Ci9n+mBNJ8xTBumnxKvKBmRFOdx0Wf8/KiHjCJayooXmYkqRpRVd98Q5egvzx5BLSgQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-arm64-musl@0.66.0':
-    resolution: {integrity: sha512-tTkF2Dmx4nGAjmBlZb+UtTGqR/EK4ZrW9qBfzte07a9XWqzoGGKzpFFlyNDhQe+Uwql94+ReCTeNbhOXscw1Dg==}
+  '@oxfmt/binding-linux-arm64-musl@0.67.0':
+    resolution: {integrity: sha512-I75LKPJyNOYUzkqAiAMIE31+Ye7xtQXZdoty1IXn4B+bw5Zpmez5wfG19ejGpNnS/BzQ7LFS+7jxuTPb+vHiZw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-ppc64-gnu@0.66.0':
-    resolution: {integrity: sha512-F3cKHUav4yXOHn6GFnwpBhSYsJOYKKf9eqO/9jlEuqPxNw9zb98E9ZFct79gcg8pibUGkbveEu9WDlmXJpDzKw==}
+  '@oxfmt/binding-linux-ppc64-gnu@0.67.0':
+    resolution: {integrity: sha512-c2M5iRpe1QMZSRE/UvZoPdXBWb5Ic/ycvOyNiKCqPwQ/OyOKIMiJs02ynlNnjb7ZZJnRXYLmGcohoINOcwDK3w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-riscv64-gnu@0.66.0':
-    resolution: {integrity: sha512-K5fDaNZfDyQMYA/3qL21bqyN0X9T15LLwwbFPt2aHc94+ZG7bh0vZEsy2y7NlRnjjHFSwN+Hzg6ldJtbOriH4Q==}
+  '@oxfmt/binding-linux-riscv64-gnu@0.67.0':
+    resolution: {integrity: sha512-dQzzYlV24Udhfm5ECuSdgqRvFJU/CGHzcYYEO3dLM6W6+CHiBFrq9OjIllkdCcPhsoSQ8o223Dja84MOSzed9A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-riscv64-musl@0.66.0':
-    resolution: {integrity: sha512-44Yc+I+qOmTElRcEhm5hUKIUJEQIOugymz4ua4tB0Wox7tGAfIbjzmXz/HDAtw1Ij6gmBwZlzh4hc9679RhWeA==}
+  '@oxfmt/binding-linux-riscv64-musl@0.67.0':
+    resolution: {integrity: sha512-rFNq1CgX4qMJANOq42LkAs90JE80GpiaEohAV2qn/gT2hGjQTW1zBO5zQBxArI4926pM1OSzo3CN0tBszGBIaA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-linux-s390x-gnu@0.66.0':
-    resolution: {integrity: sha512-1e29Eg9hEj2kRBB19M0seIehPbbXHCk35GvImjDvb79rjjYjXCRmtbUNHJcgoktZAMIzXrTbxDBKmTc1V4bg3A==}
+  '@oxfmt/binding-linux-s390x-gnu@0.67.0':
+    resolution: {integrity: sha512-Sky6rEdz2o5IGq01lPhS12yEvDdChVEcaYrcLHkveh4Fx0qPjljE/Iul6SX/bRMl6lNc8J7J/mDQdzgBdA++Pg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-x64-gnu@0.66.0':
-    resolution: {integrity: sha512-vODY1UQo10gngn0+D4xHKU84F1Twm1LqrzV4SqPXvmQKSd87paehvZ6jqA5wKs6XQrlWul9clYMDVHcoW9CPMA==}
+  '@oxfmt/binding-linux-x64-gnu@0.67.0':
+    resolution: {integrity: sha512-vPXmlNORV8AZq2Ocxh07pxwMjfENUWCV/eZArnao0qC3NO/hDeTVkQvee7SJJUbIiF5PZbBa4kYmaXnu7Rk58w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxfmt/binding-linux-x64-musl@0.66.0':
-    resolution: {integrity: sha512-YDzXx2JsT4+HL4MdkVrYjO55NS5lUKNm8rLC4ZPou8+seu0v0jhecSh+ufoO6+xEa8gccEezMlI2WHJi4ApUgw==}
+  '@oxfmt/binding-linux-x64-musl@0.67.0':
+    resolution: {integrity: sha512-x/WAtFqYtVr3vZ9ni8nr4kn9whSitg8fOljq/pZzBpxopRdY1BMLZCZkrbIbaBcYkm46qGbqVea2FCWmtQ2P9w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxfmt/binding-openharmony-arm64@0.66.0':
-    resolution: {integrity: sha512-mJjUYd8lj0+j4JkYyEM+5qKBf1Rnrpgjn/SVYKJhicVDqLz566ooa7Fs8zflPqt+dnZDV7X054rVIQX6ZcQNlQ==}
+  '@oxfmt/binding-openharmony-arm64@0.67.0':
+    resolution: {integrity: sha512-eRw9Neh4/aA6i+q/R3WU1gGQINhVM0J4fXIm6t27caOamkr/37uAkp1IdBx4zlJH97hmXR63z/q9n5c5dN7MzA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxfmt/binding-win32-arm64-msvc@0.66.0':
-    resolution: {integrity: sha512-soV+0vESv7e5ntCHWC61x4gg8OSak6IHHnWsZmHrJFlvMj2AK+kmldErCNkVkrvc1Ts2/++rJXn+IuAb2WMXhw==}
+  '@oxfmt/binding-win32-arm64-msvc@0.67.0':
+    resolution: {integrity: sha512-YIMvb+sGNYN2uc6+QK2HLPeEKM2vl7QZ5onQzpAJRb6pnf0DwUFP5R8tdS9R0l8hdUil2gu4Uxd0Yxrop0iT4w==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxfmt/binding-win32-ia32-msvc@0.66.0':
-    resolution: {integrity: sha512-YCPi23uRIEYuIKTZohAkKbPFpujQ5QBuUM5iDv+UqbCmTPAkaFsxjsSuB8xlBpRT0G7eP/4HMF+cPDSqHtOD9A==}
+  '@oxfmt/binding-win32-ia32-msvc@0.67.0':
+    resolution: {integrity: sha512-LzmU9MyACPzwNDIK0ItMedHPz735Ug7ELWguxo4/kuy6zWuDoeglOAEFCY8jLg0PzRpFO3hDyLFe2Gu2eFDeGA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxfmt/binding-win32-x64-msvc@0.66.0':
-    resolution: {integrity: sha512-bwTQcv/JVRPkOqQtMF0X7vpvpncDQiBcXHxZ9S2hR12Hlo8bvBdUR5x5XnxzDZ3kM0qoZw1rv7KaD66Ly+pFWA==}
+  '@oxfmt/binding-win32-x64-msvc@0.67.0':
+    resolution: {integrity: sha512-sbQOIDNLUEeVZcAJcSL5VURn7kfjvilPviody4Yl5n8lQCDtUm+C9oHTTwZS/m4d/Z6Vv3jNEiAofH932NPPCg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
 
-  '@oxlint/binding-android-arm-eabi@1.81.0':
-    resolution: {integrity: sha512-IcCRsXiedJoJopY6mpZUBEeVFsUrutmrG7dZ87zMuKJlhg70Ora9bBl1WcCxZQtyI10YpnVdEso5oCg7YcfSHw==}
+  '@oxlint/binding-android-arm-eabi@1.82.0':
+    resolution: {integrity: sha512-a3LB+C5Dsj5b/qtmG/mv5WrzuiXEpg1KF5nXWcEvaoN5TYAqkIvxPOwTPp3Jy/FoGpRo8zsTFhMElMXfeoOEzA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [android]
 
-  '@oxlint/binding-android-arm64@1.81.0':
-    resolution: {integrity: sha512-GRrIPyTGVhx3L3h+0T5xT2A0jFAcdPv4+IfuXpGDLIdl6XeYhgg/zw72A5ILZoUgRqZuM8F1y+V/gfDriXSxzQ==}
+  '@oxlint/binding-android-arm64@1.82.0':
+    resolution: {integrity: sha512-OBlhRgNqFblGpGenno/aqOfJLOkQ2B8Ig3iDAalfn0H8hJGZKXPeexCRTDm6uwv6YUjSA9Xnwt1y/Bgj5ZH8uw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [android]
 
-  '@oxlint/binding-darwin-arm64@1.81.0':
-    resolution: {integrity: sha512-qNQ9tXRgLuKbqSV1S2h9h4KPHjbovO7RRR2/enUOtHzTkFZ7B9X5zqqHJua8dRyc7dBy7Aoyq5pqTSLFVcAzGQ==}
+  '@oxlint/binding-darwin-arm64@1.82.0':
+    resolution: {integrity: sha512-dsopxqtY5ZdyT9uLHyGt1SyiLop6hi7hWI3PKpePodkRQOkLaCm+OE4fR9CAz9qdfjiFO8531tX/QDyP/psjFg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [darwin]
 
-  '@oxlint/binding-darwin-x64@1.81.0':
-    resolution: {integrity: sha512-q0QTm32jWga2Gv4j7IaVZN0jYMi9UV73sWVgFtDA4iIfqwMCLLZ3ve+9KwfYtsaKZSgQhmPaogeZWqDZpcY1Pw==}
+  '@oxlint/binding-darwin-x64@1.82.0':
+    resolution: {integrity: sha512-94Lu0SgTClKColU66g1VDuigV3HkcbkJBnTtZjGYfE8UPugaWDgKrm2icjC6HJVUYler2OXaHP/X0TBy8+CowQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [darwin]
 
-  '@oxlint/binding-freebsd-x64@1.81.0':
-    resolution: {integrity: sha512-/+8wVWDXEC7wHVAhOc59Fw/SkMc1arLkFD8iQCaSsmzenK1X4doFqquL9H1wrtGUzaiycVqkf/sSpcILK6W1UA==}
+  '@oxlint/binding-freebsd-x64@1.82.0':
+    resolution: {integrity: sha512-hne/V06ewhh1i0w8+l7GDNROAGCGPmyFuOwiP7YTRu0JycyStJ4785dmF8xU5p0uUwt2emvIF9vc7Xjis+cJ0g==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [freebsd]
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.81.0':
-    resolution: {integrity: sha512-4xt422FEgioRq9hAL4Tq7fujGUWnc8z1BJ+Oi8RN8vB8axaP+sdK6a2xdlcQCCYnJg9QMuMFS0AucuIFx/EacA==}
+  '@oxlint/binding-linux-arm-gnueabihf@1.82.0':
+    resolution: {integrity: sha512-aWY2xtbZf1LneW9Qsv/n2Sp8gOu74JrlQzEtj4coHX2SHFrCfhmAumaU+sI/A5nr+yoTRTSmI/pL2s6ADlNSkw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm-musleabihf@1.81.0':
-    resolution: {integrity: sha512-u3vna8KdGplH4DRCW9K54D68fcMo7IxVrkCJWwXnIhwtBdnDnYrmzOUA/XjmBlPpcLsgw9Z5BNdY4za9+Dj+MQ==}
+  '@oxlint/binding-linux-arm-musleabihf@1.82.0':
+    resolution: {integrity: sha512-Fe+TtXCXMh/5f7kWlZ2VAwsMumZWtraFlKVk1NJlL52/beGwfDE7ov+/8gVirHzWokzGu7X65hSPq0ucPDskWQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm]
     os: [linux]
 
-  '@oxlint/binding-linux-arm64-gnu@1.81.0':
-    resolution: {integrity: sha512-3j9k+gsYsE7nv71GWotXsqsa2l9/aJenD7dVHNt/CBvsb0SgRjSMnHFeP59IXUAl1wvVFhqGl2wJNMwWU3UBlA==}
+  '@oxlint/binding-linux-arm64-gnu@1.82.0':
+    resolution: {integrity: sha512-6azCZ6OJudlvipNttXCCQcyeFfcJ/NvUZdSN1z8elo73kCHtyQC7WTiUcSjWYvJ1jaq9KDUyMAoAS/vNzhBomA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-arm64-musl@1.81.0':
-    resolution: {integrity: sha512-k5iAp3dNxW0/uDCBY+WSm8jKB2szu7SkEQZdgRRpDXvuDd69vvDcqhB3A/pWCfCwXyenjNjFn9Td1fVoyAc+Yg==}
+  '@oxlint/binding-linux-arm64-musl@1.82.0':
+    resolution: {integrity: sha512-PLEaSD8IAIIlwW4dwOd9YaxuxeOpwiXL4J24rcnE4iNtyM5j9Q9/3+gti08oXpx0u2ygNjRDx9xjWWpQonuJEw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-ppc64-gnu@1.81.0':
-    resolution: {integrity: sha512-TFqLja3uYmVSte6nof9GWrex9Z8WgdZrNiLC6Te5rXGDqXB2y4j/26iFhwosXiAFqDhE9JJVuuCkDKLwptTn1g==}
+  '@oxlint/binding-linux-ppc64-gnu@1.82.0':
+    resolution: {integrity: sha512-D94em/BwknNTn4vqxjHh5wb2oL566eFhArabqKIr0cNZMHOJuiraFp1A8tXpH05bbE5tqwEfLXTI0MWEGtn3Dw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-gnu@1.81.0':
-    resolution: {integrity: sha512-UEcySvGS0NOVo7h7n7CYyJL9+6gFAh7Zc/ToDXVScFvzHSTIxtzkMVU30rmQ6+nQ1LF+UdiRDdJajpDu+OylLg==}
+  '@oxlint/binding-linux-riscv64-gnu@1.82.0':
+    resolution: {integrity: sha512-MOprxBaoYU2D4VgxXCl3ghydThWtx7Um1lL51kGYNeQ5Al7WzsH7/tqGdNtbLrIWnjq3bsm13+nz/gRIxjrOXw==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-riscv64-musl@1.81.0':
-    resolution: {integrity: sha512-H+diDbhD00+wI1IRP8Kz88x/lat+DgtoBJzoTthS16xkTJGNaEkfb8gzmd1rzc/2uDQQMl7GNl+JFUacVeWxIA==}
+  '@oxlint/binding-linux-riscv64-musl@1.82.0':
+    resolution: {integrity: sha512-5h55QsfJ/luDXZzC20k6SNOY1Az+dCP9WvntKtcUWh2JhckAdwApY2ZusaBTwLENnReXU+A2fJtSrYvZJNKNPg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-linux-s390x-gnu@1.81.0':
-    resolution: {integrity: sha512-8znJ/5TekjOKg1j1Acho4PJMdiAHLtlcXuWEiipOhAMV6rQcXdmDdXCbheyDczN6TjBwiNfjcP81k4AthrKRzw==}
+  '@oxlint/binding-linux-s390x-gnu@1.82.0':
+    resolution: {integrity: sha512-IE8NJNLlHr0CaXyGJPGVn0eTkUyoj1I2UfA8x7I4PSOYKsQ/6btVC7Pywrj5onk0cMH25r6Z38SoN3AvE5Zuog==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-gnu@1.81.0':
-    resolution: {integrity: sha512-Q2Wj70yFsvn5QjlmifFzbj4H+kJy53bwqc41o1fzoM7MpLV1NIbhg/LpWXRfC6KOkSAdUx1Wd8VJsdPmhp/HRA==}
+  '@oxlint/binding-linux-x64-gnu@1.82.0':
+    resolution: {integrity: sha512-XUUUxaBo9XKl+J1B9EmP1cTGQPddzeURvoGkfwh/94PGnbW+hBprDljneoI2M1jzC1bzrIV3ihc7iM9UXl8+tg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@oxlint/binding-linux-x64-musl@1.81.0':
-    resolution: {integrity: sha512-cPInHp/ddEe5qkyK2IiyQ8Q3Mp2oLLEhhsGgTK2oZx4L6+llGam1H1yBvJZ7qHfOXj8N3hxBS8sj4tO+gtFlIg==}
+  '@oxlint/binding-linux-x64-musl@1.82.0':
+    resolution: {integrity: sha512-SWLSFulX9TDuH6yvbPYp4+VNn6jkkIvvI+KiujDM5rWBRHEfkesCC/pCneIIUr6ovkxZ5fRtpi2v5Cz5FrMJZg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@oxlint/binding-openharmony-arm64@1.81.0':
-    resolution: {integrity: sha512-0CQxSX4ajqm07AHBf5U33qQzXKdd7wtq/oTL/7vpY6RNNuxrRi8W4bqUV1Jyu/vj+9KmxQyDhxfeVX1nQL6kfg==}
+  '@oxlint/binding-openharmony-arm64@1.82.0':
+    resolution: {integrity: sha512-BQy35f6ZUdNr9a6c7B7orxQTcLjByGT2z3WAgmRovpRwmPYAaJ+NTplmMzhdjdJ4qSchfMNZy/Ukg+qRg6zseQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [openharmony]
 
-  '@oxlint/binding-win32-arm64-msvc@1.81.0':
-    resolution: {integrity: sha512-l0hbeISm9673hVrrQU8j/p2M7YH9Ouoj7p7E/QM55NTrKVLP+P3PF8hLu+OY+x0VtGRW+ggiQKZqmdYps9H+TA==}
+  '@oxlint/binding-win32-arm64-msvc@1.82.0':
+    resolution: {integrity: sha512-V4QhSTg5gctZue8RJjsGi7NpQPThr/p1/HfmiMC5kfe1KFEup9SQRVub4A6kijQjdHfxj7bLL1KO3QO7/5bwMQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [arm64]
     os: [win32]
 
-  '@oxlint/binding-win32-ia32-msvc@1.81.0':
-    resolution: {integrity: sha512-ksqPP5jbFXcYreEQ7zdJh06rJQBymCTyGRCdaXjfcf2aG4f8KxUWY5wcgYHmaTK+FJ4bPG5sUAdOX+6trnH1JA==}
+  '@oxlint/binding-win32-ia32-msvc@1.82.0':
+    resolution: {integrity: sha512-TUSCLaKB2yktpFAJ/r3HAUYsaV/3DT7JS4iNKyoh3a9YNwD0UG7Ezh4D8m23654vQcU6P/RQrCAjRPKe4peP/A==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [ia32]
     os: [win32]
 
-  '@oxlint/binding-win32-x64-msvc@1.81.0':
-    resolution: {integrity: sha512-IZuUCwGw9emG5JtCp+fYGB+Z4OWEoeEcM8R5BA1pYw63/ieYFVdcU2ylxTpHbVHSenZnsYE+ZZ20uHAJszQ4cA==}
+  '@oxlint/binding-win32-x64-msvc@1.82.0':
+    resolution: {integrity: sha512-VTVoRIWJTb+wvUX8EYoPArfFH02whuR10goFXE/LHRRX33ajRrFgqbcONXZMiF4C5rnattfkm87HqYn8jb8hmQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [win32]
@@ -3067,8 +3037,8 @@ packages:
   '@types/aws-lambda@8.10.162':
     resolution: {integrity: sha512-Fn658grtLOci1oxi1391vvDWJRKNGWRSqfxRkmN/Iy3c0tQH1USMKEXcPYHLvope+ZgTFocx9FRQJx1muBL6qw==}
 
-  '@types/bun@1.4.1':
-    resolution: {integrity: sha512-0AVGiTXGajf1rgKom3N+c5L7CBxuoyyv1i44M0nX4UDK0G/fnRAMiri93nHuVPIb429KKtAgj7HatVmmOjeQLA==}
+  '@types/bun@1.4.2':
+    resolution: {integrity: sha512-GimotNn7+ZV0uVArItBbriZsR1oNf0+WTzPkdcFrzShI7k2norL0uzEaJT8T33dWr7O/c9ZDuAFQrctKCi72oQ==}
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha512-Mw558oeA9fFbv65/y4mHtXDs9bPnFMZAL/jxdPFUpOHHIXX91mcgEHbS5Lahr+pwZFR8A7GQleRWeI6cGFC2UA==}
@@ -3078,6 +3048,9 @@ packages:
 
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
+
+  '@types/node@22.20.1':
+    resolution: {integrity: sha512-EANqOCF9QFyra+4pfxUcX9STKJpCLjMbObVzljIJomAWSnuSIEAvyzEU53GaajbXJEgdh0iEcPL+DGvpUd4k1Q==}
 
   '@types/node@26.4.1':
     resolution: {integrity: sha512-k97ENvZWtvA6yqz5/FS6a7duDgOPEeOQOc2iKS/nY6mX6qJUKtLnWzQS+Xj6tXweyj6ZcTAK2Qecetnvi9nCLA==}
@@ -3336,8 +3309,8 @@ packages:
     resolution: {integrity: sha512-yQbXgO/OSZVD2IsiLlro+7Hf6Q18EJrKSEsdoMzKePKXct3gvD8oLcOQdIzGupr5Fj+EDe8gO/lxc1BzfMpxvA==}
     engines: {node: '>=8'}
 
-  bun-types@1.4.1:
-    resolution: {integrity: sha512-loKuVrAFZKfEv+JvWkHRS9GW5IqLuLRjVXN9p+vZvBN86O5hf/pBZQ5hSoyipsrMmWObZBDvWnlmKvjKTM0PdA==}
+  bun-types@1.4.2:
+    resolution: {integrity: sha512-bxV1FgK7yBIzjRe5zBozIM4Bem11ZJcCXSrjWRG3YWLt8yFDePu4cLjpebO8OvPeIE9trbyPF4fuj3Cia4Fj3w==}
 
   bundle-name@4.1.0:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
@@ -3510,8 +3483,8 @@ packages:
     resolution: {integrity: sha512-nI4U3TottKAcAD9LLud4Cb7b2QztQMUEfHbvhTH09bqXTxnSie8WnjPALV/WMCrJZ6UV/qHJ6L03OqO3LcdYZw==}
     engines: {node: '>=12'}
 
-  effect@4.0.0-rc.112:
-    resolution: {integrity: sha512-wXxwuh1Ywnv4cPRM3Wfa0vDwuOHnZ1TsTgHJkG9XgzND6inhBH9n1vBxhg3iIXOia/OrpmvVmd3lrD4vq6bF3A==}
+  effect@4.0.0-rc.113:
+    resolution: {integrity: sha512-uZ4Bh7KSlw2sdVdNDHPLSNjLGH+MWap7cheIHZoB/1T/ZJ3pvI4KiN3kUp50MpFKXhygOMmReJJOwWMQPwpPAg==}
 
   emoji-regex@10.6.0:
     resolution: {integrity: sha512-toUI84YS5YmxW219erniWD0CIVOo46xGKColeNQRgOzDorgBi1v4D71/OFzgD9GO2UGKIv1C3Sp8DAn0+j5w7A==}
@@ -3547,10 +3520,6 @@ packages:
 
   exsolve@1.1.1:
     resolution: {integrity: sha512-9U/jZUgjnSGyntRr6y5Muu1MJcwFl6kPu7k8qLF0IMNfLqvw0NZ4nnVDq0RVoZ0RvCyumib4Ez3KYrVfilrw+g==}
-
-  fast-check@4.9.0:
-    resolution: {integrity: sha512-7ms6T7SybUev/PQITciI0yLM2pOSFy5zpG8Ty7tQofcVaQUvrMXp6CBwqF6fThLCLOrfBtuHAtwq6Yu4XPCllg==}
-    engines: {node: '>=12.17.0'}
 
   fast-glob@3.3.3:
     resolution: {integrity: sha512-7MptL8U0cqcFdzIzwOTHoilX9x5BrNqye7Z/LuC7kCMRio1EMSyqRK3BEAUD7sXRq4iT4AzTVuZdhgQ2TCvYLg==}
@@ -3867,11 +3836,6 @@ packages:
     resolution: {integrity: sha512-PXwfBhYu0hBCPw8Dn0E+WDYb7af3dSLVWKi3HGv84IdF4TyFoC0ysxFd0Goxw7nSv4T/PzEJQxsYsEiFCKo2BA==}
     engines: {node: '>=8.6'}
 
-  mime@4.1.0:
-    resolution: {integrity: sha512-X5ju04+cAzsojXKes0B/S4tcYtFAJ6tTMuSPBEn9CPGlrWr8Fiw7qYeLT0XyH80HSoAoqWCaz+MWKh22P7G1cw==}
-    engines: {node: '>=16'}
-    hasBin: true
-
   mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
     engines: {node: '>=6'}
@@ -3907,13 +3871,6 @@ packages:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
 
-  msgpackr-extract@3.0.4:
-    resolution: {integrity: sha512-4kmO/MdyUIkLIvTPr8VHLil4AtoKIoniWPIEk5+CDy0xnWC84azhSFmuJ7PxZdsYtiP5kEeQsORAVIeMgxT+Hw==}
-    hasBin: true
-
-  msgpackr@2.0.5:
-    resolution: {integrity: sha512-cef05H/dSYpLpqp3sj/qyZh5vhUYCalnaLO7j1yOmpsR0y/XwLVtK7r5gn+U/F7CTEfMowcGhlUQJDLcLf7jcA==}
-
   nanoid@3.3.18:
     resolution: {integrity: sha512-DTg4MJbGMWkfi6VZFdNt2/caMbQy4Ou+Op/hJQvGEWcnVfoA1QA+xzRKAzw9jD6+GVOOeYr/mIcuDSdug6F6+w==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
@@ -3921,10 +3878,6 @@ packages:
 
   node-fetch-native@1.6.7:
     resolution: {integrity: sha512-g9yhqoedzIUm0nTnTqAQvueMPVOuIY16bqgAJJC8XOOubYFNwz6IER9qs0Gq2Xd0+CecCKFjtdDTMA4u4xG06Q==}
-
-  node-gyp-build-optional-packages@5.2.2:
-    resolution: {integrity: sha512-s+w+rBWnpTMwSFbaE0UXsRlg7hU4FjekKU4eyAih5T8nJuNZT1nNsskXpxmeqSK9UzkBl6UgRlnKc8hz8IEqOw==}
-    hasBin: true
 
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
@@ -3960,8 +3913,8 @@ packages:
     resolution: {integrity: sha512-YgBpdJHPyQ2UE5x+hlSXcnejzAvD0b22U2OuAP+8OnlJT+PjWPxtgmGqKKc+RgTM63U9gN0YzrYc71R2WT/hTA==}
     engines: {node: '>=18'}
 
-  oxfmt@0.66.0:
-    resolution: {integrity: sha512-FfvqR8RFtV6JJpRrpkfqyVCQ7HDvZ/VriWFx7veftCgL1B5ZO9qNr+1rvPieycMQnNfVG0PWyJQiy7p0hq1I5w==}
+  oxfmt@0.67.0:
+    resolution: {integrity: sha512-vV7sSiPsaO0mSxdoUdayipVDFPzW/UQ+hrezEHa20+Tx1dnMdZLSRHMT0PdS67FFbhd74M1n08asW21aLGeCrA==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -3973,8 +3926,8 @@ packages:
       vite-plus:
         optional: true
 
-  oxlint@1.81.0:
-    resolution: {integrity: sha512-HyrJYqeoOCL0iqaLEzGewGT48ZX99P3hxYh8udAF9RGGIghSamkXE4ClUyBpEDNqasamThgmlPbuMOe7SAZmHg==}
+  oxlint@1.82.0:
+    resolution: {integrity: sha512-+iFM1BGw1ntYJt3QngbJmjbrGxPaKMUADOXOijpWGnYcBPq8YZnQftSS1C+pVcDYy9YxqDVJKQqQkTazTQMboQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -4057,9 +4010,6 @@ packages:
 
   proper-lockfile@4.1.2:
     resolution: {integrity: sha512-TjNPblN4BwAWMXU8s9AEz4JmQxnD1NNL7bNOY/AKUzyamc379FWASUhc/K1pL2noVb+XmZKLL68cjzLsiOAMaA==}
-
-  pure-rand@8.4.2:
-    resolution: {integrity: sha512-vvuOGgcuPJAirlHvuQw1TrOiw7ptaIXXmIbNuiNOY6lNGJJH49PQ1Kj4nd783nPdQhQdicgOjVI2yI/9BD6/Ng==}
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
@@ -4252,8 +4202,8 @@ packages:
     resolution: {integrity: sha512-wXR/dYpcqKmfWpEdZjiKJOwCNFndD0DMnrW/cYjVGttEkBfVgcLFHoNrlj47mjOVic9yyNu65alsgF4NQyTa2g==}
     engines: {node: '>=12.0.0'}
 
-  tinypool@2.1.0:
-    resolution: {integrity: sha512-Pugqs6M0m7Lv1I7FtxN4aoyToKg1C4tu+/381vH35y8oENM/Ai7f7C4StcoK4/+BSw9ebcS8jRiVrORFKCALLw==}
+  tinypool@2.1.2:
+    resolution: {integrity: sha512-9YodfrxS9g9IbFr/KOjE5bAeJ0p61n3bW6mqvy0jtoeKd1kTW1Cxm0oulm6KX2lyM9Gl6WIe8nEbY7LWv5ZJww==}
     engines: {node: ^20.0.0 || >=22.0.0}
 
   tinyrainbow@3.1.1:
@@ -4279,6 +4229,9 @@ packages:
   ufo@1.6.4:
     resolution: {integrity: sha512-JFNbkD1Svwe0KvGi8GOeLcP4kAWQ609twvCdcHxq1oSL8svv39ZuSvajcD8B+5D0eL4+s1Is2D/O6KN3qcTeRA==}
 
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
+
   undici-types@8.3.0:
     resolution: {integrity: sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ==}
 
@@ -4286,8 +4239,8 @@ packages:
     resolution: {integrity: sha512-IDxfleLmmbSskfWSUATiN1nfn2rDuvnMOqb5CWR92iIfojA0Ud+ulOAAEQ57LPr9rWmsreUyf5lwyao+7GNNVw==}
     engines: {node: '>=20.18.1'}
 
-  undici@8.10.0:
-    resolution: {integrity: sha512-HvltHd7avK13QIw/oLe4qoOLyoVSoafqJ2jYOrtMRBkbYT31eiBQ8O0ehRKZiEZCMEyLFQNIADpgCWC5fALvYQ==}
+  undici@8.10.2:
+    resolution: {integrity: sha512-/y4/bH9YNU5hi9NIrpOuvGXFcxrj3CMrV+/AYpowAYTpHn8gX/XPFjNy766FPoYY0miQhdW977JFWKGNhBdwyQ==}
     engines: {node: '>=22.19.0'}
 
   unenv@2.0.0-rc.24:
@@ -4479,32 +4432,32 @@ snapshots:
       ansi-styles: 6.2.3
       is-fullwidth-code-point: 5.1.0
 
-  '@alchemy.run/cloudflare-runtime@2.0.0-beta.74(@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.112))(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.4.1)(effect@4.0.0-rc.112)(rolldown@1.1.5)(typescript@7.0.2)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))':
+  '@alchemy.run/cloudflare-runtime@2.0.0-beta.74(@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.113))(@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113))(@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1))(@types/node@22.20.1)(effect@4.0.0-rc.113)(rolldown@1.1.5)(typescript@7.0.2)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@alchemy.run/node-utils': 2.0.0-beta.74
       '@cloudflare/unenv-preset': 2.16.1(unenv@2.0.0-rc.24)(workerd@1.20260704.1)
-      '@distilled.cloud/cloudflare': 1.0.0-rc.6(effect@4.0.0-rc.112)
+      '@distilled.cloud/cloudflare': 1.0.0-rc.6(effect@4.0.0-rc.113)
       '@puppeteer/browsers': 3.2.1(yauzl@3.4.0)
       capnp-es: 0.0.14(typescript@7.0.2)
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
       magic-string: 0.30.21
-      sharp: 0.35.4(@types/node@26.4.1)
+      sharp: 0.35.4(@types/node@22.20.1)
       unenv: 2.0.0-rc.24
       workerd: 1.20260704.1
       yauzl: 3.4.0
     optionalDependencies:
-      '@effect/platform-bun': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      '@effect/platform-node': 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
+      '@effect/platform-bun': 4.0.0-rc.113(effect@4.0.0-rc.113)
+      '@effect/platform-node': 4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1)
       rolldown: 1.1.5
-      vite: 8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)
     transitivePeerDependencies:
       - '@types/node'
       - proxy-agent
       - typescript
 
-  '@alchemy.run/floci@2.0.0-beta.74(effect@4.0.0-rc.112)':
+  '@alchemy.run/floci@2.0.0-beta.74(effect@4.0.0-rc.113)':
     dependencies:
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
 
   '@alchemy.run/node-utils@2.0.0-beta.74': {}
 
@@ -4731,95 +4684,94 @@ snapshots:
 
   '@cloudflare/workers-types@5.20260829.1': {}
 
-  '@distilled.cloud/aws@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/aws@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
       '@aws-crypto/crc32': 5.2.0
       '@aws-crypto/util': 5.2.0
       '@aws-sdk/credential-providers': 3.1109.0
       '@aws-sdk/types': 3.974.3
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
       '@smithy/shared-ini-file-loader': 4.7.0
       '@smithy/types': 4.17.0
       '@smithy/util-base64': 4.6.0
       aws4fetch: 1.0.20
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
       fast-xml-parser: 5.10.1
 
-  '@distilled.cloud/axiom@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/axiom@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/core@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/core@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/fly-io@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/fly-io@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/hetzner@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/hetzner@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/neon@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/neon@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@distilled.cloud/planetscale@1.0.0-rc.6(effect@4.0.0-rc.112)':
+  '@distilled.cloud/planetscale@1.0.0-rc.6(effect@4.0.0-rc.113)':
     dependencies:
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
 
-  '@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112)':
+  '@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113)':
     dependencies:
-      '@effect/platform-node-shared': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
+      '@effect/platform-node-shared': 4.0.0-rc.113(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node-shared@4.0.0-rc.112(effect@4.0.0-rc.112)':
+  '@effect/platform-node-shared@4.0.0-rc.113(effect@4.0.0-rc.113)':
     dependencies:
       '@types/ws': 8.18.1
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
       ws: 8.21.3
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)':
+  '@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1)':
     dependencies:
-      '@effect/platform-node-shared': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      effect: 4.0.0-rc.112
-      mime: 4.1.0
+      '@effect/platform-node-shared': 4.0.0-rc.113(effect@4.0.0-rc.113)
+      effect: 4.0.0-rc.113
       redis: 6.2.1
-      undici: 8.10.0
+      undici: 8.10.2
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
 
-  '@effect/sql-d1@4.0.0-rc.112(effect@4.0.0-rc.112)':
+  '@effect/sql-d1@4.0.0-rc.112(effect@4.0.0-rc.113)':
     dependencies:
       '@cloudflare/workers-types': 5.20260829.1
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
 
-  '@effect/sql-sqlite-do@4.0.0-rc.112(effect@4.0.0-rc.112)':
+  '@effect/sql-sqlite-do@4.0.0-rc.112(effect@4.0.0-rc.113)':
     dependencies:
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
 
-  '@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)))':
+  '@effect/vitest@4.0.0-rc.112(effect@4.0.0-rc.113)(vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)))':
     dependencies:
-      effect: 4.0.0-rc.112
-      vitest: 4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))
+      effect: 4.0.0-rc.113
+      vitest: 4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
 
   '@electric-sql/pglite-socket@0.0.20(@electric-sql/pglite@0.3.15)':
     dependencies:
@@ -5027,24 +4979,6 @@ snapshots:
       chevrotain: 10.5.0
       lilconfig: 2.1.0
 
-  '@msgpackr-extract/msgpackr-extract-darwin-arm64@3.0.4':
-    optional: true
-
-  '@msgpackr-extract/msgpackr-extract-darwin-x64@3.0.4':
-    optional: true
-
-  '@msgpackr-extract/msgpackr-extract-linux-arm64@3.0.4':
-    optional: true
-
-  '@msgpackr-extract/msgpackr-extract-linux-arm@3.0.4':
-    optional: true
-
-  '@msgpackr-extract/msgpackr-extract-linux-x64@3.0.4':
-    optional: true
-
-  '@msgpackr-extract/msgpackr-extract-win32-x64@3.0.4':
-    optional: true
-
   '@napi-rs/wasm-runtime@1.2.3(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)':
     dependencies:
       '@emnapi/core': 1.11.1
@@ -5153,118 +5087,118 @@ snapshots:
 
   '@oxc-project/types@0.147.0': {}
 
-  '@oxfmt/binding-android-arm-eabi@0.66.0':
+  '@oxfmt/binding-android-arm-eabi@0.67.0':
     optional: true
 
-  '@oxfmt/binding-android-arm64@0.66.0':
+  '@oxfmt/binding-android-arm64@0.67.0':
     optional: true
 
-  '@oxfmt/binding-darwin-arm64@0.66.0':
+  '@oxfmt/binding-darwin-arm64@0.67.0':
     optional: true
 
-  '@oxfmt/binding-darwin-x64@0.66.0':
+  '@oxfmt/binding-darwin-x64@0.67.0':
     optional: true
 
-  '@oxfmt/binding-freebsd-x64@0.66.0':
+  '@oxfmt/binding-freebsd-x64@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm-gnueabihf@0.66.0':
+  '@oxfmt/binding-linux-arm-gnueabihf@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm-musleabihf@0.66.0':
+  '@oxfmt/binding-linux-arm-musleabihf@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm64-gnu@0.66.0':
+  '@oxfmt/binding-linux-arm64-gnu@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-arm64-musl@0.66.0':
+  '@oxfmt/binding-linux-arm64-musl@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-ppc64-gnu@0.66.0':
+  '@oxfmt/binding-linux-ppc64-gnu@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-riscv64-gnu@0.66.0':
+  '@oxfmt/binding-linux-riscv64-gnu@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-riscv64-musl@0.66.0':
+  '@oxfmt/binding-linux-riscv64-musl@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-s390x-gnu@0.66.0':
+  '@oxfmt/binding-linux-s390x-gnu@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-x64-gnu@0.66.0':
+  '@oxfmt/binding-linux-x64-gnu@0.67.0':
     optional: true
 
-  '@oxfmt/binding-linux-x64-musl@0.66.0':
+  '@oxfmt/binding-linux-x64-musl@0.67.0':
     optional: true
 
-  '@oxfmt/binding-openharmony-arm64@0.66.0':
+  '@oxfmt/binding-openharmony-arm64@0.67.0':
     optional: true
 
-  '@oxfmt/binding-win32-arm64-msvc@0.66.0':
+  '@oxfmt/binding-win32-arm64-msvc@0.67.0':
     optional: true
 
-  '@oxfmt/binding-win32-ia32-msvc@0.66.0':
+  '@oxfmt/binding-win32-ia32-msvc@0.67.0':
     optional: true
 
-  '@oxfmt/binding-win32-x64-msvc@0.66.0':
+  '@oxfmt/binding-win32-x64-msvc@0.67.0':
     optional: true
 
-  '@oxlint/binding-android-arm-eabi@1.81.0':
+  '@oxlint/binding-android-arm-eabi@1.82.0':
     optional: true
 
-  '@oxlint/binding-android-arm64@1.81.0':
+  '@oxlint/binding-android-arm64@1.82.0':
     optional: true
 
-  '@oxlint/binding-darwin-arm64@1.81.0':
+  '@oxlint/binding-darwin-arm64@1.82.0':
     optional: true
 
-  '@oxlint/binding-darwin-x64@1.81.0':
+  '@oxlint/binding-darwin-x64@1.82.0':
     optional: true
 
-  '@oxlint/binding-freebsd-x64@1.81.0':
+  '@oxlint/binding-freebsd-x64@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-gnueabihf@1.81.0':
+  '@oxlint/binding-linux-arm-gnueabihf@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-arm-musleabihf@1.81.0':
+  '@oxlint/binding-linux-arm-musleabihf@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-gnu@1.81.0':
+  '@oxlint/binding-linux-arm64-gnu@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-arm64-musl@1.81.0':
+  '@oxlint/binding-linux-arm64-musl@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-ppc64-gnu@1.81.0':
+  '@oxlint/binding-linux-ppc64-gnu@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-gnu@1.81.0':
+  '@oxlint/binding-linux-riscv64-gnu@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-riscv64-musl@1.81.0':
+  '@oxlint/binding-linux-riscv64-musl@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-s390x-gnu@1.81.0':
+  '@oxlint/binding-linux-s390x-gnu@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-gnu@1.81.0':
+  '@oxlint/binding-linux-x64-gnu@1.82.0':
     optional: true
 
-  '@oxlint/binding-linux-x64-musl@1.81.0':
+  '@oxlint/binding-linux-x64-musl@1.82.0':
     optional: true
 
-  '@oxlint/binding-openharmony-arm64@1.81.0':
+  '@oxlint/binding-openharmony-arm64@1.82.0':
     optional: true
 
-  '@oxlint/binding-win32-arm64-msvc@1.81.0':
+  '@oxlint/binding-win32-arm64-msvc@1.82.0':
     optional: true
 
-  '@oxlint/binding-win32-ia32-msvc@1.81.0':
+  '@oxlint/binding-win32-ia32-msvc@1.82.0':
     optional: true
 
-  '@oxlint/binding-win32-x64-msvc@1.81.0':
+  '@oxlint/binding-win32-x64-msvc@1.82.0':
     optional: true
 
   '@prisma/debug@7.2.0': {}
@@ -5549,9 +5483,9 @@ snapshots:
 
   '@types/aws-lambda@8.10.162': {}
 
-  '@types/bun@1.4.1':
+  '@types/bun@1.4.2':
     dependencies:
-      bun-types: 1.4.1
+      bun-types: 1.4.2
 
   '@types/chai@5.2.3':
     dependencies:
@@ -5561,6 +5495,10 @@ snapshots:
   '@types/deep-eql@4.0.2': {}
 
   '@types/estree@1.0.9': {}
+
+  '@types/node@22.20.1':
+    dependencies:
+      undici-types: 6.21.0
 
   '@types/node@26.4.1':
     dependencies:
@@ -5639,13 +5577,13 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.1
 
-  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))':
+  '@vitest/mocker@4.1.11(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))':
     dependencies:
       '@vitest/spy': 4.1.11
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)
 
   '@vitest/pretty-format@4.1.11':
     dependencies:
@@ -5673,24 +5611,24 @@ snapshots:
 
   acorn@8.18.0: {}
 
-  alchemy@2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.4.1)(effect@4.0.0-rc.112)(typescript@7.0.2)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3):
+  alchemy@2.0.0-beta.74(@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113))(@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1))(@types/node@22.20.1)(effect@4.0.0-rc.113)(typescript@7.0.2)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3):
     dependencies:
-      '@alchemy.run/cloudflare-runtime': 2.0.0-beta.74(@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.112))(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.4.1)(effect@4.0.0-rc.112)(rolldown@1.1.5)(typescript@7.0.2)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))
-      '@alchemy.run/floci': 2.0.0-beta.74(effect@4.0.0-rc.112)
+      '@alchemy.run/cloudflare-runtime': 2.0.0-beta.74(@distilled.cloud/cloudflare@1.0.0-rc.6(effect@4.0.0-rc.113))(@effect/platform-bun@4.0.0-rc.113(effect@4.0.0-rc.113))(@effect/platform-node@4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1))(@types/node@22.20.1)(effect@4.0.0-rc.113)(rolldown@1.1.5)(typescript@7.0.2)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
+      '@alchemy.run/floci': 2.0.0-beta.74(effect@4.0.0-rc.113)
       '@alchemy.run/node-utils': 2.0.0-beta.74
       '@aws-sdk/credential-providers': 3.1109.0
       '@clack/prompts': 1.7.0
-      '@distilled.cloud/aws': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/axiom': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/cloudflare': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/fly-io': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/hetzner': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/neon': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@distilled.cloud/planetscale': 1.0.0-rc.6(effect@4.0.0-rc.112)
-      '@effect/sql-d1': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      '@effect/sql-sqlite-do': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.112)(vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)))
+      '@distilled.cloud/aws': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/axiom': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/cloudflare': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/core': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/fly-io': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/hetzner': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/neon': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@distilled.cloud/planetscale': 1.0.0-rc.6(effect@4.0.0-rc.113)
+      '@effect/sql-d1': 4.0.0-rc.112(effect@4.0.0-rc.113)
+      '@effect/sql-sqlite-do': 4.0.0-rc.112(effect@4.0.0-rc.113)
+      '@effect/vitest': 4.0.0-rc.112(effect@4.0.0-rc.113)(vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)))
       '@libsql/client': 0.17.4
       '@octokit/rest': 22.0.1
       '@octokit/webhooks': 14.2.0
@@ -5701,7 +5639,7 @@ snapshots:
       '@types/aws-lambda': 8.10.162
       aws4fetch: 1.0.20
       capnweb: 0.6.1
-      effect: 4.0.0-rc.112
+      effect: 4.0.0-rc.113
       fast-glob: 3.3.3
       fast-xml-parser: 5.10.1
       ink: 6.8.0(react@19.2.8)
@@ -5714,9 +5652,9 @@ snapshots:
       undici: 7.29.0
       yaml: 2.9.0
     optionalDependencies:
-      '@effect/platform-bun': 4.0.0-rc.112(effect@4.0.0-rc.112)
-      '@effect/platform-node': 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
-      vite: 8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)
+      '@effect/platform-bun': 4.0.0-rc.113(effect@4.0.0-rc.113)
+      '@effect/platform-node': 4.0.0-rc.113(effect@4.0.0-rc.113)(redis@6.2.1)
+      vite: 8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)
       ws: 8.21.3
     transitivePeerDependencies:
       - '@types/node'
@@ -5761,7 +5699,7 @@ snapshots:
     dependencies:
       fill-range: 7.1.1
 
-  bun-types@1.4.1:
+  bun-types@1.4.2:
     dependencies:
       '@types/node': 26.4.1
 
@@ -5945,10 +5883,7 @@ snapshots:
 
   dotenv@17.4.2: {}
 
-  effect@4.0.0-rc.112:
-    dependencies:
-      fast-check: 4.9.0
-      msgpackr: 2.0.5
+  effect@4.0.0-rc.113: {}
 
   emoji-regex@10.6.0: {}
 
@@ -5984,10 +5919,6 @@ snapshots:
   expect-type@1.4.0: {}
 
   exsolve@1.1.1: {}
-
-  fast-check@4.9.0:
-    dependencies:
-      pure-rand: 8.4.2
 
   fast-glob@3.3.3:
     dependencies:
@@ -6274,8 +6205,6 @@ snapshots:
       braces: 3.0.3
       picomatch: 2.3.2
 
-  mime@4.1.0: {}
-
   mimic-fn@2.1.0: {}
 
   minipass@3.3.6:
@@ -6304,30 +6233,9 @@ snapshots:
 
   mri@1.2.0: {}
 
-  msgpackr-extract@3.0.4:
-    dependencies:
-      node-gyp-build-optional-packages: 5.2.2
-    optionalDependencies:
-      '@msgpackr-extract/msgpackr-extract-darwin-arm64': 3.0.4
-      '@msgpackr-extract/msgpackr-extract-darwin-x64': 3.0.4
-      '@msgpackr-extract/msgpackr-extract-linux-arm': 3.0.4
-      '@msgpackr-extract/msgpackr-extract-linux-arm64': 3.0.4
-      '@msgpackr-extract/msgpackr-extract-linux-x64': 3.0.4
-      '@msgpackr-extract/msgpackr-extract-win32-x64': 3.0.4
-    optional: true
-
-  msgpackr@2.0.5:
-    optionalDependencies:
-      msgpackr-extract: 3.0.4
-
   nanoid@3.3.18: {}
 
   node-fetch-native@1.6.7: {}
-
-  node-gyp-build-optional-packages@5.2.2:
-    dependencies:
-      detect-libc: 2.1.2
-    optional: true
 
   normalize-path@3.0.0: {}
 
@@ -6368,51 +6276,51 @@ snapshots:
       is-inside-container: 1.0.0
       wsl-utils: 0.1.0
 
-  oxfmt@0.66.0:
+  oxfmt@0.67.0:
     dependencies:
-      tinypool: 2.1.0
+      tinypool: 2.1.2
     optionalDependencies:
-      '@oxfmt/binding-android-arm-eabi': 0.66.0
-      '@oxfmt/binding-android-arm64': 0.66.0
-      '@oxfmt/binding-darwin-arm64': 0.66.0
-      '@oxfmt/binding-darwin-x64': 0.66.0
-      '@oxfmt/binding-freebsd-x64': 0.66.0
-      '@oxfmt/binding-linux-arm-gnueabihf': 0.66.0
-      '@oxfmt/binding-linux-arm-musleabihf': 0.66.0
-      '@oxfmt/binding-linux-arm64-gnu': 0.66.0
-      '@oxfmt/binding-linux-arm64-musl': 0.66.0
-      '@oxfmt/binding-linux-ppc64-gnu': 0.66.0
-      '@oxfmt/binding-linux-riscv64-gnu': 0.66.0
-      '@oxfmt/binding-linux-riscv64-musl': 0.66.0
-      '@oxfmt/binding-linux-s390x-gnu': 0.66.0
-      '@oxfmt/binding-linux-x64-gnu': 0.66.0
-      '@oxfmt/binding-linux-x64-musl': 0.66.0
-      '@oxfmt/binding-openharmony-arm64': 0.66.0
-      '@oxfmt/binding-win32-arm64-msvc': 0.66.0
-      '@oxfmt/binding-win32-ia32-msvc': 0.66.0
-      '@oxfmt/binding-win32-x64-msvc': 0.66.0
+      '@oxfmt/binding-android-arm-eabi': 0.67.0
+      '@oxfmt/binding-android-arm64': 0.67.0
+      '@oxfmt/binding-darwin-arm64': 0.67.0
+      '@oxfmt/binding-darwin-x64': 0.67.0
+      '@oxfmt/binding-freebsd-x64': 0.67.0
+      '@oxfmt/binding-linux-arm-gnueabihf': 0.67.0
+      '@oxfmt/binding-linux-arm-musleabihf': 0.67.0
+      '@oxfmt/binding-linux-arm64-gnu': 0.67.0
+      '@oxfmt/binding-linux-arm64-musl': 0.67.0
+      '@oxfmt/binding-linux-ppc64-gnu': 0.67.0
+      '@oxfmt/binding-linux-riscv64-gnu': 0.67.0
+      '@oxfmt/binding-linux-riscv64-musl': 0.67.0
+      '@oxfmt/binding-linux-s390x-gnu': 0.67.0
+      '@oxfmt/binding-linux-x64-gnu': 0.67.0
+      '@oxfmt/binding-linux-x64-musl': 0.67.0
+      '@oxfmt/binding-openharmony-arm64': 0.67.0
+      '@oxfmt/binding-win32-arm64-msvc': 0.67.0
+      '@oxfmt/binding-win32-ia32-msvc': 0.67.0
+      '@oxfmt/binding-win32-x64-msvc': 0.67.0
 
-  oxlint@1.81.0:
+  oxlint@1.82.0:
     optionalDependencies:
-      '@oxlint/binding-android-arm-eabi': 1.81.0
-      '@oxlint/binding-android-arm64': 1.81.0
-      '@oxlint/binding-darwin-arm64': 1.81.0
-      '@oxlint/binding-darwin-x64': 1.81.0
-      '@oxlint/binding-freebsd-x64': 1.81.0
-      '@oxlint/binding-linux-arm-gnueabihf': 1.81.0
-      '@oxlint/binding-linux-arm-musleabihf': 1.81.0
-      '@oxlint/binding-linux-arm64-gnu': 1.81.0
-      '@oxlint/binding-linux-arm64-musl': 1.81.0
-      '@oxlint/binding-linux-ppc64-gnu': 1.81.0
-      '@oxlint/binding-linux-riscv64-gnu': 1.81.0
-      '@oxlint/binding-linux-riscv64-musl': 1.81.0
-      '@oxlint/binding-linux-s390x-gnu': 1.81.0
-      '@oxlint/binding-linux-x64-gnu': 1.81.0
-      '@oxlint/binding-linux-x64-musl': 1.81.0
-      '@oxlint/binding-openharmony-arm64': 1.81.0
-      '@oxlint/binding-win32-arm64-msvc': 1.81.0
-      '@oxlint/binding-win32-ia32-msvc': 1.81.0
-      '@oxlint/binding-win32-x64-msvc': 1.81.0
+      '@oxlint/binding-android-arm-eabi': 1.82.0
+      '@oxlint/binding-android-arm64': 1.82.0
+      '@oxlint/binding-darwin-arm64': 1.82.0
+      '@oxlint/binding-darwin-x64': 1.82.0
+      '@oxlint/binding-freebsd-x64': 1.82.0
+      '@oxlint/binding-linux-arm-gnueabihf': 1.82.0
+      '@oxlint/binding-linux-arm-musleabihf': 1.82.0
+      '@oxlint/binding-linux-arm64-gnu': 1.82.0
+      '@oxlint/binding-linux-arm64-musl': 1.82.0
+      '@oxlint/binding-linux-ppc64-gnu': 1.82.0
+      '@oxlint/binding-linux-riscv64-gnu': 1.82.0
+      '@oxlint/binding-linux-riscv64-musl': 1.82.0
+      '@oxlint/binding-linux-s390x-gnu': 1.82.0
+      '@oxlint/binding-linux-x64-gnu': 1.82.0
+      '@oxlint/binding-linux-x64-musl': 1.82.0
+      '@oxlint/binding-openharmony-arm64': 1.82.0
+      '@oxlint/binding-win32-arm64-msvc': 1.82.0
+      '@oxlint/binding-win32-ia32-msvc': 1.82.0
+      '@oxlint/binding-win32-x64-msvc': 1.82.0
 
   pako@1.0.11: {}
 
@@ -6473,8 +6381,6 @@ snapshots:
       graceful-fs: 4.2.11
       retry: 0.12.0
       signal-exit: 3.0.7
-
-  pure-rand@8.4.2: {}
 
   queue-microtask@1.2.3: {}
 
@@ -6614,7 +6520,7 @@ snapshots:
 
   setimmediate@1.0.5: {}
 
-  sharp@0.35.4(@types/node@26.4.1):
+  sharp@0.35.4(@types/node@22.20.1):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -6645,7 +6551,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
-      '@types/node': 26.4.1
+      '@types/node': 22.20.1
 
   shebang-command@2.0.0:
     dependencies:
@@ -6727,7 +6633,7 @@ snapshots:
       fdir: 6.5.0(picomatch@4.0.5)
       picomatch: 4.0.5
 
-  tinypool@2.1.0: {}
+  tinypool@2.1.2: {}
 
   tinyrainbow@3.1.1: {}
 
@@ -6766,11 +6672,13 @@ snapshots:
 
   ufo@1.6.4: {}
 
+  undici-types@6.21.0: {}
+
   undici-types@8.3.0: {}
 
   undici@7.29.0: {}
 
-  undici@8.10.0: {}
+  undici@8.10.2: {}
 
   unenv@2.0.0-rc.24:
     dependencies:
@@ -6786,7 +6694,7 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
-  vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0):
+  vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.5
@@ -6794,15 +6702,15 @@ snapshots:
       rolldown: 1.2.6
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.4.1
+      '@types/node': 22.20.1
       fsevents: 2.3.3
       jiti: 2.7.0
       yaml: 2.9.0
 
-  vitest@4.1.11(@types/node@26.4.1)(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)):
+  vitest@4.1.11(@types/node@22.20.1)(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)):
     dependencies:
       '@vitest/expect': 4.1.11
-      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0))
+      '@vitest/mocker': 4.1.11(vite@8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0))
       '@vitest/pretty-format': 4.1.11
       '@vitest/runner': 4.1.11
       '@vitest/snapshot': 4.1.11
@@ -6819,10 +6727,10 @@ snapshots:
       tinyexec: 1.3.0
       tinyglobby: 0.2.17
       tinyrainbow: 3.1.1
-      vite: 8.2.2(@types/node@26.4.1)(jiti@2.7.0)(yaml@2.9.0)
+      vite: 8.2.2(@types/node@22.20.1)(jiti@2.7.0)(yaml@2.9.0)
       why-is-node-running: 2.3.0
     optionalDependencies:
-      '@types/node': 26.4.1
+      '@types/node': 22.20.1
     transitivePeerDependencies:
       - msw
 

@@ -29,8 +29,8 @@ export class Region extends Context.Service<
  * (rather than dying) so a provider can turn it into a typed
  * `MissingRegion` alongside its other credential-resolution failures.
  */
-export const fromEnvironment = Config.string("AWS_REGION").pipe(
-  Config.orElse(() => Config.string("AWS_DEFAULT_REGION")),
+export const fromEnvironment = Config.String("AWS_REGION").pipe(
+  Config.orElse(() => Config.String("AWS_DEFAULT_REGION")),
   Effect.map((region) => region as RegionName),
 );
 

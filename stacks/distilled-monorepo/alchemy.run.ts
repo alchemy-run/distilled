@@ -51,7 +51,7 @@ const NAME = "distilled";
  * The GitHub org the spec mirrors live in, published to Actions so
  * `stacks/distilled-submodules` can be retargeted without a code change.
  */
-const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
+const ReposOwner = Config.String("DISTILLED_REPOS_OWNER").pipe(
   Config.withDefault("distilled-mirror"),
 );
 
@@ -61,7 +61,7 @@ const ReposOwner = Config.string("DISTILLED_REPOS_OWNER").pipe(
  * the deploying profile's own token, which is correct when that profile was
  * signed in as the org.
  */
-const ReposPat = Config.redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
+const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
 
 export default Alchemy.Stack(
   "distilled-monorepo",

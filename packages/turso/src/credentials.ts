@@ -26,7 +26,7 @@ export class Credentials extends Context.Service<
 >()("TursoCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("TURSO_API_KEY"),
+  apiKey: EffectConfig.String("TURSO_API_KEY"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

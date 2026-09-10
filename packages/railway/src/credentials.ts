@@ -81,12 +81,12 @@ export const CredentialsFromToken = (config: {
   );
 
 const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.option(EffectConfig.string("RAILWAY_API_TOKEN")),
-  railwayToken: EffectConfig.option(EffectConfig.string("RAILWAY_TOKEN")),
+  apiToken: EffectConfig.option(EffectConfig.String("RAILWAY_API_TOKEN")),
+  railwayToken: EffectConfig.option(EffectConfig.String("RAILWAY_TOKEN")),
   projectToken: EffectConfig.option(
-    EffectConfig.string("RAILWAY_PROJECT_TOKEN"),
+    EffectConfig.String("RAILWAY_PROJECT_TOKEN"),
   ),
-  apiBaseUrl: EffectConfig.string("RAILWAY_API_URL").pipe(
+  apiBaseUrl: EffectConfig.String("RAILWAY_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

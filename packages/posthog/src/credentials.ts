@@ -34,8 +34,8 @@ export class Credentials extends Context.Service<
 >()("PosthogCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("POSTHOG_API_KEY"),
-  apiBaseUrl: EffectConfig.string("POSTHOG_HOST").pipe(
+  apiKey: EffectConfig.String("POSTHOG_API_KEY"),
+  apiBaseUrl: EffectConfig.String("POSTHOG_HOST").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

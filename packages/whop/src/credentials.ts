@@ -61,11 +61,11 @@ export class Credentials extends Context.Service<
 
 const envConfig = EffectConfig.all({
   // `WHOP_API_KEY` is what Whop's dashboard, CLI and app templates emit.
-  apiKey: EffectConfig.string("WHOP_API_KEY"),
-  apiBaseUrl: EffectConfig.string("WHOP_API_BASE_URL").pipe(
+  apiKey: EffectConfig.String("WHOP_API_KEY"),
+  apiBaseUrl: EffectConfig.String("WHOP_API_BASE_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  apiVersionDate: EffectConfig.string("WHOP_API_VERSION_DATE").pipe(
+  apiVersionDate: EffectConfig.String("WHOP_API_VERSION_DATE").pipe(
     EffectConfig.withDefault(API_VERSION_DATE),
   ),
 });

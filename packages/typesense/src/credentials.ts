@@ -31,8 +31,8 @@ export class Credentials extends Context.Service<
 >()("TypesenseCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("TYPESENSE_API_KEY"),
-  apiBaseUrl: EffectConfig.string("TYPESENSE_API_URL"),
+  apiKey: EffectConfig.String("TYPESENSE_API_KEY"),
+  apiBaseUrl: EffectConfig.String("TYPESENSE_API_URL"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

@@ -121,7 +121,7 @@ export const ServerRetryHintCapMs = Context.Service<number>(
 export const serverRetryHintCapLayer = (capMs: number) =>
   Layer.succeed(ServerRetryHintCapMs, capMs);
 
-const serverRetryHintCapMsConfig: Config.Config<number> = Config.string(
+const serverRetryHintCapMsConfig: Config.Config<number> = Config.String(
   ENV_SERVER_RETRY_HINT_CAP_MS,
 ).pipe(
   Config.map((raw) => {

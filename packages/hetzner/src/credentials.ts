@@ -37,8 +37,8 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   // `HCLOUD_TOKEN` / `HCLOUD_ENDPOINT` are what the `hcloud` CLI, the
   // Terraform provider and the official Go library read.
-  token: EffectConfig.string("HCLOUD_TOKEN"),
-  apiBaseUrl: EffectConfig.string("HCLOUD_ENDPOINT").pipe(
+  token: EffectConfig.String("HCLOUD_TOKEN"),
+  apiBaseUrl: EffectConfig.String("HCLOUD_ENDPOINT").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });
