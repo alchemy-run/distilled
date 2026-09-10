@@ -974,6 +974,48 @@ program.<span class="f">pipe</span>(
         else el.textContent = text;
       };
       const valueOf = (el) => el?.dataset.value ?? el?.textContent ?? "";
+
+      // Syntax colour for the morph layer. Walk the highlighted panel's DOM
+      // once to get a class per character, then paint torph's item spans
+      // (each carries a `torph-slot` = character offset) from that map.
+      const colourMap = (panel) => {
+        const out = [];
+        const walk = (node, cls) => {
+          for (const n of node.childNodes) {
+            if (n.nodeType === Node.TEXT_NODE) {
+              for (const _ of n.textContent) out.push(cls);
+            } else if (n.nodeType === Node.ELEMENT_NODE) {
+              walk(n, n.classList.length ? n.classList[0] : cls);
+            }
+          }
+        };
+        walk(panel.querySelector("code") ?? panel, "");
+        return out;
+      };
+      const paint = (el) => {
+        const map = el._colours;
+        const target = el.dataset.value ?? "";
+        if (!map || !target) return;
+        // Items are word segments in document order. Torph normalises spaces
+        // to NBSP and can split differently from a naive walk, so re-anchor
+        // each item by searching for its text in the target from the cursor.
+        let pos = 0;
+        for (const item of el.querySelectorAll("[torph-item]")) {
+          if (item.hasAttribute("torph-exiting")) continue;
+          const text = item.textContent.replace(/\u00a0/g, " ");
+          if (!text) continue;
+          let at = target.indexOf(text, pos);
+          if (at < 0 || at - pos > 4) at = pos; // tolerate small drift only
+          const cls = map[at] ?? "";
+          if (item.dataset.tok !== cls) item.dataset.tok = cls;
+          pos = at + text.length;
+        }
+      };
+      // Repaint whenever torph rebuilds the layer's children.
+      const watchPaint = (el) => {
+        const mo = new MutationObserver(() => paint(el));
+        mo.observe(el, { childList: true, subtree: true, characterData: true });
+      };
       const morphReady = import("/vendor/torph.mjs")
         .then(({ TextMorph }) => {
           for (const el of document.querySelectorAll(
@@ -994,6 +1036,7 @@ program.<span class="f">pipe</span>(
                 : undefined,
             });
             morphs.set(el, m);
+            if (isCode) watchPaint(el);
             if (el.dataset.value) m.update(el.dataset.value);
           }
           document
@@ -1001,6 +1044,29 @@ program.<span class="f">pipe</span>(
             ?.classList.add("morph-ready");
         })
         .catch(() => {});
+
+      // Theme toggle: flips between light and dark relative to the effective
+      // scheme and persists the choice; the head script re-applies it on load.
+      for (const btn of document.querySelectorAll("[data-theme-toggle]")) {
+        btn.addEventListener("click", () => {
+          const root = document.documentElement;
+          const stored = root.dataset.theme;
+          const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
+          const effectiveDark = stored ? stored === "dark" : systemDark;
+          const next = effectiveDark ? "light" : "dark";
+          root.classList.add("theme-switching");
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem("theme", next);
+          } catch {}
+          // Two frames: one to apply the new colours, one to re-enable transitions.
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() =>
+              root.classList.remove("theme-switching"),
+            ),
+          );
+        });
+      }
 
       // Package filter: matches on name, directory and tags; hides empty groups.
       const input = document.getElementById("filter");
@@ -1129,8 +1195,9 @@ program.<span class="f">pipe</span>(
           if (file && active) file.textContent = active.dataset.file;
           fig.dataset.pkg = key;
           const layer = fig.querySelector("[data-code-morph]");
+          if (layer && active) layer._colours = colourMap(active);
           if (fig.classList.contains("morph-ready") && layer?.dataset.value) {
-            fig.classList.add("is-morphing"); // plain-text layer on top while it animates
+            fig.classList.add("is-morphing"); // coloured morph layer on top while it animates
           }
           morphInto(layer, active?.textContent ?? "");
           renderCmd();

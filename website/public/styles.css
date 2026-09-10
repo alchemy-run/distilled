@@ -907,9 +907,34 @@ h1 {
   opacity: 0;
   transition: none;
 }
-/* Hand-back: when morphing ends the highlighted panel fades up over the plain layer. */
+/* Hand-back: both layers carry the same colours by now, so a short
+   cross-fade hides the swap. */
+.hero__code > .code--morph {
+  transition:
+    opacity 180ms ease,
+    visibility 0s linear 180ms;
+}
 .hero__code > .code.is-active {
-  transition: opacity 220ms ease;
+  transition: opacity 180ms ease;
+}
+.code--morph [data-tok="k"] {
+  color: var(--code-k);
+}
+.code--morph [data-tok="s"] {
+  color: var(--code-s);
+}
+.code--morph [data-tok="f"] {
+  color: var(--code-f);
+}
+.code--morph [data-tok="t"] {
+  color: var(--code-t);
+}
+.code--morph [data-tok="c"] {
+  color: var(--code-c);
+}
+.code--morph [data-tok="m"] {
+  color: var(--code-m);
+  font-style: italic;
 }
 @media (prefers-reduced-motion: reduce) {
   .hero__code > .code--morph {
