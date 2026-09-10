@@ -120,7 +120,11 @@
       "workflowName": "workflow_name",
       "wranglerSessionConfig": "wrangler-session-config",
       "zoneId": "zone_id",
-      "zoneName": "zone_name"
+      "zoneName": "zone_name",
+      "previewId": "preview_id",
+      "previewName": "preview_name",
+      "workerName": "worker_name",
+      "ignoreBaseConfig": "ignore_base_config"
     },
     "distilled.finalized": true
   },
@@ -12871,6 +12875,12 @@
           "traits": {
             "smithy.api#documentation": "Name of the zone containing the domain hostname.",
             "smithy.api#required": {}
+          }
+        },
+        "previews_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Worker Previews are served on this custom domain."
           }
         }
       }
@@ -42153,6 +42163,21 @@
         },
         {
           "target": "com.cloudflare.workers#CreateZoneEdgePreviewSession"
+        },
+        {
+          "target": "com.cloudflare.workers#GetPreview"
+        },
+        {
+          "target": "com.cloudflare.workers#CreatePreview"
+        },
+        {
+          "target": "com.cloudflare.workers#DeletePreview"
+        },
+        {
+          "target": "com.cloudflare.workers#CreatePreviewDeployment"
+        },
+        {
+          "target": "com.cloudflare.workers#GetPreviewDeployment"
         }
       ],
       "traits": {
@@ -45629,6 +45654,12 @@
             "smithy.api#documentation": "Name of the zone containing the domain hostname.",
             "smithy.api#required": {}
           }
+        },
+        "previews_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Worker Previews are served on this custom domain."
+          }
         }
       },
       "traits": {
@@ -48318,6 +48349,12 @@
           "traits": {
             "smithy.api#documentation": "Name of the zone containing the domain hostname."
           }
+        },
+        "previews_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Serve Worker Previews on this custom domain as `<preview-name>.<hostname>`."
+          }
         }
       },
       "traits": {
@@ -48374,6 +48411,12 @@
           "traits": {
             "smithy.api#documentation": "Name of the zone containing the domain hostname.",
             "smithy.api#required": {}
+          }
+        },
+        "previews_enabled": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether Worker Previews are served on this custom domain."
           }
         }
       },
@@ -52176,6 +52219,560 @@
           "code": 200
         },
         "smithy.api#documentation": "Create an edge-preview session scoped to a zone (undocumented endpoint)."
+      }
+    },
+    "com.cloudflare.workers#PreviewNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10025
+          },
+          {
+            "status": 404,
+            "message": {
+              "includes": "preview"
+            }
+          }
+        ]
+      }
+    },
+    "com.cloudflare.workers#PreviewDeploymentNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10222
+          }
+        ]
+      }
+    },
+    "com.cloudflare.workers#PreviewUrlsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.workers#PreviewTailConsumer": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers#PreviewTailConsumersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.workers#PreviewTailConsumer"
+      }
+    },
+    "com.cloudflare.workers#PreviewResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Immutable Preview id."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Preview name as created (e.g. a git branch)."
+          }
+        },
+        "slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "DNS-safe slug used in Preview URLs."
+          }
+        },
+        "worker_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Parent Worker script name this Preview belongs to."
+          }
+        },
+        "urls": {
+          "target": "com.cloudflare.workers#PreviewUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Stable Preview URLs (always the latest deployment)."
+          }
+        },
+        "tags": {
+          "target": "com.cloudflare.workers#PreviewUrlsList"
+        },
+        "logpush": {
+          "target": "smithy.api#Boolean"
+        },
+        "tail_consumers": {
+          "target": "com.cloudflare.workers#PreviewTailConsumersList"
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        },
+        "updated_on": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.workers#GetPreviewRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent Worker id or script name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "preview_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preview id or name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.workers#GetPreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.workers#GetPreviewRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.workers#PreviewResource"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers#PreviewNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#WorkerNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a Worker Preview by id or name."
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Parent Worker id or script name.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "ignore_base_config": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "ignore_base_config",
+            "smithy.api#documentation": "Do not copy the parent's Previews Base configuration onto this Preview."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "Preview name. Defaults to the git branch in wrangler; Alchemy defaults to the stage."
+          }
+        },
+        "logpush": {
+          "target": "smithy.api#Boolean"
+        },
+        "tail_consumers": {
+          "target": "com.cloudflare.workers#PreviewTailConsumersList"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.workers#CreatePreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.workers#CreatePreviewRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.workers#PreviewResource"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers#WorkerNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews",
+          "code": 200
+        },
+        "smithy.api#documentation": "Create a Worker Preview. Does not deploy code; follow with createPreviewDeployment."
+      }
+    },
+    "com.cloudflare.workers#DeletePreviewRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "preview_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.workers#DeletePreviewResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.workers#DeletePreview": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.workers#DeletePreviewRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.workers#DeletePreviewResponse"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers#PreviewNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#WorkerNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "DELETE",
+          "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Delete a Worker Preview and all its deployments."
+      }
+    },
+    "com.cloudflare.workers#PreviewDeploymentResource": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "preview_id": {
+          "target": "smithy.api#String"
+        },
+        "preview_name": {
+          "target": "smithy.api#String"
+        },
+        "migration_tag": {
+          "target": "smithy.api#String"
+        },
+        "urls": {
+          "target": "com.cloudflare.workers#PreviewUrlsList",
+          "traits": {
+            "smithy.api#documentation": "Pinned deployment URLs for this exact deploy."
+          }
+        },
+        "compatibility_date": {
+          "target": "smithy.api#String"
+        },
+        "created_on": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentMetadataAssets": {
+      "type": "structure",
+      "members": {
+        "jwt": {
+          "target": "smithy.api#String"
+        },
+        "config": {
+          "target": "smithy.api#Document"
+        }
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentMetadataCompatibilityFlagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentMetadataContainer": {
+      "type": "structure",
+      "members": {
+        "class_name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentMetadataContainersList": {
+      "type": "list",
+      "member": {
+        "target": "com.cloudflare.workers#CreatePreviewDeploymentMetadataContainer"
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentMetadata": {
+      "type": "structure",
+      "members": {
+        "main_module": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Entrypoint module filename."
+          }
+        },
+        "assets": {
+          "target": "com.cloudflare.workers#CreatePreviewDeploymentMetadataAssets"
+        },
+        "compatibility_date": {
+          "target": "smithy.api#String"
+        },
+        "compatibility_flags": {
+          "target": "com.cloudflare.workers#CreatePreviewDeploymentMetadataCompatibilityFlagsList"
+        },
+        "annotations": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Version annotations (workers/message, workers/tag, …)."
+          }
+        },
+        "migrations": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Durable Object class migrations for this Preview's isolated namespaces."
+          }
+        },
+        "limits": {
+          "target": "smithy.api#Document"
+        },
+        "placement": {
+          "target": "smithy.api#Document"
+        },
+        "cache_options": {
+          "target": "smithy.api#Document"
+        },
+        "env": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "smithy.api#documentation": "Binding map keyed by runtime name (wrangler `env` format)."
+          }
+        },
+        "containers": {
+          "target": "com.cloudflare.workers#CreatePreviewDeploymentMetadataContainersList"
+        }
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "preview_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Preview id (not name) — wrangler uses the resource id returned by createPreview.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "metadata": {
+          "target": "com.cloudflare.workers#CreatePreviewDeploymentMetadata",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#documentation": "JSON-encoded multipart `metadata` part."
+          }
+        },
+        "files": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.cloudflare.protocols#formDataFile": {},
+            "smithy.api#documentation": "Module files comprising the Worker script, appended under their own filenames."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.workers#CreatePreviewDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.workers#CreatePreviewDeploymentRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.workers#PreviewDeploymentResource"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers#PreviewNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#WorkerNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments",
+          "code": 200,
+          "contentType": "multipart"
+        },
+        "smithy.api#documentation": "Upload code, bindings, and assets as a new deployment of a Preview."
+      }
+    },
+    "com.cloudflare.workers#GetPreviewDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "account_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "worker_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "preview_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        },
+        "deployment_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Deployment id, or `latest`.",
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.cloudflare.workers#GetPreviewDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.cloudflare.workers#GetPreviewDeploymentRequest"
+      },
+      "output": {
+        "target": "com.cloudflare.workers#PreviewDeploymentResource"
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.workers#PreviewNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#PreviewDeploymentNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#WorkerNotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a Preview deployment by id, or `latest`."
       }
     },
     "com.cloudflare.workers#PutScriptMetadataStringList": {
