@@ -945,10 +945,11 @@ pre.code code {
   opacity: 0.85;
 }
 .ev__added {
-  border-left: 2px solid var(--teal);
-  margin-left: -0.55rem;
-  padding-left: 0.45rem;
-  background: color-mix(in oklab, var(--teal) 8%, transparent);
+  display: inline-block;
+  margin-left: -1.1rem;
+  padding-left: 1.1rem;
+  background: color-mix(in oklab, var(--teal) 10%, transparent);
+  box-shadow: inset 2px 0 0 var(--teal);
 }
 .ev__note {
   margin: 0;

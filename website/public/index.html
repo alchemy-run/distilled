@@ -448,15 +448,17 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
                 ><code>Fly.Machines.createMachine</code></span
               >
             </figcaption>
-            <pre class="ev__code"><code><span class="k">errors</span>: [
-  <span class="ev__added"><span class="t">BadRequest</span>,</span>   <span class="m">// 400 · seen live</span>
-  <span class="ev__added"><span class="t">Forbidden</span>,</span>    <span class="m">// 403 · seen live</span>
-  <span class="ev__added"><span class="t">NotFound</span>,</span>     <span class="m">// 404</span>
-  <span class="ev__added"><span class="t">Conflict</span>,</span>     <span class="m">// 409 · name-taken race</span>
-]</code></pre>
+            <pre
+              class="ev__code"
+            ><code><span class="k">export type</span> <span class="t">CreateMachineError</span> =
+<span class="ev__added">  | <span class="t">BadRequest</span></span>   <span class="m">// 400 · seen live</span>
+<span class="ev__added">  | <span class="t">Forbidden</span></span>    <span class="m">// 403 · seen live</span>
+<span class="ev__added">  | <span class="t">NotFound</span></span>     <span class="m">// 404</span>
+<span class="ev__added">  | <span class="t">Conflict</span></span>     <span class="m">// 409 · name-taken race</span>
+  | <span class="t">FlyIoOpError</span></code></pre>
             <p class="ev__note">
-              Four typed failures you can <code>catchTag</code>, each added as a
-              patch to the spec the moment a real deploy surfaced it.
+              Four typed failures in the operation's error union, each added as
+              a patch to the spec the moment a real deploy surfaced it.
             </p>
           </figure>
         </div>
