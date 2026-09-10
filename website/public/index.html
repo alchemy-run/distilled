@@ -191,7 +191,8 @@
           <div class="install">
             <span class="install__prompt" aria-hidden="true">$</span>
             <code id="install-cmd"
-              >npm install @distilled.cloud/aws effect</code
+              >npm install @distilled.cloud/<span data-sample-pkg>aws</span>
+              effect</code
             >
             <button
               class="copy"
@@ -1072,7 +1073,9 @@ program.<span class="f">pipe</span>(
           const target = document.querySelector(btn.getAttribute("data-copy"));
           const label = btn.querySelector(".copy__label");
           try {
-            await navigator.clipboard.writeText(target?.textContent ?? "");
+            await navigator.clipboard.writeText(
+              (target?.textContent ?? "").replace(/\s+/g, " ").trim(),
+            );
             btn.classList.add("is-copied");
             if (label) label.textContent = "Copied";
           } catch {
