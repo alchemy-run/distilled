@@ -732,41 +732,92 @@ h1 {
   border: 1px solid var(--line-2);
   color: var(--accent);
 }
-.code__tabs {
+/* Dot stepper: idle providers are dots, the active one expands to its name.
+   A thin progress ring on the active dot shows the auto-advance timer. */
+.code__steps {
   margin-left: auto;
   display: flex;
-  gap: 0.2rem;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem;
 }
-.code__tabs button {
-  font: inherit;
-  font-size: 0.7rem;
-  padding: 0.12rem 0.5rem;
+.code__steps button {
+  --dot: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 1.35rem;
+  padding: 0 0.3rem;
+  border: 0;
   border-radius: 999px;
-  border: 1px solid transparent;
   background: transparent;
   color: var(--fg-3);
+  font: inherit;
+  font-size: 0.7rem;
   cursor: pointer;
+  max-width: 1.1rem;
+  overflow: hidden;
   transition:
-    color 120ms ease,
-    border-color 120ms ease,
-    background-color 120ms ease;
+    max-width 420ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    color 200ms ease,
+    background-color 200ms ease;
 }
-.code__tabs button:hover {
-  color: var(--fg);
+.code__steps button i {
+  flex: none;
+  width: var(--dot);
+  height: var(--dot);
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.35;
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
 }
-.code__tabs button[aria-selected="true"] {
+.code__steps button span {
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 250ms ease 120ms;
+}
+.code__steps button:hover i {
+  opacity: 1;
+  transform: scale(1.25);
+}
+.code__steps button[aria-selected="true"] {
+  max-width: 8rem;
+  padding: 0 0.6rem 0 0.35rem;
   color: var(--accent);
-  border-color: color-mix(in oklab, var(--accent) 50%, var(--line-2));
-  background: color-mix(in oklab, var(--accent) 8%, transparent);
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
 }
+.code__steps button[aria-selected="true"] i {
+  opacity: 1;
+  background: conic-gradient(
+      var(--accent) calc(var(--p, 0) * 1turn),
+      color-mix(in oklab, var(--accent) 25%, transparent) 0
+    )
+    border-box;
+  width: 0.7rem;
+  height: 0.7rem;
+  -webkit-mask: radial-gradient(farthest-side, transparent 55%, #000 58%);
+  mask: radial-gradient(farthest-side, transparent 55%, #000 58%);
+}
+.code__steps button[aria-selected="true"] span {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .code__steps button,
+  .code__steps button i,
+  .code__steps button span {
+    transition: none;
+  }
+}
+
 /* Panels share one box; the tallest sets the height so switching doesn't jump. */
 .hero__code {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
 }
 .hero__code > .code {
   grid-area: 2 / 1;
+  min-width: 0;
   visibility: hidden;
   opacity: 0;
   transition: opacity 260ms ease;
@@ -783,7 +834,7 @@ pre.code {
   margin: 0;
   padding: 1.1rem 1.2rem 1.25rem;
   overflow-x: auto;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   line-height: 1.6;
   tab-size: 2;
   color: var(--fg);

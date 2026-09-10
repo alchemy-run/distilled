@@ -230,25 +230,25 @@
               ><i></i><i></i><i></i
             ></span>
             <span class="code__file" data-sample-file>fetch-object.ts</span>
-            <div class="code__tabs" role="tablist" aria-label="Provider">
+            <div class="code__steps" role="tablist" aria-label="Provider">
               <button role="tab" aria-selected="true" data-sample="aws">
-                aws
+                <i></i><span>aws</span>
               </button>
               <button role="tab" aria-selected="false" data-sample="cloudflare">
-                cloudflare
+                <i></i><span>cloudflare</span>
               </button>
               <button role="tab" aria-selected="false" data-sample="gcp">
-                gcp
+                <i></i><span>gcp</span>
               </button>
               <button
                 role="tab"
                 aria-selected="false"
                 data-sample="planetscale"
               >
-                planetscale
+                <i></i><span>planetscale</span>
               </button>
               <button role="tab" aria-selected="false" data-sample="stripe">
-                stripe
+                <i></i><span>stripe</span>
               </button>
             </div>
           </figcaption>
@@ -258,13 +258,13 @@
             data-sample-panel="aws"
             data-file="fetch-object.ts"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
-<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> { FetchHttpClient } <span class="k">from</span> <span class="s">"effect/unstable/http"</span>
 <span class="k">import</span> * <span class="k">as</span> S3 <span class="k">from</span> <span class="s">"@distilled.cloud/aws/s3"</span>
 <span class="k">import</span> { Credentials, Region } <span class="k">from</span> <span class="s">"@distilled.cloud/aws"</span>
 
-<span class="k">const</span> <span class="v">program</span> = S3.<span class="f">getObject</span>({ Bucket: <span class="s">"photos"</span>, Key: <span class="s">"hero.png"</span> }).<span class="f">pipe</span>(
+<span class="k">const</span> <span class="v">program</span> = S3.<span class="f">getObject</span>({ Bucket, Key }).<span class="f">pipe</span>(
   Effect.<span class="f">catchTags</span>({
-    <span class="t">NoSuchKey</span>:    () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),   <span class="m">// typed per operation</span>
+    <span class="t">NoSuchKey</span>:    () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),  <span class="m">// typed per op</span>
     <span class="t">AccessDenied</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
   }),
 )
@@ -283,7 +283,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
             data-file="get-worker.ts"
             aria-hidden="true"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
-<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> { FetchHttpClient } <span class="k">from</span> <span class="s">"effect/unstable/http"</span>
 <span class="k">import</span> * <span class="k">as</span> Workers <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare/workers"</span>
 <span class="k">import</span> { Credentials } <span class="k">from</span> <span class="s">"@distilled.cloud/cloudflare"</span>
 
@@ -293,7 +293,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(AwsLiv
 }).<span class="f">pipe</span>(
   Effect.<span class="f">catchTags</span>({
     <span class="t">WorkerNotFound</span>:        () => Effect.<span class="f">succeed</span>(<span class="c">null</span>),
-    <span class="t">CloudflareRateLimited</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+    <span class="t">CloudflareRateLimited</span>: (e) => Effect.<span class="f">fail</span>(e),
   }),
 )
 
@@ -311,12 +311,13 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(CfLive
             aria-hidden="true"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
 <span class="k">import</span> * <span class="k">as</span> Stream <span class="k">from</span> <span class="s">"effect/Stream"</span>
-<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> { FetchHttpClient } <span class="k">from</span> <span class="s">"effect/unstable/http"</span>
 <span class="k">import</span> * <span class="k">as</span> Storage <span class="k">from</span> <span class="s">"@distilled.cloud/gcp/storage_v1"</span>
-<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/gcp/Credentials"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span>
+  <span class="s">"@distilled.cloud/gcp/Credentials"</span>
 
-<span class="m">// Paginated operations are Streams: pages fetch themselves on demand.</span>
-<span class="k">const</span> <span class="v">program</span> = Storage.listBuckets.<span class="f">items</span>({ project: <span class="s">"my-project"</span> }).<span class="f">pipe</span>(
+<span class="m">// Paginated ops are Streams: pages fetch on demand.</span>
+<span class="k">const</span> <span class="v">program</span> = Storage.listBuckets.<span class="f">items</span>({ project: <span class="s">"acme"</span> }).<span class="f">pipe</span>(
   Stream.<span class="f">filter</span>((b) => b.location === <span class="s">"EU"</span>),
   Stream.<span class="f">take</span>(<span class="c">20</span>),
   Stream.<span class="f">runCollect</span>,
@@ -324,7 +325,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(CfLive
 
 <span class="k">const</span> <span class="v">GcpLive</span> = Layer.<span class="f">mergeAll</span>(
   FetchHttpClient.layer,
-  CredentialsFromEnv,   <span class="m">// GOOGLE_ACCESS_TOKEN / application default</span>
+  CredentialsFromEnv,   <span class="m">// GOOGLE_ACCESS_TOKEN</span>
 )
 
 program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(GcpLive), Effect.runPromise)</code></pre>
@@ -335,9 +336,10 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(GcpLiv
             data-file="get-database.ts"
             aria-hidden="true"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
-<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> { FetchHttpClient } <span class="k">from</span> <span class="s">"effect/unstable/http"</span>
 <span class="k">import</span> * <span class="k">as</span> PlanetScale <span class="k">from</span> <span class="s">"@distilled.cloud/planetscale"</span>
-<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/planetscale/Credentials"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span>
+  <span class="s">"@distilled.cloud/planetscale/Credentials"</span>
 
 <span class="k">const</span> <span class="v">program</span> = PlanetScale.<span class="f">getDatabase</span>({
   organization: <span class="s">"acme"</span>,
@@ -351,7 +353,7 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(GcpLiv
 
 <span class="k">const</span> <span class="v">PsLive</span> = Layer.<span class="f">mergeAll</span>(
   FetchHttpClient.layer,
-  CredentialsFromEnv,   <span class="m">// PLANETSCALE_SERVICE_TOKEN_ID / _TOKEN</span>
+  CredentialsFromEnv,   <span class="m">// PLANETSCALE_SERVICE_TOKEN*</span>
 )
 
 program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(PsLive), Effect.runPromise)</code></pre>
@@ -362,17 +364,18 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(PsLive
             data-file="create-customer.ts"
             aria-hidden="true"
           ><code><span class="k">import</span> { Effect, Layer } <span class="k">from</span> <span class="s">"effect"</span>
-<span class="k">import</span> * <span class="k">as</span> FetchHttpClient <span class="k">from</span> <span class="s">"effect/unstable/http/FetchHttpClient"</span>
+<span class="k">import</span> { FetchHttpClient } <span class="k">from</span> <span class="s">"effect/unstable/http"</span>
 <span class="k">import</span> * <span class="k">as</span> Stripe <span class="k">from</span> <span class="s">"@distilled.cloud/stripe"</span>
-<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span> <span class="s">"@distilled.cloud/stripe/Credentials"</span>
+<span class="k">import</span> { CredentialsFromEnv } <span class="k">from</span>
+  <span class="s">"@distilled.cloud/stripe/Credentials"</span>
 
 <span class="k">const</span> <span class="v">program</span> = Stripe.<span class="f">CreateCustomer</span>({
   email: <span class="s">"ada@example.com"</span>,
   name: <span class="s">"Ada Lovelace"</span>,
 }).<span class="f">pipe</span>(
   Effect.<span class="f">catchTags</span>({
-    <span class="t">InvalidRequestError</span>: (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
-    <span class="t">CardError</span>:           (e) => Effect.<span class="f">fail</span>(<span class="k">new</span> <span class="t">Error</span>(e.message)),
+    <span class="t">InvalidRequestError</span>: (e) => Effect.<span class="f">fail</span>(e),
+    <span class="t">CardError</span>:           (e) => Effect.<span class="f">fail</span>(e),
   }),
 )
 
@@ -979,19 +982,26 @@ program.<span class="f">pipe</span>(
           .forEach((el) => el.classList.add("is-in"));
       }
 
-      // Hero code samples: tabs per provider; auto-advance every 6s until the
-      // user picks one, then stay put. Pauses while the tab is hidden.
+      // Hero code samples: a dot per provider; the active dot expands to its
+      // name and fills a ring over the auto-advance interval. Clicking a dot
+      // pins it. Paused while hovered or when the tab is hidden.
       for (const fig of document.querySelectorAll("[data-samples]")) {
         const tabs = [...fig.querySelectorAll("[data-sample]")];
         const panels = [...fig.querySelectorAll("[data-sample-panel]")];
         const file = fig.querySelector("[data-sample-file]");
+        const PERIOD = 6000;
+        const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
         let i = 0;
-        let timer = null;
+        let startedAt = 0;
+        let raf = 0;
+        let running = false;
         const show = (n) => {
           i = (n + tabs.length) % tabs.length;
           const key = tabs[i].dataset.sample;
-          for (const t of tabs)
+          for (const t of tabs) {
             t.setAttribute("aria-selected", String(t.dataset.sample === key));
+            t.style.setProperty("--p", "0");
+          }
           for (const p of panels) {
             const on = p.dataset.samplePanel === key;
             p.classList.toggle("is-active", on);
@@ -1001,31 +1011,38 @@ program.<span class="f">pipe</span>(
           if (file && active) file.textContent = active.dataset.file;
           const pkg = document.querySelector("[data-sample-pkg]");
           if (pkg) pkg.textContent = key;
+          startedAt = performance.now();
+        };
+        const tick = (now) => {
+          if (!running) return;
+          const p = Math.min(1, (now - startedAt) / PERIOD);
+          tabs[i].style.setProperty("--p", p.toFixed(3));
+          if (p >= 1) show(i + 1);
+          raf = requestAnimationFrame(tick);
         };
         const start = () => {
-          if (timer || matchMedia("(prefers-reduced-motion: reduce)").matches)
-            return;
-          timer = setInterval(() => show(i + 1), 6000);
+          if (running || reduced || fig.dataset.pinned) return;
+          running = true;
+          startedAt =
+            performance.now() -
+            Number(tabs[i].style.getPropertyValue("--p") || 0) * PERIOD;
+          raf = requestAnimationFrame(tick);
         };
         const stop = () => {
-          clearInterval(timer);
-          timer = null;
+          running = false;
+          cancelAnimationFrame(raf);
         };
         tabs.forEach((t, n) =>
           t.addEventListener("click", () => {
+            fig.dataset.pinned = "1";
             stop();
             show(n);
           }),
         );
         fig.addEventListener("mouseenter", stop);
-        fig.addEventListener("mouseleave", () => {
-          if (!fig.dataset.pinned) start();
-        });
-        tabs.forEach((t) =>
-          t.addEventListener("click", () => (fig.dataset.pinned = "1")),
-        );
+        fig.addEventListener("mouseleave", start);
         document.addEventListener("visibilitychange", () =>
-          document.hidden ? stop() : !fig.dataset.pinned && start(),
+          document.hidden ? stop() : start(),
         );
         show(0);
         start();
