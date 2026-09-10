@@ -1,0 +1,47 @@
+{
+  "description": "Every firewall `tags` member is written as `allOf: [$ref existing_tags_array, { description }]`. The converter cannot merge an array $ref with a description-only member and emits `unknown`. Replace each with the inlined array of strings so the SDK types `tags` as `Array<string>` on the firewall, on every rule target, and on the add/remove tags request bodies.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/schemas/firewall/allOf/0/properties/tags",
+      "value": {
+        "type": "array",
+        "items": { "type": "string" },
+        "nullable": true,
+        "description": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope.",
+        "example": ["gateway"]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/components/schemas/firewall_rule_target/properties/tags",
+      "value": {
+        "type": "array",
+        "items": { "type": "string" },
+        "nullable": true,
+        "description": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+        "example": ["frontend"]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1v2~1firewalls~1{firewall_id}~1tags/post/requestBody/content/application~1json/schema/properties/tags",
+      "value": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "An array containing the names of the Tags to be assigned to the firewall.",
+        "example": ["frontend"]
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/paths/~1v2~1firewalls~1{firewall_id}~1tags/delete/requestBody/content/application~1json/schema/properties/tags",
+      "value": {
+        "type": "array",
+        "items": { "type": "string" },
+        "description": "An array containing the names of the Tags to be removed from the firewall.",
+        "example": ["frontend"]
+      }
+    }
+  ]
+}

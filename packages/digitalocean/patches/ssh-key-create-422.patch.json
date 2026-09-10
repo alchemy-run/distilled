@@ -1,0 +1,17 @@
+{
+  "description": "POST /v2/account/keys answers 422 for duplicate or unparseable key material (documented in prose, undeclared in the spec). Declaring it types the error as UnprocessableEntity instead of the untyped catch-all.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/paths/~1v2~1account~1keys/post/responses/422",
+      "value": {
+        "description": "Duplicate or unprocessable key material.",
+        "content": {
+          "application/json": {
+            "schema": { "$ref": "#/components/schemas/error" }
+          }
+        }
+      }
+    }
+  ]
+}

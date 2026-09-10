@@ -1,0 +1,25 @@
+{
+  "description": "Server-assigned firewall fields (id, status, created_at) and the always-present name are optional in the spec because they are readOnly. Same for the response envelopes' `firewall` member. Required removes phantom-undefined fallbacks in consumers.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/components/schemas/firewall/allOf/0/required",
+      "value": ["id", "name", "status", "created_at"]
+    },
+    {
+      "op": "add",
+      "path": "/components/responses/create_firewall_response/content/application~1json/schema/required",
+      "value": ["firewall"]
+    },
+    {
+      "op": "add",
+      "path": "/components/responses/get_firewall_response/content/application~1json/schema/required",
+      "value": ["firewall"]
+    },
+    {
+      "op": "add",
+      "path": "/components/responses/put_firewall_response/content/application~1json/schema/required",
+      "value": ["firewall"]
+    }
+  ]
+}

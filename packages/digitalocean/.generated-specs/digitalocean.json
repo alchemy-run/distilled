@@ -338,10 +338,16 @@
       "type": "structure",
       "members": {
         "id": {
-          "target": "smithy.api#Integer"
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "fingerprint": {
-          "target": "smithy.api#String"
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
         },
         "public_key": {
           "target": "smithy.api#String",
@@ -501,7 +507,10 @@
       "type": "structure",
       "members": {
         "ssh_key": {
-          "target": "com.digitalocean.api#SshKeys"
+          "target": "com.digitalocean.api#SshKeys",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -516,6 +525,11 @@
       "output": {
         "target": "com.digitalocean.api#CreateSshKeyResponse"
       },
+      "errors": [
+        {
+          "target": "com.digitalocean.api#UnprocessableEntity"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "POST",
@@ -545,7 +559,10 @@
       "type": "structure",
       "members": {
         "ssh_key": {
-          "target": "com.digitalocean.api#SshKeys"
+          "target": "com.digitalocean.api#SshKeys",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -597,7 +614,10 @@
       "type": "structure",
       "members": {
         "ssh_key": {
-          "target": "com.digitalocean.api#SshKeys"
+          "target": "com.digitalocean.api#SshKeys",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -692,13 +712,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#ActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -908,7 +930,10 @@
       "type": "structure",
       "members": {
         "action": {
-          "target": "com.digitalocean.api#Action"
+          "target": "com.digitalocean.api#Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -20218,7 +20243,7 @@
         "logline": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "Conditional (required if `format` == `custom`).\n\nSyslog log line template for a custom format, supporting limited rsyslog style templating (using `%tag%`). Supported tags are: `HOSTNAME`, `app-name`, `msg`, `msgid`, `pri`, `procid`, `structured-data`, `timestamp` and `timestamp:::date-rfc3339`.\n\n---\n**Datadog Integration Example for Non-Mongo clusters**:\n```\nDD_KEY <%pri%>1 %timestamp:::date-rfc3339% %HOSTNAME%.DB_NAME %app-name% - - - %msg%\n```\n- Replace `DD_KEY` with your actual Datadog API key.\n- Replace `DB_NAME` with the actual name of your database cluster.\n- Configure the Server:\n  - US Region: Use `intake.logs.datadoghq.com`\n  - EU Region: Use `tcp-intake.logs.datadoghq.eu`\n- Configure the Port:\n  - US Region: Use port `10516`\n  - EU Region: Use port `443`\n- Enable TLS:\n  - Ensure the TLS checkbox is enabled.\n- Note: This configuration applies to **non-Mongo clusters only**.\nFor **Mongo clusters**, use the `datadog_logsink` integration\ninstead.\n"
+            "smithy.api#documentation": "Conditional (required if `format` == `custom`).\n\nSyslog log line template for a custom format, supporting limited rsyslog style templating (using `%tag%`). Supported tags are: `HOSTNAME`, `app-name`, `msg`, `msgid`, `pri`, `procid`, `structured-data`, `timestamp` and `timestamp:::date-rfc3339`.\n\n---\n**Datadog Integration Example for Non-Mongo clusters**:\n```\nDD_KEY <%pri%>1 %timestamp:::date-rfc3339% %HOSTNAME%.DB_NAME %app-name% - - - %msg%\n```\n- Replace `DD_KEY` with your actual Datadog API key.\n- Replace `DB_NAME` with the actual name of your database cluster.\n- Configure the Server:\n  - US Region: Use `intake.logs.datadoghq.com`\n  - EU Region: Use `tcp-intake.logs.datadoghq.eu`\n- Configure the Port:\n  - US Region: Use port `10516`\n  - EU Region: Use port `443`\n- Enable TLS:\n  - Ensure the TLS checkbox is enabled.\n- Note: This configuration applies to **non-Mongo clusters only**. For **Mongo clusters**, use the `datadog_logsink` integration instead.\n"
           }
         },
         "sd": {
@@ -22890,13 +22915,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#PatchDedicatedInferenceResponse": {
+      "type": "structure",
+      "members": {
+        "dedicated_inference": {
+          "target": "com.digitalocean.api#DedicatedInference"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#PatchDedicatedInference": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#PatchDedicatedInferenceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#PatchDedicatedInferenceResponse"
       },
       "errors": [
         {
@@ -23125,13 +23161,62 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#DedicatedInferenceAccessToken": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Unique ID of the token."
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Name of the token."
+          }
+        },
+        "value": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Token value; only returned once on create. Store securely."
+          }
+        },
+        "created_at": {
+          "target": "smithy.api#String"
+        },
+        "is_managed": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "When true, the token is managed by DigitalOcean (for example, system-provisioned). When false, the token was created by the user."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Access token for authenticating to Dedicated Inference endpoints."
+      }
+    },
+    "com.digitalocean.api#CreateDedicatedInferenceResponse": {
+      "type": "structure",
+      "members": {
+        "dedicated_inference": {
+          "target": "com.digitalocean.api#DedicatedInference"
+        },
+        "token": {
+          "target": "com.digitalocean.api#DedicatedInferenceAccessToken"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateDedicatedInference": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateDedicatedInferenceRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateDedicatedInferenceResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -23411,41 +23496,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.digitalocean.api#DedicatedInferenceAccessToken": {
-      "type": "structure",
-      "members": {
-        "id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Unique ID of the token."
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Name of the token."
-          }
-        },
-        "value": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "Token value; only returned once on create. Store securely."
-          }
-        },
-        "created_at": {
-          "target": "smithy.api#String"
-        },
-        "is_managed": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "When true, the token is managed by DigitalOcean (for example, system-provisioned). When false, the token was created by the user."
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "Access token for authenticating to Dedicated Inference endpoints."
-      }
-    },
     "com.digitalocean.api#ListDedicatedInferenceTokensResponseTokensList": {
       "type": "list",
       "member": {
@@ -23531,13 +23581,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateDedicatedInferenceTokensResponse": {
+      "type": "structure",
+      "members": {
+        "token": {
+          "target": "com.digitalocean.api#DedicatedInferenceAccessToken"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateDedicatedInferenceTokens": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateDedicatedInferenceTokensRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateDedicatedInferenceTokensResponse"
       },
       "errors": [
         {
@@ -26971,13 +27032,79 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateDropletResponseDropletsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#Droplet"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#ActionLink": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+          }
+        },
+        "rel": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string specifying the type of the related action."
+          }
+        },
+        "href": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A URL that can be used to access the action."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The linked actions can be used to check the status of a Droplet's create event."
+      }
+    },
+    "com.digitalocean.api#CreateDropletResponseLinksActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateDropletResponseLinks": {
+      "type": "structure",
+      "members": {
+        "actions": {
+          "target": "com.digitalocean.api#CreateDropletResponseLinksActionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateDropletResponse": {
+      "type": "structure",
+      "members": {
+        "droplet": {
+          "target": "com.digitalocean.api#Droplet"
+        },
+        "droplets": {
+          "target": "com.digitalocean.api#CreateDropletResponseDropletsList"
+        },
+        "links": {
+          "target": "com.digitalocean.api#CreateDropletResponseLinks"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateDroplet": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateDropletRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateDropletResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -27046,7 +27173,10 @@
       "type": "structure",
       "members": {
         "droplet": {
-          "target": "com.digitalocean.api#Droplet"
+          "target": "com.digitalocean.api#Droplet",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -29301,7 +29431,10 @@
       "type": "structure",
       "members": {
         "action": {
-          "target": "com.digitalocean.api#Action"
+          "target": "com.digitalocean.api#Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -29395,7 +29528,7 @@
           "uri": "/v2/droplets/actions",
           "code": 200
         },
-        "smithy.api#documentation": "Acting on Tagged Droplets\n\nSome actions can be performed in bulk on tagged Droplets. The actions can be\ninitiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with\nthe action arguments.\n\nOnly a sub-set of action types are supported:\n\n- `power_cycle`\n- `power_on`\n- `power_off`\n- `shutdown`\n- `enable_ipv6`\n- `enable_backups`\n- `disable_backups`\n- `snapshot` (also requires `image:create` permission)"
+        "smithy.api#documentation": "Acting on Tagged Droplets\n\nSome actions can be performed in bulk on tagged Droplets. The actions can be\ninitiated by sending a POST to `/v2/droplets/actions?tag_name=$TAG_NAME` with\nthe action arguments.\n\nOnly a sub-set of action types are supported:\n\n- `power_cycle`\n- `power_on`\n- `power_off`\n- `shutdown`\n- `enable_ipv6` (**Warning:** The Droplet must be powered off before enabling IPv6 on an existing Droplet.)\n- `enable_backups`\n- `disable_backups`\n- `snapshot` (also requires `image:create` permission)"
       }
     },
     "com.digitalocean.api#GetDropletActionRequest": {
@@ -29426,7 +29559,10 @@
       "type": "structure",
       "members": {
         "action": {
-          "target": "com.digitalocean.api#Action"
+          "target": "com.digitalocean.api#Action",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -29583,19 +29719,22 @@
         "id": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A unique ID that can be used to identify and reference a firewall."
+            "smithy.api#documentation": "A unique ID that can be used to identify and reference a firewall.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#FirewallStatus",
           "traits": {
-            "smithy.api#documentation": "A status string indicating the current state of the firewall. This can be \"waiting\", \"succeeded\", or \"failed\"."
+            "smithy.api#documentation": "A status string indicating the current state of the firewall. This can be \"waiting\", \"succeeded\", or \"failed\".",
+            "smithy.api#required": {}
           }
         },
         "created_at": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the firewall was created."
+            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the firewall was created.",
+            "smithy.api#required": {}
           }
         },
         "pending_changes": {
@@ -29607,7 +29746,8 @@
         "name": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-)."
+            "smithy.api#documentation": "A human-readable name for a firewall. The name must begin with an alphanumeric character. Subsequent characters must either be alphanumeric characters, a period (.), or a dash (-).",
+            "smithy.api#required": {}
           }
         },
         "droplet_ids": {
@@ -29618,7 +29758,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#FirewallTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "inbound_rules": {
           "target": "com.digitalocean.api#FirewallInboundRulesList",
@@ -29694,6 +29838,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
       }
     },
+    "com.digitalocean.api#FirewallTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
+      }
+    },
     "com.digitalocean.api#FirewallInboundRulesItemProtocol": {
       "type": "enum",
       "members": {
@@ -29756,6 +29909,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#FirewallInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#FirewallInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -29784,7 +29946,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#FirewallInboundRulesItemSourcesTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -29884,6 +30050,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#FirewallOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#FirewallOutboundRulesItemDestinations": {
       "type": "structure",
       "members": {
@@ -29912,7 +30087,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#FirewallOutboundRulesItemDestinationsTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -31057,13 +31236,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateAutoscalepoolResponse": {
+      "type": "structure",
+      "members": {
+        "autoscale_pool": {
+          "target": "com.digitalocean.api#AutoscalePool"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateAutoscalepool": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateAutoscalepoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateAutoscalepoolResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -31784,6 +31974,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
       }
     },
+    "com.digitalocean.api#CreateFirewallRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
+      }
+    },
     "com.digitalocean.api#CreateFirewallRequestInboundRulesItemProtocol": {
       "type": "enum",
       "members": {
@@ -31846,6 +32045,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -31874,7 +32082,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#CreateFirewallRequestInboundRulesItemSourcesTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -31974,6 +32186,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinations": {
       "type": "structure",
       "members": {
@@ -32002,7 +32223,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#CreateFirewallRequestOutboundRulesItemDestinationsTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -32058,7 +32283,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#CreateFirewallRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "inbound_rules": {
           "target": "com.digitalocean.api#CreateFirewallRequestInboundRulesList",
@@ -32077,13 +32306,27 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateFirewallResponse": {
+      "type": "structure",
+      "members": {
+        "firewall": {
+          "target": "com.digitalocean.api#Firewall",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateFirewall": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateFirewallRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateFirewallResponse"
       },
       "errors": [
         {
@@ -32119,7 +32362,10 @@
       "type": "structure",
       "members": {
         "firewall": {
-          "target": "com.digitalocean.api#Firewall"
+          "target": "com.digitalocean.api#Firewall",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -32155,6 +32401,15 @@
       },
       "traits": {
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the firewall. <br><br>Requires `droplet:read` scope."
+      }
+    },
+    "com.digitalocean.api#UpdateFirewallRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope."
       }
     },
     "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemProtocol": {
@@ -32219,6 +32474,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -32247,7 +32511,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#UpdateFirewallRequestInboundRulesItemSourcesTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -32347,6 +32615,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinations": {
       "type": "structure",
       "members": {
@@ -32375,7 +32652,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#UpdateFirewallRequestOutboundRulesItemDestinationsTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -32439,7 +32720,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#UpdateFirewallRequestTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of the Tags assigned to the firewall. <br><br>Requires `tag:read` scope.",
+            "com.distilled.openapi#nullable": {}
+          }
         },
         "inbound_rules": {
           "target": "com.digitalocean.api#UpdateFirewallRequestInboundRulesList",
@@ -32462,7 +32747,10 @@
       "type": "structure",
       "members": {
         "firewall": {
-          "target": "com.digitalocean.api#Firewall"
+          "target": "com.digitalocean.api#Firewall",
+          "traits": {
+            "smithy.api#required": {}
+          }
         }
       },
       "traits": {
@@ -32646,6 +32934,15 @@
         "smithy.api#documentation": "Remove Droplets from a Firewall\n\nTo remove a Droplet from a firewall, send a DELETE request to\n`/v2/firewalls/$FIREWALL_ID/droplets`. In the body of the request, there should\nbe a `droplet_ids` attribute containing a list of Droplet IDs.\n\nNo response body will be sent back, but the response code will indicate\nsuccess. Specifically, the response code will be a 204, which means that the\naction was successful with no returned body data."
       }
     },
+    "com.digitalocean.api#AddFirewallTagsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall."
+      }
+    },
     "com.digitalocean.api#AddFirewallTagsRequest": {
       "type": "structure",
       "members": {
@@ -32658,8 +32955,9 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document",
+          "target": "com.digitalocean.api#AddFirewallTagsRequestTagsList",
           "traits": {
+            "smithy.api#documentation": "An array containing the names of the Tags to be assigned to the firewall.",
             "smithy.api#required": {}
           }
         }
@@ -32693,6 +32991,15 @@
         "smithy.api#documentation": "Add Tags to a Firewall\n\nTo assign a tag representing a group of Droplets to a firewall, send a POST\nrequest to `/v2/firewalls/$FIREWALL_ID/tags`. In the body of the request,\nthere should be a `tags` attribute containing a list of tag names.\n\nNo response body will be sent back, but the response code will indicate\nsuccess. Specifically, the response code will be a 204, which means that the\naction was successful with no returned body data."
       }
     },
+    "com.digitalocean.api#DeleteFirewallTagsRequestTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall."
+      }
+    },
     "com.digitalocean.api#DeleteFirewallTagsRequest": {
       "type": "structure",
       "members": {
@@ -32705,8 +33012,9 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document",
+          "target": "com.digitalocean.api#DeleteFirewallTagsRequestTagsList",
           "traits": {
+            "smithy.api#documentation": "An array containing the names of the Tags to be removed from the firewall.",
             "smithy.api#required": {}
           }
         }
@@ -32802,6 +33110,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -32830,7 +33147,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#AddFirewallRulesRequestInboundRulesItemSourcesTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -32930,6 +33251,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinations": {
       "type": "structure",
       "members": {
@@ -32958,7 +33288,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#AddFirewallRulesRequestOutboundRulesItemDestinationsTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -33111,6 +33445,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSourcesTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSources": {
       "type": "structure",
       "members": {
@@ -33139,7 +33482,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#DeleteFirewallRulesRequestInboundRulesItemSourcesTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -33239,6 +33586,15 @@
         "smithy.api#documentation": "An array containing the IDs of the Kubernetes clusters to which the firewall will allow traffic."
       }
     },
+    "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinationsTagsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic."
+      }
+    },
     "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinations": {
       "type": "structure",
       "members": {
@@ -33267,7 +33623,11 @@
           }
         },
         "tags": {
-          "target": "smithy.api#Document"
+          "target": "com.digitalocean.api#DeleteFirewallRulesRequestOutboundRulesItemDestinationsTagsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the names of Tags corresponding to groups of Droplets to which the firewall will allow traffic.",
+            "com.distilled.openapi#nullable": {}
+          }
         }
       },
       "traits": {}
@@ -33602,13 +33962,53 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateFloatingIPResponseLinksDropletsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateFloatingIPResponseLinksActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateFloatingIPResponseLinks": {
+      "type": "structure",
+      "members": {
+        "droplets": {
+          "target": "com.digitalocean.api#CreateFloatingIPResponseLinksDropletsList"
+        },
+        "actions": {
+          "target": "com.digitalocean.api#CreateFloatingIPResponseLinksActionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateFloatingIPResponse": {
+      "type": "structure",
+      "members": {
+        "floating_ip": {
+          "target": "com.digitalocean.api#FloatingIp"
+        },
+        "links": {
+          "target": "com.digitalocean.api#CreateFloatingIPResponseLinks"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateFloatingIP": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateFloatingIPRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateFloatingIPResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -33616,7 +34016,7 @@
           "uri": "/v2/floating_ips",
           "code": 200
         },
-        "smithy.api#documentation": "Create a New Floating IP\n\nOn creation, a floating IP must be either assigned to a Droplet or reserved to a region.\n* To create a new floating IP assigned to a Droplet, send a POST\n  request to `/v2/floating_ips` with the `droplet_id` attribute.\n* To create a new floating IP reserved to a region, send a POST request\nto\n  `/v2/floating_ips` with the `region` attribute."
+        "smithy.api#documentation": "Create a New Floating IP\n\nOn creation, a floating IP must be either assigned to a Droplet or reserved to a region.\n* To create a new floating IP assigned to a Droplet, send a POST\n  request to `/v2/floating_ips` with the `droplet_id` attribute.\n\n* To create a new floating IP reserved to a region, send a POST request to\n  `/v2/floating_ips` with the `region` attribute."
       }
     },
     "com.digitalocean.api#GetFloatingIPRequest": {
@@ -33923,13 +34323,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#PostFloatingIPsActionResponseActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -34072,13 +34474,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#GetFloatingIPsActionResponseActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -35485,13 +35889,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateImageCustomResponse": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "com.digitalocean.api#Image"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateImageCustom": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateImageCustomRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateImageCustomResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -38016,13 +38431,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#UpdateKubernetesClusterResponse": {
+      "type": "structure",
+      "members": {
+        "kubernetes_cluster": {
+          "target": "com.digitalocean.api#Cluster"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#UpdateKubernetesCluster": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#UpdateKubernetesClusterRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#UpdateKubernetesClusterResponse"
       },
       "errors": [
         {
@@ -38958,13 +39384,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#UpdateKubernetesNodePoolResponse": {
+      "type": "structure",
+      "members": {
+        "node_pool": {
+          "target": "com.digitalocean.api#KubernetesNodePool"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#UpdateKubernetesNodePool": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#UpdateKubernetesNodePoolRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#UpdateKubernetesNodePoolResponse"
       },
       "errors": [
         {
@@ -39487,13 +39924,27 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#RunKubernetesClusterLintResponse": {
+      "type": "structure",
+      "members": {
+        "run_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "ID of the clusterlint run that can be used later to fetch the diagnostics."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#RunKubernetesClusterLint": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#RunKubernetesClusterLintRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#RunKubernetesClusterLintResponse"
       },
       "errors": [
         {
@@ -39823,12 +40274,6 @@
             "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
           }
         },
-        "ip": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "An attribute containing the public-facing IP address of the load balancer."
-          }
-        },
         "ipv6": {
           "target": "smithy.api#String",
           "traits": {
@@ -39954,6 +40399,12 @@
           "target": "com.digitalocean.api#LoadBalancerTlsCipherPolicy",
           "traits": {
             "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An attribute containing the public-facing IP address of the load balancer."
           }
         },
         "region": {
@@ -40690,19 +41141,7 @@
         "smithy.api#documentation": "List All Load Balancers\n\nTo list all of the load balancer instances on your account, send a GET request\nto `/v2/load_balancers`."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInput": {
-      "type": "union",
-      "members": {
-        "Case0": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0"
-        },
-        "Case1": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1"
-        }
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0DropletIdsList": {
+    "com.digitalocean.api#CreateLoadBalancerRequestDropletIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#Integer"
@@ -40711,7 +41150,7 @@
         "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0Size": {
+    "com.digitalocean.api#CreateLoadBalancerRequestSize": {
       "type": "enum",
       "members": {
         "LB_SMALL": {
@@ -40737,7 +41176,7 @@
         "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0Algorithm": {
+    "com.digitalocean.api#CreateLoadBalancerRequestAlgorithm": {
       "type": "enum",
       "members": {
         "ROUND_ROBIN": {
@@ -40757,7 +41196,7 @@
         "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0ForwardingRulesList": {
+    "com.digitalocean.api#CreateLoadBalancerRequestForwardingRulesList": {
       "type": "list",
       "member": {
         "target": "com.digitalocean.api#ForwardingRule"
@@ -40766,7 +41205,7 @@
         "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0Network": {
+    "com.digitalocean.api#CreateLoadBalancerRequestNetwork": {
       "type": "enum",
       "members": {
         "EXTERNAL": {
@@ -40786,7 +41225,7 @@
         "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0NetworkStack": {
+    "com.digitalocean.api#CreateLoadBalancerRequestNetworkStack": {
       "type": "enum",
       "members": {
         "IPV4": {
@@ -40806,7 +41245,7 @@
         "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0Type": {
+    "com.digitalocean.api#CreateLoadBalancerRequestType": {
       "type": "enum",
       "members": {
         "REGIONAL": {
@@ -40832,7 +41271,7 @@
         "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0DomainsList": {
+    "com.digitalocean.api#CreateLoadBalancerRequestDomainsList": {
       "type": "list",
       "member": {
         "target": "com.digitalocean.api#Domains"
@@ -40841,7 +41280,7 @@
         "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0TargetLoadBalancerIdsList": {
+    "com.digitalocean.api#CreateLoadBalancerRequestTargetLoadBalancerIdsList": {
       "type": "list",
       "member": {
         "target": "smithy.api#String"
@@ -40850,7 +41289,7 @@
         "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
       }
     },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0TlsCipherPolicy": {
+    "com.digitalocean.api#CreateLoadBalancerRequestTlsCipherPolicy": {
       "type": "enum",
       "members": {
         "DEFAULT": {
@@ -40869,459 +41308,165 @@
       "traits": {
         "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
       }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase0": {
-      "type": "structure",
-      "members": {
-        "droplet_ids": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0DropletIdsList",
-          "traits": {
-            "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the load balancer.",
-            "smithy.api#required": {}
-          }
-        },
-        "region": {
-          "target": "com.digitalocean.api#RegionSlug",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A human-readable name for a load balancer instance."
-          }
-        },
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
-          }
-        },
-        "size_unit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions."
-          }
-        },
-        "size": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0Size",
-          "traits": {
-            "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
-          }
-        },
-        "algorithm": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0Algorithm",
-          "traits": {
-            "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
-          }
-        },
-        "forwarding_rules": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0ForwardingRulesList",
-          "traits": {
-            "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer.",
-            "smithy.api#required": {}
-          }
-        },
-        "health_check": {
-          "target": "com.digitalocean.api#HealthCheck"
-        },
-        "sticky_sessions": {
-          "target": "com.digitalocean.api#StickySessions"
-        },
-        "redirect_http_to_https": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443."
-          }
-        },
-        "enable_proxy_protocol": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether PROXY Protocol is in use."
-          }
-        },
-        "enable_backend_keepalive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets."
-          }
-        },
-        "http_idle_timeout_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "An integer value which configures the idle timeout for HTTP requests to the target droplets."
-          }
-        },
-        "vpc_uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string specifying the UUID of the VPC to which the load balancer is assigned."
-          }
-        },
-        "disable_lets_encrypt_dns_records": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer."
-          }
-        },
-        "firewall": {
-          "target": "com.digitalocean.api#LbFirewall"
-        },
-        "network": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0Network",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
-          }
-        },
-        "network_stack": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0NetworkStack",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
-          }
-        },
-        "type": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0Type",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
-          }
-        },
-        "domains": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0DomainsList",
-          "traits": {
-            "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
-          }
-        },
-        "glb_settings": {
-          "target": "com.digitalocean.api#GlbSettings"
-        },
-        "target_load_balancer_ids": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0TargetLoadBalancerIdsList",
-          "traits": {
-            "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
-          }
-        },
-        "tls_cipher_policy": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase0TlsCipherPolicy",
-          "traits": {
-            "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1Size": {
-      "type": "enum",
-      "members": {
-        "LB_SMALL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "lb-small"
-          }
-        },
-        "LB_MEDIUM": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "lb-medium"
-          }
-        },
-        "LB_LARGE": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "lb-large"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1Algorithm": {
-      "type": "enum",
-      "members": {
-        "ROUND_ROBIN": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "round_robin"
-          }
-        },
-        "LEAST_CONNECTIONS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "least_connections"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1ForwardingRulesList": {
-      "type": "list",
-      "member": {
-        "target": "com.digitalocean.api#ForwardingRule"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1Network": {
-      "type": "enum",
-      "members": {
-        "EXTERNAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "EXTERNAL"
-          }
-        },
-        "INTERNAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "INTERNAL"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1NetworkStack": {
-      "type": "enum",
-      "members": {
-        "IPV4": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "IPV4"
-          }
-        },
-        "DUALSTACK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DUALSTACK"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1Type": {
-      "type": "enum",
-      "members": {
-        "REGIONAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "REGIONAL"
-          }
-        },
-        "REGIONAL_NETWORK": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "REGIONAL_NETWORK"
-          }
-        },
-        "GLOBAL": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "GLOBAL"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1DomainsList": {
-      "type": "list",
-      "member": {
-        "target": "com.digitalocean.api#Domains"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1TargetLoadBalancerIdsList": {
-      "type": "list",
-      "member": {
-        "target": "smithy.api#String"
-      },
-      "traits": {
-        "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1TlsCipherPolicy": {
-      "type": "enum",
-      "members": {
-        "DEFAULT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "DEFAULT"
-          }
-        },
-        "STRONG": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "STRONG"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
-      }
-    },
-    "com.digitalocean.api#LoadBalancerCreateInputCase1": {
-      "type": "structure",
-      "members": {
-        "tag": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The name of a Droplet tag corresponding to Droplets assigned to the load balancer.",
-            "smithy.api#required": {}
-          }
-        },
-        "region": {
-          "target": "com.digitalocean.api#RegionSlug",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A human-readable name for a load balancer instance."
-          }
-        },
-        "project_id": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
-          }
-        },
-        "size_unit": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions."
-          }
-        },
-        "size": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1Size",
-          "traits": {
-            "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
-          }
-        },
-        "algorithm": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1Algorithm",
-          "traits": {
-            "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
-          }
-        },
-        "forwarding_rules": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1ForwardingRulesList",
-          "traits": {
-            "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer.",
-            "smithy.api#required": {}
-          }
-        },
-        "health_check": {
-          "target": "com.digitalocean.api#HealthCheck"
-        },
-        "sticky_sessions": {
-          "target": "com.digitalocean.api#StickySessions"
-        },
-        "redirect_http_to_https": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443."
-          }
-        },
-        "enable_proxy_protocol": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether PROXY Protocol is in use."
-          }
-        },
-        "enable_backend_keepalive": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets."
-          }
-        },
-        "http_idle_timeout_seconds": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "An integer value which configures the idle timeout for HTTP requests to the target droplets."
-          }
-        },
-        "vpc_uuid": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A string specifying the UUID of the VPC to which the load balancer is assigned."
-          }
-        },
-        "disable_lets_encrypt_dns_records": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#documentation": "A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer."
-          }
-        },
-        "firewall": {
-          "target": "com.digitalocean.api#LbFirewall"
-        },
-        "network": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1Network",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
-          }
-        },
-        "network_stack": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1NetworkStack",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
-          }
-        },
-        "type": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1Type",
-          "traits": {
-            "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
-          }
-        },
-        "domains": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1DomainsList",
-          "traits": {
-            "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
-          }
-        },
-        "glb_settings": {
-          "target": "com.digitalocean.api#GlbSettings"
-        },
-        "target_load_balancer_ids": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1TargetLoadBalancerIdsList",
-          "traits": {
-            "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
-          }
-        },
-        "tls_cipher_policy": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInputCase1TlsCipherPolicy",
-          "traits": {
-            "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
-          }
-        }
-      },
-      "traits": {}
     },
     "com.digitalocean.api#CreateLoadBalancerRequest": {
       "type": "structure",
       "members": {
-        "body": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInput",
+        "droplet_ids": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestDropletIdsList",
           "traits": {
-            "smithy.api#httpPayload": {},
-            "smithy.api#required": {}
+            "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the load balancer."
+          }
+        },
+        "region": {
+          "target": "com.digitalocean.api#RegionSlug"
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for a load balancer instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
+          }
+        },
+        "size_unit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions."
+          }
+        },
+        "size": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestSize",
+          "traits": {
+            "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
+          }
+        },
+        "algorithm": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestAlgorithm",
+          "traits": {
+            "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
+          }
+        },
+        "forwarding_rules": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestForwardingRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer."
+          }
+        },
+        "health_check": {
+          "target": "com.digitalocean.api#HealthCheck"
+        },
+        "sticky_sessions": {
+          "target": "com.digitalocean.api#StickySessions"
+        },
+        "redirect_http_to_https": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443."
+          }
+        },
+        "enable_proxy_protocol": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether PROXY Protocol is in use."
+          }
+        },
+        "enable_backend_keepalive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets."
+          }
+        },
+        "http_idle_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "An integer value which configures the idle timeout for HTTP requests to the target droplets."
+          }
+        },
+        "vpc_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string specifying the UUID of the VPC to which the load balancer is assigned."
+          }
+        },
+        "disable_lets_encrypt_dns_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer."
+          }
+        },
+        "firewall": {
+          "target": "com.digitalocean.api#LbFirewall"
+        },
+        "network": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestNetwork",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "network_stack": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestNetworkStack",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "type": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestType",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
+          }
+        },
+        "domains": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestDomainsList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
+          }
+        },
+        "glb_settings": {
+          "target": "com.digitalocean.api#GlbSettings"
+        },
+        "target_load_balancer_ids": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestTargetLoadBalancerIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
+          }
+        },
+        "tls_cipher_policy": {
+          "target": "com.digitalocean.api#CreateLoadBalancerRequestTlsCipherPolicy",
+          "traits": {
+            "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+          }
+        },
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of a Droplet tag corresponding to Droplets assigned to the load balancer."
+          }
+        },
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An optional IP address to assign to the load balancer from one of your Bring Your Own IP (BYOIP) prefixes. The address must be an unassigned BYOIP address on your account in the same region as the load balancer. If omitted, DigitalOcean assigns a public IP address automatically. This field is only applied when creating the load balancer, cannot be changed afterward, and is not supported for `GLOBAL` or `INTERNAL` load balancers."
           }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.digitalocean.api#CreateLoadBalancerResponse": {
+      "type": "structure",
+      "members": {
+        "load_balancer": {
+          "target": "com.digitalocean.api#LoadBalancer"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.digitalocean.api#CreateLoadBalancer": {
@@ -41330,7 +41475,7 @@
         "target": "com.digitalocean.api#CreateLoadBalancerRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateLoadBalancerResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -41338,7 +41483,7 @@
           "uri": "/v2/load_balancers",
           "code": 200
         },
-        "smithy.api#documentation": "Create a New Load Balancer\n\nTo create a new load balancer instance, send a POST request to\n`/v2/load_balancers`.\n\nYou can specify the Droplets that will sit behind the load balancer using one\nof two methods:\n\n* Set `droplet_ids` to a list of specific Droplet IDs.\n* Set `tag` to the name of a tag. All Droplets with this tag applied will be\n  assigned to the load balancer. Additional Droplets will be automatically\n  assigned as they are tagged.\nThese methods are mutually exclusive."
+        "smithy.api#documentation": "Create a New Load Balancer\n\nTo create a new load balancer instance, send a POST request to\n`/v2/load_balancers`.\n\nYou can specify the Droplets that will sit behind the load balancer using one\nof two methods:\n\n* Set `droplet_ids` to a list of specific Droplet IDs.\n* Set `tag` to the name of a tag. All Droplets with this tag applied will be\n  assigned to the load balancer. Additional Droplets will be automatically\n  assigned as they are tagged.\n\nThese methods are mutually exclusive."
       }
     },
     "com.digitalocean.api#GetLoadBalancerRequest": {
@@ -41390,6 +41535,625 @@
         "smithy.api#documentation": "Retrieve an Existing Load Balancer\n\nTo show information about a load balancer instance, send a GET request to\n`/v2/load_balancers/$LOAD_BALANCER_ID`."
       }
     },
+    "com.digitalocean.api#LoadBalancerUpdateInput": {
+      "type": "union",
+      "members": {
+        "Case0": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0"
+        },
+        "Case1": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1"
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0DropletIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#Integer"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0Size": {
+      "type": "enum",
+      "members": {
+        "LB_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-small"
+          }
+        },
+        "LB_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-medium"
+          }
+        },
+        "LB_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-large"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0Algorithm": {
+      "type": "enum",
+      "members": {
+        "ROUND_ROBIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "round_robin"
+          }
+        },
+        "LEAST_CONNECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "least_connections"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0ForwardingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ForwardingRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0Network": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INTERNAL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0NetworkStack": {
+      "type": "enum",
+      "members": {
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IPV4"
+          }
+        },
+        "DUALSTACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DUALSTACK"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0Type": {
+      "type": "enum",
+      "members": {
+        "REGIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGIONAL"
+          }
+        },
+        "REGIONAL_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGIONAL_NETWORK"
+          }
+        },
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GLOBAL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0DomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#Domains"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0TlsCipherPolicy": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEFAULT"
+          }
+        },
+        "STRONG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRONG"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase0": {
+      "type": "structure",
+      "members": {
+        "droplet_ids": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0DropletIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the IDs of the Droplets assigned to the load balancer.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.digitalocean.api#RegionSlug",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for a load balancer instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
+          }
+        },
+        "size_unit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions."
+          }
+        },
+        "size": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0Size",
+          "traits": {
+            "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
+          }
+        },
+        "algorithm": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0Algorithm",
+          "traits": {
+            "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
+          }
+        },
+        "forwarding_rules": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0ForwardingRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer.",
+            "smithy.api#required": {}
+          }
+        },
+        "health_check": {
+          "target": "com.digitalocean.api#HealthCheck"
+        },
+        "sticky_sessions": {
+          "target": "com.digitalocean.api#StickySessions"
+        },
+        "redirect_http_to_https": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443."
+          }
+        },
+        "enable_proxy_protocol": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether PROXY Protocol is in use."
+          }
+        },
+        "enable_backend_keepalive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets."
+          }
+        },
+        "http_idle_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "An integer value which configures the idle timeout for HTTP requests to the target droplets."
+          }
+        },
+        "vpc_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string specifying the UUID of the VPC to which the load balancer is assigned."
+          }
+        },
+        "disable_lets_encrypt_dns_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer."
+          }
+        },
+        "firewall": {
+          "target": "com.digitalocean.api#LbFirewall"
+        },
+        "network": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0Network",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "network_stack": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0NetworkStack",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "type": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0Type",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
+          }
+        },
+        "domains": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0DomainsList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
+          }
+        },
+        "glb_settings": {
+          "target": "com.digitalocean.api#GlbSettings"
+        },
+        "target_load_balancer_ids": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0TargetLoadBalancerIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
+          }
+        },
+        "tls_cipher_policy": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase0TlsCipherPolicy",
+          "traits": {
+            "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1Size": {
+      "type": "enum",
+      "members": {
+        "LB_SMALL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-small"
+          }
+        },
+        "LB_MEDIUM": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-medium"
+          }
+        },
+        "LB_LARGE": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lb-large"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1Algorithm": {
+      "type": "enum",
+      "members": {
+        "ROUND_ROBIN": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "round_robin"
+          }
+        },
+        "LEAST_CONNECTIONS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "least_connections"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1ForwardingRulesList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ForwardingRule"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1Network": {
+      "type": "enum",
+      "members": {
+        "EXTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "EXTERNAL"
+          }
+        },
+        "INTERNAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "INTERNAL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1NetworkStack": {
+      "type": "enum",
+      "members": {
+        "IPV4": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "IPV4"
+          }
+        },
+        "DUALSTACK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DUALSTACK"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1Type": {
+      "type": "enum",
+      "members": {
+        "REGIONAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGIONAL"
+          }
+        },
+        "REGIONAL_NETWORK": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "REGIONAL_NETWORK"
+          }
+        },
+        "GLOBAL": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "GLOBAL"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1DomainsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#Domains"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList": {
+      "type": "list",
+      "member": {
+        "target": "smithy.api#String"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1TlsCipherPolicy": {
+      "type": "enum",
+      "members": {
+        "DEFAULT": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "DEFAULT"
+          }
+        },
+        "STRONG": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "STRONG"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+      }
+    },
+    "com.digitalocean.api#LoadBalancerUpdateInputCase1": {
+      "type": "structure",
+      "members": {
+        "tag": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The name of a Droplet tag corresponding to Droplets assigned to the load balancer.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.digitalocean.api#RegionSlug",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable name for a load balancer instance."
+          }
+        },
+        "project_id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created."
+          }
+        },
+        "size_unit": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "How many nodes the load balancer contains. Each additional node increases the load balancer's ability to manage more connections. Load balancers can be scaled up or down, and you can change the number of nodes after creation up to once per hour. This field is currently not available in the AMS2, NYC2, or SFO1 regions. Use the `size` field to scale load balancers that reside in these regions."
+          }
+        },
+        "size": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1Size",
+          "traits": {
+            "smithy.api#documentation": "This field has been replaced by the `size_unit` field for all regions except in AMS2, NYC2, and SFO1. Each available load balancer size now equates to the load balancer having a set number of nodes.\n* `lb-small` = 1 node\n* `lb-medium` = 3 nodes\n* `lb-large` = 6 nodes\n\nYou can resize load balancers after creation up to once per hour. You cannot resize a load balancer within the first hour of its creation."
+          }
+        },
+        "algorithm": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1Algorithm",
+          "traits": {
+            "smithy.api#documentation": "This field has been deprecated. You can no longer specify an algorithm for load balancers."
+          }
+        },
+        "forwarding_rules": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1ForwardingRulesList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the forwarding rules for a load balancer.",
+            "smithy.api#required": {}
+          }
+        },
+        "health_check": {
+          "target": "com.digitalocean.api#HealthCheck"
+        },
+        "sticky_sessions": {
+          "target": "com.digitalocean.api#StickySessions"
+        },
+        "redirect_http_to_https": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP requests to the load balancer on port 80 will be redirected to HTTPS on port 443."
+          }
+        },
+        "enable_proxy_protocol": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether PROXY Protocol is in use."
+          }
+        },
+        "enable_backend_keepalive": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether HTTP keepalive connections are maintained to target Droplets."
+          }
+        },
+        "http_idle_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "An integer value which configures the idle timeout for HTTP requests to the target droplets."
+          }
+        },
+        "vpc_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A string specifying the UUID of the VPC to which the load balancer is assigned."
+          }
+        },
+        "disable_lets_encrypt_dns_records": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "A boolean value indicating whether to disable automatic DNS record creation for Let's Encrypt certificates that are added to the load balancer."
+          }
+        },
+        "firewall": {
+          "target": "com.digitalocean.api#LbFirewall"
+        },
+        "network": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1Network",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be external or internal. Internal load balancers have no public IPs and are only accessible to resources on the same VPC network. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "network_stack": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1NetworkStack",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer will support IPv4 or both IPv4 and IPv6 networking. This property cannot be updated after creating the load balancer."
+          }
+        },
+        "type": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1Type",
+          "traits": {
+            "smithy.api#documentation": "A string indicating whether the load balancer should be a standard regional HTTP load balancer, a regional network load balancer that routes traffic at the TCP/UDP transport layer, or a global load balancer."
+          }
+        },
+        "domains": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1DomainsList",
+          "traits": {
+            "smithy.api#documentation": "An array of objects specifying the domain configurations for a Global load balancer."
+          }
+        },
+        "glb_settings": {
+          "target": "com.digitalocean.api#GlbSettings"
+        },
+        "target_load_balancer_ids": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1TargetLoadBalancerIdsList",
+          "traits": {
+            "smithy.api#documentation": "An array containing the UUIDs of the Regional load balancers to be used as target backends for a Global load balancer."
+          }
+        },
+        "tls_cipher_policy": {
+          "target": "com.digitalocean.api#LoadBalancerUpdateInputCase1TlsCipherPolicy",
+          "traits": {
+            "smithy.api#documentation": "A string indicating the policy for the TLS cipher suites used by the load balancer. The possible values are `DEFAULT` or `STRONG`. The default value is `DEFAULT`."
+          }
+        }
+      },
+      "traits": {}
+    },
     "com.digitalocean.api#UpdateLoadBalancerRequest": {
       "type": "structure",
       "members": {
@@ -41402,7 +42166,7 @@
           }
         },
         "body": {
-          "target": "com.digitalocean.api#LoadBalancerCreateInput",
+          "target": "com.digitalocean.api#LoadBalancerUpdateInput",
           "traits": {
             "smithy.api#httpPayload": {},
             "smithy.api#required": {}
@@ -49753,13 +50517,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreatePartnerAttachmentResponse": {
+      "type": "structure",
+      "members": {
+        "partner_attachment": {
+          "target": "com.digitalocean.api#PartnerAttachment"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreatePartnerAttachment": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreatePartnerAttachmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreatePartnerAttachmentResponse"
       },
       "errors": [
         {
@@ -49947,13 +50722,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#PatchPartnerAttachmentResponse": {
+      "type": "structure",
+      "members": {
+        "partner_attachment": {
+          "target": "com.digitalocean.api#PartnerAttachment"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#PatchPartnerAttachment": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#PatchPartnerAttachmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#PatchPartnerAttachmentResponse"
       },
       "errors": [
         {
@@ -49985,13 +50771,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#DeletePartnerAttachmentResponse": {
+      "type": "structure",
+      "members": {
+        "partner_attachment": {
+          "target": "com.digitalocean.api#PartnerAttachment"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#DeletePartnerAttachment": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#DeletePartnerAttachmentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#DeletePartnerAttachmentResponse"
       },
       "errors": [
         {
@@ -50225,13 +51022,28 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreatePartnerAttachmentServiceKeyResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#Document",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreatePartnerAttachmentServiceKey": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreatePartnerAttachmentServiceKeyRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreatePartnerAttachmentServiceKeyResponse"
       },
       "errors": [
         {
@@ -51991,7 +52803,7 @@
           "uri": "/v2/registries/{registry_name}/docker-credentials",
           "code": 200
         },
-        "smithy.api#documentation": "Get Docker Credentials By Registry Name\n\nIn order to access your container registry with the Docker client or from a\nKubernetes cluster, you will need to configure authentication. The necessary\nJSON configuration can be retrieved by sending a GET request to\n`/v2/registries/{registry_name}/docker-credentials`.\n\nThe response will be in the format of a Docker `config.json` file. To use the\nconfig in your Kubernetes cluster, create a Secret with:\n\n    kubectl create secret generic docr \\\n      --from-file=.dockerconfigjson=config.json \\\n      --type=kubernetes.io/dockerconfigjson\nBy default, the returned credentials have read-only access to your\nregistry\nand cannot be used to push images. This is appropriate for most\nKubernetes\nclusters. To retrieve read/write credentials, suitable for use with the\nDocker\nclient or in a CI system, read_write may be provided as query parameter.\nFor\nexample:\n`/v2/registries/{registry_name}/docker-credentials?read_write=true`\n\nBy default, the returned credentials will not expire. To retrieve\ncredentials\nwith an expiry set, expiry_seconds may be provided as a query parameter.\nFor\nexample:\n`/v2/registries/{registry_name}/docker-credentials?expiry_seconds=3600`\nwill return\ncredentials that expire after one hour."
+        "smithy.api#documentation": "Get Docker Credentials By Registry Name\n\nIn order to access your container registry with the Docker client or from a\nKubernetes cluster, you will need to configure authentication. The necessary\nJSON configuration can be retrieved by sending a GET request to\n`/v2/registries/{registry_name}/docker-credentials`.\n\nThe response will be in the format of a Docker `config.json` file. To use the\nconfig in your Kubernetes cluster, create a Secret with:\n\n    kubectl create secret generic docr \\\n      --from-file=.dockerconfigjson=config.json \\\n      --type=kubernetes.io/dockerconfigjson\n\nBy default, the returned credentials have read-only access to your registry\nand cannot be used to push images. This is appropriate for most Kubernetes\nclusters. To retrieve read/write credentials, suitable for use with the Docker\nclient or in a CI system, read_write may be provided as query parameter. For\nexample: `/v2/registries/{registry_name}/docker-credentials?read_write=true`\n\nBy default, the returned credentials will not expire. To retrieve credentials\nwith an expiry set, expiry_seconds may be provided as a query parameter. For\nexample: `/v2/registries/{registry_name}/docker-credentials?expiry_seconds=3600` will return\ncredentials that expire after one hour."
       }
     },
     "com.digitalocean.api#Subscription": {
@@ -52457,7 +53269,7 @@
           "uri": "/v2/registries/{registry_name}/garbage-collection",
           "code": 200
         },
-        "smithy.api#documentation": "Start Garbage Collection\n\nGarbage collection enables users to clear out unreferenced blobs (layer &\nmanifest data) after deleting one or more manifests from a repository. If\nthere are no unreferenced blobs resulting from the deletion of one or more\nmanifests, garbage collection is effectively a noop.\n[See here for more information](https://docs.digitalocean.com/products/container-registry/how-to/clean-up-container-registry/)\nabout how and why you should clean up your container registry periodically.\n\nTo request a garbage collection run on your registry, send a POST request to\n`/v2/registries/$REGISTRY_NAME/garbage-collection`. This will initiate the\nfollowing sequence of events on your registry.\n\n* Set the registry to read-only mode, meaning no further write-scoped\n  JWTs will be issued to registry clients. Existing write-scoped JWTs will\n  continue to work until they expire which can take up to 15 minutes.\n* Wait until all existing write-scoped JWTs have expired.\n* Scan all registry manifests to determine which blobs are unreferenced.\n* Delete all unreferenced blobs from the registry.\n* Record the number of blobs deleted and bytes freed, mark the garbage\n  collection status as `success`.\n* Remove the read-only mode restriction from the registry, meaning\nwrite-scoped\n  JWTs will once again be issued to registry clients."
+        "smithy.api#documentation": "Start Garbage Collection\n\nGarbage collection enables users to clear out unreferenced blobs (layer &\nmanifest data) after deleting one or more manifests from a repository. If\nthere are no unreferenced blobs resulting from the deletion of one or more\nmanifests, garbage collection is effectively a noop.\n[See here for more information](https://docs.digitalocean.com/products/container-registry/how-to/clean-up-container-registry/)\nabout how and why you should clean up your container registry periodically.\n\nTo request a garbage collection run on your registry, send a POST request to\n`/v2/registries/$REGISTRY_NAME/garbage-collection`. This will initiate the\nfollowing sequence of events on your registry.\n\n* Set the registry to read-only mode, meaning no further write-scoped\n  JWTs will be issued to registry clients. Existing write-scoped JWTs will\n  continue to work until they expire which can take up to 15 minutes.\n* Wait until all existing write-scoped JWTs have expired.\n* Scan all registry manifests to determine which blobs are unreferenced.\n* Delete all unreferenced blobs from the registry.\n* Record the number of blobs deleted and bytes freed, mark the garbage\n  collection status as `success`.\n* Remove the read-only mode restriction from the registry, meaning write-scoped\n  JWTs will once again be issued to registry clients."
       }
     },
     "com.digitalocean.api#ListRegistryGarbageCollectionsRequest": {
@@ -53551,13 +54363,53 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateReservedIPResponseLinksDropletsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateReservedIPResponseLinksActionsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#ActionLink"
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateReservedIPResponseLinks": {
+      "type": "structure",
+      "members": {
+        "droplets": {
+          "target": "com.digitalocean.api#CreateReservedIPResponseLinksDropletsList"
+        },
+        "actions": {
+          "target": "com.digitalocean.api#CreateReservedIPResponseLinksActionsList"
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#CreateReservedIPResponse": {
+      "type": "structure",
+      "members": {
+        "reserved_ip": {
+          "target": "com.digitalocean.api#ReservedIp"
+        },
+        "links": {
+          "target": "com.digitalocean.api#CreateReservedIPResponseLinks"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateReservedIP": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateReservedIPRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateReservedIPResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -53565,7 +54417,7 @@
           "uri": "/v2/reserved_ips",
           "code": 200
         },
-        "smithy.api#documentation": "Create a New Reserved IP\n\nOn creation, a reserved IP must be either assigned to a Droplet or reserved to a region.\n* To create a new reserved IP assigned to a Droplet, send a POST\n  request to `/v2/reserved_ips` with the `droplet_id` attribute.\n* To create a new reserved IP reserved to a region, send a POST request\nto\n  `/v2/reserved_ips` with the `region` attribute."
+        "smithy.api#documentation": "Create a New Reserved IP\n\nOn creation, a reserved IP must be either assigned to a Droplet or reserved to a region.\n* To create a new reserved IP assigned to a Droplet, send a POST\n  request to `/v2/reserved_ips` with the `droplet_id` attribute.\n\n* To create a new reserved IP reserved to a region, send a POST request to\n  `/v2/reserved_ips` with the `region` attribute."
       }
     },
     "com.digitalocean.api#GetReservedIPRequest": {
@@ -53872,13 +54724,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#PostReservedIPsActionResponseActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -54021,13 +54875,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#GetReservedIPsActionResponseActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -54566,13 +55422,15 @@
         "id": {
           "target": "smithy.api#Integer",
           "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
           }
         },
         "status": {
           "target": "com.digitalocean.api#PostReservedIPv6ActionResponseActionStatus",
           "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
           }
         },
         "type": {
@@ -54860,13 +55718,39 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateByoipPrefixResponse": {
+      "type": "structure",
+      "members": {
+        "uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier for the BYOIP prefix"
+          }
+        },
+        "region": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The region where the prefix is created"
+          }
+        },
+        "status": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status of the BYOIP prefix"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateByoipPrefix": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateByoipPrefixRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateByoipPrefixResponse"
       },
       "errors": [
         {
@@ -54956,13 +55840,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#PatchByoipPrefixResponse": {
+      "type": "structure",
+      "members": {
+        "byoip_prefix": {
+          "target": "com.digitalocean.api#ByoipPrefix"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#PatchByoipPrefix": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#PatchByoipPrefixRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#PatchByoipPrefixResponse"
       },
       "errors": [
         {
@@ -59138,13 +60033,111 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#VolumeAction": {
+      "type": "structure",
+      "members": {
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "This is the type of action that the object represents. For example, this could be \"attach_volume\" to represent the state of a volume attach action."
+          }
+        },
+        "resource_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action.",
+            "smithy.api#required": {}
+          }
+        },
+        "status": {
+          "target": "com.digitalocean.api#VolumeActionStatus",
+          "traits": {
+            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\".",
+            "smithy.api#required": {}
+          }
+        },
+        "started_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the action was initiated."
+          }
+        },
+        "completed_at": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the action was completed.",
+            "com.distilled.openapi#nullable": {}
+          }
+        },
+        "resource_type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The type of resource that the action is associated with."
+          }
+        },
+        "region": {
+          "target": "com.digitalocean.api#Region"
+        },
+        "region_slug": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "A human-readable string that is used as a unique identifier for each region.",
+            "com.distilled.openapi#nullable": {}
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#VolumeActionStatus": {
+      "type": "enum",
+      "members": {
+        "IN_PROGRESS": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "in-progress"
+          }
+        },
+        "COMPLETED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "completed"
+          }
+        },
+        "ERRORED": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "errored"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
+      }
+    },
+    "com.digitalocean.api#PostVolumeActionResponse": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.digitalocean.api#VolumeAction"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#PostVolumeAction": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#PostVolumeActionRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#PostVolumeActionResponse"
       },
       "errors": [
         {
@@ -59364,91 +60357,6 @@
         "smithy.api#input": {}
       }
     },
-    "com.digitalocean.api#VolumeAction": {
-      "type": "structure",
-      "members": {
-        "type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "This is the type of action that the object represents. For example, this could be \"attach_volume\" to represent the state of a volume attach action."
-          }
-        },
-        "resource_id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "id": {
-          "target": "smithy.api#Integer",
-          "traits": {
-            "smithy.api#documentation": "A unique numeric ID that can be used to identify and reference an action."
-          }
-        },
-        "status": {
-          "target": "com.digitalocean.api#VolumeActionStatus",
-          "traits": {
-            "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
-          }
-        },
-        "started_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the action was initiated."
-          }
-        },
-        "completed_at": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A time value given in ISO8601 combined date and time format that represents when the action was completed.",
-            "com.distilled.openapi#nullable": {}
-          }
-        },
-        "resource_type": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "The type of resource that the action is associated with."
-          }
-        },
-        "region": {
-          "target": "com.digitalocean.api#Region"
-        },
-        "region_slug": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#documentation": "A human-readable string that is used as a unique identifier for each region.",
-            "com.distilled.openapi#nullable": {}
-          }
-        }
-      },
-      "traits": {}
-    },
-    "com.digitalocean.api#VolumeActionStatus": {
-      "type": "enum",
-      "members": {
-        "IN_PROGRESS": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "in-progress"
-          }
-        },
-        "COMPLETED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "completed"
-          }
-        },
-        "ERRORED": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "errored"
-          }
-        }
-      },
-      "traits": {
-        "smithy.api#documentation": "The current status of the action. This can be \"in-progress\", \"completed\", or \"errored\"."
-      }
-    },
     "com.digitalocean.api#ListVolumeActionsResponseActionsList": {
       "type": "list",
       "member": {
@@ -59612,13 +60520,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#PostVolumeActionByIdResponse": {
+      "type": "structure",
+      "members": {
+        "action": {
+          "target": "com.digitalocean.api#VolumeAction"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#PostVolumeActionById": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#PostVolumeActionByIdRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#PostVolumeActionByIdResponse"
       },
       "errors": [
         {
@@ -60587,13 +61506,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateVpcPeeringsResponse": {
+      "type": "structure",
+      "members": {
+        "peering": {
+          "target": "com.digitalocean.api#VpcPeering"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateVpcPeerings": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateVpcPeeringsRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateVpcPeeringsResponse"
       },
       "errors": [
         {
@@ -60795,13 +61725,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#CreateVpcPeeringResponse": {
+      "type": "structure",
+      "members": {
+        "vpc_peering": {
+          "target": "com.digitalocean.api#VpcPeering"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#CreateVpcPeering": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#CreateVpcPeeringRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateVpcPeeringResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -60933,13 +61874,24 @@
         "smithy.api#input": {}
       }
     },
+    "com.digitalocean.api#DeleteVpcPeeringResponse": {
+      "type": "structure",
+      "members": {
+        "vpc_peering": {
+          "target": "com.digitalocean.api#VpcPeering"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
     "com.digitalocean.api#DeleteVpcPeering": {
       "type": "operation",
       "input": {
         "target": "com.digitalocean.api#DeleteVpcPeeringRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#DeleteVpcPeeringResponse"
       },
       "errors": [
         {
@@ -61428,7 +62380,7 @@
         "ipv4": {
           "target": "smithy.api#String",
           "traits": {
-            "smithy.api#documentation": "IPv4 address of the public gateway."
+            "smithy.api#documentation": "The public egress IPv4 address of the VPC NAT gateway. This is the address assigned to the gateway, which you can optionally set when creating the gateway using the `ip` or `ipv4` field."
           }
         }
       },
@@ -61654,6 +62606,49 @@
         "smithy.api#documentation": "An array of VPCs associated with the VPC NAT gateway."
       }
     },
+    "com.digitalocean.api#CreateVpcnatgatewayRequestEgressesPublicGatewaysItem": {
+      "type": "structure",
+      "members": {
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public egress IP address to assign to the VPC NAT gateway, and the preferred field for setting it. Provide an unassigned Bring Your Own IP (BYOIP) address on your account in the same region to use your own IP address. This field is only applied when creating the gateway and cannot be changed afterward. The assigned address is returned as `ipv4` in GET and list responses."
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An alternative to `ip` for setting the public egress IP address on create. Accepts the same value as `ip`, which takes precedence if both are provided. This field is only applied when creating the gateway and cannot be changed afterward."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Specify the address using either `ip` or `ipv4`. Both fields accept the same value and `ip` takes precedence if both are provided. The assigned address is returned in the `ipv4` field of GET and list responses."
+      }
+    },
+    "com.digitalocean.api#CreateVpcnatgatewayRequestEgressesPublicGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#CreateVpcnatgatewayRequestEgressesPublicGatewaysItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing a single public gateway object that sets the gateway's public egress IP address."
+      }
+    },
+    "com.digitalocean.api#CreateVpcnatgatewayRequestEgresses": {
+      "type": "structure",
+      "members": {
+        "public_gateways": {
+          "target": "com.digitalocean.api#CreateVpcnatgatewayRequestEgressesPublicGatewaysList",
+          "traits": {
+            "smithy.api#documentation": "An array containing a single public gateway object that sets the gateway's public egress IP address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically."
+      }
+    },
     "com.digitalocean.api#CreateVpcnatgatewayRequest": {
       "type": "structure",
       "members": {
@@ -61709,10 +62704,275 @@
           "traits": {
             "smithy.api#documentation": "The TCP timeout in seconds for the VPC NAT gateway."
           }
+        },
+        "egresses": {
+          "target": "com.digitalocean.api#CreateVpcnatgatewayRequestEgresses",
+          "traits": {
+            "smithy.api#documentation": "An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically."
+          }
         }
       },
       "traits": {
         "smithy.api#input": {}
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreate": {
+      "type": "structure",
+      "members": {
+        "name": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The human-readable name of the VPC NAT gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "type": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreateType",
+          "traits": {
+            "smithy.api#documentation": "The type of the VPC NAT gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "region": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreateRegion",
+          "traits": {
+            "smithy.api#documentation": "The region in which the VPC NAT gateway is created.",
+            "smithy.api#required": {}
+          }
+        },
+        "size": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The size of the VPC NAT gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "vpcs": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreateVpcsList",
+          "traits": {
+            "smithy.api#documentation": "An array of VPCs associated with the VPC NAT gateway.",
+            "smithy.api#required": {}
+          }
+        },
+        "udp_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The UDP timeout in seconds for the VPC NAT gateway."
+          }
+        },
+        "icmp_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The ICMP timeout in seconds for the VPC NAT gateway."
+          }
+        },
+        "tcp_timeout_seconds": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "The TCP timeout in seconds for the VPC NAT gateway."
+          }
+        },
+        "egresses": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreateEgresses",
+          "traits": {
+            "smithy.api#documentation": "An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateType": {
+      "type": "enum",
+      "members": {
+        "PUBLIC": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "PUBLIC"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The type of the VPC NAT gateway."
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateRegion": {
+      "type": "enum",
+      "members": {
+        "NYC1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyc1"
+          }
+        },
+        "NYC2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyc2"
+          }
+        },
+        "NYC3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "nyc3"
+          }
+        },
+        "AMS2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ams2"
+          }
+        },
+        "AMS3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "ams3"
+          }
+        },
+        "SFO1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sfo1"
+          }
+        },
+        "SFO2": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sfo2"
+          }
+        },
+        "SFO3": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sfo3"
+          }
+        },
+        "SGP1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "sgp1"
+          }
+        },
+        "LON1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "lon1"
+          }
+        },
+        "FRA1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "fra1"
+          }
+        },
+        "TOR1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "tor1"
+          }
+        },
+        "BLR1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "blr1"
+          }
+        },
+        "SYD1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "syd1"
+          }
+        },
+        "ATL1": {
+          "target": "smithy.api#Unit",
+          "traits": {
+            "smithy.api#enumValue": "atl1"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The region in which the VPC NAT gateway is created."
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateVpcsItem": {
+      "type": "structure",
+      "members": {
+        "vpc_uuid": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The unique identifier of the VPC to which the NAT gateway is attached.",
+            "smithy.api#required": {}
+          }
+        },
+        "default_gateway": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The classification of the NAT gateway as the default egress route for the VPC traffic."
+          }
+        }
+      },
+      "traits": {}
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateVpcsList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#VpcNatGatewayCreateVpcsItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array of VPCs associated with the VPC NAT gateway."
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateEgressesPublicGatewaysItem": {
+      "type": "structure",
+      "members": {
+        "ip": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The public egress IP address to assign to the VPC NAT gateway, and the preferred field for setting it. Provide an unassigned Bring Your Own IP (BYOIP) address on your account in the same region to use your own IP address. This field is only applied when creating the gateway and cannot be changed afterward. The assigned address is returned as `ipv4` in GET and list responses."
+          }
+        },
+        "ipv4": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "An alternative to `ip` for setting the public egress IP address on create. Accepts the same value as `ip`, which takes precedence if both are provided. This field is only applied when creating the gateway and cannot be changed afterward."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Specify the address using either `ip` or `ipv4`. Both fields accept the same value and `ip` takes precedence if both are provided. The assigned address is returned in the `ipv4` field of GET and list responses."
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateEgressesPublicGatewaysList": {
+      "type": "list",
+      "member": {
+        "target": "com.digitalocean.api#VpcNatGatewayCreateEgressesPublicGatewaysItem"
+      },
+      "traits": {
+        "smithy.api#documentation": "An array containing a single public gateway object that sets the gateway's public egress IP address."
+      }
+    },
+    "com.digitalocean.api#VpcNatGatewayCreateEgresses": {
+      "type": "structure",
+      "members": {
+        "public_gateways": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreateEgressesPublicGatewaysList",
+          "traits": {
+            "smithy.api#documentation": "An array containing a single public gateway object that sets the gateway's public egress IP address."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "An optional object specifying the public egress IP address to assign to the VPC NAT gateway. Provide this only to use a specific address. If omitted, DigitalOcean allocates a public IP address automatically."
+      }
+    },
+    "com.digitalocean.api#CreateVpcnatgatewayResponse": {
+      "type": "structure",
+      "members": {
+        "vpc_nat_gateway": {
+          "target": "com.digitalocean.api#VpcNatGatewayCreate"
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     },
     "com.digitalocean.api#CreateVpcnatgateway": {
@@ -61721,7 +62981,7 @@
         "target": "com.digitalocean.api#CreateVpcnatgatewayRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.digitalocean.api#CreateVpcnatgatewayResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -76733,7 +77993,7 @@
           "target": "com.digitalocean.api#ListGenaiModelCatalogRequestUseCase",
           "traits": {
             "smithy.api#httpQuery": "use_case",
-            "smithy.api#documentation": "Filter by pre-defined use case. When unspecified, no use-case filter is applied.\nAccepted values: `MODEL_CATALOG_USE_CASE_CODING`, `MODEL_CATALOG_USE_CASE_AGENTS`,\n`MODEL_CATALOG_USE_CASE_AUDIO`, `MODEL_CATALOG_USE_CASE_IMAGE`,\n`MODEL_CATALOG_USE_CASE_EMBEDDING`, `MODEL_CATALOG_USE_CASE_VIDEO`.\n\n - MODEL_CATALOG_USE_CASE_UNSPECIFIED: No use-case filter applied; return all models.\n - MODEL_CATALOG_USE_CASE_CODING: Coding-optimized models: model_type = coding, or usecases include coding,\nagentic_coding, or code_generation.\n - MODEL_CATALOG_USE_CASE_AGENTS: Agent-building models: usecases include tool_calling, agentic,\nagent_platform, agentic_workflows, or agentic_coding.\n - MODEL_CATALOG_USE_CASE_AUDIO: Audio models: model_type is audio, or usecases include audio,\ntext_to_speech, or voice_cloning, or output modalities include\naudio.\n - MODEL_CATALOG_USE_CASE_IMAGE: Image models: model_type is image, or usecases include image_generation,\ntext_to_image, or ideogram, or output modalities include image.\n - MODEL_CATALOG_USE_CASE_VIDEO: Video models: usecases include video_generation or text_to_video, or\noutput modalities include video.\n - MODEL_CATALOG_USE_CASE_EMBEDDING: Embedding and reranking models: model_type is embedding or reranking, or\nusecases include vectorization or reranking."
+            "smithy.api#documentation": "Filter by pre-defined use case. When unspecified, no use-case filter is applied.\nAccepted values: `MODEL_CATALOG_USE_CASE_CODING`, `MODEL_CATALOG_USE_CASE_AGENTS`,\n`MODEL_CATALOG_USE_CASE_AUDIO`, `MODEL_CATALOG_USE_CASE_IMAGE`,\n`MODEL_CATALOG_USE_CASE_EMBEDDING`, `MODEL_CATALOG_USE_CASE_VIDEO`.\n\n - MODEL_CATALOG_USE_CASE_UNSPECIFIED: No use-case filter applied; return all models.\n - MODEL_CATALOG_USE_CASE_CODING: Coding-optimized models: model_type = coding, or usecases include coding,\nagentic_coding, or code_generation.\n - MODEL_CATALOG_USE_CASE_AGENTS: Agent-building models: usecases include tool_calling, agentic,\nagent_platform, agentic_workflows, or agentic_coding.\n - MODEL_CATALOG_USE_CASE_AUDIO: Audio models: model_type is audio, or usecases include audio,\ntext_to_speech, or voice_cloning, or output modalities include audio.\n - MODEL_CATALOG_USE_CASE_IMAGE: Image models: model_type is image, or usecases include image_generation,\ntext_to_image, or ideogram, or output modalities include image.\n - MODEL_CATALOG_USE_CASE_VIDEO: Video models: usecases include video_generation or text_to_video, or\noutput modalities include video.\n - MODEL_CATALOG_USE_CASE_EMBEDDING: Embedding and reranking models: model_type is embedding or reranking, or\nusecases include vectorization or reranking."
           }
         }
       },
@@ -84252,6 +85512,19 @@
         "smithy.api#documentation": "Cancel a Batch Inference Job\n\nRequests cancellation of a batch job. The job transitions to `cancelling` and, once in-flight requests drain, to `cancelled`. Jobs already in a terminal state (`completed`, `failed`, `expired`, `cancelled`) cannot be cancelled and return `409 Conflict`. Cancellation is also rejected with `409 Conflict` while the job has not yet been submitted to the upstream provider — there is nothing to cancel until the provider batch id is assigned.\n\nPartial results produced before cancellation remain available via `GET /v1/batches/{batch_id}/results`."
       }
     },
+    "com.digitalocean.api#UnprocessableEntity": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 422,
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 422
+          }
+        ]
+      }
+    },
     "com.digitalocean.api#NotFound": {
       "type": "structure",
       "members": {},
@@ -84274,19 +85547,6 @@
         "com.distilled.openapi#errorMatchers": [
           {
             "status": 400
-          }
-        ]
-      }
-    },
-    "com.digitalocean.api#UnprocessableEntity": {
-      "type": "structure",
-      "members": {},
-      "traits": {
-        "smithy.api#error": "client",
-        "smithy.api#httpError": 422,
-        "com.distilled.openapi#errorMatchers": [
-          {
-            "status": 422
           }
         ]
       }

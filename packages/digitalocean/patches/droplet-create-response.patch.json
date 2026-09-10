@@ -1,0 +1,29 @@
+{
+  "description": "POST /v2/droplets answers oneOf(Single, Multiple) keyed on whether the request carried `name` or `names`. The converter has no discriminated-response support, so the oneOf collapses to an empty struct and the created droplet id is unreachable. Replace it with one object carrying both optional members — a single-create response populates `droplet`, a multi-create response populates `droplets`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/components/responses/droplet_create/content/application~1json/schema",
+      "value": {
+        "title": "Droplet Create Response",
+        "type": "object",
+        "properties": {
+          "droplet": { "$ref": "#/components/schemas/droplet" },
+          "droplets": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/droplet" }
+          },
+          "links": {
+            "type": "object",
+            "properties": {
+              "actions": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/action_link" }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
