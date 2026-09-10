@@ -121,6 +121,10 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   wranglerSessionConfig: "wrangler-session-config",
   zoneId: "zone_id",
   zoneName: "zone_name",
+  previewId: "preview_id",
+  previewName: "preview_name",
+  workerName: "worker_name",
+  ignoreBaseConfig: "ignore_base_config",
 };
 
 export class ContentTypeRequired
@@ -329,6 +333,27 @@ export class ObservabilityDestinationPreflightFailed
       },
     ),
     [{ status: 400, message: "Bad Request" }],
+  ) {}
+
+export class PreviewDeploymentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PreviewDeploymentNotFound>()(
+      "PreviewDeploymentNotFound",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 10222 }],
+  ) {}
+
+export class PreviewNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PreviewNotFound>()("PreviewNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 10025 }, { status: 404, message: { includes: "preview" } }],
   ) {}
 
 export class QueueConsumerConflict
@@ -6756,6 +6781,233 @@ export const CreateObservabilitySharedQueryResponse = /*@__PURE__*/ S.suspend(
   identifier: "CreateObservabilitySharedQueryResponse",
 }) as any as S.Schema<CreateObservabilitySharedQueryResponse>;
 
+export interface PreviewTailConsumer {
+  name: string;
+}
+export const PreviewTailConsumer = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    name: S.String,
+  }),
+).annotate({
+  identifier: "PreviewTailConsumer",
+}) as any as S.Schema<PreviewTailConsumer>;
+
+export type PreviewTailConsumersList = Array<PreviewTailConsumer>;
+export const PreviewTailConsumersList = /*@__PURE__*/ S.Array(
+  PreviewTailConsumer,
+) as any as S.Schema<PreviewTailConsumersList>;
+
+export interface CreatePreviewRequest {
+  accountId: string;
+  /** Parent Worker id or script name. */
+  workerId: string;
+  /** Do not copy the parent's Previews Base configuration onto this Preview. */
+  ignoreBaseConfig?: boolean;
+  /** Preview name. Defaults to the git branch in wrangler; Alchemy defaults to the stage. */
+  name: string;
+  logpush?: boolean;
+  tailConsumers?: PreviewTailConsumersList;
+}
+export const CreatePreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    workerId: S.String.pipe(T.Label("worker_id")),
+    ignoreBaseConfig: S.optional(S.Boolean.pipe(T.Query("ignore_base_config"))),
+    name: S.String,
+    logpush: S.optional(S.Boolean),
+    tailConsumers: S.optional(
+      PreviewTailConsumersList.pipe(T.Body("tail_consumers")),
+    ),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/workers/workers/{worker_id}/previews",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePreviewRequest",
+}) as any as S.Schema<CreatePreviewRequest>;
+
+export type PreviewUrlsList = Array<string>;
+export const PreviewUrlsList = /*@__PURE__*/ S.Array(
+  S.String,
+) as any as S.Schema<PreviewUrlsList>;
+
+export interface PreviewResource {
+  /** Immutable Preview id. */
+  id: string;
+  /** Preview name as created (e.g. a git branch). */
+  name: string;
+  /** DNS-safe slug used in Preview URLs. */
+  slug: string;
+  /** Parent Worker script name this Preview belongs to. */
+  workerName: string;
+  /** Stable Preview URLs (always the latest deployment). */
+  urls?: PreviewUrlsList | null;
+  tags?: PreviewUrlsList | null;
+  logpush?: boolean | null;
+  tailConsumers?: PreviewTailConsumersList | null;
+  createdOn?: string | null;
+  updatedOn?: string | null;
+}
+export const PreviewResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    name: S.String,
+    slug: S.String,
+    workerName: S.String.pipe(T.Body("worker_name")),
+    urls: S.optional(S.NullOr(PreviewUrlsList)),
+    tags: S.optional(S.NullOr(PreviewUrlsList)),
+    logpush: S.optional(S.NullOr(S.Boolean)),
+    tailConsumers: S.optional(
+      S.NullOr(PreviewTailConsumersList).pipe(T.Body("tail_consumers")),
+    ),
+    createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+    updatedOn: S.optional(S.NullOr(S.String).pipe(T.Body("updated_on"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PreviewResource",
+}) as any as S.Schema<PreviewResource>;
+
+export interface CreatePreviewDeploymentMetadataAssets {
+  jwt?: string;
+  config?: unknown;
+}
+export const CreatePreviewDeploymentMetadataAssets = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      jwt: S.optional(S.String),
+      config: S.optional(S.Unknown),
+    }),
+).annotate({
+  identifier: "CreatePreviewDeploymentMetadataAssets",
+}) as any as S.Schema<CreatePreviewDeploymentMetadataAssets>;
+
+export type CreatePreviewDeploymentMetadataCompatibilityFlagsList =
+  Array<string>;
+export const CreatePreviewDeploymentMetadataCompatibilityFlagsList =
+  /*@__PURE__*/ S.Array(
+    S.String,
+  ) as any as S.Schema<CreatePreviewDeploymentMetadataCompatibilityFlagsList>;
+
+export interface CreatePreviewDeploymentMetadataContainer {
+  className: string;
+}
+export const CreatePreviewDeploymentMetadataContainer = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      className: S.String.pipe(T.Body("class_name")),
+    }),
+).annotate({
+  identifier: "CreatePreviewDeploymentMetadataContainer",
+}) as any as S.Schema<CreatePreviewDeploymentMetadataContainer>;
+
+export type CreatePreviewDeploymentMetadataContainersList =
+  Array<CreatePreviewDeploymentMetadataContainer>;
+export const CreatePreviewDeploymentMetadataContainersList =
+  /*@__PURE__*/ S.Array(
+    CreatePreviewDeploymentMetadataContainer,
+  ) as any as S.Schema<CreatePreviewDeploymentMetadataContainersList>;
+
+export interface CreatePreviewDeploymentMetadata {
+  /** Entrypoint module filename. */
+  mainModule?: string;
+  assets?: CreatePreviewDeploymentMetadataAssets;
+  compatibilityDate?: string;
+  compatibilityFlags?: CreatePreviewDeploymentMetadataCompatibilityFlagsList;
+  /** Version annotations (workers/message, workers/tag, …). */
+  annotations?: unknown;
+  /** Durable Object class migrations for this Preview's isolated namespaces. */
+  migrations?: unknown;
+  limits?: unknown;
+  placement?: unknown;
+  cacheOptions?: unknown;
+  /** Binding map keyed by runtime name (wrangler `env` format). */
+  env?: unknown;
+  containers?: CreatePreviewDeploymentMetadataContainersList;
+}
+export const CreatePreviewDeploymentMetadata = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    mainModule: S.optional(S.String.pipe(T.Body("main_module"))),
+    assets: S.optional(CreatePreviewDeploymentMetadataAssets),
+    compatibilityDate: S.optional(S.String.pipe(T.Body("compatibility_date"))),
+    compatibilityFlags: S.optional(
+      CreatePreviewDeploymentMetadataCompatibilityFlagsList.pipe(
+        T.Body("compatibility_flags"),
+      ),
+    ),
+    annotations: S.optional(S.Unknown),
+    migrations: S.optional(S.Unknown),
+    limits: S.optional(S.Unknown),
+    placement: S.optional(S.Unknown),
+    cacheOptions: S.optional(S.Unknown.pipe(T.Body("cache_options"))),
+    env: S.optional(S.Unknown),
+    containers: S.optional(CreatePreviewDeploymentMetadataContainersList),
+  }),
+).annotate({
+  identifier: "CreatePreviewDeploymentMetadata",
+}) as any as S.Schema<CreatePreviewDeploymentMetadata>;
+
+export interface CreatePreviewDeploymentRequest {
+  accountId: string;
+  workerId: string;
+  /** Preview id (not name) — wrangler uses the resource id returned by createPreview. */
+  previewId: string;
+  /** JSON-encoded multipart `metadata` part. */
+  metadata: CreatePreviewDeploymentMetadata;
+  /** Module files comprising the Worker script, appended under their own filenames. */
+  files?: File | Blob | (File | Blob)[];
+}
+export const CreatePreviewDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    workerId: S.String.pipe(T.Label("worker_id")),
+    previewId: S.String.pipe(T.Label("preview_id")),
+    metadata: CreatePreviewDeploymentMetadata,
+    files: S.optional(S.Unknown.pipe(T.FormDataFile())),
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments",
+        code: 200,
+        contentType: "multipart",
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "CreatePreviewDeploymentRequest",
+}) as any as S.Schema<CreatePreviewDeploymentRequest>;
+
+export interface PreviewDeploymentResource {
+  id: string;
+  previewId?: string | null;
+  previewName?: string | null;
+  migrationTag?: string | null;
+  /** Pinned deployment URLs for this exact deploy. */
+  urls?: PreviewUrlsList | null;
+  compatibilityDate?: string | null;
+  createdOn?: string | null;
+}
+export const PreviewDeploymentResource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    previewId: S.optional(S.NullOr(S.String).pipe(T.Body("preview_id"))),
+    previewName: S.optional(S.NullOr(S.String).pipe(T.Body("preview_name"))),
+    migrationTag: S.optional(S.NullOr(S.String).pipe(T.Body("migration_tag"))),
+    urls: S.optional(S.NullOr(PreviewUrlsList)),
+    compatibilityDate: S.optional(
+      S.NullOr(S.String).pipe(T.Body("compatibility_date")),
+    ),
+    createdOn: S.optional(S.NullOr(S.String).pipe(T.Body("created_on"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "PreviewDeploymentResource",
+}) as any as S.Schema<PreviewDeploymentResource>;
+
 export interface CreateRouteRequest {
   /** Identifier. */
   zoneId: string;
@@ -7459,24 +7711,16 @@ export const CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWork
       "CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWorker",
   }) as any as S.Schema<CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundWorker>;
 
-export interface CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam {
-  name: string;
-}
+export type CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam =
+  PreviewTailConsumer;
 export const CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam =
-  /*@__PURE__*/ S.suspend(() =>
-    S.Struct({
-      name: S.String,
-    }),
-  ).annotate({
-    identifier:
-      "CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam",
-  }) as any as S.Schema<CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam>;
+  PreviewTailConsumer;
 
 export type CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList =
-  Array<CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam>;
+  Array<PreviewTailConsumer>;
 export const CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList =
   /*@__PURE__*/ S.Array(
-    CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam,
+    PreviewTailConsumer,
   ) as any as S.Schema<CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParamsList>;
 
 export interface CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutbound {
@@ -8391,23 +8635,16 @@ export const CreateScriptEdgePreviewMetadataObservability =
     identifier: "CreateScriptEdgePreviewMetadataObservability",
   }) as any as S.Schema<CreateScriptEdgePreviewMetadataObservability>;
 
-export interface CreateScriptEdgePreviewMetadataContainer {
-  className: string;
-}
-export const CreateScriptEdgePreviewMetadataContainer = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      className: S.String.pipe(T.Body("class_name")),
-    }),
-).annotate({
-  identifier: "CreateScriptEdgePreviewMetadataContainer",
-}) as any as S.Schema<CreateScriptEdgePreviewMetadataContainer>;
+export type CreateScriptEdgePreviewMetadataContainer =
+  CreatePreviewDeploymentMetadataContainer;
+export const CreateScriptEdgePreviewMetadataContainer =
+  CreatePreviewDeploymentMetadataContainer;
 
 export type CreateScriptEdgePreviewMetadataContainersList =
-  Array<CreateScriptEdgePreviewMetadataContainer>;
+  Array<CreatePreviewDeploymentMetadataContainer>;
 export const CreateScriptEdgePreviewMetadataContainersList =
   /*@__PURE__*/ S.Array(
-    CreateScriptEdgePreviewMetadataContainer,
+    CreatePreviewDeploymentMetadataContainer,
   ) as any as S.Schema<CreateScriptEdgePreviewMetadataContainersList>;
 
 export interface CreateScriptEdgePreviewMetadata {
@@ -8853,15 +9090,15 @@ export const PutScriptBindingDataBlob = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<PutScriptBindingDataBlob>;
 
 export type PutScriptBindingDispatchNamespaceOutboundParam =
-  CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam;
+  PreviewTailConsumer;
 export const PutScriptBindingDispatchNamespaceOutboundParam =
-  CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam;
+  PreviewTailConsumer;
 
 export type PutScriptBindingDispatchNamespaceOutboundParamsList =
-  Array<CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam>;
+  Array<PreviewTailConsumer>;
 export const PutScriptBindingDispatchNamespaceOutboundParamsList =
   /*@__PURE__*/ S.Array(
-    CreateScriptEdgePreviewMetadataBindingDispatchNamespaceOutboundParam,
+    PreviewTailConsumer,
   ) as any as S.Schema<PutScriptBindingDispatchNamespaceOutboundParamsList>;
 
 export interface PutScriptBindingDispatchNamespaceOutboundWorker {
@@ -9618,13 +9855,13 @@ export const PutScriptMetadataBindingsList = /*@__PURE__*/ S.Array(
   PutScriptBinding,
 ) as any as S.Schema<PutScriptMetadataBindingsList>;
 
-export type PutScriptContainer = CreateScriptEdgePreviewMetadataContainer;
-export const PutScriptContainer = CreateScriptEdgePreviewMetadataContainer;
+export type PutScriptContainer = CreatePreviewDeploymentMetadataContainer;
+export const PutScriptContainer = CreatePreviewDeploymentMetadataContainer;
 
 export type PutScriptMetadataContainersList =
-  Array<CreateScriptEdgePreviewMetadataContainer>;
+  Array<CreatePreviewDeploymentMetadataContainer>;
 export const PutScriptMetadataContainersList = /*@__PURE__*/ S.Array(
-  CreateScriptEdgePreviewMetadataContainer,
+  CreatePreviewDeploymentMetadataContainer,
 ) as any as S.Schema<PutScriptMetadataContainersList>;
 
 export type PutScriptMetadataLimits = CreateScriptEdgePreviewMetadataLimits;
@@ -11856,6 +12093,36 @@ export const DeleteObservabilityDestinationResponse = /*@__PURE__*/ S.suspend(
 ).annotate({
   identifier: "DeleteObservabilityDestinationResponse",
 }) as any as S.Schema<DeleteObservabilityDestinationResponse>;
+
+export interface DeletePreviewRequest {
+  accountId: string;
+  workerId: string;
+  previewId: string;
+}
+export const DeletePreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    workerId: S.String.pipe(T.Label("worker_id")),
+    previewId: S.String.pipe(T.Label("preview_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "DELETE",
+        uri: "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePreviewRequest",
+}) as any as S.Schema<DeletePreviewRequest>;
+
+export interface DeletePreviewResponse {}
+export const DeletePreviewResponse = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "DeletePreviewResponse",
+}) as any as S.Schema<DeletePreviewResponse>;
 
 export interface DeleteRouteRequest {
   /** Identifier. */
@@ -14216,6 +14483,8 @@ export interface GetDomainResponse {
   zoneId: string;
   /** Name of the zone containing the domain hostname. */
   zoneName: string;
+  /** Whether Worker Previews are served on this custom domain. */
+  previewsEnabled?: boolean | null;
 }
 export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -14226,6 +14495,9 @@ export const GetDomainResponse = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     zoneId: S.String.pipe(T.Body("zone_id")),
     zoneName: S.String.pipe(T.Body("zone_name")),
+    previewsEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("previews_enabled")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetDomainResponse",
@@ -16228,6 +16500,57 @@ export const GetObservabilitySharedQueryResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetObservabilitySharedQueryResponse",
 }) as any as S.Schema<GetObservabilitySharedQueryResponse>;
+
+export interface GetPreviewRequest {
+  accountId: string;
+  /** Parent Worker id or script name. */
+  workerId: string;
+  /** Preview id or name. */
+  previewId: string;
+}
+export const GetPreviewRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    workerId: S.String.pipe(T.Label("worker_id")),
+    previewId: S.String.pipe(T.Label("preview_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetPreviewRequest",
+}) as any as S.Schema<GetPreviewRequest>;
+
+export interface GetPreviewDeploymentRequest {
+  accountId: string;
+  workerId: string;
+  previewId: string;
+  /** Deployment id, or `latest`. */
+  deploymentId: string;
+}
+export const GetPreviewDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    workerId: S.String.pipe(T.Label("worker_id")),
+    previewId: S.String.pipe(T.Label("preview_id")),
+    deploymentId: S.String.pipe(T.Label("deployment_id")),
+  })
+    .pipe(
+      T.Http({
+        method: "GET",
+        uri: "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}/deployments/{deployment_id}",
+        code: 200,
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "GetPreviewDeploymentRequest",
+}) as any as S.Schema<GetPreviewDeploymentRequest>;
 
 export interface GetRouteRequest {
   /** Identifier. */
@@ -22718,6 +23041,8 @@ export interface DomainsListResultItem {
   zoneId: string;
   /** Name of the zone containing the domain hostname. */
   zoneName: string;
+  /** Whether Worker Previews are served on this custom domain. */
+  previewsEnabled?: boolean | null;
 }
 export const DomainsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -22728,6 +23053,9 @@ export const DomainsListResultItem = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     zoneId: S.String.pipe(T.Body("zone_id")),
     zoneName: S.String.pipe(T.Body("zone_name")),
+    previewsEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("previews_enabled")),
+    ),
   }),
 ).annotate({
   identifier: "DomainsListResultItem",
@@ -27564,6 +27892,8 @@ export interface PutDomainRequest {
   zoneId?: string;
   /** Name of the zone containing the domain hostname. */
   zoneName?: string;
+  /** Serve Worker Previews on this custom domain as `<preview-name>.<hostname>`. */
+  previewsEnabled?: boolean;
 }
 export const PutDomainRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -27573,6 +27903,7 @@ export const PutDomainRequest = /*@__PURE__*/ S.suspend(() =>
     environment: S.optional(S.String),
     zoneId: S.optional(S.String.pipe(T.Body("zone_id"))),
     zoneName: S.optional(S.String.pipe(T.Body("zone_name"))),
+    previewsEnabled: S.optional(S.Boolean.pipe(T.Body("previews_enabled"))),
   })
     .pipe(
       T.Http({
@@ -27602,6 +27933,8 @@ export interface PutDomainResponse {
   zoneId: string;
   /** Name of the zone containing the domain hostname. */
   zoneName: string;
+  /** Whether Worker Previews are served on this custom domain. */
+  previewsEnabled?: boolean | null;
 }
 export const PutDomainResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -27612,6 +27945,9 @@ export const PutDomainResponse = /*@__PURE__*/ S.suspend(() =>
     service: S.String,
     zoneId: S.String.pipe(T.Body("zone_id")),
     zoneName: S.String.pipe(T.Body("zone_name")),
+    previewsEnabled: S.optional(
+      S.NullOr(S.Boolean).pipe(T.Body("previews_enabled")),
+    ),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "PutDomainResponse",
@@ -32805,6 +33141,44 @@ export const createObservabilitySharedQuery: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
+export type CreatePreviewError = WorkerNotFound | CloudflareOpError;
+/** Create a Worker Preview. Does not deploy code; follow with createPreviewDeployment. */
+export const createPreview: API.OperationMethod<
+  CreatePreviewRequest,
+  PreviewResource,
+  CreatePreviewError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePreviewRequest,
+  output: PreviewResource,
+  errors: [WorkerNotFound, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type CreatePreviewDeploymentError =
+  | PreviewNotFound
+  | WorkerNotFound
+  | CloudflareOpError;
+/** Upload code, bindings, and assets as a new deployment of a Preview. */
+export const createPreviewDeployment: API.OperationMethod<
+  CreatePreviewDeploymentRequest,
+  PreviewDeploymentResource,
+  CreatePreviewDeploymentError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: CreatePreviewDeploymentRequest,
+  output: PreviewDeploymentResource,
+  errors: [
+    PreviewNotFound,
+    WorkerNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
 export type CreateRouteError =
   | InvalidRoutePattern
   | InvalidRoute
@@ -33040,6 +33414,29 @@ export const deleteObservabilityDestination: API.OperationMethod<
   errors: [
     ObservabilityDestinationNotFound,
     Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type DeletePreviewError =
+  | PreviewNotFound
+  | WorkerNotFound
+  | CloudflareOpError;
+/** Delete a Worker Preview and all its deployments. */
+export const deletePreview: API.OperationMethod<
+  DeletePreviewRequest,
+  DeletePreviewResponse,
+  DeletePreviewError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: DeletePreviewRequest,
+  output: DeletePreviewResponse,
+  errors: [
+    PreviewNotFound,
+    WorkerNotFound,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -33283,6 +33680,54 @@ export const getObservabilitySharedQuery: API.OperationMethod<
   input: GetObservabilitySharedQueryRequest,
   output: GetObservabilitySharedQueryResponse,
   errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPreviewError =
+  | PreviewNotFound
+  | WorkerNotFound
+  | CloudflareOpError;
+/** Get a Worker Preview by id or name. */
+export const getPreview: API.OperationMethod<
+  GetPreviewRequest,
+  PreviewResource,
+  GetPreviewError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPreviewRequest,
+  output: PreviewResource,
+  errors: [
+    PreviewNotFound,
+    WorkerNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type GetPreviewDeploymentError =
+  | PreviewNotFound
+  | PreviewDeploymentNotFound
+  | WorkerNotFound
+  | CloudflareOpError;
+/** Get a Preview deployment by id, or `latest`. */
+export const getPreviewDeployment: API.OperationMethod<
+  GetPreviewDeploymentRequest,
+  PreviewDeploymentResource,
+  GetPreviewDeploymentError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetPreviewDeploymentRequest,
+  output: PreviewDeploymentResource,
+  errors: [
+    PreviewNotFound,
+    PreviewDeploymentNotFound,
+    WorkerNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
