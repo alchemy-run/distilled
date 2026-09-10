@@ -60,7 +60,7 @@ export const presignUrl: (
   options: PresignUrlOptions,
 ) => Effect.Effect<
   string,
-  Credentials.CredentialsError,
+  Credentials.CredentialsError | SigV4.SigningError,
   Credentials.Credentials | Region.Region
 > = Effect.fnUntraced(function* (options: PresignUrlOptions) {
   const credentials = yield* yield* Credentials.Credentials;
@@ -150,7 +150,7 @@ export const presignS3Url: (
   options: PresignS3UrlOptions,
 ) => Effect.Effect<
   string,
-  Credentials.CredentialsError,
+  Credentials.CredentialsError | SigV4.SigningError,
   Credentials.Credentials | Region.Region
 > = Effect.fnUntraced(function* (options: PresignS3UrlOptions) {
   const region = options.region ?? (yield* yield* Region.Region);

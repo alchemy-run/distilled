@@ -143,6 +143,32 @@ describe("SigV4.sign", () => {
     expect(after.headers.authorization).toBe(before.headers.authorization);
   });
 
+  test("fails with InvalidSigningUrl for a relative URL", async () => {
+    const error = await Effect.runPromise(
+      SigV4.sign({
+        ...creds,
+        url: "/not/absolute",
+        service: "s3",
+        region: "us-east-1",
+      }).pipe(Effect.flip),
+    );
+    expect(error).toBeInstanceOf(SigV4.InvalidSigningUrl);
+    expect(error._tag).toBe("AWS::SigV4::InvalidSigningUrl");
+  });
+
+  test("fails with InvalidSigningHeaders for an invalid header name", async () => {
+    const error = await Effect.runPromise(
+      SigV4.sign({
+        ...creds,
+        url: "https://examplebucket.s3.amazonaws.com/",
+        headers: { "bad header": "x" },
+        service: "s3",
+        region: "us-east-1",
+      }).pipe(Effect.flip),
+    );
+    expect(error._tag).toBe("AWS::SigV4::InvalidSigningHeaders");
+  });
+
   test("iotdevicegateway appends the session token after the signature", async () => {
     const signed = await Effect.runPromise(
       SigV4.sign({
@@ -169,6 +195,7 @@ describe("Presign", () => {
       Effect.succeed({
         accessKeyId: Redacted.make(creds.accessKeyId),
         secretAccessKey: creds.secretAccessKey,
+        sessionToken: undefined,
         region: "us-east-1" as Region.RegionName,
       }),
     ),
