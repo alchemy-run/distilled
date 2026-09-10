@@ -27,8 +27,8 @@ catalogs:
   build:
     typescript: ^7.0.2
   effect:
-    "@effect/platform-bun": ">=4.0.0-rc.112 || >=4.0.0"
-    effect: ">=4.0.0-rc.112 || >=4.0.0"
+    "@effect/platform-bun": ">=4.0.0-rc.113 || >=4.0.0"
+    effect: ">=4.0.0-rc.113 || >=4.0.0"
   shared:
     fast-xml-parser: ^5.3.4
   tooling:
@@ -41,6 +41,13 @@ catalogs:
     pathe: ^2.0.3
 
 minimumReleaseAgeExclude:
-  - "@effect/platform-bun@4.0.0-rc.112"
-  - "@effect/platform-node-shared@4.0.0-rc.112"
-  - effect@4.0.0-rc.112
+  - "@effect/atom-react@4.0.0-rc.113"
+  - "@effect/platform-bun@4.0.0-rc.113"
+  - "@effect/platform-node-shared@4.0.0-rc.113"
+  - "@effect/platform-node@4.0.0-rc.113"
+  - "@effect/sql-d1@4.0.0-rc.113"
+  - "@effect/sql-mysql2@4.0.0-rc.113"
+  - "@effect/sql-pg@4.0.0-rc.113"
+  - "@effect/sql-sqlite-do@4.0.0-rc.113"
+  - "@effect/vitest@4.0.0-rc.113"
+  - effect@4.0.0-rc.113

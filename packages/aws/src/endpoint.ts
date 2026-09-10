@@ -15,7 +15,7 @@ export class Endpoint extends Context.Service<
  * Lambda containers). Resolves `undefined` when unset, so the SDK's
  * default endpoint resolver runs.
  */
-export const fromEnvironment = Config.string("AWS_ENDPOINT_URL").pipe(
+export const fromEnvironment = Config.String("AWS_ENDPOINT_URL").pipe(
   Config.option,
   Effect.map(Option.getOrUndefined),
 );

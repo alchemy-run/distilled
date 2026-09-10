@@ -27,7 +27,7 @@ export class Credentials extends Context.Service<
 >()("SupabaseCredentials") {}
 
 const envConfig = EffectConfig.all({
-  accessToken: EffectConfig.string("SUPABASE_ACCESS_TOKEN"),
+  accessToken: EffectConfig.String("SUPABASE_ACCESS_TOKEN"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

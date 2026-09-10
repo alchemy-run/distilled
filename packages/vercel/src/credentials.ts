@@ -33,8 +33,8 @@ export class Credentials extends Context.Service<
 
 const envConfig = EffectConfig.all({
   // `VERCEL_TOKEN` is what the Vercel CLI and the official SDK read.
-  token: EffectConfig.string("VERCEL_TOKEN"),
-  apiBaseUrl: EffectConfig.string("VERCEL_API_URL").pipe(
+  token: EffectConfig.String("VERCEL_TOKEN"),
+  apiBaseUrl: EffectConfig.String("VERCEL_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

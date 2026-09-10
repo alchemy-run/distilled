@@ -43,10 +43,10 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   // SLACK_BOT_TOKEN is the spelling Bolt and most hosting platforms use;
   // SLACK_TOKEN is the fallback (the node SDK's CLI convention).
-  token: EffectConfig.string("SLACK_BOT_TOKEN").pipe(
-    EffectConfig.orElse(() => EffectConfig.string("SLACK_TOKEN")),
+  token: EffectConfig.String("SLACK_BOT_TOKEN").pipe(
+    EffectConfig.orElse(() => EffectConfig.String("SLACK_TOKEN")),
   ),
-  apiBaseUrl: EffectConfig.string("SLACK_API_URL").pipe(
+  apiBaseUrl: EffectConfig.String("SLACK_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

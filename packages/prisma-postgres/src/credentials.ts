@@ -39,7 +39,7 @@ export const fromApiToken = (config: {
   );
 
 const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.string("PRISMA_POSTGRES_API_TOKEN"),
+  apiToken: EffectConfig.String("PRISMA_POSTGRES_API_TOKEN"),
 });
 
 /**

@@ -32,11 +32,11 @@ export class Credentials extends Context.Service<
 >()("ModalCredentials") {}
 
 const envConfig = EffectConfig.all({
-  tokenId: EffectConfig.string("MODAL_TOKEN_ID"),
-  tokenSecret: EffectConfig.string("MODAL_TOKEN_SECRET"),
-  apiBaseUrl: EffectConfig.string("MODAL_SERVER_URL").pipe(
+  tokenId: EffectConfig.String("MODAL_TOKEN_ID"),
+  tokenSecret: EffectConfig.String("MODAL_TOKEN_SECRET"),
+  apiBaseUrl: EffectConfig.String("MODAL_SERVER_URL").pipe(
     EffectConfig.orElse(() =>
-      EffectConfig.string("MODAL_API_URL").pipe(
+      EffectConfig.String("MODAL_API_URL").pipe(
         EffectConfig.withDefault(DEFAULT_API_BASE_URL),
       ),
     ),

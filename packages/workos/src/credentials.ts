@@ -31,8 +31,8 @@ export class Credentials extends Context.Service<
 >()("WorkosCredentials") {}
 
 const envConfig = EffectConfig.all({
-  apiKey: EffectConfig.string("WORKOS_API_KEY"),
-  apiBaseUrl: EffectConfig.string("WORKOS_API_URL").pipe(
+  apiKey: EffectConfig.String("WORKOS_API_KEY"),
+  apiBaseUrl: EffectConfig.String("WORKOS_API_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

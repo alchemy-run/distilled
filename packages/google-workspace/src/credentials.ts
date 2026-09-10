@@ -25,8 +25,8 @@ export class Credentials extends Context.Service<
 >()("GoogleWorkspaceCredentials") {}
 
 const envConfig = EffectConfig.all({
-  accessToken: EffectConfig.string("GOOGLE_ACCESS_TOKEN"),
-  project: EffectConfig.option(EffectConfig.string("GOOGLE_PROJECT_ID")),
+  accessToken: EffectConfig.String("GOOGLE_ACCESS_TOKEN"),
+  project: EffectConfig.option(EffectConfig.String("GOOGLE_PROJECT_ID")),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

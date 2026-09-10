@@ -37,10 +37,10 @@ export class Credentials extends Context.Service<
 >()("AzureCredentials") {}
 
 const envConfig = EffectConfig.all({
-  bearerToken: EffectConfig.string("AZURE_BEARER_TOKEN"),
-  subscriptionId: EffectConfig.string("AZURE_SUBSCRIPTION_ID"),
-  tenantId: EffectConfig.option(EffectConfig.string("AZURE_TENANT_ID")),
-  apiBaseUrl: EffectConfig.string("AZURE_API_BASE_URL").pipe(
+  bearerToken: EffectConfig.String("AZURE_BEARER_TOKEN"),
+  subscriptionId: EffectConfig.String("AZURE_SUBSCRIPTION_ID"),
+  tenantId: EffectConfig.option(EffectConfig.String("AZURE_TENANT_ID")),
+  apiBaseUrl: EffectConfig.String("AZURE_API_BASE_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
 });

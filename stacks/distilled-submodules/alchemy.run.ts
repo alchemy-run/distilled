@@ -43,7 +43,7 @@ import { loadScaffolds } from "./SpecRepos.ts";
  * `DISTILLED_REPOS_OWNER` so the workflow can point elsewhere without a code
  * change.
  */
-const Owner = Config.string("DISTILLED_REPOS_OWNER").pipe(
+const Owner = Config.String("DISTILLED_REPOS_OWNER").pipe(
   // An unset repository variable reaches the workflow as an empty string, so
   // treat empty the same as missing.
   Config.withDefault(""),

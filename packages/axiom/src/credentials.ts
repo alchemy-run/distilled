@@ -51,12 +51,12 @@ export const fromApiKey = (config: {
   );
 
 const envConfig = EffectConfig.all({
-  apiToken: EffectConfig.option(EffectConfig.string("AXIOM_TOKEN")),
-  apiKey: EffectConfig.option(EffectConfig.string("AXIOM_API_KEY")),
-  apiBaseUrl: EffectConfig.string("AXIOM_URL").pipe(
+  apiToken: EffectConfig.option(EffectConfig.String("AXIOM_TOKEN")),
+  apiKey: EffectConfig.option(EffectConfig.String("AXIOM_API_KEY")),
+  apiBaseUrl: EffectConfig.String("AXIOM_URL").pipe(
     EffectConfig.withDefault(DEFAULT_API_BASE_URL),
   ),
-  orgId: EffectConfig.option(EffectConfig.string("AXIOM_ORG_ID")),
+  orgId: EffectConfig.option(EffectConfig.String("AXIOM_ORG_ID")),
 });
 
 /**

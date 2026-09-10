@@ -48,8 +48,8 @@ export class Credentials extends Context.Service<
 const envConfig = EffectConfig.all({
   // `FORGEJO_URL` / `FORGEJO_TOKEN` are the names Forgejo's own Actions
   // runner and the Terraform/OpenTofu providers read.
-  token: EffectConfig.string("FORGEJO_TOKEN"),
-  baseUrl: EffectConfig.string("FORGEJO_URL"),
+  token: EffectConfig.String("FORGEJO_TOKEN"),
+  baseUrl: EffectConfig.String("FORGEJO_URL"),
 });
 
 export const CredentialsFromEnv = Layer.succeed(

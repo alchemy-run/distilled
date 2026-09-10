@@ -146,29 +146,29 @@ const downloadPage = (entry: PageEntry, force: boolean) =>
 const downloadApiDocs = Command.make(
   "download-api-docs",
   {
-    indexUrl: Argument.string("index-url").pipe(
+    indexUrl: Argument.String("index-url").pipe(
       Argument.withDefault(`${ORIGIN}/api/`),
       Argument.withDescription(
         "The API docs page whose sidebar to crawl (default: the Cloudflare API index)",
       ),
     ),
-    out: Flag.string("out").pipe(
+    out: Flag.String("out").pipe(
       Flag.withDefault("specs"),
       Flag.withDescription(
         "Output directory for downloaded markdown (relative to the cloudflare folder)",
       ),
     ),
-    concurrency: Flag.integer("concurrency").pipe(
+    concurrency: Flag.Int("concurrency").pipe(
       Flag.withDefault(12),
       Flag.withDescription("Number of pages to download in parallel"),
     ),
-    limit: Flag.integer("limit").pipe(
+    limit: Flag.Int("limit").pipe(
       Flag.withDefault(0),
       Flag.withDescription(
         "Only download the first N pages (0 = all). For testing.",
       ),
     ),
-    force: Flag.boolean("force").pipe(
+    force: Flag.Boolean("force").pipe(
       Flag.withDefault(false),
       Flag.withDescription("Re-download pages even if the file already exists"),
     ),
