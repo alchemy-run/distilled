@@ -401,11 +401,15 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
           </h2>
           <p class="section__lede">
             Every generated SDK — ours, the vendor's, the one you'd write — is
-            only as true as the API description it was built from. And those
-            descriptions routinely leave out what happens when a call fails. The
-            types compile. The happy path works. Then production sends a status
-            code the spec never mentioned, and your typed client hands you an
-            untyped error.
+            only as true as the API description it was built from. Most of those
+            descriptions are written by hand, beside the API rather than from
+            it. So they drift: a field marked required that the server omits, a
+            value documented as a string that arrives <code>null</code>, a
+            property the response always carries that the spec never mentions —
+            and, almost universally, silence about what happens when a call
+            fails. The types compile. The happy path works. Then a real response
+            doesn't match, and your typed client either rejects a valid payload
+            or hands you an untyped error.
           </p>
         </div>
 
