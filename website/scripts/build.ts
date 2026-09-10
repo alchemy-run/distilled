@@ -480,8 +480,6 @@ const awardHtml = (ranked: Ranked[]): string => {
 // ───────────── /bench ─────────────
 
 const kb = (bytes: number) => `${fmt1.format(bytes / 1024)} KB`;
-const ms = (n: number) =>
-  n >= 1000 ? `${fmt1.format(n / 1000)} s` : `${fmt.format(Math.round(n))} ms`;
 const ns = (n: number) =>
   n >= 1e6
     ? `${fmt1.format(n / 1e6)} ms`
@@ -570,8 +568,7 @@ const bundleSection = (b: BundleBench | null): string => {
       `<div class="brow__nums">` +
       `<span><b>${kb(r.gzipBytes)}</b> gzip</span>` +
       `<span>${kb(r.bytes)} raw</span>` +
-      `<span><b>${ms(r.coldMs)}</b> cold</span>` +
-      (r.warmMs === null ? "" : `<span>${ms(r.warmMs)} warm</span>`) +
+      `<span>${fmt.format(r.moduleCount)} modules</span>` +
       `</div>` +
       `<div class="brow__shake">${shake}${leak}</div>` +
       `</li>`
@@ -582,7 +579,7 @@ const bundleSection = (b: BundleBench | null): string => {
     `<div class="section__head">` +
     `<p class="eyebrow">Bundle size</p>` +
     `<h2 id="bundle-title">Import one operation, pay for <em>one</em> operation.</h2>` +
-    `<p class="section__lede">Each row is a small worker that imports a single Distilled operation and calls it, bundled the way Alchemy bundles for Cloudflare Workers. Deep and barrel imports produce the same bytes; the barrel just costs bundle time.</p>` +
+    `<p class="section__lede">Each row is a small worker that imports a single Distilled operation and calls it, bundled the way Alchemy bundles for Cloudflare Workers. Deep and barrel imports produce the same bytes.</p>` +
     `</div>` +
     `<div class="shame-stats bench-stats">${headline}</div>` +
     `<ul class="brows">${rows.map(row).join("")}</ul>` +
