@@ -2662,11 +2662,16 @@ pre.code code {
     width: 0.95rem;
     height: 0.95rem;
   }
-  .top__nav a[href="/bench"] {
+  .top__nav a[href="/bench"],
+  .top__nav a[href="/shame"] {
     font-size: 0;
   }
   .top__nav a[href="/bench"]::before {
     content: "Bench";
+    font-size: 0.84rem;
+  }
+  .top__nav a[href="/shame"]::before {
+    content: "Shame";
     font-size: 0.84rem;
   }
   .brand__name {
