@@ -648,8 +648,9 @@ const runtimeSection = (r: RuntimeBench | null): string => {
  */
 const factsHtml = (ranked: Ranked[]): string => {
   const used = ranked.filter((s) => alchemyUsed.has(s.dir));
-  const fixes = used.reduce((n, s) => n + s.fixes, 0);
-  const patched = used.filter((s) => s.fixes > 0).length;
+  const fixes = ranked.reduce((n, s) => n + s.fixes, 0);
+  const patchedAll = ranked.filter((s) => s.fixes > 0).length;
+  const patchedUsed = used.filter((s) => s.fixes > 0).length;
   const byRate = [...used].sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0));
   const worst = byRate[0];
   const best = byRate[byRate.length - 1];
@@ -660,17 +661,17 @@ const factsHtml = (ranked: Ranked[]): string => {
     fact(
       fmt.format(fixes),
       "spec fixes",
-      `carried across the ${used.length} services Alchemy builds on today.`,
+      `carried across all ${ranked.length} services with operations, each one a place the description and the API disagreed.`,
     ),
     fact(
-      `${patched} of ${used.length}`,
+      `${patchedAll} of ${ranked.length}`,
       "services patched",
-      `every one has needed at least one correction to its own API description.`,
+      `so far — the rest are untested, not clean. Of the ${used.length} Alchemy builds on, ${patchedUsed === used.length ? "all " + used.length : patchedUsed} needed correcting.`,
     ),
     fact(
       fmt1.format(mid?.per100 ?? 0),
       "fixes per 100 operations",
-      `for the median service — one correction for every three calls it exposes.`,
+      `for the median Alchemy-used service — one correction for every three calls it exposes.`,
     ),
     best
       ? fact(
