@@ -926,10 +926,17 @@ program.<span class="f">pipe</span>(
           const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
           const effectiveDark = stored ? stored === "dark" : systemDark;
           const next = effectiveDark ? "light" : "dark";
+          root.classList.add("theme-switching");
           root.dataset.theme = next;
           try {
             localStorage.setItem("theme", next);
           } catch {}
+          // Two frames: one to apply the new colours, one to re-enable transitions.
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() =>
+              root.classList.remove("theme-switching"),
+            ),
+          );
         });
       }
       // Package filter: matches on name, directory and tags; hides empty groups.
