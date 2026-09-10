@@ -52,14 +52,22 @@ const Website = Cloudflare.Website.StaticSite(
           : stack.stage === "main"
             ? { name: "main.distilled.cloud" }
             : undefined,
+      // Everything build.ts reads: a change to any of these must rebuild,
+      // since the package list, patch stats and bench numbers are all
+      // computed at build time.
       memo: {
         include: [
           "src/**",
           "public/**",
           "scripts/**",
+          "data/**",
+          "assets/**",
           "package.json",
           "../pnpm-lock.yaml",
           "../packages/*/package.json",
+          "../packages/*/patches/**",
+          "../packages/*/src/services/**",
+          "../benches/*/results/latest.json",
         ],
       },
       compatibility: {
