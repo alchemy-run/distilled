@@ -1,5 +1,8 @@
 import { describe, expect, test } from "bun:test";
+import * as Cache from "effect/Cache";
+import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import * as Exit from "effect/Exit";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Credentials from "./credentials.browser.ts";
@@ -167,6 +170,49 @@ describe("SigV4.sign", () => {
       }).pipe(Effect.flip),
     );
     expect(error._tag).toBe("AWS::SigV4::InvalidSigningHeaders");
+  });
+
+  test("a failed key derivation is not retained by the cache", async () => {
+    let attempts = 0;
+    const defaultCache = Effect.runSync(SigV4.SigningKeyCache);
+    const flakyCache = Effect.runSync(
+      Cache.makeWith(
+        (scope: SigV4.SigningKeyScope) =>
+          Effect.suspend(() =>
+            attempts++ === 0
+              ? Effect.fail(
+                  new SigV4.CryptoError({ operation: "hmac", cause: "boom" }),
+                )
+              : Cache.get(defaultCache, scope),
+          ),
+        {
+          capacity: 4,
+          timeToLive: (exit) =>
+            Exit.isSuccess(exit) ? Duration.infinity : Duration.zero,
+        },
+      ),
+    );
+    const request = {
+      ...creds,
+      method: "GET",
+      url: "https://examplebucket.s3.amazonaws.com/test.txt",
+      headers: { Range: "bytes=0-9" },
+      service: "s3",
+      region: "us-east-1",
+      datetime,
+    } as const;
+    const withCache = Effect.provideService(SigV4.SigningKeyCache, flakyCache);
+
+    const first = await Effect.runPromise(
+      SigV4.sign(request).pipe(Effect.flip, withCache),
+    );
+    expect(first).toBeInstanceOf(SigV4.CryptoError);
+
+    const second = await Effect.runPromise(SigV4.sign(request).pipe(withCache));
+    expect(second.headers.authorization).toBe(
+      "AWS4-HMAC-SHA256 Credential=AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request, SignedHeaders=host;x-amz-content-sha256;x-amz-date, Signature=5c0d4ff29e72b8f94c5b6720369921e587e39bf7a64e456887dec4b43a2d1b77",
+    );
+    expect(attempts).toBe(2);
   });
 
   test("iotdevicegateway appends the session token after the signature", async () => {
