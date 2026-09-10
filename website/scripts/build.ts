@@ -689,6 +689,46 @@ const runtimeSection = (r: RuntimeBench | null): string => {
   );
 };
 
+/**
+ * Four stats of identical shape for the problem section, all derived from
+ * the patch files: number, unit line, one-sentence reading. Restricted to
+ * packages Alchemy uses so every figure is backed by real use.
+ */
+const factsHtml = (ranked: Ranked[]): string => {
+  const used = ranked.filter((s) => alchemyUsed.has(s.dir));
+  const fixes = used.reduce((n, s) => n + s.fixes, 0);
+  const patched = used.filter((s) => s.fixes > 0).length;
+  const byRate = [...used].sort((a, b) => (b.per100 ?? 0) - (a.per100 ?? 0));
+  const worst = byRate[0];
+  const mid = byRate[Math.floor(byRate.length / 2)];
+  const fact = (n: string, unit: string, read: string) =>
+    `<li class="fact"><span class="fact__n">${n}</span><span class="fact__u">${unit}</span><span class="fact__r">${read}</span></li>`;
+  return [
+    fact(
+      fmt.format(fixes),
+      "spec fixes",
+      `carried across the ${used.length} providers Alchemy builds on today.`,
+    ),
+    fact(
+      `${patched} of ${used.length}`,
+      "providers patched",
+      `every one has needed at least one correction to its own API description.`,
+    ),
+    fact(
+      fmt1.format(mid?.per100 ?? 0),
+      "fixes per 100 operations",
+      `for the median provider — one correction for every three calls it exposes.`,
+    ),
+    worst
+      ? fact(
+          fmt1.format(worst.per100 ?? 0),
+          `per 100 on ${escapeHtml(worst.short)}`,
+          `the worst of them: more patches than operations. <a href="/shame">See the tally →</a>`,
+        )
+      : "",
+  ].join("");
+};
+
 const packages = await readPackages();
 const ranked = await rankStats(packages);
 const [runtimeBench, bundleBench] = await Promise.all([
@@ -753,14 +793,7 @@ html = html.replace("<!-- AWARD -->", awardHtml(ranked));
     .replace("<!-- BENCH_AWS_P50 -->", awsCall ? ns(awsCall.p50) : "—");
 }
 html = html.replaceAll("<!-- PACKAGE_COUNT -->", String(packages.length));
-html = html.replaceAll(
-  "<!-- FIX_COUNT -->",
-  fmt.format(ranked.reduce((n, s) => n + s.fixes, 0)),
-);
-html = html.replaceAll(
-  "<!-- PATCHED_COUNT -->",
-  String(ranked.filter((s) => s.fixes > 0).length),
-);
+html = html.replace("<!-- FACTS -->", factsHtml(ranked));
 await writeFile(indexPath, html);
 
 const shamePath = join(distDir, "shame.html");

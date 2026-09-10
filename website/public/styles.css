@@ -989,29 +989,47 @@ pre.code code {
 }
 
 .facts {
-  list-style: none;
-  margin: 1.5rem 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr;
+  margin: 1.75rem 0 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
   background: color-mix(in oklab, var(--bg-2) 85%, transparent);
 }
+.facts__title {
+  margin: 0;
+  padding: 0.9rem 1.2rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--fg-2);
+  font-size: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.3rem 1rem;
+}
+.facts__title .eyebrow {
+  margin: 0;
+}
+.facts__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+}
 @media (min-width: 48rem) {
-  .facts {
+  .facts__list {
     grid-template-columns: 1fr 1fr;
   }
 }
 @media (min-width: 72rem) {
-  .facts {
+  .facts__list {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 .fact {
   display: grid;
-  gap: 0.35rem;
+  grid-template-rows: auto auto 1fr;
+  gap: 0.15rem;
   padding: 1.1rem 1.2rem 1.2rem;
   border-top: 1px solid var(--line);
   border-left: 1px solid var(--line);
@@ -1043,28 +1061,26 @@ pre.code code {
     "opsz" 72,
     "SOFT" 30,
     "WONK" 0;
-  font-size: 2rem;
+  font-size: 2.1rem;
   line-height: 1;
   color: var(--rose);
   font-variant-numeric: tabular-nums;
 }
-.fact__of {
-  font-size: 0.55em;
+.fact__u {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--fg-3);
+  margin-top: 0.2rem;
 }
-.fact__l {
-  font-size: 0.88rem;
+.fact__r {
+  margin-top: 0.4rem;
+  font-size: 0.86rem;
   color: var(--fg-2);
   text-wrap: pretty;
 }
-.fact__l em {
-  color: var(--fg);
-  font-style: italic;
-}
-.fact__l code {
-  font-size: 0.82em;
-}
-.fact__l a {
+.fact__r a {
   color: var(--accent);
   white-space: nowrap;
 }
