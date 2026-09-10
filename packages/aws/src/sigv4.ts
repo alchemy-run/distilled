@@ -31,7 +31,10 @@ const UNSIGNABLE_HEADERS: ReadonlySet<string> = new Set([
 /**
  * Derived signing keys, keyed on secret/date/region/service. Deriving the key
  * costs four HMACs; requests within one UTC day for the same scope share it.
+ * Bounded (LRU, insertion order) so long-lived processes rotating temporary
+ * credentials do not accumulate secret-derived material indefinitely.
  */
+const SIGNING_KEY_CACHE_MAX = 64;
 const signingKeyCache = new Map<string, ArrayBuffer>();
 
 export type SignableBody = string | ArrayBuffer | ArrayBufferView;
@@ -140,11 +143,19 @@ const signingKey = async (
 ): Promise<ArrayBuffer> => {
   const cacheKey = [secretAccessKey, date, region, service].join();
   const cached = signingKeyCache.get(cacheKey);
-  if (cached) return cached;
+  if (cached) {
+    // re-insert so the entry moves to the most-recently-used end
+    signingKeyCache.delete(cacheKey);
+    signingKeyCache.set(cacheKey, cached);
+    return cached;
+  }
   const kDate = await hmac("AWS4" + secretAccessKey, date);
   const kRegion = await hmac(kDate, region);
   const kService = await hmac(kRegion, service);
   const kCredentials = await hmac(kService, "aws4_request");
+  if (signingKeyCache.size >= SIGNING_KEY_CACHE_MAX) {
+    signingKeyCache.delete(signingKeyCache.keys().next().value!);
+  }
   signingKeyCache.set(cacheKey, kCredentials);
   return kCredentials;
 };

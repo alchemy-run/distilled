@@ -119,6 +119,27 @@ describe("SigV4.sign", () => {
     expect(signed.headers.authorization).toBeUndefined();
   });
 
+  test("signing stays correct after the derived-key cache evicts entries", async () => {
+    const request = {
+      ...creds,
+      method: "GET",
+      url: "https://examplebucket.s3.amazonaws.com/test.txt",
+      headers: { Range: "bytes=0-9" },
+      service: "s3",
+      region: "us-east-1",
+      datetime,
+    } as const;
+    const before = await Effect.runPromise(SigV4.sign(request));
+    // Churn well past the cache bound with distinct secrets.
+    for (let i = 0; i < 200; i++) {
+      await Effect.runPromise(
+        SigV4.sign({ ...request, secretAccessKey: `rotated-${i}` }),
+      );
+    }
+    const after = await Effect.runPromise(SigV4.sign(request));
+    expect(after.headers.authorization).toBe(before.headers.authorization);
+  });
+
   test("iotdevicegateway appends the session token after the signature", async () => {
     const signed = await Effect.runPromise(
       SigV4.sign({
