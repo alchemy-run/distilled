@@ -640,18 +640,14 @@ h1 {
 .install {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   max-width: 100%;
-  padding: 0.55rem 0.55rem 0.55rem 0.9rem;
+  padding: 0.4rem 0.4rem 0.4rem 0.4rem;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--bg-2);
   font-family: var(--mono);
   font-size: 0.9rem;
-}
-.install__prompt {
-  color: var(--accent);
-  user-select: none;
 }
 .install code {
   font-size: inherit;
@@ -660,17 +656,52 @@ h1 {
   scrollbar-width: none;
 }
 
-.copy {
+/* Package-manager select styled as the command's first word. */
+.install__pm {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.6rem;
+  flex: none;
+}
+.install__pm select {
+  appearance: none;
+  -webkit-appearance: none;
+  font: inherit;
+  padding: 0.3rem 1.35rem 0.3rem 0.6rem;
+  border: 1px solid var(--line-2);
+  border-radius: 6px;
+  background: var(--bg-3);
+  color: var(--accent);
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    color 120ms ease;
+}
+.install__pm select:hover {
+  border-color: var(--fg-3);
+}
+.install__pm select:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+.install__caret {
+  position: absolute;
+  right: 0.5rem;
+  pointer-events: none;
+  color: var(--fg-3);
+}
+
+.copy {
+  display: inline-grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  margin-left: auto;
+  padding: 0;
   border: 1px solid var(--line-2);
   border-radius: 6px;
   background: var(--bg-3);
   color: var(--fg-2);
-  font: inherit;
-  font-size: 0.78rem;
   cursor: pointer;
   transition:
     color 120ms ease,
@@ -680,9 +711,27 @@ h1 {
   color: var(--fg);
   border-color: var(--fg-3);
 }
+.copy svg {
+  grid-area: 1 / 1;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+.copy__done {
+  opacity: 0;
+  transform: scale(0.6);
+}
 .copy.is-copied {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--teal);
+  border-color: var(--teal);
+}
+.copy.is-copied .copy__icon {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.copy.is-copied .copy__done {
+  opacity: 1;
+  transform: none;
 }
 
 /* Code window */
