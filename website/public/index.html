@@ -188,10 +188,36 @@
               Source
             </a>
           </div>
-          <div class="install">
-            <span class="install__prompt" aria-hidden="true">$</span>
+          <div class="install" data-install>
+            <label class="install__pm">
+              <span class="sr-only">Package manager</span>
+              <select data-pm aria-label="Package manager">
+                <option value="pnpm" selected>pnpm</option>
+                <option value="npm">npm</option>
+                <option value="bun">bun</option>
+              </select>
+              <svg
+                class="install__caret"
+                viewBox="0 0 12 12"
+                width="10"
+                height="10"
+                aria-hidden="true"
+              >
+                <path
+                  d="M2.5 4.5 6 8l3.5-3.5"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </label>
             <code id="install-cmd"
-              >npm install @distilled.cloud/<span data-sample-pkg>aws</span>
+              ><span data-pm-verb>add</span> @distilled.cloud/<span
+                data-sample-pkg
+                >aws</span
+              >
               effect</code
             >
             <button
@@ -199,11 +225,13 @@
               type="button"
               data-copy="#install-cmd"
               aria-label="Copy install command"
+              title="Copy"
             >
               <svg
+                class="copy__icon"
                 viewBox="0 0 16 16"
-                width="14"
-                height="14"
+                width="15"
+                height="15"
                 aria-hidden="true"
               >
                 <path
@@ -219,7 +247,22 @@
                   d="M3.5 10.5v-8h6"
                 />
               </svg>
-              <span class="copy__label">Copy</span>
+              <svg
+                class="copy__done"
+                viewBox="0 0 16 16"
+                width="15"
+                height="15"
+                aria-hidden="true"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="m3 8.5 3 3 7-7"
+                />
+              </svg>
             </button>
           </div>
         </div>
@@ -1067,24 +1110,42 @@ program.<span class="f">pipe</span>(
         start();
       }
 
-      // Copy buttons: copy the text of the element referenced by data-copy.
+      // Install line: package manager select (remembered) rewrites the verb;
+      // the copied text is the full command including the manager.
+      const VERB = { pnpm: "add", npm: "install", bun: "add" };
+      for (const box of document.querySelectorAll("[data-install]")) {
+        const select = box.querySelector("[data-pm]");
+        const verb = box.querySelector("[data-pm-verb]");
+        const apply = (pm) => {
+          select.value = pm;
+          verb.textContent = VERB[pm] ?? "add";
+          box.dataset.pm = pm;
+        };
+        let stored = null;
+        try {
+          stored = localStorage.getItem("pm");
+        } catch {}
+        apply(stored && VERB[stored] ? stored : "pnpm");
+        select.addEventListener("change", () => {
+          apply(select.value);
+          try {
+            localStorage.setItem("pm", select.value);
+          } catch {}
+        });
+      }
+
+      // Copy buttons: icon flips to a check for a moment.
       for (const btn of document.querySelectorAll("[data-copy]")) {
         btn.addEventListener("click", async () => {
           const target = document.querySelector(btn.getAttribute("data-copy"));
-          const label = btn.querySelector(".copy__label");
+          const box = btn.closest("[data-install]");
+          const cmd = (target?.textContent ?? "").replace(/\s+/g, " ").trim();
+          const text = box ? `${box.dataset.pm} ${cmd}` : cmd;
           try {
-            await navigator.clipboard.writeText(
-              (target?.textContent ?? "").replace(/\s+/g, " ").trim(),
-            );
+            await navigator.clipboard.writeText(text);
             btn.classList.add("is-copied");
-            if (label) label.textContent = "Copied";
-          } catch {
-            if (label) label.textContent = "Select";
-          }
-          setTimeout(() => {
-            btn.classList.remove("is-copied");
-            if (label) label.textContent = "Copy";
-          }, 1600);
+          } catch {}
+          setTimeout(() => btn.classList.remove("is-copied"), 1400);
         });
       }
     </script>
