@@ -463,41 +463,16 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
           </figure>
         </div>
 
-        <ul class="facts" aria-label="More evidence">
-          <li class="fact">
-            <span class="fact__n">20 <span class="fact__of">of 112</span></span>
-            <span class="fact__l"
-              >S3 operations in AWS's own model declare <em>any</em> error at
-              all. <code>DeleteBucket</code> declares none — not even
-              <code>NoSuchBucket</code> or <code>BucketNotEmpty</code>.</span
-            >
-          </li>
-          <li class="fact">
-            <span class="fact__n">49 <span class="fact__of">of 98</span></span>
-            <span class="fact__l"
-              >Fly Machines operations list a single 4xx response. Half the API
-              is documented as if it cannot fail.</span
-            >
-          </li>
-          <li class="fact">
-            <span class="fact__n">required</span>
-            <span class="fact__l"
-              >PlanetScale marks <code>storage</code> and
-              <code>provider</code> as required on cluster SKUs while sending
-              them as <code>null</code>. A strict decoder rejects a valid
-              response.</span
-            >
-          </li>
-          <li class="fact">
-            <span class="fact__n"><!-- FIX_COUNT --></span>
-            <span class="fact__l"
-              >spec fixes carried across
-              <!-- PATCHED_COUNT -->
-              providers today, every one found by running real infrastructure
-              through the SDK. <a href="/shame">See the tally →</a></span
-            >
-          </li>
-        </ul>
+        <div class="facts" aria-label="How much patching it takes">
+          <p class="facts__title">
+            <span class="eyebrow">By the numbers</span>
+            What it takes to keep the SDKs Alchemy uses correct — computed from
+            the patch files at build time.
+          </p>
+          <ul class="facts__list">
+            <!-- FACTS -->
+          </ul>
+        </div>
 
         <p class="problem__turn">
           You could fix this by hand-editing generated code — and lose it on the
