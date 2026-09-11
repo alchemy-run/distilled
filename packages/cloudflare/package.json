@@ -42,6 +42,13 @@
       "workerd": "./src/pagination.ts",
       "default": "./lib/pagination.js"
     },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "worker": "./src/retry.ts",
+      "workerd": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
     "./abuse-reports": {
       "types": "./lib/services/abuse_reports.d.ts",
       "bun": "./src/services/abuse_reports.ts",
