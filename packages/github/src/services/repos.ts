@@ -272,9 +272,10 @@ export const Integration = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "Integration" }) as any as S.Schema<Integration>;
 
-export type AddAppAccessRestrictionsResponseBodyList = Array<Integration>;
+export type AddAppAccessRestrictionsResponseBodyList =
+  Array<Integration | null>;
 export const AddAppAccessRestrictionsResponseBodyList = /*@__PURE__*/ S.Array(
-  Integration,
+  S.NullOr(Integration),
 ) as any as S.Schema<AddAppAccessRestrictionsResponseBodyList>;
 
 export type AddAppAccessRestrictionsResponse =
@@ -8042,10 +8043,10 @@ export const GetAppsWithAccessToProtectedBranchRequest =
   }) as any as S.Schema<GetAppsWithAccessToProtectedBranchRequest>;
 
 export type GetAppsWithAccessToProtectedBranchResponseBodyList =
-  Array<Integration>;
+  Array<Integration | null>;
 export const GetAppsWithAccessToProtectedBranchResponseBodyList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<GetAppsWithAccessToProtectedBranchResponseBodyList>;
 
 export type GetAppsWithAccessToProtectedBranchResponse =
@@ -8187,10 +8188,10 @@ export const ProtectedBranchPullRequestReviewDismissalRestrictionsTeamsList =
 
 /** The list of apps with review dismissal access. */
 export type ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList =
-  Array<Integration>;
+  Array<Integration | null>;
 export const ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList>;
 
 export interface ProtectedBranchPullRequestReviewDismissalRestrictions {
@@ -8242,10 +8243,10 @@ export const ProtectedBranchPullRequestReviewBypassPullRequestAllowancesTeamsLis
 
 /** The list of apps allowed to bypass pull request requirements. */
 export type ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList =
-  Array<Integration>;
+  Array<Integration | null>;
 export const ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList>;
 
 /** Allow specific users, teams, or apps to bypass pull request requirements. */
@@ -13564,9 +13565,9 @@ export const IssueType = /*@__PURE__*/ S.suspend(() =>
   }),
 ).annotate({ identifier: "IssueType" }) as any as S.Schema<IssueType>;
 
-export type ListIssueTypesResponseBodyList = Array<IssueType>;
+export type ListIssueTypesResponseBodyList = Array<IssueType | null>;
 export const ListIssueTypesResponseBodyList = /*@__PURE__*/ S.Array(
-  IssueType,
+  S.NullOr(IssueType),
 ) as any as S.Schema<ListIssueTypesResponseBodyList>;
 
 export type ListIssueTypesResponse = ListIssueTypesResponseBodyList;
@@ -14479,10 +14480,11 @@ export const RemoveAppAccessRestrictionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "RemoveAppAccessRestrictionsRequest",
 }) as any as S.Schema<RemoveAppAccessRestrictionsRequest>;
 
-export type RemoveAppAccessRestrictionsResponseBodyList = Array<Integration>;
+export type RemoveAppAccessRestrictionsResponseBodyList =
+  Array<Integration | null>;
 export const RemoveAppAccessRestrictionsResponseBodyList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<RemoveAppAccessRestrictionsResponseBodyList>;
 
 export type RemoveAppAccessRestrictionsResponse =
@@ -14897,9 +14899,10 @@ export const SetAppAccessRestrictionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "SetAppAccessRestrictionsRequest",
 }) as any as S.Schema<SetAppAccessRestrictionsRequest>;
 
-export type SetAppAccessRestrictionsResponseBodyList = Array<Integration>;
+export type SetAppAccessRestrictionsResponseBodyList =
+  Array<Integration | null>;
 export const SetAppAccessRestrictionsResponseBodyList = /*@__PURE__*/ S.Array(
-  Integration,
+  S.NullOr(Integration),
 ) as any as S.Schema<SetAppAccessRestrictionsResponseBodyList>;
 
 export type SetAppAccessRestrictionsResponse =
@@ -15791,10 +15794,10 @@ export const ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsTeams
   ) as any as S.Schema<ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsTeamsList>;
 
 export type ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList =
-  Array<Integration>;
+  Array<Integration | null>;
 export const ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList>;
 
 export interface ProtectedBranchRequiredPullRequestReviewsDismissalRestrictions {
@@ -15839,10 +15842,10 @@ export const ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowance
   ) as any as S.Schema<ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesTeamsList>;
 
 export type ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList =
-  Array<Integration>;
+  Array<Integration | null>;
 export const ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList =
   /*@__PURE__*/ S.Array(
-    Integration,
+    S.NullOr(Integration),
   ) as any as S.Schema<ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList>;
 
 export interface ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowances {

@@ -2237,10 +2237,10 @@ export type NullableSimpleRepository = SimpleRepository;
 export const NullableSimpleRepository = SimpleRepository;
 
 export type DependabotRepositoryAccessDetailsAccessibleRepositoriesList =
-  Array<SimpleRepository>;
+  Array<SimpleRepository | null>;
 export const DependabotRepositoryAccessDetailsAccessibleRepositoriesList =
   /*@__PURE__*/ S.Array(
-    SimpleRepository,
+    S.NullOr(SimpleRepository),
   ) as any as S.Schema<DependabotRepositoryAccessDetailsAccessibleRepositoriesList>;
 
 /** Information about repositories that Dependabot is able to access in an organization */

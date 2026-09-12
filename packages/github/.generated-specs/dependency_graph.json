@@ -441,7 +441,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.github.dependency_graph#MetadataValue"
+        "target": "com.github.dependency_graph#MetadataValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "User-defined metadata to store domain-specific information limited to 8 keys with scalar values."

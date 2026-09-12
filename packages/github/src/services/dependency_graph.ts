@@ -81,10 +81,10 @@ export type MetadataValue = string | number | boolean;
 export const MetadataValue = S.Unknown as any as S.Schema<MetadataValue>;
 
 /** User-defined metadata to store domain-specific information limited to 8 keys with scalar values. */
-export type Metadata = { [key: string]: MetadataValue | undefined };
+export type Metadata = { [key: string]: MetadataValue | null | undefined };
 export const Metadata = /*@__PURE__*/ S.Record(
   S.String,
-  MetadataValue,
+  S.NullOr(MetadataValue),
 ) as any as S.Schema<Metadata>;
 
 export interface ManifestFile {
