@@ -25,7 +25,11 @@ import * as path from "node:path";
 import { Effect, Schema } from "effect";
 import * as FileSystem from "effect/FileSystem";
 import { formatGenerated } from "@distilled.cloud/core/codegen/format";
-import { generateWebhooks, WebhookModel } from "./webhooks.ts";
+import {
+  generateWebhookEventNames,
+  generateWebhooks,
+  WebhookModel,
+} from "./webhooks.ts";
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
@@ -129,7 +133,12 @@ runGeneratorCli({
         `${root}/src/webhook-events.ts`,
         generateWebhooks(model),
       );
+      yield* fs.writeFileString(
+        `${root}/src/webhook-event-names.ts`,
+        generateWebhookEventNames(model),
+      );
       yield* formatGenerated(`${root}/src/webhook-events.ts`);
+      yield* formatGenerated(`${root}/src/webhook-event-names.ts`);
     }).pipe(Effect.orDie),
   barrelExportName: camel,
   spec: () => spec,

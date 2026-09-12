@@ -175,3 +175,18 @@ export type WebhookEvent<Name extends WebhookEventName = WebhookEventName> = {
 `
   );
 };
+
+/** Generate lightweight event-name constants from the payload registry. */
+export const generateWebhookEventNames = (model: typeof WebhookModel.Type) =>
+  "// Generated from GitHub x-webhooks. Do not edit.\n" +
+  Object.keys(model.metadata.githubWebhookPayloads)
+    .sort()
+    .map((event) => {
+      const name = event
+        .split("_")
+        .map((part) => part[0]!.toUpperCase() + part.slice(1))
+        .join("");
+      return `export const ${name} = ${JSON.stringify(event)};`;
+    })
+    .join("\n") +
+  "\n";
