@@ -1331,7 +1331,14 @@
           "uri": "/orgs/{org}/code-scanning/alerts",
           "code": 200
         },
-        "smithy.api#documentation": "List code scanning alerts for an organization\n\nLists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` or `repo`s cope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+        "smithy.api#documentation": "List code scanning alerts for an organization\n\nLists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` or `repo`s cope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "inputTokens": ["page", "after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.code_scanning#ListAlertsForRepoRequestDirection": {
@@ -1642,7 +1649,14 @@
           "uri": "/repos/{owner}/{repo}/code-scanning/alerts",
           "code": 200
         },
-        "smithy.api#documentation": "List code scanning alerts for a repository\n\nLists code scanning alerts.\n\nThe response includes a `most_recent_instance` object.\nThis provides details of the most recent instance of this alert\nfor the default branch (or for the specified Git reference if you used `ref` in the request).\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+        "smithy.api#documentation": "List code scanning alerts for a repository\n\nLists code scanning alerts.\n\nThe response includes a `most_recent_instance` object.\nThis provides details of the most recent instance of this alert\nfor the default branch (or for the specified Git reference if you used `ref` in the request).\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "inputTokens": ["page", "after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.code_scanning#GetAlertRequest": {
@@ -4421,7 +4435,13 @@
           "uri": "/repos/{owner}/{repo}/code-scanning/alerts/{alert_number}/instances",
           "code": 200
         },
-        "smithy.api#documentation": "List instances of a code scanning alert\n\nLists all instances of the specified code scanning alert.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+        "smithy.api#documentation": "List instances of a code scanning alert\n\nLists all instances of the specified code scanning alert.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.code_scanning#ListRecentAnalysesRequestDirection": {
@@ -4682,7 +4702,13 @@
           "uri": "/repos/{owner}/{repo}/code-scanning/analyses",
           "code": 200
         },
-        "smithy.api#documentation": "List code scanning analyses for a repository\n\nLists the details of all code scanning analyses for a repository,\nstarting with the most recent.\nThe response is paginated and you can use the `page` and `per_page` parameters\nto list the analyses you're interested in.\nBy default 30 analyses are listed per page.\n\nThe `rules_count` field in the response give the number of rules\nthat were run in the analysis.\nFor very old analyses this data is not available,\nand `0` is returned in this field.\n\n> [!WARNING]\n> **Closing down notice:** The `tool_name` field is closing down and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+        "smithy.api#documentation": "List code scanning analyses for a repository\n\nLists the details of all code scanning analyses for a repository,\nstarting with the most recent.\nThe response is paginated and you can use the `page` and `per_page` parameters\nto list the analyses you're interested in.\nBy default 30 analyses are listed per page.\n\nThe `rules_count` field in the response give the number of rules\nthat were run in the analysis.\nFor very old analyses this data is not available,\nand `0` is returned in this field.\n\n> [!WARNING]\n> **Closing down notice:** The `tool_name` field is closing down and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.code_scanning#GetAnalysisRequest": {

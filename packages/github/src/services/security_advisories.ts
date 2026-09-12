@@ -1823,54 +1823,78 @@ export const getRepositoryAdvisory: API.OperationMethod<
 
 export type ListGlobalAdvisoriesError = UnprocessableEntity | GithubOpError;
 /** List global security advisories Lists all global security advisories that match the specified parameters. If no other parameters are defined, the request will return only GitHub-reviewed advisories that are not malware. By default, all responses will exclude advisories for malware, because malware are not standard vulnerabilities. To list advisories for malware, you must include the `type` parameter in your request, with the value `malware`. For more information about the different types of security advisories, see "[About the GitHub Advisory database](https://docs.github.com/code-security/security-advisories/global-security-advisories/about-the-github-advisory-database#about-types-of-security-advisories)." */
-export const listGlobalAdvisories: API.OperationMethod<
+export const listGlobalAdvisories: API.PaginatedOperationMethod<
   ListGlobalAdvisoriesRequest,
   ListGlobalAdvisoriesResponse,
   ListGlobalAdvisoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GlobalAdvisory
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGlobalAdvisoriesRequest,
   output: ListGlobalAdvisoriesResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgRepositoryAdvisoriesError =
   | BadRequest
   | NotFound
   | GithubOpError;
 /** List repository security advisories for an organization Lists repository security advisories for an organization. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:write` scope to use this endpoint. */
-export const listOrgRepositoryAdvisories: API.OperationMethod<
+export const listOrgRepositoryAdvisories: API.PaginatedOperationMethod<
   ListOrgRepositoryAdvisoriesRequest,
   ListOrgRepositoryAdvisoriesResponse,
   ListOrgRepositoryAdvisoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryAdvisory
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgRepositoryAdvisoriesRequest,
   output: ListOrgRepositoryAdvisoriesResponse,
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepositoryAdvisoriesError =
   | BadRequest
   | NotFound
   | GithubOpError;
 /** List repository security advisories Lists security advisories in a repository. The authenticated user can access unpublished security advisories from a repository if they are a security manager or administrator of that repository, or if they are a collaborator on any security advisory. OAuth app tokens and personal access tokens (classic) need the `repo` or `repository_advisories:read` scope to to get a published security advisory in a private repository, or any unpublished security advisory that the authenticated user has access to. */
-export const listRepositoryAdvisories: API.OperationMethod<
+export const listRepositoryAdvisories: API.PaginatedOperationMethod<
   ListRepositoryAdvisoriesRequest,
   ListRepositoryAdvisoriesResponse,
   ListRepositoryAdvisoriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryAdvisory
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepositoryAdvisoriesRequest,
   output: ListRepositoryAdvisoriesResponse,
   errors: [BadRequest, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateRepositoryAdvisoryError =
   | Forbidden

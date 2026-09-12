@@ -7931,12 +7931,12 @@ export const GetAllEnvironmentsResponseEnvironmentsList = /*@__PURE__*/ S.Array(
 export interface GetAllEnvironmentsResponse {
   /** The number of environments in this repository */
   total_count?: number;
-  environments?: GetAllEnvironmentsResponseEnvironmentsList;
+  environments: GetAllEnvironmentsResponseEnvironmentsList;
 }
 export const GetAllEnvironmentsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     total_count: S.optional(S.Number),
-    environments: S.optional(GetAllEnvironmentsResponseEnvironmentsList),
+    environments: GetAllEnvironmentsResponseEnvironmentsList,
   }),
 ).annotate({
   identifier: "GetAllEnvironmentsResponse",
@@ -9688,6 +9688,18 @@ export const GetBranchRulesResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "GetBranchRulesResponse",
 }) as any as S.Schema<GetBranchRulesResponse>;
+
+export interface GetByIdRequest {
+  /** The immutable repository ID. */
+  repository_id: number;
+}
+export const GetByIdRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    repository_id: S.Number.pipe(T.Label()),
+  }).pipe(
+    T.Http({ method: "GET", uri: "/repositories/{repository_id}", code: 200 }),
+  ),
+).annotate({ identifier: "GetByIdRequest" }) as any as S.Schema<GetByIdRequest>;
 
 export type GetClonesRequestPer = "day" | "week";
 export const GetClonesRequestPer = S.String;
@@ -12467,11 +12479,11 @@ export const ListAttestationsResponseAttestationsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListAttestationsResponseAttestationsList>;
 
 export interface ListAttestationsResponse {
-  attestations?: ListAttestationsResponseAttestationsList;
+  attestations: ListAttestationsResponseAttestationsList;
 }
 export const ListAttestationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attestations: S.optional(ListAttestationsResponseAttestationsList),
+    attestations: ListAttestationsResponseAttestationsList,
   }),
 ).annotate({
   identifier: "ListAttestationsResponse",
@@ -12998,15 +13010,14 @@ export const ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeployme
 export interface ListCustomDeploymentRuleIntegrationsResponse {
   /** The total number of custom deployment protection rule integrations available for this environment. */
   total_count?: number;
-  available_custom_deployment_protection_rule_integrations?: ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeploymentProtectionRuleIntegrationsList;
+  available_custom_deployment_protection_rule_integrations: ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeploymentProtectionRuleIntegrationsList;
 }
 export const ListCustomDeploymentRuleIntegrationsResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       total_count: S.optional(S.Number),
-      available_custom_deployment_protection_rule_integrations: S.optional(
+      available_custom_deployment_protection_rule_integrations:
         ListCustomDeploymentRuleIntegrationsResponseAvailableCustomDeploymentProtectionRuleIntegrationsList,
-      ),
     }),
   ).annotate({
     identifier: "ListCustomDeploymentRuleIntegrationsResponse",
@@ -15447,6 +15458,8 @@ export interface UpdateRequest {
   allow_forking?: boolean;
   /** Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits. */
   web_commit_signoff_required?: boolean;
+  /** Whether GitHub Discussions are enabled for this repository. */
+  has_discussions?: boolean;
 }
 export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -15485,6 +15498,7 @@ export const UpdateRequest = /*@__PURE__*/ S.suspend(() =>
     archived: S.optional(S.Boolean),
     allow_forking: S.optional(S.Boolean),
     web_commit_signoff_required: S.optional(S.Boolean),
+    has_discussions: S.optional(S.Boolean),
   }).pipe(T.Http({ method: "PATCH", uri: "/repos/{owner}/{repo}", code: 200 })),
 ).annotate({ identifier: "UpdateRequest" }) as any as S.Schema<UpdateRequest>;
 
@@ -17395,7 +17409,7 @@ export const deleteAdminBranchProtection: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteAnEnvironmentError = GithubOpError;
+export type DeleteAnEnvironmentError = NotFound | GithubOpError;
 /** Delete an environment OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteAnEnvironment: API.OperationMethod<
   DeleteAnEnvironmentRequest,
@@ -17405,7 +17419,7 @@ export const deleteAnEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteAnEnvironmentRequest,
   output: DeleteAnEnvironmentResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -17905,20 +17919,27 @@ export const getAllDeploymentProtectionRules: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetAllEnvironmentsError = GithubOpError;
+export type GetAllEnvironmentsError = Forbidden | NotFound | GithubOpError;
 /** List environments Lists the environments for a repository. Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const getAllEnvironments: API.OperationMethod<
+export const getAllEnvironments: API.PaginatedOperationMethod<
   GetAllEnvironmentsRequest,
   GetAllEnvironmentsResponse,
   GetAllEnvironmentsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Environment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllEnvironmentsRequest,
   output: GetAllEnvironmentsResponse,
-  errors: [],
+  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "environments",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetAllStatusCheckContextsError = NotFound | GithubOpError;
 /** Get all status check contexts Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. */
@@ -17937,18 +17958,25 @@ export const getAllStatusCheckContexts: API.OperationMethod<
 
 export type GetAllTopicsError = NotFound | GithubOpError;
 /** Get all repository topics */
-export const getAllTopics: API.OperationMethod<
+export const getAllTopics: API.PaginatedOperationMethod<
   GetAllTopicsRequest,
   Topic,
   GetAllTopicsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  string
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllTopicsRequest,
   output: Topic,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "names",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetAppsWithAccessToProtectedBranchError = NotFound | GithubOpError;
 /** Get apps with access to the protected branch Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. Lists the GitHub Apps that have push access to this branch. Only GitHub Apps that are installed on the repository and that have been granted write access to the repository contents can be added as authorized actors on a protected branch. */
@@ -18012,15 +18040,37 @@ export const getBranchProtection: API.OperationMethod<
 
 export type GetBranchRulesError = GithubOpError;
 /** Get rules for a branch Returns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply to a branch with that name will be returned. All active rules that apply will be returned, regardless of the level at which they are configured (e.g. repository or organization). Rules in rulesets with "evaluate" or "disabled" enforcement statuses are not returned. */
-export const getBranchRules: API.OperationMethod<
+export const getBranchRules: API.PaginatedOperationMethod<
   GetBranchRulesRequest,
   GetBranchRulesResponse,
   GetBranchRulesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryRuleDetailed
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetBranchRulesRequest,
   output: GetBranchRulesResponse,
   errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
+
+export type GetByIdError = Forbidden | NotFound | GithubOpError;
+/** Get a repository by ID Look up a repository by its immutable numeric ID, including after a rename or transfer. This endpoint is supported by GitHub but is absent from its published OpenAPI description. */
+export const getById: API.OperationMethod<
+  GetByIdRequest,
+  FullRepository,
+  GetByIdError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: GetByIdRequest,
+  output: FullRepository,
+  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -18072,18 +18122,25 @@ export const getCollaboratorPermissionLevel: API.OperationMethod<
 
 export type GetCombinedStatusForRefError = NotFound | GithubOpError;
 /** Get the combined status for a specific reference Users with pull access in a repository can access a combined view of commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name. Additionally, a combined `state` is returned. The `state` is one of: * **failure** if any of the contexts report as `error` or `failure` * **pending** if there are no statuses or a context is `pending` * **success** if the latest status for all contexts is `success` */
-export const getCombinedStatusForRef: API.OperationMethod<
+export const getCombinedStatusForRef: API.PaginatedOperationMethod<
   GetCombinedStatusForRefRequest,
   CombinedCommitStatus,
   GetCombinedStatusForRefError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleCommitStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetCombinedStatusForRefRequest,
   output: CombinedCommitStatus,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "statuses",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetCommitError =
   | NotFound
@@ -18269,7 +18326,7 @@ export const getDeploymentStatus: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetEnvironmentError = GithubOpError;
+export type GetEnvironmentError = NotFound | GithubOpError;
 /** Get an environment > [!NOTE] > To get information about name patterns that branches must match in order to deploy to this environment, see "[Get a deployment branch policy](/rest/deployments/branch-policies#get-a-deployment-branch-policy)." Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
 export const getEnvironment: API.OperationMethod<
   GetEnvironmentRequest,
@@ -18279,7 +18336,7 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvironmentRequest,
   output: Environment,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -18346,18 +18403,25 @@ export const getOrgRuleset: API.OperationMethod<
 
 export type GetOrgRulesetsError = NotFound | GithubOpError;
 /** Get all organization repository rulesets Get all the repository rulesets for an organization. */
-export const getOrgRulesets: API.OperationMethod<
+export const getOrgRulesets: API.PaginatedOperationMethod<
   GetOrgRulesetsRequest,
   GetOrgRulesetsResponse,
   GetOrgRulesetsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryRuleset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetOrgRulesetsRequest,
   output: GetOrgRulesetsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetOrgRuleSuiteError = NotFound | GithubOpError;
 /** Get an organization rule suite Gets information about a suite of rule evaluations from within an organization. For more information, see "[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets)." */
@@ -18376,18 +18440,25 @@ export const getOrgRuleSuite: API.OperationMethod<
 
 export type GetOrgRuleSuitesError = NotFound | GithubOpError;
 /** List organization rule suites Lists suites of rule evaluations at the organization level. For more information, see "[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets)." */
-export const getOrgRuleSuites: API.OperationMethod<
+export const getOrgRuleSuites: API.PaginatedOperationMethod<
   GetOrgRuleSuitesRequest,
   GetOrgRuleSuitesResponse,
   GetOrgRuleSuitesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RuleSuitesItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetOrgRuleSuitesRequest,
   output: GetOrgRuleSuitesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetPagesError = NotFound | GithubOpError;
 /** Get a GitHub Pages site Gets information about a GitHub Pages site. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
@@ -18593,33 +18664,47 @@ export const getRepoRuleset: API.OperationMethod<
 
 export type GetRepoRulesetHistoryError = NotFound | GithubOpError;
 /** Get repository ruleset history Get the history of a repository ruleset. */
-export const getRepoRulesetHistory: API.OperationMethod<
+export const getRepoRulesetHistory: API.PaginatedOperationMethod<
   GetRepoRulesetHistoryRequest,
   GetRepoRulesetHistoryResponse,
   GetRepoRulesetHistoryError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RulesetVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetRepoRulesetHistoryRequest,
   output: GetRepoRulesetHistoryResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetRepoRulesetsError = NotFound | GithubOpError;
 /** Get all repository rulesets Get all the rulesets for a repository. */
-export const getRepoRulesets: API.OperationMethod<
+export const getRepoRulesets: API.PaginatedOperationMethod<
   GetRepoRulesetsRequest,
   GetRepoRulesetsResponse,
   GetRepoRulesetsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryRuleset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetRepoRulesetsRequest,
   output: GetRepoRulesetsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetRepoRulesetVersionError = NotFound | GithubOpError;
 /** Get repository ruleset version Get a version of a repository ruleset. */
@@ -18653,18 +18738,25 @@ export const getRepoRuleSuite: API.OperationMethod<
 
 export type GetRepoRuleSuitesError = NotFound | GithubOpError;
 /** List repository rule suites Lists suites of rule evaluations at the repository level. For more information, see "[Managing rulesets for a repository](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository#viewing-insights-for-rulesets)." */
-export const getRepoRuleSuites: API.OperationMethod<
+export const getRepoRuleSuites: API.PaginatedOperationMethod<
   GetRepoRuleSuitesRequest,
   GetRepoRuleSuitesResponse,
   GetRepoRuleSuitesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RuleSuitesItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetRepoRuleSuitesRequest,
   output: GetRepoRuleSuitesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetStatusChecksProtectionError = NotFound | GithubOpError;
 /** Get status checks protection Protected branches are available in public repositories with GitHub Free and GitHub Free for organizations, and in public and private repositories with GitHub Pro, GitHub Team, GitHub Enterprise Cloud, and GitHub Enterprise Server. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. */
@@ -18806,33 +18898,49 @@ export const getWebhookDelivery: API.OperationMethod<
 
 export type ListActivitiesError = UnprocessableEntity | GithubOpError;
 /** List repository activities Lists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users. For more information about viewing repository activity, see "[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository)." */
-export const listActivities: API.OperationMethod<
+export const listActivities: API.PaginatedOperationMethod<
   ListActivitiesRequest,
   ListActivitiesResponse,
   ListActivitiesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Activity
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListActivitiesRequest,
   output: ListActivitiesResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAttestationsError = GithubOpError;
 /** List attestations List a collection of artifact attestations with a given subject digest that are associated with a repository. The authenticated user making the request must have read access to the repository. In addition, when using a fine-grained access token the `attestations:read` permission is required. **Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds). */
-export const listAttestations: API.OperationMethod<
+export const listAttestations: API.PaginatedOperationMethod<
   ListAttestationsRequest,
   ListAttestationsResponse,
   ListAttestationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListAttestationsResponseAttestationsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAttestationsRequest,
   output: ListAttestationsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "attestations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAutolinksError = GithubOpError;
 /** Get all autolinks of a repository Gets all autolinks that are configured for a repository. Information about autolinks are only available to repository administrators. */
@@ -18851,18 +18959,25 @@ export const listAutolinks: API.OperationMethod<
 
 export type ListBranchesError = NotFound | GithubOpError;
 /** List branches */
-export const listBranches: API.OperationMethod<
+export const listBranches: API.PaginatedOperationMethod<
   ListBranchesRequest,
   ListBranchesResponse,
   ListBranchesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ShortBranch
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBranchesRequest,
   output: ListBranchesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListBranchesForHeadCommitError =
   | Conflict
@@ -18884,264 +18999,383 @@ export const listBranchesForHeadCommit: API.OperationMethod<
 
 export type ListCollaboratorsError = NotFound | GithubOpError;
 /** List repository collaborators For organization-owned repositories, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners. The `permissions` hash returned in the response contains the base role permissions of the collaborator. The `role_name` is the highest role assigned to the collaborator after considering all sources of grants, including: repo, teams, organization, and enterprise. There is presently not a way to differentiate between an organization level grant and a repository level grant from this endpoint response. Team members will include the members of child teams. The authenticated user must have write, maintain, or admin privileges on the repository to use this endpoint. For organization-owned repositories, the authenticated user needs to be a member of the organization. OAuth app tokens and personal access tokens (classic) need the `read:org` and `repo` scopes to use this endpoint. */
-export const listCollaborators: API.OperationMethod<
+export const listCollaborators: API.PaginatedOperationMethod<
   ListCollaboratorsRequest,
   ListCollaboratorsResponse,
   ListCollaboratorsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  NullableCollaborator
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCollaboratorsRequest,
   output: ListCollaboratorsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommentsForCommitError = GithubOpError;
 /** List commit comments Lists the comments for a specified commit. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listCommentsForCommit: API.OperationMethod<
+export const listCommentsForCommit: API.PaginatedOperationMethod<
   ListCommentsForCommitRequest,
   ListCommentsForCommitResponse,
   ListCommentsForCommitError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CommitComment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommentsForCommitRequest,
   output: ListCommentsForCommitResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommitCommentsForRepoError = GithubOpError;
 /** List commit comments for a repository Lists the commit comments for a specified repository. Comments are ordered by ascending ID. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listCommitCommentsForRepo: API.OperationMethod<
+export const listCommitCommentsForRepo: API.PaginatedOperationMethod<
   ListCommitCommentsForRepoRequest,
   ListCommitCommentsForRepoResponse,
   ListCommitCommentsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CommitComment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommitCommentsForRepoRequest,
   output: ListCommitCommentsForRepoResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommitsError = BadRequest | NotFound | Conflict | GithubOpError;
 /** List commits **Signature verification object** The response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object: These are the possible values for `reason` in the `verification` object: */
-export const listCommits: API.OperationMethod<
+export const listCommits: API.PaginatedOperationMethod<
   ListCommitsRequest,
   ListCommitsResponse,
   ListCommitsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Commit
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommitsRequest,
   output: ListCommitsResponse,
   errors: [BadRequest, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommitStatusesForRefError = GithubOpError;
 /** List commit statuses for a reference Users with pull access in a repository can view commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name. Statuses are returned in reverse chronological order. The first status in the list will be the latest one. This resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`. */
-export const listCommitStatusesForRef: API.OperationMethod<
+export const listCommitStatusesForRef: API.PaginatedOperationMethod<
   ListCommitStatusesForRefRequest,
   ListCommitStatusesForRefResponse,
   ListCommitStatusesForRefError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Status
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommitStatusesForRefRequest,
   output: ListCommitStatusesForRefResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListContributorsError = Forbidden | NotFound | GithubOpError;
 /** List repository contributors Lists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API caches contributor data to improve performance. GitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information. */
-export const listContributors: API.OperationMethod<
+export const listContributors: API.PaginatedOperationMethod<
   ListContributorsRequest,
   ListContributorsResponse,
   ListContributorsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Contributor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListContributorsRequest,
   output: ListContributorsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCustomDeploymentRuleIntegrationsError = GithubOpError;
 /** List custom deployment rule integrations available for an environment Gets all custom deployment protection rule integrations that are available for an environment. The authenticated user must have admin or owner permissions to the repository to use this endpoint. For more information about environments, see "[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment)." For more information about the app that is providing this custom deployment rule, see "[GET an app](https://docs.github.com/rest/apps/apps#get-an-app)". OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listCustomDeploymentRuleIntegrations: API.OperationMethod<
+export const listCustomDeploymentRuleIntegrations: API.PaginatedOperationMethod<
   ListCustomDeploymentRuleIntegrationsRequest,
   ListCustomDeploymentRuleIntegrationsResponse,
   ListCustomDeploymentRuleIntegrationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CustomDeploymentRuleApp
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCustomDeploymentRuleIntegrationsRequest,
   output: ListCustomDeploymentRuleIntegrationsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "available_custom_deployment_protection_rule_integrations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDeployKeysError = GithubOpError;
 /** List deploy keys */
-export const listDeployKeys: API.OperationMethod<
+export const listDeployKeys: API.PaginatedOperationMethod<
   ListDeployKeysRequest,
   ListDeployKeysResponse,
   ListDeployKeysError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DeployKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeployKeysRequest,
   output: ListDeployKeysResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDeploymentBranchPoliciesError = GithubOpError;
 /** List deployment branch policies Lists the deployment branch policies for an environment. Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listDeploymentBranchPolicies: API.OperationMethod<
+export const listDeploymentBranchPolicies: API.PaginatedOperationMethod<
   ListDeploymentBranchPoliciesRequest,
   ListDeploymentBranchPoliciesResponse,
   ListDeploymentBranchPoliciesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DeploymentBranchPolicy
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentBranchPoliciesRequest,
   output: ListDeploymentBranchPoliciesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "branch_policies",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDeploymentsError = GithubOpError;
 /** List deployments Simple filtering of deployments is available via query parameters: */
-export const listDeployments: API.OperationMethod<
+export const listDeployments: API.PaginatedOperationMethod<
   ListDeploymentsRequest,
   ListDeploymentsResponse,
   ListDeploymentsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Deployment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentsRequest,
   output: ListDeploymentsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDeploymentStatusesError = NotFound | GithubOpError;
 /** List deployment statuses Users with pull access can view deployment statuses for a deployment: */
-export const listDeploymentStatuses: API.OperationMethod<
+export const listDeploymentStatuses: API.PaginatedOperationMethod<
   ListDeploymentStatusesRequest,
   ListDeploymentStatusesResponse,
   ListDeploymentStatusesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DeploymentStatus
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDeploymentStatusesRequest,
   output: ListDeploymentStatusesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForAuthenticatedUserError =
   | Forbidden
   | UnprocessableEntity
   | GithubOpError;
 /** List repositories for the authenticated user Lists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access. The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Repository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForAuthenticatedUserRequest,
   output: ListForAuthenticatedUserResponse,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForksError = BadRequest | GithubOpError;
 /** List forks */
-export const listForks: API.OperationMethod<
+export const listForks: API.PaginatedOperationMethod<
   ListForksRequest,
   ListForksResponse,
   ListForksError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForksRequest,
   output: ListForksResponse,
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForOrgError = GithubOpError;
 /** List organization repositories Lists repositories for the specified organization. > [!NOTE] > In order to see the `security_and_analysis` block for a repository you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." */
-export const listForOrg: API.OperationMethod<
+export const listForOrg: API.PaginatedOperationMethod<
   ListForOrgRequest,
   ListForOrgResponse,
   ListForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForOrgRequest,
   output: ListForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForUserError = GithubOpError;
 /** List repositories for a user Lists public repositories for the specified user. */
-export const listForUser: API.OperationMethod<
+export const listForUser: API.PaginatedOperationMethod<
   ListForUserRequest,
   ListForUserResponse,
   ListForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForUserRequest,
   output: ListForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInvitationsError = GithubOpError;
 /** List repository invitations When authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations. */
-export const listInvitations: API.OperationMethod<
+export const listInvitations: API.PaginatedOperationMethod<
   ListInvitationsRequest,
   ListInvitationsResponse,
   ListInvitationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryInvitation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInvitationsRequest,
   output: ListInvitationsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInvitationsForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List repository invitations for the authenticated user When authenticating as a user, this endpoint will list all currently open repository invitations for that user. */
-export const listInvitationsForAuthenticatedUser: API.OperationMethod<
+export const listInvitationsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListInvitationsForAuthenticatedUserRequest,
   ListInvitationsForAuthenticatedUserResponse,
   ListInvitationsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepositoryInvitation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInvitationsForAuthenticatedUserRequest,
   output: ListInvitationsForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListIssueTypesError = NotFound | GithubOpError;
 /** List issue types for a repository Lists issue types available for a repository (inherited from its organization owner, with any per-repository overrides applied). OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. Fine-grained access tokens require the "Metadata" repository permission (read). */
@@ -19175,143 +19409,201 @@ export const listLanguages: API.OperationMethod<
 
 export type ListPagesBuildsError = GithubOpError;
 /** List GitHub Pages builds Lists builts of a GitHub Pages site. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listPagesBuilds: API.OperationMethod<
+export const listPagesBuilds: API.PaginatedOperationMethod<
   ListPagesBuildsRequest,
   ListPagesBuildsResponse,
   ListPagesBuildsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  PageBuild
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPagesBuildsRequest,
   output: ListPagesBuildsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicError = UnprocessableEntity | GithubOpError;
 /** List public repositories Lists all public repositories in the order that they were created. Note: - For GitHub Enterprise Server, this endpoint will only list repositories available to all users on the enterprise. - Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories. */
-export const listPublic: API.OperationMethod<
+export const listPublic: API.PaginatedOperationMethod<
   ListPublicRequest,
   ListPublicResponse,
   ListPublicError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicRequest,
   output: ListPublicResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: { mode: "link", inputToken: "since", items: "$" } as const,
+})) as any;
 
 export type ListPullRequestsAssociatedWithCommitError =
   | Conflict
   | GithubOpError;
 /** List pull requests associated with a commit Lists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, it will return merged and open pull requests associated with the commit. To list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name. */
-export const listPullRequestsAssociatedWithCommit: API.OperationMethod<
+export const listPullRequestsAssociatedWithCommit: API.PaginatedOperationMethod<
   ListPullRequestsAssociatedWithCommitRequest,
   ListPullRequestsAssociatedWithCommitResponse,
   ListPullRequestsAssociatedWithCommitError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  PullRequestSimple
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPullRequestsAssociatedWithCommitRequest,
   output: ListPullRequestsAssociatedWithCommitResponse,
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReleaseAssetsError = GithubOpError;
 /** List release assets */
-export const listReleaseAssets: API.OperationMethod<
+export const listReleaseAssets: API.PaginatedOperationMethod<
   ListReleaseAssetsRequest,
   ListReleaseAssetsResponse,
   ListReleaseAssetsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ReleaseAsset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReleaseAssetsRequest,
   output: ListReleaseAssetsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReleasesError = NotFound | GithubOpError;
 /** List releases This returns a list of releases, which does not include regular Git tags that have not been associated with a release. To get a list of Git tags, use the [Repository Tags API](https://docs.github.com/rest/repos/repos#list-repository-tags). Information about published releases are available to everyone. Only users with push access will receive listings for draft releases. */
-export const listReleases: API.OperationMethod<
+export const listReleases: API.PaginatedOperationMethod<
   ListReleasesRequest,
   ListReleasesResponse,
   ListReleasesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Release
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReleasesRequest,
   output: ListReleasesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListTagsError = GithubOpError;
 /** List repository tags */
-export const listTags: API.OperationMethod<
+export const listTags: API.PaginatedOperationMethod<
   ListTagsRequest,
   ListTagsResponse,
   ListTagsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Tag
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTagsRequest,
   output: ListTagsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListTeamsError = NotFound | GithubOpError;
 /** List repository teams Lists the teams that have access to the specified repository and that are also visible to the authenticated user. For a public repository, a team is listed only if that team added the public repository explicitly. OAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to use this endpoint with a public repository, and `repo` scope to use this endpoint with a private repository. */
-export const listTeams: API.OperationMethod<
+export const listTeams: API.PaginatedOperationMethod<
   ListTeamsRequest,
   ListTeamsResponse,
   ListTeamsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Team
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTeamsRequest,
   output: ListTeamsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWebhookDeliveriesError =
   | BadRequest
   | UnprocessableEntity
   | GithubOpError;
 /** List deliveries for a repository webhook Returns a list of webhook deliveries for a webhook configured in a repository. */
-export const listWebhookDeliveries: API.OperationMethod<
+export const listWebhookDeliveries: API.PaginatedOperationMethod<
   ListWebhookDeliveriesRequest,
   ListWebhookDeliveriesResponse,
   ListWebhookDeliveriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  HookDeliveryItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWebhookDeliveriesRequest,
   output: ListWebhookDeliveriesResponse,
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "cursor",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
-export type ListWebhooksError = NotFound | GithubOpError;
+export type ListWebhooksError = Forbidden | NotFound | GithubOpError;
 /** List repository webhooks Lists webhooks for a repository. `last response` may return null if there have not been any deliveries within 30 days. */
-export const listWebhooks: API.OperationMethod<
+export const listWebhooks: API.PaginatedOperationMethod<
   ListWebhooksRequest,
   ListWebhooksResponse,
   ListWebhooksError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Hook
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWebhooksRequest,
   output: ListWebhooksResponse,
-  errors: [NotFound],
+  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type MergeError =
   | Forbidden

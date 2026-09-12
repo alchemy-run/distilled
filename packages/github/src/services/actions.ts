@@ -7410,15 +7410,14 @@ export const ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseReposi
 
 export interface ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse {
   total_count?: number;
-  repositories?: ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseRepositoriesList;
+  repositories: ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseRepositoriesList;
 }
 export const ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse =
   /*@__PURE__*/ S.suspend(() =>
     S.Struct({
       total_count: S.optional(S.Number),
-      repositories: S.optional(
+      repositories:
         ListSelectedRepositoriesSelfHostedRunnersOrganizationResponseRepositoriesList,
-      ),
     }),
   ).annotate({
     identifier: "ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse",
@@ -10296,7 +10295,7 @@ export const deleteCustomImageVersionFromOrg: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteEnvironmentSecretError = GithubOpError;
+export type DeleteEnvironmentSecretError = NotFound | GithubOpError;
 /** Delete an environment secret Deletes a secret in an environment using the secret name. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteEnvironmentSecret: API.OperationMethod<
   DeleteEnvironmentSecretRequest,
@@ -10306,12 +10305,12 @@ export const deleteEnvironmentSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentSecretRequest,
   output: DeleteEnvironmentSecretResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteEnvironmentVariableError = GithubOpError;
+export type DeleteEnvironmentVariableError = NotFound | GithubOpError;
 /** Delete an environment variable Deletes an environment variable using the variable name. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteEnvironmentVariable: API.OperationMethod<
   DeleteEnvironmentVariableRequest,
@@ -10321,7 +10320,7 @@ export const deleteEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteEnvironmentVariableRequest,
   output: DeleteEnvironmentVariableResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -10371,7 +10370,7 @@ export const deleteOrgVariable: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteRepoSecretError = GithubOpError;
+export type DeleteRepoSecretError = NotFound | GithubOpError;
 /** Delete a repository secret Deletes a secret in a repository using the secret name. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteRepoSecret: API.OperationMethod<
   DeleteRepoSecretRequest,
@@ -10381,12 +10380,12 @@ export const deleteRepoSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRepoSecretRequest,
   output: DeleteRepoSecretResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
 
-export type DeleteRepoVariableError = GithubOpError;
+export type DeleteRepoVariableError = NotFound | GithubOpError;
 /** Delete a repository variable Deletes a repository variable using the variable name. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const deleteRepoVariable: API.OperationMethod<
   DeleteRepoVariableRequest,
@@ -10396,7 +10395,7 @@ export const deleteRepoVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRepoVariableRequest,
   output: DeleteRepoVariableResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -10697,18 +10696,25 @@ export const generateRunnerJitconfigForRepo: API.OperationMethod<
 
 export type GetActionsCacheListError = GithubOpError;
 /** List GitHub Actions caches for a repository Lists the GitHub Actions caches for a repository. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const getActionsCacheList: API.OperationMethod<
+export const getActionsCacheList: API.PaginatedOperationMethod<
   GetActionsCacheListRequest,
   ActionsCacheList,
   GetActionsCacheListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsCacheListActionsCachesItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetActionsCacheListRequest,
   output: ActionsCacheList,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "actions_caches",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetActionsCacheRetentionLimitForEnterpriseError =
   | Forbidden
@@ -10835,18 +10841,25 @@ export const getActionsCacheUsage: API.OperationMethod<
 
 export type GetActionsCacheUsageByRepoForOrgError = GithubOpError;
 /** List repositories with GitHub Actions cache usage for an organization Lists repositories and their GitHub Actions cache usage for an organization. The data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated. OAuth tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
-export const getActionsCacheUsageByRepoForOrg: API.OperationMethod<
+export const getActionsCacheUsageByRepoForOrg: API.PaginatedOperationMethod<
   GetActionsCacheUsageByRepoForOrgRequest,
   GetActionsCacheUsageByRepoForOrgResponse,
   GetActionsCacheUsageByRepoForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsCacheUsageByRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetActionsCacheUsageByRepoForOrgRequest,
   output: GetActionsCacheUsageByRepoForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repository_cache_usages",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetActionsCacheUsageForOrgError = GithubOpError;
 /** Get GitHub Actions cache usage for an organization Gets the total GitHub Actions cache usage for an organization. The data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated. OAuth tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. */
@@ -11039,7 +11052,7 @@ export const getEnvironmentSecret: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetEnvironmentVariableError = GithubOpError;
+export type GetEnvironmentVariableError = NotFound | GithubOpError;
 /** Get an environment variable Gets a specific variable in an environment. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const getEnvironmentVariable: API.OperationMethod<
   GetEnvironmentVariableRequest,
@@ -11049,7 +11062,7 @@ export const getEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetEnvironmentVariableRequest,
   output: ActionsVariable,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -11366,7 +11379,7 @@ export const getRepoPublicKey: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetRepoSecretError = GithubOpError;
+export type GetRepoSecretError = NotFound | GithubOpError;
 /** Get a repository secret Gets a single repository secret without revealing its encrypted value. The authenticated user must have collaborator access to the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const getRepoSecret: API.OperationMethod<
   GetRepoSecretRequest,
@@ -11376,12 +11389,12 @@ export const getRepoSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRepoSecretRequest,
   output: ActionsSecret,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
 
-export type GetRepoVariableError = GithubOpError;
+export type GetRepoVariableError = NotFound | GithubOpError;
 /** Get a repository variable Gets a specific variable in a repository. The authenticated user must have collaborator access to the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
 export const getRepoVariable: API.OperationMethod<
   GetRepoVariableRequest,
@@ -11391,7 +11404,7 @@ export const getRepoVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRepoVariableRequest,
   output: ActionsVariable,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -11596,53 +11609,75 @@ export const getWorkflowUsage: API.OperationMethod<
 
 export type ListArtifactsForRepoError = GithubOpError;
 /** List artifacts for a repository Lists all artifacts for a repository. Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listArtifactsForRepo: API.OperationMethod<
+export const listArtifactsForRepo: API.PaginatedOperationMethod<
   ListArtifactsForRepoRequest,
   ListArtifactsForRepoResponse,
   ListArtifactsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Artifact
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListArtifactsForRepoRequest,
   output: ListArtifactsForRepoResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "artifacts",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListConcurrencyGroupsForRepositoryError =
   | UnprocessableEntity
   | GithubOpError;
 /** List concurrency groups for a repository Lists the active concurrency groups for a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listConcurrencyGroupsForRepository: API.OperationMethod<
+export const listConcurrencyGroupsForRepository: API.PaginatedOperationMethod<
   ListConcurrencyGroupsForRepositoryRequest,
   ConcurrencyGroupList,
   ListConcurrencyGroupsForRepositoryError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ConcurrencyGroupListConcurrencyGroupsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConcurrencyGroupsForRepositoryRequest,
   output: ConcurrencyGroupList,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    items: "concurrency_groups",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListConcurrencyGroupsForWorkflowRunError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
 /** List concurrency groups for a workflow run Lists all concurrency groups associated with a workflow run or its jobs. The set of groups is derived from the run's configuration, so a group is included even when the run no longer has any items currently holding or waiting in it. In that case the `group_members` array will be empty. `total_count` reflects the number of groups the run participates in by configuration, not the number with active items. This differs from `GET /repos/{owner}/{repo}/actions/concurrency_groups/{group_name}`, which returns 404 when a group has no active items. That endpoint reports the live state of a group repo-wide, while this endpoint reports the groups associated with a specific run by configuration. Results are sorted by group name and support cursor-based pagination via `before` and `after`. The `after` cursor paginates forward only and does not emit a `rel="prev"` Link; use `before` to page backward from a forward page's `next` cursor. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listConcurrencyGroupsForWorkflowRun: API.OperationMethod<
+export const listConcurrencyGroupsForWorkflowRun: API.PaginatedOperationMethod<
   ListConcurrencyGroupsForWorkflowRunRequest,
   ConcurrencyGroupRunList,
   ListConcurrencyGroupsForWorkflowRunError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ConcurrencyGroupRunListConcurrencyGroupsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListConcurrencyGroupsForWorkflowRunRequest,
   output: ConcurrencyGroupRunList,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "concurrency_groups",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCustomImagesForOrgError = GithubOpError;
 /** List custom images for an organization List custom images for an organization. OAuth tokens and personal access tokens (classic) need the `manage_runners:org` scope to use this endpoint. */
@@ -11676,93 +11711,135 @@ export const listCustomImageVersionsForOrg: API.OperationMethod<
 
 export type ListEnvironmentSecretsError = GithubOpError;
 /** List environment secrets Lists all secrets available in an environment without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listEnvironmentSecrets: API.OperationMethod<
+export const listEnvironmentSecrets: API.PaginatedOperationMethod<
   ListEnvironmentSecretsRequest,
   ListEnvironmentSecretsResponse,
   ListEnvironmentSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnvironmentSecretsRequest,
   output: ListEnvironmentSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListEnvironmentVariablesError = GithubOpError;
 /** List environment variables Lists all environment variables. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listEnvironmentVariables: API.OperationMethod<
+export const listEnvironmentVariables: API.PaginatedOperationMethod<
   ListEnvironmentVariablesRequest,
   ListEnvironmentVariablesResponse,
   ListEnvironmentVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEnvironmentVariablesRequest,
   output: ListEnvironmentVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListGithubHostedRunnersInGroupForOrgError = GithubOpError;
 /** List GitHub-hosted runners in a group for an organization Lists the GitHub-hosted runners in an organization group. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listGithubHostedRunnersInGroupForOrg: API.OperationMethod<
+export const listGithubHostedRunnersInGroupForOrg: API.PaginatedOperationMethod<
   ListGithubHostedRunnersInGroupForOrgRequest,
   ListGithubHostedRunnersInGroupForOrgResponse,
   ListGithubHostedRunnersInGroupForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsHostedRunner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGithubHostedRunnersInGroupForOrgRequest,
   output: ListGithubHostedRunnersInGroupForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runners",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListHostedRunnersForOrgError = GithubOpError;
 /** List GitHub-hosted runners for an organization Lists all GitHub-hosted runners configured in an organization. OAuth app tokens and personal access tokens (classic) need the `manage_runner:org` scope to use this endpoint. */
-export const listHostedRunnersForOrg: API.OperationMethod<
+export const listHostedRunnersForOrg: API.PaginatedOperationMethod<
   ListHostedRunnersForOrgRequest,
   ListHostedRunnersForOrgResponse,
   ListHostedRunnersForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsHostedRunner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListHostedRunnersForOrgRequest,
   output: ListHostedRunnersForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runners",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListJobsForWorkflowRunError = GithubOpError;
 /** List jobs for a workflow run Lists jobs for a workflow run. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters). Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listJobsForWorkflowRun: API.OperationMethod<
+export const listJobsForWorkflowRun: API.PaginatedOperationMethod<
   ListJobsForWorkflowRunRequest,
   ListJobsForWorkflowRunResponse,
   ListJobsForWorkflowRunError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Job
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobsForWorkflowRunRequest,
   output: ListJobsForWorkflowRunResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "jobs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListJobsForWorkflowRunAttemptError = NotFound | GithubOpError;
 /** List jobs for a workflow run attempt Lists jobs for a specific workflow run attempt. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters). Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listJobsForWorkflowRunAttempt: API.OperationMethod<
+export const listJobsForWorkflowRunAttempt: API.PaginatedOperationMethod<
   ListJobsForWorkflowRunAttemptRequest,
   ListJobsForWorkflowRunAttemptResponse,
   ListJobsForWorkflowRunAttemptError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Job
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListJobsForWorkflowRunAttemptRequest,
   output: ListJobsForWorkflowRunAttemptResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "jobs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListLabelsForSelfHostedRunnerForOrgError = NotFound | GithubOpError;
 /** List labels for a self-hosted runner for an organization Lists all labels for a self-hosted runner configured in an organization. Authenticated users must have admin access to the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
@@ -11798,123 +11875,179 @@ export const listLabelsForSelfHostedRunnerForRepo: API.OperationMethod<
 
 export type ListOrgSecretsError = GithubOpError;
 /** List organization secrets Lists all secrets available in an organization without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listOrgSecrets: API.OperationMethod<
+export const listOrgSecrets: API.PaginatedOperationMethod<
   ListOrgSecretsRequest,
   ListOrgSecretsResponse,
   ListOrgSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgSecretsRequest,
   output: ListOrgSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgVariablesError = GithubOpError;
 /** List organization variables Lists all organization variables. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listOrgVariables: API.OperationMethod<
+export const listOrgVariables: API.PaginatedOperationMethod<
   ListOrgVariablesRequest,
   ListOrgVariablesResponse,
   ListOrgVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgVariablesRequest,
   output: ListOrgVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoAccessToSelfHostedRunnerGroupInOrgError = GithubOpError;
 /** List repository access to a self-hosted runner group in an organization Lists the repositories with access to a self-hosted runner group configured in an organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listRepoAccessToSelfHostedRunnerGroupInOrg: API.OperationMethod<
+export const listRepoAccessToSelfHostedRunnerGroupInOrg: API.PaginatedOperationMethod<
   ListRepoAccessToSelfHostedRunnerGroupInOrgRequest,
   ListRepoAccessToSelfHostedRunnerGroupInOrgResponse,
   ListRepoAccessToSelfHostedRunnerGroupInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoAccessToSelfHostedRunnerGroupInOrgRequest,
   output: ListRepoAccessToSelfHostedRunnerGroupInOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoOrganizationSecretsError = GithubOpError;
 /** List repository organization secrets Lists all organization secrets shared with a repository without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoOrganizationSecrets: API.OperationMethod<
+export const listRepoOrganizationSecrets: API.PaginatedOperationMethod<
   ListRepoOrganizationSecretsRequest,
   ListRepoOrganizationSecretsResponse,
   ListRepoOrganizationSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoOrganizationSecretsRequest,
   output: ListRepoOrganizationSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoOrganizationVariablesError = GithubOpError;
 /** List repository organization variables Lists all organization variables shared with a repository. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoOrganizationVariables: API.OperationMethod<
+export const listRepoOrganizationVariables: API.PaginatedOperationMethod<
   ListRepoOrganizationVariablesRequest,
   ListRepoOrganizationVariablesResponse,
   ListRepoOrganizationVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoOrganizationVariablesRequest,
   output: ListRepoOrganizationVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoSecretsError = GithubOpError;
 /** List repository secrets Lists all secrets available in a repository without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoSecrets: API.OperationMethod<
+export const listRepoSecrets: API.PaginatedOperationMethod<
   ListRepoSecretsRequest,
   ListRepoSecretsResponse,
   ListRepoSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoSecretsRequest,
   output: ListRepoSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
-export type ListRepoVariablesError = GithubOpError;
+export type ListRepoVariablesError = Forbidden | NotFound | GithubOpError;
 /** List repository variables Lists all repository variables. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoVariables: API.OperationMethod<
+export const listRepoVariables: API.PaginatedOperationMethod<
   ListRepoVariablesRequest,
   ListRepoVariablesResponse,
   ListRepoVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoVariablesRequest,
   output: ListRepoVariablesResponse,
-  errors: [],
+  errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoWorkflowsError = GithubOpError;
 /** List repository workflows Lists the workflows in a repository. Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listRepoWorkflows: API.OperationMethod<
+export const listRepoWorkflows: API.PaginatedOperationMethod<
   ListRepoWorkflowsRequest,
   ListRepoWorkflowsResponse,
   ListRepoWorkflowsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Workflow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoWorkflowsRequest,
   output: ListRepoWorkflowsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "workflows",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRunnerApplicationsForOrgError = GithubOpError;
 /** List runner applications for an organization Lists binaries for the runner application that you can download and run. Authenticated users must have admin access to the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
@@ -11948,172 +12081,249 @@ export const listRunnerApplicationsForRepo: API.OperationMethod<
 
 export type ListSelectedReposForOrgSecretError = GithubOpError;
 /** List selected repositories for an organization secret Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listSelectedReposForOrgSecret: API.OperationMethod<
+export const listSelectedReposForOrgSecret: API.PaginatedOperationMethod<
   ListSelectedReposForOrgSecretRequest,
   ListSelectedReposForOrgSecretResponse,
   ListSelectedReposForOrgSecretError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgSecretRequest,
   output: ListSelectedReposForOrgSecretResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedReposForOrgVariableError = Conflict | GithubOpError;
 /** List selected repositories for an organization variable Lists all repositories that can access an organization variable that is available to selected repositories. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listSelectedReposForOrgVariable: API.OperationMethod<
+export const listSelectedReposForOrgVariable: API.PaginatedOperationMethod<
   ListSelectedReposForOrgVariableRequest,
   ListSelectedReposForOrgVariableResponse,
   ListSelectedReposForOrgVariableError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgVariableRequest,
   output: ListSelectedReposForOrgVariableResponse,
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedRepositoriesEnabledGithubActionsOrganizationError =
   GithubOpError;
 /** List selected repositories enabled for GitHub Actions in an organization Lists the selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see "[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization)." OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listSelectedRepositoriesEnabledGithubActionsOrganization: API.OperationMethod<
+export const listSelectedRepositoriesEnabledGithubActionsOrganization: API.PaginatedOperationMethod<
   ListSelectedRepositoriesEnabledGithubActionsOrganizationRequest,
   ListSelectedRepositoriesEnabledGithubActionsOrganizationResponse,
   ListSelectedRepositoriesEnabledGithubActionsOrganizationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Repository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedRepositoriesEnabledGithubActionsOrganizationRequest,
   output: ListSelectedRepositoriesEnabledGithubActionsOrganizationResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedRepositoriesSelfHostedRunnersOrganizationError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List repositories allowed to use self-hosted runners in an organization Lists repositories that are allowed to use self-hosted runners in an organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the "Actions policies" fine-grained permission to use this endpoint. */
-export const listSelectedRepositoriesSelfHostedRunnersOrganization: API.OperationMethod<
+export const listSelectedRepositoriesSelfHostedRunnersOrganization: API.PaginatedOperationMethod<
   ListSelectedRepositoriesSelfHostedRunnersOrganizationRequest,
   ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse,
   ListSelectedRepositoriesSelfHostedRunnersOrganizationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Repository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedRepositoriesSelfHostedRunnersOrganizationRequest,
   output: ListSelectedRepositoriesSelfHostedRunnersOrganizationResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelfHostedRunnerGroupsForOrgError = GithubOpError;
 /** List self-hosted runner groups for an organization Lists all self-hosted runner groups configured in an organization and inherited from an enterprise. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listSelfHostedRunnerGroupsForOrg: API.OperationMethod<
+export const listSelfHostedRunnerGroupsForOrg: API.PaginatedOperationMethod<
   ListSelfHostedRunnerGroupsForOrgRequest,
   ListSelfHostedRunnerGroupsForOrgResponse,
   ListSelfHostedRunnerGroupsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RunnerGroupsOrg
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelfHostedRunnerGroupsForOrgRequest,
   output: ListSelfHostedRunnerGroupsForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runner_groups",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelfHostedRunnersForOrgError = GithubOpError;
 /** List self-hosted runners for an organization Lists all self-hosted runners configured in an organization. Authenticated users must have admin access to the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listSelfHostedRunnersForOrg: API.OperationMethod<
+export const listSelfHostedRunnersForOrg: API.PaginatedOperationMethod<
   ListSelfHostedRunnersForOrgRequest,
   ListSelfHostedRunnersForOrgResponse,
   ListSelfHostedRunnersForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Runner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelfHostedRunnersForOrgRequest,
   output: ListSelfHostedRunnersForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runners",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelfHostedRunnersForRepoError = GithubOpError;
 /** List self-hosted runners for a repository Lists all self-hosted runners configured in a repository. Authenticated users must have admin access to the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listSelfHostedRunnersForRepo: API.OperationMethod<
+export const listSelfHostedRunnersForRepo: API.PaginatedOperationMethod<
   ListSelfHostedRunnersForRepoRequest,
   ListSelfHostedRunnersForRepoResponse,
   ListSelfHostedRunnersForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Runner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelfHostedRunnersForRepoRequest,
   output: ListSelfHostedRunnersForRepoResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runners",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelfHostedRunnersInGroupForOrgError = GithubOpError;
 /** List self-hosted runners in a group for an organization Lists self-hosted runners that are in a specific organization group. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listSelfHostedRunnersInGroupForOrg: API.OperationMethod<
+export const listSelfHostedRunnersInGroupForOrg: API.PaginatedOperationMethod<
   ListSelfHostedRunnersInGroupForOrgRequest,
   ListSelfHostedRunnersInGroupForOrgResponse,
   ListSelfHostedRunnersInGroupForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Runner
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelfHostedRunnersInGroupForOrgRequest,
   output: ListSelfHostedRunnersInGroupForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "runners",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWorkflowRunArtifactsError = GithubOpError;
 /** List workflow run artifacts Lists artifacts for a workflow run. Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. */
-export const listWorkflowRunArtifacts: API.OperationMethod<
+export const listWorkflowRunArtifacts: API.PaginatedOperationMethod<
   ListWorkflowRunArtifactsRequest,
   ListWorkflowRunArtifactsResponse,
   ListWorkflowRunArtifactsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Artifact
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWorkflowRunArtifactsRequest,
   output: ListWorkflowRunArtifactsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "artifacts",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWorkflowRunsError = GithubOpError;
 /** List workflow runs for a workflow List all workflow runs for a workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters). Anyone with read access to the repository can use this endpoint OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. This endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`. */
-export const listWorkflowRuns: API.OperationMethod<
+export const listWorkflowRuns: API.PaginatedOperationMethod<
   ListWorkflowRunsRequest,
   ListWorkflowRunsResponse,
   ListWorkflowRunsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  WorkflowRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWorkflowRunsRequest,
   output: ListWorkflowRunsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "workflow_runs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWorkflowRunsForRepoError = GithubOpError;
 /** List workflow runs for a repository Lists all workflow runs for a repository. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters). Anyone with read access to the repository can use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository. This endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`. */
-export const listWorkflowRunsForRepo: API.OperationMethod<
+export const listWorkflowRunsForRepo: API.PaginatedOperationMethod<
   ListWorkflowRunsForRepoRequest,
   ListWorkflowRunsForRepoResponse,
   ListWorkflowRunsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  WorkflowRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWorkflowRunsForRepoRequest,
   output: ListWorkflowRunsForRepoResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "workflow_runs",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveAllCustomLabelsFromSelfHostedRunnerForOrgError =
   | NotFound

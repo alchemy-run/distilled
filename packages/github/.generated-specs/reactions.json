@@ -397,7 +397,13 @@
           "uri": "/repos/{owner}/{repo}/comments/{comment_id}/reactions",
           "code": 200
         },
-        "smithy.api#documentation": "List reactions for a commit comment\n\nList the reactions to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment)."
+        "smithy.api#documentation": "List reactions for a commit comment\n\nList the reactions to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.reactions#CreateForCommitCommentRequestContent": {
@@ -722,7 +728,13 @@
           "uri": "/repos/{owner}/{repo}/issues/comments/{comment_id}/reactions",
           "code": 200
         },
-        "smithy.api#documentation": "List reactions for an issue comment\n\nList the reactions to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment)."
+        "smithy.api#documentation": "List reactions for an issue comment\n\nList the reactions to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.reactions#CreateForIssueCommentRequestContent": {
@@ -1050,7 +1062,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/reactions",
           "code": 200
         },
-        "smithy.api#documentation": "List reactions for an issue\n\nList the reactions to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue)."
+        "smithy.api#documentation": "List reactions for an issue\n\nList the reactions to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.reactions#CreateForIssueRequestContent": {
@@ -1375,7 +1393,13 @@
           "uri": "/repos/{owner}/{repo}/pulls/comments/{comment_id}/reactions",
           "code": 200
         },
-        "smithy.api#documentation": "List reactions for a pull request review comment\n\nList the reactions to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request)."
+        "smithy.api#documentation": "List reactions for a pull request review comment\n\nList the reactions to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.reactions#CreateForPullRequestReviewCommentRequestContent": {
@@ -1688,7 +1712,13 @@
           "uri": "/repos/{owner}/{repo}/releases/{release_id}/reactions",
           "code": 200
         },
-        "smithy.api#documentation": "List reactions for a release\n\nList the reactions to a [release](https://docs.github.com/rest/releases/releases#get-a-release)."
+        "smithy.api#documentation": "List reactions for a release\n\nList the reactions to a [release](https://docs.github.com/rest/releases/releases#get-a-release).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.reactions#CreateForReleaseRequestContent": {

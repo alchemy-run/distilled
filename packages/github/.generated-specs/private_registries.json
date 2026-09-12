@@ -427,7 +427,13 @@
           "uri": "/orgs/{org}/private-registries",
           "code": 200
         },
-        "smithy.api#documentation": "List private registries for an organization\n\nLists all private registry configurations available at the organization-level without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List private registries for an organization\n\nLists all private registry configurations available at the organization-level without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "configurations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.private_registries#CreateOrgPrivateRegistryRequestRegistryType": {

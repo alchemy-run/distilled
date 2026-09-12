@@ -2646,7 +2646,13 @@
           "uri": "/issues",
           "code": 200
         },
-        "smithy.api#documentation": "List issues assigned to the authenticated user\n\nList issues assigned to the authenticated user across all visible repositories including owned repositories, member\nrepositories, and organization repositories. You can use the `filter` query parameter to fetch issues that are not\nnecessarily assigned to you.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List issues assigned to the authenticated user\n\nList issues assigned to the authenticated user across all visible repositories including owned repositories, member\nrepositories, and organization repositories. You can use the `filter` query parameter to fetch issues that are not\nnecessarily assigned to you.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListForOrgRequestFilter": {
@@ -2877,7 +2883,13 @@
           "uri": "/orgs/{org}/issues",
           "code": 200
         },
-        "smithy.api#documentation": "List organization issues assigned to the authenticated user\n\nList issues in an organization assigned to the authenticated user.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List organization issues assigned to the authenticated user\n\nList issues in an organization assigned to the authenticated user.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListAssigneesRequest": {
@@ -2959,7 +2971,13 @@
           "uri": "/repos/{owner}/{repo}/assignees",
           "code": 200
         },
-        "smithy.api#documentation": "List assignees\n\nLists the [available assignees](https://docs.github.com/articles/assigning-issues-and-pull-requests-to-other-github-users/) for issues in a repository."
+        "smithy.api#documentation": "List assignees\n\nLists the [available assignees](https://docs.github.com/articles/assigning-issues-and-pull-requests-to-other-github-users/) for issues in a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#CheckUserCanBeAssignedRequest": {
@@ -3240,7 +3258,13 @@
           "uri": "/repos/{owner}/{repo}/issues",
           "code": 200
         },
-        "smithy.api#documentation": "List repository issues\n\nList issues in a repository. Only open issues will be listed.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List repository issues\n\nList issues in a repository. Only open issues will be listed.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#CreateRequestTitle": {
@@ -3725,7 +3749,13 @@
           "uri": "/repos/{owner}/{repo}/issues/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List issue comments for a repository\n\nYou can use the REST API to list comments on issues and pull requests for a repository. Every pull request is an issue, but not every issue is a pull request.\n\nBy default, issue comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List issue comments for a repository\n\nYou can use the REST API to list comments on issues and pull requests for a repository. Every pull request is an issue, but not every issue is a pull request.\n\nBy default, issue comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#GetCommentRequest": {
@@ -3883,6 +3913,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.issues#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -5622,7 +5657,13 @@
           "uri": "/repos/{owner}/{repo}/issues/events",
           "code": 200
         },
-        "smithy.api#documentation": "List issue events for a repository\n\nLists events for a repository."
+        "smithy.api#documentation": "List issue events for a repository\n\nLists events for a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#GetEventRequest": {
@@ -7430,7 +7471,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List issue comments\n\nYou can use the REST API to list comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.\n\nIssue comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List issue comments\n\nYou can use the REST API to list comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request.\n\nIssue comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#CreateCommentRequest": {
@@ -7593,7 +7640,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by",
           "code": 200
         },
-        "smithy.api#documentation": "List dependencies an issue is blocked by\n\nYou can use the REST API to list the dependencies an issue is blocked by.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List dependencies an issue is blocked by\n\nYou can use the REST API to list the dependencies an issue is blocked by.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#AddBlockedByDependencyRequest": {
@@ -7827,7 +7880,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking",
           "code": 200
         },
-        "smithy.api#documentation": "List dependencies an issue is blocking\n\nYou can use the REST API to list the dependencies an issue is blocking.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List dependencies an issue is blocking\n\nYou can use the REST API to list the dependencies an issue is blocking.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListEventsRequest": {
@@ -10316,7 +10375,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/events",
           "code": 200
         },
-        "smithy.api#documentation": "List issue events\n\nLists all events for an issue."
+        "smithy.api#documentation": "List issue events\n\nLists all events for an issue.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListIssueFieldValuesForIssueRequest": {
@@ -10409,7 +10474,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values",
           "code": 200
         },
-        "smithy.api#documentation": "List issue field values for an issue\n\nLists all issue field values for an issue."
+        "smithy.api#documentation": "List issue field values for an issue\n\nLists all issue field values for an issue.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#AddIssueFieldValuesRequestIssueFieldValuesItemValueCase2List": {
@@ -10911,7 +10982,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "List labels for an issue\n\nLists all labels for an issue."
+        "smithy.api#documentation": "List labels for an issue\n\nLists all labels for an issue.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#AddLabelsRequestBodyCase0LabelsItemCase1Confidence": {
@@ -11876,7 +11953,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/sub_issues",
           "code": 200
         },
-        "smithy.api#documentation": "List sub-issues\n\nYou can use the REST API to list the sub-issues on an issue.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List sub-issues\n\nYou can use the REST API to list the sub-issues on an issue.\n\nThis endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\n\n- **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#AddSubIssueRequest": {
@@ -12463,7 +12546,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/suggestions",
           "code": 200
         },
-        "smithy.api#documentation": "List issue suggestions\n\nLists the suggestions on an issue. A suggestion is an agent-proposed change to an issue's type, labels, fields, assignees, or closed state that a maintainer can approve or dismiss.\n\nBy default only pending suggestions are returned. Use `state=all` to return suggestions in every state, or `state=<state>` to filter to a single state. Use `action=<action>` to return only suggestions for a specific change.\n\nThis endpoint is only available while the issue suggestions feature is enabled for the repository, and only supports issues, not pull requests.\n\nRequires triage access to the repository."
+        "smithy.api#documentation": "List issue suggestions\n\nLists the suggestions on an issue. A suggestion is an agent-proposed change to an issue's type, labels, fields, assignees, or closed state that a maintainer can approve or dismiss.\n\nBy default only pending suggestions are returned. Use `state=all` to return suggestions in every state, or `state=<state>` to filter to a single state. Use `action=<action>` to return only suggestions for a specific change.\n\nThis endpoint is only available while the issue suggestions feature is enabled for the repository, and only supports issues, not pull requests.\n\nRequires triage access to the repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ApproveSuggestionRequest": {
@@ -14137,7 +14226,13 @@
           "uri": "/repos/{owner}/{repo}/issues/{issue_number}/timeline",
           "code": 200
         },
-        "smithy.api#documentation": "List timeline events for an issue\n\nList all timeline events for an issue."
+        "smithy.api#documentation": "List timeline events for an issue\n\nList all timeline events for an issue.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListLabelsForRepoRequest": {
@@ -14219,7 +14314,13 @@
           "uri": "/repos/{owner}/{repo}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "List labels for a repository\n\nLists all labels for a repository."
+        "smithy.api#documentation": "List labels for a repository\n\nLists all labels for a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#CreateLabelRequest": {
@@ -14754,7 +14855,13 @@
           "uri": "/repos/{owner}/{repo}/milestones",
           "code": 200
         },
-        "smithy.api#documentation": "List milestones\n\nLists milestones for a repository."
+        "smithy.api#documentation": "List milestones\n\nLists milestones for a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#CreateMilestoneRequestState": {
@@ -15134,7 +15241,13 @@
           "uri": "/repos/{owner}/{repo}/milestones/{milestone_number}/labels",
           "code": 200
         },
-        "smithy.api#documentation": "List labels for issues in a milestone\n\nLists labels for issues in a milestone."
+        "smithy.api#documentation": "List labels for issues in a milestone\n\nLists labels for issues in a milestone.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#ListForAuthenticatedUserRequestFilter": {
@@ -15350,7 +15463,13 @@
           "uri": "/user/issues",
           "code": 200
         },
-        "smithy.api#documentation": "List user account issues assigned to the authenticated user\n\nList issues across owned and member repositories assigned to the authenticated user.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List user account issues assigned to the authenticated user\n\nList issues across owned and member repositories assigned to the authenticated user.\n\n> [!NOTE]\n> GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, \"Issues\" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from \"Issues\" endpoints will be an _issue id_. To find out the pull request id, use the \"[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)\" endpoint.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.issues#NotFound": {

@@ -227,18 +227,25 @@ export const get: API.OperationMethod<
 
 export type GetAllCommonlyUsedError = GithubOpError;
 /** Get all commonly used licenses Lists the most commonly used licenses on GitHub. For more information, see "[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)." */
-export const getAllCommonlyUsed: API.OperationMethod<
+export const getAllCommonlyUsed: API.PaginatedOperationMethod<
   GetAllCommonlyUsedRequest,
   GetAllCommonlyUsedResponse,
   GetAllCommonlyUsedError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  LicenseSimple
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllCommonlyUsedRequest,
   output: GetAllCommonlyUsedResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetForRepoError = NotFound | GithubOpError;
 /** Get the license for a repository This method returns the contents of the repository's license file, if one is detected. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw contents of the license. - **`application/vnd.github.html+json`**: Returns the license contents in HTML. Markup languages are rendered to HTML using GitHub's open-source [Markup library](https://github.com/github/markup). */

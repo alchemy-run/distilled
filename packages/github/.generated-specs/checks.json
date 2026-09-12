@@ -1895,7 +1895,13 @@
           "uri": "/repos/{owner}/{repo}/check-runs/{check_run_id}/annotations",
           "code": 200
         },
-        "smithy.api#documentation": "List check run annotations\n\nLists annotations for a check run using the annotation `id`.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository."
+        "smithy.api#documentation": "List check run annotations\n\nLists annotations for a check run using the annotation `id`.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.checks#RunRerequestRequest": {
@@ -3636,7 +3642,13 @@
           "uri": "/repos/{owner}/{repo}/check-suites/{check_suite_id}/check-runs",
           "code": 200
         },
-        "smithy.api#documentation": "List check runs in a check suite\n\nLists check runs for a check suite using its `id`.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository."
+        "smithy.api#documentation": "List check runs in a check suite\n\nLists check runs for a check suite using its `id`.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "check_runs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.checks#RerequestSuiteRequest": {
@@ -3859,7 +3871,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{ref}/check-runs",
           "code": 200
         },
-        "smithy.api#documentation": "List check runs for a Git reference\n\nLists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nIf there are more than 1000 check suites on a single git reference, this endpoint will limit check runs to the 1000 most recent check suites. To iterate over all possible check runs, use the [List check suites for a Git reference](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference) endpoint and provide the `check_suite_id` parameter to the [List check runs in a check suite](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite) endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository."
+        "smithy.api#documentation": "List check runs for a Git reference\n\nLists check runs for a commit ref. The `ref` can be a SHA, branch name, or a tag name.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array.\n\nIf there are more than 1000 check suites on a single git reference, this endpoint will limit check runs to the 1000 most recent check suites. To iterate over all possible check runs, use the [List check suites for a Git reference](https://docs.github.com/rest/reference/checks#list-check-suites-for-a-git-reference) endpoint and provide the `check_suite_id` parameter to the [List check runs in a check suite](https://docs.github.com/rest/reference/checks#list-check-runs-in-a-check-suite) endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "check_runs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.checks#ListSuitesForRefRequest": {
@@ -3963,7 +3981,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{ref}/check-suites",
           "code": 200
         },
-        "smithy.api#documentation": "List check suites for a Git reference\n\nLists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository."
+        "smithy.api#documentation": "List check suites for a Git reference\n\nLists check suites for a commit `ref`. The `ref` can be a SHA, branch name, or a tag name.\n\n> [!NOTE]\n> The endpoints to manage checks only look for pushes in the repository where the check suite or check run were created. Pushes to a branch in a forked repository are not detected and return an empty `pull_requests` array and a `null` value for `head_branch`.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint on a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "check_suites",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.checks#Forbidden": {

@@ -1599,63 +1599,91 @@ export const getStatusForOrg: API.OperationMethod<
 
 export type ListForAuthenticatedUserError = Forbidden | GithubOpError;
 /** List user migrations Lists all migrations a user has started. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Migration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForAuthenticatedUserRequest,
   output: ListForAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForOrgError = GithubOpError;
 /** List organization migrations Lists the most recent migrations, including both exports (which can be started through the REST API) and imports (which cannot be started using the REST API). A list of `repositories` is only returned for export migrations. */
-export const listForOrg: API.OperationMethod<
+export const listForOrg: API.PaginatedOperationMethod<
   ListForOrgRequest,
   ListForOrgResponse,
   ListForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Migration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForOrgRequest,
   output: ListForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposForAuthenticatedUserError = NotFound | GithubOpError;
 /** List repositories for a user migration Lists all the repositories for this user migration. */
-export const listReposForAuthenticatedUser: API.OperationMethod<
+export const listReposForAuthenticatedUser: API.PaginatedOperationMethod<
   ListReposForAuthenticatedUserRequest,
   ListReposForAuthenticatedUserResponse,
   ListReposForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposForAuthenticatedUserRequest,
   output: ListReposForAuthenticatedUserResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposForOrgError = NotFound | GithubOpError;
 /** List repositories in an organization migration List all the repositories for this organization migration. */
-export const listReposForOrg: API.OperationMethod<
+export const listReposForOrg: API.PaginatedOperationMethod<
   ListReposForOrgRequest,
   ListReposForOrgResponse,
   ListReposForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposForOrgRequest,
   output: ListReposForOrgResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type StartForAuthenticatedUserError =
   | Forbidden

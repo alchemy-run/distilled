@@ -476,12 +476,14 @@ export const generateService = (
     if (http) httpFor[input] = http;
   }
 
-  if (selected.length === 0) return { code: "", operations: 0 };
+  const extraRoots = [...(spec.extraRoots?.(selected, shapes) ?? [])];
+  if (selected.length === 0 && extraRoots.length === 0)
+    return { code: "", operations: 0 };
 
   // 2. Reachability + dependencies-first order (cycles suspend at refs).
   const roots = [
     ...selected.flatMap((op) => [op.def.__input, op.def.__output]),
-    ...(spec.extraRoots?.(selected, shapes) ?? []),
+    ...extraRoots,
   ];
   const reachable = reachableFrom(shapes, roots, shapeDeps);
   const order = topoOrder(shapes, reachable, shapeDeps);
@@ -840,7 +842,8 @@ export const generateService = (
       // that member's value; emit its type + a root marker for the protocol.
       const memberEntriesAll = Object.entries(d.members ?? {});
       const soleMemberRoot =
-        !paginatedOutputs.has(id) && memberEntriesAll.length === 1
+        (!paginatedOutputs.has(id) || paginatedItemsRoot.get(id) === "$") &&
+        memberEntriesAll.length === 1
           ? (spec.extraBindings ?? []).find(
               (b) =>
                 b.rootPipe !== undefined &&
@@ -1040,6 +1043,21 @@ export const generateService = (
     // No items path: `.items()` is a page passthrough at runtime, so an
     // item IS a whole response.
     if (!itemsPath) return tsRef(outputId);
+    if (itemsPath === "$") {
+      const output = shapes[outputId];
+      if (output?.type === "list") return tsRef(output.member.target);
+      const members = memberInfos(output ?? {});
+      if (members.length !== 1) return undefined;
+      const member = members[0]!;
+      if (
+        !(spec.extraBindings ?? []).some(
+          (binding) => binding.rootPipe && binding.trait in member.traits,
+        )
+      )
+        return undefined;
+      const list = shapes[member.target];
+      return list?.type === "list" ? tsRef(list.member.target) : undefined;
+    }
     let id: string = outputId;
     // Whether the path crossed a list on the way down (`"edges.node"` on a
     // Relay connection). When it did, the path itself is what fans out, so

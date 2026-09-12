@@ -72,3 +72,21 @@ export type ClientErrors = UnknownGithubError | GithubParseError | Gone;
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/** Invalid or missing GitHub webhook signature, or a cryptographic verification failure. */
+export class GitHubWebhookSignatureError extends Schema.TaggedError<GitHubWebhookSignatureError>()(
+  "GitHubWebhookSignatureError",
+  {
+    message: Schema.String,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}
+
+/** Invalid delivery headers, JSON, or event payload. */
+export class GitHubWebhookPayloadParseError extends Schema.TaggedError<GitHubWebhookPayloadParseError>()(
+  "GitHubWebhookPayloadParseError",
+  {
+    message: Schema.String,
+    cause: Schema.optional(Schema.Unknown),
+  },
+) {}

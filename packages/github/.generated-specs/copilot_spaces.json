@@ -630,7 +630,14 @@
           "uri": "/orgs/{org}/copilot-spaces",
           "code": 200
         },
-        "smithy.api#documentation": "List organization Copilot Spaces\n\nLists Copilot Spaces owned by an organization. The authenticated user must have read access to the organization's Copilot Spaces.\n\nOnly Spaces that are readable by the authenticated user are returned. This includes public Spaces and internal Spaces if the user is a member of the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.\n\nFine-grained tokens and GitHub App user access tokens must have been granted access to the organization that owns the space. They must also have been granted access to every repository referenced by resources in a space; spaces with inaccessible resources are omitted from the response."
+        "smithy.api#documentation": "List organization Copilot Spaces\n\nLists Copilot Spaces owned by an organization. The authenticated user must have read access to the organization's Copilot Spaces.\n\nOnly Spaces that are readable by the authenticated user are returned. This includes public Spaces and internal Spaces if the user is a member of the organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.\n\nFine-grained tokens and GitHub App user access tokens must have been granted access to the organization that owns the space. They must also have been granted access to every repository referenced by resources in a space; spaces with inaccessible resources are omitted from the response.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "spaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.copilot_spaces#CreateForOrgRequestBaseRole": {
@@ -2524,7 +2531,14 @@
           "uri": "/users/{username}/copilot-spaces",
           "code": 200
         },
-        "smithy.api#documentation": "List Copilot Spaces for a user\n\nLists Copilot Spaces owned by a user. The authenticated user must have read access to the user's Copilot Spaces.\n\nOnly Spaces that are readable by the authenticated user are returned. This includes the user's own spaces, and public user spaces when accessing another user's spaces.\n\nOAuth app tokens and personal access tokens (classic) need the `read:user` scope to use this endpoint."
+        "smithy.api#documentation": "List Copilot Spaces for a user\n\nLists Copilot Spaces owned by a user. The authenticated user must have read access to the user's Copilot Spaces.\n\nOnly Spaces that are readable by the authenticated user are returned. This includes the user's own spaces, and public user spaces when accessing another user's spaces.\n\nOAuth app tokens and personal access tokens (classic) need the `read:user` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "spaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.copilot_spaces#CreateForUserRequestBaseRole": {

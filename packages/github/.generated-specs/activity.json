@@ -5034,7 +5034,13 @@
           "uri": "/events",
           "code": 200
         },
-        "smithy.api#documentation": "List public events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List public events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#Feed": {
@@ -5268,7 +5274,13 @@
           "uri": "/networks/{owner}/{repo}/events",
           "code": 200
         },
-        "smithy.api#documentation": "List public events for a network of repositories\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List public events for a network of repositories\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListNotificationsForAuthenticatedUserRequest": {
@@ -6409,7 +6421,13 @@
           "uri": "/notifications",
           "code": 200
         },
-        "smithy.api#documentation": "List notifications for the authenticated user\n\nList all notifications for the current user, sorted by most recently updated."
+        "smithy.api#documentation": "List notifications for the authenticated user\n\nList all notifications for the current user, sorted by most recently updated.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ReadMarkNotificationsAsRequest": {
@@ -6795,7 +6813,13 @@
           "uri": "/orgs/{org}/events",
           "code": 200
         },
-        "smithy.api#documentation": "List public organization events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List public organization events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListRepoEventsRequest": {
@@ -6872,7 +6896,13 @@
           "uri": "/repos/{owner}/{repo}/events",
           "code": 200
         },
-        "smithy.api#documentation": "List repository events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List repository events\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListRepoNotificationsForAuthenticatedUserRequest": {
@@ -6977,7 +7007,13 @@
           "uri": "/repos/{owner}/{repo}/notifications",
           "code": 200
         },
-        "smithy.api#documentation": "List repository notifications for the authenticated user\n\nLists all notifications for the current user in the specified repository."
+        "smithy.api#documentation": "List repository notifications for the authenticated user\n\nLists all notifications for the current user in the specified repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ReadMarkRepoNotificationsAsRequest": {
@@ -7326,7 +7362,13 @@
           "uri": "/repos/{owner}/{repo}/stargazers/history",
           "code": 200
         },
-        "smithy.api#documentation": "Get repository star history\n\nReturns repository stars grouped by calendar weeks, most recent first. Pages move backward toward the repository's creation week, and weeks within a page are ordered newest to oldest, so concatenating pages produces one continuous series. Weeks without stars contain zero counts. Week and day boundaries are not guaranteed to align with UTC. The `days` array contains the number of stars created on each day of the week, starting on Sunday."
+        "smithy.api#documentation": "Get repository star history\n\nReturns repository stars grouped by calendar weeks, most recent first. Pages move backward toward the repository's creation week, and weeks within a page are ordered newest to oldest, so concatenating pages produces one continuous series. Weeks without stars contain zero counts. Week and day boundaries are not guaranteed to align with UTC. The `days` array contains the number of stars created on each day of the week, starting on Sunday.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListWatchersForRepoRequest": {
@@ -7403,7 +7445,13 @@
           "uri": "/repos/{owner}/{repo}/subscribers",
           "code": 200
         },
-        "smithy.api#documentation": "List watchers\n\nLists the people watching the specified repository."
+        "smithy.api#documentation": "List watchers\n\nLists the people watching the specified repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#GetRepoSubscriptionRequest": {
@@ -7709,7 +7757,13 @@
           "uri": "/user/starred",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories starred by the authenticated user\n\nLists repositories the authenticated user has starred.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created."
+        "smithy.api#documentation": "List repositories starred by the authenticated user\n\nLists repositories the authenticated user has starred.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github.star+json`**: Includes a timestamp of when the star was created.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#CheckRepoIsStarredByAuthenticatedUserRequest": {
@@ -7922,7 +7976,13 @@
           "uri": "/user/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories watched by the authenticated user\n\nLists repositories the authenticated user is watching."
+        "smithy.api#documentation": "List repositories watched by the authenticated user\n\nLists repositories the authenticated user is watching.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListEventsForAuthenticatedUserRequest": {
@@ -7991,7 +8051,13 @@
           "uri": "/users/{username}/events",
           "code": 200
         },
-        "smithy.api#documentation": "List events for the authenticated user\n\nIf you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events. _Optional_: use the fine-grained token with following permission set to view private events: \"Events\" user permissions (read).\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List events for the authenticated user\n\nIf you are authenticated as the given user, you will see your private events. Otherwise, you'll only see public events. _Optional_: use the fine-grained token with following permission set to view private events: \"Events\" user permissions (read).\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListOrgEventsForAuthenticatedUserRequest": {
@@ -8068,7 +8134,13 @@
           "uri": "/users/{username}/events/orgs/{org}",
           "code": 200
         },
-        "smithy.api#documentation": "List organization events for the authenticated user\n\nThis is the user's organization dashboard. You must be authenticated as the user to view this.\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List organization events for the authenticated user\n\nThis is the user's organization dashboard. You must be authenticated as the user to view this.\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListPublicEventsForUserRequest": {
@@ -8137,7 +8209,13 @@
           "uri": "/users/{username}/events/public",
           "code": 200
         },
-        "smithy.api#documentation": "List public events for a user\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List public events for a user\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListReceivedEventsForUserRequest": {
@@ -8206,7 +8284,13 @@
           "uri": "/users/{username}/received_events",
           "code": 200
         },
-        "smithy.api#documentation": "List events received by the authenticated user\n\nThese are events that you've received by watching repositories and following users. If you are authenticated as the\ngiven user, you will see private events. Otherwise, you'll only see public events.\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List events received by the authenticated user\n\nThese are events that you've received by watching repositories and following users. If you are authenticated as the\ngiven user, you will see private events. Otherwise, you'll only see public events.\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListReceivedPublicEventsForUserRequest": {
@@ -8275,7 +8359,13 @@
           "uri": "/users/{username}/received_events/public",
           "code": 200
         },
-        "smithy.api#documentation": "List public events received by a user\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h."
+        "smithy.api#documentation": "List public events received by a user\n\n> [!NOTE]\n> This API is not built to serve real-time use cases. Depending on the time of day, event latency can be anywhere from 30s to 6h.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#ListReposStarredByUserRequestSort": {
@@ -8502,7 +8592,13 @@
           "uri": "/users/{username}/subscriptions",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories watched by a user\n\nLists repositories a user is watching."
+        "smithy.api#documentation": "List repositories watched by a user\n\nLists repositories a user is watching.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.activity#Forbidden": {

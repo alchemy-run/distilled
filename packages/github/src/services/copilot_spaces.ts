@@ -1953,33 +1953,49 @@ export const listCollaboratorsForUser: API.OperationMethod<
 
 export type ListForOrgError = Forbidden | NotFound | GithubOpError;
 /** List organization Copilot Spaces Lists Copilot Spaces owned by an organization. The authenticated user must have read access to the organization's Copilot Spaces. Only Spaces that are readable by the authenticated user are returned. This includes public Spaces and internal Spaces if the user is a member of the organization. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. Fine-grained tokens and GitHub App user access tokens must have been granted access to the organization that owns the space. They must also have been granted access to every repository referenced by resources in a space; spaces with inaccessible resources are omitted from the response. */
-export const listForOrg: API.OperationMethod<
+export const listForOrg: API.PaginatedOperationMethod<
   ListForOrgRequest,
   ListForOrgResponse,
   ListForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CopilotSpace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForOrgRequest,
   output: ListForOrgResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "spaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForUserError = Forbidden | NotFound | GithubOpError;
 /** List Copilot Spaces for a user Lists Copilot Spaces owned by a user. The authenticated user must have read access to the user's Copilot Spaces. Only Spaces that are readable by the authenticated user are returned. This includes the user's own spaces, and public user spaces when accessing another user's spaces. OAuth app tokens and personal access tokens (classic) need the `read:user` scope to use this endpoint. */
-export const listForUser: API.OperationMethod<
+export const listForUser: API.PaginatedOperationMethod<
   ListForUserRequest,
   ListForUserResponse,
   ListForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CopilotSpace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForUserRequest,
   output: ListForUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "spaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListResourcesForOrgError = Forbidden | NotFound | GithubOpError;
 /** List resources for an organization Copilot Space Lists all resources attached to a specific Copilot Space owned by an organization. The authenticated user must have appropriate permissions to view the space. OAuth app tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint. Fine-grained tokens and GitHub App user access tokens must have been granted access to the organization that owns the space. They must also have been granted access to every repository referenced by resources in the space. */

@@ -1701,7 +1701,13 @@
           "uri": "/orgs/{org}/codespaces",
           "code": 200
         },
-        "smithy.api#documentation": "List codespaces for the organization\n\nLists the codespaces associated to a specified organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List codespaces for the organization\n\nLists the codespaces associated to a specified organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "codespaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#ListOrgSecretsRequest": {
@@ -1843,7 +1849,13 @@
           "uri": "/orgs/{org}/codespaces/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List organization secrets\n\nLists all Codespaces development environment secrets available at the organization-level without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List organization secrets\n\nLists all Codespaces development environment secrets available at the organization-level without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#GetOrgPublicKeyRequest": {
@@ -2208,7 +2220,13 @@
           "uri": "/orgs/{org}/codespaces/secrets/{secret_name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#SetSelectedReposForOrgSecretRequestSelectedRepositoryIdsList": {
@@ -2481,7 +2499,13 @@
           "uri": "/orgs/{org}/members/{username}/codespaces",
           "code": 200
         },
-        "smithy.api#documentation": "List codespaces for a user in organization\n\nLists the codespaces that a member of an organization has for repositories in that organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List codespaces for a user in organization\n\nLists the codespaces that a member of an organization has for repositories in that organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "codespaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#DeleteFromOrganizationRequest": {
@@ -2685,7 +2709,13 @@
           "uri": "/repos/{owner}/{repo}/codespaces",
           "code": 200
         },
-        "smithy.api#documentation": "List codespaces in a repository for the authenticated user\n\nLists the codespaces associated to a specified repository and the authenticated user.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint."
+        "smithy.api#documentation": "List codespaces in a repository for the authenticated user\n\nLists the codespaces associated to a specified repository and the authenticated user.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "codespaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#CreateWithRepoForAuthenticatedUserRequestGeo": {
@@ -2946,7 +2976,13 @@
           "uri": "/repos/{owner}/{repo}/codespaces/devcontainers",
           "code": 200
         },
-        "smithy.api#documentation": "List devcontainer configurations in a repository for the authenticated user\n\nLists the devcontainer.json files associated with a specified repository and the authenticated user. These files\nspecify launchpoint configurations for codespaces created within the repository.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint."
+        "smithy.api#documentation": "List devcontainer configurations in a repository for the authenticated user\n\nLists the devcontainer.json files associated with a specified repository and the authenticated user. These files\nspecify launchpoint configurations for codespaces created within the repository.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "devcontainers",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#RepoMachinesForAuthenticatedUserRequest": {
@@ -3415,7 +3451,13 @@
           "uri": "/repos/{owner}/{repo}/codespaces/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository secrets\n\nLists all development environment secrets available in a repository without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository secrets\n\nLists all development environment secrets available in a repository without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#GetRepoPublicKeyRequest": {
@@ -3860,7 +3902,13 @@
           "uri": "/user/codespaces",
           "code": 200
         },
-        "smithy.api#documentation": "List codespaces for the authenticated user\n\nLists the authenticated user's codespaces.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint."
+        "smithy.api#documentation": "List codespaces for the authenticated user\n\nLists the authenticated user's codespaces.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "codespaces",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#CreateForAuthenticatedUserRequestBodyCase0Geo": {
@@ -4261,7 +4309,13 @@
           "uri": "/user/codespaces/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List secrets for the authenticated user\n\nLists all development environment secrets available for a user's codespaces without revealing their\nencrypted values.\n\nThe authenticated user must have Codespaces access to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` or `codespace:secrets` scope to use this endpoint."
+        "smithy.api#documentation": "List secrets for the authenticated user\n\nLists all development environment secrets available for a user's codespaces without revealing their\nencrypted values.\n\nThe authenticated user must have Codespaces access to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `codespace` or `codespace:secrets` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.codespaces#CodespacesUserPublicKey": {

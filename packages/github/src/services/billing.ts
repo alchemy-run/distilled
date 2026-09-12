@@ -1511,18 +1511,25 @@ export const deleteBudgetOrg: API.OperationMethod<
 
 export type GetAllBudgetsOrgError = Forbidden | NotFound | GithubOpError;
 /** Get all budgets for an organization Gets all budgets for an organization. The authenticated user must be an organization admin or billing manager. Each page returns up to 100 budgets. */
-export const getAllBudgetsOrg: API.OperationMethod<
+export const getAllBudgetsOrg: API.PaginatedOperationMethod<
   GetAllBudgetsOrgRequest,
   GetAllBudgets,
   GetAllBudgetsOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Budget
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllBudgetsOrgRequest,
   output: GetAllBudgets,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "budgets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetBudgetOrgError =
   | BadRequest
