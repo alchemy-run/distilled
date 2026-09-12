@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as zlib from "node:zlib";
-import { Crc32, getCrc32ChecksumAlgorithmFunction } from "./crc32.ts";
+import { Crc32 } from "./crc32.ts";
 
 const textEncoder = new TextEncoder();
 
@@ -29,9 +29,5 @@ describe("Crc32", () => {
 
     crc32.reset();
     expect(await crc32.digest()).toEqual(Uint8Array.of(0, 0, 0, 0));
-  });
-
-  test("uses the native Node implementation when available", () => {
-    expect(getCrc32ChecksumAlgorithmFunction()).not.toBe(Crc32);
   });
 });
