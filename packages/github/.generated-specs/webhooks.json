@@ -36547,7 +36547,10 @@
     "com.github.webhooks#WebhookIssueCommentCreatedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssueCommentCreatedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssueCommentCreatedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -39377,7 +39380,10 @@
     "com.github.webhooks#WebhookIssueCommentDeletedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssueCommentDeletedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssueCommentDeletedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -41708,7 +41714,10 @@
     "com.github.webhooks#WebhookIssueCommentEditedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssueCommentEditedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssueCommentEditedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -44027,7 +44036,10 @@
     "com.github.webhooks#WebhookIssueCommentPinnedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssueCommentPinnedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssueCommentPinnedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -46349,7 +46361,10 @@
     "com.github.webhooks#WebhookIssueCommentUnpinnedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssueCommentUnpinnedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssueCommentUnpinnedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -49914,7 +49929,10 @@
     "com.github.webhooks#WebhooksIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhooksIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhooksIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -52033,7 +52051,10 @@
     "com.github.webhooks#WebhookIssuesClosedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesClosedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesClosedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -54349,7 +54370,10 @@
     "com.github.webhooks#WebhookIssuesDeletedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesDeletedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesDeletedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -56643,7 +56667,10 @@
     "com.github.webhooks#WebhookIssuesDemilestonedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesDemilestonedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesDemilestonedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -56758,7 +56785,10 @@
     "com.github.webhooks#WebhookIssuesDemilestonedIssueLabelsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesDemilestonedIssueLabelsItem"
+        "target": "com.github.webhooks#WebhookIssuesDemilestonedIssueLabelsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -59241,7 +59271,10 @@
     "com.github.webhooks#WebhookIssuesEditedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesEditedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesEditedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -62240,7 +62273,10 @@
     "com.github.webhooks#WebhookIssuesLabeledIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesLabeledIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesLabeledIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -64549,7 +64585,10 @@
     "com.github.webhooks#WebhookIssuesLockedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesLockedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesLockedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -64664,7 +64703,10 @@
     "com.github.webhooks#WebhookIssuesLockedIssueLabelsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesLockedIssueLabelsItem"
+        "target": "com.github.webhooks#WebhookIssuesLockedIssueLabelsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -66843,7 +66885,10 @@
     "com.github.webhooks#WebhookIssuesMilestonedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesMilestonedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesMilestonedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -66958,7 +67003,10 @@
     "com.github.webhooks#WebhookIssuesMilestonedIssueLabelsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesMilestonedIssueLabelsItem"
+        "target": "com.github.webhooks#WebhookIssuesMilestonedIssueLabelsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -69143,7 +69191,10 @@
     "com.github.webhooks#WebhookIssuesOpenedChangesOldIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesOpenedChangesOldIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesOpenedChangesOldIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -72176,7 +72227,10 @@
     "com.github.webhooks#WebhookIssuesOpenedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesOpenedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesOpenedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -74689,7 +74743,10 @@
     "com.github.webhooks#WebhooksIssue2AssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhooksIssue2AssigneesItem"
+        "target": "com.github.webhooks#WebhooksIssue2AssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -76763,7 +76820,10 @@
     "com.github.webhooks#WebhookIssuesReopenedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesReopenedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesReopenedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -76878,7 +76938,10 @@
     "com.github.webhooks#WebhookIssuesReopenedIssueLabelsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesReopenedIssueLabelsItem"
+        "target": "com.github.webhooks#WebhookIssuesReopenedIssueLabelsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -79084,7 +79147,10 @@
     "com.github.webhooks#WebhookIssuesTransferredChangesNewIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesTransferredChangesNewIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesTransferredChangesNewIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -82493,7 +82559,10 @@
     "com.github.webhooks#WebhookIssuesUnlockedIssueAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesUnlockedIssueAssigneesItem"
+        "target": "com.github.webhooks#WebhookIssuesUnlockedIssueAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -82608,7 +82677,10 @@
     "com.github.webhooks#WebhookIssuesUnlockedIssueLabelsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookIssuesUnlockedIssueLabelsItem"
+        "target": "com.github.webhooks#WebhookIssuesUnlockedIssueLabelsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -85059,7 +85131,10 @@
     "com.github.webhooks#WebhooksMarketplacePurchasePlanBulletsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -97635,7 +97710,10 @@
     "com.github.webhooks#WebhookPullRequestAssignedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestAssignedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestAssignedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -101845,7 +101923,10 @@
     "com.github.webhooks#WebhookPullRequestAutoMergeDisabledPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -106044,7 +106125,10 @@
     "com.github.webhooks#WebhookPullRequestAutoMergeEnabledPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -111468,7 +111552,10 @@
     "com.github.webhooks#WebhooksPullRequest5AssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhooksPullRequest5AssigneesItem"
+        "target": "com.github.webhooks#WebhooksPullRequest5AssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -115357,7 +115444,10 @@
     "com.github.webhooks#WebhookPullRequestDequeuedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestDequeuedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestDequeuedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -119759,7 +119849,10 @@
     "com.github.webhooks#WebhookPullRequestEnqueuedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestEnqueuedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestEnqueuedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -123949,7 +124042,10 @@
     "com.github.webhooks#WebhookPullRequestLabeledPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestLabeledPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestLabeledPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -128165,7 +128261,10 @@
     "com.github.webhooks#WebhookPullRequestLockedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestLockedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestLockedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -132570,7 +132669,10 @@
     "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -136891,7 +136993,10 @@
     "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -141346,7 +141451,10 @@
     "com.github.webhooks#WebhookPullRequestReviewRequestedCase0PullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -145676,7 +145784,10 @@
     "com.github.webhooks#WebhookPullRequestReviewRequestedCase1PullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -150116,7 +150227,10 @@
     "com.github.webhooks#WebhookPullRequestStackedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestStackedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestStackedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -154350,7 +154464,10 @@
     "com.github.webhooks#WebhookPullRequestSynchronizePullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestSynchronizePullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestSynchronizePullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -158570,7 +158687,10 @@
     "com.github.webhooks#WebhookPullRequestUnassignedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestUnassignedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestUnassignedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -162796,7 +162916,10 @@
     "com.github.webhooks#WebhookPullRequestUnlabeledPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestUnlabeledPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestUnlabeledPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -167000,7 +167123,10 @@
     "com.github.webhooks#WebhookPullRequestUnlockedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestUnlockedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestUnlockedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -171263,7 +171389,10 @@
     "com.github.webhooks#WebhookPullRequestReviewDismissedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewDismissedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewDismissedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -175657,7 +175786,10 @@
     "com.github.webhooks#WebhookPullRequestReviewEditedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewEditedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewEditedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -179660,7 +179792,10 @@
     "com.github.webhooks#WebhookPullRequestReviewSubmittedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewSubmittedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewSubmittedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -184292,7 +184427,10 @@
     "com.github.webhooks#WebhookPullRequestReviewCommentCreatedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -188874,7 +189012,10 @@
     "com.github.webhooks#WebhookPullRequestReviewCommentDeletedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -192887,7 +193028,10 @@
     "com.github.webhooks#WebhookPullRequestReviewCommentEditedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -196930,7 +197074,10 @@
     "com.github.webhooks#WebhookPullRequestReviewThreadResolvedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -201303,7 +201450,10 @@
     "com.github.webhooks#WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem"
+        "target": "com.github.webhooks#WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -207897,7 +208047,10 @@
     "com.github.webhooks#WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem"
+        "target": "com.github.webhooks#WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -209431,7 +209584,10 @@
     "com.github.webhooks#WebhookReleasePrereleasedReleaseAssetsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookReleasePrereleasedReleaseAssetsItem"
+        "target": "com.github.webhooks#WebhookReleasePrereleasedReleaseAssetsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -210165,7 +210321,10 @@
     "com.github.webhooks#WebhooksRelease1AssetsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhooksRelease1AssetsItem"
+        "target": "com.github.webhooks#WebhooksRelease1AssetsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -229864,7 +230023,10 @@
     "com.github.webhooks#WebhookWorkflowRunCompletedWorkflowRunPullRequestsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookWorkflowRunCompletedWorkflowRunPullRequestsItem"
+        "target": "com.github.webhooks#WebhookWorkflowRunCompletedWorkflowRunPullRequestsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -231496,7 +231658,10 @@
     "com.github.webhooks#WebhookWorkflowRunInProgressWorkflowRunPullRequestsList": {
       "type": "list",
       "member": {
-        "target": "com.github.webhooks#WebhookWorkflowRunInProgressWorkflowRunPullRequestsItem"
+        "target": "com.github.webhooks#WebhookWorkflowRunInProgressWorkflowRunPullRequestsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
