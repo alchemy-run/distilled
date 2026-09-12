@@ -1,0 +1,212 @@
+{
+  "description": "Seed GraphQL error definitions from Railway src/errors.ts documented codes and message matchers established by previous live tests. Codes are provider-wide; resource existence and domain provisioning errors are attached separately to schema coordinates. Specific matchers must take precedence over INTERNAL_SERVER_ERROR.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayUnauthenticated",
+      "value": {
+        "description": "Authentication token missing or rejected.",
+        "category": "auth",
+        "matchers": [
+          {
+            "code": "UNAUTHENTICATED"
+          },
+          {
+            "code": "UNAUTHORIZED"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayForbidden",
+      "value": {
+        "description": "Token lacks access to the requested operation.",
+        "category": "auth",
+        "matchers": [
+          {
+            "code": "FORBIDDEN"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Not Authorized"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayValidationError",
+      "value": {
+        "description": "GraphQL document or input failed validation.",
+        "category": "badRequest",
+        "matchers": [
+          {
+            "code": "BAD_USER_INPUT"
+          },
+          {
+            "code": "GRAPHQL_VALIDATION_FAILED"
+          },
+          {
+            "code": "GRAPHQL_PARSE_FAILED"
+          },
+          {
+            "code": "BAD_REQUEST"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Invalid project name"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "is not a valid domain"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayRateLimited",
+      "value": {
+        "description": "Railway API request or provisioning rate limit exceeded.",
+        "category": "throttling",
+        "matchers": [
+          {
+            "code": "RATE_LIMITED"
+          },
+          {
+            "code": "TOO_MANY_REQUESTS"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "creating projects too quickly"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "creating volumes too quickly"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "creating environments too quickly"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "one environment can be created per user every 30s"
+          }
+        ],
+        "retryable": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayPlanLimitExceeded",
+      "value": {
+        "description": "Workspace subscription or quota does not permit the operation.",
+        "category": "quota",
+        "matchers": [
+          {
+            "code": "PLAN_LIMIT"
+          },
+          {
+            "code": "SUBSCRIPTION_REQUIRED"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayInternalError",
+      "value": {
+        "description": "Railway resolver failed internally.",
+        "category": "server",
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayNotFound",
+      "value": {
+        "description": "The selected resource or a required dependency was not found.",
+        "category": "notFound",
+        "matchers": [
+          {
+            "code": "NOT_FOUND"
+          },
+          {
+            "code": "PROJECT_NOT_FOUND"
+          },
+          {
+            "code": "SERVICE_NOT_FOUND"
+          },
+          {
+            "code": "ENVIRONMENT_NOT_FOUND"
+          },
+          {
+            "code": "VOLUME_NOT_FOUND"
+          },
+          {
+            "code": "BUCKET_NOT_FOUND"
+          },
+          {
+            "code": "RESOURCE_NOT_FOUND"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Project not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "ServiceInstance not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "BucketInstance not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "VolumeInstance not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Source canvas view not found"
+          },
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Login session"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayServiceDomainCreateFailed",
+      "value": {
+        "description": "The service instance is not ready for domain creation.",
+        "category": "server",
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "Failed to create service domain"
+          }
+        ],
+        "retryable": true
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/globalErrors",
+      "value": [
+        "RailwayUnauthenticated",
+        "RailwayForbidden",
+        "RailwayValidationError",
+        "RailwayRateLimited",
+        "RailwayPlanLimitExceeded",
+        "RailwayInternalError"
+      ]
+    }
+  ]
+}

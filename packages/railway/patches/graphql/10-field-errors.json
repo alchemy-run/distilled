@@ -1,0 +1,400 @@
+{
+  "description": "Attach existing Railway not-found matcher contracts to resource lookup/lifecycle coordinates used by Alchemy; service-domain provisioning retry is exclusive to Mutation.serviceDomainCreate. These are inferred contracts seeded from src/errors.ts and existing provider lifecycle handling, not declarations supplied by Railway introspection. Tighten/extend with live evidence.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/project/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/projectsByIds/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/service/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/serviceInstance/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/environment/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/environments/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/volumeInstance/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/volumeInstanceBackupList/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/volumeInstanceBackupScheduleList/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/bucketInstanceDetails/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/bucketS3Credentials/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/domains/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/tcpProxies/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/customDomain/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/deployment/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/deployments/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/privateNetworkEndpoint/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/privateNetworks/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/variables/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/variablesForServiceDeployment/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/canvasViewMergePreview/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/projectToken/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/team/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Query/fields/workspace/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/projectCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/projectUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/projectDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentRename/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentPatchCommit/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentPatchCommitStaged/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/environmentStageChanges/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceInstanceUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceInstanceDeployV2/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceInstanceLimitsUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceBackupCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceBackupDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceBackupLock/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceBackupRestore/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/volumeInstanceBackupScheduleUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/bucketCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/bucketUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/bucketCredentialsReset/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/customDomainCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/customDomainDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/customDomainIssueCertificate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/customDomainUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceDomainCreate/errors",
+      "value": ["RailwayNotFound", "RailwayServiceDomainCreateFailed"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceDomainDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/serviceDomainUpdate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/tcpProxyCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/tcpProxyDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/privateNetworkCreateOrGet/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/privateNetworkEndpointCreateOrGet/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/privateNetworkEndpointDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/privateNetworkEndpointRename/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/privateNetworksForEnvironmentDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/variableUpsert/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/variableCollectionUpsert/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/variableDelete/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/deploymentCancel/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/deploymentRemove/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/deploymentRestart/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/deploymentStop/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/canvasViewMerge/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/loginSessionAuth/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/loginSessionCancel/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/loginSessionConsume/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/loginSessionVerify/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/projectTokenCreate/errors",
+      "value": ["RailwayNotFound"]
+    },
+    {
+      "op": "replace",
+      "path": "/types/Mutation/fields/projectTokenDelete/errors",
+      "value": ["RailwayNotFound"]
+    }
+  ]
+}
