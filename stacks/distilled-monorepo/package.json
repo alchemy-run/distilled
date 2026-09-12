@@ -7,10 +7,10 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "alchemy": "catalog:alchemy-beta-77",
-    "effect": "catalog:alchemy-beta-77",
-    "@effect/platform-bun": "catalog:alchemy-beta-77",
-    "@effect/platform-node": "catalog:alchemy-beta-77"
+    "alchemy": "catalog:alchemy",
+    "effect": "catalog:alchemy",
+    "@effect/platform-bun": "catalog:alchemy",
+    "@effect/platform-node": "catalog:alchemy"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

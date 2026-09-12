@@ -34,10 +34,10 @@ catalog:
   pathe: "^2.0.3"
   rolldown: "1.2.5"
   typescript: "^7.0.2"
-  yaml: "^2.0.0"
+  yaml: "^2.6.0"
 catalogs:
   # Compatibility line used by the deployment-stack fixtures.
-  alchemy-beta-77:
+  alchemy:
     "@effect/platform-bun": "4.0.0-rc.112"
     "@effect/platform-node": "4.0.0-rc.112"
     alchemy: "2.0.0-beta.77"

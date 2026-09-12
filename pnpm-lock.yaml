@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 catalogs:
-  alchemy-beta-77:
+  alchemy:
     '@effect/platform-bun':
       specifier: 4.0.0-rc.112
       version: 4.0.0-rc.112
@@ -83,7 +83,7 @@ catalogs:
       specifier: ^7.0.2
       version: 7.0.2
     yaml:
-      specifier: ^2.0.0
+      specifier: ^2.6.0
       version: 2.9.0
 
 importers:
@@ -1720,16 +1720,16 @@ importers:
   stacks/distilled-monorepo:
     dependencies:
       '@effect/platform-bun':
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)
       '@effect/platform-node':
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
       alchemy:
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 2.0.0-beta.77(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.2.0)(effect@4.0.0-rc.112)(typescript@7.0.2)(vite@8.2.2(@types/node@26.2.0)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.2.0)(vite@8.2.2(@types/node@26.2.0)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
       effect:
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112
     devDependencies:
       '@types/bun':
@@ -1742,16 +1742,16 @@ importers:
   stacks/distilled-submodules:
     dependencies:
       '@effect/platform-bun':
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)
       '@effect/platform-node':
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)
       alchemy:
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 2.0.0-beta.77(@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112))(@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1))(@types/node@26.2.0)(effect@4.0.0-rc.112)(typescript@7.0.2)(vite@8.2.2(@types/node@26.2.0)(jiti@2.7.0)(yaml@2.9.0))(vitest@4.1.11(@types/node@26.2.0)(vite@8.2.2(@types/node@26.2.0)(jiti@2.7.0)(yaml@2.9.0)))(ws@8.21.3)
       effect:
-        specifier: catalog:alchemy-beta-77
+        specifier: catalog:alchemy
         version: 4.0.0-rc.112
     devDependencies:
       '@types/bun':
