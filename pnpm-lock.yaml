@@ -6,12 +6,6 @@ settings:
 
 catalogs:
   aws:
-    '@aws-crypto/crc32':
-      specifier: ^5.2.0
-      version: 5.2.0
-    '@aws-crypto/util':
-      specifier: ^5.2.0
-      version: 5.2.0
     '@aws-sdk/credential-providers':
       specifier: ^3.994.0
       version: 3.1109.0
@@ -260,12 +254,6 @@ importers:
 
   packages/aws:
     dependencies:
-      '@aws-crypto/crc32':
-        specifier: catalog:aws
-        version: 5.2.0
-      '@aws-crypto/util':
-        specifier: catalog:aws
-        version: 5.2.0
       '@aws-sdk/credential-providers':
         specifier: catalog:aws
         version: 3.1109.0

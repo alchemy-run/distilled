@@ -103,8 +103,6 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@aws-crypto/crc32": "catalog:aws",
-    "@aws-crypto/util": "catalog:aws",
     "@aws-sdk/credential-providers": "catalog:aws",
     "@aws-sdk/types": "catalog:aws",
     "@distilled.cloud/core": "workspace:*",
