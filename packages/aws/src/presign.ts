@@ -1,5 +1,4 @@
 import * as Effect from "effect/Effect";
-import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 
 import * as Credentials from "./credentials.browser.ts";
@@ -154,9 +153,7 @@ export const presignS3Url: (
   Credentials.Credentials | Region.Region
 > = Effect.fnUntraced(function* (options: PresignS3UrlOptions) {
   const region = options.region ?? (yield* yield* Region.Region);
-  const customEndpoint = yield* yield* Effect.serviceOption(
-    Endpoint.Endpoint,
-  ).pipe(Effect.map(Option.getOrElse(() => Effect.undefined)));
+  const customEndpoint = yield* Endpoint.resolve("S3");
 
   const encodedKey = options.key.split("/").map(encodeURIComponent).join("/");
   const url = new URL(
