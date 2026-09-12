@@ -86,6 +86,10 @@ catalogs:
       specifier: ^2.9.0
       version: 2.9.0
 
+overrides:
+  '@effect/platform-bun@4.0.0-rc.112>@effect/platform-node-shared': 4.0.0-rc.112
+  '@effect/platform-node@4.0.0-rc.112>@effect/platform-node-shared': 4.0.0-rc.112
+
 importers:
 
   .:
@@ -1992,6 +1996,12 @@ packages:
     resolution: {integrity: sha512-ilTFcs66ghInP8WHCJYa4bx/yzohYM9dRR//qjmVBBpSKu1hrCTiRWpEcc1N6zrnOEPk2kyVaKg5ykSMgiBMqQ==}
     peerDependencies:
       effect: ^4.0.0-rc.115
+
+  '@effect/platform-node-shared@4.0.0-rc.112':
+    resolution: {integrity: sha512-ttjz0xKamFN7vL8pNDYVwddJLjZvqKePc05djlz2VcdaKbLsnYbtMnL1rbOfHgEnIUSHGh7FkjaN4DM1Ov81sQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      effect: ^4.0.0-rc.112
 
   '@effect/platform-node-shared@4.0.0-rc.115':
     resolution: {integrity: sha512-rcBwhDIfb82akJoTv7Vwh8K5x9vC/XfuePS7JjOr+z+dORXzsmKqI1BUQF27ARCN9fTAbDh7I6YvBlWhLjnqNg==}
@@ -4542,7 +4552,7 @@ snapshots:
 
   '@effect/platform-bun@4.0.0-rc.112(effect@4.0.0-rc.112)':
     dependencies:
-      '@effect/platform-node-shared': 4.0.0-rc.115(effect@4.0.0-rc.112)
+      '@effect/platform-node-shared': 4.0.0-rc.112(effect@4.0.0-rc.112)
       effect: 4.0.0-rc.112
     transitivePeerDependencies:
       - bufferutil
@@ -4556,7 +4566,7 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@effect/platform-node-shared@4.0.0-rc.115(effect@4.0.0-rc.112)':
+  '@effect/platform-node-shared@4.0.0-rc.112(effect@4.0.0-rc.112)':
     dependencies:
       '@types/ws': 8.18.1
       effect: 4.0.0-rc.112
@@ -4576,7 +4586,7 @@ snapshots:
 
   '@effect/platform-node@4.0.0-rc.112(effect@4.0.0-rc.112)(redis@6.2.1)':
     dependencies:
-      '@effect/platform-node-shared': 4.0.0-rc.115(effect@4.0.0-rc.112)
+      '@effect/platform-node-shared': 4.0.0-rc.112(effect@4.0.0-rc.112)
       effect: 4.0.0-rc.112
       mime: 4.1.0
       redis: 6.2.1

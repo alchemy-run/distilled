@@ -38,19 +38,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup pnpm & Bun
-        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
+      - name: Setup pnpm, Node.js, Bun and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
         with:
           cache: true
-          install: false
-
-      - name: Install Node 24
-        run: pnpm runtime set node 24 -g
-
-      # Only the stack's own subtree — a deploy has no use for 20 SDK packages
-      # and their generators.
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --filter "./stacks/distilled-submodules..."
+          install: true
+          require-lockfile: true
 
       - name: Deploy the spec-mirror repositories
         working-directory: stacks/distilled-submodules
