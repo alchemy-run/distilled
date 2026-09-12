@@ -103,22 +103,22 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@aws-sdk/credential-providers": "catalog:aws",
-    "@aws-sdk/types": "catalog:aws",
+    "@aws-sdk/credential-providers": "catalog:",
+    "@aws-sdk/types": "catalog:",
     "@distilled.cloud/core": "workspace:*",
-    "@smithy/shared-ini-file-loader": "catalog:aws",
-    "@smithy/types": "catalog:aws",
-    "@smithy/util-base64": "catalog:aws",
-    "fast-xml-parser": "catalog:shared"
+    "@smithy/shared-ini-file-loader": "catalog:",
+    "@smithy/types": "catalog:",
+    "@smithy/util-base64": "catalog:",
+    "fast-xml-parser": "catalog:"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:effect",
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "dedent": "catalog:tooling",
-    "pathe": "catalog:tooling"
+    "@effect/platform-bun": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "dedent": "catalog:",
+    "pathe": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }
