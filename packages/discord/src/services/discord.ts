@@ -5406,10 +5406,12 @@ export const CreateDmRequestAccessTokensList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CreateDmRequestAccessTokensList>;
 
-export type CreateDmRequestNicksMap = { [key: string]: string | undefined };
+export type CreateDmRequestNicksMap = {
+  [key: string]: string | null | undefined;
+};
 export const CreateDmRequestNicksMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CreateDmRequestNicksMap>;
 
 export interface CreateDmRequest {
@@ -5836,9 +5838,9 @@ export const CreateOrUpdateThreadTagRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateOrUpdateThreadTagRequest>;
 
 export type CreateGuildChannelRequestAvailableTagsList =
-  Array<CreateOrUpdateThreadTagRequest>;
+  Array<CreateOrUpdateThreadTagRequest | null>;
 export const CreateGuildChannelRequestAvailableTagsList = /*@__PURE__*/ S.Array(
-  CreateOrUpdateThreadTagRequest,
+  S.NullOr(CreateOrUpdateThreadTagRequest),
 ) as any as S.Schema<CreateGuildChannelRequestAvailableTagsList>;
 
 export interface CreateGuildChannelRequest {
@@ -6025,9 +6027,9 @@ export const GuildChannelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GuildChannelResponse",
 }) as any as S.Schema<GuildChannelResponse>;
 
-export type CreateGuildEmojiRequestRolesList = Array<string>;
+export type CreateGuildEmojiRequestRolesList = Array<string | null>;
 export const CreateGuildEmojiRequestRolesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CreateGuildEmojiRequestRolesList>;
 
 export interface CreateGuildEmojiRequest {
@@ -7021,10 +7023,10 @@ export type InteractionCallbackTypes = 1 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 13;
 export const InteractionCallbackTypes = S.Number;
 
 export type InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList =
-  Array<ApplicationCommandOptionIntegerChoice>;
+  Array<ApplicationCommandOptionIntegerChoice | null>;
 export const InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList =
   /*@__PURE__*/ S.Array(
-    ApplicationCommandOptionIntegerChoice,
+    S.NullOr(ApplicationCommandOptionIntegerChoice),
   ) as any as S.Schema<InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList>;
 
 export interface InteractionApplicationCommandAutocompleteCallbackIntegerData {
@@ -7044,10 +7046,10 @@ export const InteractionApplicationCommandAutocompleteCallbackIntegerData =
   }) as any as S.Schema<InteractionApplicationCommandAutocompleteCallbackIntegerData>;
 
 export type InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList =
-  Array<ApplicationCommandOptionNumberChoice>;
+  Array<ApplicationCommandOptionNumberChoice | null>;
 export const InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList =
   /*@__PURE__*/ S.Array(
-    ApplicationCommandOptionNumberChoice,
+    S.NullOr(ApplicationCommandOptionNumberChoice),
   ) as any as S.Schema<InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList>;
 
 export interface InteractionApplicationCommandAutocompleteCallbackNumberData {
@@ -7067,10 +7069,10 @@ export const InteractionApplicationCommandAutocompleteCallbackNumberData =
   }) as any as S.Schema<InteractionApplicationCommandAutocompleteCallbackNumberData>;
 
 export type InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList =
-  Array<ApplicationCommandOptionStringChoice>;
+  Array<ApplicationCommandOptionStringChoice | null>;
 export const InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList =
   /*@__PURE__*/ S.Array(
-    ApplicationCommandOptionStringChoice,
+    S.NullOr(ApplicationCommandOptionStringChoice),
   ) as any as S.Schema<InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList>;
 
 export interface InteractionApplicationCommandAutocompleteCallbackStringData {
@@ -7241,20 +7243,20 @@ export type AllowedMentionTypes = "users" | "roles" | "everyone";
 export const AllowedMentionTypes = S.String;
 
 export type MessageAllowedMentionsRequestParseList = Array<
-  AllowedMentionTypes | (string & {})
+  AllowedMentionTypes | (string & {}) | null
 >;
 export const MessageAllowedMentionsRequestParseList = /*@__PURE__*/ S.Array(
-  AllowedMentionTypes,
+  S.NullOr(AllowedMentionTypes),
 ) as any as S.Schema<MessageAllowedMentionsRequestParseList>;
 
-export type MessageAllowedMentionsRequestUsersList = Array<string>;
+export type MessageAllowedMentionsRequestUsersList = Array<string | null>;
 export const MessageAllowedMentionsRequestUsersList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<MessageAllowedMentionsRequestUsersList>;
 
-export type MessageAllowedMentionsRequestRolesList = Array<string>;
+export type MessageAllowedMentionsRequestRolesList = Array<string | null>;
 export const MessageAllowedMentionsRequestRolesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<MessageAllowedMentionsRequestRolesList>;
 
 export interface MessageAllowedMentionsRequest {
@@ -14614,11 +14616,12 @@ export const GetChannelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetChannelResponse",
 }) as any as S.Schema<GetChannelResponse>;
 
-export type GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List =
-  Array<string>;
+export type GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List = Array<
+  string | null
+>;
 export const GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List =
   /*@__PURE__*/ S.Array(
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List>;
 
 export type GetCurrentUserApplicationEntitlementsRequestSkuIds =
@@ -14688,9 +14691,9 @@ export const GetEntitlementRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetEntitlementRequest",
 }) as any as S.Schema<GetEntitlementRequest>;
 
-export type GetEntitlementsRequestSkuIdsCase1List = Array<string>;
+export type GetEntitlementsRequestSkuIdsCase1List = Array<string | null>;
 export const GetEntitlementsRequestSkuIdsCase1List = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<GetEntitlementsRequestSkuIdsCase1List>;
 
 export type GetEntitlementsRequestSkuIds =
@@ -17461,9 +17464,9 @@ export const ListAutoModerationRulesResponseBodyItem =
   );
 
 export type ListAutoModerationRulesResponseBodyList =
-  Array<ListAutoModerationRulesResponseBodyItem>;
+  Array<ListAutoModerationRulesResponseBodyItem | null>;
 export const ListAutoModerationRulesResponseBodyList = /*@__PURE__*/ S.Array(
-  ListAutoModerationRulesResponseBodyItem,
+  S.NullOr(ListAutoModerationRulesResponseBodyItem),
 ) as any as S.Schema<ListAutoModerationRulesResponseBodyList>;
 
 export type ListAutoModerationRulesResponse =
@@ -17548,9 +17551,9 @@ export const ListChannelInvitesResponseBodyItem = /*@__PURE__*/ S.Unknown.pipe(
 );
 
 export type ListChannelInvitesResponseBodyList =
-  Array<ListChannelInvitesResponseBodyItem>;
+  Array<ListChannelInvitesResponseBodyItem | null>;
 export const ListChannelInvitesResponseBodyList = /*@__PURE__*/ S.Array(
-  ListChannelInvitesResponseBodyItem,
+  S.NullOr(ListChannelInvitesResponseBodyItem),
 ) as any as S.Schema<ListChannelInvitesResponseBodyList>;
 
 export type ListChannelInvitesResponse = ListChannelInvitesResponseBodyList;
@@ -18199,10 +18202,10 @@ export const GuildAuditLogResponseAutoModerationRulesItem =
   );
 
 export type GuildAuditLogResponseAutoModerationRulesList =
-  Array<GuildAuditLogResponseAutoModerationRulesItem>;
+  Array<GuildAuditLogResponseAutoModerationRulesItem | null>;
 export const GuildAuditLogResponseAutoModerationRulesList =
   /*@__PURE__*/ S.Array(
-    GuildAuditLogResponseAutoModerationRulesItem,
+    S.NullOr(GuildAuditLogResponseAutoModerationRulesItem),
   ) as any as S.Schema<GuildAuditLogResponseAutoModerationRulesList>;
 
 export interface GuildAuditLogResponse {
@@ -18630,9 +18633,9 @@ export const ListGuildInvitesResponseBodyItem = /*@__PURE__*/ S.Unknown.pipe(
 );
 
 export type ListGuildInvitesResponseBodyList =
-  Array<ListGuildInvitesResponseBodyItem>;
+  Array<ListGuildInvitesResponseBodyItem | null>;
 export const ListGuildInvitesResponseBodyList = /*@__PURE__*/ S.Array(
-  ListGuildInvitesResponseBodyItem,
+  S.NullOr(ListGuildInvitesResponseBodyItem),
 ) as any as S.Schema<ListGuildInvitesResponseBodyList>;
 
 export type ListGuildInvitesResponse = ListGuildInvitesResponseBodyList;
@@ -19556,10 +19559,12 @@ export const PollExpireRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "PollExpireRequest",
 }) as any as S.Schema<PollExpireRequest>;
 
-export type PreviewPruneGuildRequestIncludeRolesCase1List = Array<string>;
+export type PreviewPruneGuildRequestIncludeRolesCase1List = Array<
+  string | null
+>;
 export const PreviewPruneGuildRequestIncludeRolesCase1List =
   /*@__PURE__*/ S.Array(
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<PreviewPruneGuildRequestIncludeRolesCase1List>;
 
 export type PreviewPruneGuildRequestIncludeRoles =
@@ -20671,12 +20676,12 @@ export const ApplicationIntegrationTypeConfiguration = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<ApplicationIntegrationTypeConfiguration>;
 
 export type UpdateApplicationRequestIntegrationTypesConfigMap = {
-  [key: string]: ApplicationIntegrationTypeConfiguration | undefined;
+  [key: string]: ApplicationIntegrationTypeConfiguration | null | undefined;
 };
 export const UpdateApplicationRequestIntegrationTypesConfigMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ApplicationIntegrationTypeConfiguration,
+    S.NullOr(ApplicationIntegrationTypeConfiguration),
   ) as any as S.Schema<UpdateApplicationRequestIntegrationTypesConfigMap>;
 
 export type UpdateApplicationRequestEventWebhooksTypesList = Array<
@@ -20978,19 +20983,19 @@ export const UpdateApplicationEmojiRequest = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateApplicationEmojiRequest>;
 
 export type ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap =
-  { [key: string]: string | undefined };
+  { [key: string]: string | null | undefined };
 export const ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap>;
 
 export type ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap =
-  { [key: string]: string | undefined };
+  { [key: string]: string | null | undefined };
 export const ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap>;
 
 export interface ApplicationRoleConnectionsMetadataItemRequest {
@@ -21894,9 +21899,9 @@ export const UpdateChannelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateChannelResponse",
 }) as any as S.Schema<UpdateChannelResponse>;
 
-export type UpdateGuildRequestFeaturesList = Array<string>;
+export type UpdateGuildRequestFeaturesList = Array<string | null>;
 export const UpdateGuildRequestFeaturesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateGuildRequestFeaturesList>;
 
 export interface UpdateGuildRequest {
@@ -22291,9 +22296,9 @@ export const UpdateGuildApplicationCommandRequest = /*@__PURE__*/ S.suspend(
   identifier: "UpdateGuildApplicationCommandRequest",
 }) as any as S.Schema<UpdateGuildApplicationCommandRequest>;
 
-export type UpdateGuildEmojiRequestRolesList = Array<string>;
+export type UpdateGuildEmojiRequestRolesList = Array<string | null>;
 export const UpdateGuildEmojiRequestRolesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateGuildEmojiRequestRolesList>;
 
 export interface UpdateGuildEmojiRequest {
@@ -22342,9 +22347,9 @@ export const UpdateGuildIncidentActionsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateGuildIncidentActionsRequest",
 }) as any as S.Schema<UpdateGuildIncidentActionsRequest>;
 
-export type UpdateGuildMemberRequestRolesList = Array<string>;
+export type UpdateGuildMemberRequestRolesList = Array<string | null>;
 export const UpdateGuildMemberRequestRolesList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateGuildMemberRequestRolesList>;
 
 export interface UpdateGuildMemberRequest {
@@ -22982,12 +22987,12 @@ export const UpdateMyApplicationRequestTagsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<UpdateMyApplicationRequestTagsList>;
 
 export type UpdateMyApplicationRequestIntegrationTypesConfigMap = {
-  [key: string]: ApplicationIntegrationTypeConfiguration | undefined;
+  [key: string]: ApplicationIntegrationTypeConfiguration | null | undefined;
 };
 export const UpdateMyApplicationRequestIntegrationTypesConfigMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ApplicationIntegrationTypeConfiguration,
+    S.NullOr(ApplicationIntegrationTypeConfiguration),
   ) as any as S.Schema<UpdateMyApplicationRequestIntegrationTypesConfigMap>;
 
 export type UpdateMyApplicationRequestEventWebhooksTypesList = Array<

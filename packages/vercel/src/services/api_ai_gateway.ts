@@ -135,12 +135,13 @@ export const AiGatewayVirtualModelConfigInferenceRegionProvidersValue =
 export type AiGatewayVirtualModelConfigInferenceRegionProvidersMap = {
   [key: string]:
     | AiGatewayVirtualModelConfigInferenceRegionProvidersValue
+    | null
     | undefined;
 };
 export const AiGatewayVirtualModelConfigInferenceRegionProvidersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    AiGatewayVirtualModelConfigInferenceRegionProvidersValue,
+    S.NullOr(AiGatewayVirtualModelConfigInferenceRegionProvidersValue),
   ) as any as S.Schema<AiGatewayVirtualModelConfigInferenceRegionProvidersMap>;
 
 /** Pin scope: `specific` (one provider region), `zone` (geo zone), or `global`. */

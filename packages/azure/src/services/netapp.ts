@@ -306,12 +306,12 @@ export const UserAssignedIdentityInput = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityInput | undefined;
+  [key: string]: UserAssignedIdentityInput | null | undefined;
 };
 export const AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentityInput,
+    S.NullOr(UserAssignedIdentityInput),
   ) as any as S.Schema<AccountsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -660,12 +660,12 @@ export const UserAssignedIdentity = /*@__PURE__*/ S.suspend(() =>
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<AccountsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -4696,12 +4696,12 @@ export const GetAccountResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetAccountResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const GetAccountResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<GetAccountResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -6164,12 +6164,12 @@ export const NetAppAccountTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type NetAppAccountIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const NetAppAccountIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<NetAppAccountIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -8714,12 +8714,12 @@ export const UpdateAccountRequestTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateAccountRequestIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentityInput | undefined;
+  [key: string]: UserAssignedIdentityInput | null | undefined;
 };
 export const UpdateAccountRequestIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentityInput,
+    S.NullOr(UserAssignedIdentityInput),
   ) as any as S.Schema<UpdateAccountRequestIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -8787,12 +8787,12 @@ export const UpdateAccountResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UpdateAccountResponseIdentityUserAssignedIdentitiesMap = {
-  [key: string]: UserAssignedIdentity | undefined;
+  [key: string]: UserAssignedIdentity | null | undefined;
 };
 export const UpdateAccountResponseIdentityUserAssignedIdentitiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    UserAssignedIdentity,
+    S.NullOr(UserAssignedIdentity),
   ) as any as S.Schema<UpdateAccountResponseIdentityUserAssignedIdentitiesMap>;
 
 /** Managed service identity (system assigned and/or user assigned identities) */

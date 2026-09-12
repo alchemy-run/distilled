@@ -19987,7 +19987,10 @@
     "com.posthog.insights#Response22MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20139,7 +20142,10 @@
     "com.posthog.insights#Response23MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20222,7 +20228,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Requested direct Account fields, keyed by their typed field reference."
@@ -20249,7 +20258,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.posthog.insights#AccountsTableRowCustomPropertiesValue"
+        "target": "com.posthog.insights#AccountsTableRowCustomPropertiesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Current values keyed by requested custom property definition ID."
@@ -33287,7 +33299,10 @@
     "com.posthog.insights#AccountsQueryResponseMetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -34381,7 +34396,10 @@
     "com.posthog.insights#AccountsTableQueryResponseMetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

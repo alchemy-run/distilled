@@ -4250,12 +4250,13 @@ export const GetMicrofrontendsInGroupResponseProjectsItemTargetsValue =
 export type GetMicrofrontendsInGroupResponseProjectsItemTargetsMap = {
   [key: string]:
     | GetMicrofrontendsInGroupResponseProjectsItemTargetsValue
+    | null
     | undefined;
 };
 export const GetMicrofrontendsInGroupResponseProjectsItemTargetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GetMicrofrontendsInGroupResponseProjectsItemTargetsValue,
+    S.NullOr(GetMicrofrontendsInGroupResponseProjectsItemTargetsValue),
   ) as any as S.Schema<GetMicrofrontendsInGroupResponseProjectsItemTargetsMap>;
 
 /** Enum containing the actions that can be performed against a resource. Group operations are included. */

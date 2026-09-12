@@ -4164,11 +4164,11 @@ export const CreateProjectResponseTargetsValue = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<CreateProjectResponseTargetsValue>;
 
 export type CreateProjectResponseTargetsMap = {
-  [key: string]: CreateProjectResponseTargetsValue | undefined;
+  [key: string]: CreateProjectResponseTargetsValue | null | undefined;
 };
 export const CreateProjectResponseTargetsMap = /*@__PURE__*/ S.Record(
   S.String,
-  CreateProjectResponseTargetsValue,
+  S.NullOr(CreateProjectResponseTargetsValue),
 ) as any as S.Schema<CreateProjectResponseTargetsMap>;
 
 /** Enum containing the actions that can be performed against a resource. Group operations are included. */
@@ -15585,11 +15585,11 @@ export const GetProjectResponseTargetsValue = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<GetProjectResponseTargetsValue>;
 
 export type GetProjectResponseTargetsMap = {
-  [key: string]: GetProjectResponseTargetsValue | undefined;
+  [key: string]: GetProjectResponseTargetsValue | null | undefined;
 };
 export const GetProjectResponseTargetsMap = /*@__PURE__*/ S.Record(
   S.String,
-  GetProjectResponseTargetsValue,
+  S.NullOr(GetProjectResponseTargetsValue),
 ) as any as S.Schema<GetProjectResponseTargetsMap>;
 
 export type GetProjectResponsePermissionsOauth2ConnectionList =
@@ -24063,12 +24063,15 @@ export const GetProjectsResponseBodyCase0ItemTargetsValue =
   }) as any as S.Schema<GetProjectsResponseBodyCase0ItemTargetsValue>;
 
 export type GetProjectsResponseBodyCase0ItemTargetsMap = {
-  [key: string]: GetProjectsResponseBodyCase0ItemTargetsValue | undefined;
+  [key: string]:
+    | GetProjectsResponseBodyCase0ItemTargetsValue
+    | null
+    | undefined;
 };
 export const GetProjectsResponseBodyCase0ItemTargetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GetProjectsResponseBodyCase0ItemTargetsValue,
+    S.NullOr(GetProjectsResponseBodyCase0ItemTargetsValue),
   ) as any as S.Schema<GetProjectsResponseBodyCase0ItemTargetsMap>;
 
 /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
@@ -28429,12 +28432,13 @@ export const GetProjectsResponseBodyCase1ProjectsItemTargetsValue =
 export type GetProjectsResponseBodyCase1ProjectsItemTargetsMap = {
   [key: string]:
     | GetProjectsResponseBodyCase1ProjectsItemTargetsValue
+    | null
     | undefined;
 };
 export const GetProjectsResponseBodyCase1ProjectsItemTargetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GetProjectsResponseBodyCase1ProjectsItemTargetsValue,
+    S.NullOr(GetProjectsResponseBodyCase1ProjectsItemTargetsValue),
   ) as any as S.Schema<GetProjectsResponseBodyCase1ProjectsItemTargetsMap>;
 
 /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
@@ -33752,12 +33756,13 @@ export const GetProjectsResponseBodyCase2ProjectsItemTargetsValue =
 export type GetProjectsResponseBodyCase2ProjectsItemTargetsMap = {
   [key: string]:
     | GetProjectsResponseBodyCase2ProjectsItemTargetsValue
+    | null
     | undefined;
 };
 export const GetProjectsResponseBodyCase2ProjectsItemTargetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GetProjectsResponseBodyCase2ProjectsItemTargetsValue,
+    S.NullOr(GetProjectsResponseBodyCase2ProjectsItemTargetsValue),
   ) as any as S.Schema<GetProjectsResponseBodyCase2ProjectsItemTargetsMap>;
 
 export type GetProjectsResponseBodyCase2ProjectsItemPermissionsOauth2ConnectionList =
@@ -40222,9 +40227,9 @@ export const RemoveProjectEnvResponseBodyCase0Item = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<RemoveProjectEnvResponseBodyCase0Item>;
 
 export type RemoveProjectEnvResponseBodyCase0List =
-  Array<RemoveProjectEnvResponseBodyCase0Item>;
+  Array<RemoveProjectEnvResponseBodyCase0Item | null>;
 export const RemoveProjectEnvResponseBodyCase0List = /*@__PURE__*/ S.Array(
-  RemoveProjectEnvResponseBodyCase0Item,
+  S.NullOr(RemoveProjectEnvResponseBodyCase0Item),
 ) as any as S.Schema<RemoveProjectEnvResponseBodyCase0List>;
 
 export type RemoveProjectEnvResponseBodyCase1Type =
@@ -44430,11 +44435,11 @@ export const UpdateMicrofrontendsResponseTargetsValue = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UpdateMicrofrontendsResponseTargetsValue>;
 
 export type UpdateMicrofrontendsResponseTargetsMap = {
-  [key: string]: UpdateMicrofrontendsResponseTargetsValue | undefined;
+  [key: string]: UpdateMicrofrontendsResponseTargetsValue | null | undefined;
 };
 export const UpdateMicrofrontendsResponseTargetsMap = /*@__PURE__*/ S.Record(
   S.String,
-  UpdateMicrofrontendsResponseTargetsValue,
+  S.NullOr(UpdateMicrofrontendsResponseTargetsValue),
 ) as any as S.Schema<UpdateMicrofrontendsResponseTargetsMap>;
 
 export type UpdateMicrofrontendsResponsePermissionsOauth2ConnectionList =
@@ -53873,11 +53878,11 @@ export const UpdateProjectResponseTargetsValue = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Schema<UpdateProjectResponseTargetsValue>;
 
 export type UpdateProjectResponseTargetsMap = {
-  [key: string]: UpdateProjectResponseTargetsValue | undefined;
+  [key: string]: UpdateProjectResponseTargetsValue | null | undefined;
 };
 export const UpdateProjectResponseTargetsMap = /*@__PURE__*/ S.Record(
   S.String,
-  UpdateProjectResponseTargetsValue,
+  S.NullOr(UpdateProjectResponseTargetsValue),
 ) as any as S.Schema<UpdateProjectResponseTargetsMap>;
 
 export type UpdateProjectResponsePermissionsOauth2ConnectionList =
@@ -62283,11 +62288,11 @@ export const UploadProjectAvatarResponseTargetsValue = /*@__PURE__*/ S.suspend(
 }) as any as S.Schema<UploadProjectAvatarResponseTargetsValue>;
 
 export type UploadProjectAvatarResponseTargetsMap = {
-  [key: string]: UploadProjectAvatarResponseTargetsValue | undefined;
+  [key: string]: UploadProjectAvatarResponseTargetsValue | null | undefined;
 };
 export const UploadProjectAvatarResponseTargetsMap = /*@__PURE__*/ S.Record(
   S.String,
-  UploadProjectAvatarResponseTargetsValue,
+  S.NullOr(UploadProjectAvatarResponseTargetsValue),
 ) as any as S.Schema<UploadProjectAvatarResponseTargetsMap>;
 
 export type UploadProjectAvatarResponsePermissionsOauth2ConnectionList =

@@ -359,12 +359,12 @@ export const PersonPropertiesAtTimeResponseDistinctIdsList =
 
 /** Person properties as they existed at the specified time */
 export type PersonPropertiesAtTimeResponsePropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const PersonPropertiesAtTimeResponsePropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<PersonPropertiesAtTimeResponsePropertiesMap>;
 
 /** All distinct_ids that were queried for this person */

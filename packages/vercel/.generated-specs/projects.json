@@ -5392,7 +5392,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemTargetsValue"
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase0ItemTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13742,7 +13745,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemTargetsValue"
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase1ProjectsItemTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -24145,7 +24151,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemTargetsValue"
+        "target": "com.vercel.projects#GetProjectsResponseBodyCase2ProjectsItemTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -39696,7 +39705,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#CreateProjectResponseTargetsValue"
+        "target": "com.vercel.projects#CreateProjectResponseTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -53558,7 +53570,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#GetProjectResponseTargetsValue"
+        "target": "com.vercel.projects#GetProjectResponseTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -69652,7 +69667,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#UpdateProjectResponseTargetsValue"
+        "target": "com.vercel.projects#UpdateProjectResponseTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -83377,7 +83395,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#UploadProjectAvatarResponseTargetsValue"
+        "target": "com.vercel.projects#UploadProjectAvatarResponseTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -100393,7 +100414,10 @@
     "com.vercel.projects#RemoveProjectEnvResponseBodyCase0List": {
       "type": "list",
       "member": {
-        "target": "com.vercel.projects#RemoveProjectEnvResponseBodyCase0Item"
+        "target": "com.vercel.projects#RemoveProjectEnvResponseBodyCase0Item",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -110271,7 +110295,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.projects#UpdateMicrofrontendsResponseTargetsValue"
+        "target": "com.vercel.projects#UpdateMicrofrontendsResponseTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

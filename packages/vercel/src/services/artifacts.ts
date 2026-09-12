@@ -146,11 +146,11 @@ export const ArtifactQueryResponseBodyValue =
   S.Unknown as any as S.Schema<ArtifactQueryResponseBodyValue>;
 
 export type ArtifactQueryResponseBodyMap = {
-  [key: string]: ArtifactQueryResponseBodyValue | undefined;
+  [key: string]: ArtifactQueryResponseBodyValue | null | undefined;
 };
 export const ArtifactQueryResponseBodyMap = /*@__PURE__*/ S.Record(
   S.String,
-  ArtifactQueryResponseBodyValue,
+  S.NullOr(ArtifactQueryResponseBodyValue),
 ) as any as S.Schema<ArtifactQueryResponseBodyMap>;
 
 export type ArtifactQueryResponse = ArtifactQueryResponseBodyMap;

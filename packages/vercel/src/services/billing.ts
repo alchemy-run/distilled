@@ -411,11 +411,11 @@ export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsA
 
 /** Optional metadata to associate with the subscription */
 export type BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap =
-  { [key: string]: string | undefined };
+  { [key: string]: string | null | undefined };
 export const BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<BuyCreditsResponseBodyCase1PurchaseIntentConfigurationCase4OptionsMetadataMap>;
 
 /** The prices to remove in the subscription */

@@ -1537,7 +1537,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.discord.api#ApplicationIntegrationTypeConfiguration"
+        "target": "com.discord.api#ApplicationIntegrationTypeConfiguration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -1747,7 +1750,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.discord.api#ApplicationIntegrationTypeConfiguration"
+        "target": "com.discord.api#ApplicationIntegrationTypeConfiguration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -5655,7 +5661,10 @@
     "com.discord.api#GetEntitlementsRequestSkuIdsCase1List": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -7214,7 +7223,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -7224,7 +7236,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10247,7 +10262,10 @@
     "com.discord.api#ListChannelInvitesResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ListChannelInvitesResponseBodyItem"
+        "target": "com.discord.api#ListChannelInvitesResponseBodyItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -14671,21 +14689,30 @@
     "com.discord.api#MessageAllowedMentionsRequestParseList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#AllowedMentionTypes"
+        "target": "com.discord.api#AllowedMentionTypes",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
     "com.discord.api#MessageAllowedMentionsRequestUsersList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
     "com.discord.api#MessageAllowedMentionsRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20118,7 +20145,10 @@
     "com.discord.api#UpdateGuildRequestFeaturesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -22849,7 +22879,10 @@
     "com.discord.api#GuildAuditLogResponseAutoModerationRulesList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#GuildAuditLogResponseAutoModerationRulesItem"
+        "target": "com.discord.api#GuildAuditLogResponseAutoModerationRulesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -22908,7 +22941,10 @@
     "com.discord.api#ListAutoModerationRulesResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ListAutoModerationRulesResponseBodyItem"
+        "target": "com.discord.api#ListAutoModerationRulesResponseBodyItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -24791,7 +24827,10 @@
     "com.discord.api#CreateGuildChannelRequestAvailableTagsList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#CreateOrUpdateThreadTagRequest"
+        "target": "com.discord.api#CreateOrUpdateThreadTagRequest",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -25072,7 +25111,10 @@
     "com.discord.api#CreateGuildEmojiRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -25166,7 +25208,10 @@
     "com.discord.api#UpdateGuildEmojiRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -25720,7 +25765,10 @@
     "com.discord.api#ListGuildInvitesResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ListGuildInvitesResponseBodyItem"
+        "target": "com.discord.api#ListGuildInvitesResponseBodyItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -26186,7 +26234,10 @@
     "com.discord.api#UpdateGuildMemberRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -28085,7 +28136,10 @@
     "com.discord.api#PreviewPruneGuildRequestIncludeRolesCase1List": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -32410,7 +32464,10 @@
     "com.discord.api#InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ApplicationCommandOptionIntegerChoice"
+        "target": "com.discord.api#ApplicationCommandOptionIntegerChoice",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -32429,7 +32486,10 @@
     "com.discord.api#InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ApplicationCommandOptionNumberChoice"
+        "target": "com.discord.api#ApplicationCommandOptionNumberChoice",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -32448,7 +32508,10 @@
     "com.discord.api#InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList": {
       "type": "list",
       "member": {
-        "target": "com.discord.api#ApplicationCommandOptionStringChoice"
+        "target": "com.discord.api#ApplicationCommandOptionStringChoice",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -36881,7 +36944,10 @@
     "com.discord.api#GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -37124,7 +37190,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
