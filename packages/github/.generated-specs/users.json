@@ -910,7 +910,13 @@
           "uri": "/user/blocks",
           "code": 200
         },
-        "smithy.api#documentation": "List users blocked by the authenticated user\n\nList the users you've blocked on your personal account."
+        "smithy.api#documentation": "List users blocked by the authenticated user\n\nList the users you've blocked on your personal account.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CheckBlockedRequest": {
@@ -1223,7 +1229,13 @@
           "uri": "/user/emails",
           "code": 200
         },
-        "smithy.api#documentation": "List email addresses for the authenticated user\n\nLists all of your email addresses, and specifies which one is visible\nto the public.\n\nOAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint."
+        "smithy.api#documentation": "List email addresses for the authenticated user\n\nLists all of your email addresses, and specifies which one is visible\nto the public.\n\nOAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#AddEmailForAuthenticatedUserRequestBodyCase0EmailsList": {
@@ -1485,7 +1497,13 @@
           "uri": "/user/followers",
           "code": 200
         },
-        "smithy.api#documentation": "List followers of the authenticated user\n\nLists the people following the authenticated user."
+        "smithy.api#documentation": "List followers of the authenticated user\n\nLists the people following the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListFollowedByAuthenticatedUserRequest": {
@@ -1551,7 +1569,13 @@
           "uri": "/user/following",
           "code": 200
         },
-        "smithy.api#documentation": "List the people the authenticated user follows\n\nLists the people who the authenticated user follows."
+        "smithy.api#documentation": "List the people the authenticated user follows\n\nLists the people who the authenticated user follows.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CheckPersonIsFollowedByAuthenticatedRequest": {
@@ -1953,7 +1977,13 @@
           "uri": "/user/gpg_keys",
           "code": 200
         },
-        "smithy.api#documentation": "List GPG keys for the authenticated user\n\nLists the current user's GPG keys.\n\nOAuth app tokens and personal access tokens (classic) need the `read:gpg_key` scope to use this endpoint."
+        "smithy.api#documentation": "List GPG keys for the authenticated user\n\nLists the current user's GPG keys.\n\nOAuth app tokens and personal access tokens (classic) need the `read:gpg_key` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CreateGpgKeyForAuthenticatedUserRequest": {
@@ -2212,7 +2242,13 @@
           "uri": "/user/keys",
           "code": 200
         },
-        "smithy.api#documentation": "List public SSH keys for the authenticated user\n\nLists the public SSH keys for the authenticated user's GitHub account.\n\nOAuth app tokens and personal access tokens (classic) need the `read:public_key` scope to use this endpoint."
+        "smithy.api#documentation": "List public SSH keys for the authenticated user\n\nLists the public SSH keys for the authenticated user's GitHub account.\n\nOAuth app tokens and personal access tokens (classic) need the `read:public_key` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CreatePublicSshKeyForAuthenticatedUserRequest": {
@@ -2412,7 +2448,13 @@
           "uri": "/user/public_emails",
           "code": 200
         },
-        "smithy.api#documentation": "List public email addresses for the authenticated user\n\nLists your publicly visible email address, which you can set with the\n[Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user)\nendpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint."
+        "smithy.api#documentation": "List public email addresses for the authenticated user\n\nLists your publicly visible email address, which you can set with the\n[Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user)\nendpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListSocialAccountsForAuthenticatedUserRequest": {
@@ -2501,7 +2543,13 @@
           "uri": "/user/social_accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List social accounts for the authenticated user\n\nLists all of your social accounts."
+        "smithy.api#documentation": "List social accounts for the authenticated user\n\nLists all of your social accounts.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#AddSocialAccountForAuthenticatedUserRequestAccountUrlsList": {
@@ -2728,7 +2776,13 @@
           "uri": "/user/ssh_signing_keys",
           "code": 200
         },
-        "smithy.api#documentation": "List SSH signing keys for the authenticated user\n\nLists the SSH signing keys for the authenticated user's GitHub account.\n\nOAuth app tokens and personal access tokens (classic) need the `read:ssh_signing_key` scope to use this endpoint."
+        "smithy.api#documentation": "List SSH signing keys for the authenticated user\n\nLists the SSH signing keys for the authenticated user's GitHub account.\n\nOAuth app tokens and personal access tokens (classic) need the `read:ssh_signing_key` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CreateSshSigningKeyForAuthenticatedUserRequest": {
@@ -2985,7 +3039,13 @@
           "uri": "/users",
           "code": 200
         },
-        "smithy.api#documentation": "List users\n\nLists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users."
+        "smithy.api#documentation": "List users\n\nLists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts.\n\nNote: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "since",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#GetByUsernameRequest": {
@@ -3603,7 +3663,17 @@
           "uri": "/users/{username}/attestations/{subject_digest}",
           "code": 200
         },
-        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with repositories owned by a user.\n\nThe collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)."
+        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with repositories owned by a user.\n\nThe collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "attestations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListFollowersForUserRequest": {
@@ -3672,7 +3742,13 @@
           "uri": "/users/{username}/followers",
           "code": 200
         },
-        "smithy.api#documentation": "List followers of a user\n\nLists the people following the specified user.\n\nIf the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes."
+        "smithy.api#documentation": "List followers of a user\n\nLists the people following the specified user.\n\nIf the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListFollowingForUserRequest": {
@@ -3741,7 +3817,13 @@
           "uri": "/users/{username}/following",
           "code": 200
         },
-        "smithy.api#documentation": "List the people a user follows\n\nLists the people who the specified user follows.\n\nIf the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes."
+        "smithy.api#documentation": "List the people a user follows\n\nLists the people who the specified user follows.\n\nIf the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#CheckFollowingForUserRequest": {
@@ -3855,7 +3937,13 @@
           "uri": "/users/{username}/gpg_keys",
           "code": 200
         },
-        "smithy.api#documentation": "List GPG keys for a user\n\nLists the GPG keys for a user. This information is accessible by anyone."
+        "smithy.api#documentation": "List GPG keys for a user\n\nLists the GPG keys for a user. This information is accessible by anyone.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#GetContextForUserRequestSubjectType": {
@@ -4077,7 +4165,13 @@
           "uri": "/users/{username}/keys",
           "code": 200
         },
-        "smithy.api#documentation": "List public keys for a user\n\nLists the _verified_ public SSH keys for a user. This is accessible by anyone."
+        "smithy.api#documentation": "List public keys for a user\n\nLists the _verified_ public SSH keys for a user. This is accessible by anyone.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListSocialAccountsForUserRequest": {
@@ -4146,7 +4240,13 @@
           "uri": "/users/{username}/social_accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List social accounts for a user\n\nLists social media accounts for a user. This endpoint is accessible by anyone."
+        "smithy.api#documentation": "List social accounts for a user\n\nLists social media accounts for a user. This endpoint is accessible by anyone.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#ListSshSigningKeysForUserRequest": {
@@ -4215,7 +4315,13 @@
           "uri": "/users/{username}/ssh_signing_keys",
           "code": 200
         },
-        "smithy.api#documentation": "List SSH signing keys for a user\n\nLists the SSH signing keys for a user. This operation is accessible by anyone."
+        "smithy.api#documentation": "List SSH signing keys for a user\n\nLists the SSH signing keys for a user. This operation is accessible by anyone.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.users#Forbidden": {

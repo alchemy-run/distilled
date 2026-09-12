@@ -208,7 +208,13 @@
           "uri": "/enterprises/{enterprise}/members/{username}/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List enterprise teams for a user\n\nLists all enterprise teams that a user is a member of. This endpoint is available only for\nenterprises using the new enterprise teams experience.\n\nThe authenticated user must be an enterprise owner or have the `enterprise_teams:read` permission."
+        "smithy.api#documentation": "List enterprise teams for a user\n\nLists all enterprise teams that a user is a member of. This endpoint is available only for\nenterprises using the new enterprise teams experience.\n\nThe authenticated user must be an enterprise owner or have the `enterprise_teams:read` permission.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.enterprise_team_memberships#ListRequest": {
@@ -420,7 +426,13 @@
           "uri": "/enterprises/{enterprise}/teams/{enterprise_team}/memberships",
           "code": 200
         },
-        "smithy.api#documentation": "List members in an enterprise team\n\nLists all team members in an enterprise team."
+        "smithy.api#documentation": "List members in an enterprise team\n\nLists all team members in an enterprise team.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.enterprise_team_memberships#BulkAddRequestUsernamesList": {

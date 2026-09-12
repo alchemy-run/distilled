@@ -18,13 +18,14 @@
  * barrel exports them camelCased (`Services.codeScanning.listAlertsForRepo`),
  * the spelling GitHub's own clients use.
  *
- * No pagination profiles are emitted: GitHub paginates with `page`/`per_page`
- * and a `Link` response header, and most list endpoints return a BARE array
- * with no in-body next-page token — none of core's token/cursor/page
- * strategies can drive that without a Link-header-aware strategy and an
- * items path that can address a raw-array body. `page`/`per_page` stay plain
- * input fields; callers advance them.
+ * Link-header pagination uses core's shared strategy. `"$"` selects items
+ * from a bare array; enveloped lists use their modeled array member.
  */
+import * as path from "node:path";
+import { Effect } from "effect";
+import * as FileSystem from "effect/FileSystem";
+import { formatGenerated } from "@distilled.cloud/core/codegen/format";
+import { generateWebhooks } from "./webhooks.ts";
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
@@ -80,6 +81,10 @@ const spec: SdkSpec = {
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
 
+  paginationProfiles: {
+    link: { itemsFallback: "$", syntheticOutputs: ["$"] },
+  },
+
   sourceNote: ".generated-specs (specs/rest-api-description)",
 
   operationDecl: {
@@ -109,10 +114,23 @@ const spec: SdkSpec = {
 
 runGeneratorCli({
   description: "Generate the GitHub Effect SDK from the Smithy models",
-  root: `${import.meta.dir}/..`,
+  root: path.resolve(import.meta.dir, ".."),
   // The RFC-6902 patch chain in patches/ applies to the OpenAPI document in
   // scripts/convert.ts — never to the Smithy models.
   patchesDir: false,
+  excludeModel: (file) => file === "webhooks.json",
+  prepare: ({ root }) =>
+    Effect.gen(function* () {
+      const fs = yield* FileSystem.FileSystem;
+      const model = JSON.parse(
+        yield* fs.readFileString(`${root}/.generated-specs/webhooks.json`),
+      );
+      yield* fs.writeFileString(
+        `${root}/src/webhook-events.ts`,
+        generateWebhooks(model),
+      );
+      yield* formatGenerated(`${root}/src/webhook-events.ts`);
+    }).pipe(Effect.orDie),
   barrelExportName: camel,
   spec: () => spec,
 });

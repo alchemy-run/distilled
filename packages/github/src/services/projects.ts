@@ -3471,123 +3471,187 @@ export const getUserItem: API.OperationMethod<
 
 export type ListFieldsForOrgError = Forbidden | GithubOpError;
 /** List project fields for organization List all fields for a specific organization-owned project. */
-export const listFieldsForOrg: API.OperationMethod<
+export const listFieldsForOrg: API.PaginatedOperationMethod<
   ListFieldsForOrgRequest,
   ListFieldsForOrgResponse,
   ListFieldsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2Field
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFieldsForOrgRequest,
   output: ListFieldsForOrgResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListFieldsForUserError = Forbidden | GithubOpError;
 /** List project fields for user List all fields for a specific user-owned project. */
-export const listFieldsForUser: API.OperationMethod<
+export const listFieldsForUser: API.PaginatedOperationMethod<
   ListFieldsForUserRequest,
   ListFieldsForUserResponse,
   ListFieldsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2Field
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFieldsForUserRequest,
   output: ListFieldsForUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForOrgError = Forbidden | GithubOpError;
 /** List projects for organization List all projects owned by a specific organization accessible by the authenticated user. */
-export const listForOrg: API.OperationMethod<
+export const listForOrg: API.PaginatedOperationMethod<
   ListForOrgRequest,
   ListForOrgResponse,
   ListForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForOrgRequest,
   output: ListForOrgResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForUserError = Forbidden | GithubOpError;
 /** List projects for user List all projects owned by a specific user accessible by the authenticated user. */
-export const listForUser: API.OperationMethod<
+export const listForUser: API.PaginatedOperationMethod<
   ListForUserRequest,
   ListForUserResponse,
   ListForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForUserRequest,
   output: ListForUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListItemsForOrgError = Forbidden | GithubOpError;
 /** List items for an organization owned project List all items for a specific organization-owned project accessible by the authenticated user. */
-export const listItemsForOrg: API.OperationMethod<
+export const listItemsForOrg: API.PaginatedOperationMethod<
   ListItemsForOrgRequest,
   ListItemsForOrgResponse,
   ListItemsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2ItemWithContent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListItemsForOrgRequest,
   output: ListItemsForOrgResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListItemsForUserError = Forbidden | GithubOpError;
 /** List items for a user owned project List all items for a specific user-owned project accessible by the authenticated user. */
-export const listItemsForUser: API.OperationMethod<
+export const listItemsForUser: API.PaginatedOperationMethod<
   ListItemsForUserRequest,
   ListItemsForUserResponse,
   ListItemsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2ItemWithContent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListItemsForUserRequest,
   output: ListItemsForUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListViewItemsForOrgError = Forbidden | NotFound | GithubOpError;
 /** List items for an organization project view List items in an organization project with the saved view's filter applied. */
-export const listViewItemsForOrg: API.OperationMethod<
+export const listViewItemsForOrg: API.PaginatedOperationMethod<
   ListViewItemsForOrgRequest,
   ListViewItemsForOrgResponse,
   ListViewItemsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2ItemWithContent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListViewItemsForOrgRequest,
   output: ListViewItemsForOrgResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListViewItemsForUserError = Forbidden | NotFound | GithubOpError;
 /** List items for a user project view List items in a user project with the saved view's filter applied. */
-export const listViewItemsForUser: API.OperationMethod<
+export const listViewItemsForUser: API.PaginatedOperationMethod<
   ListViewItemsForUserRequest,
   ListViewItemsForUserResponse,
   ListViewItemsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ProjectsV2ItemWithContent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListViewItemsForUserRequest,
   output: ListViewItemsForUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateItemForOrgError =
   | Forbidden

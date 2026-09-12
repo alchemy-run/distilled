@@ -152,7 +152,13 @@
           "uri": "/orgs/{org}/agents/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#GetOrgPublicKeyRequest": {
@@ -1587,7 +1593,13 @@
           "uri": "/orgs/{org}/agents/secrets/{secret_name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#SetSelectedReposForOrgSecretRequestSelectedRepositoryIdsList": {
@@ -1896,7 +1908,13 @@
           "uri": "/orgs/{org}/agents/variables",
           "code": 200
         },
-        "smithy.api#documentation": "List organization variables\n\nLists all agent variables available in an organization.\nReturned variables include their values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List organization variables\n\nLists all agent variables available in an organization.\nReturned variables include their values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#CreateOrgVariableRequestVisibility": {
@@ -2269,7 +2287,13 @@
           "uri": "/orgs/{org}/agents/variables/{name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization variable\n\nLists all repositories that can access an organization agent variable\nthat is available to selected repositories.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List selected repositories for an organization variable\n\nLists all repositories that can access an organization agent variable\nthat is available to selected repositories.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#SetSelectedReposForOrgVariableRequestSelectedRepositoryIdsList": {
@@ -2546,7 +2570,13 @@
           "uri": "/repos/{owner}/{repo}/agents/organization-secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository organization secrets\n\nLists all organization secrets shared with a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository organization secrets\n\nLists all organization secrets shared with a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#ListRepoOrganizationVariablesRequest": {
@@ -2662,7 +2692,13 @@
           "uri": "/repos/{owner}/{repo}/agents/organization-variables",
           "code": 200
         },
-        "smithy.api#documentation": "List repository organization variables\n\nLists all organization variables shared with a repository.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository organization variables\n\nLists all organization variables shared with a repository.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#ListRepoSecretsRequest": {
@@ -2744,7 +2780,13 @@
           "uri": "/repos/{owner}/{repo}/agents/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#GetRepoPublicKeyRequest": {
@@ -3043,7 +3085,13 @@
           "uri": "/repos/{owner}/{repo}/agents/variables",
           "code": 200
         },
-        "smithy.api#documentation": "List repository variables\n\nLists all repository variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository variables\n\nLists all repository variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.agents#CreateRepoVariableRequest": {

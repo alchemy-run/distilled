@@ -1221,108 +1221,157 @@ export const getRevision: API.OperationMethod<
 
 export type ListError = Forbidden | GithubOpError;
 /** List gists for the authenticated user Lists the authenticated user's gists or if called anonymously, this endpoint returns all public gists: */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  BaseGist
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommentsError = Forbidden | NotFound | GithubOpError;
 /** List gist comments Lists the comments on a gist. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown. This is the default if you do not pass any specific media type. */
-export const listComments: API.OperationMethod<
+export const listComments: API.PaginatedOperationMethod<
   ListCommentsRequest,
   ListCommentsResponse,
   ListCommentsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GistComment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommitsError = Forbidden | NotFound | GithubOpError;
 /** List gist commits */
-export const listCommits: API.OperationMethod<
+export const listCommits: API.PaginatedOperationMethod<
   ListCommitsRequest,
   ListCommitsResponse,
   ListCommitsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GistCommit
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommitsRequest,
   output: ListCommitsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForksError = Forbidden | NotFound | GithubOpError;
 /** List gist forks */
-export const listForks: API.OperationMethod<
+export const listForks: API.PaginatedOperationMethod<
   ListForksRequest,
   ListForksResponse,
   ListForksError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GistSimple
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForksRequest,
   output: ListForksResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForUserError = UnprocessableEntity | GithubOpError;
 /** List gists for a user Lists public gists for the specified user: */
-export const listForUser: API.OperationMethod<
+export const listForUser: API.PaginatedOperationMethod<
   ListForUserRequest,
   ListForUserResponse,
   ListForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  BaseGist
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForUserRequest,
   output: ListForUserResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicError = Forbidden | UnprocessableEntity | GithubOpError;
 /** List public gists List public gists sorted by most recently updated to least recently updated. Note: With [pagination](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api), you can fetch up to 3000 gists. For example, you can fetch 100 pages with 30 gists per page or 30 pages with 100 gists per page. */
-export const listPublic: API.OperationMethod<
+export const listPublic: API.PaginatedOperationMethod<
   ListPublicRequest,
   ListPublicResponse,
   ListPublicError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  BaseGist
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicRequest,
   output: ListPublicResponse,
   errors: [Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListStarredError = Forbidden | GithubOpError;
 /** List starred gists List the authenticated user's starred gists: */
-export const listStarred: API.OperationMethod<
+export const listStarred: API.PaginatedOperationMethod<
   ListStarredRequest,
   ListStarredResponse,
   ListStarredError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  BaseGist
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListStarredRequest,
   output: ListStarredResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type StarError = Forbidden | NotFound | GithubOpError;
 /** Star a gist Note that you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)." */

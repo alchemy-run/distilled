@@ -863,7 +863,13 @@
           "uri": "/app/hook/deliveries",
           "code": 200
         },
-        "smithy.api#documentation": "List deliveries for an app webhook\n\nReturns a list of webhook deliveries for the webhook configured for a GitHub App.\n\nYou must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint."
+        "smithy.api#documentation": "List deliveries for an app webhook\n\nReturns a list of webhook deliveries for the webhook configured for a GitHub App.\n\nYou must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "cursor",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#GetWebhookDeliveryRequest": {
@@ -1257,7 +1263,13 @@
           "uri": "/app/installation-requests",
           "code": 200
         },
-        "smithy.api#documentation": "List installation requests for the authenticated app\n\nLists all the pending installation requests for the authenticated GitHub App."
+        "smithy.api#documentation": "List installation requests for the authenticated app\n\nLists all the pending installation requests for the authenticated GitHub App.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#ListInstallationsRequest": {
@@ -3082,7 +3094,13 @@
           "uri": "/app/installations",
           "code": 200
         },
-        "smithy.api#documentation": "List installations for the authenticated app\n\nThe permissions the installation has are included under the `permissions` key.\n\nYou must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint."
+        "smithy.api#documentation": "List installations for the authenticated app\n\nThe permissions the installation has are included under the `permissions` key.\n\nYou must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#GetInstallationRequest": {
@@ -5574,7 +5592,13 @@
           "uri": "/installation/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories accessible to the app installation\n\nList repositories that an app installation can access."
+        "smithy.api#documentation": "List repositories accessible to the app installation\n\nList repositories that an app installation can access.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#RevokeInstallationAccessToken": {
@@ -5929,7 +5953,13 @@
           "uri": "/marketplace_listing/plans",
           "code": 200
         },
-        "smithy.api#documentation": "List plans\n\nLists all plans that are part of your GitHub Marketplace listing.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint."
+        "smithy.api#documentation": "List plans\n\nLists all plans that are part of your GitHub Marketplace listing.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#ListAccountsForPlanRequestSort": {
@@ -6056,7 +6086,13 @@
           "uri": "/marketplace_listing/plans/{plan_id}/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List accounts for a plan\n\nReturns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint."
+        "smithy.api#documentation": "List accounts for a plan\n\nReturns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#GetSubscriptionPlanForAccountStubbedRequest": {
@@ -6155,7 +6191,13 @@
           "uri": "/marketplace_listing/stubbed/plans",
           "code": 200
         },
-        "smithy.api#documentation": "List plans (stubbed)\n\nLists all plans that are part of your GitHub Marketplace listing.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint."
+        "smithy.api#documentation": "List plans (stubbed)\n\nLists all plans that are part of your GitHub Marketplace listing.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#ListAccountsForPlanStubbedRequestSort": {
@@ -6274,7 +6316,13 @@
           "uri": "/marketplace_listing/stubbed/plans/{plan_id}/accounts",
           "code": 200
         },
-        "smithy.api#documentation": "List accounts for a plan (stubbed)\n\nReturns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint."
+        "smithy.api#documentation": "List accounts for a plan (stubbed)\n\nReturns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change.\n\nGitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#GetOrgInstallationRequest": {
@@ -6424,7 +6472,13 @@
           "uri": "/user/installations",
           "code": 200
         },
-        "smithy.api#documentation": "List app installations accessible to the user access token\n\nLists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nYou can find the permissions for the installation under the `permissions` key."
+        "smithy.api#documentation": "List app installations accessible to the user access token\n\nLists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nYou can find the permissions for the installation under the `permissions` key.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "installations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#ListInstallationReposForAuthenticatedUserRequest": {
@@ -7288,7 +7342,13 @@
           "uri": "/user/installations/{installation_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories accessible to the user access token\n\nList repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access for an installation.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nThe access the user has to each repository is included in the hash under the `permissions` key."
+        "smithy.api#documentation": "List repositories accessible to the user access token\n\nList repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access for an installation.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.\n\nThe access the user has to each repository is included in the hash under the `permissions` key.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#AddRepoToInstallationForAuthenticatedUserRequest": {
@@ -7560,7 +7620,13 @@
           "uri": "/user/marketplace_purchases",
           "code": 200
         },
-        "smithy.api#documentation": "List subscriptions for the authenticated user\n\nLists the active subscriptions for the authenticated user."
+        "smithy.api#documentation": "List subscriptions for the authenticated user\n\nLists the active subscriptions for the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#ListSubscriptionsForAuthenticatedUserStubbedRequest": {
@@ -7621,7 +7687,13 @@
           "uri": "/user/marketplace_purchases/stubbed",
           "code": 200
         },
-        "smithy.api#documentation": "List subscriptions for the authenticated user (stubbed)\n\nLists the active subscriptions for the authenticated user."
+        "smithy.api#documentation": "List subscriptions for the authenticated user (stubbed)\n\nLists the active subscriptions for the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.apps#GetUserInstallationRequest": {

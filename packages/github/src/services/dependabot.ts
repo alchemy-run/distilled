@@ -2247,16 +2247,15 @@ export const DependabotRepositoryAccessDetailsAccessibleRepositoriesList =
 export interface DependabotRepositoryAccessDetails {
   /** The default repository access level for Dependabot updates. */
   default_level?: DependabotRepositoryAccessDetailsDefaultLevel | null;
-  accessible_repositories?: DependabotRepositoryAccessDetailsAccessibleRepositoriesList;
+  accessible_repositories: DependabotRepositoryAccessDetailsAccessibleRepositoriesList;
 }
 export const DependabotRepositoryAccessDetails = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     default_level: S.optional(
       S.NullOr(DependabotRepositoryAccessDetailsDefaultLevel),
     ),
-    accessible_repositories: S.optional(
+    accessible_repositories:
       DependabotRepositoryAccessDetailsAccessibleRepositoriesList,
-    ),
   }),
 ).annotate({
   identifier: "DependabotRepositoryAccessDetails",
@@ -2736,18 +2735,26 @@ export type ListAlertsForEnterpriseError =
   | UnprocessableEntity
   | GithubOpError;
 /** List Dependabot alerts for an enterprise Lists Dependabot alerts for repositories that are owned by the specified enterprise. The authenticated user must be a member of the enterprise to use this endpoint. Alerts are only returned for organizations in the enterprise for which you are an organization owner or a security manager. For more information about security managers, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. */
-export const listAlertsForEnterprise: API.OperationMethod<
+export const listAlertsForEnterprise: API.PaginatedOperationMethod<
   ListAlertsForEnterpriseRequest,
   ListAlertsForEnterpriseResponse,
   ListAlertsForEnterpriseError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DependabotAlertWithRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForEnterpriseRequest,
   output: ListAlertsForEnterpriseResponse,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAlertsForOrgError =
   | BadRequest
@@ -2756,18 +2763,26 @@ export type ListAlertsForOrgError =
   | UnprocessableEntity
   | GithubOpError;
 /** List Dependabot alerts for an organization Lists Dependabot alerts for an organization. The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForOrg: API.OperationMethod<
+export const listAlertsForOrg: API.PaginatedOperationMethod<
   ListAlertsForOrgRequest,
   ListAlertsForOrgResponse,
   ListAlertsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DependabotAlertWithRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForOrgRequest,
   output: ListAlertsForOrgResponse,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAlertsForRepoError =
   | BadRequest
@@ -2776,63 +2791,92 @@ export type ListAlertsForRepoError =
   | UnprocessableEntity
   | GithubOpError;
 /** List Dependabot alerts for a repository OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
-export const listAlertsForRepo: API.OperationMethod<
+export const listAlertsForRepo: API.PaginatedOperationMethod<
   ListAlertsForRepoRequest,
   ListAlertsForRepoResponse,
   ListAlertsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DependabotAlert
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForRepoRequest,
   output: ListAlertsForRepoResponse,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgSecretsError = GithubOpError;
 /** List organization secrets Lists all secrets available in an organization without revealing their encrypted values. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listOrgSecrets: API.OperationMethod<
+export const listOrgSecrets: API.PaginatedOperationMethod<
   ListOrgSecretsRequest,
   ListOrgSecretsResponse,
   ListOrgSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationDependabotSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgSecretsRequest,
   output: ListOrgSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoSecretsError = GithubOpError;
 /** List repository secrets Lists all secrets available in a repository without revealing their encrypted values. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoSecrets: API.OperationMethod<
+export const listRepoSecrets: API.PaginatedOperationMethod<
   ListRepoSecretsRequest,
   ListRepoSecretsResponse,
   ListRepoSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  DependabotSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoSecretsRequest,
   output: ListRepoSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedReposForOrgSecretError = GithubOpError;
 /** List selected repositories for an organization secret Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listSelectedReposForOrgSecret: API.OperationMethod<
+export const listSelectedReposForOrgSecret: API.PaginatedOperationMethod<
   ListSelectedReposForOrgSecretRequest,
   ListSelectedReposForOrgSecretResponse,
   ListSelectedReposForOrgSecretError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgSecretRequest,
   output: ListSelectedReposForOrgSecretResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveSelectedRepoFromOrgSecretError = Conflict | GithubOpError;
 /** Remove selected repository from an organization secret Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/dependabot/secrets#create-or-update-an-organization-secret). OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
@@ -2854,33 +2898,47 @@ export type RepositoryAccessForEnterpriseError =
   | NotFound
   | GithubOpError;
 /** Lists the repositories Dependabot can access in an enterprise Lists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise. The authenticated user must be an enterprise owner to use this endpoint. */
-export const repositoryAccessForEnterprise: API.OperationMethod<
+export const repositoryAccessForEnterprise: API.PaginatedOperationMethod<
   RepositoryAccessForEnterpriseRequest,
   DependabotRepositoryAccessDetails,
   RepositoryAccessForEnterpriseError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: RepositoryAccessForEnterpriseRequest,
   output: DependabotRepositoryAccessDetails,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "accessible_repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RepositoryAccessForOrgError = Forbidden | NotFound | GithubOpError;
 /** Lists the repositories Dependabot can access in an organization Lists repositories that organization admins have allowed Dependabot to access when updating dependencies. > [!NOTE] > This operation supports both server-to-server and user-to-server access. Unauthorized users will not see the existence of this endpoint. */
-export const repositoryAccessForOrg: API.OperationMethod<
+export const repositoryAccessForOrg: API.PaginatedOperationMethod<
   RepositoryAccessForOrgRequest,
   DependabotRepositoryAccessDetails,
   RepositoryAccessForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: RepositoryAccessForOrgRequest,
   output: DependabotRepositoryAccessDetails,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "accessible_repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type SetRepositoryAccessDefaultLevelError =
   | Forbidden

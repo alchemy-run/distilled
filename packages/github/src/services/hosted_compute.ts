@@ -401,18 +401,25 @@ export const getNetworkSettingsForOrg: API.OperationMethod<
 
 export type ListNetworkConfigurationsForOrgError = GithubOpError;
 /** List hosted compute network configurations for an organization Lists all hosted compute network configurations configured in an organization. OAuth app tokens and personal access tokens (classic) need the `read:network_configurations` scope to use this endpoint. */
-export const listNetworkConfigurationsForOrg: API.OperationMethod<
+export const listNetworkConfigurationsForOrg: API.PaginatedOperationMethod<
   ListNetworkConfigurationsForOrgRequest,
   ListNetworkConfigurationsForOrgResponse,
   ListNetworkConfigurationsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  NetworkConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListNetworkConfigurationsForOrgRequest,
   output: ListNetworkConfigurationsForOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "network_configurations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateNetworkConfigurationForOrgError = GithubOpError;
 /** Update a hosted compute network configuration for an organization Updates a hosted compute network configuration for an organization. OAuth app tokens and personal access tokens (classic) need the `write:network_configurations` scope to use this endpoint. */

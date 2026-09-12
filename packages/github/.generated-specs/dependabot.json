@@ -1744,7 +1744,17 @@
           "uri": "/enterprises/{enterprise}/dependabot/alerts",
           "code": 200
         },
-        "smithy.api#documentation": "List Dependabot alerts for an enterprise\n\nLists Dependabot alerts for repositories that are owned by the specified enterprise.\n\nThe authenticated user must be a member of the enterprise to use this endpoint.\n\nAlerts are only returned for organizations in the enterprise for which you are an organization owner or a security manager. For more information about security managers, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nOAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint."
+        "smithy.api#documentation": "List Dependabot alerts for an enterprise\n\nLists Dependabot alerts for repositories that are owned by the specified enterprise.\n\nThe authenticated user must be a member of the enterprise to use this endpoint.\n\nAlerts are only returned for organizations in the enterprise for which you are an organization owner or a security manager. For more information about security managers, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"\n\nOAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#RepositoryAccessForEnterpriseRequest": {
@@ -2177,7 +2187,13 @@
           "uri": "/enterprises/{enterprise}/dependabot/repository-access",
           "code": 200
         },
-        "smithy.api#documentation": "Lists the repositories Dependabot can access in an enterprise\n\nLists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise.\n\nThe authenticated user must be an enterprise owner to use this endpoint."
+        "smithy.api#documentation": "Lists the repositories Dependabot can access in an enterprise\n\nLists repositories that enterprise admins have allowed Dependabot to access when updating dependencies across organizations in the enterprise.\n\nThe authenticated user must be an enterprise owner to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "accessible_repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#UpdateRepositoryAccessForEnterpriseRequestRepositoryIdsToAddList": {
@@ -2608,7 +2624,17 @@
           "uri": "/orgs/{org}/dependabot/alerts",
           "code": 200
         },
-        "smithy.api#documentation": "List Dependabot alerts for an organization\n\nLists Dependabot alerts for an organization.\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead."
+        "smithy.api#documentation": "List Dependabot alerts for an organization\n\nLists Dependabot alerts for an organization.\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#RepositoryAccessForOrgRequest": {
@@ -2663,7 +2689,13 @@
           "uri": "/orgs/{org}/dependabot/repository-access",
           "code": 200
         },
-        "smithy.api#documentation": "Lists the repositories Dependabot can access in an organization\n\nLists repositories that organization admins have allowed Dependabot to access when updating dependencies.\n> [!NOTE]\n>    This operation supports both server-to-server and user-to-server access.\nUnauthorized users will not see the existence of this endpoint."
+        "smithy.api#documentation": "Lists the repositories Dependabot can access in an organization\n\nLists repositories that organization admins have allowed Dependabot to access when updating dependencies.\n> [!NOTE]\n>    This operation supports both server-to-server and user-to-server access.\nUnauthorized users will not see the existence of this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "accessible_repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#UpdateRepositoryAccessForOrgRequestRepositoryIdsToAddList": {
@@ -2939,7 +2971,13 @@
           "uri": "/orgs/{org}/dependabot/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#GetOrgPublicKeyRequest": {
@@ -4237,7 +4275,13 @@
           "uri": "/orgs/{org}/dependabot/secrets/{secret_name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#SetSelectedReposForOrgSecretRequestSelectedRepositoryIdsList": {
@@ -4961,7 +5005,17 @@
           "uri": "/repos/{owner}/{repo}/dependabot/alerts",
           "code": 200
         },
-        "smithy.api#documentation": "List Dependabot alerts for a repository\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead."
+        "smithy.api#documentation": "List Dependabot alerts for a repository\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#GetAlertRequest": {
@@ -5316,7 +5370,13 @@
           "uri": "/repos/{owner}/{repo}/dependabot/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.dependabot#GetRepoPublicKeyRequest": {

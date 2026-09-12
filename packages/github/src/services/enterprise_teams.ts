@@ -353,18 +353,25 @@ export const get: API.OperationMethod<
 
 export type ListError = Forbidden | GithubOpError;
 /** List enterprise teams List all teams in the enterprise for the authenticated user */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  EnterpriseTeam
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateError = Forbidden | GithubOpError;
 /** Update an enterprise team To edit a team, the authenticated user must be an enterprise owner. */

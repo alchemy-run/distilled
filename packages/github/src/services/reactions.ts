@@ -926,75 +926,110 @@ export const deleteForRelease: API.OperationMethod<
 
 export type ListForCommitCommentError = NotFound | GithubOpError;
 /** List reactions for a commit comment List the reactions to a [commit comment](https://docs.github.com/rest/commits/comments#get-a-commit-comment). */
-export const listForCommitComment: API.OperationMethod<
+export const listForCommitComment: API.PaginatedOperationMethod<
   ListForCommitCommentRequest,
   ListForCommitCommentResponse,
   ListForCommitCommentError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Reaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForCommitCommentRequest,
   output: ListForCommitCommentResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForIssueError = NotFound | Gone | GithubOpError;
 /** List reactions for an issue List the reactions to an [issue](https://docs.github.com/rest/issues/issues#get-an-issue). */
-export const listForIssue: API.OperationMethod<
+export const listForIssue: API.PaginatedOperationMethod<
   ListForIssueRequest,
   ListForIssueResponse,
   ListForIssueError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Reaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForIssueRequest,
   output: ListForIssueResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForIssueCommentError = NotFound | GithubOpError;
 /** List reactions for an issue comment List the reactions to an [issue comment](https://docs.github.com/rest/issues/comments#get-an-issue-comment). */
-export const listForIssueComment: API.OperationMethod<
+export const listForIssueComment: API.PaginatedOperationMethod<
   ListForIssueCommentRequest,
   ListForIssueCommentResponse,
   ListForIssueCommentError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Reaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForIssueCommentRequest,
   output: ListForIssueCommentResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForPullRequestReviewCommentError = NotFound | GithubOpError;
 /** List reactions for a pull request review comment List the reactions to a [pull request review comment](https://docs.github.com/rest/pulls/comments#get-a-review-comment-for-a-pull-request). */
-export const listForPullRequestReviewComment: API.OperationMethod<
+export const listForPullRequestReviewComment: API.PaginatedOperationMethod<
   ListForPullRequestReviewCommentRequest,
   ListForPullRequestReviewCommentResponse,
   ListForPullRequestReviewCommentError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Reaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForPullRequestReviewCommentRequest,
   output: ListForPullRequestReviewCommentResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForReleaseError = NotFound | GithubOpError;
 /** List reactions for a release List the reactions to a [release](https://docs.github.com/rest/releases/releases#get-a-release). */
-export const listForRelease: API.OperationMethod<
+export const listForRelease: API.PaginatedOperationMethod<
   ListForReleaseRequest,
   ListForReleaseResponse,
   ListForReleaseError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Reaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForReleaseRequest,
   output: ListForReleaseResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;

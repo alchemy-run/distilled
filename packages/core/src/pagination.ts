@@ -7,6 +7,7 @@
  * - Token-based (AWS style): NextToken/MaxResults continuation tokens
  * - Relay (GraphQL connections): after/first with a `pageInfo` block whose
  *   `hasNextPage` — not the cursor — marks the end
+ * - Link: follow the next relation in an HTTP Link response header
  * - Single: one-shot list endpoints that still expose the paginated surface
  *
  * Each SDK stores a {@link PaginatedTrait} on its operations (sourced from the
@@ -22,6 +23,7 @@ import * as Stream from "effect/Stream";
  * `"resultInfo.page"`). Used for pagination traits and nested access.
  */
 export const getPath = (obj: unknown, path: string): unknown => {
+  if (path === "$") return obj;
   const parts = path.split(".");
   let current: unknown = obj;
   for (const part of parts) {
@@ -46,6 +48,7 @@ export const getPath = (obj: unknown, path: string): unknown => {
  * null page yields the items it does have instead of nothing.
  */
 export const getItems = (obj: unknown, path: string): readonly unknown[] => {
+  if (path === "$") return Array.isArray(obj) ? obj : [];
   let current: unknown[] = [obj];
   for (const part of path.split(".")) {
     const next: unknown[] = [];
@@ -67,15 +70,17 @@ export const getItems = (obj: unknown, path: string): readonly unknown[] => {
 /** Pagination trait describing how to navigate between pages. */
 export interface PaginatedTrait {
   /** Pagination strategy */
-  readonly mode?: "token" | "page" | "cursor" | "relay" | "single";
+  readonly mode?: "token" | "page" | "cursor" | "relay" | "single" | "link";
   /** The name of the input member containing the page/cursor token */
   readonly inputToken?: string;
+  /** Mutually exclusive query parameters a Link may use (e.g. after/before). */
+  readonly inputTokens?: readonly string[];
   /** The path to the output member containing the next page/cursor token */
   readonly outputToken?: string;
   /**
    * The path to the output member containing the paginated items. Segments
    * may cross arrays — `"edges.node"` walks every edge and collects its
-   * `node` (see {@link getItems}).
+   * `node` (see {@link getItems}). `"$"` selects a bare array response.
    */
   readonly items?: string;
   /** The name of the input member that limits page size */
@@ -386,6 +391,93 @@ export const paginateRelay = <
   );
 };
 
+// ============================================================================
+// HTTP Link pagination
+// ============================================================================
+
+/** @internal Link headers attached to decoded responses without changing their public shape. */
+export const responseLinkHeaders = new WeakMap<object, string>();
+
+/**
+ * Follow `rel="next"` using the configured query parameter. Only the token
+ * is copied: requests keep the operation's endpoint, credentials and filters.
+ * Missing next links end traversal; repeated tokens fail instead of looping.
+ * Short or empty pages do not imply completion when a next link exists.
+ */
+export const paginateLink: PaginationStrategy = (
+  operation,
+  input,
+  pagination,
+) => {
+  const tokenNames =
+    pagination.inputTokens ??
+    (pagination.inputToken ? [pagination.inputToken] : []);
+  if (tokenNames.length === 0)
+    return missingPaginationConfig("Link pagination requires inputToken");
+
+  return Stream.suspend(() => {
+    const seen = new Set<string>();
+    for (const name of tokenNames) {
+      if (input[name] !== undefined) seen.add(`${name}=${input[name]}`);
+    }
+    return Stream.unfold({ input, done: false }, (state) =>
+      Effect.gen(function* () {
+        if (state.done) return undefined;
+        const response = yield* operation(state.input);
+        const header =
+          response !== null && typeof response === "object"
+            ? responseLinkHeaders.get(response)
+            : undefined;
+        let next: { name: string; token: string } | undefined;
+        // Commas inside a URI or a quoted parameter are not link separators.
+        for (const match of (header ?? "").matchAll(
+          /<([^>]*)>((?:[^,"<]|"[^"]*")*)/g,
+        )) {
+          const rel = /;\s*rel\s*=\s*(?:"([^"]*)"|([^;\s,]+))/i.exec(match[2]!);
+          if (!(rel?.[1] ?? rel?.[2] ?? "").split(/\s+/).includes("next"))
+            continue;
+          const query = new URL(match[1]!, "https://pagination.invalid")
+            .searchParams;
+          for (const name of tokenNames) {
+            const token = query.get(name);
+            if (token !== null && token !== "") {
+              if (next)
+                return yield* Effect.die(
+                  new Error("Next Link has multiple pagination tokens"),
+                );
+              next = { name, token };
+            }
+          }
+          if (!next) {
+            return yield* Effect.die(
+              new Error(
+                `Next Link is missing the ${tokenNames.join("/")} pagination parameter`,
+              ),
+            );
+          }
+          break;
+        }
+        const request = { ...input };
+        if (next) {
+          const key = `${next.name}=${next.token}`;
+          if (seen.has(key))
+            return yield* Effect.die(
+              new Error(`Repeated Link pagination token for ${next.name}`),
+            );
+          seen.add(key);
+          // Cursor endpoints reject requests that retain both before and after.
+          for (const name of tokenNames) delete request[name];
+          Object.assign(request, { [next.name]: next.token });
+        }
+        return [
+          response,
+          { input: request, done: next === undefined },
+        ] as const;
+      }),
+    );
+  });
+};
+
 /**
  * Shared default pagination dispatcher for SDKs that use generic
  * token/cursor/page traversal.
@@ -398,6 +490,8 @@ export const paginateWithDefaults: PaginationStrategy = (
   const mode = pagination.mode ?? "token";
 
   switch (mode) {
+    case "link":
+      return paginateLink(operation, input, pagination);
     case "page":
       return paginatePageNumber(operation, input, pagination);
     case "cursor":

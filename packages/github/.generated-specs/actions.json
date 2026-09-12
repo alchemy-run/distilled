@@ -591,7 +591,13 @@
           "uri": "/orgs/{org}/actions/cache/usage-by-repository",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories with GitHub Actions cache usage for an organization\n\nLists repositories and their GitHub Actions cache usage for an organization.\nThe data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated.\n\nOAuth tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint."
+        "smithy.api#documentation": "List repositories with GitHub Actions cache usage for an organization\n\nLists repositories and their GitHub Actions cache usage for an organization.\nThe data fetched using this API is refreshed approximately every 5 minutes, so values returned from this endpoint may take at least 5 minutes to get updated.\n\nOAuth tokens and personal access tokens (classic) need the `read:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repository_cache_usages",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#ListHostedRunnersForOrgRequest": {
@@ -929,7 +935,13 @@
           "uri": "/orgs/{org}/actions/hosted-runners",
           "code": 200
         },
-        "smithy.api#documentation": "List GitHub-hosted runners for an organization\n\nLists all GitHub-hosted runners configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `manage_runner:org` scope to use this endpoint."
+        "smithy.api#documentation": "List GitHub-hosted runners for an organization\n\nLists all GitHub-hosted runners configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `manage_runner:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runners",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#CreateHostedRunnerForOrgRequestImageSource": {
@@ -3639,7 +3651,13 @@
           "uri": "/orgs/{org}/actions/permissions/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories enabled for GitHub Actions in an organization\n\nLists the selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see \"[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization).\"\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List selected repositories enabled for GitHub Actions in an organization\n\nLists the selected repositories that are enabled for GitHub Actions in an organization. To use this endpoint, the organization permission policy for `enabled_repositories` must be configured to `selected`. For more information, see \"[Set GitHub Actions permissions for an organization](#set-github-actions-permissions-for-an-organization).\"\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetSelectedRepositoriesEnabledGithubActionsOrganizationRequestSelectedRepositoryIdsList": {
@@ -4138,7 +4156,13 @@
           "uri": "/orgs/{org}/actions/permissions/self-hosted-runners/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories allowed to use self-hosted runners in an organization\n\nLists repositories that are allowed to use self-hosted runners in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint."
+        "smithy.api#documentation": "List repositories allowed to use self-hosted runners in an organization\n\nLists repositories that are allowed to use self-hosted runners in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope or the \"Actions policies\" fine-grained permission to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetSelectedRepositoriesSelfHostedRunnersOrganizationRequestSelectedRepositoryIdsList": {
@@ -4592,7 +4616,13 @@
           "uri": "/orgs/{org}/actions/runner-groups",
           "code": 200
         },
-        "smithy.api#documentation": "List self-hosted runner groups for an organization\n\nLists all self-hosted runner groups configured in an organization and inherited from an enterprise.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List self-hosted runner groups for an organization\n\nLists all self-hosted runner groups configured in an organization and inherited from an enterprise.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runner_groups",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#CreateSelfHostedRunnerGroupForOrgRequestVisibility": {
@@ -5005,7 +5035,13 @@
           "uri": "/orgs/{org}/actions/runner-groups/{runner_group_id}/hosted-runners",
           "code": 200
         },
-        "smithy.api#documentation": "List GitHub-hosted runners in a group for an organization\n\nLists the GitHub-hosted runners in an organization group.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List GitHub-hosted runners in a group for an organization\n\nLists the GitHub-hosted runners in an organization group.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runners",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#ListRepoAccessToSelfHostedRunnerGroupInOrgRequest": {
@@ -6038,7 +6074,13 @@
           "uri": "/orgs/{org}/actions/runner-groups/{runner_group_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repository access to a self-hosted runner group in an organization\n\nLists the repositories with access to a self-hosted runner group configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List repository access to a self-hosted runner group in an organization\n\nLists the repositories with access to a self-hosted runner group configured in an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetRepoAccessToSelfHostedRunnerGroupInOrgRequestSelectedRepositoryIdsList": {
@@ -6393,7 +6435,13 @@
           "uri": "/orgs/{org}/actions/runner-groups/{runner_group_id}/runners",
           "code": 200
         },
-        "smithy.api#documentation": "List self-hosted runners in a group for an organization\n\nLists self-hosted runners that are in a specific organization group.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List self-hosted runners in a group for an organization\n\nLists self-hosted runners that are in a specific organization group.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runners",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetSelfHostedRunnersInGroupForOrgRequestRunnersList": {
@@ -6629,7 +6677,13 @@
           "uri": "/orgs/{org}/actions/runners",
           "code": 200
         },
-        "smithy.api#documentation": "List self-hosted runners for an organization\n\nLists all self-hosted runners configured in an organization.\n\nAuthenticated users must have admin access to the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List self-hosted runners for an organization\n\nLists all self-hosted runners configured in an organization.\n\nAuthenticated users must have admin access to the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runners",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetRunnerVersionDeprecationForOrgRequest": {
@@ -7672,7 +7726,13 @@
           "uri": "/orgs/{org}/actions/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List organization secrets\n\nLists all secrets available in an organization without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetOrgPublicKeyRequest": {
@@ -8021,7 +8081,13 @@
           "uri": "/orgs/{org}/actions/secrets/{secret_name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List selected repositories for an organization secret\n\nLists all repositories that have been selected when the `visibility`\nfor repository access to a secret is set to `selected`.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetSelectedReposForOrgSecretRequestSelectedRepositoryIdsList": {
@@ -8330,7 +8396,13 @@
           "uri": "/orgs/{org}/actions/variables",
           "code": 200
         },
-        "smithy.api#documentation": "List organization variables\n\nLists all organization variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List organization variables\n\nLists all organization variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#CreateOrgVariableRequestVisibility": {
@@ -8703,7 +8775,13 @@
           "uri": "/orgs/{org}/actions/variables/{name}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List selected repositories for an organization variable\n\nLists all repositories that can access an organization variable\nthat is available to selected repositories.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required."
+        "smithy.api#documentation": "List selected repositories for an organization variable\n\nLists all repositories that can access an organization variable\nthat is available to selected repositories.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#SetSelectedReposForOrgVariableRequestSelectedRepositoryIdsList": {
@@ -9068,7 +9146,13 @@
           "uri": "/repos/{owner}/{repo}/actions/artifacts",
           "code": 200
         },
-        "smithy.api#documentation": "List artifacts for a repository\n\nLists all artifacts for a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List artifacts for a repository\n\nLists all artifacts for a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "artifacts",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetArtifactRequest": {
@@ -9693,7 +9777,13 @@
           "uri": "/repos/{owner}/{repo}/actions/caches",
           "code": 200
         },
-        "smithy.api#documentation": "List GitHub Actions caches for a repository\n\nLists the GitHub Actions caches for a repository.\n\nOAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List GitHub Actions caches for a repository\n\nLists the GitHub Actions caches for a repository.\n\nOAuth tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "actions_caches",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#DeleteActionsCacheByKeyRequest": {
@@ -9912,7 +10002,13 @@
           "uri": "/repos/{owner}/{repo}/actions/concurrency_groups",
           "code": 200
         },
-        "smithy.api#documentation": "List concurrency groups for a repository\n\nLists the active concurrency groups for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List concurrency groups for a repository\n\nLists the active concurrency groups for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "items": "concurrency_groups",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetConcurrencyGroupForRepositoryRequest": {
@@ -10941,7 +11037,13 @@
           "uri": "/repos/{owner}/{repo}/actions/organization-secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository organization secrets\n\nLists all organization secrets shared with a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository organization secrets\n\nLists all organization secrets shared with a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#ListRepoOrganizationVariablesRequest": {
@@ -11057,7 +11159,13 @@
           "uri": "/repos/{owner}/{repo}/actions/organization-variables",
           "code": 200
         },
-        "smithy.api#documentation": "List repository organization variables\n\nLists all organization variables shared with a repository.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository organization variables\n\nLists all organization variables shared with a repository.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetGithubActionsPermissionsRepositoryRequest": {
@@ -11970,7 +12078,13 @@
           "uri": "/repos/{owner}/{repo}/actions/runners",
           "code": 200
         },
-        "smithy.api#documentation": "List self-hosted runners for a repository\n\nLists all self-hosted runners configured in a repository.\n\nAuthenticated users must have admin access to the repository to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List self-hosted runners for a repository\n\nLists all self-hosted runners configured in a repository.\n\nAuthenticated users must have admin access to the repository to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "runners",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetRunnerVersionDeprecationForRepoRequest": {
@@ -13591,7 +13705,13 @@
           "uri": "/repos/{owner}/{repo}/actions/runs",
           "code": 200
         },
-        "smithy.api#documentation": "List workflow runs for a repository\n\nLists all workflow runs for a repository. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.\n\nThis endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`."
+        "smithy.api#documentation": "List workflow runs for a repository\n\nLists all workflow runs for a repository. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.\n\nThis endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "workflow_runs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetWorkflowRunRequest": {
@@ -14070,7 +14190,13 @@
           "uri": "/repos/{owner}/{repo}/actions/runs/{run_id}/artifacts",
           "code": 200
         },
-        "smithy.api#documentation": "List workflow run artifacts\n\nLists artifacts for a workflow run.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List workflow run artifacts\n\nLists artifacts for a workflow run.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "artifacts",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetWorkflowRunAttemptRequest": {
@@ -14237,7 +14363,13 @@
           "uri": "/repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs",
           "code": 200
         },
-        "smithy.api#documentation": "List jobs for a workflow run attempt\n\nLists jobs for a specific workflow run attempt. You can use parameters to narrow the list of results. For more information\nabout using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint  with a private repository."
+        "smithy.api#documentation": "List jobs for a workflow run attempt\n\nLists jobs for a specific workflow run attempt. You can use parameters to narrow the list of results. For more information\nabout using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint  with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "jobs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#DownloadWorkflowRunAttemptLogsRequest": {
@@ -14592,7 +14724,17 @@
           "uri": "/repos/{owner}/{repo}/actions/runs/{run_id}/concurrency_groups",
           "code": 200
         },
-        "smithy.api#documentation": "List concurrency groups for a workflow run\n\nLists all concurrency groups associated with a workflow run or its jobs.\n\nThe set of groups is derived from the run's configuration, so a group is\nincluded even when the run no longer has any items currently holding or\nwaiting in it. In that case the `group_members` array will be empty.\n`total_count` reflects the number of groups the run participates in by\nconfiguration, not the number with active items.\n\nThis differs from `GET /repos/{owner}/{repo}/actions/concurrency_groups/{group_name}`,\nwhich returns 404 when a group has no active items. That endpoint reports\nthe live state of a group repo-wide, while this endpoint reports the\ngroups associated with a specific run by configuration.\n\nResults are sorted by group name and support cursor-based pagination via\n`before` and `after`. The `after` cursor paginates forward only and does\nnot emit a `rel=\"prev\"` Link; use `before` to page backward from a\nforward page's `next` cursor.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List concurrency groups for a workflow run\n\nLists all concurrency groups associated with a workflow run or its jobs.\n\nThe set of groups is derived from the run's configuration, so a group is\nincluded even when the run no longer has any items currently holding or\nwaiting in it. In that case the `group_members` array will be empty.\n`total_count` reflects the number of groups the run participates in by\nconfiguration, not the number with active items.\n\nThis differs from `GET /repos/{owner}/{repo}/actions/concurrency_groups/{group_name}`,\nwhich returns 404 when a group has no active items. That endpoint reports\nthe live state of a group repo-wide, while this endpoint reports the\ngroups associated with a specific run by configuration.\n\nResults are sorted by group name and support cursor-based pagination via\n`before` and `after`. The `after` cursor paginates forward only and does\nnot emit a `rel=\"prev\"` Link; use `before` to page backward from a\nforward page's `next` cursor.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "concurrency_groups",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#ReviewCustomGatesCommentRequired": {
@@ -14895,7 +15037,13 @@
           "uri": "/repos/{owner}/{repo}/actions/runs/{run_id}/jobs",
           "code": 200
         },
-        "smithy.api#documentation": "List jobs for a workflow run\n\nLists jobs for a workflow run. You can use parameters to narrow the list of results. For more information\nabout using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List jobs for a workflow run\n\nLists jobs for a workflow run. You can use parameters to narrow the list of results. For more information\nabout using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "jobs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#DownloadWorkflowRunLogsRequest": {
@@ -16566,7 +16714,13 @@
           "uri": "/repos/{owner}/{repo}/actions/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository secrets\n\nLists all secrets available in a repository without revealing their encrypted\nvalues.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetRepoPublicKeyRequest": {
@@ -16650,6 +16804,11 @@
       "output": {
         "target": "com.github.actions#ActionsSecret"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -16777,6 +16936,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -16859,13 +17023,27 @@
       "output": {
         "target": "com.github.actions#ListRepoVariablesResponse"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#Forbidden"
+        },
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/repos/{owner}/{repo}/actions/variables",
           "code": 200
         },
-        "smithy.api#documentation": "List repository variables\n\nLists all repository variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List repository variables\n\nLists all repository variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#CreateRepoVariableRequest": {
@@ -16978,6 +17156,11 @@
       "output": {
         "target": "com.github.actions#ActionsVariable"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -17082,6 +17265,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -17277,7 +17465,13 @@
           "uri": "/repos/{owner}/{repo}/actions/workflows",
           "code": 200
         },
-        "smithy.api#documentation": "List repository workflows\n\nLists the workflows in a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List repository workflows\n\nLists the workflows in a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "workflows",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetWorkflowRequest": {
@@ -17767,7 +17961,13 @@
           "uri": "/repos/{owner}/{repo}/actions/workflows/{workflow_id}/runs",
           "code": 200
         },
-        "smithy.api#documentation": "List workflow runs for a workflow\n\nList all workflow runs for a workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.\n\nThis endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`."
+        "smithy.api#documentation": "List workflow runs for a workflow\n\nList all workflow runs for a workflow. You can replace `workflow_id` with the workflow file name. For example, you could use `main.yaml`. You can use parameters to narrow the list of results. For more information about using parameters, see [Parameters](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#parameters).\n\nAnyone with read access to the repository can use this endpoint\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.\n\nThis endpoint will return up to 1,000 results for each search when using the following parameters: `actor`, `branch`, `check_suite_id`, `created`, `event`, `head_sha`, `status`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "workflow_runs",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetWorkflowUsageRequest": {
@@ -17962,7 +18162,13 @@
           "uri": "/repos/{owner}/{repo}/environments/{environment_name}/secrets",
           "code": 200
         },
-        "smithy.api#documentation": "List environment secrets\n\nLists all secrets available in an environment without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List environment secrets\n\nLists all secrets available in an environment without revealing their\nencrypted values.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read secrets.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "secrets",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#GetEnvironmentPublicKeyRequest": {
@@ -18205,6 +18411,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -18301,7 +18512,13 @@
           "uri": "/repos/{owner}/{repo}/environments/{environment_name}/variables",
           "code": 200
         },
-        "smithy.api#documentation": "List environment variables\n\nLists all environment variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List environment variables\n\nLists all environment variables.\n\nAuthenticated users must have collaborator access to a repository to create, update, or read variables.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "variables",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.actions#CreateEnvironmentVariableRequest": {
@@ -18430,6 +18647,11 @@
       "output": {
         "target": "com.github.actions#ActionsVariable"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -18550,6 +18772,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.actions#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",

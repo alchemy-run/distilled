@@ -3568,193 +3568,277 @@ export type ListAccountsForPlanError =
   | UnprocessableEntity
   | GithubOpError;
 /** List accounts for a plan Returns user and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change. GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint. */
-export const listAccountsForPlan: API.OperationMethod<
+export const listAccountsForPlan: API.PaginatedOperationMethod<
   ListAccountsForPlanRequest,
   ListAccountsForPlanResponse,
   ListAccountsForPlanError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MarketplacePurchase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsForPlanRequest,
   output: ListAccountsForPlanResponse,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAccountsForPlanStubbedError = GithubOpError;
 /** List accounts for a plan (stubbed) Returns repository and organization accounts associated with the specified plan, including free plans. For per-seat pricing, you see the list of accounts that have purchased the plan, including the number of seats purchased. When someone submits a plan change that won't be processed until the end of their billing cycle, you will also see the upcoming pending change. GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint. */
-export const listAccountsForPlanStubbed: API.OperationMethod<
+export const listAccountsForPlanStubbed: API.PaginatedOperationMethod<
   ListAccountsForPlanStubbedRequest,
   ListAccountsForPlanStubbedResponse,
   ListAccountsForPlanStubbedError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MarketplacePurchase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAccountsForPlanStubbedRequest,
   output: ListAccountsForPlanStubbedResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInstallationReposForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List repositories accessible to the user access token List repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access for an installation. The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership. The access the user has to each repository is included in the hash under the `permissions` key. */
-export const listInstallationReposForAuthenticatedUser: API.OperationMethod<
+export const listInstallationReposForAuthenticatedUser: API.PaginatedOperationMethod<
   ListInstallationReposForAuthenticatedUserRequest,
   ListInstallationReposForAuthenticatedUserResponse,
   ListInstallationReposForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListInstallationReposForAuthenticatedUserResponseRepositoriesItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInstallationReposForAuthenticatedUserRequest,
   output: ListInstallationReposForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInstallationRequestsForAuthenticatedAppError = GithubOpError;
 /** List installation requests for the authenticated app Lists all the pending installation requests for the authenticated GitHub App. */
-export const listInstallationRequestsForAuthenticatedApp: API.OperationMethod<
+export const listInstallationRequestsForAuthenticatedApp: API.PaginatedOperationMethod<
   ListInstallationRequestsForAuthenticatedAppRequest,
   ListInstallationRequestsForAuthenticatedAppResponse,
   ListInstallationRequestsForAuthenticatedAppError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IntegrationInstallationRequest
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInstallationRequestsForAuthenticatedAppRequest,
   output: ListInstallationRequestsForAuthenticatedAppResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInstallationsError = GithubOpError;
 /** List installations for the authenticated app The permissions the installation has are included under the `permissions` key. You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. */
-export const listInstallations: API.OperationMethod<
+export const listInstallations: API.PaginatedOperationMethod<
   ListInstallationsRequest,
   ListInstallationsResponse,
   ListInstallationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Installation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInstallationsRequest,
   output: ListInstallationsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInstallationsForAuthenticatedUserError =
   | Forbidden
   | GithubOpError;
 /** List app installations accessible to the user access token Lists installations of your GitHub App that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access. The authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership. You can find the permissions for the installation under the `permissions` key. */
-export const listInstallationsForAuthenticatedUser: API.OperationMethod<
+export const listInstallationsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListInstallationsForAuthenticatedUserRequest,
   ListInstallationsForAuthenticatedUserResponse,
   ListInstallationsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Installation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInstallationsForAuthenticatedUserRequest,
   output: ListInstallationsForAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "installations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPlansError = NotFound | GithubOpError;
 /** List plans Lists all plans that are part of your GitHub Marketplace listing. GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint. */
-export const listPlans: API.OperationMethod<
+export const listPlans: API.PaginatedOperationMethod<
   ListPlansRequest,
   ListPlansResponse,
   ListPlansError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MarketplaceListingPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPlansRequest,
   output: ListPlansResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPlansStubbedError = GithubOpError;
 /** List plans (stubbed) Lists all plans that are part of your GitHub Marketplace listing. GitHub Apps must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. OAuth apps must use [basic authentication](https://docs.github.com/rest/authentication/authenticating-to-the-rest-api#using-basic-authentication) with their client ID and client secret to access this endpoint. */
-export const listPlansStubbed: API.OperationMethod<
+export const listPlansStubbed: API.PaginatedOperationMethod<
   ListPlansStubbedRequest,
   ListPlansStubbedResponse,
   ListPlansStubbedError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MarketplaceListingPlan
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPlansStubbedRequest,
   output: ListPlansStubbedResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposAccessibleToInstallationError = Forbidden | GithubOpError;
 /** List repositories accessible to the app installation List repositories that an app installation can access. */
-export const listReposAccessibleToInstallation: API.OperationMethod<
+export const listReposAccessibleToInstallation: API.PaginatedOperationMethod<
   ListReposAccessibleToInstallationRequest,
   ListReposAccessibleToInstallationResponse,
   ListReposAccessibleToInstallationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListReposAccessibleToInstallationResponseRepositoriesItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposAccessibleToInstallationRequest,
   output: ListReposAccessibleToInstallationResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSubscriptionsForAuthenticatedUserError =
   | NotFound
   | GithubOpError;
 /** List subscriptions for the authenticated user Lists the active subscriptions for the authenticated user. */
-export const listSubscriptionsForAuthenticatedUser: API.OperationMethod<
+export const listSubscriptionsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListSubscriptionsForAuthenticatedUserRequest,
   ListSubscriptionsForAuthenticatedUserResponse,
   ListSubscriptionsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  UserMarketplacePurchase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSubscriptionsForAuthenticatedUserRequest,
   output: ListSubscriptionsForAuthenticatedUserResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSubscriptionsForAuthenticatedUserStubbedError = GithubOpError;
 /** List subscriptions for the authenticated user (stubbed) Lists the active subscriptions for the authenticated user. */
-export const listSubscriptionsForAuthenticatedUserStubbed: API.OperationMethod<
+export const listSubscriptionsForAuthenticatedUserStubbed: API.PaginatedOperationMethod<
   ListSubscriptionsForAuthenticatedUserStubbedRequest,
   ListSubscriptionsForAuthenticatedUserStubbedResponse,
   ListSubscriptionsForAuthenticatedUserStubbedError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  UserMarketplacePurchase
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSubscriptionsForAuthenticatedUserStubbedRequest,
   output: ListSubscriptionsForAuthenticatedUserStubbedResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListWebhookDeliveriesError =
   | BadRequest
   | UnprocessableEntity
   | GithubOpError;
 /** List deliveries for an app webhook Returns a list of webhook deliveries for the webhook configured for a GitHub App. You must use a [JWT](https://docs.github.com/apps/building-github-apps/authenticating-with-github-apps/#authenticating-as-a-github-app) to access this endpoint. */
-export const listWebhookDeliveries: API.OperationMethod<
+export const listWebhookDeliveries: API.PaginatedOperationMethod<
   ListWebhookDeliveriesRequest,
   ListWebhookDeliveriesResponse,
   ListWebhookDeliveriesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  HookDeliveryItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListWebhookDeliveriesRequest,
   output: ListWebhookDeliveriesResponse,
   errors: [BadRequest, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "cursor",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RedeliverWebhookDeliveryError =
   | BadRequest

@@ -321,15 +321,22 @@ export const getAssignment: API.OperationMethod<
 
 export type GetAssignmentsError = GithubOpError;
 /** Get organization assignments Get all organizations assigned to an enterprise team */
-export const getAssignments: API.OperationMethod<
+export const getAssignments: API.PaginatedOperationMethod<
   GetAssignmentsRequest,
   GetAssignmentsResponse,
   GetAssignmentsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationSimple
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAssignmentsRequest,
   output: GetAssignmentsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;

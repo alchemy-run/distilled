@@ -263,12 +263,23 @@ export function make<
               config: cfg,
             });
             const response = yield* client.execute(request);
-            return yield* protocol.decode({
+            const decoded = yield* protocol.decode({
               response,
               outputAst,
               errors: cfg.errors ?? [],
               config: cfg,
             });
+            if (
+              decoded !== null &&
+              typeof decoded === "object" &&
+              response.headers.link
+            ) {
+              Pagination.responseLinkHeaders.set(
+                decoded,
+                response.headers.link,
+              );
+            }
+            return decoded;
           }).pipe(Effect.provideContext(protocolCtx)),
       );
       return applyRetry(call, cfg.retry);

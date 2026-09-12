@@ -2039,123 +2039,179 @@ export const getRepoVariable: API.OperationMethod<
 
 export type ListOrgSecretsError = GithubOpError;
 /** List organization secrets Lists all secrets available in an organization without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listOrgSecrets: API.OperationMethod<
+export const listOrgSecrets: API.PaginatedOperationMethod<
   ListOrgSecretsRequest,
   ListOrgSecretsResponse,
   ListOrgSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgSecretsRequest,
   output: ListOrgSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgVariablesError = GithubOpError;
 /** List organization variables Lists all agent variables available in an organization. Returned variables include their values. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listOrgVariables: API.OperationMethod<
+export const listOrgVariables: API.PaginatedOperationMethod<
   ListOrgVariablesRequest,
   ListOrgVariablesResponse,
   ListOrgVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgVariablesRequest,
   output: ListOrgVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoOrganizationSecretsError = GithubOpError;
 /** List repository organization secrets Lists all organization secrets shared with a repository without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoOrganizationSecrets: API.OperationMethod<
+export const listRepoOrganizationSecrets: API.PaginatedOperationMethod<
   ListRepoOrganizationSecretsRequest,
   ListRepoOrganizationSecretsResponse,
   ListRepoOrganizationSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoOrganizationSecretsRequest,
   output: ListRepoOrganizationSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoOrganizationVariablesError = GithubOpError;
 /** List repository organization variables Lists all organization variables shared with a repository. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoOrganizationVariables: API.OperationMethod<
+export const listRepoOrganizationVariables: API.PaginatedOperationMethod<
   ListRepoOrganizationVariablesRequest,
   ListRepoOrganizationVariablesResponse,
   ListRepoOrganizationVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoOrganizationVariablesRequest,
   output: ListRepoOrganizationVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoSecretsError = GithubOpError;
 /** List repository secrets Lists all secrets available in a repository without revealing their encrypted values. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoSecrets: API.OperationMethod<
+export const listRepoSecrets: API.PaginatedOperationMethod<
   ListRepoSecretsRequest,
   ListRepoSecretsResponse,
   ListRepoSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoSecretsRequest,
   output: ListRepoSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoVariablesError = GithubOpError;
 /** List repository variables Lists all repository variables. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoVariables: API.OperationMethod<
+export const listRepoVariables: API.PaginatedOperationMethod<
   ListRepoVariablesRequest,
   ListRepoVariablesResponse,
   ListRepoVariablesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ActionsVariable
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoVariablesRequest,
   output: ListRepoVariablesResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "variables",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedReposForOrgSecretError = GithubOpError;
 /** List selected repositories for an organization secret Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listSelectedReposForOrgSecret: API.OperationMethod<
+export const listSelectedReposForOrgSecret: API.PaginatedOperationMethod<
   ListSelectedReposForOrgSecretRequest,
   ListSelectedReposForOrgSecretResponse,
   ListSelectedReposForOrgSecretError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgSecretRequest,
   output: ListSelectedReposForOrgSecretResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedReposForOrgVariableError = Conflict | GithubOpError;
 /** List selected repositories for an organization variable Lists all repositories that can access an organization agent variable that is available to selected repositories. Authenticated users must have collaborator access to a repository to create, update, or read variables. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
-export const listSelectedReposForOrgVariable: API.OperationMethod<
+export const listSelectedReposForOrgVariable: API.PaginatedOperationMethod<
   ListSelectedReposForOrgVariableRequest,
   ListSelectedReposForOrgVariableResponse,
   ListSelectedReposForOrgVariableError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgVariableRequest,
   output: ListSelectedReposForOrgVariableResponse,
   errors: [Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveSelectedRepoFromOrgSecretError = Conflict | GithubOpError;
 /** Remove selected repository from an organization secret Removes a repository from an organization secret when the `visibility` for repository access is set to `selected`. The visibility is set when you [Create or update an organization secret](https://docs.github.com/rest/agents/secrets#create-or-update-an-organization-secret). Authenticated users must have collaborator access to a repository to create, update, or read secrets. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. If the repository is private, the `repo` scope is also required. */
