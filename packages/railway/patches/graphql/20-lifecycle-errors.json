@@ -1,0 +1,45 @@
+{
+  "description": "Promote two previously live-observed lifecycle message checks from Alchemy TCPProxy.ts and ServiceDomain.ts into field-scoped tagged errors. Specific message matching must take precedence over broad RailwayInternalError/RailwayNotFound.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayOperationInProgress",
+      "value": {
+        "description": "TCP proxy deletion must wait for an existing operation to complete. Observed in Alchemy TCPProxy lifecycle: Cannot delete TCP proxy: an operation is already in progress.",
+        "category": "conflict",
+        "retryable": true,
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "messageIncludes": "operation is already in progress"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/errors/RailwayServiceInstanceNotFound",
+      "value": {
+        "description": "Service domain creation ran before the service instance became visible. Observed in Alchemy ServiceDomain lifecycle: ServiceInstance not found.",
+        "category": "notFound",
+        "retryable": true,
+        "matchers": [
+          {
+            "code": "INTERNAL_SERVER_ERROR",
+            "message": "ServiceInstance not found"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/tcpProxyDelete/errors/-",
+      "value": "RailwayOperationInProgress"
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/serviceDomainCreate/errors/-",
+      "value": "RailwayServiceInstanceNotFound"
+    }
+  ]
+}

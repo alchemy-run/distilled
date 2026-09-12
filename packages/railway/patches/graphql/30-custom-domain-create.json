@@ -1,0 +1,24 @@
+{
+  "description": "Live native-GraphQL lifecycle failure on 2026-09-12: Mutation.customDomainCreate returned Failed to create custom domain, please try again during CustomDomain.test.ts. The aggregate log retained the exact message but not the raw envelope, so match that message without guessing extensions fields. Callers must observe the domain before retrying creation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayCustomDomainCreateFailed",
+      "value": {
+        "description": "Railway could not create the custom domain. Observe whether it exists before retrying the mutation.",
+        "category": "server",
+        "retryable": true,
+        "matchers": [
+          {
+            "message": "Failed to create custom domain, please try again"
+          }
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/types/Mutation/fields/customDomainCreate/errors/-",
+      "value": "RailwayCustomDomainCreateFailed"
+    }
+  ]
+}

@@ -20,15 +20,23 @@
       "bun": "./src/index.ts",
       "worker": "./src/index.ts",
       "default": "./lib/index.js"
+    },
+    "./graphql": {
+      "types": "./lib/graphql.d.ts",
+      "bun": "./src/graphql.ts",
+      "worker": "./src/graphql.ts",
+      "default": "./lib/graphql.js"
     }
   },
   "scripts": {
     "build": "tsc -b",
-    "convert": "bun scripts/convert.ts",
-    "generate": "bun scripts/generate.ts",
+    "convert": "bun scripts/convert.ts && bun scripts/convert-graphql.ts",
+    "generate": "bun scripts/generate.ts && bun scripts/generate-graphql.ts",
     "typecheck": "tsc -p tsconfig.json",
     "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-railway",
-    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-railway"
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-railway",
+    "convert:graphql": "bun scripts/convert-graphql.ts",
+    "generate:graphql": "bun scripts/generate-graphql.ts"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
