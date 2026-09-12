@@ -1,7 +1,5 @@
-import {
-  convertOpenApiToSmithy,
-  type SmithyModel,
-} from "@distilled.cloud/core/codegen/openapi";
+import * as Schema from "effect/Schema";
+import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
 import { generateService } from "@distilled.cloud/core/codegen/generator";
 
 interface WebhookDescription {
@@ -17,7 +15,7 @@ export const convertWebhooks = (document: {
   components: unknown;
   info: unknown;
   openapi: string;
-}): SmithyModel => {
+}) => {
   const events = new Map<string, unknown[]>();
   for (const webhook of Object.values(document["x-webhooks"])) {
     // Header examples contain typos ("discussions", "project-v2"). The
@@ -78,12 +76,17 @@ export const convertWebhooks = (document: {
   return model;
 };
 
+export const WebhookModel = Schema.Struct({
+  smithy: Schema.Literal("2.0"),
+  metadata: Schema.Struct({
+    githubWebhookPayloads: Schema.Record(Schema.String, Schema.String),
+  }),
+  shapes: Schema.Record(Schema.String, Schema.Unknown),
+});
+
 /** Generate schemas plus a delivery union correlated by X-GitHub-Event. */
-export const generateWebhooks = (model: SmithyModel): string => {
-  const payloads = model.metadata.githubWebhookPayloads as Record<
-    string,
-    string
-  >;
+export const generateWebhooks = (model: typeof WebhookModel.Type) => {
+  const payloads = model.metadata.githubWebhookPayloads;
   const { code } = generateService(model, {
     nullableTrait: "com.distilled.openapi#nullable",
     extraRoots: () => Object.values(payloads),
@@ -107,7 +110,7 @@ export const generateWebhooks = (model: SmithyModel): string => {
         }>(def.members).map((member) => member.traits["smithy.api#enumValue"]);
         return [
           `export type ${name} = ${values.map((value) => JSON.stringify(value)).join(" | ")};`,
-          `export const ${name} = /*@__PURE__*/ S.Literals(${JSON.stringify(values)}) as S.Schema<${name}>;`,
+          `export const ${name} = /*@__PURE__*/ S.Literals(${JSON.stringify(values)});`,
         ];
       }
       if (def.type === "union") {
@@ -131,16 +134,20 @@ export const generateWebhooks = (model: SmithyModel): string => {
 /** Payload schemas indexed by the X-GitHub-Event header. */
 export const WebhookPayloadSchemas = {
 ${entries.map(([name, target]) => `  ${JSON.stringify(name)}: ${localName(target)},`).join("\n")}
-} as const;
+};
 
 export interface WebhookPayloads {
 ${entries.map(([name, target]) => `  ${JSON.stringify(name)}: ${localName(target)};`).join("\n")}
 }
 
 export type WebhookEventName = keyof WebhookPayloads;
-export const WebhookEventName = /*@__PURE__*/ S.Literals(${JSON.stringify(entries.map(([name]) => name))}) as S.Codec<WebhookEventName>;
+export const WebhookEventName = /*@__PURE__*/ S.Literals(${JSON.stringify(entries.map(([name]) => name))});
 
 /** A delivery whose name determines its payload, including action variants. */
+export const WebhookEvent = /*@__PURE__*/ S.Union([
+${entries.map(([name, target]) => `  S.Struct({ id: S.NonEmptyString, name: S.Literal(${JSON.stringify(name)}), payload: ${localName(target)} }),`).join("\n")}
+]);
+
 export type WebhookEvent<Name extends WebhookEventName = WebhookEventName> = {
   [K in Name]: { readonly id: string; readonly name: K; readonly payload: WebhookPayloads[K] }
 }[Name];
