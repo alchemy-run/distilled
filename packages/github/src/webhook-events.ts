@@ -15967,10 +15967,10 @@ export const WebhookIssueCommentCreatedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssueCommentCreatedIssueAssigneesItem>;
 
 export type WebhookIssueCommentCreatedIssueAssigneesList =
-  Array<WebhookIssueCommentCreatedIssueAssigneesItem>;
+  Array<WebhookIssueCommentCreatedIssueAssigneesItem | null>;
 export const WebhookIssueCommentCreatedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssueCommentCreatedIssueAssigneesItem,
+    S.NullOr(WebhookIssueCommentCreatedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssueCommentCreatedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -17188,10 +17188,10 @@ export const WebhookIssueCommentDeletedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssueCommentDeletedIssueAssigneesItem>;
 
 export type WebhookIssueCommentDeletedIssueAssigneesList =
-  Array<WebhookIssueCommentDeletedIssueAssigneesItem>;
+  Array<WebhookIssueCommentDeletedIssueAssigneesItem | null>;
 export const WebhookIssueCommentDeletedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssueCommentDeletedIssueAssigneesItem,
+    S.NullOr(WebhookIssueCommentDeletedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssueCommentDeletedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -18206,10 +18206,10 @@ export const WebhookIssueCommentEditedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssueCommentEditedIssueAssigneesItem>;
 
 export type WebhookIssueCommentEditedIssueAssigneesList =
-  Array<WebhookIssueCommentEditedIssueAssigneesItem>;
+  Array<WebhookIssueCommentEditedIssueAssigneesItem | null>;
 export const WebhookIssueCommentEditedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssueCommentEditedIssueAssigneesItem,
+    S.NullOr(WebhookIssueCommentEditedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssueCommentEditedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -19205,10 +19205,10 @@ export const WebhookIssueCommentPinnedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssueCommentPinnedIssueAssigneesItem>;
 
 export type WebhookIssueCommentPinnedIssueAssigneesList =
-  Array<WebhookIssueCommentPinnedIssueAssigneesItem>;
+  Array<WebhookIssueCommentPinnedIssueAssigneesItem | null>;
 export const WebhookIssueCommentPinnedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssueCommentPinnedIssueAssigneesItem,
+    S.NullOr(WebhookIssueCommentPinnedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssueCommentPinnedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -20206,10 +20206,10 @@ export const WebhookIssueCommentUnpinnedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssueCommentUnpinnedIssueAssigneesItem>;
 
 export type WebhookIssueCommentUnpinnedIssueAssigneesList =
-  Array<WebhookIssueCommentUnpinnedIssueAssigneesItem>;
+  Array<WebhookIssueCommentUnpinnedIssueAssigneesItem | null>;
 export const WebhookIssueCommentUnpinnedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssueCommentUnpinnedIssueAssigneesItem,
+    S.NullOr(WebhookIssueCommentUnpinnedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssueCommentUnpinnedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -21721,9 +21721,10 @@ export const WebhooksIssueAssigneesItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhooksIssueAssigneesItem",
 }) as any as S.Codec<WebhooksIssueAssigneesItem>;
 
-export type WebhooksIssueAssigneesList = Array<WebhooksIssueAssigneesItem>;
+export type WebhooksIssueAssigneesList =
+  Array<WebhooksIssueAssigneesItem | null>;
 export const WebhooksIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhooksIssueAssigneesItem,
+  S.NullOr(WebhooksIssueAssigneesItem),
 ) as any as S.Codec<WebhooksIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -22696,9 +22697,9 @@ export const WebhookIssuesClosedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesClosedIssueAssigneesItem>;
 
 export type WebhookIssuesClosedIssueAssigneesList =
-  Array<WebhookIssuesClosedIssueAssigneesItem>;
+  Array<WebhookIssuesClosedIssueAssigneesItem | null>;
 export const WebhookIssuesClosedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesClosedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesClosedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesClosedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -23697,9 +23698,9 @@ export const WebhookIssuesDeletedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesDeletedIssueAssigneesItem>;
 
 export type WebhookIssuesDeletedIssueAssigneesList =
-  Array<WebhookIssuesDeletedIssueAssigneesItem>;
+  Array<WebhookIssuesDeletedIssueAssigneesItem | null>;
 export const WebhookIssuesDeletedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesDeletedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesDeletedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesDeletedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -24686,10 +24687,10 @@ export const WebhookIssuesDemilestonedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssuesDemilestonedIssueAssigneesItem>;
 
 export type WebhookIssuesDemilestonedIssueAssigneesList =
-  Array<WebhookIssuesDemilestonedIssueAssigneesItem>;
+  Array<WebhookIssuesDemilestonedIssueAssigneesItem | null>;
 export const WebhookIssuesDemilestonedIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssuesDemilestonedIssueAssigneesItem,
+    S.NullOr(WebhookIssuesDemilestonedIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssuesDemilestonedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -24716,9 +24717,10 @@ export const WebhookIssuesDemilestonedIssueAuthorAssociation: S.Codec<WebhookIss
 export type WebhookIssuesDemilestonedIssueLabelsItem = WebhooksLabel;
 export const WebhookIssuesDemilestonedIssueLabelsItem = WebhooksLabel;
 
-export type WebhookIssuesDemilestonedIssueLabelsList = Array<WebhooksLabel>;
+export type WebhookIssuesDemilestonedIssueLabelsList =
+  Array<WebhooksLabel | null>;
 export const WebhookIssuesDemilestonedIssueLabelsList = /*@__PURE__*/ S.Array(
-  WebhooksLabel,
+  S.NullOr(WebhooksLabel),
 ) as any as S.Codec<WebhookIssuesDemilestonedIssueLabelsList>;
 
 export type WebhookIssuesDemilestonedIssueMilestoneCreatorType =
@@ -25827,9 +25829,9 @@ export const WebhookIssuesEditedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesEditedIssueAssigneesItem>;
 
 export type WebhookIssuesEditedIssueAssigneesList =
-  Array<WebhookIssuesEditedIssueAssigneesItem>;
+  Array<WebhookIssuesEditedIssueAssigneesItem | null>;
 export const WebhookIssuesEditedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesEditedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesEditedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesEditedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -27213,9 +27215,9 @@ export const WebhookIssuesLabeledIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesLabeledIssueAssigneesItem>;
 
 export type WebhookIssuesLabeledIssueAssigneesList =
-  Array<WebhookIssuesLabeledIssueAssigneesItem>;
+  Array<WebhookIssuesLabeledIssueAssigneesItem | null>;
 export const WebhookIssuesLabeledIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesLabeledIssueAssigneesItem,
+  S.NullOr(WebhookIssuesLabeledIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesLabeledIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -28213,9 +28215,9 @@ export const WebhookIssuesLockedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesLockedIssueAssigneesItem>;
 
 export type WebhookIssuesLockedIssueAssigneesList =
-  Array<WebhookIssuesLockedIssueAssigneesItem>;
+  Array<WebhookIssuesLockedIssueAssigneesItem | null>;
 export const WebhookIssuesLockedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesLockedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesLockedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesLockedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -28242,9 +28244,9 @@ export const WebhookIssuesLockedIssueAuthorAssociation: S.Codec<WebhookIssuesLoc
 export type WebhookIssuesLockedIssueLabelsItem = WebhooksLabel;
 export const WebhookIssuesLockedIssueLabelsItem = WebhooksLabel;
 
-export type WebhookIssuesLockedIssueLabelsList = Array<WebhooksLabel>;
+export type WebhookIssuesLockedIssueLabelsList = Array<WebhooksLabel | null>;
 export const WebhookIssuesLockedIssueLabelsList = /*@__PURE__*/ S.Array(
-  WebhooksLabel,
+  S.NullOr(WebhooksLabel),
 ) as any as S.Codec<WebhookIssuesLockedIssueLabelsList>;
 
 export type WebhookIssuesLockedIssueMilestoneCreatorType =
@@ -29202,9 +29204,9 @@ export const WebhookIssuesMilestonedIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssuesMilestonedIssueAssigneesItem>;
 
 export type WebhookIssuesMilestonedIssueAssigneesList =
-  Array<WebhookIssuesMilestonedIssueAssigneesItem>;
+  Array<WebhookIssuesMilestonedIssueAssigneesItem | null>;
 export const WebhookIssuesMilestonedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesMilestonedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesMilestonedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesMilestonedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -29231,9 +29233,10 @@ export const WebhookIssuesMilestonedIssueAuthorAssociation: S.Codec<WebhookIssue
 export type WebhookIssuesMilestonedIssueLabelsItem = WebhooksLabel;
 export const WebhookIssuesMilestonedIssueLabelsItem = WebhooksLabel;
 
-export type WebhookIssuesMilestonedIssueLabelsList = Array<WebhooksLabel>;
+export type WebhookIssuesMilestonedIssueLabelsList =
+  Array<WebhooksLabel | null>;
 export const WebhookIssuesMilestonedIssueLabelsList = /*@__PURE__*/ S.Array(
-  WebhooksLabel,
+  S.NullOr(WebhooksLabel),
 ) as any as S.Codec<WebhookIssuesMilestonedIssueLabelsList>;
 
 export type WebhookIssuesMilestonedIssueMilestoneCreatorType =
@@ -30203,10 +30206,10 @@ export const WebhookIssuesOpenedChangesOldIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssuesOpenedChangesOldIssueAssigneesItem>;
 
 export type WebhookIssuesOpenedChangesOldIssueAssigneesList =
-  Array<WebhookIssuesOpenedChangesOldIssueAssigneesItem>;
+  Array<WebhookIssuesOpenedChangesOldIssueAssigneesItem | null>;
 export const WebhookIssuesOpenedChangesOldIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssuesOpenedChangesOldIssueAssigneesItem,
+    S.NullOr(WebhookIssuesOpenedChangesOldIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssuesOpenedChangesOldIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -31531,9 +31534,9 @@ export const WebhookIssuesOpenedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesOpenedIssueAssigneesItem>;
 
 export type WebhookIssuesOpenedIssueAssigneesList =
-  Array<WebhookIssuesOpenedIssueAssigneesItem>;
+  Array<WebhookIssuesOpenedIssueAssigneesItem | null>;
 export const WebhookIssuesOpenedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesOpenedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesOpenedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesOpenedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -32521,9 +32524,10 @@ export const WebhooksIssue2AssigneesItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhooksIssue2AssigneesItem",
 }) as any as S.Codec<WebhooksIssue2AssigneesItem>;
 
-export type WebhooksIssue2AssigneesList = Array<WebhooksIssue2AssigneesItem>;
+export type WebhooksIssue2AssigneesList =
+  Array<WebhooksIssue2AssigneesItem | null>;
 export const WebhooksIssue2AssigneesList = /*@__PURE__*/ S.Array(
-  WebhooksIssue2AssigneesItem,
+  S.NullOr(WebhooksIssue2AssigneesItem),
 ) as any as S.Codec<WebhooksIssue2AssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -33483,9 +33487,9 @@ export const WebhookIssuesReopenedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesReopenedIssueAssigneesItem>;
 
 export type WebhookIssuesReopenedIssueAssigneesList =
-  Array<WebhookIssuesReopenedIssueAssigneesItem>;
+  Array<WebhookIssuesReopenedIssueAssigneesItem | null>;
 export const WebhookIssuesReopenedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesReopenedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesReopenedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesReopenedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -33512,9 +33516,9 @@ export const WebhookIssuesReopenedIssueAuthorAssociation: S.Codec<WebhookIssuesR
 export type WebhookIssuesReopenedIssueLabelsItem = WebhooksLabel;
 export const WebhookIssuesReopenedIssueLabelsItem = WebhooksLabel;
 
-export type WebhookIssuesReopenedIssueLabelsList = Array<WebhooksLabel>;
+export type WebhookIssuesReopenedIssueLabelsList = Array<WebhooksLabel | null>;
 export const WebhookIssuesReopenedIssueLabelsList = /*@__PURE__*/ S.Array(
-  WebhooksLabel,
+  S.NullOr(WebhooksLabel),
 ) as any as S.Codec<WebhookIssuesReopenedIssueLabelsList>;
 
 export type WebhookIssuesReopenedIssueMilestoneCreatorType =
@@ -34487,10 +34491,10 @@ export const WebhookIssuesTransferredChangesNewIssueAssigneesItem =
   }) as any as S.Codec<WebhookIssuesTransferredChangesNewIssueAssigneesItem>;
 
 export type WebhookIssuesTransferredChangesNewIssueAssigneesList =
-  Array<WebhookIssuesTransferredChangesNewIssueAssigneesItem>;
+  Array<WebhookIssuesTransferredChangesNewIssueAssigneesItem | null>;
 export const WebhookIssuesTransferredChangesNewIssueAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookIssuesTransferredChangesNewIssueAssigneesItem,
+    S.NullOr(WebhookIssuesTransferredChangesNewIssueAssigneesItem),
   ) as any as S.Codec<WebhookIssuesTransferredChangesNewIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -36000,9 +36004,9 @@ export const WebhookIssuesUnlockedIssueAssigneesItem = /*@__PURE__*/ S.suspend(
 }) as any as S.Codec<WebhookIssuesUnlockedIssueAssigneesItem>;
 
 export type WebhookIssuesUnlockedIssueAssigneesList =
-  Array<WebhookIssuesUnlockedIssueAssigneesItem>;
+  Array<WebhookIssuesUnlockedIssueAssigneesItem | null>;
 export const WebhookIssuesUnlockedIssueAssigneesList = /*@__PURE__*/ S.Array(
-  WebhookIssuesUnlockedIssueAssigneesItem,
+  S.NullOr(WebhookIssuesUnlockedIssueAssigneesItem),
 ) as any as S.Codec<WebhookIssuesUnlockedIssueAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -36029,9 +36033,9 @@ export const WebhookIssuesUnlockedIssueAuthorAssociation: S.Codec<WebhookIssuesU
 export type WebhookIssuesUnlockedIssueLabelsItem = WebhooksLabel;
 export const WebhookIssuesUnlockedIssueLabelsItem = WebhooksLabel;
 
-export type WebhookIssuesUnlockedIssueLabelsList = Array<WebhooksLabel>;
+export type WebhookIssuesUnlockedIssueLabelsList = Array<WebhooksLabel | null>;
 export const WebhookIssuesUnlockedIssueLabelsList = /*@__PURE__*/ S.Array(
-  WebhooksLabel,
+  S.NullOr(WebhooksLabel),
 ) as any as S.Codec<WebhookIssuesUnlockedIssueLabelsList>;
 
 export type WebhookIssuesUnlockedIssueMilestoneCreatorType =
@@ -37139,9 +37143,9 @@ export const WebhooksMarketplacePurchaseAccount = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhooksMarketplacePurchaseAccount",
 }) as any as S.Codec<WebhooksMarketplacePurchaseAccount>;
 
-export type WebhooksMarketplacePurchasePlanBulletsList = Array<string>;
+export type WebhooksMarketplacePurchasePlanBulletsList = Array<string | null>;
 export const WebhooksMarketplacePurchasePlanBulletsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Codec<WebhooksMarketplacePurchasePlanBulletsList>;
 
 export type WebhooksMarketplacePurchasePlanPriceModel =
@@ -43719,10 +43723,10 @@ export const WebhookPullRequestAssignedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestAssignedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestAssignedPullRequestAssigneesList =
-  Array<WebhookPullRequestAssignedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestAssignedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestAssignedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestAssignedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestAssignedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestAssignedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -45595,10 +45599,10 @@ export const WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem>;
 
 export type WebhookPullRequestAutoMergeDisabledPullRequestAssigneesList =
-  Array<WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem>;
+  Array<WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem | null>;
 export const WebhookPullRequestAutoMergeDisabledPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestAutoMergeDisabledPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestAutoMergeDisabledPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -47508,10 +47512,10 @@ export const WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem>;
 
 export type WebhookPullRequestAutoMergeEnabledPullRequestAssigneesList =
-  Array<WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem>;
+  Array<WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem | null>;
 export const WebhookPullRequestAutoMergeEnabledPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestAutoMergeEnabledPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestAutoMergeEnabledPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -49716,9 +49720,9 @@ export const WebhooksPullRequest5AssigneesItem = /*@__PURE__*/ S.suspend(() =>
 }) as any as S.Codec<WebhooksPullRequest5AssigneesItem>;
 
 export type WebhooksPullRequest5AssigneesList =
-  Array<WebhooksPullRequest5AssigneesItem>;
+  Array<WebhooksPullRequest5AssigneesItem | null>;
 export const WebhooksPullRequest5AssigneesList = /*@__PURE__*/ S.Array(
-  WebhooksPullRequest5AssigneesItem,
+  S.NullOr(WebhooksPullRequest5AssigneesItem),
 ) as any as S.Codec<WebhooksPullRequest5AssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -51510,10 +51514,10 @@ export const WebhookPullRequestDequeuedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestDequeuedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestDequeuedPullRequestAssigneesList =
-  Array<WebhookPullRequestDequeuedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestDequeuedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestDequeuedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestDequeuedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestDequeuedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestDequeuedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -53486,10 +53490,10 @@ export const WebhookPullRequestEnqueuedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestEnqueuedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestEnqueuedPullRequestAssigneesList =
-  Array<WebhookPullRequestEnqueuedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestEnqueuedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestEnqueuedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestEnqueuedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestEnqueuedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestEnqueuedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -55354,10 +55358,10 @@ export const WebhookPullRequestLabeledPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestLabeledPullRequestAssigneesItem>;
 
 export type WebhookPullRequestLabeledPullRequestAssigneesList =
-  Array<WebhookPullRequestLabeledPullRequestAssigneesItem>;
+  Array<WebhookPullRequestLabeledPullRequestAssigneesItem | null>;
 export const WebhookPullRequestLabeledPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestLabeledPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestLabeledPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestLabeledPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -57219,10 +57223,10 @@ export const WebhookPullRequestLockedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestLockedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestLockedPullRequestAssigneesList =
-  Array<WebhookPullRequestLockedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestLockedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestLockedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestLockedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestLockedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestLockedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -59216,10 +59220,12 @@ export const WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem
   }) as any as S.Codec<WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesList =
-  Array<WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem,
+    S.NullOr(
+      WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesItem,
+    ),
   ) as any as S.Codec<WebhookPullRequestReviewRequestRemovedCase0PullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -61232,10 +61238,12 @@ export const WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem
   }) as any as S.Codec<WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesList =
-  Array<WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem,
+    S.NullOr(
+      WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesItem,
+    ),
   ) as any as S.Codec<WebhookPullRequestReviewRequestRemovedCase1PullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -63286,10 +63294,10 @@ export const WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewRequestedCase0PullRequestAssigneesList =
-  Array<WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewRequestedCase0PullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewRequestedCase0PullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewRequestedCase0PullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -65283,10 +65291,10 @@ export const WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewRequestedCase1PullRequestAssigneesList =
-  Array<WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewRequestedCase1PullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewRequestedCase1PullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewRequestedCase1PullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -67304,10 +67312,10 @@ export const WebhookPullRequestStackedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestStackedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestStackedPullRequestAssigneesList =
-  Array<WebhookPullRequestStackedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestStackedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestStackedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestStackedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestStackedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestStackedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -69172,10 +69180,10 @@ export const WebhookPullRequestSynchronizePullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestSynchronizePullRequestAssigneesItem>;
 
 export type WebhookPullRequestSynchronizePullRequestAssigneesList =
-  Array<WebhookPullRequestSynchronizePullRequestAssigneesItem>;
+  Array<WebhookPullRequestSynchronizePullRequestAssigneesItem | null>;
 export const WebhookPullRequestSynchronizePullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestSynchronizePullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestSynchronizePullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestSynchronizePullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -71057,10 +71065,10 @@ export const WebhookPullRequestUnassignedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestUnassignedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestUnassignedPullRequestAssigneesList =
-  Array<WebhookPullRequestUnassignedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestUnassignedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestUnassignedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestUnassignedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestUnassignedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestUnassignedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -72938,10 +72946,10 @@ export const WebhookPullRequestUnlabeledPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestUnlabeledPullRequestAssigneesItem>;
 
 export type WebhookPullRequestUnlabeledPullRequestAssigneesList =
-  Array<WebhookPullRequestUnlabeledPullRequestAssigneesItem>;
+  Array<WebhookPullRequestUnlabeledPullRequestAssigneesItem | null>;
 export const WebhookPullRequestUnlabeledPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestUnlabeledPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestUnlabeledPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestUnlabeledPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -74809,10 +74817,10 @@ export const WebhookPullRequestUnlockedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestUnlockedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestUnlockedPullRequestAssigneesList =
-  Array<WebhookPullRequestUnlockedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestUnlockedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestUnlockedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestUnlockedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestUnlockedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestUnlockedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -76739,10 +76747,10 @@ export const WebhookPullRequestReviewDismissedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewDismissedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewDismissedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewDismissedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewDismissedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewDismissedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewDismissedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewDismissedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewDismissedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -78714,10 +78722,10 @@ export const WebhookPullRequestReviewEditedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewEditedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewEditedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewEditedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewEditedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewEditedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewEditedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewEditedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewEditedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -80494,10 +80502,10 @@ export const WebhookPullRequestReviewSubmittedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewSubmittedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewSubmittedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewSubmittedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewSubmittedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewSubmittedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewSubmittedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewSubmittedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewSubmittedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -82559,10 +82567,10 @@ export const WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewCommentCreatedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewCommentCreatedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewCommentCreatedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewCommentCreatedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -84586,10 +84594,10 @@ export const WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewCommentDeletedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewCommentDeletedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewCommentDeletedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewCommentDeletedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -86417,10 +86425,10 @@ export const WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewCommentEditedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewCommentEditedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewCommentEditedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewCommentEditedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -88270,10 +88278,10 @@ export const WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewThreadResolvedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewThreadResolvedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewThreadResolvedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewThreadResolvedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -90251,10 +90259,10 @@ export const WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem =
   }) as any as S.Codec<WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem>;
 
 export type WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesList =
-  Array<WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem>;
+  Array<WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem | null>;
 export const WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesList =
   /*@__PURE__*/ S.Array(
-    WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem,
+    S.NullOr(WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesItem),
   ) as any as S.Codec<WebhookPullRequestReviewThreadUnresolvedPullRequestAssigneesList>;
 
 /** How the author is associated with the repository. */
@@ -93232,10 +93240,12 @@ export const WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMet
   }) as any as S.Codec<WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem>;
 
 export type WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataList =
-  Array<WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem>;
+  Array<WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem | null>;
 export const WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataList =
   /*@__PURE__*/ S.Array(
-    WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem,
+    S.NullOr(
+      WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataItem,
+    ),
   ) as any as S.Codec<WebhookRegistryPackageUpdatedRegistryPackagePackageVersionDockerMetadataList>;
 
 export type WebhookRegistryPackageUpdatedRegistryPackagePackageVersionMetadataItemMap =
@@ -93940,9 +93950,9 @@ export const WebhookReleasePrereleasedReleaseAssetsItem =
   }) as any as S.Codec<WebhookReleasePrereleasedReleaseAssetsItem>;
 
 export type WebhookReleasePrereleasedReleaseAssetsList =
-  Array<WebhookReleasePrereleasedReleaseAssetsItem>;
+  Array<WebhookReleasePrereleasedReleaseAssetsItem | null>;
 export const WebhookReleasePrereleasedReleaseAssetsList = /*@__PURE__*/ S.Array(
-  WebhookReleasePrereleasedReleaseAssetsItem,
+  S.NullOr(WebhookReleasePrereleasedReleaseAssetsItem),
 ) as any as S.Codec<WebhookReleasePrereleasedReleaseAssetsList>;
 
 export type WebhookReleasePrereleasedReleaseAuthorType =
@@ -94197,9 +94207,10 @@ export const WebhooksRelease1AssetsItem = /*@__PURE__*/ S.suspend(() =>
   identifier: "WebhooksRelease1AssetsItem",
 }) as any as S.Codec<WebhooksRelease1AssetsItem>;
 
-export type WebhooksRelease1AssetsList = Array<WebhooksRelease1AssetsItem>;
+export type WebhooksRelease1AssetsList =
+  Array<WebhooksRelease1AssetsItem | null>;
 export const WebhooksRelease1AssetsList = /*@__PURE__*/ S.Array(
-  WebhooksRelease1AssetsItem,
+  S.NullOr(WebhooksRelease1AssetsItem),
 ) as any as S.Codec<WebhooksRelease1AssetsList>;
 
 export type WebhooksRelease1AuthorType = "Bot" | "User" | "Organization";
@@ -103867,10 +103878,10 @@ export const WebhookWorkflowRunCompletedWorkflowRunPullRequestsItem =
   WebhookCheckSuiteCompletedCheckSuitePullRequestsItem;
 
 export type WebhookWorkflowRunCompletedWorkflowRunPullRequestsList =
-  Array<WebhookCheckSuiteCompletedCheckSuitePullRequestsItem>;
+  Array<WebhookCheckSuiteCompletedCheckSuitePullRequestsItem | null>;
 export const WebhookWorkflowRunCompletedWorkflowRunPullRequestsList =
   /*@__PURE__*/ S.Array(
-    WebhookCheckSuiteCompletedCheckSuitePullRequestsItem,
+    S.NullOr(WebhookCheckSuiteCompletedCheckSuitePullRequestsItem),
   ) as any as S.Codec<WebhookWorkflowRunCompletedWorkflowRunPullRequestsList>;
 
 export type WebhookWorkflowRunCompletedWorkflowRunReferencedWorkflowsItem =
@@ -104531,10 +104542,10 @@ export const WebhookWorkflowRunInProgressWorkflowRunPullRequestsItem =
   WebhookCheckSuiteCompletedCheckSuitePullRequestsItem;
 
 export type WebhookWorkflowRunInProgressWorkflowRunPullRequestsList =
-  Array<WebhookCheckSuiteCompletedCheckSuitePullRequestsItem>;
+  Array<WebhookCheckSuiteCompletedCheckSuitePullRequestsItem | null>;
 export const WebhookWorkflowRunInProgressWorkflowRunPullRequestsList =
   /*@__PURE__*/ S.Array(
-    WebhookCheckSuiteCompletedCheckSuitePullRequestsItem,
+    S.NullOr(WebhookCheckSuiteCompletedCheckSuitePullRequestsItem),
   ) as any as S.Codec<WebhookWorkflowRunInProgressWorkflowRunPullRequestsList>;
 
 export type WebhookWorkflowRunInProgressWorkflowRunReferencedWorkflowsItem =

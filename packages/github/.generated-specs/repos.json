@@ -8769,7 +8769,10 @@
         "smithy.api#paginated": {
           "mode": "link",
           "inputToken": "after",
-          "inputTokens": ["after", "before"],
+          "inputTokens": [
+            "after",
+            "before"
+          ],
           "items": "$",
           "pageSize": "per_page"
         }
@@ -9036,7 +9039,10 @@
         "smithy.api#paginated": {
           "mode": "link",
           "inputToken": "after",
-          "inputTokens": ["after", "before"],
+          "inputTokens": [
+            "after",
+            "before"
+          ],
           "items": "attestations",
           "pageSize": "per_page"
         }
