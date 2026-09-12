@@ -1,5 +1,8 @@
 import * as Schema from "effect/Schema";
-import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import {
+  convertOpenApiToSmithy,
+  type SmithyModel,
+} from "@distilled.cloud/core/codegen/openapi";
 import { generateService } from "@distilled.cloud/core/codegen/generator";
 
 interface WebhookDescription {
@@ -87,9 +90,27 @@ export const WebhookModel = Schema.Struct({
 /** Generate schemas plus a delivery union correlated by X-GitHub-Event. */
 export const generateWebhooks = (model: typeof WebhookModel.Type) => {
   const payloads = model.metadata.githubWebhookPayloads;
+  const shapes: SmithyModel["shapes"] = model.shapes;
   const { code } = generateService(model, {
     nullableTrait: "com.distilled.openapi#nullable",
     extraRoots: () => Object.values(payloads),
+    // Webhook schemas decode the wire JSON directly, without the REST protocol's
+    // field-name mapping (for example, reaction counts named "+1" and "-1").
+    structPipes: ({ id }) => {
+      const keys = Object.fromEntries(
+        Object.entries<{ traits?: Record<string, string> }>(
+          shapes[id].members ?? {},
+        ).flatMap(([name, member]) => {
+          const wireName = member.traits?.["smithy.api#jsonName"];
+          return wireName === undefined || wireName === name
+            ? []
+            : [[name, wireName]];
+        }),
+      );
+      return Object.keys(keys).length
+        ? [`S.encodeKeys(${JSON.stringify(keys)})`]
+        : [];
+    },
     extraBindings: [
       {
         trait: "com.distilled.openapi#rawResponse",
