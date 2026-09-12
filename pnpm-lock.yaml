@@ -20,10 +20,10 @@ catalogs:
       version: 4.0.0-rc.112
   default:
     '@aws-sdk/credential-providers':
-      specifier: ^3.0.0
+      specifier: ^3.1109.0
       version: 3.1109.0
     '@aws-sdk/types':
-      specifier: ^3.973.1
+      specifier: ^3.974.3
       version: 3.974.3
     '@effect/platform-bun':
       specifier: '>=4.0.0-rc.115 || >=4.0.0'
@@ -32,13 +32,13 @@ catalogs:
       specifier: ^0.146.0
       version: 0.146.0
     '@smithy/shared-ini-file-loader':
-      specifier: ^4.3.4
+      specifier: ^4.7.0
       version: 4.7.0
     '@smithy/types':
-      specifier: ^4.8.1
+      specifier: ^4.17.2
       version: 4.17.2
     '@smithy/util-base64':
-      specifier: ^4.3.0
+      specifier: ^4.6.0
       version: 4.6.0
     '@types/bun':
       specifier: 1.3.14
@@ -50,16 +50,16 @@ catalogs:
       specifier: ^13.16.1
       version: 13.16.1
     dedent:
-      specifier: ^1.7.0
+      specifier: ^1.7.2
       version: 1.7.2
     effect:
       specifier: '>=4.0.0-rc.115 || >=4.0.0'
       version: 4.0.0-rc.115
     fast-xml-parser:
-      specifier: ^5.3.4
+      specifier: ^5.10.1
       version: 5.10.1
     graphql:
-      specifier: ^16.9.0
+      specifier: ^16.14.2
       version: 16.14.2
     husky:
       specifier: ^9.1.7
@@ -71,7 +71,7 @@ catalogs:
       specifier: ^0.66.0
       version: 0.66.0
     oxlint:
-      specifier: ^1.81.0
+      specifier: ^1.82.0
       version: 1.82.0
     pathe:
       specifier: ^2.0.3
@@ -83,7 +83,7 @@ catalogs:
       specifier: ^7.0.2
       version: 7.0.2
     yaml:
-      specifier: ^2.6.0
+      specifier: ^2.9.0
       version: 2.9.0
 
 importers:
