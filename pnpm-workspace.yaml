@@ -16,8 +16,6 @@ catalogs:
     mitata: ^1.0.34
     rolldown: 1.2.5
   aws:
-    "@aws-crypto/crc32": ^5.2.0
-    "@aws-crypto/util": ^5.2.0
     "@aws-sdk/credential-providers": ^3.994.0
     "@aws-sdk/types": ^3.973.1
     "@smithy/shared-ini-file-loader": ^4.4.3
