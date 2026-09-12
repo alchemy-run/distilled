@@ -68,6 +68,12 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./ApiVersion": {
+      "types": "./lib/api-version.d.ts",
+      "bun": "./src/api-version.ts",
+      "worker": "./src/api-version.ts",
+      "default": "./lib/api-version.js"
     }
   },
   "scripts": {

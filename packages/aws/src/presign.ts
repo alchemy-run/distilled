@@ -7,6 +7,12 @@ import * as Endpoint from "./endpoint.ts";
 import * as Region from "./region.ts";
 import * as SigV4 from "./sigv4.ts";
 
+/** Errors returned when resolving credentials or signing a URL. */
+export type PresignError = Credentials.CredentialsError | SigV4.SigningError;
+
+/** Services required by the presigning helpers. */
+export type PresignContext = Credentials.Credentials | Region.Region;
+
 /**
  * Options for {@link presignUrl}.
  */
@@ -58,37 +64,35 @@ export interface PresignUrlOptions {
  */
 export const presignUrl: (
   options: PresignUrlOptions,
-) => Effect.Effect<
-  string,
-  Credentials.CredentialsError | SigV4.SigningError,
-  Credentials.Credentials | Region.Region
-> = Effect.fnUntraced(function* (options: PresignUrlOptions) {
-  const credentials = yield* yield* Credentials.Credentials;
-  const region = options.region ?? (yield* yield* Region.Region);
+) => Effect.Effect<string, PresignError, PresignContext> = Effect.fnUntraced(
+  function* (options: PresignUrlOptions) {
+    const credentials = yield* yield* Credentials.Credentials;
+    const region = options.region ?? (yield* yield* Region.Region);
 
-  const url = new URL(options.url);
-  url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
+    const url = new URL(options.url);
+    url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
 
-  const signed = yield* SigV4.sign({
-    method: options.method ?? "GET",
-    url: url.toString(),
-    headers: options.headers,
-    accessKeyId: Redacted.value(credentials.accessKeyId),
-    secretAccessKey: credentials.secretAccessKey,
-    sessionToken: credentials.sessionToken,
-    service: options.service,
-    region,
-    signQuery: true,
-    datetime: options.datetime,
-    // The signer excludes `content-type` (among others) from the signature by
-    // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
-    // want them pinned into the signature — e.g. the AWS SDK's getSignedUrl
-    // signs `content-type` when a ContentType is given, which is what pins an
-    // uploader to the declared type — so opt back in.
-    allHeaders: options.headers !== undefined,
-  });
-  return signed.url;
-});
+    const signed = yield* SigV4.sign({
+      method: options.method ?? "GET",
+      url: url.toString(),
+      headers: options.headers,
+      accessKeyId: Redacted.value(credentials.accessKeyId),
+      secretAccessKey: credentials.secretAccessKey,
+      sessionToken: credentials.sessionToken,
+      service: options.service,
+      region,
+      signQuery: true,
+      datetime: options.datetime,
+      // The signer excludes `content-type` (among others) from the signature by
+      // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
+      // want them pinned into the signature — e.g. the AWS SDK's getSignedUrl
+      // signs `content-type` when a ContentType is given, which is what pins an
+      // uploader to the declared type — so opt back in.
+      allHeaders: options.headers !== undefined,
+    });
+    return signed.url;
+  },
+);
 
 /**
  * Options for {@link presignS3Url}.
@@ -148,36 +152,37 @@ export interface PresignS3UrlOptions {
  */
 export const presignS3Url: (
   options: PresignS3UrlOptions,
-) => Effect.Effect<
-  string,
-  Credentials.CredentialsError | SigV4.SigningError,
-  Credentials.Credentials | Region.Region
-> = Effect.fnUntraced(function* (options: PresignS3UrlOptions) {
-  const region = options.region ?? (yield* yield* Region.Region);
-  const customEndpoint = yield* yield* Effect.serviceOption(
-    Endpoint.Endpoint,
-  ).pipe(Effect.map(Option.getOrElse(() => Effect.undefined)));
+) => Effect.Effect<string, PresignError, PresignContext> = Effect.fnUntraced(
+  function* (options: PresignS3UrlOptions) {
+    const region = options.region ?? (yield* yield* Region.Region);
+    const customEndpoint = yield* yield* Effect.serviceOption(
+      Endpoint.Endpoint,
+    ).pipe(Effect.map(Option.getOrElse(() => Effect.undefined)));
 
-  const encodedKey = options.key.split("/").map(encodeURIComponent).join("/");
-  const url = new URL(
-    customEndpoint
-      ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
-      : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
-  );
-  if (options.responseContentType !== undefined) {
-    url.searchParams.set("response-content-type", options.responseContentType);
-  }
+    const encodedKey = options.key.split("/").map(encodeURIComponent).join("/");
+    const url = new URL(
+      customEndpoint
+        ? `${customEndpoint.replace(/\/+$/, "")}/${options.bucket}/${encodedKey}`
+        : `https://${options.bucket}.s3.${region}.amazonaws.com/${encodedKey}`,
+    );
+    if (options.responseContentType !== undefined) {
+      url.searchParams.set(
+        "response-content-type",
+        options.responseContentType,
+      );
+    }
 
-  return yield* presignUrl({
-    method: options.method ?? "GET",
-    url: url.toString(),
-    service: "s3",
-    region,
-    expiresIn: options.expiresIn,
-    headers:
-      options.contentType !== undefined
-        ? { "content-type": options.contentType }
-        : undefined,
-    datetime: options.datetime,
-  });
-});
+    return yield* presignUrl({
+      method: options.method ?? "GET",
+      url: url.toString(),
+      service: "s3",
+      region,
+      expiresIn: options.expiresIn,
+      headers:
+        options.contentType !== undefined
+          ? { "content-type": options.contentType }
+          : undefined,
+      datetime: options.datetime,
+    });
+  },
+);

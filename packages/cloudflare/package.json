@@ -503,6 +503,13 @@
       "worker": "./src/services/*.ts",
       "workerd": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "workerd": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
     }
   },
   "scripts": {

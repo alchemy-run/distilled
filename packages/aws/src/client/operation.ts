@@ -7,7 +7,7 @@ export declare namespace Operation {
   export type Error<Op extends Operation> = Instance<Op["errors"][number]>;
 }
 
-type Instance<T> = T extends new (...args: any) => infer U ? U : T;
+export type Instance<T> = T extends new (...args: any) => infer U ? U : T;
 
 export interface Operation<
   Input extends S.Top = S.Any,

@@ -50,6 +50,12 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
     }
   },
   "scripts": {
