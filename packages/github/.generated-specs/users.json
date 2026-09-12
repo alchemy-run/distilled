@@ -3180,7 +3180,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.github.users#ListAttestationsBulkResponseAttestationsSubjectDigestsValueList"
+        "target": "com.github.users#ListAttestationsBulkResponseAttestationsSubjectDigestsValueList",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Mapping of subject digest to bundles."

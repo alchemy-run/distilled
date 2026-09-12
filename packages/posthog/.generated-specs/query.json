@@ -37689,7 +37689,10 @@
     "com.posthog.query#AccountsQueryResponseMetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -38783,7 +38786,10 @@
     "com.posthog.query#AccountsTableQueryResponseMetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -38866,7 +38872,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Requested direct Account fields, keyed by their typed field reference."
@@ -38893,7 +38902,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.posthog.query#AccountsTableRowCustomPropertiesValue"
+        "target": "com.posthog.query#AccountsTableRowCustomPropertiesValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Current values keyed by requested custom property definition ID."
@@ -49967,7 +49979,10 @@
     "com.posthog.query#Response22MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -50119,7 +50134,10 @@
     "com.posthog.query#Response23MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -62119,7 +62137,10 @@
     "com.posthog.query#QueryResponseAlternative61MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -62271,7 +62292,10 @@
     "com.posthog.query#QueryResponseAlternative62MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -65304,7 +65328,10 @@
     "com.posthog.query#QueryResponseAlternative91MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -65468,7 +65495,10 @@
     "com.posthog.query#QueryResponseAlternative92MetricsResultsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

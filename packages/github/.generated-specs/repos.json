@@ -10272,7 +10272,10 @@
     "com.github.repos#ProtectedBranchPullRequestReviewDismissalRestrictionsAppsList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The list of apps with review dismissal access."
@@ -10332,7 +10335,10 @@
     "com.github.repos#ProtectedBranchPullRequestReviewBypassPullRequestAllowancesAppsList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "The list of apps allowed to bypass pull request requirements."
@@ -11854,7 +11860,10 @@
     "com.github.repos#ProtectedBranchRequiredPullRequestReviewsDismissalRestrictionsAppsList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -11914,7 +11923,10 @@
     "com.github.repos#ProtectedBranchRequiredPullRequestReviewsBypassPullRequestAllowancesAppsList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13598,7 +13610,10 @@
     "com.github.repos#GetAppsWithAccessToProtectedBranchResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13690,7 +13705,10 @@
     "com.github.repos#AddAppAccessRestrictionsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13782,7 +13800,10 @@
     "com.github.repos#SetAppAccessRestrictionsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13874,7 +13895,10 @@
     "com.github.repos#RemoveAppAccessRestrictionsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#Integration"
+        "target": "com.github.repos#Integration",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -24135,7 +24159,10 @@
     "com.github.repos#ListIssueTypesResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.repos#IssueType"
+        "target": "com.github.repos#IssueType",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

@@ -2519,7 +2519,10 @@
     "com.posthog.alerts#AlertSimulateResponseScoresList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Anomaly score for each point (null if insufficient data)."
@@ -2643,7 +2646,10 @@
     "com.posthog.alerts#BreakdownSimulationResultScoresList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Double"
+        "target": "smithy.api#Double",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Anomaly score for each point."

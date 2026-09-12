@@ -984,9 +984,9 @@ export const SubstituteFromDefinition = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
 export type PostBuildDefinitionSubstituteFromList =
-  Array<SubstituteFromDefinition>;
+  Array<SubstituteFromDefinition | null>;
 export const PostBuildDefinitionSubstituteFromList = /*@__PURE__*/ S.Array(
-  SubstituteFromDefinition,
+  S.NullOr(SubstituteFromDefinition),
 ) as any as S.Schema<PostBuildDefinitionSubstituteFromList>;
 
 /** The postBuild definitions defining variable substitutions for this Kustomization after kustomize build. */
@@ -1044,11 +1044,11 @@ export const KustomizationDefinitionInput = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationsCreateOrUpdateRequestPropertiesKustomizationsMap =
-  { [key: string]: KustomizationDefinitionInput | undefined };
+  { [key: string]: KustomizationDefinitionInput | null | undefined };
 export const FluxConfigurationsCreateOrUpdateRequestPropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationDefinitionInput,
+    S.NullOr(KustomizationDefinitionInput),
   ) as any as S.Schema<FluxConfigurationsCreateOrUpdateRequestPropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -1198,11 +1198,11 @@ export const KustomizationDefinition = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationsCreateOrUpdateResponsePropertiesKustomizationsMap =
-  { [key: string]: KustomizationDefinition | undefined };
+  { [key: string]: KustomizationDefinition | null | undefined };
 export const FluxConfigurationsCreateOrUpdateResponsePropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationDefinition,
+    S.NullOr(KustomizationDefinition),
   ) as any as S.Schema<FluxConfigurationsCreateOrUpdateResponsePropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -1333,10 +1333,10 @@ export const ObjectStatusDefinition = /*@__PURE__*/ S.suspend(() =>
 
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type FluxConfigurationsCreateOrUpdateResponsePropertiesStatusesList =
-  Array<ObjectStatusDefinition>;
+  Array<ObjectStatusDefinition | null>;
 export const FluxConfigurationsCreateOrUpdateResponsePropertiesStatusesList =
   /*@__PURE__*/ S.Array(
-    ObjectStatusDefinition,
+    S.NullOr(ObjectStatusDefinition),
   ) as any as S.Schema<FluxConfigurationsCreateOrUpdateResponsePropertiesStatusesList>;
 
 /** The provisioning state of the resource. */
@@ -1984,12 +1984,12 @@ export const GetFluxConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type GetFluxConfigurationResponsePropertiesKustomizationsMap = {
-  [key: string]: KustomizationDefinition | undefined;
+  [key: string]: KustomizationDefinition | null | undefined;
 };
 export const GetFluxConfigurationResponsePropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationDefinition,
+    S.NullOr(KustomizationDefinition),
   ) as any as S.Schema<GetFluxConfigurationResponsePropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -2003,10 +2003,10 @@ export const GetFluxConfigurationResponsePropertiesConfigurationProtectedSetting
 
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type GetFluxConfigurationResponsePropertiesStatusesList =
-  Array<ObjectStatusDefinition>;
+  Array<ObjectStatusDefinition | null>;
 export const GetFluxConfigurationResponsePropertiesStatusesList =
   /*@__PURE__*/ S.Array(
-    ObjectStatusDefinition,
+    S.NullOr(ObjectStatusDefinition),
   ) as any as S.Schema<GetFluxConfigurationResponsePropertiesStatusesList>;
 
 /** The provisioning state of the resource. */
@@ -2883,12 +2883,12 @@ export const ListFluxConfigurationsRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationPropertiesKustomizationsMap = {
-  [key: string]: KustomizationDefinition | undefined;
+  [key: string]: KustomizationDefinition | null | undefined;
 };
 export const FluxConfigurationPropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationDefinition,
+    S.NullOr(KustomizationDefinition),
   ) as any as S.Schema<FluxConfigurationPropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -2903,9 +2903,9 @@ export const FluxConfigurationPropertiesConfigurationProtectedSettingsMap =
 
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type FluxConfigurationPropertiesStatusesList =
-  Array<ObjectStatusDefinition>;
+  Array<ObjectStatusDefinition | null>;
 export const FluxConfigurationPropertiesStatusesList = /*@__PURE__*/ S.Array(
-  ObjectStatusDefinition,
+  S.NullOr(ObjectStatusDefinition),
 ) as any as S.Schema<FluxConfigurationPropertiesStatusesList>;
 
 /** The provisioning state of the resource. */
@@ -4178,12 +4178,12 @@ export const KustomizationPatchDefinition = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type UpdateFluxConfigurationRequestPropertiesKustomizationsMap = {
-  [key: string]: KustomizationPatchDefinition | undefined;
+  [key: string]: KustomizationPatchDefinition | null | undefined;
 };
 export const UpdateFluxConfigurationRequestPropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationPatchDefinition,
+    S.NullOr(KustomizationPatchDefinition),
   ) as any as S.Schema<UpdateFluxConfigurationRequestPropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -4272,12 +4272,12 @@ export const UpdateFluxConfigurationRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type UpdateFluxConfigurationResponsePropertiesKustomizationsMap = {
-  [key: string]: KustomizationDefinition | undefined;
+  [key: string]: KustomizationDefinition | null | undefined;
 };
 export const UpdateFluxConfigurationResponsePropertiesKustomizationsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    KustomizationDefinition,
+    S.NullOr(KustomizationDefinition),
   ) as any as S.Schema<UpdateFluxConfigurationResponsePropertiesKustomizationsMap>;
 
 /** Key-value pairs of protected configuration settings for the configuration */
@@ -4291,10 +4291,10 @@ export const UpdateFluxConfigurationResponsePropertiesConfigurationProtectedSett
 
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type UpdateFluxConfigurationResponsePropertiesStatusesList =
-  Array<ObjectStatusDefinition>;
+  Array<ObjectStatusDefinition | null>;
 export const UpdateFluxConfigurationResponsePropertiesStatusesList =
   /*@__PURE__*/ S.Array(
-    ObjectStatusDefinition,
+    S.NullOr(ObjectStatusDefinition),
   ) as any as S.Schema<UpdateFluxConfigurationResponsePropertiesStatusesList>;
 
 /** The provisioning state of the resource. */

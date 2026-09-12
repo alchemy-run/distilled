@@ -2275,9 +2275,9 @@ export const ConnectedOrgConfigPostAuthRoleGrantsItem = S.String;
 
 /** Atlas roles that are granted to a user in this organization after authenticating. Roles are a human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific MongoDB Cloud user. These roles can only be organization specific roles. */
 export type ConnectedOrgConfigPostAuthRoleGrantsList =
-  Array<ConnectedOrgConfigPostAuthRoleGrantsItem>;
+  Array<ConnectedOrgConfigPostAuthRoleGrantsItem | null>;
 export const ConnectedOrgConfigPostAuthRoleGrantsList = /*@__PURE__*/ S.Array(
-  ConnectedOrgConfigPostAuthRoleGrantsItem,
+  S.NullOr(ConnectedOrgConfigPostAuthRoleGrantsItem),
 ) as any as S.Schema<ConnectedOrgConfigPostAuthRoleGrantsList>;
 
 /** Role mappings that are configured in this organization. */
@@ -28529,10 +28529,10 @@ export const CreateAtlasOrganizationApiKeyRolesItem = S.String;
 
 /** List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization. */
 export type CreateAtlasOrganizationApiKeyRolesList = Array<
-  CreateAtlasOrganizationApiKeyRolesItem | (string & {})
+  CreateAtlasOrganizationApiKeyRolesItem | (string & {}) | null
 >;
 export const CreateAtlasOrganizationApiKeyRolesList = /*@__PURE__*/ S.Array(
-  CreateAtlasOrganizationApiKeyRolesItem,
+  S.NullOr(CreateAtlasOrganizationApiKeyRolesItem),
 ) as any as S.Schema<CreateAtlasOrganizationApiKeyRolesList>;
 
 /** Organization Service Account that Atlas creates for this organization. If omitted, Atlas doesn't create an organization Service Account for this organization. If specified, this object requires all body parameters. Note that API Keys cannot be specified in the same request. */
@@ -28748,10 +28748,10 @@ export const CreateOrgApiKeyRequestRolesItem = S.String;
 
 /** List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization. */
 export type CreateOrgApiKeyRequestRolesList = Array<
-  CreateOrgApiKeyRequestRolesItem | (string & {})
+  CreateOrgApiKeyRequestRolesItem | (string & {}) | null
 >;
 export const CreateOrgApiKeyRequestRolesList = /*@__PURE__*/ S.Array(
-  CreateOrgApiKeyRequestRolesItem,
+  S.NullOr(CreateOrgApiKeyRequestRolesItem),
 ) as any as S.Schema<CreateOrgApiKeyRequestRolesList>;
 
 export interface CreateOrgApiKeyRequest {
@@ -40186,9 +40186,9 @@ export type MeasurementsIndexesGranularity = "PT1M" | "PT5M" | "PT1H" | "P1D";
 export const MeasurementsIndexesGranularity = S.String;
 
 /** List that contains the Atlas Search index identifiers. */
-export type MeasurementsIndexesIndexIdsList = Array<string>;
+export type MeasurementsIndexesIndexIdsList = Array<string | null>;
 export const MeasurementsIndexesIndexIdsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<MeasurementsIndexesIndexIdsList>;
 
 /** Value of, and metadata provided for, one data point generated at a particular moment in time. If no data point exists for a particular moment in time, the `value` parameter returns `null`. */
@@ -55477,10 +55477,13 @@ export type UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsLi
   Array<
     | UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsItem
     | (string & {})
+    | null
   >;
 export const UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsList =
   /*@__PURE__*/ S.Array(
-    UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsItem,
+    S.NullOr(
+      UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsItem,
+    ),
   ) as any as S.Schema<UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsList>;
 
 /** Atlas roles and the unique identifiers of the groups and organizations associated with each role. The array must include at least one element with an Organization role and its respective `orgId`. Each element in the array can have a value for `orgId` or `groupId`, but not both. */
@@ -59060,10 +59063,10 @@ export const UpdateOrgApiKeyRequestRolesItem = S.String;
 
 /** List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization. */
 export type UpdateOrgApiKeyRequestRolesList = Array<
-  UpdateOrgApiKeyRequestRolesItem | (string & {})
+  UpdateOrgApiKeyRequestRolesItem | (string & {}) | null
 >;
 export const UpdateOrgApiKeyRequestRolesList = /*@__PURE__*/ S.Array(
-  UpdateOrgApiKeyRequestRolesItem,
+  S.NullOr(UpdateOrgApiKeyRequestRolesItem),
 ) as any as S.Schema<UpdateOrgApiKeyRequestRolesList>;
 
 export interface UpdateOrgApiKeyRequest {
@@ -59181,10 +59184,10 @@ export const UpdateOrgMcpConfigRequestRolesItem = S.String;
 
 /** List of organization roles associated with this MCP configuration. If provided, replaces the existing list of roles. */
 export type UpdateOrgMcpConfigRequestRolesList = Array<
-  UpdateOrgMcpConfigRequestRolesItem | (string & {})
+  UpdateOrgMcpConfigRequestRolesItem | (string & {}) | null
 >;
 export const UpdateOrgMcpConfigRequestRolesList = /*@__PURE__*/ S.Array(
-  UpdateOrgMcpConfigRequestRolesItem,
+  S.NullOr(UpdateOrgMcpConfigRequestRolesItem),
 ) as any as S.Schema<UpdateOrgMcpConfigRequestRolesList>;
 
 export interface UpdateOrgMcpConfigRequest {

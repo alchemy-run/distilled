@@ -1206,7 +1206,10 @@
     "com.mongodbatlas.api#ConnectedOrgConfigPostAuthRoleGrantsList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#ConnectedOrgConfigPostAuthRoleGrantsItem"
+        "target": "com.mongodbatlas.api#ConnectedOrgConfigPostAuthRoleGrantsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Atlas roles that are granted to a user in this organization after authenticating. Roles are a human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific MongoDB Cloud user. These roles can only be organization specific roles."
@@ -1500,7 +1503,10 @@
     "com.mongodbatlas.api#UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsItem"
+        "target": "com.mongodbatlas.api#UpdateFederationSettingConnectedOrgConfigRequestPostAuthRoleGrantsItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Atlas roles that are granted to a user in this organization after authenticating. Roles are a human-readable label that identifies the collection of privileges that MongoDB Cloud grants a specific MongoDB Cloud user. These roles can only be organization specific roles."
@@ -108206,7 +108212,10 @@
     "com.mongodbatlas.api#MeasurementsIndexesIndexIdsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "List that contains the Atlas Search index identifiers."
@@ -135627,7 +135636,10 @@
     "com.mongodbatlas.api#CreateAtlasOrganizationApiKeyRolesList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#CreateAtlasOrganizationApiKeyRolesItem"
+        "target": "com.mongodbatlas.api#CreateAtlasOrganizationApiKeyRolesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization."
@@ -138636,7 +138648,10 @@
     "com.mongodbatlas.api#CreateOrgApiKeyRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#CreateOrgApiKeyRequestRolesItem"
+        "target": "com.mongodbatlas.api#CreateOrgApiKeyRequestRolesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization."
@@ -138827,7 +138842,10 @@
     "com.mongodbatlas.api#UpdateOrgApiKeyRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#UpdateOrgApiKeyRequestRolesItem"
+        "target": "com.mongodbatlas.api#UpdateOrgApiKeyRequestRolesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "List of roles to grant this API key. If you provide this list, provide a minimum of one role and ensure each role applies to this organization."
@@ -146661,7 +146679,10 @@
     "com.mongodbatlas.api#UpdateOrgMcpConfigRequestRolesList": {
       "type": "list",
       "member": {
-        "target": "com.mongodbatlas.api#UpdateOrgMcpConfigRequestRolesItem"
+        "target": "com.mongodbatlas.api#UpdateOrgMcpConfigRequestRolesItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "List of organization roles associated with this MCP configuration. If provided, replaces the existing list of roles."

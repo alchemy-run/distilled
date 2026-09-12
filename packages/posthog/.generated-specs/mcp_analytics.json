@@ -695,7 +695,10 @@
     "com.posthog.mcp_analytics#MCPIntentClusterJourneyPathStepsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Ordered tool names called during the path. Length is fixed; null entries indicate the session ended before this step."

@@ -852,7 +852,14 @@ const convertSchema = (
     const item = convertSchema(ctx, def.items, `${hint}Item`, depth + 1, dir);
     return {
       target: emit(
-        { type: "list", member: { target: item.target }, traits: docTraits },
+        {
+          type: "list",
+          member: {
+            target: item.target,
+            ...(item.nullable ? { traits: { [NULLABLE_TRAIT]: {} } } : {}),
+          },
+          traits: docTraits,
+        },
         reservedId !== undefined ? hint : `${hint}List`,
       ),
       nullable,
@@ -889,7 +896,10 @@ const convertSchema = (
           {
             type: "map",
             key: { target: PRELUDE.String },
-            value: { target: value.target },
+            value: {
+              target: value.target,
+              ...(value.nullable ? { traits: { [NULLABLE_TRAIT]: {} } } : {}),
+            },
             traits: docTraits,
           },
           reservedId !== undefined ? hint : `${hint}Map`,

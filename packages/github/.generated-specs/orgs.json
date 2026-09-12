@@ -2281,7 +2281,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.github.orgs#ListAttestationsBulkResponseAttestationsSubjectDigestsValueList"
+        "target": "com.github.orgs#ListAttestationsBulkResponseAttestationsSubjectDigestsValueList",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Mapping of subject digest to bundles."
@@ -8539,7 +8542,10 @@
     "com.github.orgs#ListIssueFieldsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.orgs#IssueField"
+        "target": "com.github.orgs#IssueField",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9197,7 +9203,10 @@
     "com.github.orgs#ListIssueTypesResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.github.orgs#IssueType"
+        "target": "com.github.orgs#IssueType",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

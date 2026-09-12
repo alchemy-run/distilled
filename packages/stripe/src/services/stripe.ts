@@ -53877,12 +53877,12 @@ export const CreateCoreAccountPersonTokenRequestLegalGender = S.String;
 
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type CreateCoreAccountPersonTokenRequestMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CreateCoreAccountPersonTokenRequestMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<CreateCoreAccountPersonTokenRequestMetadataMap>;
 
 /** The nationalities (countries) this person is associated with. */
@@ -55444,12 +55444,12 @@ export const CreateCoreAccountTokenRequestIdentityIndividualLegalGender =
 
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type CreateCoreAccountTokenRequestIdentityIndividualMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CreateCoreAccountTokenRequestIdentityIndividualMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<CreateCoreAccountTokenRequestIdentityIndividualMetadataMap>;
 
 /** The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -155078,12 +155078,12 @@ export const UpdateCoreAccountRequestIdentityIndividualLegalGender = S.String;
 
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type UpdateCoreAccountRequestIdentityIndividualMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateCoreAccountRequestIdentityIndividualMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<UpdateCoreAccountRequestIdentityIndividualMetadataMap>;
 
 /** The countries where the individual is a national. Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)). */
@@ -155278,11 +155278,11 @@ export const UpdateCoreAccountRequestIncludeList = /*@__PURE__*/ S.Array(
 
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type UpdateCoreAccountRequestMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateCoreAccountRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateCoreAccountRequestMetadataMap>;
 
 export interface UpdateCoreAccountRequest {
@@ -155739,11 +155739,11 @@ export const UpdateCoreAccountPersonRequestLegalGender = S.String;
 
 /** Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format. */
 export type UpdateCoreAccountPersonRequestMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateCoreAccountPersonRequestMetadataMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateCoreAccountPersonRequestMetadataMap>;
 
 /** The nationalities (countries) this person is associated with. */
@@ -155915,12 +155915,12 @@ export const UpdateCoreEventDestinationRequestIncludeList =
 
 /** Metadata. */
 export type UpdateCoreEventDestinationRequestMetadataMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateCoreEventDestinationRequestMetadataMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<UpdateCoreEventDestinationRequestMetadataMap>;
 
 /** Webhook endpoint configuration. */

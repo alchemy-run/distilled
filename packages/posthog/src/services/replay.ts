@@ -144,12 +144,13 @@ export const SessionRecordingPlaylistOutputRecordingsCountsValueValue =
 export type SessionRecordingPlaylistOutputRecordingsCountsValueMap = {
   [key: string]:
     | SessionRecordingPlaylistOutputRecordingsCountsValueValue
+    | null
     | undefined;
 };
 export const SessionRecordingPlaylistOutputRecordingsCountsValueMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    SessionRecordingPlaylistOutputRecordingsCountsValueValue,
+    S.NullOr(SessionRecordingPlaylistOutputRecordingsCountsValueValue),
   ) as any as S.Schema<SessionRecordingPlaylistOutputRecordingsCountsValueMap>;
 
 export type SessionRecordingPlaylistOutputRecordingsCountsMap = {
