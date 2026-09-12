@@ -11,40 +11,45 @@ allowBuilds:
   # alchemy pulls in miniflare for the Cloudflare state store.
   workerd: true
 
+catalog:
+  "@aws-sdk/credential-providers": "^3.1109.0"
+  "@aws-sdk/types": "^3.974.3"
+  "@effect/platform-bun": ">=4.0.0-rc.115 || >=4.0.0"
+  "@effect/platform-node": ">=4.0.0-rc.115 || >=4.0.0"
+  "@oxc-project/types": "^0.146.0"
+  "@smithy/shared-ini-file-loader": "^4.7.0"
+  "@smithy/types": "^4.17.2"
+  "@smithy/util-base64": "^4.6.0"
+  "@types/bun": "1.3.14"
+  "@types/node": "26.2.0"
+  changelogithub: "^13.16.1"
+  dedent: "^1.7.2"
+  effect: ">=4.0.0-rc.115 || >=4.0.0"
+  fast-xml-parser: "^5.10.1"
+  graphql: "^16.14.2"
+  husky: "^9.1.7"
+  mitata: "^1.0.34"
+  oxfmt: "^0.66.0"
+  oxlint: "^1.82.0"
+  pathe: "^2.0.3"
+  rolldown: "1.2.5"
+  typescript: "^7.0.2"
+  yaml: "^2.9.0"
 catalogs:
-  bench:
-    mitata: ^1.0.34
-    rolldown: 1.2.5
-  aws:
-    "@aws-sdk/credential-providers": ^3.994.0
-    "@aws-sdk/types": ^3.973.1
-    "@smithy/shared-ini-file-loader": ^4.4.3
-    "@smithy/types": ^4.12.0
-    "@smithy/util-base64": ^4.3.0
-  build:
-    typescript: ^7.0.2
-  effect:
-    "@effect/platform-bun": ">=4.0.0-rc.113 || >=4.0.0"
-    effect: ">=4.0.0-rc.113 || >=4.0.0"
-  shared:
-    fast-xml-parser: ^5.3.4
-  tooling:
-    "@types/bun": latest
-    "@types/node": latest
-    dedent: ^1.7.0
-    husky: ^9.1.7
-    oxfmt: latest
-    oxlint: latest
-    pathe: ^2.0.3
-
+  # Compatibility line used by the deployment-stack fixtures.
+  alchemy:
+    "@effect/platform-bun": "4.0.0-rc.112"
+    "@effect/platform-node": "4.0.0-rc.112"
+    alchemy: "2.0.0-beta.77"
+    effect: "4.0.0-rc.112"
 minimumReleaseAgeExclude:
-  - "@effect/atom-react@4.0.0-rc.113"
-  - "@effect/platform-bun@4.0.0-rc.113"
-  - "@effect/platform-node-shared@4.0.0-rc.113"
-  - "@effect/platform-node@4.0.0-rc.113"
-  - "@effect/sql-d1@4.0.0-rc.113"
-  - "@effect/sql-mysql2@4.0.0-rc.113"
-  - "@effect/sql-pg@4.0.0-rc.113"
-  - "@effect/sql-sqlite-do@4.0.0-rc.113"
-  - "@effect/vitest@4.0.0-rc.113"
-  - effect@4.0.0-rc.113
+  - "@effect/atom-react@4.0.0-rc.115"
+  - "@effect/platform-bun@4.0.0-rc.115"
+  - "@effect/platform-node-shared@4.0.0-rc.115"
+  - "@effect/platform-node@4.0.0-rc.115"
+  - "@effect/sql-d1@4.0.0-rc.115"
+  - "@effect/sql-mysql2@4.0.0-rc.115"
+  - "@effect/sql-pg@4.0.0-rc.115"
+  - "@effect/sql-sqlite-do@4.0.0-rc.115"
+  - "@effect/vitest@4.0.0-rc.115"
+  - effect@4.0.0-rc.115
