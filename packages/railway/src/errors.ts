@@ -160,6 +160,33 @@ export class RailwayInternalError extends Schema.TaggedError<RailwayInternalErro
 ).pipe(Category.withServerError) {}
 
 /**
+ * A resource with the requested name already exists
+ * (`INTERNAL_SERVER_ERROR` + `... already exists in this project`).
+ * Railway reports create-name collisions through the internal-error code,
+ * e.g. `A service named "x" already exists in this project`. Reconcilers
+ * catch this as the create race and re-read the existing resource.
+ */
+export class RailwayAlreadyExists extends Schema.TaggedError<RailwayAlreadyExists>()(
+  "RailwayAlreadyExists",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAlreadyExistsError) {}
+
+/**
+ * Railway's gateway failed to process the request
+ * (`Problem processing request` with a `traceId` and **no**
+ * `extensions.code`). Observed transiently on `deployments` for a
+ * freshly-created service before the instance fans out. Retryable.
+ */
+export class RailwayRequestProcessingFailed extends Schema.TaggedError<RailwayRequestProcessingFailed>()(
+  "RailwayRequestProcessingFailed",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withServerError, Category.withRetryable()) {}
+
+/**
  * Map from Railway GraphQL `extensions.code` → typed error class. Consulted
  * by the protocol's error matcher before any HTTP-status fallback.
  */
@@ -266,6 +293,22 @@ export const RAILWAY_ERROR_MATCHERS: ReadonlyArray<{
     messageIncludes: "Login session",
     error: RailwayNotFound,
   },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "already exists",
+    error: RailwayAlreadyExists,
+  },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "already in use",
+    error: RailwayAlreadyExists,
+  },
+  // No extensions.code at all — the gateway's generic processing failure
+  // (`{ message: "Problem processing request", traceId }`).
+  {
+    messageIncludes: "Problem processing request",
+    error: RailwayRequestProcessingFailed,
+  },
 ];
 
 /** Union of the Railway-specific tagged error classes above. */
@@ -277,7 +320,9 @@ export type RailwayTypedErrors =
   | RailwayRateLimited
   | RailwayServiceDomainCreateFailed
   | RailwayPlanLimitExceeded
-  | RailwayInternalError;
+  | RailwayInternalError
+  | RailwayAlreadyExists
+  | RailwayRequestProcessingFailed;
 
 /**
  * Errors any Railway operation may surface beyond the core default classes:
