@@ -349,7 +349,6 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-aws"
   },
   "dependencies": {
-    "@aws-sdk/credential-providers": "catalog:",
     "@aws-sdk/types": "catalog:",
     "@distilled.cloud/core": "workspace:*",
     "@smithy/shared-ini-file-loader": "catalog:",

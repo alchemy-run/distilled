@@ -1,6 +1,8 @@
 import * as S from "effect/Schema";
 import type * as HttpClientError from "effect/unstable/http/HttpClientError";
 import * as Category from "./category.ts";
+import type * as Credentials from "./credentials.browser.ts";
+import type * as SigV4 from "./sigv4.ts";
 // Imported from the leaf module, not `traits.ts`: that one imports every
 // protocol, and each protocol imports this file, so the annotation would not
 // yet exist when these classes are built. See error-message.ts.
@@ -241,4 +243,6 @@ export type CommonErrors =
   | CommonAwsError
   | EndpointError
   | NoMatchingRuleError
+  | SigV4.SigningError
+  | Credentials.CredentialsError
   | HttpClientError.HttpClientError;

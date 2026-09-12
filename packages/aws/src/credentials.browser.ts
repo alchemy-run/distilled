@@ -1,9 +1,4 @@
-import { fromHttp as _fromHttp } from "@aws-sdk/credential-providers";
-
-import {
-  type AwsCredentialIdentity,
-  type AwsCredentialIdentityProvider,
-} from "@smithy/types";
+import type { AwsCredentialIdentity } from "@smithy/types";
 import * as Context from "effect/Context";
 import * as Data from "effect/Data";
 import * as Effect from "effect/Effect";
@@ -11,6 +6,7 @@ import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
 import type { HttpClientError } from "effect/unstable/http/HttpClientError";
+import * as Providers from "./credential-providers/shared.ts";
 import { fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
 export * as AWSTypes from "@aws-sdk/types";
@@ -199,11 +195,11 @@ export const createCachedCredentialsEffect = <E, R>(
 };
 
 /**
- * Create a lazy, cached credentials provider from an AWS SDK credential provider.
+ * Create a lazy, cached credentials layer from a credential source.
  * Credentials are resolved on first access and cached based on their expiration time.
  */
 export const createLazyProvider = (
-  provider: (config: {}) => AwsCredentialIdentityProvider,
+  source: Providers.CredentialSource,
   providerName: ProviderName,
   /**
    * Where this provider's region comes from. Defaults to the environment;
@@ -212,17 +208,17 @@ export const createLazyProvider = (
   region: Effect.Effect<RegionName, CredentialsError> = regionFromEnv,
 ): Layer.Layer<Credentials> => {
   const resolve = Effect.gen(function* () {
-    const hints = providerHints(providerName);
-    const identity = yield* Effect.tryPromise({
-      try: () => provider({})(),
-      catch: (cause) =>
-        new AwsCredentialProviderError({
-          message: `Failed to resolve credentials from ${providerName}.`,
-          provider: providerName,
-          cause,
-          hints,
-        }),
-    });
+    const identity = yield* source.pipe(
+      Effect.mapError(
+        (cause) =>
+          new AwsCredentialProviderError({
+            message: `Failed to resolve credentials from ${providerName}.`,
+            provider: providerName,
+            cause,
+            hints: providerHints(providerName),
+          }),
+      ),
+    );
     return fromAwsCredentialIdentity(identity, yield* region);
   });
 
@@ -246,7 +242,7 @@ export const fromCredentials = (
     ),
   );
 
-export const fromHttp = () => createLazyProvider(_fromHttp, "http");
+export const fromHttp = () => createLazyProvider(Providers.fromHttp(), "http");
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);
 
