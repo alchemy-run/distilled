@@ -5,12 +5,7 @@ import {
   GitHubWebhookPayloadParseError,
   GitHubWebhookSignatureError,
 } from "./errors.ts";
-import {
-  WebhookEventName,
-  WebhookPayloadSchemas,
-  type WebhookEvent,
-  type WebhookPayloads,
-} from "./webhook-events.ts";
+import { WebhookEvent } from "./webhook-events.ts";
 
 export type {
   WebhookEvent,
@@ -19,7 +14,7 @@ export type {
 } from "./webhook-events.ts";
 
 export type WebhookPayload = string | Uint8Array | ArrayBuffer;
-export type WebhookSecret = string | Redacted.Redacted<string>;
+export type WebhookSecret = Redacted.Redacted<string>;
 
 export interface VerifySignatureOptions {
   /** Raw body exactly as delivered. Do not parse or reserialize before verification. */
@@ -42,13 +37,10 @@ export interface ParseEventOptions {
 export interface ConstructEventOptions
   extends VerifySignatureOptions, ParseEventOptions {}
 
-const encoder = new TextEncoder();
-const decoder = new TextDecoder("utf-8", { fatal: true });
-
 // Snapshot byte inputs so the body cannot change between verification and parsing.
-const payloadBytes = (payload: WebhookPayload): Uint8Array<ArrayBuffer> =>
+const payloadBytes = (payload: WebhookPayload) =>
   typeof payload === "string"
-    ? encoder.encode(payload)
+    ? new TextEncoder().encode(payload)
     : payload instanceof ArrayBuffer
       ? new Uint8Array(payload.slice(0))
       : new Uint8Array(payload);
@@ -58,10 +50,10 @@ export const verifySignature = ({
   payload,
   signature,
   secret,
-}: VerifySignatureOptions): Effect.Effect<void, GitHubWebhookSignatureError> =>
+}: VerifySignatureOptions) =>
   Effect.gen(function* () {
     const match = /^sha256=([0-9a-fA-F]{64})$/.exec(signature ?? "");
-    const value = Redacted.isRedacted(secret) ? Redacted.value(secret) : secret;
+    const value = Redacted.value(secret);
     if (!match || value.length === 0) {
       return yield* Effect.fail(
         new GitHubWebhookSignatureError({
@@ -78,7 +70,7 @@ export const verifySignature = ({
       try: async () => {
         const key = await crypto.subtle.importKey(
           "raw",
-          encoder.encode(value),
+          new TextEncoder().encode(value),
           { name: "HMAC", hash: "SHA-256" },
           false,
           ["verify"],
@@ -100,68 +92,54 @@ export const verifySignature = ({
     }
   });
 
-const DeliveryHeaders = Schema.Struct({
-  id: Schema.NonEmptyString,
-  name: WebhookEventName,
-});
-
 /**
  * Parse a JSON delivery against its generated event schema without verifying
  * its signature. Use constructEvent for signed deliveries. Unknown event names,
  * malformed JSON, and payloads that do not match the event schema fail explicitly.
  */
-export const parseEvent = (
-  options: ParseEventOptions,
-): Effect.Effect<WebhookEvent, GitHubWebhookPayloadParseError> =>
+export const parseEvent = (options: ParseEventOptions) =>
   Effect.gen(function* () {
-    const { id, name } = yield* Schema.decodeUnknownEffect(DeliveryHeaders)({
+    const text = yield* Effect.try({
+      try: () =>
+        typeof options.payload === "string"
+          ? options.payload
+          : new TextDecoder("utf-8", { fatal: true }).decode(
+              payloadBytes(options.payload),
+            ),
+      catch: (cause) =>
+        new GitHubWebhookPayloadParseError({
+          message: "GitHub webhook payload must be valid UTF-8",
+          cause,
+        }),
+    });
+    const payload = yield* Schema.decodeUnknownEffect(
+      Schema.fromJsonString(Schema.Unknown),
+    )(text).pipe(
+      Effect.mapError(
+        (cause) =>
+          new GitHubWebhookPayloadParseError({
+            message: "GitHub webhook payload must be valid JSON",
+            cause,
+          }),
+      ),
+    );
+    return yield* Schema.decodeUnknownEffect(WebhookEvent)({
       id: options.id,
       name: options.name,
+      payload,
     }).pipe(
       Effect.mapError(
         (cause) =>
           new GitHubWebhookPayloadParseError({
-            message: "Invalid GitHub webhook delivery headers",
+            message: "Invalid GitHub webhook delivery headers or payload",
             cause,
           }),
       ),
     );
-    const json = yield* Effect.try({
-      try: () =>
-        JSON.parse(
-          typeof options.payload === "string"
-            ? options.payload
-            : decoder.decode(payloadBytes(options.payload)),
-        ) as unknown,
-      catch: (cause) =>
-        new GitHubWebhookPayloadParseError({
-          message: "GitHub webhook payload must be valid UTF-8 JSON",
-          cause,
-        }),
-    });
-    const schema: Schema.Codec<WebhookPayloads[WebhookEventName]> =
-      WebhookPayloadSchemas[name];
-    const payload = yield* Schema.decodeUnknownEffect(schema)(json).pipe(
-      Effect.mapError(
-        (cause) =>
-          new GitHubWebhookPayloadParseError({
-            message: `Invalid ${name} webhook payload`,
-            cause,
-          }),
-      ),
-    );
-    // The schema was selected by name; TypeScript cannot express that
-    // correlation after indexing a heterogeneous schema registry.
-    return { id, name, payload } as WebhookEvent;
   });
 
 /** Verify the raw delivery body, then decode its headers and event payload. */
-export const constructEvent = (
-  options: ConstructEventOptions,
-): Effect.Effect<
-  WebhookEvent,
-  GitHubWebhookSignatureError | GitHubWebhookPayloadParseError
-> =>
+export const constructEvent = (options: ConstructEventOptions) =>
   Effect.suspend(() => {
     const payload = payloadBytes(options.payload);
     return verifySignature({ ...options, payload }).pipe(

@@ -22,10 +22,10 @@
  * from a bare array; enveloped lists use their modeled array member.
  */
 import * as path from "node:path";
-import { Effect } from "effect";
+import { Effect, Schema } from "effect";
 import * as FileSystem from "effect/FileSystem";
 import { formatGenerated } from "@distilled.cloud/core/codegen/format";
-import { generateWebhooks } from "./webhooks.ts";
+import { generateWebhooks, WebhookModel } from "./webhooks.ts";
 import { type SdkSpec } from "@distilled.cloud/core/codegen/generator";
 import { runGeneratorCli } from "@distilled.cloud/core/codegen/cli";
 
@@ -122,9 +122,9 @@ runGeneratorCli({
   prepare: ({ root }) =>
     Effect.gen(function* () {
       const fs = yield* FileSystem.FileSystem;
-      const model = JSON.parse(
-        yield* fs.readFileString(`${root}/.generated-specs/webhooks.json`),
-      );
+      const model = yield* Schema.decodeUnknownEffect(
+        Schema.fromJsonString(WebhookModel),
+      )(yield* fs.readFileString(`${root}/.generated-specs/webhooks.json`));
       yield* fs.writeFileString(
         `${root}/src/webhook-events.ts`,
         generateWebhooks(model),
