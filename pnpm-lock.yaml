@@ -19,9 +19,6 @@ catalogs:
       specifier: 4.0.0-rc.112
       version: 4.0.0-rc.112
   default:
-    '@aws-sdk/credential-providers':
-      specifier: ^3.1109.0
-      version: 3.1109.0
     '@aws-sdk/types':
       specifier: ^3.974.3
       version: 3.974.3
@@ -278,9 +275,6 @@ importers:
 
   packages/aws:
     dependencies:
-      '@aws-sdk/credential-providers':
-        specifier: 'catalog:'
-        version: 3.1109.0
       '@aws-sdk/types':
         specifier: 'catalog:'
         version: 3.974.3
