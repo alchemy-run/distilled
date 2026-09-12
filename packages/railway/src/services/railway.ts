@@ -8630,7 +8630,7 @@ export const DisableServiceCdnRequest = /*@__PURE__*/ S.suspend(() =>
     .pipe(
       T.GraphQLOp({
         query:
-          "mutation disableServiceCdn($input: DisableServiceCdnInput!) {\n  disableServiceCdn(input: $input) {\n    __typename\n  }\n}",
+          "mutation disableServiceCdn($input: DisableServiceCdnInput!) {\n  disableServiceCdn(input: $input)\n}",
         operationName: "disableServiceCdn",
         type: "mutation",
       }),

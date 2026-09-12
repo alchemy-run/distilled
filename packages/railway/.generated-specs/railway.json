@@ -38563,7 +38563,7 @@
       "traits": {
         "smithy.api#input": {},
         "com.railway.graphql#operation": {
-          "query": "mutation disableServiceCdn($input: DisableServiceCdnInput!) {\n  disableServiceCdn(input: $input) {\n    __typename\n  }\n}",
+          "query": "mutation disableServiceCdn($input: DisableServiceCdnInput!) {\n  disableServiceCdn(input: $input)\n}",
           "operationName": "disableServiceCdn",
           "type": "mutation"
         }

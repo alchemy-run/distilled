@@ -1,0 +1,10 @@
+{
+  "description": "disableServiceCdn returns Boolean! so the baked document must not select subfields. Observed live: every call failed with `Field \"disableServiceCdn\" must not have a selection since type \"Boolean!\" has no subfields.`",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.railway.api#DisableServiceCdnRequest/traits/com.railway.graphql#operation/query",
+      "value": "mutation disableServiceCdn($input: DisableServiceCdnInput!) {\n  disableServiceCdn(input: $input)\n}"
+    }
+  ]
+}
