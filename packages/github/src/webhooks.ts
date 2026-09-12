@@ -5,11 +5,16 @@ import {
   GitHubWebhookPayloadParseError,
   GitHubWebhookSignatureError,
 } from "./errors.ts";
-import { WebhookEvent } from "./webhook-events.ts";
+import {
+  type WebhookEventName,
+  type WebhookEventSelector,
+  WebhookEvent,
+} from "./webhook-events.ts";
 
 export type {
   WebhookEvent,
   WebhookEventName,
+  WebhookEventSelector,
   WebhookPayloads,
 } from "./webhook-events.ts";
 
@@ -146,3 +151,16 @@ export const constructEvent = (options: ConstructEventOptions) =>
       Effect.andThen(() => parseEvent({ ...options, payload })),
     );
   });
+
+/** The base event GitHub accepts when configuring a webhook subscription. */
+export const getEventName = (selector: WebhookEventSelector) =>
+  selector.split(".")[0] as WebhookEventName;
+
+/** Match a bare event or event.action selector and narrow the delivery payload. */
+export const matchesEvent = <Selector extends WebhookEventSelector>(
+  event: WebhookEvent,
+  selector: Selector,
+): event is WebhookEvent & WebhookEvent<Selector> =>
+  selector === event.name ||
+  ("action" in event.payload &&
+    selector === `${event.name}.${event.payload.action}`);

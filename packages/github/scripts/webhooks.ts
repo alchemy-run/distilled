@@ -169,24 +169,70 @@ export const WebhookEvent: S.Codec<WebhookEvent> = /*@__PURE__*/ S.Union([
 ${entries.map(([name, target]) => `  S.Struct({ id: S.NonEmptyString, name: S.Literal(${JSON.stringify(name)}), payload: ${localName(target)} }),`).join("\n")}
 ]);
 
-export type WebhookEvent<Name extends WebhookEventName = WebhookEventName> = {
-  [K in Name]: { readonly id: string; readonly name: K; readonly payload: WebhookPayloads[K] }
-}[Name];
+/** Bare event names and generated event.action selectors. */
+export type WebhookEventSelector = (typeof import("./webhook-event-names.ts"))[
+  keyof typeof import("./webhook-event-names.ts")
+];
+
+type PayloadWithAction<Payload, Action extends string> =
+  Payload extends { action?: infer Actions }
+    ? Action extends Actions ? Payload & { action: Action } : never
+    : never;
+
+export type WebhookEvent<Selector extends WebhookEventSelector = WebhookEventName> =
+  Selector extends WebhookEventName
+    ? { readonly id: string; readonly name: Selector; readonly payload: WebhookPayloads[Selector] }
+    : Selector extends \`\${infer Name extends WebhookEventName}.\${infer Action}\`
+      ? { readonly id: string; readonly name: Name; readonly payload: PayloadWithAction<WebhookPayloads[Name], Action> }
+      : never;
 `
   );
 };
 
-/** Generate lightweight event-name constants from the payload registry. */
-export const generateWebhookEventNames = (model: typeof WebhookModel.Type) =>
-  "// Generated from GitHub x-webhooks. Do not edit.\n" +
-  Object.keys(model.metadata.githubWebhookPayloads)
-    .sort()
-    .map((event) => {
-      const name = event
-        .split("_")
-        .map((part) => part[0]!.toUpperCase() + part.slice(1))
-        .join("");
-      return `export const ${name} = ${JSON.stringify(event)};`;
-    })
-    .join("\n") +
-  "\n";
+/** Generate lightweight event and action selectors from the payload registry. */
+export const generateWebhookEventNames = (model: typeof WebhookModel.Type) => {
+  const shapes: SmithyModel["shapes"] = model.shapes;
+  const actions = (id: string, seen = new Set<string>()): string[] => {
+    if (seen.has(id)) return [];
+    seen.add(id);
+    const shape = shapes[id];
+    if (!shape) return [];
+    const members = Object.values<{
+      target: string;
+      traits?: Record<string, unknown>;
+    }>(shape.members ?? {});
+    if (shape.type === "enum") {
+      return members
+        .map((member) => member.traits?.["smithy.api#enumValue"])
+        .filter((value) => typeof value === "string");
+    }
+    if (shape.type === "union") {
+      return members.flatMap((member) => actions(member.target, seen));
+    }
+    const body = members.find(
+      (member) => "com.distilled.openapi#rawResponse" in (member.traits ?? {}),
+    );
+    const action = body ?? shape.members?.action;
+    return action ? actions(action.target, seen) : [];
+  };
+  return (
+    "// Generated from GitHub x-webhooks. Do not edit.\n" +
+    Object.entries(model.metadata.githubWebhookPayloads)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .flatMap(([event, target]) => [
+        event,
+        ...[...new Set(actions(target))]
+          .sort()
+          .map((action) => `${event}.${action}`),
+      ])
+      .map((event) => {
+        const name = event
+          .split(/[_.]/)
+          .map((part) => part[0]!.toUpperCase() + part.slice(1))
+          .join("");
+        return `export const ${name} = ${JSON.stringify(event)};`;
+      })
+      .join("\n") +
+    "\n"
+  );
+};

@@ -106213,10 +106213,30 @@ export const WebhookEvent: S.Codec<WebhookEvent> = /*@__PURE__*/ S.Union([
   }),
 ]);
 
-export type WebhookEvent<Name extends WebhookEventName = WebhookEventName> = {
-  [K in Name]: {
-    readonly id: string;
-    readonly name: K;
-    readonly payload: WebhookPayloads[K];
-  };
-}[Name];
+/** Bare event names and generated event.action selectors. */
+export type WebhookEventSelector =
+  (typeof import("./webhook-event-names.ts"))[keyof typeof import("./webhook-event-names.ts")];
+
+type PayloadWithAction<Payload, Action extends string> = Payload extends {
+  action?: infer Actions;
+}
+  ? Action extends Actions
+    ? Payload & { action: Action }
+    : never
+  : never;
+
+export type WebhookEvent<
+  Selector extends WebhookEventSelector = WebhookEventName,
+> = Selector extends WebhookEventName
+  ? {
+      readonly id: string;
+      readonly name: Selector;
+      readonly payload: WebhookPayloads[Selector];
+    }
+  : Selector extends `${infer Name extends WebhookEventName}.${infer Action}`
+    ? {
+        readonly id: string;
+        readonly name: Name;
+        readonly payload: PayloadWithAction<WebhookPayloads[Name], Action>;
+      }
+    : never;
