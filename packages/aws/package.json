@@ -89,6 +89,252 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./client/generate-idempotency-tokens": {
+      "types": "./lib/client/generate-idempotency-tokens.d.ts",
+      "bun": "./src/client/generate-idempotency-tokens.ts",
+      "worker": "./src/client/generate-idempotency-tokens.ts",
+      "default": "./lib/client/generate-idempotency-tokens.js"
+    },
+    "./client/operation": {
+      "types": "./lib/client/operation.d.ts",
+      "bun": "./src/client/operation.ts",
+      "worker": "./src/client/operation.ts",
+      "default": "./lib/client/operation.js"
+    },
+    "./client/protocol": {
+      "types": "./lib/client/protocol.d.ts",
+      "bun": "./src/client/protocol.ts",
+      "worker": "./src/client/protocol.ts",
+      "default": "./lib/client/protocol.js"
+    },
+    "./client/request-builder": {
+      "types": "./lib/client/request-builder.d.ts",
+      "bun": "./src/client/request-builder.ts",
+      "worker": "./src/client/request-builder.ts",
+      "default": "./lib/client/request-builder.js"
+    },
+    "./client/request": {
+      "types": "./lib/client/request.d.ts",
+      "bun": "./src/client/request.ts",
+      "worker": "./src/client/request.ts",
+      "default": "./lib/client/request.js"
+    },
+    "./client/response-parser": {
+      "types": "./lib/client/response-parser.d.ts",
+      "bun": "./src/client/response-parser.ts",
+      "worker": "./src/client/response-parser.ts",
+      "default": "./lib/client/response-parser.js"
+    },
+    "./client/response": {
+      "types": "./lib/client/response.d.ts",
+      "bun": "./src/client/response.ts",
+      "worker": "./src/client/response.ts",
+      "default": "./lib/client/response.js"
+    },
+    "./client/stream-parser": {
+      "types": "./lib/client/stream-parser.d.ts",
+      "bun": "./src/client/stream-parser.ts",
+      "worker": "./src/client/stream-parser.ts",
+      "default": "./lib/client/stream-parser.js"
+    },
+    "./customizations/api-gateway": {
+      "types": "./lib/customizations/api-gateway.d.ts",
+      "bun": "./src/customizations/api-gateway.ts",
+      "worker": "./src/customizations/api-gateway.ts",
+      "default": "./lib/customizations/api-gateway.js"
+    },
+    "./customizations/glacier": {
+      "types": "./lib/customizations/glacier.d.ts",
+      "bun": "./src/customizations/glacier.ts",
+      "worker": "./src/customizations/glacier.ts",
+      "default": "./lib/customizations/glacier.js"
+    },
+    "./ErrorMessage": {
+      "types": "./lib/error-message.d.ts",
+      "bun": "./src/error-message.ts",
+      "worker": "./src/error-message.ts",
+      "default": "./lib/error-message.js"
+    },
+    "./eventstream/codec": {
+      "types": "./lib/eventstream/codec.d.ts",
+      "bun": "./src/eventstream/codec.ts",
+      "worker": "./src/eventstream/codec.ts",
+      "default": "./lib/eventstream/codec.js"
+    },
+    "./eventstream/parser": {
+      "types": "./lib/eventstream/parser.d.ts",
+      "bun": "./src/eventstream/parser.ts",
+      "worker": "./src/eventstream/parser.ts",
+      "default": "./lib/eventstream/parser.js"
+    },
+    "./eventstream/serializer": {
+      "types": "./lib/eventstream/serializer.d.ts",
+      "bun": "./src/eventstream/serializer.ts",
+      "worker": "./src/eventstream/serializer.ts",
+      "default": "./lib/eventstream/serializer.js"
+    },
+    "./hash/crc32": {
+      "types": "./lib/hash/crc32.d.ts",
+      "bun": "./src/hash/crc32.ts",
+      "worker": "./src/hash/crc32.ts",
+      "default": "./lib/hash/crc32.js"
+    },
+    "./hash/md5": {
+      "types": "./lib/hash/md5.d.ts",
+      "bun": "./src/hash/md5.ts",
+      "worker": "./src/hash/md5.ts",
+      "default": "./lib/hash/md5.js"
+    },
+    "./hash/utf8": {
+      "types": "./lib/hash/utf8.d.ts",
+      "bun": "./src/hash/utf8.ts",
+      "worker": "./src/hash/utf8.ts",
+      "default": "./lib/hash/utf8.js"
+    },
+    "./middleware/checksum": {
+      "types": "./lib/middleware/checksum.d.ts",
+      "bun": "./src/middleware/checksum.ts",
+      "worker": "./src/middleware/checksum.ts",
+      "default": "./lib/middleware/checksum.js"
+    },
+    "./middleware/index": {
+      "types": "./lib/middleware/index.d.ts",
+      "bun": "./src/middleware/index.ts",
+      "worker": "./src/middleware/index.ts",
+      "default": "./lib/middleware/index.js"
+    },
+    "./middleware/middleware": {
+      "types": "./lib/middleware/middleware.d.ts",
+      "bun": "./src/middleware/middleware.ts",
+      "worker": "./src/middleware/middleware.ts",
+      "default": "./lib/middleware/middleware.js"
+    },
+    "./middleware/streaming-body": {
+      "types": "./lib/middleware/streaming-body.d.ts",
+      "bun": "./src/middleware/streaming-body.ts",
+      "worker": "./src/middleware/streaming-body.ts",
+      "default": "./lib/middleware/streaming-body.js"
+    },
+    "./patch/spec-schema": {
+      "types": "./lib/patch/spec-schema.d.ts",
+      "bun": "./src/patch/spec-schema.ts",
+      "worker": "./src/patch/spec-schema.ts",
+      "default": "./lib/patch/spec-schema.js"
+    },
+    "./Protocol": {
+      "types": "./lib/protocol.d.ts",
+      "bun": "./src/protocol.ts",
+      "worker": "./src/protocol.ts",
+      "default": "./lib/protocol.js"
+    },
+    "./protocols/aws-json": {
+      "types": "./lib/protocols/aws-json.d.ts",
+      "bun": "./src/protocols/aws-json.ts",
+      "worker": "./src/protocols/aws-json.ts",
+      "default": "./lib/protocols/aws-json.js"
+    },
+    "./protocols/aws-query": {
+      "types": "./lib/protocols/aws-query.d.ts",
+      "bun": "./src/protocols/aws-query.ts",
+      "worker": "./src/protocols/aws-query.ts",
+      "default": "./lib/protocols/aws-query.js"
+    },
+    "./protocols/ec2-query": {
+      "types": "./lib/protocols/ec2-query.d.ts",
+      "bun": "./src/protocols/ec2-query.ts",
+      "worker": "./src/protocols/ec2-query.ts",
+      "default": "./lib/protocols/ec2-query.js"
+    },
+    "./protocols/rest-json": {
+      "types": "./lib/protocols/rest-json.d.ts",
+      "bun": "./src/protocols/rest-json.ts",
+      "worker": "./src/protocols/rest-json.ts",
+      "default": "./lib/protocols/rest-json.js"
+    },
+    "./protocols/rest-xml": {
+      "types": "./lib/protocols/rest-xml.d.ts",
+      "bun": "./src/protocols/rest-xml.ts",
+      "worker": "./src/protocols/rest-xml.ts",
+      "default": "./lib/protocols/rest-xml.js"
+    },
+    "./rules-engine/aws-functions": {
+      "types": "./lib/rules-engine/aws-functions.d.ts",
+      "bun": "./src/rules-engine/aws-functions.ts",
+      "worker": "./src/rules-engine/aws-functions.ts",
+      "default": "./lib/rules-engine/aws-functions.js"
+    },
+    "./rules-engine/endpoint-resolver": {
+      "types": "./lib/rules-engine/endpoint-resolver.d.ts",
+      "bun": "./src/rules-engine/endpoint-resolver.ts",
+      "worker": "./src/rules-engine/endpoint-resolver.ts",
+      "default": "./lib/rules-engine/endpoint-resolver.js"
+    },
+    "./rules-engine/expression": {
+      "types": "./lib/rules-engine/expression.d.ts",
+      "bun": "./src/rules-engine/expression.ts",
+      "worker": "./src/rules-engine/expression.ts",
+      "default": "./lib/rules-engine/expression.js"
+    },
+    "./rules-engine/standard-functions": {
+      "types": "./lib/rules-engine/standard-functions.d.ts",
+      "bun": "./src/rules-engine/standard-functions.ts",
+      "worker": "./src/rules-engine/standard-functions.ts",
+      "default": "./lib/rules-engine/standard-functions.js"
+    },
+    "./util/ast": {
+      "types": "./lib/util/ast.d.ts",
+      "bun": "./src/util/ast.ts",
+      "worker": "./src/util/ast.ts",
+      "default": "./lib/util/ast.js"
+    },
+    "./util/error": {
+      "types": "./lib/util/error.d.ts",
+      "bun": "./src/util/error.ts",
+      "worker": "./src/util/error.ts",
+      "default": "./lib/util/error.js"
+    },
+    "./util/parse-ini": {
+      "types": "./lib/util/parse-ini.d.ts",
+      "bun": "./src/util/parse-ini.ts",
+      "worker": "./src/util/parse-ini.ts",
+      "default": "./lib/util/parse-ini.js"
+    },
+    "./util/query-params": {
+      "types": "./lib/util/query-params.d.ts",
+      "bun": "./src/util/query-params.ts",
+      "worker": "./src/util/query-params.ts",
+      "default": "./lib/util/query-params.js"
+    },
+    "./util/serialize-input": {
+      "types": "./lib/util/serialize-input.d.ts",
+      "bun": "./src/util/serialize-input.ts",
+      "worker": "./src/util/serialize-input.ts",
+      "default": "./lib/util/serialize-input.js"
+    },
+    "./util/stream": {
+      "types": "./lib/util/stream.d.ts",
+      "bun": "./src/util/stream.ts",
+      "worker": "./src/util/stream.ts",
+      "default": "./lib/util/stream.js"
+    },
+    "./util/timestamp": {
+      "types": "./lib/util/timestamp.d.ts",
+      "bun": "./src/util/timestamp.ts",
+      "worker": "./src/util/timestamp.ts",
+      "default": "./lib/util/timestamp.js"
+    },
+    "./util/xml": {
+      "types": "./lib/util/xml.d.ts",
+      "bun": "./src/util/xml.ts",
+      "worker": "./src/util/xml.ts",
+      "default": "./lib/util/xml.js"
+    },
+    "./SigV4": {
+      "types": "./lib/sigv4.d.ts",
+      "bun": "./src/sigv4.ts",
+      "worker": "./src/sigv4.ts",
+      "default": "./lib/sigv4.js"
     }
   },
   "scripts": {

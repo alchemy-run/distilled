@@ -2,7 +2,7 @@ export const annotationMetaSymbol = Symbol.for(
   "@distilled.cloud/core/annotation-meta",
 );
 
-type Annotatable = {
+export type Annotatable = {
   annotate(annotations: any): Annotatable;
 };
 

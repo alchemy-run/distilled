@@ -38,7 +38,7 @@ export interface ConditionObject {
 }
 
 /** Base fields shared by all rule types */
-interface RuleBase {
+export interface RuleBase {
   conditions: ConditionObject[];
   documentation?: string;
 }

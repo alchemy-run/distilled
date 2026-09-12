@@ -126,7 +126,7 @@ export const regionFromEnv = regionFromEnvironment.pipe(
   ),
 );
 
-type ProviderName =
+export type ProviderName =
   | "env"
   | "ini"
   | "chain"
