@@ -14728,10 +14728,7 @@
         "smithy.api#paginated": {
           "mode": "link",
           "inputToken": "after",
-          "inputTokens": [
-            "after",
-            "before"
-          ],
+          "inputTokens": ["after", "before"],
           "items": "concurrency_groups",
           "pageSize": "per_page"
         }

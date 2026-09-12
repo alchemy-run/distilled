@@ -1335,11 +1335,7 @@
         "smithy.api#paginated": {
           "mode": "link",
           "inputToken": "page",
-          "inputTokens": [
-            "page",
-            "after",
-            "before"
-          ],
+          "inputTokens": ["page", "after", "before"],
           "items": "$",
           "pageSize": "per_page"
         }
@@ -1657,11 +1653,7 @@
         "smithy.api#paginated": {
           "mode": "link",
           "inputToken": "page",
-          "inputTokens": [
-            "page",
-            "after",
-            "before"
-          ],
+          "inputTokens": ["page", "after", "before"],
           "items": "$",
           "pageSize": "per_page"
         }
