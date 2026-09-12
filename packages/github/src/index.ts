@@ -24,3 +24,5 @@ export type {
   WebhookEventName,
   WebhookPayloads,
 } from "./webhook-events.ts";
+
+export * as WebhookEventNames from "./webhook-event-names.ts";

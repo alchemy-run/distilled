@@ -63,6 +63,12 @@
       "worker": "./src/webhooks.ts",
       "default": "./lib/webhooks.js"
     },
+    "./WebhookEventNames": {
+      "types": "./lib/webhook-event-names.d.ts",
+      "bun": "./src/webhook-event-names.ts",
+      "worker": "./src/webhook-event-names.ts",
+      "default": "./lib/webhook-event-names.js"
+    },
     "./WebhookEvents": {
       "types": "./lib/webhook-events.d.ts",
       "bun": "./src/webhook-events.ts",
