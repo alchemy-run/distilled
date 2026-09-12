@@ -110,7 +110,7 @@ export const generateWebhooks = (model: typeof WebhookModel.Type) => {
         }>(def.members).map((member) => member.traits["smithy.api#enumValue"]);
         return [
           `export type ${name} = ${values.map((value) => JSON.stringify(value)).join(" | ")};`,
-          `export const ${name} = /*@__PURE__*/ S.Literals(${JSON.stringify(values)});`,
+          `export const ${name}: S.Codec<${name}> = /*@__PURE__*/ S.Literals(${JSON.stringify(values)});`,
         ];
       }
       if (def.type === "union") {
@@ -141,10 +141,10 @@ ${entries.map(([name, target]) => `  ${JSON.stringify(name)}: ${localName(target
 }
 
 export type WebhookEventName = keyof WebhookPayloads;
-export const WebhookEventName = /*@__PURE__*/ S.Literals(${JSON.stringify(entries.map(([name]) => name))});
+export const WebhookEventName: S.Codec<WebhookEventName> = /*@__PURE__*/ S.Literals(${JSON.stringify(entries.map(([name]) => name))});
 
 /** A delivery whose name determines its payload, including action variants. */
-export const WebhookEvent = /*@__PURE__*/ S.Union([
+export const WebhookEvent: S.Codec<WebhookEvent> = /*@__PURE__*/ S.Union([
 ${entries.map(([name, target]) => `  S.Struct({ id: S.NonEmptyString, name: S.Literal(${JSON.stringify(name)}), payload: ${localName(target)} }),`).join("\n")}
 ]);
 
