@@ -2083,36 +2083,50 @@ export type GetAllPackageVersionsForPackageOwnedByAuthenticatedUserError =
   | NotFound
   | GithubOpError;
 /** List package versions for a package owned by the authenticated user Lists package versions for a package owned by the authenticated user. OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)." */
-export const getAllPackageVersionsForPackageOwnedByAuthenticatedUser: API.OperationMethod<
+export const getAllPackageVersionsForPackageOwnedByAuthenticatedUser: API.PaginatedOperationMethod<
   GetAllPackageVersionsForPackageOwnedByAuthenticatedUserRequest,
   GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse,
   GetAllPackageVersionsForPackageOwnedByAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  PackageVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllPackageVersionsForPackageOwnedByAuthenticatedUserRequest,
   output: GetAllPackageVersionsForPackageOwnedByAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetAllPackageVersionsForPackageOwnedByOrgError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List package versions for a package owned by an organization Lists package versions for a package owned by an organization. OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)." */
-export const getAllPackageVersionsForPackageOwnedByOrg: API.OperationMethod<
+export const getAllPackageVersionsForPackageOwnedByOrg: API.PaginatedOperationMethod<
   GetAllPackageVersionsForPackageOwnedByOrgRequest,
   GetAllPackageVersionsForPackageOwnedByOrgResponse,
   GetAllPackageVersionsForPackageOwnedByOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  PackageVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetAllPackageVersionsForPackageOwnedByOrgRequest,
   output: GetAllPackageVersionsForPackageOwnedByOrgResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetAllPackageVersionsForPackageOwnedByUserError =
   | Forbidden
@@ -2274,51 +2288,72 @@ export const listDockerMigrationConflictingPackagesForUser: API.OperationMethod<
 
 export type ListPackagesForAuthenticatedUserError = BadRequest | GithubOpError;
 /** List packages for the authenticated user's namespace Lists packages owned by the authenticated user within the user's namespace. OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)." */
-export const listPackagesForAuthenticatedUser: API.OperationMethod<
+export const listPackagesForAuthenticatedUser: API.PaginatedOperationMethod<
   ListPackagesForAuthenticatedUserRequest,
   ListPackagesForAuthenticatedUserResponse,
   ListPackagesForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Package
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPackagesForAuthenticatedUserRequest,
   output: ListPackagesForAuthenticatedUserResponse,
   errors: [BadRequest],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPackagesForOrganizationError =
   | BadRequest
   | Forbidden
   | GithubOpError;
 /** List packages for an organization Lists packages in an organization readable by the user. OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)." */
-export const listPackagesForOrganization: API.OperationMethod<
+export const listPackagesForOrganization: API.PaginatedOperationMethod<
   ListPackagesForOrganizationRequest,
   ListPackagesForOrganizationResponse,
   ListPackagesForOrganizationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Package
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPackagesForOrganizationRequest,
   output: ListPackagesForOrganizationResponse,
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPackagesForUserError = BadRequest | Forbidden | GithubOpError;
 /** List packages for a user Lists all packages in a user's namespace for which the requesting user has access. OAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see "[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages)." */
-export const listPackagesForUser: API.OperationMethod<
+export const listPackagesForUser: API.PaginatedOperationMethod<
   ListPackagesForUserRequest,
   ListPackagesForUserResponse,
   ListPackagesForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Package
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPackagesForUserRequest,
   output: ListPackagesForUserResponse,
   errors: [BadRequest, Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RestorePackageForAuthenticatedUserError =
   | Forbidden

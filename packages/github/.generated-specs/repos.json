@@ -1281,7 +1281,13 @@
           "uri": "/orgs/{org}/repos",
           "code": 200
         },
-        "smithy.api#documentation": "List organization repositories\n\nLists repositories for the specified organization.\n\n> [!NOTE]\n> In order to see the `security_and_analysis` block for a repository you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\""
+        "smithy.api#documentation": "List organization repositories\n\nLists repositories for the specified organization.\n\n> [!NOTE]\n> In order to see the `security_and_analysis` block for a repository you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateInOrgRequestVisibility": {
@@ -6671,7 +6677,13 @@
           "uri": "/orgs/{org}/rulesets",
           "code": 200
         },
-        "smithy.api#documentation": "Get all organization repository rulesets\n\nGet all the repository rulesets for an organization."
+        "smithy.api#documentation": "Get all organization repository rulesets\n\nGet all the repository rulesets for an organization.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateOrgRulesetRequestTarget": {
@@ -7190,7 +7202,13 @@
           "uri": "/orgs/{org}/rulesets/rule-suites",
           "code": 200
         },
-        "smithy.api#documentation": "List organization rule suites\n\nLists suites of rule evaluations at the organization level.\nFor more information, see \"[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets).\""
+        "smithy.api#documentation": "List organization rule suites\n\nLists suites of rule evaluations at the organization level.\nFor more information, see \"[Managing rulesets for repositories in your organization](https://docs.github.com/organizations/managing-organization-settings/managing-rulesets-for-repositories-in-your-organization#viewing-insights-for-rulesets).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetOrgRuleSuiteRequest": {
@@ -8332,6 +8350,12 @@
           "traits": {
             "smithy.api#documentation": "Either `true` to require contributors to sign off on web-based commits, or `false` to not require contributors to sign off on web-based commits."
           }
+        },
+        "has_discussions": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "Whether GitHub Discussions are enabled for this repository."
+          }
         }
       },
       "traits": {
@@ -8741,7 +8765,17 @@
           "uri": "/repos/{owner}/{repo}/activity",
           "code": 200
         },
-        "smithy.api#documentation": "List repository activities\n\nLists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.\n\nFor more information about viewing repository activity,\nsee \"[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository).\""
+        "smithy.api#documentation": "List repository activities\n\nLists a detailed history of changes to a repository, such as pushes, merges, force pushes, and branch changes, and associates these changes with commits and users.\n\nFor more information about viewing repository activity,\nsee \"[Viewing activity and data for your repository](https://docs.github.com/repositories/viewing-activity-and-data-for-your-repository).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateAttestationRequestBundleVerificationMaterialMap": {
@@ -9001,7 +9035,17 @@
           "uri": "/repos/{owner}/{repo}/attestations/{subject_digest}",
           "code": 200
         },
-        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with a repository.\n\nThe authenticated user making the request must have read access to the repository. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)."
+        "smithy.api#documentation": "List attestations\n\nList a collection of artifact attestations with a given subject digest that are associated with a repository.\n\nThe authenticated user making the request must have read access to the repository. In addition, when using a fine-grained access token the `attestations:read` permission is required.\n\n**Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds).",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": [
+            "after",
+            "before"
+          ],
+          "items": "attestations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#ListAutolinksRequest": {
@@ -10778,7 +10822,13 @@
           "uri": "/repos/{owner}/{repo}/branches",
           "code": 200
         },
-        "smithy.api#documentation": "List branches"
+        "smithy.api#documentation": "List branches",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetBranchRequest": {
@@ -15261,7 +15311,13 @@
           "uri": "/repos/{owner}/{repo}/collaborators",
           "code": 200
         },
-        "smithy.api#documentation": "List repository collaborators\n\nFor organization-owned repositories, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners.\nThe `permissions` hash returned in the response contains the base role permissions of the collaborator. The `role_name` is the highest role assigned to the collaborator after considering all sources of grants, including: repo, teams, organization, and enterprise.\nThere is presently not a way to differentiate between an organization level grant and a repository level grant from this endpoint response.\n\nTeam members will include the members of child teams.\n\nThe authenticated user must have write, maintain, or admin privileges on the repository to use this endpoint. For organization-owned repositories, the authenticated user needs to be a member of the organization.\nOAuth app tokens and personal access tokens (classic) need the `read:org` and `repo` scopes to use this endpoint."
+        "smithy.api#documentation": "List repository collaborators\n\nFor organization-owned repositories, the list of collaborators includes outside collaborators, organization members that are direct collaborators, organization members with access through team memberships, organization members with access through default organization permissions, and organization owners.\nThe `permissions` hash returned in the response contains the base role permissions of the collaborator. The `role_name` is the highest role assigned to the collaborator after considering all sources of grants, including: repo, teams, organization, and enterprise.\nThere is presently not a way to differentiate between an organization level grant and a repository level grant from this endpoint response.\n\nTeam members will include the members of child teams.\n\nThe authenticated user must have write, maintain, or admin privileges on the repository to use this endpoint. For organization-owned repositories, the authenticated user needs to be a member of the organization.\nOAuth app tokens and personal access tokens (classic) need the `read:org` and `repo` scopes to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CheckCollaboratorRequest": {
@@ -16092,7 +16148,13 @@
           "uri": "/repos/{owner}/{repo}/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List commit comments for a repository\n\nLists the commit comments for a specified repository. Comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List commit comments for a repository\n\nLists the commit comments for a specified repository. Comments are ordered by ascending ID.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetCommitCommentRequest": {
@@ -16391,7 +16453,13 @@
           "uri": "/repos/{owner}/{repo}/commits",
           "code": 200
         },
-        "smithy.api#documentation": "List commits\n\n**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\n\nThese are the possible values for `reason` in the `verification` object:"
+        "smithy.api#documentation": "List commits\n\n**Signature verification object**\n\nThe response will include a `verification` object that describes the result of verifying the commit's signature. The following fields are included in the `verification` object:\n\n\nThese are the possible values for `reason` in the `verification` object:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#ListBranchesForHeadCommitRequest": {
@@ -16599,7 +16667,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{commit_sha}/comments",
           "code": 200
         },
-        "smithy.api#documentation": "List commit comments\n\nLists the comments for a specified commit.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`."
+        "smithy.api#documentation": "List commit comments\n\nLists the comments for a specified commit.\n\nThis endpoint supports the following custom media types. For more information, see \"[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types).\"\n\n- **`application/vnd.github-commitcomment.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type.\n- **`application/vnd.github-commitcomment.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`.\n- **`application/vnd.github-commitcomment.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`.\n- **`application/vnd.github-commitcomment.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateCommitCommentRequest": {
@@ -17468,7 +17542,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{commit_sha}/pulls",
           "code": 200
         },
-        "smithy.api#documentation": "List pull requests associated with a commit\n\nLists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, it will return merged and open pull requests associated with the commit.\n\nTo list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name."
+        "smithy.api#documentation": "List pull requests associated with a commit\n\nLists the merged pull request that introduced the commit to the repository. If the commit is not present in the default branch, it will return merged and open pull requests associated with the commit.\n\nTo list the open or merged pull requests associated with a branch, you can set the `commit_sha` parameter to the branch name.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetCommitRequest": {
@@ -17742,7 +17822,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{ref}/status",
           "code": 200
         },
-        "smithy.api#documentation": "Get the combined status for a specific reference\n\nUsers with pull access in a repository can access a combined view of commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name.\n\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`"
+        "smithy.api#documentation": "Get the combined status for a specific reference\n\nUsers with pull access in a repository can access a combined view of commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name.\n\n\nAdditionally, a combined `state` is returned. The `state` is one of:\n\n*   **failure** if any of the contexts report as `error` or `failure`\n*   **pending** if there are no statuses or a context is `pending`\n*   **success** if the latest status for all contexts is `success`",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "statuses",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#ListCommitStatusesForRefRequest": {
@@ -17905,7 +17991,13 @@
           "uri": "/repos/{owner}/{repo}/commits/{ref}/statuses",
           "code": 200
         },
-        "smithy.api#documentation": "List commit statuses for a reference\n\nUsers with pull access in a repository can view commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name. Statuses are returned in reverse chronological order. The first status in the list will be the latest one.\n\nThis resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`."
+        "smithy.api#documentation": "List commit statuses for a reference\n\nUsers with pull access in a repository can view commit statuses for a given ref. The ref can be a SHA, a branch name, or a tag name. Statuses are returned in reverse chronological order. The first status in the list will be the latest one.\n\nThis resource is also available via a legacy route: `GET /repos/:owner/:repo/statuses/:ref`.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetCommunityProfileMetricsRequest": {
@@ -19539,7 +19631,13 @@
           "uri": "/repos/{owner}/{repo}/contributors",
           "code": 200
         },
-        "smithy.api#documentation": "List repository contributors\n\nLists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API caches contributor data to improve performance.\n\nGitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information."
+        "smithy.api#documentation": "List repository contributors\n\nLists contributors to the specified repository and sorts them by the number of commits per contributor in descending order. This endpoint may return information that is a few hours old because the GitHub REST API caches contributor data to improve performance.\n\nGitHub identifies contributors by author email address. This endpoint groups contribution counts by GitHub user, which includes all associated email addresses. To improve performance, only the first 500 author email addresses in the repository link to GitHub users. The rest will appear as anonymous contributors without associated GitHub user information.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#ListDeploymentsRequest": {
@@ -19923,7 +20021,13 @@
           "uri": "/repos/{owner}/{repo}/deployments",
           "code": 200
         },
-        "smithy.api#documentation": "List deployments\n\nSimple filtering of deployments is available via query parameters:"
+        "smithy.api#documentation": "List deployments\n\nSimple filtering of deployments is available via query parameters:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateDeploymentRequestRequiredContextsList": {
@@ -20409,7 +20513,13 @@
           "uri": "/repos/{owner}/{repo}/deployments/{deployment_id}/statuses",
           "code": 200
         },
-        "smithy.api#documentation": "List deployment statuses\n\nUsers with pull access can view deployment statuses for a deployment:"
+        "smithy.api#documentation": "List deployment statuses\n\nUsers with pull access can view deployment statuses for a deployment:",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateDeploymentStatusRequestState": {
@@ -21016,13 +21126,27 @@
       "output": {
         "target": "com.github.repos#GetAllEnvironmentsResponse"
       },
+      "errors": [
+        {
+          "target": "com.github.repos#Forbidden"
+        },
+        {
+          "target": "com.github.repos#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
           "uri": "/repos/{owner}/{repo}/environments",
           "code": 200
         },
-        "smithy.api#documentation": "List environments\n\nLists the environments for a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List environments\n\nLists the environments for a repository.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "environments",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetEnvironmentRequest": {
@@ -21065,6 +21189,11 @@
       "output": {
         "target": "com.github.repos#Environment"
       },
+      "errors": [
+        {
+          "target": "com.github.repos#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "GET",
@@ -21211,6 +21340,11 @@
       "output": {
         "target": "smithy.api#Unit"
       },
+      "errors": [
+        {
+          "target": "com.github.repos#NotFound"
+        }
+      ],
       "traits": {
         "smithy.api#http": {
           "method": "DELETE",
@@ -21357,7 +21491,13 @@
           "uri": "/repos/{owner}/{repo}/environments/{environment_name}/deployment-branch-policies",
           "code": 200
         },
-        "smithy.api#documentation": "List deployment branch policies\n\nLists the deployment branch policies for an environment.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List deployment branch policies\n\nLists the deployment branch policies for an environment.\n\nAnyone with read access to the repository can use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "branch_policies",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateDeploymentBranchPolicyRequestType": {
@@ -21908,7 +22048,13 @@
           "uri": "/repos/{owner}/{repo}/environments/{environment_name}/deployment_protection_rules/apps",
           "code": 200
         },
-        "smithy.api#documentation": "List custom deployment rule integrations available for an environment\n\nGets all custom deployment protection rule integrations that are available for an environment.\n\nThe authenticated user must have admin or owner permissions to the repository to use this endpoint.\n\nFor more information about environments, see \"[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment).\"\n\nFor more information about the app that is providing this custom deployment rule, see \"[GET an app](https://docs.github.com/rest/apps/apps#get-an-app)\".\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List custom deployment rule integrations available for an environment\n\nGets all custom deployment protection rule integrations that are available for an environment.\n\nThe authenticated user must have admin or owner permissions to the repository to use this endpoint.\n\nFor more information about environments, see \"[Using environments for deployment](https://docs.github.com/actions/deployment/targeting-different-environments/using-environments-for-deployment).\"\n\nFor more information about the app that is providing this custom deployment rule, see \"[GET an app](https://docs.github.com/rest/apps/apps#get-an-app)\".\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "available_custom_deployment_protection_rule_integrations",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetCustomDeploymentProtectionRuleRequest": {
@@ -22141,7 +22287,13 @@
           "uri": "/repos/{owner}/{repo}/forks",
           "code": 200
         },
-        "smithy.api#documentation": "List forks"
+        "smithy.api#documentation": "List forks",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateForkRequest": {
@@ -22529,6 +22681,9 @@
       },
       "errors": [
         {
+          "target": "com.github.repos#Forbidden"
+        },
+        {
           "target": "com.github.repos#NotFound"
         }
       ],
@@ -22538,7 +22693,13 @@
           "uri": "/repos/{owner}/{repo}/hooks",
           "code": 200
         },
-        "smithy.api#documentation": "List repository webhooks\n\nLists webhooks for a repository. `last response` may return null if there have not been any deliveries within 30 days."
+        "smithy.api#documentation": "List repository webhooks\n\nLists webhooks for a repository. `last response` may return null if there have not been any deliveries within 30 days.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateWebhookRequestConfig": {
@@ -23191,7 +23352,13 @@
           "uri": "/repos/{owner}/{repo}/hooks/{hook_id}/deliveries",
           "code": 200
         },
-        "smithy.api#documentation": "List deliveries for a repository webhook\n\nReturns a list of webhook deliveries for a webhook configured in a repository."
+        "smithy.api#documentation": "List deliveries for a repository webhook\n\nReturns a list of webhook deliveries for a webhook configured in a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "cursor",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetWebhookDeliveryRequest": {
@@ -23869,7 +24036,13 @@
           "uri": "/repos/{owner}/{repo}/invitations",
           "code": 200
         },
-        "smithy.api#documentation": "List repository invitations\n\nWhen authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations."
+        "smithy.api#documentation": "List repository invitations\n\nWhen authenticating as a user with admin rights to a repository, this endpoint will list all currently open repository invitations.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#UpdateInvitationRequestPermissions": {
@@ -24342,7 +24515,13 @@
           "uri": "/repos/{owner}/{repo}/keys",
           "code": 200
         },
-        "smithy.api#documentation": "List deploy keys"
+        "smithy.api#documentation": "List deploy keys",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateDeployKeyRequest": {
@@ -25580,7 +25759,13 @@
           "uri": "/repos/{owner}/{repo}/pages/builds",
           "code": 200
         },
-        "smithy.api#documentation": "List GitHub Pages builds\n\nLists builts of a GitHub Pages site.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint."
+        "smithy.api#documentation": "List GitHub Pages builds\n\nLists builts of a GitHub Pages site.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#RequestPagesBuildRequest": {
@@ -27230,7 +27415,13 @@
           "uri": "/repos/{owner}/{repo}/releases",
           "code": 200
         },
-        "smithy.api#documentation": "List releases\n\nThis returns a list of releases, which does not include regular Git tags that have not been associated with a release. To get a list of Git tags, use the [Repository Tags API](https://docs.github.com/rest/repos/repos#list-repository-tags).\n\nInformation about published releases are available to everyone. Only users with push access will receive listings for draft releases."
+        "smithy.api#documentation": "List releases\n\nThis returns a list of releases, which does not include regular Git tags that have not been associated with a release. To get a list of Git tags, use the [Repository Tags API](https://docs.github.com/rest/repos/repos#list-repository-tags).\n\nInformation about published releases are available to everyone. Only users with push access will receive listings for draft releases.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateReleaseRequestMakeLatest": {
@@ -28041,7 +28232,13 @@
           "uri": "/repos/{owner}/{repo}/releases/{release_id}/assets",
           "code": 200
         },
-        "smithy.api#documentation": "List release assets"
+        "smithy.api#documentation": "List release assets",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#UploadReleaseAssetRequest": {
@@ -30474,7 +30671,13 @@
           "uri": "/repos/{owner}/{repo}/rules/branches/{branch}",
           "code": 200
         },
-        "smithy.api#documentation": "Get rules for a branch\n\nReturns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply\nto a branch with that name will be returned. All active rules that apply will be returned, regardless of the level\nat which they are configured (e.g. repository or organization). Rules in rulesets with \"evaluate\" or \"disabled\"\nenforcement statuses are not returned."
+        "smithy.api#documentation": "Get rules for a branch\n\nReturns all active rules that apply to the specified branch. The branch does not need to exist; rules that would apply\nto a branch with that name will be returned. All active rules that apply will be returned, regardless of the level\nat which they are configured (e.g. repository or organization). Rules in rulesets with \"evaluate\" or \"disabled\"\nenforcement statuses are not returned.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetRepoRulesetsRequest": {
@@ -30570,7 +30773,13 @@
           "uri": "/repos/{owner}/{repo}/rulesets",
           "code": 200
         },
-        "smithy.api#documentation": "Get all repository rulesets\n\nGet all the rulesets for a repository."
+        "smithy.api#documentation": "Get all repository rulesets\n\nGet all the rulesets for a repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateRepoRulesetRequestTarget": {
@@ -30891,7 +31100,13 @@
           "uri": "/repos/{owner}/{repo}/rulesets/rule-suites",
           "code": 200
         },
-        "smithy.api#documentation": "List repository rule suites\n\nLists suites of rule evaluations at the repository level.\nFor more information, see \"[Managing rulesets for a repository](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository#viewing-insights-for-rulesets).\""
+        "smithy.api#documentation": "List repository rule suites\n\nLists suites of rule evaluations at the repository level.\nFor more information, see \"[Managing rulesets for a repository](https://docs.github.com/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/managing-rulesets-for-a-repository#viewing-insights-for-rulesets).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetRepoRuleSuiteRequest": {
@@ -31323,7 +31538,13 @@
           "uri": "/repos/{owner}/{repo}/rulesets/{ruleset_id}/history",
           "code": 200
         },
-        "smithy.api#documentation": "Get repository ruleset history\n\nGet the history of a repository ruleset."
+        "smithy.api#documentation": "Get repository ruleset history\n\nGet the history of a repository ruleset.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetRepoRulesetVersionRequest": {
@@ -32103,7 +32324,13 @@
           "uri": "/repos/{owner}/{repo}/tags",
           "code": 200
         },
-        "smithy.api#documentation": "List repository tags"
+        "smithy.api#documentation": "List repository tags",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#DownloadTarballArchiveRequest": {
@@ -32233,7 +32460,13 @@
           "uri": "/repos/{owner}/{repo}/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List repository teams\n\nLists the teams that have access to the specified repository and that are also visible to the authenticated user.\n\nFor a public repository, a team is listed only if that team added the public repository explicitly.\n\nOAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to use this endpoint with a public repository, and `repo` scope to use this endpoint with a private repository."
+        "smithy.api#documentation": "List repository teams\n\nLists the teams that have access to the specified repository and that are also visible to the authenticated user.\n\nFor a public repository, a team is listed only if that team added the public repository explicitly.\n\nOAuth app tokens and personal access tokens (classic) need the `public_repo` or `repo` scope to use this endpoint with a public repository, and `repo` scope to use this endpoint with a private repository.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#GetAllTopicsRequest": {
@@ -32314,7 +32547,13 @@
           "uri": "/repos/{owner}/{repo}/topics",
           "code": 200
         },
-        "smithy.api#documentation": "Get all repository topics"
+        "smithy.api#documentation": "Get all repository topics",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "names",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#ReplaceAllTopicsRequestNamesList": {
@@ -33181,7 +33420,12 @@
           "uri": "/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List public repositories\n\nLists all public repositories in the order that they were created.\n\nNote:\n- For GitHub Enterprise Server, this endpoint will only list repositories available to all users on the enterprise.\n- Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories."
+        "smithy.api#documentation": "List public repositories\n\nLists all public repositories in the order that they were created.\n\nNote:\n- For GitHub Enterprise Server, this endpoint will only list repositories available to all users on the enterprise.\n- Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "since",
+          "items": "$"
+        }
       }
     },
     "com.github.repos#ListForAuthenticatedUserRequestVisibility": {
@@ -33407,7 +33651,13 @@
           "uri": "/user/repos",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories for the authenticated user\n\nLists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership."
+        "smithy.api#documentation": "List repositories for the authenticated user\n\nLists repositories that the authenticated user has explicit permission (`:read`, `:write`, or `:admin`) to access.\n\nThe authenticated user has explicit permission to access repositories they own, repositories where they are a collaborator, and repositories that they can access through an organization membership.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#CreateForAuthenticatedUserRequestSquashMergeCommitTitle": {
@@ -33746,7 +33996,13 @@
           "uri": "/user/repository_invitations",
           "code": 200
         },
-        "smithy.api#documentation": "List repository invitations for the authenticated user\n\nWhen authenticating as a user, this endpoint will list all currently open repository invitations for that user."
+        "smithy.api#documentation": "List repository invitations for the authenticated user\n\nWhen authenticating as a user, this endpoint will list all currently open repository invitations for that user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.repos#AcceptInvitationForAuthenticatedUserRequest": {
@@ -33996,7 +34252,54 @@
           "uri": "/users/{username}/repos",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories for a user\n\nLists public repositories for the specified user."
+        "smithy.api#documentation": "List repositories for a user\n\nLists public repositories for the specified user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
+      }
+    },
+    "com.github.repos#GetByIdRequest": {
+      "type": "structure",
+      "members": {
+        "repository_id": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpLabel": {},
+            "smithy.api#required": {},
+            "smithy.api#documentation": "The immutable repository ID."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.github.repos#GetById": {
+      "type": "operation",
+      "input": {
+        "target": "com.github.repos#GetByIdRequest"
+      },
+      "output": {
+        "target": "com.github.repos#FullRepository"
+      },
+      "errors": [
+        {
+          "target": "com.github.repos#Forbidden"
+        },
+        {
+          "target": "com.github.repos#NotFound"
+        }
+      ],
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/repositories/{repository_id}",
+          "code": 200
+        },
+        "smithy.api#documentation": "Get a repository by ID\n\nLook up a repository by its immutable numeric ID, including after a rename or transfer. This endpoint is supported by GitHub but is absent from its published OpenAPI description."
       }
     },
     "com.github.repos#Forbidden": {
@@ -34676,6 +34979,9 @@
         },
         {
           "target": "com.github.repos#ListForUser"
+        },
+        {
+          "target": "com.github.repos#GetById"
         }
       ],
       "traits": {

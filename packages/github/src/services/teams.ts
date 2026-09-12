@@ -2021,98 +2021,140 @@ export const getMembershipForUserInOrg: API.OperationMethod<
 
 export type ListError = Forbidden | GithubOpError;
 /** List teams Lists all teams in an organization that are visible to the authenticated user. */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Team
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListChildInOrgError = GithubOpError;
 /** List child teams Lists the child teams of the team specified by `{team_slug}`. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/teams`. */
-export const listChildInOrg: API.OperationMethod<
+export const listChildInOrg: API.PaginatedOperationMethod<
   ListChildInOrgRequest,
   ListChildInOrgResponse,
   ListChildInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Team
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListChildInOrgRequest,
   output: ListChildInOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List teams for the authenticated user List all of the teams across all of the organizations to which the authenticated user belongs. OAuth app tokens and personal access tokens (classic) need the `user`, `repo`, or `read:org` scope to use this endpoint. When using a fine-grained personal access token, the resource owner of the token must be a single organization, and the response will only include the teams from that organization. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  TeamFull
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForAuthenticatedUserRequest,
   output: ListForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListMembersInOrgError = GithubOpError;
 /** List team members Team members will include the members of child teams. Each member includes their `role` on the team (`member` or `maintainer`) and an `inherited` flag indicating whether the membership is inherited from a child team (`true`) or is a direct membership (`false`). These fields let you read a member's role and direct/inherited status without additional requests. To list members in a team, the team must be visible to the authenticated user. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/members`. */
-export const listMembersInOrg: API.OperationMethod<
+export const listMembersInOrg: API.PaginatedOperationMethod<
   ListMembersInOrgRequest,
   ListMembersInOrgResponse,
   ListMembersInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  TeamMember
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMembersInOrgRequest,
   output: ListMembersInOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPendingInvitationsInOrgError =
   | UnprocessableEntity
   | GithubOpError;
 /** List pending team invitations The return hash contains a `role` field which refers to the Organization Invitation role and will be one of the following values: `direct_member`, `admin`, `billing_manager`, `hiring_manager`, or `reinstate`. If the invitee is not a GitHub member, the `login` field in the return hash will be `null`. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/invitations`. */
-export const listPendingInvitationsInOrg: API.OperationMethod<
+export const listPendingInvitationsInOrg: API.PaginatedOperationMethod<
   ListPendingInvitationsInOrgRequest,
   ListPendingInvitationsInOrgResponse,
   ListPendingInvitationsInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  OrganizationInvitation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPendingInvitationsInOrgRequest,
   output: ListPendingInvitationsInOrgResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListReposInOrgError = GithubOpError;
 /** List team repositories Lists a team's repositories visible to the authenticated user. OAuth app tokens and personal access tokens (classic) need the `read:org` or `repo` scope to use this endpoint. > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `GET /organizations/{org_id}/team/{team_id}/repos`. */
-export const listReposInOrg: API.OperationMethod<
+export const listReposInOrg: API.PaginatedOperationMethod<
   ListReposInOrgRequest,
   ListReposInOrgResponse,
   ListReposInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListReposInOrgRequest,
   output: ListReposInOrgResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveMembershipForUserInOrgError = Forbidden | GithubOpError;
 /** Remove team membership for a user To remove a membership between a user and a team, the authenticated user must have 'admin' permissions to the team or be an owner of the organization that the team is associated with. Removing team membership does not delete the user, it just removes their membership from the team. Team synchronization is available for organizations using GitHub Enterprise Cloud. For more information, see [GitHub's products](https://docs.github.com/github/getting-started-with-github/githubs-products) in the GitHub Help documentation. > [!NOTE] > When you have team synchronization set up for a team with your organization's identity provider (IdP), you will see an error if you attempt to use the API for making changes to the team's membership. If you have access to manage group membership in your IdP, you can manage GitHub team membership through your identity provider, which automatically adds and removes team members in an organization. For more information, see "[Synchronizing teams between your identity provider and GitHub](https://docs.github.com/articles/synchronizing-teams-between-your-identity-provider-and-github/)." > [!NOTE] > You can also specify a team by `org_id` and `team_id` using the route `DELETE /organizations/{org_id}/team/{team_id}/memberships/{username}`. */

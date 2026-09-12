@@ -1299,11 +1299,11 @@ export const ListAttestationsResponseAttestationsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<ListAttestationsResponseAttestationsList>;
 
 export interface ListAttestationsResponse {
-  attestations?: ListAttestationsResponseAttestationsList;
+  attestations: ListAttestationsResponseAttestationsList;
 }
 export const ListAttestationsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    attestations: S.optional(ListAttestationsResponseAttestationsList),
+    attestations: ListAttestationsResponseAttestationsList,
   }),
 ).annotate({
   identifier: "ListAttestationsResponse",
@@ -2530,33 +2530,48 @@ export const getSshSigningKeyForAuthenticatedUser: API.OperationMethod<
 
 export type ListError = GithubOpError;
 /** List users Lists all users, in the order that they signed up on GitHub. This list includes personal user accounts and organization accounts. Note: Pagination is powered exclusively by the `since` parameter. Use the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers) to get the URL for the next page of users. */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "since",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAttestationsError = NotFound | GithubOpError;
 /** List attestations List a collection of artifact attestations with a given subject digest that are associated with repositories owned by a user. The collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required. **Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds). */
-export const listAttestations: API.OperationMethod<
+export const listAttestations: API.PaginatedOperationMethod<
   ListAttestationsRequest,
   ListAttestationsResponse,
   ListAttestationsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListAttestationsResponseAttestationsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAttestationsRequest,
   output: ListAttestationsResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "after",
+    inputTokens: ["after", "before"],
+    items: "attestations",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAttestationsBulkError = GithubOpError;
 /** List attestations by bulk subject digests List a collection of artifact attestations associated with any entry in a list of subject digests owned by a user. The collection of attestations returned by this endpoint is filtered according to the authenticated user's permissions; if the authenticated user cannot read a repository, the attestations associated with that repository will not be included in the response. In addition, when using a fine-grained access token the `attestations:read` permission is required. **Please note:** in order to offer meaningful security benefits, an attestation's signature and timestamps **must** be cryptographically verified, and the identity of the attestation signer **must** be validated. Attestations can be verified using the [GitHub CLI `attestation verify` command](https://cli.github.com/manual/gh_attestation_verify). For more information, see [our guide on how to use artifact attestations to establish a build's provenance](https://docs.github.com/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds). */
@@ -2578,246 +2593,351 @@ export type ListBlockedByAuthenticatedUserError =
   | NotFound
   | GithubOpError;
 /** List users blocked by the authenticated user List the users you've blocked on your personal account. */
-export const listBlockedByAuthenticatedUser: API.OperationMethod<
+export const listBlockedByAuthenticatedUser: API.PaginatedOperationMethod<
   ListBlockedByAuthenticatedUserRequest,
   ListBlockedByAuthenticatedUserResponse,
   ListBlockedByAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListBlockedByAuthenticatedUserRequest,
   output: ListBlockedByAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListEmailsForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List email addresses for the authenticated user Lists all of your email addresses, and specifies which one is visible to the public. OAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint. */
-export const listEmailsForAuthenticatedUser: API.OperationMethod<
+export const listEmailsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListEmailsForAuthenticatedUserRequest,
   ListEmailsForAuthenticatedUserResponse,
   ListEmailsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Email
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEmailsForAuthenticatedUserRequest,
   output: ListEmailsForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListFollowedByAuthenticatedUserError = Forbidden | GithubOpError;
 /** List the people the authenticated user follows Lists the people who the authenticated user follows. */
-export const listFollowedByAuthenticatedUser: API.OperationMethod<
+export const listFollowedByAuthenticatedUser: API.PaginatedOperationMethod<
   ListFollowedByAuthenticatedUserRequest,
   ListFollowedByAuthenticatedUserResponse,
   ListFollowedByAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFollowedByAuthenticatedUserRequest,
   output: ListFollowedByAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListFollowersForAuthenticatedUserError = Forbidden | GithubOpError;
 /** List followers of the authenticated user Lists the people following the authenticated user. */
-export const listFollowersForAuthenticatedUser: API.OperationMethod<
+export const listFollowersForAuthenticatedUser: API.PaginatedOperationMethod<
   ListFollowersForAuthenticatedUserRequest,
   ListFollowersForAuthenticatedUserResponse,
   ListFollowersForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFollowersForAuthenticatedUserRequest,
   output: ListFollowersForAuthenticatedUserResponse,
   errors: [Forbidden],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListFollowersForUserError = GithubOpError;
 /** List followers of a user Lists the people following the specified user. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes. */
-export const listFollowersForUser: API.OperationMethod<
+export const listFollowersForUser: API.PaginatedOperationMethod<
   ListFollowersForUserRequest,
   ListFollowersForUserResponse,
   ListFollowersForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFollowersForUserRequest,
   output: ListFollowersForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListFollowingForUserError = GithubOpError;
 /** List the people a user follows Lists the people who the specified user follows. If the specified user has a [private profile](https://docs.github.com/account-and-profile/concepts/personal-profile#private-profiles), this endpoint returns an empty list unless the request is authenticated as that user. A request authenticated as the specified user returns the list even if the token has no OAuth scopes. */
-export const listFollowingForUser: API.OperationMethod<
+export const listFollowingForUser: API.PaginatedOperationMethod<
   ListFollowingForUserRequest,
   ListFollowingForUserResponse,
   ListFollowingForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListFollowingForUserRequest,
   output: ListFollowingForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListGpgKeysForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List GPG keys for the authenticated user Lists the current user's GPG keys. OAuth app tokens and personal access tokens (classic) need the `read:gpg_key` scope to use this endpoint. */
-export const listGpgKeysForAuthenticatedUser: API.OperationMethod<
+export const listGpgKeysForAuthenticatedUser: API.PaginatedOperationMethod<
   ListGpgKeysForAuthenticatedUserRequest,
   ListGpgKeysForAuthenticatedUserResponse,
   ListGpgKeysForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GpgKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGpgKeysForAuthenticatedUserRequest,
   output: ListGpgKeysForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListGpgKeysForUserError = GithubOpError;
 /** List GPG keys for a user Lists the GPG keys for a user. This information is accessible by anyone. */
-export const listGpgKeysForUser: API.OperationMethod<
+export const listGpgKeysForUser: API.PaginatedOperationMethod<
   ListGpgKeysForUserRequest,
   ListGpgKeysForUserResponse,
   ListGpgKeysForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  GpgKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListGpgKeysForUserRequest,
   output: ListGpgKeysForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicEmailsForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List public email addresses for the authenticated user Lists your publicly visible email address, which you can set with the [Set primary email visibility for the authenticated user](https://docs.github.com/rest/users/emails#set-primary-email-visibility-for-the-authenticated-user) endpoint. OAuth app tokens and personal access tokens (classic) need the `user:email` scope to use this endpoint. */
-export const listPublicEmailsForAuthenticatedUser: API.OperationMethod<
+export const listPublicEmailsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListPublicEmailsForAuthenticatedUserRequest,
   ListPublicEmailsForAuthenticatedUserResponse,
   ListPublicEmailsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Email
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicEmailsForAuthenticatedUserRequest,
   output: ListPublicEmailsForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicKeysForUserError = GithubOpError;
 /** List public keys for a user Lists the _verified_ public SSH keys for a user. This is accessible by anyone. */
-export const listPublicKeysForUser: API.OperationMethod<
+export const listPublicKeysForUser: API.PaginatedOperationMethod<
   ListPublicKeysForUserRequest,
   ListPublicKeysForUserResponse,
   ListPublicKeysForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  KeySimple
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicKeysForUserRequest,
   output: ListPublicKeysForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListPublicSshKeysForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List public SSH keys for the authenticated user Lists the public SSH keys for the authenticated user's GitHub account. OAuth app tokens and personal access tokens (classic) need the `read:public_key` scope to use this endpoint. */
-export const listPublicSshKeysForAuthenticatedUser: API.OperationMethod<
+export const listPublicSshKeysForAuthenticatedUser: API.PaginatedOperationMethod<
   ListPublicSshKeysForAuthenticatedUserRequest,
   ListPublicSshKeysForAuthenticatedUserResponse,
   ListPublicSshKeysForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Key
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListPublicSshKeysForAuthenticatedUserRequest,
   output: ListPublicSshKeysForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSocialAccountsForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List social accounts for the authenticated user Lists all of your social accounts. */
-export const listSocialAccountsForAuthenticatedUser: API.OperationMethod<
+export const listSocialAccountsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListSocialAccountsForAuthenticatedUserRequest,
   ListSocialAccountsForAuthenticatedUserResponse,
   ListSocialAccountsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SocialAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSocialAccountsForAuthenticatedUserRequest,
   output: ListSocialAccountsForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSocialAccountsForUserError = GithubOpError;
 /** List social accounts for a user Lists social media accounts for a user. This endpoint is accessible by anyone. */
-export const listSocialAccountsForUser: API.OperationMethod<
+export const listSocialAccountsForUser: API.PaginatedOperationMethod<
   ListSocialAccountsForUserRequest,
   ListSocialAccountsForUserResponse,
   ListSocialAccountsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SocialAccount
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSocialAccountsForUserRequest,
   output: ListSocialAccountsForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSshSigningKeysForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List SSH signing keys for the authenticated user Lists the SSH signing keys for the authenticated user's GitHub account. OAuth app tokens and personal access tokens (classic) need the `read:ssh_signing_key` scope to use this endpoint. */
-export const listSshSigningKeysForAuthenticatedUser: API.OperationMethod<
+export const listSshSigningKeysForAuthenticatedUser: API.PaginatedOperationMethod<
   ListSshSigningKeysForAuthenticatedUserRequest,
   ListSshSigningKeysForAuthenticatedUserResponse,
   ListSshSigningKeysForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SshSigningKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSshSigningKeysForAuthenticatedUserRequest,
   output: ListSshSigningKeysForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSshSigningKeysForUserError = GithubOpError;
 /** List SSH signing keys for a user Lists the SSH signing keys for a user. This operation is accessible by anyone. */
-export const listSshSigningKeysForUser: API.OperationMethod<
+export const listSshSigningKeysForUser: API.PaginatedOperationMethod<
   ListSshSigningKeysForUserRequest,
   ListSshSigningKeysForUserResponse,
   ListSshSigningKeysForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SshSigningKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSshSigningKeysForUserRequest,
   output: ListSshSigningKeysForUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type SetPrimaryEmailVisibilityForAuthenticatedUserError =
   | Forbidden

@@ -4082,18 +4082,25 @@ export type GetCodespacesForUserInOrgError =
   | NotFound
   | GithubOpError;
 /** List codespaces for a user in organization Lists the codespaces that a member of an organization has for repositories in that organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const getCodespacesForUserInOrg: API.OperationMethod<
+export const getCodespacesForUserInOrg: API.PaginatedOperationMethod<
   GetCodespacesForUserInOrgRequest,
   GetCodespacesForUserInOrgResponse,
   GetCodespacesForUserInOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Codespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: GetCodespacesForUserInOrgRequest,
   output: GetCodespacesForUserInOrgResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "codespaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type GetExportDetailsForAuthenticatedUserError =
   | NotFound
@@ -4223,99 +4230,141 @@ export type ListDevcontainersInRepositoryForAuthenticatedUserError =
   | NotFound
   | GithubOpError;
 /** List devcontainer configurations in a repository for the authenticated user Lists the devcontainer.json files associated with a specified repository and the authenticated user. These files specify launchpoint configurations for codespaces created within the repository. OAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint. */
-export const listDevcontainersInRepositoryForAuthenticatedUser: API.OperationMethod<
+export const listDevcontainersInRepositoryForAuthenticatedUser: API.PaginatedOperationMethod<
   ListDevcontainersInRepositoryForAuthenticatedUserRequest,
   ListDevcontainersInRepositoryForAuthenticatedUserResponse,
   ListDevcontainersInRepositoryForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListDevcontainersInRepositoryForAuthenticatedUserResponseDevcontainersItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDevcontainersInRepositoryForAuthenticatedUserRequest,
   output: ListDevcontainersInRepositoryForAuthenticatedUserResponse,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "devcontainers",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List codespaces for the authenticated user Lists the authenticated user's codespaces. OAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Codespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForAuthenticatedUserRequest,
   output: ListForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "codespaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInOrganizationError = Forbidden | NotFound | GithubOpError;
 /** List codespaces for the organization Lists the codespaces associated to a specified organization. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listInOrganization: API.OperationMethod<
+export const listInOrganization: API.PaginatedOperationMethod<
   ListInOrganizationRequest,
   ListInOrganizationResponse,
   ListInOrganizationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Codespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInOrganizationRequest,
   output: ListInOrganizationResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "codespaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListInRepositoryForAuthenticatedUserError =
   | Forbidden
   | NotFound
   | GithubOpError;
 /** List codespaces in a repository for the authenticated user Lists the codespaces associated to a specified repository and the authenticated user. OAuth app tokens and personal access tokens (classic) need the `codespace` scope to use this endpoint. */
-export const listInRepositoryForAuthenticatedUser: API.OperationMethod<
+export const listInRepositoryForAuthenticatedUser: API.PaginatedOperationMethod<
   ListInRepositoryForAuthenticatedUserRequest,
   ListInRepositoryForAuthenticatedUserResponse,
   ListInRepositoryForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Codespace
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListInRepositoryForAuthenticatedUserRequest,
   output: ListInRepositoryForAuthenticatedUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "codespaces",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListOrgSecretsError = GithubOpError;
 /** List organization secrets Lists all Codespaces development environment secrets available at the organization-level without revealing their encrypted values. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listOrgSecrets: API.OperationMethod<
+export const listOrgSecrets: API.PaginatedOperationMethod<
   ListOrgSecretsRequest,
   ListOrgSecretsResponse,
   ListOrgSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodespacesOrgSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListOrgSecretsRequest,
   output: ListOrgSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepoSecretsError = GithubOpError;
 /** List repository secrets Lists all development environment secrets available in a repository without revealing their encrypted values. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint. */
-export const listRepoSecrets: API.OperationMethod<
+export const listRepoSecrets: API.PaginatedOperationMethod<
   ListRepoSecretsRequest,
   ListRepoSecretsResponse,
   ListRepoSecretsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  RepoCodespacesSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRepoSecretsRequest,
   output: ListRepoSecretsResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListRepositoriesForSecretForAuthenticatedUserError =
   | Forbidden
@@ -4337,33 +4386,47 @@ export const listRepositoriesForSecretForAuthenticatedUser: API.OperationMethod<
 
 export type ListSecretsForAuthenticatedUserError = GithubOpError;
 /** List secrets for the authenticated user Lists all development environment secrets available for a user's codespaces without revealing their encrypted values. The authenticated user must have Codespaces access to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `codespace` or `codespace:secrets` scope to use this endpoint. */
-export const listSecretsForAuthenticatedUser: API.OperationMethod<
+export const listSecretsForAuthenticatedUser: API.PaginatedOperationMethod<
   ListSecretsForAuthenticatedUserRequest,
   ListSecretsForAuthenticatedUserResponse,
   ListSecretsForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodespacesSecret
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSecretsForAuthenticatedUserRequest,
   output: ListSecretsForAuthenticatedUserResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "secrets",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSelectedReposForOrgSecretError = NotFound | GithubOpError;
 /** List selected repositories for an organization secret Lists all repositories that have been selected when the `visibility` for repository access to a secret is set to `selected`. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listSelectedReposForOrgSecret: API.OperationMethod<
+export const listSelectedReposForOrgSecret: API.PaginatedOperationMethod<
   ListSelectedReposForOrgSecretRequest,
   ListSelectedReposForOrgSecretResponse,
   ListSelectedReposForOrgSecretError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSelectedReposForOrgSecretRequest,
   output: ListSelectedReposForOrgSecretResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type PreFlightWithRepoForAuthenticatedUserError =
   | Forbidden

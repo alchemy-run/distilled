@@ -1321,7 +1321,13 @@
           "uri": "/orgs/{org}/migrations",
           "code": 200
         },
-        "smithy.api#documentation": "List organization migrations\n\nLists the most recent migrations, including both exports (which can be started through the REST API) and imports (which cannot be started using the REST API).\n\nA list of `repositories` is only returned for export migrations."
+        "smithy.api#documentation": "List organization migrations\n\nLists the most recent migrations, including both exports (which can be started through the REST API) and imports (which cannot be started using the REST API).\n\nA list of `repositories` is only returned for export migrations.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.migrations#StartForOrgRequestRepositoriesList": {
@@ -2700,7 +2706,13 @@
           "uri": "/orgs/{org}/migrations/{migration_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories in an organization migration\n\nList all the repositories for this organization migration."
+        "smithy.api#documentation": "List repositories in an organization migration\n\nList all the repositories for this organization migration.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.migrations#ListForAuthenticatedUserRequest": {
@@ -2766,7 +2778,13 @@
           "uri": "/user/migrations",
           "code": 200
         },
-        "smithy.api#documentation": "List user migrations\n\nLists all migrations a user has started."
+        "smithy.api#documentation": "List user migrations\n\nLists all migrations a user has started.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.migrations#StartForAuthenticatedUserRequestExcludeItem": {
@@ -3139,7 +3157,13 @@
           "uri": "/user/migrations/{migration_id}/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories for a user migration\n\nLists all the repositories for this user migration."
+        "smithy.api#documentation": "List repositories for a user migration\n\nLists all the repositories for this user migration.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.migrations#NotFound": {

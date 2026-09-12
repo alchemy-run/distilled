@@ -1591,7 +1591,13 @@
           "uri": "/orgs/{org}/packages",
           "code": 200
         },
-        "smithy.api#documentation": "List packages for an organization\n\nLists packages in an organization readable by the user.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\""
+        "smithy.api#documentation": "List packages for an organization\n\nLists packages in an organization readable by the user.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.packages#GetPackageForOrganizationRequestPackageType": {
@@ -2203,7 +2209,13 @@
           "uri": "/orgs/{org}/packages/{package_type}/{package_name}/versions",
           "code": 200
         },
-        "smithy.api#documentation": "List package versions for a package owned by an organization\n\nLists package versions for a package owned by an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\""
+        "smithy.api#documentation": "List package versions for a package owned by an organization\n\nLists package versions for a package owned by an organization.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.packages#GetPackageVersionForOrganizationRequestPackageType": {
@@ -2702,7 +2714,13 @@
           "uri": "/user/packages",
           "code": 200
         },
-        "smithy.api#documentation": "List packages for the authenticated user's namespace\n\nLists packages owned by the authenticated user within the user's namespace.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\""
+        "smithy.api#documentation": "List packages for the authenticated user's namespace\n\nLists packages owned by the authenticated user within the user's namespace.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.packages#GetPackageForAuthenticatedUserRequestPackageType": {
@@ -3126,7 +3144,13 @@
           "uri": "/user/packages/{package_type}/{package_name}/versions",
           "code": 200
         },
-        "smithy.api#documentation": "List package versions for a package owned by the authenticated user\n\nLists package versions for a package owned by the authenticated user.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\""
+        "smithy.api#documentation": "List package versions for a package owned by the authenticated user\n\nLists package versions for a package owned by the authenticated user.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.packages#GetPackageVersionForAuthenticatedUserRequestPackageType": {
@@ -3633,7 +3657,13 @@
           "uri": "/users/{username}/packages",
           "code": 200
         },
-        "smithy.api#documentation": "List packages for a user\n\nLists all packages in a user's namespace for which the requesting user has access.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\""
+        "smithy.api#documentation": "List packages for a user\n\nLists all packages in a user's namespace for which the requesting user has access.\n\nOAuth app tokens and personal access tokens (classic) need the `read:packages` scope to use this endpoint. For more information, see \"[About permissions for GitHub Packages](https://docs.github.com/packages/learn-github-packages/about-permissions-for-github-packages#permissions-for-repository-scoped-packages).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.packages#GetPackageForUserRequestPackageType": {

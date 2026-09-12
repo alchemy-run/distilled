@@ -197,7 +197,13 @@
           "uri": "/enterprises/{enterprise}/teams",
           "code": 200
         },
-        "smithy.api#documentation": "List enterprise teams\n\nList all teams in the enterprise for the authenticated user"
+        "smithy.api#documentation": "List enterprise teams\n\nList all teams in the enterprise for the authenticated user",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.enterprise_teams#CreateRequestSyncToOrganizations": {

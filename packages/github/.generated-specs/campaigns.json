@@ -773,7 +773,13 @@
           "uri": "/orgs/{org}/campaigns",
           "code": 200
         },
-        "smithy.api#documentation": "List campaigns for an organization\n\nLists campaigns in an organization.\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint."
+        "smithy.api#documentation": "List campaigns for an organization\n\nLists campaigns in an organization.\n\nThe authenticated user must be an owner or security manager for the organization to use this endpoint.\n\nOAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.campaigns#CreateCampaignRequestManagersList": {

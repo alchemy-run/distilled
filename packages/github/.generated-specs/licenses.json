@@ -125,7 +125,13 @@
           "uri": "/licenses",
           "code": 200
         },
-        "smithy.api#documentation": "Get all commonly used licenses\n\nLists the most commonly used licenses on GitHub. For more information, see \"[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).\""
+        "smithy.api#documentation": "Get all commonly used licenses\n\nLists the most commonly used licenses on GitHub. For more information, see \"[Licensing a repository ](https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).\"",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.licenses#GetRequest": {
