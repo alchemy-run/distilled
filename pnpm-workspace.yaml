@@ -35,6 +35,10 @@ catalog:
   rolldown: "1.2.5"
   typescript: "^7.0.2"
   yaml: "^2.9.0"
+overrides:
+  "@effect/platform-bun@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
+  "@effect/platform-node@4.0.0-rc.112>@effect/platform-node-shared": "4.0.0-rc.112"
+
 catalogs:
   # Compatibility line used by the deployment-stack fixtures.
   alchemy:
