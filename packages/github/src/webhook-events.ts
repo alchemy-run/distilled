@@ -6605,7 +6605,7 @@ export const WebhookCommitCommentCreatedCommentReactions =
       rocket: S.Number,
       total_count: S.Number,
       url: S.String,
-    }),
+    }).pipe(S.encodeKeys({ _1: "+1", _1_2: "-1" })),
   ).annotate({
     identifier: "WebhookCommitCommentCreatedCommentReactions",
   }) as any as S.Codec<WebhookCommitCommentCreatedCommentReactions>;
@@ -21196,7 +21196,7 @@ export const ReactionRollup = /*@__PURE__*/ S.suspend(() =>
     hooray: S.Number,
     eyes: S.Number,
     rocket: S.Number,
-  }),
+  }).pipe(S.encodeKeys({ _1: "+1", _1_2: "-1" })),
 ).annotate({ identifier: "ReactionRollup" }) as any as S.Codec<ReactionRollup>;
 
 /** Comments provide a way for people to collaborate on an issue. */

@@ -14,7 +14,7 @@ export type {
 } from "./webhook-events.ts";
 
 export type WebhookPayload = string | Uint8Array | ArrayBuffer;
-export type WebhookSecret = Redacted.Redacted<string>;
+export type WebhookSecret = string | Redacted.Redacted<string>;
 
 export interface VerifySignatureOptions {
   /** Raw body exactly as delivered. Do not parse or reserialize before verification. */
@@ -53,7 +53,7 @@ export const verifySignature = ({
 }: VerifySignatureOptions) =>
   Effect.gen(function* () {
     const match = /^sha256=([0-9a-fA-F]{64})$/.exec(signature ?? "");
-    const value = Redacted.value(secret);
+    const value = Redacted.isRedacted(secret) ? Redacted.value(secret) : secret;
     if (!match || value.length === 0) {
       return yield* Effect.fail(
         new GitHubWebhookSignatureError({
