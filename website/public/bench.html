@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Benchmarks — Distilled</title>
+    <meta
+      name="description"
+      content="What a Distilled SDK costs at runtime and in your bundle: per-call CPU with the network mocked, and rolldown output size and tree-shaking for one imported operation."
+    />
+    <link rel="canonical" href="https://distilled.cloud/bench" />
+    <meta name="theme-color" content="#0f0c12" />
+    <meta property="og:site_name" content="Distilled" />
+    <meta property="og:title" content="Benchmarks — Distilled" />
+    <meta
+      property="og:description"
+      content="Per-call CPU cost and bundle size of Distilled SDKs, measured, not promised."
+    />
+    <meta property="og:url" content="https://distilled.cloud/bench" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://distilled.cloud/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://distilled.cloud/og.png" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script>
+      // Apply a stored theme before first paint so there is no flash.
+      try {
+        const t = localStorage.getItem("theme");
+        if (t === "light" || t === "dark")
+          document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="page-bench">
+    <a class="skip" href="#bundle">Skip to results</a>
+
+    <header class="top">
+      <div class="top__inner">
+        <a class="brand" href="/" aria-label="Distilled home">
+          <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+            <path
+              d="M12 3h8v7.5l7 12.5a3 3 0 0 1-2.6 4.5H7.6A3 3 0 0 1 5 23L12 10.5V3z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linejoin="round"
+            />
+            <path d="M8.2 20h15.6" stroke="currentColor" stroke-width="1.8" />
+            <circle cx="16" cy="24" r="1.6" fill="var(--accent)" />
+          </svg>
+          <span class="brand__name">Distilled</span>
+        </a>
+        <nav class="top__nav" aria-label="Primary">
+          <a href="/#problem">Why</a>
+          <a href="/#packages">Packages</a>
+          <a href="/bench" aria-current="page">Benchmarks</a>
+          <a href="/shame" class="top__shame">Wall of Shame</a>
+          <span class="top__social">
+            <a
+              class="ico"
+              href="https://github.com/alchemy-run/distilled"
+              rel="noopener"
+              aria-label="GitHub"
+              title="GitHub"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+                />
+              </svg>
+            </a>
+            <a
+              class="ico"
+              href="https://discord.gg/jwKw8dBJdN"
+              rel="noopener"
+              aria-label="Discord"
+              title="Discord"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"
+                />
+              </svg>
+            </a>
+            <a
+              class="ico"
+              href="https://www.npmjs.com/org/distilled.cloud"
+              rel="noopener"
+              aria-label="npm"
+              title="npm"
+            >
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"
+                />
+              </svg>
+            </a>
+          </span>
+          <button
+            class="theme"
+            type="button"
+            data-theme-toggle
+            aria-label="Toggle dark or light theme"
+            title="Toggle theme"
+          >
+            <svg
+              class="theme__sun"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4" />
+              <path
+                d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+              />
+            </svg>
+            <svg
+              class="theme__moon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+            </svg>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="bench-hero" aria-labelledby="bench-title">
+        <p class="eyebrow">Benchmarks</p>
+        <h1 id="bench-title">
+          What an SDK <em>costs</em>. Measured, not promised.
+        </h1>
+        <p class="lede">
+          Two questions a generated SDK has to answer: how much of your bundle
+          does importing one operation drag in, and how much CPU does calling it
+          burn once the network is out of the picture. These are the numbers,
+          straight from the harnesses in
+          <a
+            href="https://github.com/alchemy-run/distilled/tree/main/benches"
+            rel="noopener"
+            ><code>benches/</code></a
+          >.
+        </p>
+        <!-- BENCH_NOTICE -->
+      </section>
+
+      <nav class="bench-tabs" aria-label="Sections">
+        <a href="#bundle">Bundle size</a>
+        <a href="#runtime">Runtime</a>
+        <a href="#method">Method</a>
+      </nav>
+
+      <!-- ───────────── Bundle ───────────── -->
+      <section id="bundle" class="bench-section" aria-labelledby="bundle-title">
+        <!-- BENCH_BUNDLE -->
+      </section>
+
+      <!-- ───────────── Runtime ───────────── -->
+      <section
+        id="runtime"
+        class="bench-section"
+        aria-labelledby="runtime-title"
+      >
+        <!-- BENCH_RUNTIME -->
+      </section>
+
+      <section id="method" class="method rule" aria-labelledby="method-title">
+        <h2 id="method-title">How this is measured</h2>
+        <ul>
+          <li>
+            <strong>Bundle.</strong> A tiny worker-shaped entry imports one
+            Distilled operation and calls it, bundled with
+            <a href="https://rolldown.rs" rel="noopener">rolldown</a> using the
+            same options
+            <a href="https://alchemy.run" rel="noopener">Alchemy</a> uses for
+            Cloudflare Workers: <code>bun</code> resolve conditions, minified
+            single ESM chunk, PURE annotations on. Size is the chunk; gzip is
+            what the wire sees. Tree-shake quality is the number of operations
+            that survive minification out of the service's total, with a check
+            that no other service or provider leaked in.
+          </li>
+          <li>
+            <strong>Runtime.</strong> The <code>HttpClient</code> is replaced by
+            one that returns a canned response, so what remains is the SDK's own
+            work: schema encode, request build (including SigV4 for AWS),
+            response parse, envelope decode, retry wrapper. Numbers are per
+            call, measured with
+            <a href="https://github.com/evanwashere/mitata" rel="noopener"
+              >mitata</a
+            >
+            on Bun. The <em>baseline</em> row is the mocked round-trip with no
+            SDK in the loop; subtract it to see the SDK's share.
+          </li>
+          <li>
+            <strong>Caveats.</strong> One developer machine, quick profile.
+            Bytes are stable; milliseconds move ±30% between runs and boxes.
+            Nothing here is compared against a vendor SDK yet. Treat it as a
+            shape, not a guarantee.
+          </li>
+          <li>
+            Reproduce: <code>pnpm bench:bundle</code> and
+            <code>pnpm bench:runtime</code> from the repo root.
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <div class="foot__inner">
+        <p>
+          <span class="brand__name">Distilled</span>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          Apache-2.0
+          <span class="foot__sep" aria-hidden="true">·</span>
+          built for <a href="https://effect.website" rel="noopener">Effect</a>
+        </p>
+        <p>
+          <a href="https://github.com/alchemy-run/distilled" rel="noopener"
+            >alchemy-run/distilled</a
+          >
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="/shame">Wall of shame</a>
+          <span class="foot__sep" aria-hidden="true">·</span>
+          <a href="https://alchemy.run" rel="noopener">alchemy.run</a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Theme toggle: flips between light and dark relative to the effective
+      // scheme and persists the choice; the head script re-applies it on load.
+      for (const btn of document.querySelectorAll("[data-theme-toggle]")) {
+        btn.addEventListener("click", () => {
+          const root = document.documentElement;
+          const stored = root.dataset.theme;
+          const systemDark = matchMedia("(prefers-color-scheme: dark)").matches;
+          const effectiveDark = stored ? stored === "dark" : systemDark;
+          const next = effectiveDark ? "light" : "dark";
+          root.classList.add("theme-switching");
+          root.dataset.theme = next;
+          try {
+            localStorage.setItem("theme", next);
+          } catch {}
+          // Two frames: one to apply the new colours, one to re-enable transitions.
+          requestAnimationFrame(() =>
+            requestAnimationFrame(() =>
+              root.classList.remove("theme-switching"),
+            ),
+          );
+        });
+      }
+      // Stage tabs in the runtime table: show one stage at a time.
+      for (const group of document.querySelectorAll("[data-stages]")) {
+        const buttons = [...group.querySelectorAll("[data-stage]")];
+        const rows = [...group.querySelectorAll("[data-row-stage]")];
+        const show = (stage) => {
+          for (const b of buttons) {
+            const on = b.dataset.stage === stage;
+            b.setAttribute("aria-pressed", String(on));
+          }
+          for (const r of rows) r.hidden = r.dataset.rowStage !== stage;
+        };
+        for (const b of buttons)
+          b.addEventListener("click", () => show(b.dataset.stage));
+        show(buttons[0]?.dataset.stage);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,137 @@
+<!doctype html>
+<!-- Source for public/og.png. Regenerate with `bun scripts/og.ts`. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Fraunces";
+        font-style: normal;
+        font-weight: 100 900;
+        src: url("../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-normal.woff2")
+          format("woff2");
+      }
+      @font-face {
+        font-family: "Fraunces";
+        font-style: italic;
+        font-weight: 100 900;
+        src: url("../node_modules/@fontsource-variable/fraunces/files/fraunces-latin-full-italic.woff2")
+          format("woff2");
+      }
+      html,
+      body {
+        margin: 0;
+      }
+      body {
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        position: relative;
+        background: #0f0c12;
+        background-image:
+          radial-gradient(
+            70rem 34rem at 80% -10%,
+            rgba(224, 164, 88, 0.26),
+            transparent 70%
+          ),
+          linear-gradient(rgba(42, 38, 33, 0.9) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(42, 38, 33, 0.9) 1px, transparent 1px);
+        background-size:
+          auto,
+          48px 48px,
+          48px 48px;
+        color: #efe8f3;
+        font-family: "Fraunces", Georgia, serif;
+        font-variation-settings:
+          "opsz" 144,
+          "SOFT" 30,
+          "WONK" 0;
+      }
+      .brand {
+        position: absolute;
+        left: 88px;
+        top: 84px;
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .brand svg {
+        width: 64px;
+        height: 64px;
+      }
+      .brand span {
+        font-size: 44px;
+        line-height: 1;
+      }
+      h1 {
+        position: absolute;
+        left: 88px;
+        top: 220px;
+        margin: 0;
+        font-weight: 400;
+        font-size: 100px;
+        line-height: 0.98;
+        letter-spacing: -0.005em;
+      }
+      h1 em {
+        background: linear-gradient(100deg, #ffc384, #ff7a9e);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding-right: 0.04em;
+      }
+      .mono {
+        position: absolute;
+        left: 88px;
+        font-family: "DejaVu Sans Mono", ui-monospace, monospace;
+      }
+      .cmd {
+        top: 486px;
+        font-size: 26px;
+        color: #b5ac9c;
+      }
+      .cmd b {
+        color: #f0a35a;
+        font-weight: 400;
+        margin-right: 14px;
+      }
+      .tags {
+        top: 548px;
+        font-size: 18px;
+        letter-spacing: 0.12em;
+        color: #7f776a;
+      }
+      .url {
+        left: auto;
+        right: 88px;
+        top: 106px;
+        font-size: 22px;
+        color: #f0a35a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="brand">
+      <svg
+        viewBox="0 0 32 32"
+        fill="none"
+        stroke="#efe8f3"
+        stroke-width="1.9"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 5h8v6.5l6.6 11.8A2.6 2.6 0 0 1 24.3 27H7.7a2.6 2.6 0 0 1-2.3-3.7L12 11.5V5z"
+        />
+        <path d="M8.4 20.5h15.2" />
+        <circle cx="16" cy="24" r="1.7" fill="#f0a35a" stroke="none" />
+      </svg>
+      <span>Distilled</span>
+    </div>
+    <h1>Cloud APIs, <em>distilled</em><br />into Effect.</h1>
+    <p class="mono cmd"><b>$</b>npm install @distilled.cloud/aws effect</p>
+    <p class="mono tags">
+      TYPED ERRORS · PAGINATION AS STREAMS · CREDENTIALS AS LAYERS
+    </p>
+    <p class="mono url">distilled.cloud</p>
+  </body>
+</html>

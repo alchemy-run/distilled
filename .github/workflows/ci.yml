@@ -75,6 +75,11 @@ jobs:
       - name: Run Typecheck
         run: pnpm --filter "./stacks/*" run typecheck
 
+      # website/ is a workspace member but is not under stacks/* and is not
+      # in the root tsconfig project references (so `tsc -b` never sees it).
+      - name: Typecheck website
+        run: pnpm --filter "./website" run typecheck
+
       # The mirror manifest, the fetch scripts, `.gitmodules` and packages/
       # have to agree, and the same rule runs at deploy time inside the stack
       # — but a deploy only happens after merge. Checking it here means a PR
