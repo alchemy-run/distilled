@@ -38,10 +38,10 @@ catalog:
 catalogs:
   # Compatibility line used by the deployment-stack fixtures.
   alchemy-beta-77:
-    "@effect/platform-bun": "4.0.0-rc.113"
-    "@effect/platform-node": "4.0.0-rc.113"
+    "@effect/platform-bun": "4.0.0-rc.112"
+    "@effect/platform-node": "4.0.0-rc.112"
     alchemy: "2.0.0-beta.77"
-    effect: "4.0.0-rc.113"
+    effect: "4.0.0-rc.112"
 minimumReleaseAgeExclude:
   - "@effect/atom-react@4.0.0-rc.115"
   - "@effect/platform-bun@4.0.0-rc.115"
