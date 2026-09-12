@@ -166,14 +166,15 @@ export class RailwayAlreadyExists extends Schema.TaggedError<RailwayAlreadyExist
 
 /**
  * Railway's gateway failed to process the request
- * (`Problem processing request` with a `traceId` and **no**
- * `extensions.code`). Observed transiently on `deployments` for a
- * freshly-created service before the instance fans out. Retryable.
+ * (`Problem processing request`, sometimes with no `extensions.code`).
+ * Preserve the response and trace ID for Railway support diagnostics.
  */
 export class RailwayRequestProcessingFailed extends Schema.TaggedError<RailwayRequestProcessingFailed>()(
   "RailwayRequestProcessingFailed",
   {
     message: Schema.String,
+    traceId: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.Unknown),
   },
 ).pipe(Category.withServerError, Category.withRetryable()) {}
 
@@ -282,6 +283,11 @@ export const RAILWAY_ERROR_MATCHERS: ReadonlyArray<{
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "Login session",
+    error: NotFound,
+  },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "Deployment not found",
     error: NotFound,
   },
   {

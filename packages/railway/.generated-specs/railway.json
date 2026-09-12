@@ -63736,6 +63736,9 @@
         },
         {
           "target": "com.railway.api#CreateTcpProxy"
+        },
+        {
+          "target": "com.railway.api#ListEnvironmentServiceInstances"
         }
       ],
       "traits": {
@@ -63987,6 +63990,154 @@
           "traits": {
             "smithy.api#required": {}
           }
+        }
+      }
+    },
+    "com.railway.api#ListEnvironmentServiceInstancesRequest": {
+      "type": "structure",
+      "members": {
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "after": {
+          "target": "smithy.api#String"
+        },
+        "first": {
+          "target": "smithy.api#Integer"
+        }
+      },
+      "traits": {
+        "smithy.api#input": {},
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/graphql/v2",
+          "code": 200
+        },
+        "com.railway.graphql#operation": {
+          "query": "query listEnvironmentServiceInstances($environmentId: String!, $after: String, $first: Int) { environment(id: $environmentId) { serviceInstances(after: $after, first: $first) { edges { cursor node { id serviceId environmentId deletedAt source { image } } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } } }",
+          "operationName": "listEnvironmentServiceInstances",
+          "type": "query"
+        }
+      }
+    },
+    "com.railway.api#ListedServiceInstanceSource": {
+      "type": "structure",
+      "members": {
+        "image": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.railway.graphql#nullable": {}
+          }
+        }
+      }
+    },
+    "com.railway.api#ListedServiceInstance": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "serviceId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "environmentId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "deletedAt": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.railway.graphql#nullable": {}
+          }
+        },
+        "source": {
+          "target": "com.railway.api#ListedServiceInstanceSource",
+          "traits": {
+            "smithy.api#required": {},
+            "com.railway.graphql#nullable": {}
+          }
+        }
+      }
+    },
+    "com.railway.api#ListedServiceInstanceEdge": {
+      "type": "structure",
+      "members": {
+        "cursor": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "node": {
+          "target": "com.railway.api#ListedServiceInstance",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      }
+    },
+    "com.railway.api#ListedServiceInstanceEdges": {
+      "type": "list",
+      "member": {
+        "target": "com.railway.api#ListedServiceInstanceEdge"
+      }
+    },
+    "com.railway.api#ListEnvironmentServiceInstancesResponse": {
+      "type": "structure",
+      "members": {
+        "edges": {
+          "target": "com.railway.api#ListedServiceInstanceEdges",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        },
+        "pageInfo": {
+          "target": "com.railway.api#EnvironmentsResponsePageInfo",
+          "traits": {
+            "smithy.api#required": {}
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {},
+        "com.railway.graphql#responsePath": "environment.serviceInstances"
+      }
+    },
+    "com.railway.api#ListEnvironmentServiceInstances": {
+      "type": "operation",
+      "input": {
+        "target": "com.railway.api#ListEnvironmentServiceInstancesRequest"
+      },
+      "output": {
+        "target": "com.railway.api#ListEnvironmentServiceInstancesResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/graphql/v2",
+          "code": 200
+        },
+        "smithy.api#readonly": {},
+        "smithy.api#paginated": {
+          "mode": "relay",
+          "inputToken": "after",
+          "outputToken": "pageInfo.endCursor",
+          "hasNextPage": "pageInfo.hasNextPage",
+          "items": "edges.node",
+          "pageSize": "first"
         }
       }
     },

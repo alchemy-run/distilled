@@ -12694,6 +12694,93 @@ export const LeaveWorkspaceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "LeaveWorkspaceResponse",
 }) as any as S.Schema<LeaveWorkspaceResponse>;
 
+export interface ListEnvironmentServiceInstancesRequest {
+  environmentId: string;
+  after?: string;
+  first?: number;
+}
+export const ListEnvironmentServiceInstancesRequest = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      environmentId: S.String,
+      after: S.optional(S.String),
+      first: S.optional(S.Number),
+    })
+      .pipe(T.Http({ method: "POST", uri: "/graphql/v2", code: 200 }))
+      .pipe(
+        T.GraphQLOp({
+          query:
+            "query listEnvironmentServiceInstances($environmentId: String!, $after: String, $first: Int) { environment(id: $environmentId) { serviceInstances(after: $after, first: $first) { edges { cursor node { id serviceId environmentId deletedAt source { image } } } pageInfo { endCursor hasNextPage hasPreviousPage startCursor } } } }",
+          operationName: "listEnvironmentServiceInstances",
+          type: "query",
+        }),
+      ),
+).annotate({
+  identifier: "ListEnvironmentServiceInstancesRequest",
+}) as any as S.Schema<ListEnvironmentServiceInstancesRequest>;
+
+export interface ListedServiceInstanceSource {
+  image: string | null;
+}
+export const ListedServiceInstanceSource = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    image: S.NullOr(S.String),
+  }),
+).annotate({
+  identifier: "ListedServiceInstanceSource",
+}) as any as S.Schema<ListedServiceInstanceSource>;
+
+export interface ListedServiceInstance {
+  id: string;
+  serviceId: string;
+  environmentId: string;
+  deletedAt: string | null;
+  source: ListedServiceInstanceSource | null;
+}
+export const ListedServiceInstance = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    id: S.String,
+    serviceId: S.String,
+    environmentId: S.String,
+    deletedAt: S.NullOr(S.String),
+    source: S.NullOr(ListedServiceInstanceSource),
+  }),
+).annotate({
+  identifier: "ListedServiceInstance",
+}) as any as S.Schema<ListedServiceInstance>;
+
+export interface ListedServiceInstanceEdge {
+  cursor: string;
+  node: ListedServiceInstance;
+}
+export const ListedServiceInstanceEdge = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    cursor: S.String,
+    node: ListedServiceInstance,
+  }),
+).annotate({
+  identifier: "ListedServiceInstanceEdge",
+}) as any as S.Schema<ListedServiceInstanceEdge>;
+
+export type ListedServiceInstanceEdges = Array<ListedServiceInstanceEdge>;
+export const ListedServiceInstanceEdges = /*@__PURE__*/ S.Array(
+  ListedServiceInstanceEdge,
+) as any as S.Schema<ListedServiceInstanceEdges>;
+
+export interface ListEnvironmentServiceInstancesResponse {
+  edges: ListedServiceInstanceEdges;
+  pageInfo: ApiTokensResponsePageInfo;
+}
+export const ListEnvironmentServiceInstancesResponse = /*@__PURE__*/ S.suspend(
+  () =>
+    S.Struct({
+      edges: ListedServiceInstanceEdges,
+      pageInfo: ApiTokensResponsePageInfo,
+    }).pipe(T.ResponsePath("environment.serviceInstances")),
+).annotate({
+  identifier: "ListEnvironmentServiceInstancesResponse",
+}) as any as S.Schema<ListEnvironmentServiceInstancesResponse>;
+
 export interface ListVolumeInstanceBackupRequest {
   /** The id of the volume instance to list the backups of */
   volumeInstanceId: string;
@@ -30093,6 +30180,32 @@ export const leaveWorkspace: API.OperationMethod<
   protocol: RailwayGraphqlProtocol,
   retry: Retry.Retry,
 }));
+
+export type ListEnvironmentServiceInstancesError = RailwayOpError;
+export const listEnvironmentServiceInstances: API.PaginatedOperationMethod<
+  ListEnvironmentServiceInstancesRequest,
+  ListEnvironmentServiceInstancesResponse,
+  ListEnvironmentServiceInstancesError,
+  RailwayOpContext,
+  ListedServiceInstance
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: ListEnvironmentServiceInstancesRequest,
+    output: ListEnvironmentServiceInstancesResponse,
+    errors: [UnknownRailwayError, RailwayParseError],
+    protocol: RailwayGraphqlProtocol,
+    retry: Retry.Retry,
+    pagination: {
+      mode: "relay",
+      inputToken: "after",
+      outputToken: "pageInfo.endCursor",
+      hasNextPage: "pageInfo.hasNextPage",
+      items: "edges.node",
+      pageSize: "first",
+    } as const,
+  }),
+  paginateRelay,
+) as any;
 
 export type ListVolumeInstanceBackupError = RailwayOpError;
 /** List backups of a volume instance */

@@ -45,6 +45,7 @@ import {
   RAILWAY_ERROR_MATCHERS,
   RailwayParseError,
   RailwayRateLimited,
+  RailwayRequestProcessingFailed,
   UnknownRailwayError,
 } from "./errors.ts";
 import {
@@ -84,6 +85,7 @@ const fail = (e: unknown): Effect.Effect<never> =>
 /** Single GraphQL error in the `errors[]` array of a response envelope. */
 const GraphQLError = Schema.Struct({
   message: Schema.String,
+  traceId: Schema.optional(Schema.String),
   path: Schema.optional(Schema.Array(Schema.Unknown)),
   locations: Schema.optional(Schema.Array(Schema.Unknown)),
   extensions: Schema.optional(
@@ -158,6 +160,15 @@ const matchError = (
       return true;
     });
     if (matcher) {
+      if (matcher.error === RailwayRequestProcessingFailed) {
+        return fail(
+          new RailwayRequestProcessingFailed({
+            message,
+            traceId: first.traceId,
+            body: errorBody,
+          }),
+        );
+      }
       if (matcher.error === RailwayRateLimited) {
         const retryAfter = retryAfterForRateLimit(message, headers);
         return fail(new RailwayRateLimited({ message, retryAfter }));
