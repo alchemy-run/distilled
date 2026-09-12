@@ -30,14 +30,13 @@ export {
 } from "@distilled.cloud/core/errors";
 // `retryAfter` is a parsed Duration, not a number of seconds — same shape as
 // core's TooManyRequests, so throttling handling is uniform across SDKs.
-import { DurationSchema } from "@distilled.cloud/core/errors";
+import { DurationSchema, NotFound } from "@distilled.cloud/core/errors";
 import type {
   BadRequest,
   Conflict,
   DefaultErrors as CoreDefaultErrors,
   Forbidden,
   Locked,
-  NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
 
@@ -89,14 +88,6 @@ export class RailwayForbidden extends Schema.TaggedError<RailwayForbidden>()(
     message: Schema.String,
   },
 ).pipe(Category.withAuthError) {}
-
-/** The addressed resource does not exist (`NOT_FOUND`). */
-export class RailwayNotFound extends Schema.TaggedError<RailwayNotFound>()(
-  "RailwayNotFound",
-  {
-    message: Schema.String,
-  },
-).pipe(Category.withNotFoundError) {}
 
 /**
  * The variables failed validation before the resolver ran
@@ -160,6 +151,34 @@ export class RailwayInternalError extends Schema.TaggedError<RailwayInternalErro
 ).pipe(Category.withServerError) {}
 
 /**
+ * A resource with the requested name already exists
+ * (`INTERNAL_SERVER_ERROR` + `... already exists in this project`).
+ * Railway reports create-name collisions through the internal-error code,
+ * e.g. `A service named "x" already exists in this project`. Reconcilers
+ * catch this as the create race and re-read the existing resource.
+ */
+export class RailwayAlreadyExists extends Schema.TaggedError<RailwayAlreadyExists>()(
+  "RailwayAlreadyExists",
+  {
+    message: Schema.String,
+  },
+).pipe(Category.withAlreadyExistsError) {}
+
+/**
+ * Railway's gateway failed to process the request
+ * (`Problem processing request`, sometimes with no `extensions.code`).
+ * Preserve the response and trace ID for Railway support diagnostics.
+ */
+export class RailwayRequestProcessingFailed extends Schema.TaggedError<RailwayRequestProcessingFailed>()(
+  "RailwayRequestProcessingFailed",
+  {
+    message: Schema.String,
+    traceId: Schema.optional(Schema.String),
+    body: Schema.optional(Schema.Unknown),
+  },
+).pipe(Category.withServerError, Category.withRetryable()) {}
+
+/**
  * Map from Railway GraphQL `extensions.code` → typed error class. Consulted
  * by the protocol's error matcher before any HTTP-status fallback.
  */
@@ -168,13 +187,13 @@ export const RAILWAY_ERROR_CODE_MAP: Record<string, any> = {
   UNAUTHENTICATED: RailwayUnauthenticated,
   UNAUTHORIZED: RailwayUnauthenticated,
   FORBIDDEN: RailwayForbidden,
-  NOT_FOUND: RailwayNotFound,
-  PROJECT_NOT_FOUND: RailwayNotFound,
-  SERVICE_NOT_FOUND: RailwayNotFound,
-  ENVIRONMENT_NOT_FOUND: RailwayNotFound,
-  VOLUME_NOT_FOUND: RailwayNotFound,
-  BUCKET_NOT_FOUND: RailwayNotFound,
-  RESOURCE_NOT_FOUND: RailwayNotFound,
+  NOT_FOUND: NotFound,
+  PROJECT_NOT_FOUND: NotFound,
+  SERVICE_NOT_FOUND: NotFound,
+  ENVIRONMENT_NOT_FOUND: NotFound,
+  VOLUME_NOT_FOUND: NotFound,
+  BUCKET_NOT_FOUND: NotFound,
+  RESOURCE_NOT_FOUND: NotFound,
   BAD_USER_INPUT: RailwayValidationError,
   GRAPHQL_VALIDATION_FAILED: RailwayValidationError,
   BAD_REQUEST: RailwayValidationError,
@@ -239,45 +258,73 @@ export const RAILWAY_ERROR_MATCHERS: ReadonlyArray<{
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "Project not found",
-    error: RailwayNotFound,
+    error: NotFound,
   },
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "ServiceInstance not found",
-    error: RailwayNotFound,
+    error: NotFound,
   },
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "BucketInstance not found",
-    error: RailwayNotFound,
+    error: NotFound,
   },
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "VolumeInstance not found",
-    error: RailwayNotFound,
+    error: NotFound,
   },
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "Source canvas view not found",
-    error: RailwayNotFound,
+    error: NotFound,
   },
   {
     code: "INTERNAL_SERVER_ERROR",
     messageIncludes: "Login session",
-    error: RailwayNotFound,
+    error: NotFound,
+  },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "Deployment not found",
+    error: NotFound,
+  },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "already exists",
+    error: RailwayAlreadyExists,
+  },
+  {
+    code: "INTERNAL_SERVER_ERROR",
+    messageIncludes: "already in use",
+    error: RailwayAlreadyExists,
+  },
+  // No extensions.code at all — the gateway's generic processing failure
+  // (`{ message: "Problem processing request", traceId }`).
+  {
+    messageIncludes: "Problem processing request",
+    error: RailwayRequestProcessingFailed,
   },
 ];
 
-/** Union of the Railway-specific tagged error classes above. */
+/**
+ * Union of the Railway-specific tagged error classes above.
+ *
+ * Not-found is deliberately NOT Railway-specific: all `*_NOT_FOUND`
+ * GraphQL codes map to core's wide `NotFound`, the same class the HTTP
+ * 404 fallback constructs, so consumers catch exactly one tag.
+ */
 export type RailwayTypedErrors =
   | RailwayUnauthenticated
   | RailwayForbidden
-  | RailwayNotFound
   | RailwayValidationError
   | RailwayRateLimited
   | RailwayServiceDomainCreateFailed
   | RailwayPlanLimitExceeded
-  | RailwayInternalError;
+  | RailwayInternalError
+  | RailwayAlreadyExists
+  | RailwayRequestProcessingFailed;
 
 /**
  * Errors any Railway operation may surface beyond the core default classes:
