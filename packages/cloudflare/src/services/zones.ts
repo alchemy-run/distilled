@@ -128,6 +128,18 @@ export class SubdomainNotAllowed
     [{ code: 1116 }],
   ) {}
 
+export class UndefinedZoneSetting
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UndefinedZoneSetting>()(
+      "UndefinedZoneSetting",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ status: 400, message: { includes: "Undefined zone setting:" } }],
+  ) {}
+
 export class ZoneAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ZoneAlreadyExists>()("ZoneAlreadyExists", {
@@ -13161,6 +13173,7 @@ export const getRatePlan: API.PaginatedOperationMethod<
 export type GetSettingError =
   | InvalidZoneIdentifier
   | Forbidden
+  | UndefinedZoneSetting
   | CloudflareOpError;
 /** Fetch a single zone setting by name */
 export const getSetting: API.OperationMethod<
@@ -13174,6 +13187,7 @@ export const getSetting: API.OperationMethod<
   errors: [
     InvalidZoneIdentifier,
     Forbidden,
+    UndefinedZoneSetting,
     CloudflareRateLimited,
     CloudflareError,
   ],

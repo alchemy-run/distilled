@@ -153,7 +153,7 @@ export const IndexesCreateRequestConfigVectorizeIndexPresetConfiguration =
 export type IndexesCreateRequestConfig =
   | IndexesCreateRequestConfigIndexDimensionConfiguration
   | IndexesCreateRequestConfigVectorizeIndexPresetConfiguration;
-export const IndexesCreateRequestConfig = S.Unknown.pipe(
+export const IndexesCreateRequestConfig = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([["dimensions", "metric"], ["preset"]]),
 );
 
@@ -831,6 +831,8 @@ export interface QueryIndexRequest {
   returnValues?: boolean;
   /** The number of nearest neighbors to find. */
   topK?: number;
+  /** Restrict the search to vectors in this namespace. */
+  namespace?: string;
 }
 export const QueryIndexRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -841,6 +843,7 @@ export const QueryIndexRequest = /*@__PURE__*/ S.suspend(() =>
     returnMetadata: S.optional(IndexesQueryRequestReturnMetadata),
     returnValues: S.optional(S.Boolean),
     topK: S.optional(S.Number),
+    namespace: S.optional(S.String),
   })
     .pipe(
       T.Http({

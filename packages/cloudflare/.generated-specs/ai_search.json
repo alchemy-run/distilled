@@ -23789,7 +23789,7 @@
       },
       "errors": [
         {
-          "target": "com.cloudflare.ai_search#ValidationError"
+          "target": "com.cloudflare.ai_search#AiSearchInternalError"
         },
         {
           "target": "com.cloudflare.ai_search#NamespaceNotFound"
@@ -24727,7 +24727,7 @@
       },
       "errors": [
         {
-          "target": "com.cloudflare.ai_search#ValidationError"
+          "target": "com.cloudflare.ai_search#AiSearchInternalError"
         },
         {
           "target": "com.cloudflare.ai_search#NamespaceNotFound"
@@ -26741,7 +26741,7 @@
       },
       "errors": [
         {
-          "target": "com.cloudflare.ai_search#ValidationError"
+          "target": "com.cloudflare.ai_search#AiSearchInternalError"
         },
         {
           "target": "com.cloudflare.ai_search#NamespaceNotFound"
@@ -28043,7 +28043,7 @@
       },
       "errors": [
         {
-          "target": "com.cloudflare.ai_search#ValidationError"
+          "target": "com.cloudflare.ai_search#AiSearchInternalError"
         },
         {
           "target": "com.cloudflare.ai_search#NamespaceNotFound"
@@ -28603,6 +28603,28 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.ai_search#AiSearchInternalError": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "server",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 7001,
+            "message": {
+              "includes": "Internal Error"
+            }
+          }
+        ]
       }
     },
     "com.cloudflare.ai_search#WebCrawlerCrawlOptionsSource": {

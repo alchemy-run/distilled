@@ -522,40 +522,6 @@ export const CreateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateResourceGroupRequest",
 }) as any as S.Schema<CreateResourceGroupRequest>;
 
-export type ResourceGroupsCreateResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsCreateResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-
-export type ResourceGroupsCreateResponseScopeItemObjectsList =
-  Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsCreateResponseScopeItemObjectsList =
-  /*@__PURE__*/ S.Array(
-    ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsCreateResponseScopeItemObjectsList>;
-
-export interface ResourceGroupsCreateResponseScopeItem {
-  /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
-  key: string;
-  /** A list of scope objects for additional context. */
-  objects: ResourceGroupsCreateResponseScopeItemObjectsList;
-}
-export const ResourceGroupsCreateResponseScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsCreateResponseScopeItemObjectsList,
-    }),
-).annotate({
-  identifier: "ResourceGroupsCreateResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsCreateResponseScopeItem>;
-
-export type ResourceGroupsCreateResponseScopeList =
-  Array<ResourceGroupsCreateResponseScopeItem>;
-export const ResourceGroupsCreateResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsCreateResponseScopeItem,
-) as any as S.Schema<ResourceGroupsCreateResponseScopeList>;
-
 export interface ResourceGroupsCreateResponseMeta {
   key?: string | null;
   value?: string | null;
@@ -574,7 +540,7 @@ export interface CreateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: ResourceGroupsCreateResponseScopeList;
+  scope: ResourceGroupsCreateRequestScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -583,7 +549,7 @@ export interface CreateResourceGroupResponse {
 export const CreateResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsCreateResponseScopeList,
+    scope: ResourceGroupsCreateRequestScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -1521,39 +1487,6 @@ export const GetResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetResourceGroupRequest",
 }) as any as S.Schema<GetResourceGroupRequest>;
 
-export type ResourceGroupsGetResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsGetResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-
-export type ResourceGroupsGetResponseScopeItemObjectsList =
-  Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsGetResponseScopeItemObjectsList =
-  /*@__PURE__*/ S.Array(
-    ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsGetResponseScopeItemObjectsList>;
-
-export interface ResourceGroupsGetResponseScopeItem {
-  /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
-  key: string;
-  /** A list of scope objects for additional context. */
-  objects: ResourceGroupsGetResponseScopeItemObjectsList;
-}
-export const ResourceGroupsGetResponseScopeItem = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    key: S.String,
-    objects: ResourceGroupsGetResponseScopeItemObjectsList,
-  }),
-).annotate({
-  identifier: "ResourceGroupsGetResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsGetResponseScopeItem>;
-
-export type ResourceGroupsGetResponseScopeList =
-  Array<ResourceGroupsGetResponseScopeItem>;
-export const ResourceGroupsGetResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsGetResponseScopeItem,
-) as any as S.Schema<ResourceGroupsGetResponseScopeList>;
-
 export type ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsGetResponseMeta = ResourceGroupsCreateResponseMeta;
 
@@ -1562,7 +1495,7 @@ export interface GetResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: ResourceGroupsGetResponseScopeList;
+  scope: ResourceGroupsCreateRequestScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -1571,7 +1504,7 @@ export interface GetResourceGroupResponse {
 export const GetResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsGetResponseScopeList,
+    scope: ResourceGroupsCreateRequestScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -2262,40 +2195,6 @@ export const ListResourceGroupsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListResourceGroupsRequest",
 }) as any as S.Schema<ListResourceGroupsRequest>;
 
-export type ResourceGroupsListResultItemScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsListResultItemScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-
-export type ResourceGroupsListResultItemScopeItemObjectsList =
-  Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsListResultItemScopeItemObjectsList =
-  /*@__PURE__*/ S.Array(
-    ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsListResultItemScopeItemObjectsList>;
-
-export interface ResourceGroupsListResultItemScopeItem {
-  /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
-  key: string;
-  /** A list of scope objects for additional context. */
-  objects: ResourceGroupsListResultItemScopeItemObjectsList;
-}
-export const ResourceGroupsListResultItemScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsListResultItemScopeItemObjectsList,
-    }),
-).annotate({
-  identifier: "ResourceGroupsListResultItemScopeItem",
-}) as any as S.Schema<ResourceGroupsListResultItemScopeItem>;
-
-export type ResourceGroupsListResultItemScopeList =
-  Array<ResourceGroupsListResultItemScopeItem>;
-export const ResourceGroupsListResultItemScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsListResultItemScopeItem,
-) as any as S.Schema<ResourceGroupsListResultItemScopeList>;
-
 export type ResourceGroupsListResultItemMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsListResultItemMeta =
   ResourceGroupsCreateResponseMeta;
@@ -2304,7 +2203,7 @@ export interface ResourceGroupsListResultItem {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: ResourceGroupsListResultItemScopeList;
+  scope: ResourceGroupsCreateRequestScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -2313,7 +2212,7 @@ export interface ResourceGroupsListResultItem {
 export const ResourceGroupsListResultItem = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsListResultItemScopeList,
+    scope: ResourceGroupsCreateRequestScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }),
@@ -3217,40 +3116,6 @@ export const UpdateResourceGroupRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "UpdateResourceGroupRequest",
 }) as any as S.Schema<UpdateResourceGroupRequest>;
 
-export type ResourceGroupsUpdateResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-export const ResourceGroupsUpdateResponseScopeItemObjectsItem =
-  ResourceGroupsCreateRequestScopeObjectsItem;
-
-export type ResourceGroupsUpdateResponseScopeItemObjectsList =
-  Array<ResourceGroupsCreateRequestScopeObjectsItem>;
-export const ResourceGroupsUpdateResponseScopeItemObjectsList =
-  /*@__PURE__*/ S.Array(
-    ResourceGroupsCreateRequestScopeObjectsItem,
-  ) as any as S.Schema<ResourceGroupsUpdateResponseScopeItemObjectsList>;
-
-export interface ResourceGroupsUpdateResponseScopeItem {
-  /** This is a combination of pre-defined resource name and identifier (like Account ID etc.) */
-  key: string;
-  /** A list of scope objects for additional context. */
-  objects: ResourceGroupsUpdateResponseScopeItemObjectsList;
-}
-export const ResourceGroupsUpdateResponseScopeItem = /*@__PURE__*/ S.suspend(
-  () =>
-    S.Struct({
-      key: S.String,
-      objects: ResourceGroupsUpdateResponseScopeItemObjectsList,
-    }),
-).annotate({
-  identifier: "ResourceGroupsUpdateResponseScopeItem",
-}) as any as S.Schema<ResourceGroupsUpdateResponseScopeItem>;
-
-export type ResourceGroupsUpdateResponseScopeList =
-  Array<ResourceGroupsUpdateResponseScopeItem>;
-export const ResourceGroupsUpdateResponseScopeList = /*@__PURE__*/ S.Array(
-  ResourceGroupsUpdateResponseScopeItem,
-) as any as S.Schema<ResourceGroupsUpdateResponseScopeList>;
-
 export type ResourceGroupsUpdateResponseMeta = ResourceGroupsCreateResponseMeta;
 export const ResourceGroupsUpdateResponseMeta =
   ResourceGroupsCreateResponseMeta;
@@ -3260,7 +3125,7 @@ export interface UpdateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: ResourceGroupsUpdateResponseScopeList;
+  scope: ResourceGroupsCreateRequestScope;
   /** Attributes associated to the resource group. */
   meta?: ResourceGroupsCreateResponseMeta | null;
   /** Name of the resource group. */
@@ -3269,7 +3134,7 @@ export interface UpdateResourceGroupResponse {
 export const UpdateResourceGroupResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     id: S.String,
-    scope: ResourceGroupsUpdateResponseScopeList,
+    scope: ResourceGroupsCreateRequestScope,
     meta: S.optional(S.NullOr(ResourceGroupsCreateResponseMeta)),
     name: S.optional(S.NullOr(S.String)),
   }).pipe(T.KeyDictionary(KEY_DICTIONARY)),

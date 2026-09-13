@@ -25,6 +25,15 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.dns#DeleteRecord/output/target",
       "value": "com.cloudflare.dns#DeleteRecordResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.dns#DeleteRecord/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.dns#DnsRecordNotFound"
+        }
+      ]
     }
   ]
 }

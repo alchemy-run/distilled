@@ -844,16 +844,13 @@ export const V1VariantsListResponseVariantsHero = /*@__PURE__*/ S.suspend(() =>
   identifier: "V1VariantsListResponseVariantsHero",
 }) as any as S.Schema<V1VariantsListResponseVariantsHero>;
 
-export interface V1VariantsListResponseVariants {
-  hero?: V1VariantsListResponseVariantsHero | null;
-}
-export const V1VariantsListResponseVariants = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    hero: S.optional(S.NullOr(V1VariantsListResponseVariantsHero)),
-  }),
-).annotate({
-  identifier: "V1VariantsListResponseVariants",
-}) as any as S.Schema<V1VariantsListResponseVariants>;
+export type V1VariantsListResponseVariants = {
+  [key: string]: V1VariantsListResponseVariantsHero | undefined;
+};
+export const V1VariantsListResponseVariants = /*@__PURE__*/ S.Record(
+  S.String,
+  V1VariantsListResponseVariantsHero,
+) as any as S.Schema<V1VariantsListResponseVariants>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListV1VariantsResponse {

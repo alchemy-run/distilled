@@ -32001,6 +32001,25 @@
         ]
       }
     },
+    "com.cloudflare.dns#DnsRecordNotFound": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 81044
+          }
+        ]
+      }
+    },
     "com.cloudflare.dns#BatchRecord": {
       "type": "operation",
       "input": {
@@ -32096,6 +32115,9 @@
         },
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#DnsRecordSettingsNotEntitled"
         }
       ]
     },
@@ -32874,7 +32896,12 @@
         },
         "smithy.api#documentation": "Permanently removes a DNS record from the zone.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.dns#DnsRecordNotFound"
+        }
+      ]
     },
     "com.cloudflare.dns#DeleteRecordRequest": {
       "type": "structure",
@@ -33882,6 +33909,9 @@
       "errors": [
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#DnsRecordNotFound"
         }
       ]
     },
@@ -36110,7 +36140,15 @@
         },
         "smithy.api#documentation": "Overwrite an existing DNS record. Notes: - A/AAAA records cannot exist on the same name as CNAME records. - NS records cannot exist on the same name as any other record type. - Domain names are always represented in Punycode, even if Unicode characters were used when creating the record.",
         "smithy.api#idempotent": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.dns#DnsRecordNotFound"
+        },
+        {
+          "target": "com.cloudflare.dns#DnsRecordSettingsNotEntitled"
+        }
+      ]
     },
     "com.cloudflare.dns#UpdateRecordRequest": {
       "type": "structure",
@@ -36979,6 +37017,25 @@
             "smithy.api#enumValue": "URI"
           }
         }
+      }
+    },
+    "com.cloudflare.dns#DnsRecordSettingsNotEntitled": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "The IPv4 Only and IPv6 Only settings are not available to this zone."
+            }
+          }
+        ]
       }
     },
     "com.cloudflare.dns#RecordsListResultItemARecordType": {

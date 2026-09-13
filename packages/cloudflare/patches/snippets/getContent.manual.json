@@ -1,0 +1,47 @@
+{
+  "description": "Snippet content endpoint returns raw source or multipart content, not an empty JSON object. Expose full text body and Content-Type for reliable source comparison.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.snippets#GetContentResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#String",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {},
+              "smithy.api#required": {}
+            }
+          },
+          "contentType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpHeader": "Content-Type"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.snippets#GetContent/output/target",
+      "value": "com.cloudflare.snippets#GetContentResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.snippets#GetContent/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.snippets#SnippetNotFound"
+        },
+        {
+          "target": "com.cloudflare.snippets#Forbidden"
+        }
+      ]
+    }
+  ]
+}

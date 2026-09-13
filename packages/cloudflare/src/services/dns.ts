@@ -104,6 +104,34 @@ export class DnsRecordAlreadyExists
     ],
   ) {}
 
+export class DnsRecordNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DnsRecordNotFound>()("DnsRecordNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 81044 }],
+  ) {}
+
+export class DnsRecordSettingsNotEntitled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DnsRecordSettingsNotEntitled>()(
+      "DnsRecordSettingsNotEntitled",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 400,
+        message: {
+          includes:
+            "The IPv4 Only and IPv6 Only settings are not available to this zone.",
+        },
+      },
+    ],
+  ) {}
+
 export class DnsSettingNotAvailable
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DnsSettingNotAvailable>()(
@@ -26197,6 +26225,7 @@ export const batchRecord: API.OperationMethod<
 export type CreateRecordError =
   | DnsRecordAlreadyExists
   | Forbidden
+  | DnsRecordSettingsNotEntitled
   | CloudflareOpError;
 /** Create a new DNS record for a zone. Notes: - A/AAAA records cannot exist on the same name as CNAME records. - NS records cannot exist on the same name as any other record type. - Domain names are always represented in Punycode, even if Unicode characters were used when creating the record. */
 export const createRecord: API.OperationMethod<
@@ -26210,6 +26239,7 @@ export const createRecord: API.OperationMethod<
   errors: [
     DnsRecordAlreadyExists,
     Forbidden,
+    DnsRecordSettingsNotEntitled,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -26345,7 +26375,7 @@ export const deleteDnssec: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteRecordError = CloudflareOpError;
+export type DeleteRecordError = DnsRecordNotFound | CloudflareOpError;
 /** Permanently removes a DNS record from the zone. */
 export const deleteRecord: API.OperationMethod<
   DeleteRecordRequest,
@@ -26355,7 +26385,7 @@ export const deleteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteRecordRequest,
   output: DeleteRecordResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [DnsRecordNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -26581,7 +26611,7 @@ export const getDnssec: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetRecordError = Forbidden | CloudflareOpError;
+export type GetRecordError = Forbidden | DnsRecordNotFound | CloudflareOpError;
 /** Retrieves details for a specific DNS record in the zone. */
 export const getRecord: API.OperationMethod<
   GetRecordRequest,
@@ -26591,7 +26621,12 @@ export const getRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetRecordRequest,
   output: GetRecordResponse,
-  errors: [Forbidden, CloudflareRateLimited, CloudflareError],
+  errors: [
+    Forbidden,
+    DnsRecordNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -27044,7 +27079,10 @@ export const scanTriggerRecord: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateRecordError = CloudflareOpError;
+export type UpdateRecordError =
+  | DnsRecordNotFound
+  | DnsRecordSettingsNotEntitled
+  | CloudflareOpError;
 /** Overwrite an existing DNS record. Notes: - A/AAAA records cannot exist on the same name as CNAME records. - NS records cannot exist on the same name as any other record type. - Domain names are always represented in Punycode, even if Unicode characters were used when creating the record. */
 export const updateRecord: API.OperationMethod<
   UpdateRecordRequest,
@@ -27054,7 +27092,12 @@ export const updateRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRecordRequest,
   output: UpdateRecordResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [
+    DnsRecordNotFound,
+    DnsRecordSettingsNotEntitled,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

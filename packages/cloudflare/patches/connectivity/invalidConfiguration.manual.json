@@ -1,0 +1,45 @@
+{
+  "description": "Live TCP service probe with unsupported TLS verification mode returns HTTP400 invalid json: bad json data: unknown variant. Type malformed service configuration errors on create/update.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.connectivity#InvalidVpcServiceConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "invalid json: bad json data:"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.connectivity#CreateDirectoryService/errors/-",
+      "value": {
+        "target": "com.cloudflare.connectivity#InvalidVpcServiceConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.connectivity#UpdateDirectoryService/errors/-",
+      "value": {
+        "target": "com.cloudflare.connectivity#InvalidVpcServiceConfiguration"
+      }
+    }
+  ]
+}

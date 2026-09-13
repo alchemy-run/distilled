@@ -1,0 +1,42 @@
+{
+  "description": "Live DNS provider audit: IPv4/IPv6-only record settings return HTTP 400 with this exact entitlement message on the standing testing zone.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.dns#DnsRecordSettingsNotEntitled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "The IPv4 Only and IPv6 Only settings are not available to this zone."
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.dns#CreateRecord/errors/-",
+      "value": {
+        "target": "com.cloudflare.dns#DnsRecordSettingsNotEntitled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.dns#UpdateRecord/errors/-",
+      "value": {
+        "target": "com.cloudflare.dns#DnsRecordSettingsNotEntitled"
+      }
+    }
+  ]
+}

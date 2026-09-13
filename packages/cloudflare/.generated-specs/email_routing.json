@@ -2734,7 +2734,12 @@
         },
         "smithy.api#documentation": "Gets information for a specific destination email already created.",
         "smithy.api#readonly": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.email_routing#EmailAddressNotFound"
+        }
+      ]
     },
     "com.cloudflare.email_routing#GetAddressRequest": {
       "type": "structure",
@@ -3506,6 +3511,9 @@
       "errors": [
         {
           "target": "com.cloudflare.email_routing#WorkerScriptNotFound"
+        },
+        {
+          "target": "com.cloudflare.email_routing#EmailRoutingRuleNotFound"
         }
       ]
     },

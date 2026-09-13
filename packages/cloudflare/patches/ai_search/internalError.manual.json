@@ -1,0 +1,59 @@
+{
+  "description": "Observed deployed AI Search replacement/recovery API returns code7001 Internal Error on create/delete; distinguish transient server failures from generic validation before retrying.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_search#AiSearchInternalError",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "server",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 7001,
+              "message": {
+                "includes": "Internal Error"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_search#CreateNamespaceInstance/errors/0",
+      "value": {
+        "target": "com.cloudflare.ai_search#AiSearchInternalError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_search#DeleteNamespaceInstance/errors/0",
+      "value": {
+        "target": "com.cloudflare.ai_search#AiSearchInternalError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_search#ReadNamespaceInstance/errors/0",
+      "value": {
+        "target": "com.cloudflare.ai_search#AiSearchInternalError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.ai_search#UpdateNamespaceInstance/errors/0",
+      "value": {
+        "target": "com.cloudflare.ai_search#AiSearchInternalError"
+      }
+    }
+  ]
+}

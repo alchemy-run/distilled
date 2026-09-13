@@ -817,6 +817,8 @@ export interface SinksCreateRequestFormatJson {
   decimalEncoding?: SinksCreateRequestFormatJsonDecimalEncoding | (string & {});
   timestampFormat?: SinksCreateRequestFormatJsonTimestampFormat | (string & {});
   unstructured?: boolean;
+  /** JSON output compression: uncompressed or gzip. */
+  compression?: string;
 }
 export const SinksCreateRequestFormatJson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -832,6 +834,7 @@ export const SinksCreateRequestFormatJson = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     unstructured: S.optional(S.Boolean),
+    compression: S.optional(S.String),
   }),
 ).annotate({
   identifier: "SinksCreateRequestFormatJson",
@@ -868,7 +871,13 @@ export type SinksCreateRequestFormat =
   | SinksCreateRequestFormatParquet;
 export const SinksCreateRequestFormat = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+    [
+      "type",
+      "decimalEncoding",
+      "timestampFormat",
+      "unstructured",
+      "compression",
+    ],
     ["type", "compression", "rowGroupBytes"],
   ]),
 );
@@ -1209,6 +1218,8 @@ export interface SinksCreateResponseFormatJson {
   decimalEncoding?: SinksCreateResponseFormatJsonDecimalEncoding | null;
   timestampFormat?: SinksCreateResponseFormatJsonTimestampFormat | null;
   unstructured?: boolean | null;
+  /** JSON output compression: uncompressed or gzip. */
+  compression?: string | null;
 }
 export const SinksCreateResponseFormatJson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1224,6 +1235,7 @@ export const SinksCreateResponseFormatJson = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     unstructured: S.optional(S.NullOr(S.Boolean)),
+    compression: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "SinksCreateResponseFormatJson",
@@ -1264,7 +1276,13 @@ export type SinksCreateResponseFormat =
   | SinksCreateResponseFormatParquet;
 export const SinksCreateResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+    [
+      "type",
+      "decimalEncoding",
+      "timestampFormat",
+      "unstructured",
+      "compression",
+    ],
     ["type", "compression", "rowGroupBytes"],
   ]),
 );
@@ -2466,6 +2484,8 @@ export interface SinksGetResponseFormatJson {
   decimalEncoding?: SinksGetResponseFormatJsonDecimalEncoding | null;
   timestampFormat?: SinksGetResponseFormatJsonTimestampFormat | null;
   unstructured?: boolean | null;
+  /** JSON output compression: uncompressed or gzip. */
+  compression?: string | null;
 }
 export const SinksGetResponseFormatJson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -2481,6 +2501,7 @@ export const SinksGetResponseFormatJson = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     unstructured: S.optional(S.NullOr(S.Boolean)),
+    compression: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "SinksGetResponseFormatJson",
@@ -2519,7 +2540,13 @@ export type SinksGetResponseFormat =
   | SinksGetResponseFormatParquet;
 export const SinksGetResponseFormat = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+    [
+      "type",
+      "decimalEncoding",
+      "timestampFormat",
+      "unstructured",
+      "compression",
+    ],
     ["type", "compression", "rowGroupBytes"],
   ]),
 );
@@ -3406,6 +3433,8 @@ export interface SinksListResultItemFormatJson {
   decimalEncoding?: SinksListResultItemFormatJsonDecimalEncoding | null;
   timestampFormat?: SinksListResultItemFormatJsonTimestampFormat | null;
   unstructured?: boolean | null;
+  /** JSON output compression: uncompressed or gzip. */
+  compression?: string | null;
 }
 export const SinksListResultItemFormatJson = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -3421,6 +3450,7 @@ export const SinksListResultItemFormatJson = /*@__PURE__*/ S.suspend(() =>
       ),
     ),
     unstructured: S.optional(S.NullOr(S.Boolean)),
+    compression: S.optional(S.NullOr(S.String)),
   }),
 ).annotate({
   identifier: "SinksListResultItemFormatJson",
@@ -3461,7 +3491,13 @@ export type SinksListResultItemFormat =
   | SinksListResultItemFormatParquet;
 export const SinksListResultItemFormat = /*@__PURE__*/ S.Unknown.pipe(
   T.UnionCases([
-    ["type", "decimalEncoding", "timestampFormat", "unstructured"],
+    [
+      "type",
+      "decimalEncoding",
+      "timestampFormat",
+      "unstructured",
+      "compression",
+    ],
     ["type", "compression", "rowGroupBytes"],
   ]),
 );

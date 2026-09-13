@@ -1,0 +1,38 @@
+{
+  "description": "Live zone setting enumeration returns HTTP400 Undefined zone setting: search_for_agents for settings not exposed by this zone. Preserve a typed absent-setting outcome without swallowing authentication, transport or decode failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zones#UndefinedZoneSetting",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Undefined zone setting:"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.zones#GetSetting/errors/-",
+      "value": {
+        "target": "com.cloudflare.zones#UndefinedZoneSetting"
+      }
+    }
+  ]
+}

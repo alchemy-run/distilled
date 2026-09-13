@@ -400,6 +400,12 @@
         },
         {
           "target": "com.cloudflare.containers#DurableObjectCheckError"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerJobsNotEnabled"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationAlreadyExists"
         }
       ],
       "traits": {
@@ -737,7 +743,7 @@
         }
       },
       "traits": {
-        "smithy.api#documentation": "Registry credentials (transcribed from the distilled SDK — endpoint is docs-absent)."
+        "smithy.api#documentation": "Registry credentials (transcribed from the distilled SDK \u2014 endpoint is docs-absent)."
       }
     },
     "com.cloudflare.containers#CreateContainerRegistryCredentialsResponse": {
@@ -869,6 +875,47 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.containers#ContainerApplicationItem"
+      }
+    },
+    "com.cloudflare.containers#ContainerJobsNotEnabled": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 1000,
+            "message": {
+              "includes": "APPLICATION_JOBS_POLICY"
+            }
+          }
+        ]
+      }
+    },
+    "com.cloudflare.containers#ContainerApplicationAlreadyExists": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "^Invalid input: An application with the name .+ already exists in this account\\.$"
+            }
+          }
+        ]
       }
     }
   }

@@ -48494,6 +48494,9 @@
         },
         {
           "target": "com.cloudflare.workers#MtlsCertificateNotFound"
+        },
+        {
+          "target": "com.cloudflare.workers#MigrationTagMismatch"
         }
       ]
     },
@@ -52219,6 +52222,25 @@
           "code": 200
         },
         "smithy.api#documentation": "Create an edge-preview session scoped to a zone (undocumented endpoint)."
+      }
+    },
+    "com.cloudflare.workers#MigrationTagMismatch": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "code": 10079
+          }
+        ]
       }
     },
     "com.cloudflare.workers#PreviewNotFound": {

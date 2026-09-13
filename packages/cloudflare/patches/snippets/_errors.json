@@ -103,6 +103,12 @@
           "com.cloudflare.protocols#errorMatchers": [
             {
               "status": 404
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "requested zone not found"
+              }
             }
           ]
         }

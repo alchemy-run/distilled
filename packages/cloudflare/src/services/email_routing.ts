@@ -2069,7 +2069,7 @@ export const enableEmailRouting: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetAddressError = CloudflareOpError;
+export type GetAddressError = EmailAddressNotFound | CloudflareOpError;
 /** Gets information for a specific destination email already created. */
 export const getAddress: API.OperationMethod<
   GetAddressRequest,
@@ -2079,7 +2079,7 @@ export const getAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetAddressRequest,
   output: GetAddressResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [EmailAddressNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));
@@ -2259,7 +2259,10 @@ export const unlock: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type UpdateRuleError = WorkerScriptNotFound | CloudflareOpError;
+export type UpdateRuleError =
+  | WorkerScriptNotFound
+  | EmailRoutingRuleNotFound
+  | CloudflareOpError;
 /** Update actions and matches, or enable/disable specific routing rules. Forward actions require all destination addresses to be verified. */
 export const updateRule: API.OperationMethod<
   UpdateRuleRequest,
@@ -2269,7 +2272,12 @@ export const updateRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: UpdateRuleRequest,
   output: UpdateRuleResponse,
-  errors: [WorkerScriptNotFound, CloudflareRateLimited, CloudflareError],
+  errors: [
+    WorkerScriptNotFound,
+    EmailRoutingRuleNotFound,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

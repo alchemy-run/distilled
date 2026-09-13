@@ -42,6 +42,18 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class InvalidVpcServiceConfiguration
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidVpcServiceConfiguration>()(
+      "InvalidVpcServiceConfiguration",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ status: 400, message: { includes: "invalid json: bad json data:" } }],
+  ) {}
+
 export class VpcServiceNameAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VpcServiceNameAlreadyExists>()(
@@ -1112,6 +1124,7 @@ export type CreateDirectoryServiceError =
   | VpcServiceNameAlreadyExists
   | VpcTunnelNotFound
   | Forbidden
+  | InvalidVpcServiceConfiguration
   | CloudflareOpError;
 /** Create Workers VPC connectivity service */
 export const createDirectoryService: API.OperationMethod<
@@ -1126,6 +1139,7 @@ export const createDirectoryService: API.OperationMethod<
     VpcServiceNameAlreadyExists,
     VpcTunnelNotFound,
     Forbidden,
+    InvalidVpcServiceConfiguration,
     CloudflareRateLimited,
     CloudflareError,
   ],
@@ -1210,6 +1224,7 @@ export type UpdateDirectoryServiceError =
   | VpcServiceNameAlreadyExists
   | VpcTunnelNotFound
   | Forbidden
+  | InvalidVpcServiceConfiguration
   | CloudflareOpError;
 /** Update Workers VPC connectivity service */
 export const updateDirectoryService: API.OperationMethod<
@@ -1225,6 +1240,7 @@ export const updateDirectoryService: API.OperationMethod<
     VpcServiceNameAlreadyExists,
     VpcTunnelNotFound,
     Forbidden,
+    InvalidVpcServiceConfiguration,
     CloudflareRateLimited,
     CloudflareError,
   ],

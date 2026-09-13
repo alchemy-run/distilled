@@ -1341,7 +1341,7 @@
           }
         },
         "scope": {
-          "target": "com.cloudflare.iam#ResourceGroupsListResultItemScopeList",
+          "target": "com.cloudflare.iam#ResourceGroupsCreateRequestScope",
           "traits": {
             "smithy.api#documentation": "The scope associated to the resource group",
             "smithy.api#required": {}
@@ -3510,7 +3510,7 @@
           }
         },
         "scope": {
-          "target": "com.cloudflare.iam#ResourceGroupsCreateResponseScopeList",
+          "target": "com.cloudflare.iam#ResourceGroupsCreateRequestScope",
           "traits": {
             "smithy.api#documentation": "The scope associated to the resource group",
             "smithy.api#required": {}
@@ -4484,7 +4484,7 @@
           }
         },
         "scope": {
-          "target": "com.cloudflare.iam#ResourceGroupsGetResponseScopeList",
+          "target": "com.cloudflare.iam#ResourceGroupsCreateRequestScope",
           "traits": {
             "smithy.api#documentation": "The scope associated to the resource group",
             "smithy.api#required": {}
@@ -5750,7 +5750,7 @@
           }
         },
         "scope": {
-          "target": "com.cloudflare.iam#ResourceGroupsUpdateResponseScopeList",
+          "target": "com.cloudflare.iam#ResourceGroupsCreateRequestScope",
           "traits": {
             "smithy.api#documentation": "The scope associated to the resource group",
             "smithy.api#required": {}

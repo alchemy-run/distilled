@@ -67,7 +67,10 @@ export class SnippetRulesNotFound
         message: S.String,
       },
     ),
-    [{ status: 404 }],
+    [
+      { status: 404 },
+      { status: 400, message: { includes: "requested zone not found" } },
+    ],
   ) {}
 
 export interface DeleteRuleRequest {
@@ -150,9 +153,15 @@ export const GetContentRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetContentRequest",
 }) as any as S.Schema<GetContentRequest>;
 
-export interface GetContentResponse {}
+export interface GetContentResponse {
+  body: string;
+  contentType?: string;
+}
 export const GetContentResponse = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  S.Struct({
+    body: S.String.pipe(T.EnvelopePayload()),
+    contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
 ).annotate({
   identifier: "GetContentResponse",
 }) as any as S.Schema<GetContentResponse>;
@@ -433,7 +442,7 @@ export const deleteSnippet: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type GetContentError = CloudflareOpError;
+export type GetContentError = SnippetNotFound | Forbidden | CloudflareOpError;
 /** Fetches the content of a snippet belonging to the zone. */
 export const getContent: API.OperationMethod<
   GetContentRequest,
@@ -443,7 +452,7 @@ export const getContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetContentRequest,
   output: GetContentResponse,
-  errors: [CloudflareRateLimited, CloudflareError],
+  errors: [SnippetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

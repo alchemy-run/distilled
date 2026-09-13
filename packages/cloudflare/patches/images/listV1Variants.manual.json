@@ -1,0 +1,18 @@
+{
+  "description": "The Images variants result is a map keyed by arbitrary variant names; hero in the API example is not a fixed schema member. Preserve every custom variant during decoding.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.images#V1VariantsListResponseVariants",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.cloudflare.images#V1VariantsListResponseVariantsHero"
+        }
+      }
+    }
+  ]
+}

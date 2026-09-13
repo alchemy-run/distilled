@@ -830,11 +830,12 @@
       }
     },
     "com.cloudflare.images#V1VariantsListResponseVariants": {
-      "type": "structure",
-      "members": {
-        "hero": {
-          "target": "com.cloudflare.images#V1VariantsListResponseVariantsHero"
-        }
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "com.cloudflare.images#V1VariantsListResponseVariantsHero"
       }
     },
     "com.cloudflare.images#V2ListRequestMeta": {

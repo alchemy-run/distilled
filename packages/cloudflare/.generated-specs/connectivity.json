@@ -2575,6 +2575,9 @@
         },
         {
           "target": "com.cloudflare.connectivity#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.connectivity#InvalidVpcServiceConfiguration"
         }
       ]
     },
@@ -2875,6 +2878,9 @@
         },
         {
           "target": "com.cloudflare.connectivity#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.connectivity#InvalidVpcServiceConfiguration"
         }
       ]
     },
@@ -2955,6 +2961,28 @@
       },
       "traits": {
         "smithy.api#output": {}
+      }
+    },
+    "com.cloudflare.connectivity#InvalidVpcServiceConfiguration": {
+      "type": "structure",
+      "members": {
+        "code": {
+          "target": "smithy.api#Integer"
+        },
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "invalid json: bad json data:"
+            }
+          }
+        ]
       }
     },
     "com.cloudflare.connectivity#DirectoryServicesCreateResultType": {

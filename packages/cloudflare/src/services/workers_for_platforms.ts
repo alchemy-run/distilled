@@ -172,6 +172,18 @@ export class KVNamespaceNotFound
     [{ code: 10041 }],
   ) {}
 
+export class MigrationTagMismatch
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MigrationTagMismatch>()(
+      "MigrationTagMismatch",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 10079 }],
+  ) {}
+
 export class MtlsCertificateNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<MtlsCertificateNotFound>()(
@@ -10253,6 +10265,7 @@ export type PutDispatchNamespaceScriptError =
   | HyperdriveConfigNotFound
   | VectorizeIndexNotFound
   | MtlsCertificateNotFound
+  | MigrationTagMismatch
   | CloudflareOpError;
 /** Upload a worker module to a Workers for Platforms namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
 export const putDispatchNamespaceScript: API.OperationMethod<
@@ -10276,6 +10289,7 @@ export const putDispatchNamespaceScript: API.OperationMethod<
     HyperdriveConfigNotFound,
     VectorizeIndexNotFound,
     MtlsCertificateNotFound,
+    MigrationTagMismatch,
     CloudflareRateLimited,
     CloudflareError,
   ],

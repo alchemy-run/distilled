@@ -12,6 +12,25 @@ import * as Retry from "../retry.ts";
 
 export type { CloudflareOpError, CloudflareOpContext };
 
+export class ContainerApplicationAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ContainerApplicationAlreadyExists>()(
+      "ContainerApplicationAlreadyExists",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 400,
+        message: {
+          matches:
+            "^Invalid input: An application with the name .+ already exists in this account\\.$",
+        },
+      },
+    ],
+  ) {}
+
 export class ContainerApplicationNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ContainerApplicationNotFound>()(
@@ -25,6 +44,18 @@ export class ContainerApplicationNotFound
       { code: 1609, message: { includes: "Container application not found" } },
       { code: 1609, message: { includes: "APPLICATION_NOT_FOUND" } },
     ],
+  ) {}
+
+export class ContainerJobsNotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ContainerJobsNotEnabled>()(
+      "ContainerJobsNotEnabled",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 1000, message: { includes: "APPLICATION_JOBS_POLICY" } }],
   ) {}
 
 export class DurableObjectAlreadyHasApplication
@@ -491,6 +522,8 @@ export type CreateContainerApplicationError =
   | DurableObjectAlreadyHasApplication
   | DurableObjectNotContainerEnabled
   | DurableObjectCheckError
+  | ContainerJobsNotEnabled
+  | ContainerApplicationAlreadyExists
   | CloudflareOpError;
 export const createContainerApplication: API.OperationMethod<
   CreateContainerApplicationRequest,
@@ -505,6 +538,8 @@ export const createContainerApplication: API.OperationMethod<
     DurableObjectAlreadyHasApplication,
     DurableObjectNotContainerEnabled,
     DurableObjectCheckError,
+    ContainerJobsNotEnabled,
+    ContainerApplicationAlreadyExists,
     CloudflareRateLimited,
     CloudflareError,
   ],

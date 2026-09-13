@@ -1,0 +1,43 @@
+{
+  "description": "The live Stream list endpoint returns a bare result array without include_counts and supports the documented count wrapper. Decode both wire forms instead of silently dropping array entries.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.stream#ListLiveInputsResponse",
+      "path": "/shapes/com.cloudflare.stream#ListLiveInputsCountedResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.stream#ListLiveInputsPayload",
+      "value": {
+        "type": "union",
+        "members": {
+          "items": {
+            "target": "com.cloudflare.stream#LiveInputsListResponseLiveInputsList"
+          },
+          "counted": {
+            "target": "com.cloudflare.stream#ListLiveInputsCountedResponse"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.stream#ListLiveInputsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "result": {
+            "target": "com.cloudflare.stream#ListLiveInputsPayload",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    }
+  ]
+}

@@ -204,12 +204,13 @@ export const ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue =
 export type ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue {
@@ -230,21 +231,24 @@ export type ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasets
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewCompatibilityFlagsList =
@@ -255,12 +259,12 @@ export const ProjectsCreateRequestDeploymentConfigsPreviewCompatibilityFlagsList
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewCompatibilityFlagsList>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue {
@@ -281,12 +285,15 @@ export type ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespaces
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesMap>;
 
 export type UntypedBindingMap = { [key: string]: unknown | undefined };
@@ -312,21 +319,24 @@ export type ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap =
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreviewLimits {
@@ -358,12 +368,15 @@ export const ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue 
 export type ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreviewPlacement {
@@ -396,21 +409,22 @@ export const ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue =
 export type ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreviewServicesValue {
@@ -435,12 +449,13 @@ export const ProjectsCreateRequestDeploymentConfigsPreviewServicesValue =
 export type ProjectsCreateRequestDeploymentConfigsPreviewServicesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewServicesValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsPreviewServicesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewServicesValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewServicesValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewServicesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsPreviewUsageModel =
@@ -466,12 +481,15 @@ export type ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap =
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsPreview {
@@ -622,12 +640,13 @@ export const ProjectsCreateRequestDeploymentConfigsProductionAiBindingsValue =
 export type ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsValue =
@@ -639,21 +658,24 @@ export type ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatas
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionCompatibilityFlagsList =
@@ -664,12 +686,12 @@ export const ProjectsCreateRequestDeploymentConfigsProductionCompatibilityFlagsL
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionCompatibilityFlagsList>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesValue =
@@ -681,12 +703,15 @@ export type ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespa
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsValue =
@@ -698,21 +723,24 @@ export type ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMa
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionLimits =
@@ -729,12 +757,15 @@ export type ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap 
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionPlacement =
@@ -751,21 +782,22 @@ export type ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap =
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionServicesValue =
@@ -776,12 +808,13 @@ export const ProjectsCreateRequestDeploymentConfigsProductionServicesValue =
 export type ProjectsCreateRequestDeploymentConfigsProductionServicesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewServicesValue
+    | null
     | undefined;
 };
 export const ProjectsCreateRequestDeploymentConfigsProductionServicesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewServicesValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewServicesValue),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionServicesMap>;
 
 export type ProjectsCreateRequestDeploymentConfigsProductionUsageModel =
@@ -800,12 +833,15 @@ export type ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap>;
 
 export interface ProjectsCreateRequestDeploymentConfigsProduction {
@@ -6300,12 +6336,13 @@ export const ProjectsEditRequestDeploymentConfigsPreviewAiBindingsValue =
 export type ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue =
@@ -6317,21 +6354,24 @@ export type ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMa
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewCompatibilityFlagsList =
@@ -6342,12 +6382,12 @@ export const ProjectsEditRequestDeploymentConfigsPreviewCompatibilityFlagsList =
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewCompatibilityFlagsList>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesValue =
@@ -6359,12 +6399,15 @@ export type ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMa
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsValue =
@@ -6375,21 +6418,24 @@ export const ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsValue 
 export type ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewLimits =
@@ -6405,12 +6451,15 @@ export const ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesValue =
 export type ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewPlacement =
@@ -6426,21 +6475,22 @@ export const ProjectsEditRequestDeploymentConfigsPreviewQueueProducersValue =
 export type ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewServicesValue =
@@ -6451,12 +6501,13 @@ export const ProjectsEditRequestDeploymentConfigsPreviewServicesValue =
 export type ProjectsEditRequestDeploymentConfigsPreviewServicesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewServicesValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewServicesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewServicesValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewServicesValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewServicesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsPreviewUsageModel =
@@ -6473,12 +6524,15 @@ export const ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsValue =
 export type ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap>;
 
 export interface ProjectsEditRequestDeploymentConfigsPreview {
@@ -6629,12 +6683,13 @@ export const ProjectsEditRequestDeploymentConfigsProductionAiBindingsValue =
 export type ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsValue =
@@ -6646,21 +6701,24 @@ export type ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDataset
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionBrowsersMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionBrowsersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionBrowsersMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionCompatibilityFlagsList =
@@ -6671,12 +6729,12 @@ export const ProjectsEditRequestDeploymentConfigsProductionCompatibilityFlagsLis
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionCompatibilityFlagsList>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesValue =
@@ -6688,12 +6746,15 @@ export type ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespace
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsValue =
@@ -6705,21 +6766,24 @@ export type ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap 
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionLimits =
@@ -6736,12 +6800,15 @@ export type ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap =
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionPlacement =
@@ -6757,21 +6824,22 @@ export const ProjectsEditRequestDeploymentConfigsProductionQueueProducersValue =
 export type ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.Unknown,
+    S.NullOr(S.Unknown),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionServicesValue =
@@ -6782,12 +6850,13 @@ export const ProjectsEditRequestDeploymentConfigsProductionServicesValue =
 export type ProjectsEditRequestDeploymentConfigsProductionServicesMap = {
   [key: string]:
     | ProjectsCreateRequestDeploymentConfigsPreviewServicesValue
+    | null
     | undefined;
 };
 export const ProjectsEditRequestDeploymentConfigsProductionServicesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewServicesValue,
+    S.NullOr(ProjectsCreateRequestDeploymentConfigsPreviewServicesValue),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionServicesMap>;
 
 export type ProjectsEditRequestDeploymentConfigsProductionUsageModel =
@@ -6806,12 +6875,15 @@ export type ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap =
   {
     [key: string]:
       | ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue
+      | null
       | undefined;
   };
 export const ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    S.NullOr(
+      ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsValue,
+    ),
   ) as any as S.Schema<ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap>;
 
 export interface ProjectsEditRequestDeploymentConfigsProduction {

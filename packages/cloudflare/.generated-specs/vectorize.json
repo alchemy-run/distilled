@@ -1649,6 +1649,12 @@
           "traits": {
             "smithy.api#documentation": "The number of nearest neighbors to find."
           }
+        },
+        "namespace": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "Restrict the search to vectors in this namespace."
+          }
         }
       },
       "traits": {

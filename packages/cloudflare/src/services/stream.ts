@@ -2866,19 +2866,36 @@ export const LiveInputsListResponseLiveInputsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<LiveInputsListResponseLiveInputsList>;
 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
-export interface ListLiveInputsResponse {
+export interface ListLiveInputsCountedResponse {
   liveInputs?: LiveInputsListResponseLiveInputsList | null;
   /** The total number of remaining live inputs based on cursor position. */
   range?: number | null;
   /** The total number of live inputs that match the provided filters. */
   total?: number | null;
 }
-export const ListLiveInputsResponse = /*@__PURE__*/ S.suspend(() =>
+export const ListLiveInputsCountedResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     liveInputs: S.optional(S.NullOr(LiveInputsListResponseLiveInputsList)),
     range: S.optional(S.NullOr(S.Number)),
     total: S.optional(S.NullOr(S.Number)),
-  }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+  }),
+).annotate({
+  identifier: "ListLiveInputsCountedResponse",
+}) as any as S.Schema<ListLiveInputsCountedResponse>;
+
+export type ListLiveInputsPayload =
+  | LiveInputsListResponseLiveInputsList
+  | ListLiveInputsCountedResponse;
+export const ListLiveInputsPayload = /*@__PURE__*/ S.Unknown.pipe(
+  T.UnionCases([[], ["liveInputs", "range", "total"]]),
+);
+
+export type ListLiveInputsResponse = ListLiveInputsPayload;
+export const ListLiveInputsResponse = /*@__PURE__*/ S.suspend(() =>
+  ListLiveInputsPayload.pipe(
+    T.EnvelopePayloadRoot(),
+    T.KeyDictionary(KEY_DICTIONARY),
+  ),
 ).annotate({
   identifier: "ListLiveInputsResponse",
 }) as any as S.Schema<ListLiveInputsResponse>;
@@ -3605,6 +3622,45 @@ export const UpdateLiveInputOutputResponse = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "UpdateLiveInputOutputResponse",
 }) as any as S.Schema<UpdateLiveInputOutputResponse>;
+
+export interface UploadWatermarkRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** A short description of the watermark profile. */
+  name?: string;
+  /** The translucency of the image. A value of `0.0` makes the image completely transparent, and `1.0` makes the image completely opaque. Note that if the image is already semi-transparent, setting this to `1.0` will not make the image completely opaque. */
+  opacity?: number;
+  /** The whitespace between the adjacent edges (determined by position) of the video and the image. `0.0` indicates no padding, and `1.0` indicates a fully padded video width or length, as determined by the algorithm. */
+  padding?: number;
+  /** The location of the image. Valid positions are: `upperRight`, `upperLeft`, `lowerLeft`, `lowerRight`, and `center`. Note that `center` ignores the `padding` parameter. */
+  position?: string;
+  /** The size of the image relative to the overall size of the video. This parameter will adapt to horizontal and vertical videos automatically. `0.0` indicates no scaling (use the size of the image as-is), and `1.0`fills the entire video. */
+  scale?: number;
+  /** PNG image bytes to upload (up to 2 MiB). */
+  file: string | File | Blob;
+}
+export const UploadWatermarkRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    name: S.optional(S.String),
+    opacity: S.optional(S.Number),
+    padding: S.optional(S.Number),
+    position: S.optional(S.String),
+    scale: S.optional(S.Number),
+    file: S.String,
+  })
+    .pipe(
+      T.Http({
+        method: "POST",
+        uri: "/accounts/{account_id}/stream/watermarks",
+        code: 200,
+        contentType: "multipart",
+      }),
+    )
+    .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+).annotate({
+  identifier: "UploadWatermarkRequest",
+}) as any as S.Schema<UploadWatermarkRequest>;
 
 export type CopyAudioTrackError = CloudflareOpError;
 /** Adds an additional audio track to a video using the provided audio track URL. */
@@ -4342,6 +4398,29 @@ export const updateLiveInputOutput: API.OperationMethod<
   input: UpdateLiveInputOutputRequest,
   output: UpdateLiveInputOutputResponse,
   errors: [OutputNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+}));
+
+export type UploadWatermarkError =
+  | WatermarkImageInvalid
+  | Forbidden
+  | CloudflareOpError;
+/** Creates watermark profiles using a single `HTTP POST multipart/form-data` request. */
+export const uploadWatermark: API.OperationMethod<
+  UploadWatermarkRequest,
+  CreateWatermarkResponse,
+  UploadWatermarkError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: UploadWatermarkRequest,
+  output: CreateWatermarkResponse,
+  errors: [
+    WatermarkImageInvalid,
+    Forbidden,
+    CloudflareRateLimited,
+    CloudflareError,
+  ],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
 }));

@@ -1,0 +1,341 @@
+{
+  "description": "Pages deployment binding PATCH maps accept null to remove entries while retaining structured binding types.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewServicesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionServicesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewServicesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionBrowsersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionServicesMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.pages#ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap/value/traits",
+      "value": {
+        "com.cloudflare.protocols#nullable": {}
+      }
+    }
+  ]
+}

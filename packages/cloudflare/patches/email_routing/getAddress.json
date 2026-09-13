@@ -25,6 +25,15 @@
       "op": "replace",
       "path": "/shapes/com.cloudflare.email_routing#GetAddress/output/target",
       "value": "com.cloudflare.email_routing#GetAddressResponse"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.email_routing#GetAddress/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.email_routing#EmailAddressNotFound"
+        }
+      ]
     }
   ]
 }

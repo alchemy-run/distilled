@@ -32,6 +32,9 @@
       "value": [
         {
           "target": "com.cloudflare.dns#Forbidden"
+        },
+        {
+          "target": "com.cloudflare.dns#DnsRecordNotFound"
         }
       ]
     }

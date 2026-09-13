@@ -1,0 +1,47 @@
+{
+  "description": "The Stream watermark guide documents multipart file upload omitted by the JSON schema. Preserve createWatermark URL JSON requests and add uploadWatermark with the same response and errors. Source: https://developers.cloudflare.com/stream/edit-videos/applying-watermarks/#use-case-1-upload-a-local-image-file-directly",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.stream#CreateWatermark",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermark"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.cloudflare.stream#CreateWatermarkRequest",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermarkRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermark/input/target",
+      "value": "com.cloudflare.stream#UploadWatermarkRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermark/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermarkRequest/members/url"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.stream#UploadWatermarkRequest/members/file",
+      "value": {
+        "target": "smithy.api#Blob",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "PNG image bytes to upload (up to 2 MiB)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.stream#Stream/operations/-",
+      "value": {
+        "target": "com.cloudflare.stream#UploadWatermark"
+      }
+    }
+  ]
+}

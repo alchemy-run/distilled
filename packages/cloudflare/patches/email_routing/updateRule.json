@@ -34,6 +34,13 @@
           "target": "com.cloudflare.email_routing#WorkerScriptNotFound"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.email_routing#UpdateRule/errors/-",
+      "value": {
+        "target": "com.cloudflare.email_routing#EmailRoutingRuleNotFound"
+      }
     }
   ]
 }

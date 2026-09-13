@@ -133,6 +133,18 @@ export class AiSearchInstanceNotFound
     ],
   ) {}
 
+export class AiSearchInternalError
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AiSearchInternalError>()(
+      "AiSearchInternalError",
+      {
+        code: S.Number,
+        message: S.String,
+      },
+    ),
+    [{ code: 7001, message: { includes: "Internal Error" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -15296,7 +15308,7 @@ export const createNamespace: API.OperationMethod<
 }));
 
 export type CreateNamespaceInstanceError =
-  | ValidationError
+  | AiSearchInternalError
   | NamespaceNotFound
   | AiSearchInstanceNotFound
   | InvalidRoute
@@ -15316,7 +15328,7 @@ export const createNamespaceInstance: API.OperationMethod<
   input: CreateNamespaceInstanceRequest,
   output: CreateNamespaceInstanceResponse,
   errors: [
-    ValidationError,
+    AiSearchInternalError,
     NamespaceNotFound,
     AiSearchInstanceNotFound,
     InvalidRoute,
@@ -15442,7 +15454,7 @@ export const deleteNamespace: API.OperationMethod<
 }));
 
 export type DeleteNamespaceInstanceError =
-  | ValidationError
+  | AiSearchInternalError
   | NamespaceNotFound
   | AiSearchInstanceNotFound
   | InvalidRoute
@@ -15458,7 +15470,7 @@ export const deleteNamespaceInstance: API.OperationMethod<
   input: DeleteNamespaceInstanceRequest,
   output: DeleteNamespaceInstanceResponse,
   errors: [
-    ValidationError,
+    AiSearchInternalError,
     NamespaceNotFound,
     AiSearchInstanceNotFound,
     InvalidRoute,
@@ -15899,7 +15911,7 @@ export const readNamespace: API.OperationMethod<
 }));
 
 export type ReadNamespaceInstanceError =
-  | ValidationError
+  | AiSearchInternalError
   | NamespaceNotFound
   | AiSearchInstanceNotFound
   | InvalidRoute
@@ -15915,7 +15927,7 @@ export const readNamespaceInstance: API.OperationMethod<
   input: ReadNamespaceInstanceRequest,
   output: ReadNamespaceInstanceResponse,
   errors: [
-    ValidationError,
+    AiSearchInternalError,
     NamespaceNotFound,
     AiSearchInstanceNotFound,
     InvalidRoute,
@@ -16109,7 +16121,7 @@ export const updateNamespace: API.OperationMethod<
 }));
 
 export type UpdateNamespaceInstanceError =
-  | ValidationError
+  | AiSearchInternalError
   | NamespaceNotFound
   | AiSearchInstanceNotFound
   | InvalidRoute
@@ -16127,7 +16139,7 @@ export const updateNamespaceInstance: API.OperationMethod<
   input: UpdateNamespaceInstanceRequest,
   output: UpdateNamespaceInstanceResponse,
   errors: [
-    ValidationError,
+    AiSearchInternalError,
     NamespaceNotFound,
     AiSearchInstanceNotFound,
     InvalidRoute,

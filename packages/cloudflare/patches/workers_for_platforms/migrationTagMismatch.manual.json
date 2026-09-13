@@ -1,0 +1,35 @@
+{
+  "description": "Real Worker upload with mismatched old_tag returns code10079, Actor migration tag precondition failed; applies to regular and dispatch namespace multipart uploads.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#MigrationTagMismatch",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "com.cloudflare.protocols#errorMatchers": [
+            {
+              "code": 10079
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_for_platforms#PutDispatchNamespaceScript/errors/-",
+      "value": {
+        "target": "com.cloudflare.workers_for_platforms#MigrationTagMismatch"
+      }
+    }
+  ]
+}

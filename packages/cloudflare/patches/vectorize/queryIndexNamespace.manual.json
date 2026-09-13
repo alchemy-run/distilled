@@ -1,0 +1,15 @@
+{
+  "description": "Preserve the Vectorize V2 namespace query filter exposed by the native Worker client and Vectorize metadata filtering documentation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.vectorize#QueryIndexRequest/members/namespace",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Restrict the search to vectors in this namespace."
+        }
+      }
+    }
+  ]
+}

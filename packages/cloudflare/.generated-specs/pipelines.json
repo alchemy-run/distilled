@@ -2231,6 +2231,12 @@
         },
         "unstructured": {
           "target": "smithy.api#Boolean"
+        },
+        "compression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON output compression: uncompressed or gzip."
+          }
         }
       }
     },
@@ -3135,6 +3141,12 @@
         },
         "unstructured": {
           "target": "smithy.api#Boolean"
+        },
+        "compression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON output compression: uncompressed or gzip."
+          }
         }
       }
     },
@@ -4007,6 +4019,12 @@
         },
         "unstructured": {
           "target": "smithy.api#Boolean"
+        },
+        "compression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON output compression: uncompressed or gzip."
+          }
         }
       }
     },
@@ -4879,6 +4897,12 @@
         },
         "unstructured": {
           "target": "smithy.api#Boolean"
+        },
+        "compression": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "JSON output compression: uncompressed or gzip."
+          }
         }
       }
     },

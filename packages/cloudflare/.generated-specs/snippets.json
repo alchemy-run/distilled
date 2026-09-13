@@ -217,6 +217,12 @@
         "com.cloudflare.protocols#errorMatchers": [
           {
             "status": 404
+          },
+          {
+            "status": 400,
+            "message": {
+              "includes": "requested zone not found"
+            }
           }
         ]
       }
@@ -349,7 +355,7 @@
         "target": "com.cloudflare.snippets#GetContentRequest"
       },
       "output": {
-        "target": "smithy.api#Unit"
+        "target": "com.cloudflare.snippets#GetContentResponse"
       },
       "traits": {
         "smithy.api#http": {
@@ -359,7 +365,15 @@
         },
         "smithy.api#documentation": "Fetches the content of a snippet belonging to the zone.",
         "smithy.api#readonly": {}
-      }
+      },
+      "errors": [
+        {
+          "target": "com.cloudflare.snippets#SnippetNotFound"
+        },
+        {
+          "target": "com.cloudflare.snippets#Forbidden"
+        }
+      ]
     },
     "com.cloudflare.snippets#GetContentRequest": {
       "type": "structure",
@@ -733,6 +747,27 @@
       "traits": {
         "smithy.api#output": {},
         "smithy.api#documentation": "Unwrapped `result` payload of the Cloudflare v4 response envelope."
+      }
+    },
+    "com.cloudflare.snippets#GetContentResponse": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "com.cloudflare.protocols#envelopePayload": {},
+            "smithy.api#required": {}
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type"
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
       }
     }
   }
