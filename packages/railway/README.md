@@ -1,15 +1,14 @@
 # Railway GraphQL for Effect
 
-Use `@distilled.cloud/railway/graphql` to select exactly the fields your program
+Use `@distilled.cloud/railway` to select exactly the fields your program
 needs. The client generates GraphQL documents and variables from typed
 `where`/`select` objects and returns Effects with selection-dependent errors.
-The package root retains the older fixed-selection RPC API for compatibility.
 
 ```ts
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/unstable/http/FetchHttpClient";
 import { CredentialsFromEnv } from "@distilled.cloud/railway";
-import * as Railway from "@distilled.cloud/railway/graphql";
+import * as Railway from "@distilled.cloud/railway";
 
 const program = Railway.project(
   { id: "your-project-id" },
@@ -170,8 +169,8 @@ both TypeScript error unions and runtime classifiers. Unrecognized failures
 retain an unknown tag so the next observed response can improve the contract.
 
 ```sh
-bun scripts/convert-graphql.ts
-bun scripts/generate-graphql.ts
+bun scripts/convert.ts
+bun scripts/generate.ts
 pnpm exec oxfmt src/graphql.ts .generated-graphql/railway.json
 ```
 

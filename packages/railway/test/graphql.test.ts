@@ -2,8 +2,10 @@
 import { describe, expect, test } from "bun:test";
 import * as Effect from "effect/Effect";
 import * as Result from "effect/Result";
+import * as HttpClient from "effect/unstable/http/HttpClient";
+import * as HttpClientResponse from "effect/unstable/http/HttpClientResponse";
 import * as G from "@distilled.cloud/core/graphql";
-import * as Railway from "../src/graphql.ts";
+import * as Railway from "@distilled.cloud/railway";
 
 const missingProjectId = "00000000-0000-4000-8000-000000000000";
 const projectNotFound = {
@@ -41,6 +43,51 @@ const failure = async <A, E>(effect: Effect.Effect<A, E>) => {
 };
 
 describe("Railway native GraphQL verified responses", () => {
+  test("package root executes selective operations with its credential layer", async () => {
+    for (const tokenKind of ["account", "project"] as const) {
+      const requests: Array<{ query: string; variables: unknown }> = [];
+      const http = HttpClient.make((request) =>
+        Effect.sync(() => {
+          expect(request.url).toBe(
+            "https://backboard.railway.com/graphql/v2?source=alchemy",
+          );
+          expect(
+            request.headers[
+              tokenKind === "project" ? "project-access-token" : "authorization"
+            ],
+          ).toBe(
+            tokenKind === "project" ? "fixture-token" : "Bearer fixture-token",
+          );
+          if (request.body._tag !== "Uint8Array")
+            throw new Error("Expected JSON body");
+          requests.push(
+            JSON.parse(new TextDecoder().decode(request.body.body)),
+          );
+          return HttpClientResponse.fromWeb(
+            request,
+            Response.json({ data: { project: { id: "project-fixture" } } }),
+          );
+        }),
+      );
+      const project = await Effect.runPromise(
+        Railway.project({ id: "project-fixture" }, { id: true }).pipe(
+          Effect.provide(
+            Railway.CredentialsFromToken({ token: "fixture-token", tokenKind }),
+          ),
+          Effect.provideService(HttpClient.HttpClient, http),
+        ),
+      );
+      expect(project).toEqual({ id: "project-fixture" });
+      expect(requests).toHaveLength(1);
+      expect(Object.values(requests[0]!.variables as object)).toContain(
+        "project-fixture",
+      );
+      expect(requests[0]!.query).toContain("project(");
+      expect(requests[0]!.query).not.toContain("services");
+      expect(requests[0]!.query).not.toContain("name");
+    }
+  });
+
   test("pathless gateway processing failure retains trace and never retries a mutation", async () => {
     const { client, requests } = harness({
       data: null,

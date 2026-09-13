@@ -2,8 +2,7 @@
 
 The native GraphQL generator reads the complete mirrored introspection schema,
 normalizes it to `.generated-graphql/railway.json`, and applies the RFC 6902
-files in this directory in filename order. The compatibility RPC generator
-continues to use `patches/railway` and `.generated-specs/railway.json`.
+files in this directory in filename order.
 
 Patch schema coordinates, not generated TypeScript or baked query documents:
 
@@ -40,8 +39,8 @@ same model produces both selected-field error unions and runtime matchers.
 Run from the package directory after editing a patch:
 
 ```sh
-bun scripts/convert-graphql.ts
-bun scripts/generate-graphql.ts
+bun scripts/convert.ts
+bun scripts/generate.ts
 pnpm exec oxfmt src/graphql.ts .generated-graphql/railway.json patches/graphql
 ```
 
