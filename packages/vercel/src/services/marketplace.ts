@@ -374,11 +374,11 @@ export const GlobalConfigItemValue =
   S.Unknown as any as S.Schema<GlobalConfigItemValue>;
 
 export type GetInstallationResourceExperimentationGlobalConfigResponseItemsMap =
-  { [key: string]: GlobalConfigItemValue | undefined };
+  { [key: string]: GlobalConfigItemValue | null | undefined };
 export const GetInstallationResourceExperimentationGlobalConfigResponseItemsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GlobalConfigItemValue,
+    S.NullOr(GlobalConfigItemValue),
   ) as any as S.Schema<GetInstallationResourceExperimentationGlobalConfigResponseItemsMap>;
 
 export type GetInstallationResourceExperimentationGlobalConfigResponsePurpose =
@@ -1349,11 +1349,11 @@ export const ReplaceInstallationsByIntegrationConfigurationIdResourcesByResource
   }) as any as S.Schema<ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigRequest>;
 
 export type ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap =
-  { [key: string]: GlobalConfigItemValue | undefined };
+  { [key: string]: GlobalConfigItemValue | null | undefined };
 export const ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    GlobalConfigItemValue,
+    S.NullOr(GlobalConfigItemValue),
   ) as any as S.Schema<ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponseItemsMap>;
 
 export type ReplaceInstallationsByIntegrationConfigurationIdResourcesByResourceIdExperimentationGlobalConfigResponsePurpose =

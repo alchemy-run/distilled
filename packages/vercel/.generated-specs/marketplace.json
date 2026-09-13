@@ -4313,7 +4313,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.marketplace#GlobalConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -4436,7 +4439,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.marketplace#GlobalConfigItemValue"
+        "target": "com.vercel.marketplace#GlobalConfigItemValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

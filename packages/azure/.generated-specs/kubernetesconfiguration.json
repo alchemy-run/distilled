@@ -3920,7 +3920,10 @@
     "com.azure.kubernetesconfiguration#FluxConfigurationPropertiesStatusesList": {
       "type": "list",
       "member": {
-        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition"
+        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration."
@@ -4107,7 +4110,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition"
+        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."
@@ -4211,7 +4217,10 @@
     "com.azure.kubernetesconfiguration#PostBuildDefinitionSubstituteFromList": {
       "type": "list",
       "member": {
-        "target": "com.azure.kubernetesconfiguration#SubstituteFromDefinition"
+        "target": "com.azure.kubernetesconfiguration#SubstituteFromDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization."
@@ -5078,7 +5087,10 @@
     "com.azure.kubernetesconfiguration#UpdateFluxConfigurationResponsePropertiesStatusesList": {
       "type": "list",
       "member": {
-        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition"
+        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration."
@@ -5102,7 +5114,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition"
+        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."
@@ -5245,7 +5260,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationPatchDefinition"
+        "target": "com.azure.kubernetesconfiguration#KustomizationPatchDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."
@@ -5936,7 +5954,10 @@
     "com.azure.kubernetesconfiguration#FluxConfigurationsCreateOrUpdateResponsePropertiesStatusesList": {
       "type": "list",
       "member": {
-        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition"
+        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration."
@@ -5960,7 +5981,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition"
+        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."
@@ -6127,7 +6151,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationDefinitionInput"
+        "target": "com.azure.kubernetesconfiguration#KustomizationDefinitionInput",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."
@@ -6556,7 +6583,10 @@
     "com.azure.kubernetesconfiguration#GetFluxConfigurationResponsePropertiesStatusesList": {
       "type": "list",
       "member": {
-        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition"
+        "target": "com.azure.kubernetesconfiguration#ObjectStatusDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration."
@@ -6580,7 +6610,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition"
+        "target": "com.azure.kubernetesconfiguration#KustomizationDefinition",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster."

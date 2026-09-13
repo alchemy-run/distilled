@@ -23289,9 +23289,9 @@ export const GetDeploymentEventsResponseBodyItem =
   S.Unknown as any as S.Schema<GetDeploymentEventsResponseBodyItem>;
 
 export type GetDeploymentEventsResponseBodyList =
-  Array<GetDeploymentEventsResponseBodyItem>;
+  Array<GetDeploymentEventsResponseBodyItem | null>;
 export const GetDeploymentEventsResponseBodyList = /*@__PURE__*/ S.Array(
-  GetDeploymentEventsResponseBodyItem,
+  S.NullOr(GetDeploymentEventsResponseBodyItem),
 ) as any as S.Schema<GetDeploymentEventsResponseBodyList>;
 
 export type GetDeploymentEventsResponse = GetDeploymentEventsResponseBodyList;

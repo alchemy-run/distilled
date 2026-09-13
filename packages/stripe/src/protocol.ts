@@ -92,7 +92,7 @@ import {
 // Per-call request options (v0's StripeRequestOptions, fiber-context style)
 // =============================================================================
 
-type StripeConnectRequestOptions =
+export type StripeConnectRequestOptions =
   | {
       readonly stripeAccount?: string | undefined;
       readonly stripeContext?: never;

@@ -4922,12 +4922,13 @@ export const ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
   [key: string]:
     | ListAttestationsBulkResponseAttestationsSubjectDigestsValueList
+    | null
     | undefined;
 };
 export const ListAttestationsBulkResponseAttestationsSubjectDigestsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ListAttestationsBulkResponseAttestationsSubjectDigestsValueList,
+    S.NullOr(ListAttestationsBulkResponseAttestationsSubjectDigestsValueList),
   ) as any as S.Schema<ListAttestationsBulkResponseAttestationsSubjectDigestsMap>;
 
 /** Information about the current page. */
@@ -5278,9 +5279,9 @@ export const ListIssueFieldsRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIssueFieldsRequest",
 }) as any as S.Schema<ListIssueFieldsRequest>;
 
-export type ListIssueFieldsResponseBodyList = Array<IssueField>;
+export type ListIssueFieldsResponseBodyList = Array<IssueField | null>;
 export const ListIssueFieldsResponseBodyList = /*@__PURE__*/ S.Array(
-  IssueField,
+  S.NullOr(IssueField),
 ) as any as S.Schema<ListIssueFieldsResponseBodyList>;
 
 export type ListIssueFieldsResponse = ListIssueFieldsResponseBodyList;
@@ -5302,9 +5303,9 @@ export const ListIssueTypesRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListIssueTypesRequest",
 }) as any as S.Schema<ListIssueTypesRequest>;
 
-export type ListIssueTypesResponseBodyList = Array<IssueType>;
+export type ListIssueTypesResponseBodyList = Array<IssueType | null>;
 export const ListIssueTypesResponseBodyList = /*@__PURE__*/ S.Array(
-  IssueType,
+  S.NullOr(IssueType),
 ) as any as S.Schema<ListIssueTypesResponseBodyList>;
 
 export type ListIssueTypesResponse = ListIssueTypesResponseBodyList;

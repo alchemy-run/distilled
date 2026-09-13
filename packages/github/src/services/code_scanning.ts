@@ -853,10 +853,10 @@ export const CodeScanningAlertClassification = S.String;
 
 /** Classifications that have been applied to the file that triggered the alert. For example identifying it as documentation, or a generated file. */
 export type CodeScanningAlertInstanceClassificationsList =
-  Array<CodeScanningAlertClassification>;
+  Array<CodeScanningAlertClassification | null>;
 export const CodeScanningAlertInstanceClassificationsList =
   /*@__PURE__*/ S.Array(
-    CodeScanningAlertClassification,
+    S.NullOr(CodeScanningAlertClassification),
   ) as any as S.Schema<CodeScanningAlertInstanceClassificationsList>;
 
 export interface CodeScanningAlertInstance {
@@ -2152,10 +2152,10 @@ export const CodeScanningAlertInstanceListMessage = /*@__PURE__*/ S.suspend(
 
 /** Classifications that have been applied to the file that triggered the alert. For example identifying it as documentation, or a generated file. */
 export type CodeScanningAlertInstanceListClassificationsList =
-  Array<CodeScanningAlertClassification>;
+  Array<CodeScanningAlertClassification | null>;
 export const CodeScanningAlertInstanceListClassificationsList =
   /*@__PURE__*/ S.Array(
-    CodeScanningAlertClassification,
+    S.NullOr(CodeScanningAlertClassification),
   ) as any as S.Schema<CodeScanningAlertInstanceListClassificationsList>;
 
 export interface CodeScanningAlertInstanceList {

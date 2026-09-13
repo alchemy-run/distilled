@@ -326,7 +326,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.posthog.replay#SessionRecordingPlaylistOutputRecordingsCountsValueValue"
+        "target": "com.posthog.replay#SessionRecordingPlaylistOutputRecordingsCountsValueValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

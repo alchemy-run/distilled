@@ -700,7 +700,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -714,7 +717,10 @@
     "com.posthog.surveys#SurveyIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -2566,7 +2572,10 @@
     "com.posthog.surveys#CreateSurveyRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -2950,7 +2959,10 @@
     "com.posthog.surveys#SurveySerializerCreateUpdateOnlyOutputIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3053,7 +3065,10 @@
     "com.posthog.surveys#UpdateSurveyRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3325,7 +3340,10 @@
     "com.posthog.surveys#UpdateSurveysPartialRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3733,7 +3751,10 @@
     "com.posthog.surveys#SurveysDuplicateToProjectsCreateRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -4562,7 +4583,10 @@
     "com.posthog.surveys#SurveysResponsesArchiveCreateRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -4796,7 +4820,10 @@
     "com.posthog.surveys#SurveysResponsesUnarchiveCreateRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -5293,7 +5320,10 @@
     "com.posthog.surveys#CreateSurveysSummaryHeadlineRequestIterationStartDatesList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

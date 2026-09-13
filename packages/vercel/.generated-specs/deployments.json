@@ -1383,7 +1383,10 @@
     "com.vercel.deployments#GetDeploymentEventsResponseBodyList": {
       "type": "list",
       "member": {
-        "target": "com.vercel.deployments#GetDeploymentEventsResponseBodyItem"
+        "target": "com.vercel.deployments#GetDeploymentEventsResponseBodyItem",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

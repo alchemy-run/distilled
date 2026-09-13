@@ -70,7 +70,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3682,7 +3685,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -3748,7 +3754,10 @@
     "com.posthog.environments#EnvironmentsAddProductIntentPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8154,7 +8163,10 @@
     "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8182,7 +8194,10 @@
     "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8196,7 +8211,10 @@
     "com.posthog.environments#UpdateEnvironmentsCompleteProductOnboardingPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8581,7 +8599,10 @@
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8609,7 +8630,10 @@
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8623,7 +8647,10 @@
     "com.posthog.environments#EnvironmentsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9421,7 +9448,10 @@
     "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9449,7 +9479,10 @@
     "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9463,7 +9496,10 @@
     "com.posthog.environments#UpdateEnvironmentsExperimentsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9848,7 +9884,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9876,7 +9915,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -9890,7 +9932,10 @@
     "com.posthog.environments#EnvironmentsGenerateConversationsPublicTokenCreateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10365,7 +10410,10 @@
     "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10393,7 +10441,10 @@
     "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10407,7 +10458,10 @@
     "com.posthog.environments#UpdateEnvironmentsLogsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10781,7 +10835,10 @@
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10809,7 +10866,10 @@
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -10823,7 +10883,10 @@
     "com.posthog.environments#EnvironmentsResetTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -11208,7 +11271,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -11236,7 +11302,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -11250,7 +11319,10 @@
     "com.posthog.environments#EnvironmentsRotateSecretTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

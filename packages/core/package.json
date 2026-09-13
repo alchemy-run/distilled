@@ -31,13 +31,13 @@
     "build": "tsc -b"
   },
   "devDependencies": {
-    "@effect/platform-bun": "catalog:effect",
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "effect": "catalog:effect"
+    "@effect/platform-bun": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "effect": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   },
   "dependencies": {
     "graphql": "16.11.0"

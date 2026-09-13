@@ -7246,7 +7246,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemTargetsValue"
+        "target": "com.vercel.microfrontends#GetMicrofrontendsInGroupResponseProjectsItemTargetsValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

@@ -12,11 +12,11 @@
     "@distilled.cloud/aws": "workspace:*",
     "@distilled.cloud/cloudflare": "workspace:*",
     "@distilled.cloud/core": "workspace:*",
-    "effect": "catalog:effect",
-    "mitata": "catalog:bench"
+    "effect": "catalog:",
+    "mitata": "catalog:"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "typescript": "catalog:build"
+    "@types/bun": "catalog:",
+    "typescript": "catalog:"
   }
 }

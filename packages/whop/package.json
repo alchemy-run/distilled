@@ -68,6 +68,12 @@
       "bun": "./src/services/*.ts",
       "worker": "./src/services/*.ts",
       "default": "./lib/services/*.js"
+    },
+    "./ApiVersion": {
+      "types": "./lib/api-version.d.ts",
+      "bun": "./src/api-version.ts",
+      "worker": "./src/api-version.ts",
+      "default": "./lib/api-version.js"
     }
   },
   "scripts": {
@@ -82,11 +88,11 @@
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "@effect/platform-bun": "catalog:effect"
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "@effect/platform-bun": "catalog:"
   },
   "peerDependencies": {
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   }
 }

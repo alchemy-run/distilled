@@ -697,7 +697,10 @@
         "target": "smithy.api#String"
       },
       "value": {
-        "target": "com.vercel.artifacts#ArtifactQueryResponseBodyValue"
+        "target": "com.vercel.artifacts#ArtifactQueryResponseBodyValue",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },

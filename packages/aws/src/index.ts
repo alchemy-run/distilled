@@ -61,3 +61,6 @@ export * as Sensitive from "./sensitive.ts";
  * @since 0.0.0
  */
 export * as Traits from "./traits.ts";
+
+/** SigV4 signing options, results, and errors. */
+export * as SigV4 from "./sigv4.ts";

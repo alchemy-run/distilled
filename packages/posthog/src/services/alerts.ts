@@ -970,9 +970,9 @@ export const AlertSimulateResponseDatesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<AlertSimulateResponseDatesList>;
 
 /** Anomaly score for each point (null if insufficient data). */
-export type AlertSimulateResponseScoresList = Array<number>;
+export type AlertSimulateResponseScoresList = Array<number | null>;
 export const AlertSimulateResponseScoresList = /*@__PURE__*/ S.Array(
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<AlertSimulateResponseScoresList>;
 
 /** Indices of points flagged as anomalies. */
@@ -1016,9 +1016,9 @@ export const BreakdownSimulationResultDatesList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<BreakdownSimulationResultDatesList>;
 
 /** Anomaly score for each point. */
-export type BreakdownSimulationResultScoresList = Array<number>;
+export type BreakdownSimulationResultScoresList = Array<number | null>;
 export const BreakdownSimulationResultScoresList = /*@__PURE__*/ S.Array(
-  S.Number,
+  S.NullOr(S.Number),
 ) as any as S.Schema<BreakdownSimulationResultScoresList>;
 
 /** Indices of points flagged as anomalies. */

@@ -1418,12 +1418,13 @@ export const ListAttestationsBulkResponseAttestationsSubjectDigestsValueList =
 export type ListAttestationsBulkResponseAttestationsSubjectDigestsMap = {
   [key: string]:
     | ListAttestationsBulkResponseAttestationsSubjectDigestsValueList
+    | null
     | undefined;
 };
 export const ListAttestationsBulkResponseAttestationsSubjectDigestsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    ListAttestationsBulkResponseAttestationsSubjectDigestsValueList,
+    S.NullOr(ListAttestationsBulkResponseAttestationsSubjectDigestsValueList),
   ) as any as S.Schema<ListAttestationsBulkResponseAttestationsSubjectDigestsMap>;
 
 /** Information about the current page. */

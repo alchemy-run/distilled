@@ -13,13 +13,13 @@
     "@distilled.cloud/aws": "workspace:*",
     "@distilled.cloud/cloudflare": "workspace:*",
     "@distilled.cloud/core": "workspace:*",
-    "effect": "catalog:effect"
+    "effect": "catalog:"
   },
   "devDependencies": {
-    "@oxc-project/types": "^0.146.0",
-    "@types/bun": "catalog:tooling",
-    "@types/node": "catalog:tooling",
-    "rolldown": "catalog:bench",
-    "typescript": "catalog:build"
+    "@oxc-project/types": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/node": "catalog:",
+    "rolldown": "catalog:",
+    "typescript": "catalog:"
   }
 }

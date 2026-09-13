@@ -8666,7 +8666,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8696,7 +8699,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -8762,7 +8768,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -13671,7 +13680,10 @@
     "com.posthog.organizations#ProjectBackwardCompatAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13701,7 +13713,10 @@
     "com.posthog.organizations#ProjectBackwardCompatSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -13715,7 +13730,10 @@
     "com.posthog.organizations#ProjectBackwardCompatRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -14283,7 +14301,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -14313,7 +14334,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -14327,7 +14351,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -14774,7 +14801,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -14804,7 +14834,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -14818,7 +14851,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -15363,7 +15399,10 @@
     "com.posthog.organizations#OrganizationsProjectsAddProductIntentPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -15393,7 +15432,10 @@
     "com.posthog.organizations#OrganizationsProjectsAddProductIntentPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -15407,7 +15449,10 @@
     "com.posthog.organizations#OrganizationsProjectsAddProductIntentPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -15854,7 +15899,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsChangeOrganizationRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -15884,7 +15932,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsChangeOrganizationRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -15898,7 +15949,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsChangeOrganizationRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -16345,7 +16399,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -16375,7 +16432,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -16389,7 +16449,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsCompleteProductOnboardingPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -16877,7 +16940,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsDefaultEvaluationContextRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -16907,7 +16973,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsDefaultEvaluationContextRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -16921,7 +16990,10 @@
     "com.posthog.organizations#CreateOrganizationsProjectsDefaultEvaluationContextRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -17439,7 +17511,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsDefaultReleaseConditionRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -17469,7 +17544,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsDefaultReleaseConditionRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -17483,7 +17561,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsDefaultReleaseConditionRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -17919,7 +18000,10 @@
     "com.posthog.organizations#OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -17949,7 +18033,10 @@
     "com.posthog.organizations#OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -17963,7 +18050,10 @@
     "com.posthog.organizations#OrganizationsProjectsDeleteSecretTokenBackupPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -18814,7 +18904,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsExperimentsConfigPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -18844,7 +18937,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsExperimentsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -18858,7 +18954,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsExperimentsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -19294,7 +19393,10 @@
     "com.posthog.organizations#OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -19324,7 +19426,10 @@
     "com.posthog.organizations#OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -19338,7 +19443,10 @@
     "com.posthog.organizations#OrganizationsProjectsGenerateConversationsPublicTokenCreateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -19875,7 +19983,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsLogsConfigPartialRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -19905,7 +20016,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsLogsConfigPartialRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -19919,7 +20033,10 @@
     "com.posthog.organizations#UpdateOrganizationsProjectsLogsConfigPartialRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -20355,7 +20472,10 @@
     "com.posthog.organizations#OrganizationsProjectsResetTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20385,7 +20505,10 @@
     "com.posthog.organizations#OrganizationsProjectsResetTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20399,7 +20522,10 @@
     "com.posthog.organizations#OrganizationsProjectsResetTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."
@@ -20846,7 +20972,10 @@
     "com.posthog.organizations#OrganizationsProjectsRotateSecretTokenPartialUpdateRequestAppUrlsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20876,7 +21005,10 @@
     "com.posthog.organizations#OrganizationsProjectsRotateSecretTokenPartialUpdateRequestSessionRecordingEventTriggerConfigList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {}
     },
@@ -20890,7 +21022,10 @@
     "com.posthog.organizations#OrganizationsProjectsRotateSecretTokenPartialUpdateRequestRecordingDomainsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#String"
+        "target": "smithy.api#String",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Origins permitted to record session replays and heatmaps. Empty list allows all origins."

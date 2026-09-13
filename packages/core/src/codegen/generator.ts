@@ -949,16 +949,26 @@ export const generateService = (
         );
       }
     } else if (d.type === "list") {
-      out.push(`export type ${name} = Array<${tsRefAt(d.member.target, id)}>;`);
+      const nullable =
+        spec.nullableTrait !== undefined &&
+        spec.nullableTrait in (d.member.traits ?? {});
+      const item = ref(d.member.target, i);
       out.push(
-        `export const ${name} = ${pure}S.Array(${ref(d.member.target, i)}) as any as S.Schema<${name}>;\n`,
+        `export type ${name} = Array<${tsRefAt(d.member.target, id)}${nullable ? " | null" : ""}>;`,
+      );
+      out.push(
+        `export const ${name} = ${pure}S.Array(${nullable ? `S.NullOr(${item})` : item}) as any as S.Schema<${name}>;\n`,
       );
     } else if (d.type === "map") {
+      const nullable =
+        spec.nullableTrait !== undefined &&
+        spec.nullableTrait in (d.value.traits ?? {});
+      const value = ref(d.value.target, i);
       out.push(
-        `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)} | undefined };`,
+        `export type ${name} = { [key: string]: ${tsRefAt(d.value.target, id)}${nullable ? " | null" : ""} | undefined };`,
       );
       out.push(
-        `export const ${name} = ${pure}S.Record(S.String, ${ref(d.value.target, i)}) as any as S.Schema<${name}>;\n`,
+        `export const ${name} = ${pure}S.Record(S.String, ${nullable ? `S.NullOr(${value})` : value}) as any as S.Schema<${name}>;\n`,
       );
     } else if (d.type === "union") {
       // A union arm targeting the union itself carries no information

@@ -809,7 +809,10 @@
     "com.github.code_scanning#CodeScanningAlertInstanceClassificationsList": {
       "type": "list",
       "member": {
-        "target": "com.github.code_scanning#CodeScanningAlertClassification"
+        "target": "com.github.code_scanning#CodeScanningAlertClassification",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Classifications that have been applied to the file that triggered the alert.\nFor example identifying it as documentation, or a generated file."
@@ -4365,7 +4368,10 @@
     "com.github.code_scanning#CodeScanningAlertInstanceListClassificationsList": {
       "type": "list",
       "member": {
-        "target": "com.github.code_scanning#CodeScanningAlertClassification"
+        "target": "com.github.code_scanning#CodeScanningAlertClassification",
+        "traits": {
+          "com.distilled.openapi#nullable": {}
+        }
       },
       "traits": {
         "smithy.api#documentation": "Classifications that have been applied to the file that triggered the alert.\nFor example identifying it as documentation, or a generated file."

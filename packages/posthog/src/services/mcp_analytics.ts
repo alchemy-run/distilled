@@ -278,9 +278,9 @@ export const MCPIntentClusterSampleIntentsList = /*@__PURE__*/ S.Array(
 ) as any as S.Schema<MCPIntentClusterSampleIntentsList>;
 
 /** Ordered tool names called during the path. Length is fixed; null entries indicate the session ended before this step. */
-export type MCPIntentClusterJourneyPathStepsList = Array<string>;
+export type MCPIntentClusterJourneyPathStepsList = Array<string | null>;
 export const MCPIntentClusterJourneyPathStepsList = /*@__PURE__*/ S.Array(
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<MCPIntentClusterJourneyPathStepsList>;
 
 /** * `completed` - Completed * `error` - Error */

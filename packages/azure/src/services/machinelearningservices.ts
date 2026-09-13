@@ -41,21 +41,21 @@ export const CodeConfiguration = /*@__PURE__*/ S.suspend(() =>
 
 /** Environment variables configuration for the deployment. */
 export type BatchDeploymentPropertiesEnvironmentVariablesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const BatchDeploymentPropertiesEnvironmentVariablesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<BatchDeploymentPropertiesEnvironmentVariablesMap>;
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type BatchDeploymentPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const BatchDeploymentPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<BatchDeploymentPropertiesPropertiesMap>;
 
 /** The enumerated property types for batch deployments. */
@@ -116,11 +116,11 @@ export const DeploymentProvisioningState = S.String;
 
 /** Additional properties bag. */
 export type ResourceConfigurationPropertiesMap = {
-  [key: string]: unknown | undefined;
+  [key: string]: unknown | null | undefined;
 };
 export const ResourceConfigurationPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.Unknown,
+  S.NullOr(S.Unknown),
 ) as any as S.Schema<ResourceConfigurationPropertiesMap>;
 
 export interface ResourceConfiguration {
@@ -534,11 +534,11 @@ export const EndpointAuthKeys = /*@__PURE__*/ S.suspend(() =>
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type BatchEndpointPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const BatchEndpointPropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<BatchEndpointPropertiesInputPropertiesMap>;
 
 /** Batch endpoint default values */
@@ -649,11 +649,11 @@ export const BatchEndpointsCreateOrUpdateResponseTagsMap =
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type BatchEndpointPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const BatchEndpointPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<BatchEndpointPropertiesPropertiesMap>;
 
 /** State of endpoint provisioning. */
@@ -789,21 +789,21 @@ export const CancelJobResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type CapabilityHostPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CapabilityHostPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<CapabilityHostPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CapabilityHostPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CapabilityHostPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CapabilityHostPropertiesInputTagsMap>;
 
 /** List of Aca Environment connections. */
@@ -938,20 +938,20 @@ export const CapabilityHostsCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
 
 /** The asset property dictionary. */
 export type CapabilityHostPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CapabilityHostPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CapabilityHostPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CapabilityHostPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CapabilityHostPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CapabilityHostPropertiesTagsMap>;
 
 /** List of Aca Environment connections. */
@@ -1093,20 +1093,20 @@ export const CapabilityHostsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 
 /** The asset property dictionary. */
 export type CodeContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeContainerPropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CodeContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeContainerPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeContainerPropertiesInputTagsMap>;
 
 /** Container for code asset versions. */
@@ -1164,20 +1164,20 @@ export const CodeContainersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type CodeContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeContainerPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CodeContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeContainerPropertiesTagsMap>;
 
 /** Provisioning state of registry asset. */
@@ -1357,20 +1357,20 @@ export const PendingUploadResponseDto = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type CodeVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeVersionPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CodeVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const CodeVersionPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<CodeVersionPropertiesTagsMap>;
 
 /** Code asset version details. */
@@ -1464,21 +1464,21 @@ export const CodeVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type ComponentContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentContainerPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<ComponentContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ComponentContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentContainerPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ComponentContainerPropertiesInputTagsMap>;
 
 /** Component container definition. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
@@ -1539,20 +1539,20 @@ export const ComponentContainersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(
 
 /** The asset property dictionary. */
 export type ComponentContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentContainerPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ComponentContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ComponentContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ComponentContainerPropertiesTagsMap>;
 
 /** Component container definition. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
@@ -1613,20 +1613,20 @@ export const ComponentContainersCreateOrUpdateResponse =
 
 /** The asset property dictionary. */
 export type ComponentVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentVersionPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ComponentVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ComponentVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ComponentVersionPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ComponentVersionPropertiesTagsMap>;
 
 /** Definition of a component version: defines resources that span component types. */
@@ -2329,20 +2329,20 @@ export const CreateWorkspaceConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type DataContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataContainerPropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type DataContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataContainerPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataContainerPropertiesInputTagsMap>;
 
 /** Enum to determine the type of data. */
@@ -2407,20 +2407,20 @@ export const DataContainersCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type DataContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataContainerPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type DataContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataContainerPropertiesTagsMap>;
 
 /** Container for data asset versions. */
@@ -2481,20 +2481,20 @@ export const DataContainersCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 
 /** The asset property dictionary. */
 export type DatastorePropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DatastorePropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DatastorePropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type DatastorePropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DatastorePropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DatastorePropertiesInputTagsMap>;
 
 /** Enum to determine the datastore credentials type. */
@@ -2589,18 +2589,20 @@ export const DatastoresCreateOrUpdateRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type DatastorePropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DatastorePropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DatastorePropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type DatastorePropertiesTagsMap = { [key: string]: string | undefined };
+export type DatastorePropertiesTagsMap = {
+  [key: string]: string | null | undefined;
+};
 export const DatastorePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DatastorePropertiesTagsMap>;
 
 /** Base definition for datastore contents configuration. */
@@ -2657,20 +2659,20 @@ export const DatastoresCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type DataVersionBasePropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataVersionBasePropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataVersionBasePropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type DataVersionBasePropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const DataVersionBasePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<DataVersionBasePropertiesTagsMap>;
 
 /** Data version base definition */
@@ -4220,22 +4222,22 @@ export const DeleteWorkspaceConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type EnvironmentContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentContainerPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<EnvironmentContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type EnvironmentContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentContainerPropertiesInputTagsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<EnvironmentContainerPropertiesInputTagsMap>;
 
 /** Container for environment specification versions. */
@@ -4296,21 +4298,21 @@ export const EnvironmentContainersCreateOrUpdateRequest =
 
 /** The asset property dictionary. */
 export type EnvironmentContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentContainerPropertiesPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<EnvironmentContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type EnvironmentContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<EnvironmentContainerPropertiesTagsMap>;
 
 /** Container for environment specification versions. */
@@ -4373,20 +4375,20 @@ export const EnvironmentContainersCreateOrUpdateResponse =
 
 /** The asset property dictionary. */
 export type EnvironmentVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentVersionPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<EnvironmentVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type EnvironmentVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const EnvironmentVersionPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<EnvironmentVersionPropertiesTagsMap>;
 
 /** AutoRebuild setting for the derived image */
@@ -4565,21 +4567,21 @@ export const EnvironmentVersionsCreateOrUpdateResponse =
 
 /** The asset property dictionary. */
 export type FeaturesetContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetContainerPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturesetContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturesetContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetContainerPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturesetContainerPropertiesInputTagsMap>;
 
 /** DTO object representing feature set */
@@ -4640,21 +4642,21 @@ export const FeaturesetContainersCreateOrUpdateRequest =
 
 /** The asset property dictionary. */
 export type FeaturesetContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetContainerPropertiesPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturesetContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturesetContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturesetContainerPropertiesTagsMap>;
 
 /** DTO object representing feature set */
@@ -4747,12 +4749,12 @@ export const FeatureWindow = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the properties */
 export type FeaturesetVersionsBackfillRequestPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetVersionsBackfillRequestPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturesetVersionsBackfillRequestPropertiesMap>;
 
 /** DTO object representing compute resource */
@@ -4770,21 +4772,21 @@ export const MaterializationComputeResource = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the spark compute settings */
 export type FeaturesetVersionsBackfillRequestSparkConfigurationMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetVersionsBackfillRequestSparkConfigurationMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturesetVersionsBackfillRequestSparkConfigurationMap>;
 
 /** Specifies the tags */
 export type FeaturesetVersionsBackfillRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetVersionsBackfillRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturesetVersionsBackfillRequestTagsMap>;
 
 export interface FeaturesetVersionsBackfillRequest {
@@ -4871,20 +4873,20 @@ export const FeaturesetVersionBackfillResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type FeaturesetVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetVersionPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturesetVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturesetVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturesetVersionPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturesetVersionPropertiesTagsMap>;
 
 /** Specifies list of entities */
@@ -4934,11 +4936,11 @@ export const Webhook = /*@__PURE__*/ S.suspend(() =>
 
 /** Send webhook callback to a service. Key is a user-provided name for the webhook. */
 export type NotificationSettingWebhooksMap = {
-  [key: string]: Webhook | undefined;
+  [key: string]: Webhook | null | undefined;
 };
 export const NotificationSettingWebhooksMap = /*@__PURE__*/ S.Record(
   S.String,
-  Webhook,
+  S.NullOr(Webhook),
 ) as any as S.Schema<NotificationSettingWebhooksMap>;
 
 /** Configuration for notification. */
@@ -5055,12 +5057,12 @@ export const RecurrenceTrigger = /*@__PURE__*/ S.suspend(() =>
 
 /** Specifies the spark compute settings */
 export type MaterializationSettingsSparkConfigurationMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const MaterializationSettingsSparkConfigurationMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<MaterializationSettingsSparkConfigurationMap>;
 
 /** Specifies the stores to which materialization should happen */
@@ -5212,22 +5214,22 @@ export const FeaturesetVersionsCreateOrUpdateResponse = /*@__PURE__*/ S.suspend(
 
 /** The asset property dictionary. */
 export type FeaturestoreEntityContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityContainerPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturestoreEntityContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityContainerPropertiesInputTagsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityContainerPropertiesInputTagsMap>;
 
 /** DTO object representing feature entity */
@@ -5291,22 +5293,22 @@ export const FeaturestoreEntityContainersCreateOrUpdateRequest =
 
 /** The asset property dictionary. */
 export type FeaturestoreEntityContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityContainerPropertiesPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturestoreEntityContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityContainerPropertiesTagsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityContainerPropertiesTagsMap>;
 
 /** DTO object representing feature entity */
@@ -5370,22 +5372,22 @@ export const FeaturestoreEntityContainersCreateOrUpdateResponse =
 
 /** The asset property dictionary. */
 export type FeaturestoreEntityVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityVersionPropertiesPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type FeaturestoreEntityVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturestoreEntityVersionPropertiesTagsMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<FeaturestoreEntityVersionPropertiesTagsMap>;
 
 /** Specifies the data type */
@@ -6348,18 +6350,20 @@ export const GetFeatureRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type FeaturePropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const FeaturePropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturePropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type FeaturePropertiesTagsMap = { [key: string]: string | undefined };
+export type FeaturePropertiesTagsMap = {
+  [key: string]: string | null | undefined;
+};
 export const FeaturePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FeaturePropertiesTagsMap>;
 
 /** Specifies type */
@@ -6669,18 +6673,20 @@ export const GetJobRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type JobBasePropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const JobBasePropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobBasePropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type JobBasePropertiesTagsMap = { [key: string]: string | undefined };
+export type JobBasePropertiesTagsMap = {
+  [key: string]: string | null | undefined;
+};
 export const JobBasePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobBasePropertiesTagsMap>;
 
 /** Enum to determine identity framework. */
@@ -6720,10 +6726,12 @@ export const Nodes = /*@__PURE__*/ S.suspend(() =>
 ).annotate({ identifier: "Nodes" }) as any as S.Schema<Nodes>;
 
 /** Additional properties to set on the endpoint. */
-export type JobServicePropertiesMap = { [key: string]: string | undefined };
+export type JobServicePropertiesMap = {
+  [key: string]: string | null | undefined;
+};
 export const JobServicePropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobServicePropertiesMap>;
 
 /** Job endpoint definition */
@@ -6757,11 +6765,11 @@ export const JobService = /*@__PURE__*/ S.suspend(() =>
 
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
 export type JobBasePropertiesServicesMap = {
-  [key: string]: JobService | undefined;
+  [key: string]: JobService | null | undefined;
 };
 export const JobBasePropertiesServicesMap = /*@__PURE__*/ S.Record(
   S.String,
-  JobService,
+  S.NullOr(JobService),
 ) as any as S.Schema<JobBasePropertiesServicesMap>;
 
 /** The status of a job. */
@@ -7091,20 +7099,20 @@ export const GetModelContainerRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type ModelContainerPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelContainerPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ModelContainerPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ModelContainerPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelContainerPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ModelContainerPropertiesTagsMap>;
 
 export interface ModelContainerProperties {
@@ -7194,27 +7202,27 @@ export const GetModelVersionRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type ModelVersionPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelVersionPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ModelVersionPropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ModelVersionPropertiesTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelVersionPropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ModelVersionPropertiesTagsMap>;
 
 /** Model flavor-specific data. */
-export type FlavorDataDataMap = { [key: string]: string | undefined };
+export type FlavorDataDataMap = { [key: string]: string | null | undefined };
 export const FlavorDataDataMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<FlavorDataDataMap>;
 
 export interface FlavorData {
@@ -7229,11 +7237,11 @@ export const FlavorData = /*@__PURE__*/ S.suspend(() =>
 
 /** Mapping of model flavors to their properties. */
 export type ModelVersionPropertiesFlavorsMap = {
-  [key: string]: FlavorData | undefined;
+  [key: string]: FlavorData | null | undefined;
 };
 export const ModelVersionPropertiesFlavorsMap = /*@__PURE__*/ S.Record(
   S.String,
-  FlavorData,
+  S.NullOr(FlavorData),
 ) as any as S.Schema<ModelVersionPropertiesFlavorsMap>;
 
 /** Dataset reference object. */
@@ -7370,21 +7378,21 @@ export const GetOnlineDeploymentResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** Environment variables configuration for the deployment. */
 export type OnlineDeploymentPropertiesEnvironmentVariablesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const OnlineDeploymentPropertiesEnvironmentVariablesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<OnlineDeploymentPropertiesEnvironmentVariablesMap>;
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type OnlineDeploymentPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const OnlineDeploymentPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<OnlineDeploymentPropertiesPropertiesMap>;
 
 /** Enable or disable data collection. */
@@ -7412,11 +7420,11 @@ export const Collection = /*@__PURE__*/ S.suspend(() =>
 
 /** [Required] The collection configuration. Each collection has it own configuration to collect model data and the name of collection can be arbitrary string. Model data collector can be used for either payload logging or custom logging or both of them. Collection request and response are reserved for payload logging, others are for custom logging. */
 export type DataCollectorCollectionsMap = {
-  [key: string]: Collection | undefined;
+  [key: string]: Collection | null | undefined;
 };
 export const DataCollectorCollectionsMap = /*@__PURE__*/ S.Record(
   S.String,
-  Collection,
+  S.NullOr(Collection),
 ) as any as S.Schema<DataCollectorCollectionsMap>;
 
 /** For payload logging, we only collect payload by default. If customers also want to collect the specified headers, they can set them in captureHeaders so that backend will collect those headers along with payload. */
@@ -7740,11 +7748,11 @@ export const GetOnlineEndpointResponseTagsMap = /*@__PURE__*/ S.Record(
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type OnlineEndpointPropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const OnlineEndpointPropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<OnlineEndpointPropertiesPropertiesMap>;
 
 /** Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50. */
@@ -9116,18 +9124,20 @@ export const GetScheduleRequest = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type SchedulePropertiesPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const SchedulePropertiesPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<SchedulePropertiesPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type SchedulePropertiesTagsMap = { [key: string]: string | undefined };
+export type SchedulePropertiesTagsMap = {
+  [key: string]: string | null | undefined;
+};
 export const SchedulePropertiesTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<SchedulePropertiesTagsMap>;
 
 export type ScheduleActionType =
@@ -9303,11 +9313,11 @@ export const ServerlessEndpointState = S.String;
 
 /** Specifies any required headers to target this serverless endpoint. */
 export type ServerlessInferenceEndpointHeadersMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ServerlessInferenceEndpointHeadersMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ServerlessInferenceEndpointHeadersMap>;
 
 export interface ServerlessInferenceEndpoint {
@@ -10045,29 +10055,29 @@ export const GetWorkspaceConnectionResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** The asset property dictionary. */
 export type JobBasePropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const JobBasePropertiesInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobBasePropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type JobBasePropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const JobBasePropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobBasePropertiesInputTagsMap>;
 
 /** Additional properties to set on the endpoint. */
 export type JobServiceInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const JobServiceInputPropertiesMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<JobServiceInputPropertiesMap>;
 
 /** Job endpoint definition */
@@ -10097,11 +10107,11 @@ export const JobServiceInput = /*@__PURE__*/ S.suspend(() =>
 
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
 export type JobBasePropertiesInputServicesMap = {
-  [key: string]: JobServiceInput | undefined;
+  [key: string]: JobServiceInput | null | undefined;
 };
 export const JobBasePropertiesInputServicesMap = /*@__PURE__*/ S.Record(
   S.String,
-  JobServiceInput,
+  S.NullOr(JobServiceInput),
 ) as any as S.Schema<JobBasePropertiesInputServicesMap>;
 
 /** Base definition for a job. */
@@ -15097,21 +15107,21 @@ export const MarketplaceSubscriptionsCreateOrUpdateResponse =
 
 /** The asset property dictionary. */
 export type ModelContainerPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelContainerPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<ModelContainerPropertiesInputPropertiesMap>;
 
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ModelContainerPropertiesInputTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const ModelContainerPropertiesInputTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<ModelContainerPropertiesInputTagsMap>;
 
 export interface ModelContainerPropertiesInput {
@@ -15398,12 +15408,12 @@ export const OnlineEndpointsCreateOrUpdateRequestTagsMap =
 
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type OnlineEndpointPropertiesInputPropertiesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const OnlineEndpointPropertiesInputPropertiesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<OnlineEndpointPropertiesInputPropertiesMap>;
 
 /** Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50. */
@@ -17508,11 +17518,11 @@ export const PartialBatchDeployment = /*@__PURE__*/ S.suspend(() =>
 
 /** Resource tags. */
 export type UpdateBatchDeploymentRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateBatchDeploymentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateBatchDeploymentRequestTagsMap>;
 
 export interface UpdateBatchDeploymentRequest {
@@ -17614,11 +17624,11 @@ export const UpdateBatchDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Resource tags. */
 export type UpdateBatchEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateBatchEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateBatchEndpointRequestTagsMap>;
 
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
@@ -17883,11 +17893,11 @@ export const UpdateComputeResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Resource tags. */
 export type UpdateOnlineDeploymentRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateOnlineDeploymentRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateOnlineDeploymentRequestTagsMap>;
 
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
@@ -18016,11 +18026,11 @@ export const UpdateOnlineDeploymentResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Resource tags. */
 export type UpdateOnlineEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateOnlineEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateOnlineEndpointRequestTagsMap>;
 
 export interface UpdateOnlineEndpointRequest {
@@ -18237,11 +18247,11 @@ export const RegistryPartialManagedServiceIdentityInput =
 
 /** Resource tags. */
 export type UpdateRegistryRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateRegistryRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateRegistryRequestTagsMap>;
 
 export interface UpdateRegistryRequest {
@@ -18340,11 +18350,11 @@ export const UpdateRegistryResponse = /*@__PURE__*/ S.suspend(() =>
 
 /** Resource tags. */
 export type UpdateServerlessEndpointRequestTagsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const UpdateServerlessEndpointRequestTagsMap = /*@__PURE__*/ S.Record(
   S.String,
-  S.String,
+  S.NullOr(S.String),
 ) as any as S.Schema<UpdateServerlessEndpointRequestTagsMap>;
 
 export interface UpdateServerlessEndpointRequest {

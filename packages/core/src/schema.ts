@@ -23,7 +23,7 @@ export * from "effect/Schema";
 
 import * as S from "effect/Schema";
 
-type AnyFn = (...args: any[]) => any;
+export type AnyFn = (...args: any[]) => any;
 
 // Construction surface — collapse to `any` so generics are never instantiated.
 export const optional: AnyFn = S.optional as AnyFn;

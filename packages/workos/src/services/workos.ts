@@ -12749,12 +12749,12 @@ export const PatchConnectionStandardAttributesDto = /*@__PURE__*/ S.suspend(
 
 /** How IdP attributes or claims map onto custom attributes, keyed by custom attribute name. Custom attributes must already be defined in the WorkOS dashboard. Only the provided keys are updated; a `null` value unsets that mapping. */
 export type PatchConnectionAttributeMapsDtoCustomAttributesMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | null | undefined;
 };
 export const PatchConnectionAttributeMapsDtoCustomAttributesMap =
   /*@__PURE__*/ S.Record(
     S.String,
-    S.String,
+    S.NullOr(S.String),
   ) as any as S.Schema<PatchConnectionAttributeMapsDtoCustomAttributesMap>;
 
 export interface PatchConnectionAttributeMapsDto {
