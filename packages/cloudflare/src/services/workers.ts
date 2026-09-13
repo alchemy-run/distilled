@@ -10169,6 +10169,50 @@ export const PutScriptMetadataStreamingTailConsumersList =
     PutScriptTailConsumer,
   ) as any as S.Schema<PutScriptMetadataStreamingTailConsumersList>;
 
+export type PutScriptMetadataExportType = "worker" | "durable-object";
+export const PutScriptMetadataExportType = S.String;
+
+export type PutScriptMetadataExportState =
+  | "created"
+  | "deleted"
+  | "renamed"
+  | "transferred"
+  | "expecting-transfer";
+export const PutScriptMetadataExportState = S.String;
+
+export interface PutScriptMetadataExport {
+  type?: PutScriptMetadataExportType | (string & {});
+  cache?: PutScriptMetadataCache;
+  storage?: string;
+  container?: string;
+  state?: PutScriptMetadataExportState | (string & {});
+  renamedTo?: string;
+  transferredTo?: string;
+  transferFrom?: string;
+}
+export const PutScriptMetadataExport = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    type: S.optional(PutScriptMetadataExportType),
+    cache: S.optional(PutScriptMetadataCache),
+    storage: S.optional(S.String),
+    container: S.optional(S.String),
+    state: S.optional(PutScriptMetadataExportState),
+    renamedTo: S.optional(S.String.pipe(T.Body("renamed_to"))),
+    transferredTo: S.optional(S.String.pipe(T.Body("transferred_to"))),
+    transferFrom: S.optional(S.String.pipe(T.Body("transfer_from"))),
+  }),
+).annotate({
+  identifier: "PutScriptMetadataExport",
+}) as any as S.Schema<PutScriptMetadataExport>;
+
+export type PutScriptMetadataExports = {
+  [key: string]: PutScriptMetadataExport | undefined;
+};
+export const PutScriptMetadataExports = /*@__PURE__*/ S.Record(
+  S.String,
+  PutScriptMetadataExport,
+) as any as S.Schema<PutScriptMetadataExports>;
+
 export interface PutScriptMetadata {
   annotations?: PutScriptMetadataAnnotations;
   assets?: PutScriptMetadataAssets;
@@ -10190,6 +10234,8 @@ export interface PutScriptMetadata {
   usageModel?: PutScriptMetadataUsageModel | (string & {});
   cacheOptions?: PutScriptMetadataCache;
   streamingTailConsumers?: PutScriptMetadataStreamingTailConsumersList | null;
+  /** Per-export settings keyed by the verbatim export name (default for the default export). */
+  exports?: PutScriptMetadataExports;
 }
 export const PutScriptMetadata = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -10229,6 +10275,7 @@ export const PutScriptMetadata = /*@__PURE__*/ S.suspend(() =>
         T.Body("streaming_tail_consumers"),
       ),
     ),
+    exports: S.optional(PutScriptMetadataExports.pipe(T.KeyDictionary({}))),
   }),
 ).annotate({
   identifier: "PutScriptMetadata",
@@ -10356,6 +10403,9 @@ export const CreateScriptVersionRequest = /*@__PURE__*/ S.suspend(() =>
         workflowName: "workflow_name",
         zoneId: "zone_id",
         zoneName: "zone_name",
+        renamedTo: "renamed_to",
+        transferredTo: "transferred_to",
+        transferFrom: "transfer_from",
       }),
     ),
     files: S.optional(S.Unknown.pipe(T.FormDataFile())),
@@ -27942,6 +27992,9 @@ export const PutScriptRequest = /*@__PURE__*/ S.suspend(() =>
         workflowName: "workflow_name",
         zoneId: "zone_id",
         zoneName: "zone_name",
+        renamedTo: "renamed_to",
+        transferredTo: "transferred_to",
+        transferFrom: "transfer_from",
       }),
     ),
     files: S.optional(S.Unknown.pipe(T.FormDataFile())),
