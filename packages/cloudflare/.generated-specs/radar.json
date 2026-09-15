@@ -73205,7 +73205,7 @@
     "com.cloudflare.radar#CtSummaryRequestUniqueEntriesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.radar#CtSummaryRequestUniqueEntries"
+        "target": "smithy.api#Boolean"
       }
     },
     "com.cloudflare.radar#CtSummaryRequestValidationLevel": {
@@ -74232,7 +74232,7 @@
     "com.cloudflare.radar#CtTimeseriesRequestUniqueEntriesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.radar#CtTimeseriesRequestUniqueEntries"
+        "target": "smithy.api#Boolean"
       }
     },
     "com.cloudflare.radar#CtTimeseriesRequestValidationLevel": {
@@ -75208,7 +75208,7 @@
     "com.cloudflare.radar#CtTimeseriesGroupsRequestUniqueEntriesList": {
       "type": "list",
       "member": {
-        "target": "com.cloudflare.radar#CtTimeseriesGroupsRequestUniqueEntries"
+        "target": "smithy.api#Boolean"
       }
     },
     "com.cloudflare.radar#CtTimeseriesGroupsRequestValidationLevel": {
@@ -213031,7 +213031,8 @@
           "target": "com.cloudflare.radar#CtSummaryRequestUniqueEntriesList",
           "traits": {
             "smithy.api#documentation": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
-            "smithy.api#httpQuery": "uniqueEntries"
+            "smithy.api#httpQuery": "uniqueEntries",
+            "com.cloudflare.protocols#stringEncoded": {}
           }
         },
         "validationLevel": {
@@ -217122,7 +217123,8 @@
           "target": "com.cloudflare.radar#CtTimeseriesRequestUniqueEntriesList",
           "traits": {
             "smithy.api#documentation": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
-            "smithy.api#httpQuery": "uniqueEntries"
+            "smithy.api#httpQuery": "uniqueEntries",
+            "com.cloudflare.protocols#stringEncoded": {}
           }
         },
         "validationLevel": {
@@ -218019,7 +218021,8 @@
           "target": "com.cloudflare.radar#CtTimeseriesGroupsRequestUniqueEntriesList",
           "traits": {
             "smithy.api#documentation": "Specifies whether to filter out duplicate certificates and pre-certificates. Set to true for unique entries only.",
-            "smithy.api#httpQuery": "uniqueEntries"
+            "smithy.api#httpQuery": "uniqueEntries",
+            "com.cloudflare.protocols#stringEncoded": {}
           }
         },
         "validationLevel": {

@@ -14,6 +14,9 @@ const JsonInput = S.Struct({
   nullable: S.optional(
     S.NullOr(S.Boolean).pipe(T.Body("nullable"), T.StringEncoded()),
   ),
+  flags: S.optional(
+    S.Array(S.Boolean).pipe(T.Body("flags"), T.StringEncoded()),
+  ),
 }).pipe(T.Http({ method: "POST", uri: "/things" }));
 
 const jsonBodyOf = (input: unknown): unknown => {
@@ -35,6 +38,12 @@ describe("StringEncoded members", () => {
     expect(jsonBodyOf({ flag: false, plain: false })).toEqual({
       flag: "false",
       plain: false,
+    });
+  });
+
+  test("a list stringifies element-wise", () => {
+    expect(jsonBodyOf({ flags: [true, false] })).toEqual({
+      flags: ["true", "false"],
     });
   });
 

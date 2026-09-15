@@ -68884,14 +68884,9 @@ export const CtSummaryRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtSummaryRequestTldList>;
 
-export type CtSummaryRequestUniqueEntries = "true" | "false";
-export const CtSummaryRequestUniqueEntries = S.String;
-
-export type CtSummaryRequestUniqueEntriesList = Array<
-  CtSummaryRequestUniqueEntries | (string & {})
->;
+export type CtSummaryRequestUniqueEntriesList = Array<boolean>;
 export const CtSummaryRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtSummaryRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtSummaryRequestUniqueEntriesList>;
 
 export type CtSummaryRequestValidationLevel =
@@ -68985,7 +68980,7 @@ export const SummaryCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtSummaryRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtSummaryRequestUniqueEntriesList.pipe(T.Query()),
+      CtSummaryRequestUniqueEntriesList.pipe(T.Query(), T.StringEncoded()),
     ),
     validationLevel: S.optional(
       CtSummaryRequestValidationLevelList.pipe(T.Query()),
@@ -79625,14 +79620,9 @@ export const CtTimeseriesRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtTimeseriesRequestTldList>;
 
-export type CtTimeseriesRequestUniqueEntries = "true" | "false";
-export const CtTimeseriesRequestUniqueEntries = S.String;
-
-export type CtTimeseriesRequestUniqueEntriesList = Array<
-  CtTimeseriesRequestUniqueEntries | (string & {})
->;
+export type CtTimeseriesRequestUniqueEntriesList = Array<boolean>;
 export const CtTimeseriesRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtTimeseriesRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtTimeseriesRequestUniqueEntriesList>;
 
 export type CtTimeseriesRequestValidationLevel =
@@ -79722,7 +79712,7 @@ export const TimeseriesCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtTimeseriesRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtTimeseriesRequestUniqueEntriesList.pipe(T.Query()),
+      CtTimeseriesRequestUniqueEntriesList.pipe(T.Query(), T.StringEncoded()),
     ),
     validationLevel: S.optional(
       CtTimeseriesRequestValidationLevelList.pipe(T.Query()),
@@ -81846,14 +81836,9 @@ export const CtTimeseriesGroupsRequestTldList = /*@__PURE__*/ S.Array(
   S.String,
 ) as any as S.Schema<CtTimeseriesGroupsRequestTldList>;
 
-export type CtTimeseriesGroupsRequestUniqueEntries = "true" | "false";
-export const CtTimeseriesGroupsRequestUniqueEntries = S.String;
-
-export type CtTimeseriesGroupsRequestUniqueEntriesList = Array<
-  CtTimeseriesGroupsRequestUniqueEntries | (string & {})
->;
+export type CtTimeseriesGroupsRequestUniqueEntriesList = Array<boolean>;
 export const CtTimeseriesGroupsRequestUniqueEntriesList = /*@__PURE__*/ S.Array(
-  CtTimeseriesGroupsRequestUniqueEntries,
+  S.Boolean,
 ) as any as S.Schema<CtTimeseriesGroupsRequestUniqueEntriesList>;
 
 export type CtTimeseriesGroupsRequestValidationLevel =
@@ -81965,7 +81950,10 @@ export const TimeseriesGroupsCtRequest = /*@__PURE__*/ S.suspend(() =>
     ),
     tld: S.optional(CtTimeseriesGroupsRequestTldList.pipe(T.Query())),
     uniqueEntries: S.optional(
-      CtTimeseriesGroupsRequestUniqueEntriesList.pipe(T.Query()),
+      CtTimeseriesGroupsRequestUniqueEntriesList.pipe(
+        T.Query(),
+        T.StringEncoded(),
+      ),
     ),
     validationLevel: S.optional(
       CtTimeseriesGroupsRequestValidationLevelList.pipe(T.Query()),

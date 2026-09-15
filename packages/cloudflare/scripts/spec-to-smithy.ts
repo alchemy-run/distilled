@@ -47,6 +47,7 @@ import { Flag } from "effect/unstable/cli";
 import { Command } from "effect/unstable/cli";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { dedupeScopeTwins } from "./dedupe-scope-twins.ts";
+import { booleanStringEnums } from "./boolean-string-enums.ts";
 
 // ============================================================================
 // Namespaces
@@ -2234,8 +2235,17 @@ const command = Command.make(
           include: (resource) => convertedResources.has(resource),
           transform: (model, resource) => {
             const { families, removed } = dedupeScopeTwins(model);
-            return families
-              ? `♻️  ${resource}: collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+            const { members } = booleanStringEnums(model);
+            const notes = [
+              families
+                ? `collapsed ${families} scope-twin famil${families === 1 ? "y" : "ies"} (${removed} shapes)`
+                : undefined,
+              members
+                ? `${members} boolean-string request member${members === 1 ? "" : "s"}`
+                : undefined,
+            ].filter((n) => n !== undefined);
+            return notes.length
+              ? `♻️  ${resource}: ${notes.join(", ")}`
               : undefined;
           },
         }),

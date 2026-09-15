@@ -2846,9 +2846,6 @@ export const CreateProjectResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateProjectResponse",
 }) as any as S.Schema<CreateProjectResponse>;
 
-export type ProjectsDeploymentsCreateRequestCommitDirty = "true" | "false";
-export const ProjectsDeploymentsCreateRequestCommitDirty = S.String;
-
 export interface CreateProjectDeploymentRequest {
   /** Identifier. */
   accountId: string;
@@ -2867,7 +2864,7 @@ export interface CreateProjectDeploymentRequest {
   /** The branch to build the new deployment from. The `HEAD` of the branch will be used. If omitted, the production branch will be used by default. */
   branch?: string;
   /** Boolean string indicating if the working directory has uncommitted changes. */
-  commitDirty?: ProjectsDeploymentsCreateRequestCommitDirty | (string & {});
+  commitDirty?: boolean;
   /** Git commit SHA associated with this deployment. */
   commitHash?: string;
   /** Git commit message associated with this deployment. */
@@ -2892,7 +2889,7 @@ export const CreateProjectDeploymentRequest = /*@__PURE__*/ S.suspend(() =>
     workerJs: S.optional(S.Unknown.pipe(T.Body("_worker.js"))),
     branch: S.optional(S.String),
     commitDirty: S.optional(
-      ProjectsDeploymentsCreateRequestCommitDirty.pipe(T.Body("commit_dirty")),
+      S.Boolean.pipe(T.Body("commit_dirty"), T.StringEncoded()),
     ),
     commitHash: S.optional(S.String.pipe(T.Body("commit_hash"))),
     commitMessage: S.optional(S.String.pipe(T.Body("commit_message"))),

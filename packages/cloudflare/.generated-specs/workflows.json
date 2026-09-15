@@ -3941,10 +3941,11 @@
           }
         },
         "simple": {
-          "target": "com.cloudflare.workflows#InstancesGetRequestSimple",
+          "target": "smithy.api#Boolean",
           "traits": {
             "smithy.api#documentation": "When true, omits step details and returns only metadata with step_count.",
-            "smithy.api#httpQuery": "simple"
+            "smithy.api#httpQuery": "simple",
+            "com.cloudflare.protocols#stringEncoded": {}
           }
         }
       },

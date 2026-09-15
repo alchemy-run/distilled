@@ -503,9 +503,6 @@ export const DeleteWorkflowResponse = /*@__PURE__*/ S.suspend(() =>
 export type InstancesGetRequestOrder = "asc" | "desc";
 export const InstancesGetRequestOrder = S.String;
 
-export type InstancesGetRequestSimple = "true" | "false";
-export const InstancesGetRequestSimple = S.String;
-
 export interface GetInstanceRequest {
   accountId: string;
   workflowName: string;
@@ -513,7 +510,7 @@ export interface GetInstanceRequest {
   /** Step ordering: "asc" (default, oldest first) or "desc" (newest first). */
   order?: InstancesGetRequestOrder | (string & {});
   /** When true, omits step details and returns only metadata with step_count. */
-  simple?: InstancesGetRequestSimple | (string & {});
+  simple?: boolean;
 }
 export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -521,7 +518,7 @@ export const GetInstanceRequest = /*@__PURE__*/ S.suspend(() =>
     workflowName: S.String.pipe(T.Label("workflow_name")),
     instanceId: S.String.pipe(T.Label("instance_id")),
     order: S.optional(InstancesGetRequestOrder.pipe(T.Query())),
-    simple: S.optional(InstancesGetRequestSimple.pipe(T.Query())),
+    simple: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   })
     .pipe(
       T.Http({
