@@ -144,18 +144,3 @@ scoped to **All repositories**, with **Administration: Read and write** (create
 repositories, settings, topics), **Contents: Read and write** (commit the
 scaffold) and **Workflows: Read and write** (the scaffold includes
 `.github/workflows/update-specs.yml`). No organization permissions are needed.
-
-## Known gap: cloudflare
-
-`spec-mirror-cloudflare` exists but has no fetch machinery. The
-`@distilled.cloud/cloudflare` generator reads markdown from
-`developers.cloudflare.com`, which migrated to Astro/Starlight and now returns
-the **full HTML page** at every `<page>/index.md` URL — including the ones its
-own `/api/llms.txt` still advertises as markdown. A crawl today yields 7.2 GB
-of HTML instead of ~16 MB of markdown.
-
-`packages/cloudflare/scripts/download-api-docs.ts` has the same problem, so the
-in-repo `packages/cloudflare/specs` is a stale snapshot. The likely fix is to
-move the generator onto
-[`cloudflare/api-schemas`](https://github.com/cloudflare/api-schemas), which
-publishes a real 24 MB `openapi.json` — a generator change, tracked separately.

@@ -1,10 +1,11 @@
 #!/usr/bin/env bun
 /**
- * spec-to-smithy — convert the downloaded Cloudflare API markdown specs into
+ * spec-to-smithy — convert the mirrored Cloudflare API markdown specs into
  * Smithy 2.0 JSON models.
  *
- * Input:  specs/api/resources/**\/methods/**\/index.md
- *         (the per-method markdown pages produced by download-api-docs.ts)
+ * Input:  specs/spec-mirror-cloudflare/specs/api/resources/**\/methods/**\/index.md
+ *         (the per-page markdown the mirror's fetch-specs.ts downloads from
+ *         developers.cloudflare.com)
  * Output: .generated-specs/*.json  (one Smithy JSON model per top-level
  *         resource, plus a shared protocol model)
  *
@@ -34,9 +35,10 @@
  *   bun scripts/spec-to-smithy.ts
  *   bun scripts/spec-to-smithy.ts --resource ai          # one top-level resource
  *   bun scripts/spec-to-smithy.ts --limit 50             # first N operations
- *   bun scripts/spec-to-smithy.ts --specs specs/api/resources --out .generated-specs
+ *   bun scripts/spec-to-smithy.ts --specs specs/spec-mirror-cloudflare/specs/api/resources --out .generated-specs
  */
 
+import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 import { BunRuntime, BunServices } from "@effect/platform-bun";
 import { Console, Effect } from "effect";
 import * as FileSystem from "effect/FileSystem";
@@ -2080,8 +2082,8 @@ const command = Command.make(
   "spec-to-smithy",
   {
     specs: Flag.String("specs").pipe(
-      Flag.withDefault("specs/api/resources"),
-      Flag.withDescription("Directory of downloaded markdown specs"),
+      Flag.withDefault("specs/spec-mirror-cloudflare/specs/api/resources"),
+      Flag.withDescription("Directory of mirrored markdown specs"),
     ),
     out: Flag.String("out").pipe(
       Flag.withDefault(".generated-specs"),
@@ -2101,7 +2103,7 @@ const command = Command.make(
       const fs = yield* FileSystem.FileSystem;
       const path = yield* Path.Path;
       const root = path.resolve(import.meta.dir, "..");
-      const specsDir = path.resolve(root, config.specs);
+      const specsDir = resolveSpecPath(root, config.specs);
       const outDir = path.resolve(root, config.out);
 
       yield* Console.log("🛠️  spec-to-smithy");

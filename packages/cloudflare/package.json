@@ -514,12 +514,13 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "download-api-docs": "bun scripts/download-api-docs.ts",
     "convert": "bun scripts/spec-to-smithy.ts",
     "spec-to-smithy": "bun scripts/spec-to-smithy.ts",
     "generate": "bun scripts/generate.ts",
     "typecheck": "tsc -p tsconfig.json",
-    "typecheck:strict": "tsc -p tsconfig.strict.json"
+    "typecheck:strict": "tsc -p tsconfig.strict.json",
+    "specs:fetch": "git submodule update --force --init --depth=1 specs/spec-mirror-cloudflare",
+    "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-cloudflare"
   },
   "dependencies": {
     "@distilled.cloud/core": "workspace:*"
