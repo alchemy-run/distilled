@@ -19117,10 +19117,9 @@
           }
         },
         "commit_dirty": {
-          "target": "smithy.api#Boolean",
+          "target": "com.cloudflare.pages#ProjectsDeploymentsCreateRequestCommitDirty",
           "traits": {
-            "smithy.api#documentation": "Boolean string indicating if the working directory has uncommitted changes.",
-            "com.cloudflare.protocols#stringEncoded": {}
+            "smithy.api#documentation": "Boolean string indicating if the working directory has uncommitted changes."
           }
         },
         "commit_hash": {

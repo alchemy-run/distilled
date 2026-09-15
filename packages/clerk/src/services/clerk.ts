@@ -7149,13 +7149,10 @@ export const GetApiKeyResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetApiKeyResponse",
 }) as any as S.Schema<GetApiKeyResponse>;
 
-export type GetApiKeysRequestIncludeInvalid = "true" | "false";
-export const GetApiKeysRequestIncludeInvalid = S.String;
-
 export interface GetApiKeysRequest {
   type?: string;
   subject: string;
-  include_invalid?: GetApiKeysRequestIncludeInvalid | (string & {});
+  include_invalid?: boolean;
   limit?: number;
   offset?: number;
   query?: string;
@@ -7164,9 +7161,7 @@ export const GetApiKeysRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     type: S.optional(S.String.pipe(T.Query())),
     subject: S.String.pipe(T.Query()),
-    include_invalid: S.optional(
-      GetApiKeysRequestIncludeInvalid.pipe(T.Query()),
-    ),
+    include_invalid: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     limit: S.optional(S.Number.pipe(T.Query())),
     offset: S.optional(S.Number.pipe(T.Query())),
     query: S.optional(S.String.pipe(T.Query())),
@@ -9680,9 +9675,6 @@ export const InviteWaitlistEntryRequest = /*@__PURE__*/ S.suspend(() =>
   identifier: "InviteWaitlistEntryRequest",
 }) as any as S.Schema<InviteWaitlistEntryRequest>;
 
-export type ListAllOrganizationDomainsRequestVerified = "true" | "false";
-export const ListAllOrganizationDomainsRequestVerified = S.String;
-
 export type ListAllOrganizationDomainsRequestEnrollmentModeItem =
   | "manual_invitation"
   | "automatic_invitation"
@@ -9712,7 +9704,7 @@ export interface ListAllOrganizationDomainsRequest {
   /** The ID of the organization to filter domains by */
   organization_id?: string;
   /** Filter by verification status */
-  verified?: ListAllOrganizationDomainsRequestVerified | (string & {});
+  verified?: boolean;
   /** Filter by enrollment mode. Prefix a value with `-` to exclude it instead (e.g. `-enterprise_sso`). Include and exclude filters can be combined and compose as AND. */
   enrollment_mode?: ListAllOrganizationDomainsRequestEnrollmentModeList;
   /** Search domains by name or organization ID. If the query starts with "org_", it will search by exact organization ID match. Otherwise, it performs a case-insensitive partial match on the domain name. Note: An empty string or whitespace-only value is not allowed and will result in a validation error. */
@@ -9729,9 +9721,7 @@ export interface ListAllOrganizationDomainsRequest {
 export const ListAllOrganizationDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     organization_id: S.optional(S.String.pipe(T.Query())),
-    verified: S.optional(
-      ListAllOrganizationDomainsRequestVerified.pipe(T.Query()),
-    ),
+    verified: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     enrollment_mode: S.optional(
       ListAllOrganizationDomainsRequestEnrollmentModeList.pipe(T.Query()),
     ),

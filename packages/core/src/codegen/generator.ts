@@ -55,6 +55,10 @@ import {
 } from "./operations.ts";
 import { memberBases, smithyWireName } from "./members.ts";
 import { validatePaginated } from "./pagination.ts";
+import {
+  booleanStringEnums,
+  STRING_ENCODED_TRAIT,
+} from "./boolean-string-enums.ts";
 
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
@@ -447,6 +451,9 @@ export const generateService = (
   model: any,
   spec: SdkSpec,
 ): GeneratedService => {
+  // `"true" | "false"` request members become real booleans that travel as
+  // their string spelling (see boolean-string-enums.ts).
+  booleanStringEnums(model);
   const shapes: ShapeMap = model.shapes;
   const pure = spec.pure ?? PURE;
   const prelude = spec.prelude ?? JSON_PRELUDE;
@@ -668,6 +675,7 @@ export const generateService = (
           ([trait, builder]) =>
             `${builder}(${JSON.stringify(info.traits[trait])})`,
         ),
+      ...(STRING_ENCODED_TRAIT in info.traits ? ["T.StringEncoded()"] : []),
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 

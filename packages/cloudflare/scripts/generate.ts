@@ -24,7 +24,6 @@ const BINARY_RESPONSE_BODY_TRAIT =
   "com.cloudflare.protocols#binaryResponseBody";
 const KEY_DICTIONARY_TRAIT = "com.cloudflare.protocols#keyDictionary";
 const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
-const STRING_ENCODED_TRAIT = "com.cloudflare.protocols#stringEncoded";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
 const makeCfSpec = (
@@ -82,13 +81,6 @@ const makeCfSpec = (
     // (`account.id=…`) by core's buildRequest; value = wire base name.
     [DEEP_QUERY_TRAIT]: "T.DeepQuery",
   },
-
-  // A member the API takes only as the string spelling of its value (the
-  // docs model some multipart flags as the enum `"true" | "false"`). A patch
-  // retargets the member to a real Boolean and adds this trait, so the TS
-  // surface is `boolean` and the protocol stringifies on encode.
-  memberExtraPipes: (m) =>
-    STRING_ENCODED_TRAIT in m.traits ? ["T.StringEncoded()"] : [],
 
   // Blob-targeted members accept binary-ish payload forms (v0 surface):
   // a whole-body Blob is a raw object upload; a body-bound Blob is a

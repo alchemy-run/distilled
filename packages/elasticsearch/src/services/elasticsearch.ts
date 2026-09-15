@@ -49274,7 +49274,7 @@ export interface IndicesPutDataStreamMappingsRequest {
   _source?: TypesMappingSourceField;
   runtime?: IndicesPutDataStreamMappingsRequestRuntimeMap;
   enabled?: boolean;
-  subobjects?: TypesMappingSubobjects | (string & {});
+  subobjects?: boolean;
   _data_stream_timestamp?: IndicesTypesCacheQueries;
 }
 export const IndicesPutDataStreamMappingsRequest = /*@__PURE__*/ S.suspend(() =>
@@ -49302,7 +49302,7 @@ export const IndicesPutDataStreamMappingsRequest = /*@__PURE__*/ S.suspend(() =>
     _source: S.optional(TypesMappingSourceField),
     runtime: S.optional(IndicesPutDataStreamMappingsRequestRuntimeMap),
     enabled: S.optional(S.Boolean),
-    subobjects: S.optional(TypesMappingSubobjects),
+    subobjects: S.optional(S.Boolean.pipe(T.StringEncoded())),
     _data_stream_timestamp: S.optional(IndicesTypesCacheQueries),
   }).pipe(
     T.Http({ method: "PUT", uri: "/_data_stream/{name}/_mappings", code: 200 }),

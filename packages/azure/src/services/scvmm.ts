@@ -676,9 +676,6 @@ export const CreateVirtualMachineInstanceCheckpointResponse =
     identifier: "CreateVirtualMachineInstanceCheckpointResponse",
   }) as any as S.Schema<CreateVirtualMachineInstanceCheckpointResponse>;
 
-export type DeleteAvailabilitySetRequestForce = "true" | "false";
-export const DeleteAvailabilitySetRequestForce = S.String;
-
 export interface DeleteAvailabilitySetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -687,14 +684,14 @@ export interface DeleteAvailabilitySetRequest {
   /** Name of the AvailabilitySet. */
   availabilitySetResourceName: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteAvailabilitySetRequestForce | (string & {});
+  force?: boolean;
 }
 export const DeleteAvailabilitySetRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     availabilitySetResourceName: S.String.pipe(T.Label()),
-    force: S.optional(DeleteAvailabilitySetRequestForce.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -714,9 +711,6 @@ export const DeleteAvailabilitySetResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAvailabilitySetResponse",
 }) as any as S.Schema<DeleteAvailabilitySetResponse>;
 
-export type DeleteCloudRequestForce = "true" | "false";
-export const DeleteCloudRequestForce = S.String;
-
 export interface DeleteCloudRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -725,14 +719,14 @@ export interface DeleteCloudRequest {
   /** Name of the Cloud. */
   cloudResourceName: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteCloudRequestForce | (string & {});
+  force?: boolean;
 }
 export const DeleteCloudRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     cloudResourceName: S.String.pipe(T.Label()),
-    force: S.optional(DeleteCloudRequestForce.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -813,31 +807,19 @@ export const DeleteInventoryItemResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteInventoryItemResponse",
 }) as any as S.Schema<DeleteInventoryItemResponse>;
 
-export type DeleteVirtualMachineInstanceRequestForce = "true" | "false";
-export const DeleteVirtualMachineInstanceRequestForce = S.String;
-
-export type DeleteVirtualMachineInstanceRequestDeleteFromHost =
-  | "true"
-  | "false";
-export const DeleteVirtualMachineInstanceRequestDeleteFromHost = S.String;
-
 export interface DeleteVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteVirtualMachineInstanceRequestForce | (string & {});
+  force?: boolean;
   /** Whether to disable the VM from azure and also delete it from Vmm. */
-  deleteFromHost?:
-    | DeleteVirtualMachineInstanceRequestDeleteFromHost
-    | (string & {});
+  deleteFromHost?: boolean;
 }
 export const DeleteVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceUri: S.String.pipe(T.Label()),
-    force: S.optional(DeleteVirtualMachineInstanceRequestForce.pipe(T.Query())),
-    deleteFromHost: S.optional(
-      DeleteVirtualMachineInstanceRequestDeleteFromHost.pipe(T.Query()),
-    ),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
+    deleteFromHost: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -886,9 +868,6 @@ export const DeleteVirtualMachineInstanceCheckpointResponse =
     identifier: "DeleteVirtualMachineInstanceCheckpointResponse",
   }) as any as S.Schema<DeleteVirtualMachineInstanceCheckpointResponse>;
 
-export type DeleteVirtualMachineTemplateRequestForce = "true" | "false";
-export const DeleteVirtualMachineTemplateRequestForce = S.String;
-
 export interface DeleteVirtualMachineTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -897,14 +876,14 @@ export interface DeleteVirtualMachineTemplateRequest {
   /** Name of the VirtualMachineTemplate. */
   virtualMachineTemplateName: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteVirtualMachineTemplateRequestForce | (string & {});
+  force?: boolean;
 }
 export const DeleteVirtualMachineTemplateRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     virtualMachineTemplateName: S.String.pipe(T.Label()),
-    force: S.optional(DeleteVirtualMachineTemplateRequestForce.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -924,9 +903,6 @@ export const DeleteVirtualMachineTemplateResponse = /*@__PURE__*/ S.suspend(
   identifier: "DeleteVirtualMachineTemplateResponse",
 }) as any as S.Schema<DeleteVirtualMachineTemplateResponse>;
 
-export type DeleteVirtualNetworkRequestForce = "true" | "false";
-export const DeleteVirtualNetworkRequestForce = S.String;
-
 export interface DeleteVirtualNetworkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -935,14 +911,14 @@ export interface DeleteVirtualNetworkRequest {
   /** Name of the VirtualNetwork. */
   virtualNetworkName: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteVirtualNetworkRequestForce | (string & {});
+  force?: boolean;
 }
 export const DeleteVirtualNetworkRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     virtualNetworkName: S.String.pipe(T.Label()),
-    force: S.optional(DeleteVirtualNetworkRequestForce.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -962,9 +938,6 @@ export const DeleteVirtualNetworkResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteVirtualNetworkResponse",
 }) as any as S.Schema<DeleteVirtualNetworkResponse>;
 
-export type DeleteVmmServerRequestForce = "true" | "false";
-export const DeleteVmmServerRequestForce = S.String;
-
 export interface DeleteVmmServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -973,14 +946,14 @@ export interface DeleteVmmServerRequest {
   /** Name of the VmmServer. */
   vmmServerName: string;
   /** Forces the resource to be deleted. */
-  force?: DeleteVmmServerRequestForce | (string & {});
+  force?: boolean;
 }
 export const DeleteVmmServerRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     subscriptionId: S.String.pipe(T.Label()),
     resourceGroupName: S.String.pipe(T.Label()),
     vmmServerName: S.String.pipe(T.Label()),
-    force: S.optional(DeleteVmmServerRequestForce.pipe(T.Query())),
+    force: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "DELETE",
@@ -3057,20 +3030,16 @@ export const StartVirtualMachineInstanceResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "StartVirtualMachineInstanceResponse",
 }) as any as S.Schema<StartVirtualMachineInstanceResponse>;
 
-/** Gets or sets a value indicating whether to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Defaults to false. */
-export type StopVirtualMachineInstanceRequestSkipShutdown = "true" | "false";
-export const StopVirtualMachineInstanceRequestSkipShutdown = S.String;
-
 export interface StopVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** Gets or sets a value indicating whether to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Defaults to false. */
-  skipShutdown?: StopVirtualMachineInstanceRequestSkipShutdown | (string & {});
+  skipShutdown?: boolean;
 }
 export const StopVirtualMachineInstanceRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     resourceUri: S.String.pipe(T.Label()),
-    skipShutdown: S.optional(StopVirtualMachineInstanceRequestSkipShutdown),
+    skipShutdown: S.optional(S.Boolean.pipe(T.StringEncoded())),
   }).pipe(
     T.Http({
       method: "POST",

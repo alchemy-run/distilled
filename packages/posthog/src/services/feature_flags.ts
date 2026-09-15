@@ -2177,9 +2177,6 @@ export const FeatureFlagVersionResponse = /*@__PURE__*/ S.suspend(() =>
 export type ListFeatureFlagsRequestActive = "STALE" | "false" | "true";
 export const ListFeatureFlagsRequestActive = S.String;
 
-export type ListFeatureFlagsRequestArchived = "false" | "true";
-export const ListFeatureFlagsRequestArchived = S.String;
-
 export type ListFeatureFlagsRequestEligibleForExperiment = "true";
 export const ListFeatureFlagsRequestEligibleForExperiment = S.String;
 
@@ -2188,9 +2185,6 @@ export type ListFeatureFlagsRequestEvaluationRuntime =
   | "client"
   | "server";
 export const ListFeatureFlagsRequestEvaluationRuntime = S.String;
-
-export type ListFeatureFlagsRequestHasEvaluationContexts = "false" | "true";
-export const ListFeatureFlagsRequestHasEvaluationContexts = S.String;
 
 export type ListFeatureFlagsRequestType =
   | "boolean"
@@ -2204,7 +2198,7 @@ export interface ListFeatureFlagsRequest {
   project_id: string;
   active?: ListFeatureFlagsRequestActive | (string & {});
   /** Filter by archived state. When omitted, archived flags are excluded. */
-  archived?: ListFeatureFlagsRequestArchived | (string & {});
+  archived?: boolean;
   /** Filter by the user(s) who created the feature flag. Accepts a single user ID, or a JSON-encoded / comma-separated list of user IDs to match any of them. */
   created_by_id?: string;
   /** When 'true', only return flags that can back an experiment: multivariate with 2-20 variants. Any other value is ignored. */
@@ -2218,9 +2212,7 @@ export interface ListFeatureFlagsRequest {
   /** JSON-encoded list of tag names to exclude. Flags carrying any of these tags are filtered out. */
   excluded_tags?: string;
   /** Filter feature flags by presence of evaluation contexts. 'true' returns only flags with at least one evaluation context, 'false' returns only flags without. */
-  has_evaluation_contexts?:
-    | ListFeatureFlagsRequestHasEvaluationContexts
-    | (string & {});
+  has_evaluation_contexts?: boolean;
   /** Filter by exact feature flag key match. Case insensitive. */
   key?: string;
   /** Number of results to return per page. */
@@ -2237,7 +2229,7 @@ export const ListFeatureFlagsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     project_id: S.String.pipe(T.Label()),
     active: S.optional(ListFeatureFlagsRequestActive.pipe(T.Query())),
-    archived: S.optional(ListFeatureFlagsRequestArchived.pipe(T.Query())),
+    archived: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     created_by_id: S.optional(S.String.pipe(T.Query())),
     eligible_for_experiment: S.optional(
       ListFeatureFlagsRequestEligibleForExperiment.pipe(T.Query()),
@@ -2248,7 +2240,7 @@ export const ListFeatureFlagsRequest = /*@__PURE__*/ S.suspend(() =>
     excluded_properties: S.optional(S.String.pipe(T.Query())),
     excluded_tags: S.optional(S.String.pipe(T.Query())),
     has_evaluation_contexts: S.optional(
-      ListFeatureFlagsRequestHasEvaluationContexts.pipe(T.Query()),
+      S.Boolean.pipe(T.Query(), T.StringEncoded()),
     ),
     key: S.optional(S.String.pipe(T.Query())),
     limit: S.optional(S.Number.pipe(T.Query())),

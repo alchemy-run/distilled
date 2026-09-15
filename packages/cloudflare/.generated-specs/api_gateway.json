@@ -6625,10 +6625,9 @@
           }
         },
         "validation_enabled": {
-          "target": "smithy.api#Boolean",
+          "target": "com.cloudflare.api_gateway#UserSchemasCreateRequestValidationEnabled",
           "traits": {
-            "smithy.api#documentation": "Flag whether schema is enabled for validation.",
-            "com.cloudflare.protocols#stringEncoded": {}
+            "smithy.api#documentation": "Flag whether schema is enabled for validation."
           }
         }
       },

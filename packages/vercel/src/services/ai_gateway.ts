@@ -146,11 +146,8 @@ export const DeleteAiGatewayRuleResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "DeleteAiGatewayRuleResponse",
 }) as any as S.Schema<DeleteAiGatewayRuleResponse>;
 
-export type ListAiGatewayRulesRequestIncludeDisabled = "true" | "false";
-export const ListAiGatewayRulesRequestIncludeDisabled = S.String;
-
 export interface ListAiGatewayRulesRequest {
-  includeDisabled?: ListAiGatewayRulesRequestIncludeDisabled | (string & {});
+  includeDisabled?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -158,9 +155,7 @@ export interface ListAiGatewayRulesRequest {
 }
 export const ListAiGatewayRulesRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    includeDisabled: S.optional(
-      ListAiGatewayRulesRequestIncludeDisabled.pipe(T.Query()),
-    ),
+    includeDisabled: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(T.Http({ method: "GET", uri: "/v1/ai-gateway/rules", code: 200 })),

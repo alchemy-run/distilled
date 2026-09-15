@@ -3180,10 +3180,6 @@ export const CreateBulkImportFactResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateBulkImportFactResponse",
 }) as any as S.Schema<CreateBulkImportFactResponse>;
 
-/** Whether to delete code references that are no longer present in the submitted data */
-export type CreateCodeRefRequestDeleteMissing = "true" | "false";
-export const CreateCodeRefRequestDeleteMissing = S.String;
-
 export interface CreateCodeRefRequestRefsItem {
   filePath: string;
   startingLineNumber: number;
@@ -3210,16 +3206,14 @@ export const CreateCodeRefRequestRefsList = /*@__PURE__*/ S.Array(
 
 export interface CreateCodeRefRequest {
   /** Whether to delete code references that are no longer present in the submitted data */
-  deleteMissing?: CreateCodeRefRequestDeleteMissing | (string & {});
+  deleteMissing?: boolean;
   branch: string;
   repoName: string;
   refs: CreateCodeRefRequestRefsList;
 }
 export const CreateCodeRefRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
-    deleteMissing: S.optional(
-      CreateCodeRefRequestDeleteMissing.pipe(T.Query()),
-    ),
+    deleteMissing: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     branch: S.String,
     repoName: S.String,
     refs: CreateCodeRefRequestRefsList,
@@ -30239,10 +30233,6 @@ export const ListExperimentsRequestImplementationTypeList =
     ListExperimentsRequestImplementationTypeItem,
   ) as any as S.Schema<ListExperimentsRequestImplementationTypeList>;
 
-/** When true, return only multi-armed bandits; when false, exclude them */
-export type ListExperimentsRequestBandits = "true" | "false";
-export const ListExperimentsRequestBandits = S.String;
-
 /** Filter by archived status. Set to `true` to return only archived experiments, `false` to exclude them. If omitted, both archived and non-archived experiments are returned. */
 export type ListExperimentsRequestArchived = string | boolean;
 export const ListExperimentsRequestArchived =
@@ -30286,7 +30276,7 @@ export interface ListExperimentsRequest {
   /** Filter by comma-separated metric ids. Matches experiments that use a metric as a goal, secondary, or guardrail metric */
   metricId?: string;
   /** When true, return only multi-armed bandits; when false, exclude them */
-  bandits?: ListExperimentsRequestBandits | (string & {});
+  bandits?: boolean;
   /** Filter by archived status. Set to `true` to return only archived experiments, `false` to exclude them. If omitted, both archived and non-archived experiments are returned. */
   archived?: ListExperimentsRequestArchived;
   /** Field to sort the results by */
@@ -30311,7 +30301,7 @@ export const ListExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
       ListExperimentsRequestImplementationTypeList.pipe(T.Query()),
     ),
     metricId: S.optional(S.String.pipe(T.Query())),
-    bandits: S.optional(ListExperimentsRequestBandits.pipe(T.Query())),
+    bandits: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     archived: S.optional(ListExperimentsRequestArchived.pipe(T.Query())),
     sortBy: S.optional(ListExperimentsRequestSortBy.pipe(T.Query())),
     sortOrder: S.optional(ListExperimentsRequestSortOrder.pipe(T.Query())),
@@ -30959,10 +30949,6 @@ export const ListMembersResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "ListMembersResponse",
 }) as any as S.Schema<ListMembersResponse>;
 
-/** When true, return only multi-armed bandits; when false, exclude them */
-export type ListMetricExperimentsRequestBandits = "true" | "false";
-export const ListMetricExperimentsRequestBandits = S.String;
-
 export interface ListMetricExperimentsRequest {
   /** The id of the requested resource */
   id: string;
@@ -30985,7 +30971,7 @@ export interface ListMetricExperimentsRequest {
   /** Filter by comma-separated experiment types (feature, visualChange, redirect) */
   type?: string;
   /** When true, return only multi-armed bandits; when false, exclude them */
-  bandits?: ListMetricExperimentsRequestBandits | (string & {});
+  bandits?: boolean;
   /** Only include experiments that have a phase which ended on or after this date */
   startDate?: string;
   /** Only include experiments that have a phase which ended on or before this date */
@@ -31003,7 +30989,7 @@ export const ListMetricExperimentsRequest = /*@__PURE__*/ S.suspend(() =>
     result: S.optional(S.String.pipe(T.Query())),
     tag: S.optional(S.String.pipe(T.Query())),
     type: S.optional(S.String.pipe(T.Query())),
-    bandits: S.optional(ListMetricExperimentsRequestBandits.pipe(T.Query())),
+    bandits: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     startDate: S.optional(S.String.pipe(T.Query())),
     endDate: S.optional(S.String.pipe(T.Query())),
   }).pipe(

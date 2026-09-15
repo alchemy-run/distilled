@@ -4556,17 +4556,13 @@ export const GetSessionResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetSessionResponse",
 }) as any as S.Schema<GetSessionResponse>;
 
-/** If set to "true", the request will block until the command finishes execution. Useful for synchronously waiting for command completion. */
-export type GetSessionCommandRequestWait = "true" | "false";
-export const GetSessionCommandRequestWait = S.String;
-
 export interface GetSessionCommandRequest {
   /** The unique identifier of the session containing the command. */
   sessionId: string;
   /** The unique identifier of the command to retrieve. */
   cmdId: string;
   /** If set to "true", the request will block until the command finishes execution. Useful for synchronously waiting for command completion. */
-  wait?: GetSessionCommandRequestWait | (string & {});
+  wait?: boolean;
   /** The Team identifier to perform the request on behalf of. */
   teamId?: string;
   /** The Team slug to perform the request on behalf of. */
@@ -4576,7 +4572,7 @@ export const GetSessionCommandRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     sessionId: S.String.pipe(T.Label()),
     cmdId: S.String.pipe(T.Label()),
-    wait: S.optional(GetSessionCommandRequestWait.pipe(T.Query())),
+    wait: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     teamId: S.optional(S.String.pipe(T.Query())),
     slug: S.optional(S.String.pipe(T.Query())),
   }).pipe(

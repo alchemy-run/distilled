@@ -10990,17 +10990,13 @@ export const EditProjectEnvResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "EditProjectEnvResponse",
 }) as any as S.Schema<EditProjectEnvResponse>;
 
-/** If true, the environment variable value will be decrypted */
-export type FilterProjectEnvsRequestDecrypt = "true" | "false";
-export const FilterProjectEnvsRequestDecrypt = S.String;
-
 export interface FilterProjectEnvsRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** If defined, the git branch of the environment variable to filter the results (must have target=preview) */
   gitBranch?: string;
   /** If true, the environment variable value will be decrypted */
-  decrypt?: FilterProjectEnvsRequestDecrypt | (string & {});
+  decrypt?: boolean;
   /** The source that is calling the endpoint. */
   source?: string;
   /** The unique custom environment identifier within the project */
@@ -11016,7 +11012,7 @@ export const FilterProjectEnvsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idOrName: S.String.pipe(T.Label()),
     gitBranch: S.optional(S.String.pipe(T.Query())),
-    decrypt: S.optional(FilterProjectEnvsRequestDecrypt.pipe(T.Query())),
+    decrypt: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     source: S.optional(S.String.pipe(T.Query())),
     customEnvironmentId: S.optional(S.String.pipe(T.Query())),
     customEnvironmentSlug: S.optional(S.String.pipe(T.Query())),
@@ -20453,21 +20449,9 @@ export const GetProjectDomainResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "GetProjectDomainResponse",
 }) as any as S.Schema<GetProjectDomainResponse>;
 
-/** Filters only production domains when set to `true`. */
-export type GetProjectDomainsRequestProduction = "true" | "false";
-export const GetProjectDomainsRequestProduction = S.String;
-
 /** Filters on the target of the domain. Can be either "production", "preview" */
 export type GetProjectDomainsRequestTarget = "production" | "preview";
 export const GetProjectDomainsRequestTarget = S.String;
-
-/** Excludes redirect project domains when "false". Includes redirect project domains when "true" (default). */
-export type GetProjectDomainsRequestRedirects = "true" | "false";
-export const GetProjectDomainsRequestRedirects = S.String;
-
-/** Filters domains based on their verification status. */
-export type GetProjectDomainsRequestVerified = "true" | "false";
-export const GetProjectDomainsRequestVerified = S.String;
 
 /** Domains sort order by createdAt */
 export type GetProjectDomainsRequestOrder = "ASC" | "DESC";
@@ -20477,7 +20461,7 @@ export interface GetProjectDomainsRequest {
   /** The unique project identifier or the project name */
   idOrName: string;
   /** Filters only production domains when set to `true`. */
-  production?: GetProjectDomainsRequestProduction | (string & {});
+  production?: boolean;
   /** Filters on the target of the domain. Can be either "production", "preview" */
   target?: GetProjectDomainsRequestTarget | (string & {});
   /** The unique custom environment identifier within the project */
@@ -20485,11 +20469,11 @@ export interface GetProjectDomainsRequest {
   /** Filters domains based on specific branch. */
   gitBranch?: string;
   /** Excludes redirect project domains when "false". Includes redirect project domains when "true" (default). */
-  redirects?: GetProjectDomainsRequestRedirects | (string & {});
+  redirects?: boolean;
   /** Filters domains based on their redirect target. */
   redirect?: string;
   /** Filters domains based on their verification status. */
-  verified?: GetProjectDomainsRequestVerified | (string & {});
+  verified?: boolean;
   /** Maximum number of domains to list from a request (max 100). */
   limit?: number;
   /** Get domains created after this JavaScript timestamp. */
@@ -20506,13 +20490,13 @@ export interface GetProjectDomainsRequest {
 export const GetProjectDomainsRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     idOrName: S.String.pipe(T.Label()),
-    production: S.optional(GetProjectDomainsRequestProduction.pipe(T.Query())),
+    production: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     target: S.optional(GetProjectDomainsRequestTarget.pipe(T.Query())),
     customEnvironmentId: S.optional(S.String.pipe(T.Query())),
     gitBranch: S.optional(S.String.pipe(T.Query())),
-    redirects: S.optional(GetProjectDomainsRequestRedirects.pipe(T.Query())),
+    redirects: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     redirect: S.optional(S.String.pipe(T.Query())),
-    verified: S.optional(GetProjectDomainsRequestVerified.pipe(T.Query())),
+    verified: S.optional(S.Boolean.pipe(T.Query(), T.StringEncoded())),
     limit: S.optional(S.Number.pipe(T.Query())),
     since: S.optional(S.Number.pipe(T.Query())),
     until: S.optional(S.Number.pipe(T.Query())),
