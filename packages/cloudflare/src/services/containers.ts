@@ -105,63 +105,6 @@ export const EnvironmentVariableList = /*@__PURE__*/ S.Array(
   EnvironmentVariable,
 ) as any as S.Schema<EnvironmentVariableList>;
 
-export interface DurableObjectsRef {
-  namespaceId: string;
-  className: string;
-}
-export const DurableObjectsRef = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    namespaceId: S.String.pipe(T.Body("namespace_id")),
-    className: S.String.pipe(T.Body("class_name")),
-  }),
-).annotate({
-  identifier: "DurableObjectsRef",
-}) as any as S.Schema<DurableObjectsRef>;
-
-export type SchedulingPolicy = "durable_object";
-export const SchedulingPolicy = S.String;
-
-export interface CreateContainerApplicationRequest {
-  accountId: string;
-  name: string;
-  image: string;
-  instanceType?: string;
-  environmentVariables?: EnvironmentVariableList;
-  maxInstances: number;
-  durableObjects: DurableObjectsRef;
-  instances?: number;
-  schedulingPolicy: SchedulingPolicy | (string & {});
-  constraints?: unknown;
-  affinities?: unknown;
-  jobs?: boolean;
-}
-export const CreateContainerApplicationRequest = /*@__PURE__*/ S.suspend(() =>
-  S.Struct({
-    accountId: S.String.pipe(T.Label("account_id")),
-    name: S.String,
-    image: S.String,
-    instanceType: S.optional(S.String.pipe(T.Body("instance_type"))),
-    environmentVariables: S.optional(
-      EnvironmentVariableList.pipe(T.Body("environment_variables")),
-    ),
-    maxInstances: S.Number.pipe(T.Body("max_instances")),
-    durableObjects: DurableObjectsRef.pipe(T.Body("durable_objects")),
-    instances: S.optional(S.Number),
-    schedulingPolicy: SchedulingPolicy.pipe(T.Body("scheduling_policy")),
-    constraints: S.optional(S.Unknown),
-    affinities: S.optional(S.Unknown),
-    jobs: S.optional(S.Boolean),
-  }).pipe(
-    T.Http({
-      method: "POST",
-      uri: "/accounts/{account_id}/containers/applications",
-      code: 200,
-    }),
-  ),
-).annotate({
-  identifier: "CreateContainerApplicationRequest",
-}) as any as S.Schema<CreateContainerApplicationRequest>;
-
 export type DocumentList = Array<unknown>;
 export const DocumentList = /*@__PURE__*/ S.Array(
   S.Unknown,
@@ -218,6 +161,54 @@ export const ContainerConfiguration = /*@__PURE__*/ S.suspend(() =>
 ).annotate({
   identifier: "ContainerConfiguration",
 }) as any as S.Schema<ContainerConfiguration>;
+
+export interface DurableObjectsRef {
+  namespaceId: string;
+}
+export const DurableObjectsRef = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    namespaceId: S.String.pipe(T.Body("namespace_id")),
+  }),
+).annotate({
+  identifier: "DurableObjectsRef",
+}) as any as S.Schema<DurableObjectsRef>;
+
+export interface CreateContainerApplicationRequest {
+  accountId: string;
+  name: string;
+  maxInstances: number;
+  configuration: ContainerConfiguration;
+  durableObjects?: DurableObjectsRef;
+  instances?: number;
+  schedulingPolicy?: string;
+  constraints?: unknown;
+  affinities?: unknown;
+  jobs?: boolean;
+}
+export const CreateContainerApplicationRequest = /*@__PURE__*/ S.suspend(() =>
+  S.Struct({
+    accountId: S.String.pipe(T.Label("account_id")),
+    name: S.String,
+    maxInstances: S.Number.pipe(T.Body("max_instances")),
+    configuration: ContainerConfiguration,
+    durableObjects: S.optional(
+      DurableObjectsRef.pipe(T.Body("durable_objects")),
+    ),
+    instances: S.optional(S.Number),
+    schedulingPolicy: S.optional(S.String.pipe(T.Body("scheduling_policy"))),
+    constraints: S.optional(S.Unknown),
+    affinities: S.optional(S.Unknown),
+    jobs: S.optional(S.Boolean),
+  }).pipe(
+    T.Http({
+      method: "POST",
+      uri: "/accounts/{account_id}/containers/applications",
+      code: 200,
+    }),
+  ),
+).annotate({
+  identifier: "CreateContainerApplicationRequest",
+}) as any as S.Schema<CreateContainerApplicationRequest>;
 
 export interface ContainerApplicationItem {
   id: string;

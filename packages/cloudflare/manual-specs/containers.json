@@ -141,23 +141,6 @@
           "traits": {
             "smithy.api#required": {}
           }
-        },
-        "class_name": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        }
-      }
-    },
-    "com.cloudflare.containers#SchedulingPolicy": {
-      "type": "enum",
-      "members": {
-        "DURABLE_OBJECT": {
-          "target": "smithy.api#Unit",
-          "traits": {
-            "smithy.api#enumValue": "durable_object"
-          }
         }
       }
     },
@@ -348,38 +331,26 @@
             "smithy.api#required": {}
           }
         },
-        "image": {
-          "target": "smithy.api#String",
-          "traits": {
-            "smithy.api#required": {}
-          }
-        },
-        "instance_type": {
-          "target": "smithy.api#String"
-        },
-        "environment_variables": {
-          "target": "com.cloudflare.containers#EnvironmentVariableList"
-        },
         "max_instances": {
           "target": "smithy.api#Integer",
           "traits": {
             "smithy.api#required": {}
           }
         },
-        "durable_objects": {
-          "target": "com.cloudflare.containers#DurableObjectsRef",
+        "configuration": {
+          "target": "com.cloudflare.containers#ContainerConfiguration",
           "traits": {
             "smithy.api#required": {}
           }
+        },
+        "durable_objects": {
+          "target": "com.cloudflare.containers#DurableObjectsRef"
         },
         "instances": {
           "target": "smithy.api#Integer"
         },
         "scheduling_policy": {
-          "target": "com.cloudflare.containers#SchedulingPolicy",
-          "traits": {
-            "smithy.api#required": {}
-          }
+          "target": "smithy.api#String"
         },
         "constraints": {
           "target": "smithy.api#Document"
