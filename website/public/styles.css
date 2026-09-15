@@ -165,26 +165,12 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   /* Fine grid + a single warm glow behind the hero. */
-  background-image:
-    radial-gradient(
-      60rem 30rem at 70% -10%,
-      color-mix(in oklab, var(--accent) 14%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    );
-  background-size:
-    auto,
-    3rem 3rem,
-    3rem 3rem;
-  background-attachment: fixed, local, local;
+  background-image: radial-gradient(
+    60rem 30rem at 70% -10%,
+    color-mix(in oklab, var(--accent) 14%, transparent),
+    transparent 70%
+  );
+  background-attachment: fixed;
 }
 
 /* While the theme flips, suspend every transition so the whole page changes
@@ -1584,26 +1570,17 @@ pre.code code {
 }
 
 .cap h3 {
-  font-family: var(--sans);
-  font-weight: 600;
-  font-size: 0.78rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-3);
-}
-.cap__claim {
-  margin: 0;
   font-family: var(--serif);
   font-variation-settings:
     "opsz" 48,
     "SOFT" 30,
     "WONK" 0;
-  font-size: 1.4rem;
-  line-height: 1.22;
+  font-weight: 400;
+  font-size: 1.45rem;
+  line-height: 1.15;
   color: var(--fg);
-  text-wrap: balance;
 }
-.cap p:not(.cap__claim) {
+.cap p {
   margin: 0;
   color: var(--fg-2);
   font-size: 0.93rem;
@@ -1700,21 +1677,11 @@ pre.code code {
 
 .page-shame {
   /* Same grid, but the glow is ember-red instead of copper. */
-  background-image:
-    radial-gradient(
-      60rem 30rem at 70% -10%,
-      color-mix(in oklab, var(--shame) 14%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    );
+  background-image: radial-gradient(
+    60rem 30rem at 70% -10%,
+    color-mix(in oklab, var(--shame) 14%, transparent),
+    transparent 70%
+  );
   --shame: var(--rose);
   --shame-2: var(--rose-2);
 }
@@ -2078,21 +2045,11 @@ pre.code code {
 .page-bench {
   --bench: var(--teal);
   --bench-2: var(--teal-2);
-  background-image:
-    radial-gradient(
-      60rem 30rem at 70% -10%,
-      color-mix(in oklab, var(--bench) 14%, transparent),
-      transparent 70%
-    ),
-    linear-gradient(
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      color-mix(in oklab, var(--line) 55%, transparent) 1px,
-      transparent 1px
-    );
+  background-image: radial-gradient(
+    60rem 30rem at 70% -10%,
+    color-mix(in oklab, var(--bench) 14%, transparent),
+    transparent 70%
+  );
 }
 
 .bench-hero {

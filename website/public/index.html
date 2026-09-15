@@ -446,9 +446,6 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
         <div class="caps" data-reveal>
           <article class="cap">
             <h3>Typed errors</h3>
-            <p class="cap__claim">
-              Every error the API can return is in the type signature.
-            </p>
             <pre
               class="snippet"
             ><code>S3.<span class="f">getObject</span>({ Bucket, Key }).<span class="f">pipe</span>(
@@ -468,9 +465,6 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(Stripe
 
           <article class="cap">
             <h3>Retries</h3>
-            <p class="cap__claim">
-              Sensible retries by default. Change them in one place.
-            </p>
             <pre
               class="snippet"
             ><code><span class="m">// Default: exponential from 250ms, capped 5s, jittered, 8 tries,</span>
@@ -492,10 +486,6 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
 
           <article class="cap">
             <h3>Pagination and streaming</h3>
-            <p class="cap__claim">
-              List results and object bodies are Streams. Take ten items and
-              only the first page is fetched.
-            </p>
             <pre
               class="snippet"
             ><code><span class="m">// Paginated: every page fetches itself, on demand.</span>
@@ -520,10 +510,6 @@ program.<span class="f">pipe</span>(AWS.Retry.<span class="f">policy</span>({   
 
           <article class="cap">
             <h3>Configuration</h3>
-            <p class="cap__claim">
-              Credentials, region and the HTTP client are provided once, not
-              passed to every call.
-            </p>
             <pre
               class="snippet"
             ><code><span class="k">const</span> AwsLive = Layer.<span class="f">mergeAll</span>(
@@ -544,10 +530,6 @@ program.<span class="f">pipe</span>(Effect.<span class="f">provide</span>(MockHt
 
           <article class="cap">
             <h3>Tracing</h3>
-            <p class="cap__claim">
-              Every request is already a span. Add an exporter and you have
-              traces.
-            </p>
             <pre
               class="snippet"
             ><code><span class="m">// Effect's HttpClient opens a span per request, tagged with</span>
@@ -571,9 +553,6 @@ program.<span class="f">pipe</span>(
 
           <article class="cap">
             <h3>Bundle size and speed</h3>
-            <p class="cap__claim">
-              Import one service and your bundle contains one service.
-            </p>
             <pre
               class="snippet"
             ><code><span class="m">// one service, not the 430-service barrel</span>
