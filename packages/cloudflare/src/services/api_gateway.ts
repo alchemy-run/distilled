@@ -1932,9 +1932,6 @@ export const CreateOperationLabelResponse = /*@__PURE__*/ S.suspend(() =>
   identifier: "CreateOperationLabelResponse",
 }) as any as S.Schema<CreateOperationLabelResponse>;
 
-export type UserSchemasCreateRequestValidationEnabled = "true" | "false";
-export const UserSchemasCreateRequestValidationEnabled = S.String;
-
 export interface CreateUserSchemaRequest {
   /** Identifier. */
   zoneId: string;
@@ -1945,7 +1942,7 @@ export interface CreateUserSchemaRequest {
   /** Name of the schema. */
   name?: string;
   /** Flag whether schema is enabled for validation. */
-  validationEnabled?: UserSchemasCreateRequestValidationEnabled | (string & {});
+  validationEnabled?: boolean;
 }
 export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
@@ -1954,9 +1951,7 @@ export const CreateUserSchemaRequest = /*@__PURE__*/ S.suspend(() =>
     kind: S.String,
     name: S.optional(S.String),
     validationEnabled: S.optional(
-      UserSchemasCreateRequestValidationEnabled.pipe(
-        T.Body("validation_enabled"),
-      ),
+      S.Boolean.pipe(T.Body("validation_enabled"), T.StringEncoded()),
     ),
   })
     .pipe(

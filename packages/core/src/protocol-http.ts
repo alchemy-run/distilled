@@ -22,6 +22,7 @@ import {
   keyDictionarySymbol,
   labelSymbol,
   querySymbol,
+  stringEncodedSymbol,
   unionCasesSymbol,
   type ErrorMatcher,
   type HttpTrait,
@@ -482,12 +483,14 @@ export const buildRequest = ({
     } else if (hasPropAnn(prop, httpBodySymbol)) {
       rawBody = mapKeys(prop.type, value, "encode", rootDict);
     } else {
-      body[nameOf(prop, bodySymbol)] = mapKeys(
-        prop.type,
-        value,
-        "encode",
-        rootDict,
-      );
+      // T.StringEncoded(): the API takes this member's value only as its
+      // string spelling (`true` → `"true"`), while the TS surface keeps the
+      // natural type. Explicit here so a JSON body carries the string too,
+      // rather than relying on the multipart encoder's own `String()`.
+      body[nameOf(prop, bodySymbol)] =
+        hasPropAnn(prop, stringEncodedSymbol) && value !== null
+          ? String(value)
+          : mapKeys(prop.type, value, "encode", rootDict);
     }
   }
 

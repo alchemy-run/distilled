@@ -147,6 +147,18 @@ export const httpBodySymbol = Symbol.for("@distilled.cloud/core/http-body");
  */
 export const HttpBody = () => makeAnnotation(httpBodySymbol, true);
 
+export const stringEncodedSymbol = Symbol.for(
+  "@distilled.cloud/core/http/string-encoded",
+);
+/**
+ * Marks a body member the API only accepts as the STRING spelling of its
+ * value — `true` travels as `"true"`, `3` as `"3"` — while the TS surface
+ * keeps the natural type (e.g. Cloudflare's multipart `validation_enabled`,
+ * which the docs model as the enum `"true" | "false"`). The protocol
+ * stringifies the value on encode; `null` is left alone.
+ */
+export const StringEncoded = () => makeAnnotation(stringEncodedSymbol, true);
+
 export const formDataFileSymbol = Symbol.for(
   "@distilled.cloud/core/form-data-file",
 );

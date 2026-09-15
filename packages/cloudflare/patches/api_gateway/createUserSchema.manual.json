@@ -1,5 +1,5 @@
 {
-  "description": "Docs gap: POST /zones/{zone_id}/api_gateway/user_schemas is a multipart upload — schema file bytes under a part named `file`, plus `kind`, `name`, `validation_enabled` parts — but the docs model it as a bare JSON POST with no body members, so the live API rejects it with BadRequest. Transcribed from the distilled SDK's createUserSchema. `file` is a plain body member (not formDataFile) so the multipart encoder appends it under the member name, which is what the API expects.",
+  "description": "Docs gap: POST /zones/{zone_id}/api_gateway/user_schemas is a multipart upload — schema file bytes under a part named `file`, plus `kind`, `name`, `validation_enabled` parts — but the docs model it as a bare JSON POST with no body members, so the live API rejects it with BadRequest. Transcribed from the distilled SDK's createUserSchema. `file` is a plain body member (not formDataFile) so the multipart encoder appends it under the member name, which is what the API expects. `validation_enabled` is documented as the string enum `\"true\" | \"false\"`; it is retargeted to Boolean plus `stringEncoded` so callers pass a boolean and the protocol sends the string form.",
   "patches": [
     {
       "op": "add",
@@ -32,6 +32,16 @@
           "smithy.api#documentation": "Name of the schema."
         }
       }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.api_gateway#CreateUserSchemaRequest/members/validation_enabled/target",
+      "value": "smithy.api#Boolean"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.api_gateway#CreateUserSchemaRequest/members/validation_enabled/traits/com.cloudflare.protocols#stringEncoded",
+      "value": {}
     },
     {
       "op": "add",
