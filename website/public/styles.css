@@ -938,8 +938,8 @@ h1 {
 pre.code {
   margin: 0;
   padding: 1.1rem 1.2rem 1.25rem;
-  overflow-x: auto;
-  font-size: 0.78rem;
+  overflow: hidden;
+  font-size: calc(0.78rem * var(--fit, 1));
   line-height: 1.6;
   tab-size: 2;
   color: var(--fg);
@@ -1034,9 +1034,9 @@ pre.code code {
   flex: 1;
   margin: 0;
   padding: 1rem 1.1rem;
-  font-size: 0.86rem;
+  font-size: calc(0.86rem * var(--fit, 1));
   line-height: 1.7;
-  overflow-x: auto;
+  overflow: hidden;
   background: var(--bg);
   color: var(--fg);
 }
@@ -1605,9 +1605,9 @@ pre.code code {
   border-radius: 8px;
   background: var(--bg);
   border: 1px solid var(--line);
-  font-size: 0.78rem;
+  font-size: calc(0.78rem * var(--fit, 1));
   line-height: 1.6;
-  overflow-x: auto;
+  overflow: hidden;
   white-space: pre;
   color: var(--fg);
 }
