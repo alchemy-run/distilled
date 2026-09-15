@@ -1,0 +1,152 @@
+{
+  "description": "Hand-authored: exports is documented only by Wrangler and the multipart-upload-metadata guide, not by the API docs. Wrangler source at cloudflare/workers-sdk@164e4fb11c32ae4ad255998bcdc17dc5a3a74ec6: packages/workers-utils/src/types.ts (WorkerMetadata), packages/workers-utils/src/config/environment.ts (ConfiguredExport), and packages/wrangler/src/__tests__/create-worker-upload-form/metadata.test.ts. The upload implementation moved to packages/deploy-helpers/src/deploy/helpers/create-worker-upload-form.ts. Model worker and all durable-object lifecycle variants as an optional-member structure because Cloudflare unions use opaque key-set schemas. Wrangler has no workflow export variant and declares only enabled for per-export cache; reuse PutScriptMetadataCache to also allow cross_version_cache. Clear the inherited key dictionary at exports so arbitrary export names remain verbatim; typed members retain their wire-name traits.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataExportType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "WORKER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "worker"
+            }
+          },
+          "DURABLE_OBJECT": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "durable-object"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataExportState",
+      "value": {
+        "type": "enum",
+        "members": {
+          "CREATED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "created"
+            }
+          },
+          "DELETED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "deleted"
+            }
+          },
+          "RENAMED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "renamed"
+            }
+          },
+          "TRANSFERRED": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "transferred"
+            }
+          },
+          "EXPECTING_TRANSFER": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "expecting-transfer"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataExport",
+      "value": {
+        "type": "structure",
+        "members": {
+          "type": {
+            "target": "com.cloudflare.workers#PutScriptMetadataExportType"
+          },
+          "cache": {
+            "target": "com.cloudflare.workers#PutScriptMetadataCache"
+          },
+          "storage": {
+            "target": "smithy.api#String"
+          },
+          "container": {
+            "target": "smithy.api#String"
+          },
+          "state": {
+            "target": "com.cloudflare.workers#PutScriptMetadataExportState"
+          },
+          "renamed_to": {
+            "target": "smithy.api#String"
+          },
+          "transferred_to": {
+            "target": "smithy.api#String"
+          },
+          "transfer_from": {
+            "target": "smithy.api#String"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadataExports",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.cloudflare.workers#PutScriptMetadataExport"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptMetadata/members/exports",
+      "value": {
+        "target": "com.cloudflare.workers#PutScriptMetadataExports",
+        "traits": {
+          "com.cloudflare.protocols#keyDictionary": {},
+          "smithy.api#documentation": "Per-export settings keyed by the verbatim export name (default for the default export)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/renamedTo",
+      "value": "renamed_to"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/transferredTo",
+      "value": "transferred_to"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PutScriptRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/transferFrom",
+      "value": "transfer_from"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateScriptVersionRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/renamedTo",
+      "value": "renamed_to"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateScriptVersionRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/transferredTo",
+      "value": "transferred_to"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreateScriptVersionRequest/members/metadata/traits/com.cloudflare.protocols#keyDictionary/transferFrom",
+      "value": "transfer_from"
+    }
+  ]
+}
