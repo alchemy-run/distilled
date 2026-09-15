@@ -1,0 +1,17 @@
+{
+  "description": "Retain collection-route entitlement errors on the new TLS settings LIST operation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.hostnames#SettingsTlsList/errors",
+      "value": [
+        {
+          "target": "com.cloudflare.hostnames#AdvancedCertificateManagerRequired"
+        },
+        {
+          "target": "com.cloudflare.hostnames#Forbidden"
+        }
+      ]
+    }
+  ]
+}

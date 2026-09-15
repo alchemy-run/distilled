@@ -1,7 +1,8 @@
 {
   "smithy": "2.0",
   "metadata": {
-    "note": "Hand-authored: the Containers API is not documented in the Cloudflare API reference (developers.cloudflare.com/api has no containers resource), so spec-to-smithy cannot derive it from docs. Routes and shapes transcribed from the live API / distilled SDK. Delete this file if/when the docs gain a containers resource."
+    "note": "Hand-authored: the Containers API is not documented in the Cloudflare API reference (developers.cloudflare.com/api has no containers resource), so spec-to-smithy cannot derive it from docs. Routes and shapes transcribed from the live API / distilled SDK. Delete this file if/when the docs gain a containers resource.",
+    "createCompatibilityEvidence": "2026-09-15 testing account: POST /containers/applications with flat fields returned HTTP 400 VALIDATE_INPUT: durable_objects unrecognized key class_name, top-level unrecognized keys image, instance_type, environment_variables. A follow-up historical nested payload also returned VALIDATE_INPUT for configuration fields. No compatible request shape has been verified; this error is surfaced, not retried or hidden by a fallback."
   },
   "shapes": {
     "com.cloudflare.containers#InvalidRoute": {
@@ -429,6 +430,9 @@
         },
         {
           "target": "com.cloudflare.containers#DurableObjectCheckError"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerCreateShapeUnsupported"
         }
       ],
       "traits": {
@@ -898,6 +902,25 @@
       "type": "list",
       "member": {
         "target": "com.cloudflare.containers#ContainerApplicationItem"
+      }
+    },
+    "com.cloudflare.containers#ContainerCreateShapeUnsupported": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String"
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "com.cloudflare.protocols#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "matches": "VALIDATE_INPUT.*class_name.*unrecognized keys.*image"
+            }
+          }
+        ]
       }
     }
   }

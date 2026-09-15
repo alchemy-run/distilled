@@ -6629,13 +6629,6 @@
           "traits": {
             "smithy.api#documentation": "Flag whether schema is enabled for validation."
           }
-        },
-        "validationEnabled": {
-          "target": "smithy.api#Boolean",
-          "traits": {
-            "smithy.api#jsonName": "validation_enabled",
-            "smithy.api#documentation": "Flag whether schema is enabled for validation."
-          }
         }
       },
       "traits": {

@@ -239,7 +239,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCase6Id": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -250,7 +250,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCase6Value": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -267,17 +267,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateRequestActionsItemCase6": {
+    "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -1616,10 +1616,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#CreateRequestActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#CreateRequestActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#CreateRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#CreateRequestActionsItem"
       }
     },
     "com.cloudflare.page_rules#CreateRequestTargetsItemConstraintOperator": {
@@ -1940,7 +2047,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCase6Id": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -1951,7 +2058,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCase6Value": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -1968,17 +2075,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#CreateResponseActionsItemCase6": {
+    "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -3317,10 +3424,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#CreateResponseActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#CreateResponseActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#CreateResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#CreateResponseActionsItem"
       }
     },
     "com.cloudflare.page_rules#CreateResponseStatus": {
@@ -3641,7 +3855,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCase6Id": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -3652,7 +3866,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCase6Value": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -3669,17 +3883,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditRequestActionsItemCase6": {
+    "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditRequestActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -5018,10 +5232,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#EditRequestActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#EditRequestActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#EditRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#EditRequestActionsItem"
       }
     },
     "com.cloudflare.page_rules#EditRequestStatus": {
@@ -5342,7 +5663,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCase6Id": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -5353,7 +5674,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCase6Value": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -5370,17 +5691,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#EditResponseActionsItemCase6": {
+    "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#EditResponseActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -6719,10 +7040,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#EditResponseActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#EditResponseActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#EditResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#EditResponseActionsItem"
       }
     },
     "com.cloudflare.page_rules#EditResponseStatus": {
@@ -7043,7 +7471,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCase6Id": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -7054,7 +7482,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCase6Value": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -7071,17 +7499,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#GetResponseActionsItemCase6": {
+    "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#GetResponseActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -8420,10 +8848,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#GetResponseActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#GetResponseActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#GetResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#GetResponseActionsItem"
       }
     },
     "com.cloudflare.page_rules#GetResponseStatus": {
@@ -8812,7 +9347,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCase6Id": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -8823,7 +9358,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCase6Value": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -8840,17 +9375,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#ListResultItemActionsItemCase6": {
+    "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -10189,10 +10724,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#ListResultItemActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#ListResultItemActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#ListResultItemActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#ListResultItemActionsItem"
       }
     },
     "com.cloudflare.page_rules#ListResultItemStatus": {
@@ -10573,7 +11215,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Id": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -10584,7 +11226,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Value": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -10601,17 +11243,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateRequestActionsItemCase6": {
+    "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -11950,10 +12592,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#UpdateRequestActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#UpdateRequestActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#UpdateRequestActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#UpdateRequestActionsItem"
       }
     },
     "com.cloudflare.page_rules#UpdateRequestTargetsItemConstraintOperator": {
@@ -12274,7 +13023,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Id": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorId": {
       "type": "enum",
       "members": {
         "CACHE_DECEPTION_ARMOR": {
@@ -12285,7 +13034,7 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Value": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorValue": {
       "type": "enum",
       "members": {
         "ON": {
@@ -12302,17 +13051,17 @@
         }
       }
     },
-    "com.cloudflare.page_rules#UpdateResponseActionsItemCase6": {
+    "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmor": {
       "type": "structure",
       "members": {
         "id": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Id",
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorId",
           "traits": {
             "smithy.api#documentation": "Protect from web cache deception attacks while still allowing static assets to be cached. This setting verifies that the URL's extension matches the returned `Content-Type`."
           }
         },
         "value": {
-          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCase6Value",
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmorValue",
           "traits": {
             "smithy.api#documentation": "The status of Cache Deception Armor."
           }
@@ -13651,10 +14400,117 @@
         }
       }
     },
+    "com.cloudflare.page_rules#UpdateResponseActionsItem": {
+      "type": "union",
+      "members": {
+        "AlwaysUseHTTPS": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemAlwaysUseHTTPS"
+        },
+        "AutomaticHTTPSRewrites": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemAutomaticHTTPSRewrites"
+        },
+        "BrowserCacheTTL": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBrowserCacheTTL"
+        },
+        "BrowserCheck": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBrowserCheck"
+        },
+        "BypassCacheOnCookie": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemBypassCacheOnCookie"
+        },
+        "CacheByDeviceType": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheByDeviceType"
+        },
+        "CacheDeceptionArmor": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheDeceptionArmor"
+        },
+        "CacheKeyFields": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheKeyFields"
+        },
+        "CacheLevel": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheLevel"
+        },
+        "CacheOnCookie": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheOnCookie"
+        },
+        "CacheTTLByStatus": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemCacheTTLByStatus"
+        },
+        "DisableApps": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableApps"
+        },
+        "DisablePerformance": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisablePerformance"
+        },
+        "DisableSecurity": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableSecurity"
+        },
+        "DisableZaraz": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemDisableZaraz"
+        },
+        "EdgeCacheTTL": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemEdgeCacheTTL"
+        },
+        "EmailObfuscation": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemEmailObfuscation"
+        },
+        "ExplicitCacheControl": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemExplicitCacheControl"
+        },
+        "ForwardingURL": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemForwardingURL"
+        },
+        "HostHeaderOverride": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemHostHeaderOverride"
+        },
+        "IPGeolocation": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemIPGeolocation"
+        },
+        "Mirage": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemMirage"
+        },
+        "OpportunisticEncryption": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemOpportunisticEncryption"
+        },
+        "OriginErrorPagePassThru": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemOriginErrorPagePassThru"
+        },
+        "Polish": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemPolish"
+        },
+        "ResolveOverride": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemResolveOverride"
+        },
+        "RespectStrongEtag": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemRespectStrongEtag"
+        },
+        "ResponseBuffering": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemResponseBuffering"
+        },
+        "RocketLoader": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemRocketLoader"
+        },
+        "SecurityLevel": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSecurityLevel"
+        },
+        "SortQueryStringForCache": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSortQueryStringForCache"
+        },
+        "SSL": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemSSL"
+        },
+        "TrueClientIPHeader": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemTrueClientIPHeader"
+        },
+        "WAF": {
+          "target": "com.cloudflare.page_rules#UpdateResponseActionsItemWAF"
+        }
+      }
+    },
     "com.cloudflare.page_rules#UpdateResponseActionsList": {
       "type": "list",
       "member": {
-        "target": "smithy.api#Document"
+        "target": "com.cloudflare.page_rules#UpdateResponseActionsItem"
       }
     },
     "com.cloudflare.page_rules#UpdateResponseStatus": {

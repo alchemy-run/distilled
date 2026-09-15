@@ -9,6 +9,7 @@
         "resourceId": "resource_id",
         "resourceType": "resource_type",
         "resultInfo": "result_info",
+        "tagsUpdatedAt": "tags_updated_at",
         "workerId": "worker_id",
         "zoneId": "zone_id"
       }

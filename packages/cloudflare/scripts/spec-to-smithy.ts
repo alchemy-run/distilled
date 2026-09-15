@@ -449,12 +449,18 @@ const collapseLines = (s: string): string =>
 
 /**
  * Restore the space the html→markdown pass ate before a union's ` or `.
- * A `{` never starts an arm — it opens a named type's key preview
- * (`Monitor { id, … }`), where the `or` belongs to the type name.
+ * A `{` or `object` after a named type belongs to its object declaration
+ * (`Monitor { id, … }` or `Monitor object { id, … }`), not a union.
+ * Without model context, `Monitoror object` is ambiguous; preserve the identifier.
  */
-const respaceUnion = (decl: string): string =>
+export const respaceUnion = (decl: string): string =>
   decl.replace(/(\S)or (?=\S)/g, (match, _prev: string, offset: number) =>
-    TYPE_TOKEN_END.test(decl.slice(0, offset + 1)) && decl[offset + 4] !== "{"
+    TYPE_TOKEN_END.test(decl.slice(0, offset + 1)) &&
+    decl[offset + 4] !== "{" &&
+    !(
+      /[A-Z][A-Za-z0-9_]*$/.test(decl.slice(0, offset + 1)) &&
+      /^object\b/.test(decl.slice(offset + 4))
+    )
       ? `${match[0]} or `
       : match,
   );
@@ -699,7 +705,7 @@ const parseCurrentMarkdown = (md: string): ParsedOp | null => {
 const isLegacyMarkdown = (md: string): boolean =>
   /^\*\*(?:get|post|put|patch|delete)\*\*\s+`/im.test(md);
 
-const parseMarkdown = (md: string): ParsedOp | null =>
+export const parseMarkdown = (md: string): ParsedOp | null =>
   isLegacyMarkdown(md) ? parseLegacyMarkdown(md) : parseCurrentMarkdown(md);
 
 // ============================================================================
@@ -712,7 +718,7 @@ interface Bag {
   names: Set<string>;
 }
 
-const newBag = (namespace: string): Bag => ({
+export const newBag = (namespace: string): Bag => ({
   namespace,
   shapes: {},
   names: new Set(),
@@ -1709,7 +1715,11 @@ const splitDualScope = (
   ];
 };
 
-const buildOperation = (bag: Bag, opName: string, parsed: ParsedOp): string => {
+export const buildOperation = (
+  bag: Bag,
+  opName: string,
+  parsed: ParsedOp,
+): string => {
   // Named-def references only resolve within the one page being converted.
   namedTypeRegistry = new Map();
 
@@ -2254,6 +2264,7 @@ const command = Command.make(
   ),
 );
 
-const program = Command.run(command, { version: "1.0.0" });
-
-BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+if (import.meta.main) {
+  const program = Command.run(command, { version: "1.0.0" });
+  BunRuntime.runMain(Effect.provide(program, BunServices.layer));
+}

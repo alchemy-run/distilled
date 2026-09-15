@@ -27,6 +27,24 @@ export class ContainerApplicationNotFound
     ],
   ) {}
 
+export class ContainerCreateShapeUnsupported
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ContainerCreateShapeUnsupported>()(
+      "ContainerCreateShapeUnsupported",
+      {
+        message: S.String,
+      },
+    ),
+    [
+      {
+        status: 400,
+        message: {
+          matches: "VALIDATE_INPUT.*class_name.*unrecognized keys.*image",
+        },
+      },
+    ],
+  ) {}
+
 export class DurableObjectAlreadyHasApplication
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DurableObjectAlreadyHasApplication>()(
@@ -500,6 +518,7 @@ export type CreateContainerApplicationError =
   | DurableObjectAlreadyHasApplication
   | DurableObjectNotContainerEnabled
   | DurableObjectCheckError
+  | ContainerCreateShapeUnsupported
   | CloudflareOpError;
 export const createContainerApplication: API.OperationMethod<
   CreateContainerApplicationRequest,
@@ -514,6 +533,7 @@ export const createContainerApplication: API.OperationMethod<
     DurableObjectAlreadyHasApplication,
     DurableObjectNotContainerEnabled,
     DurableObjectCheckError,
+    ContainerCreateShapeUnsupported,
     CloudflareRateLimited,
     CloudflareError,
   ],
