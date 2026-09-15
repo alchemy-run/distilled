@@ -1459,18 +1459,25 @@ export type ListTasksError =
   | UnprocessableEntity
   | GithubOpError;
 /** List tasks > [!NOTE] > This endpoint is in public preview and is subject to change. Returns a list of tasks for the authenticated user **Fine-grained access tokens for "List tasks"** This endpoint works with the following fine-grained token types: * [GitHub App user access tokens](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app) * [Fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) The fine-grained token must have the following permission set: * "Agent tasks" repository permissions (read) GitHub App installation access tokens are not supported for this endpoint. */
-export const listTasks: API.OperationMethod<
+export const listTasks: API.PaginatedOperationMethod<
   ListTasksRequest,
   ListTasksResponse,
   ListTasksError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListTasksResponseTasksItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTasksRequest,
   output: ListTasksResponse,
   errors: [BadRequest, Forbidden, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "tasks",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListTasksForRepoError =
   | BadRequest
@@ -1479,15 +1486,22 @@ export type ListTasksForRepoError =
   | UnprocessableEntity
   | GithubOpError;
 /** List tasks for repository > [!NOTE] > This endpoint is in public preview and is subject to change. Returns a list of tasks for a specific repository **Fine-grained access tokens for "List tasks for repository"** This endpoint works with the following fine-grained token types: * [GitHub App user access tokens](https://docs.github.com/en/apps/creating-github-apps/authenticating-with-a-github-app/generating-a-user-access-token-for-a-github-app) * [Fine-grained personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-fine-grained-personal-access-token) The fine-grained token must have the following permission set: * "Agent tasks" repository permissions (read) GitHub App installation access tokens are not supported for this endpoint. */
-export const listTasksForRepo: API.OperationMethod<
+export const listTasksForRepo: API.PaginatedOperationMethod<
   ListTasksForRepoRequest,
   ListTasksForRepoResponse,
   ListTasksForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  ListTasksForRepoResponseTasksItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTasksForRepoRequest,
   output: ListTasksForRepoResponse,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "tasks",
+    pageSize: "per_page",
+  } as const,
+})) as any;

@@ -628,7 +628,14 @@
           "uri": "/orgs/{org}/projectsV2",
           "code": 200
         },
-        "smithy.api#documentation": "List projects for organization\n\nList all projects owned by a specific organization accessible by the authenticated user."
+        "smithy.api#documentation": "List projects for organization\n\nList all projects owned by a specific organization accessible by the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#GetForOrgRequest": {
@@ -4349,7 +4356,14 @@
           "uri": "/orgs/{org}/projectsV2/{project_number}/fields",
           "code": 200
         },
-        "smithy.api#documentation": "List project fields for organization\n\nList all fields for a specific organization-owned project."
+        "smithy.api#documentation": "List project fields for organization\n\nList all fields for a specific organization-owned project.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#AddFieldForOrgRequestBodyCase0": {
@@ -5001,7 +5015,14 @@
           "uri": "/orgs/{org}/projectsV2/{project_number}/items",
           "code": 200
         },
-        "smithy.api#documentation": "List items for an organization owned project\n\nList all items for a specific organization-owned project accessible by the authenticated user."
+        "smithy.api#documentation": "List items for an organization owned project\n\nList all items for a specific organization-owned project accessible by the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#AddItemForOrgRequestType": {
@@ -5839,7 +5860,14 @@
           "uri": "/orgs/{org}/projectsV2/{project_number}/views/{view_number}/items",
           "code": 200
         },
-        "smithy.api#documentation": "List items for an organization project view\n\nList items in an organization project with the saved view's filter applied."
+        "smithy.api#documentation": "List items for an organization project view\n\nList items in an organization project with the saved view's filter applied.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#CreateDraftItemForAuthenticatedUserRequest": {
@@ -6163,7 +6191,14 @@
           "uri": "/users/{username}/projectsV2",
           "code": 200
         },
-        "smithy.api#documentation": "List projects for user\n\nList all projects owned by a specific user accessible by the authenticated user."
+        "smithy.api#documentation": "List projects for user\n\nList all projects owned by a specific user accessible by the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#GetForUserRequest": {
@@ -6298,7 +6333,14 @@
           "uri": "/users/{username}/projectsV2/{project_number}/fields",
           "code": 200
         },
-        "smithy.api#documentation": "List project fields for user\n\nList all fields for a specific user-owned project."
+        "smithy.api#documentation": "List project fields for user\n\nList all fields for a specific user-owned project.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#AddFieldForUserRequestBodyCase0DataType": {
@@ -6681,7 +6723,14 @@
           "uri": "/users/{username}/projectsV2/{project_number}/items",
           "code": 200
         },
-        "smithy.api#documentation": "List items for a user owned project\n\nList all items for a specific user-owned project accessible by the authenticated user."
+        "smithy.api#documentation": "List items for a user owned project\n\nList all items for a specific user-owned project accessible by the authenticated user.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#AddItemForUserRequestType": {
@@ -7149,7 +7198,14 @@
           "uri": "/users/{username}/projectsV2/{project_number}/views/{view_number}/items",
           "code": 200
         },
-        "smithy.api#documentation": "List items for a user project view\n\nList items in a user project with the saved view's filter applied."
+        "smithy.api#documentation": "List items for a user project view\n\nList items in a user project with the saved view's filter applied.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.projects#Forbidden": {

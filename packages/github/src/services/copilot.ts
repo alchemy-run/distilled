@@ -1907,12 +1907,12 @@ export const ListCopilotSeatsResponseSeatsList = /*@__PURE__*/ S.Array(
 export interface ListCopilotSeatsResponse {
   /** Total number of Copilot seats for the organization currently being billed. */
   total_seats?: number;
-  seats?: ListCopilotSeatsResponseSeatsList;
+  seats: ListCopilotSeatsResponseSeatsList;
 }
 export const ListCopilotSeatsResponse = /*@__PURE__*/ S.suspend(() =>
   S.Struct({
     total_seats: S.optional(S.Number),
-    seats: S.optional(ListCopilotSeatsResponseSeatsList),
+    seats: ListCopilotSeatsResponseSeatsList,
   }),
 ).annotate({
   identifier: "ListCopilotSeatsResponse",
@@ -2660,33 +2660,47 @@ export type ListCopilotCodingAgentSelectedRepositoriesForOrganizationError =
   | Conflict
   | GithubOpError;
 /** List repositories enabled for Copilot cloud agent in an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Lists the selected repositories that are enabled for Copilot cloud agent in an organization. Organization owners can use this endpoint when the coding agent repository policy is set to `selected` to see which repositories have been enabled. OAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint. */
-export const listCopilotCodingAgentSelectedRepositoriesForOrganization: API.OperationMethod<
+export const listCopilotCodingAgentSelectedRepositoriesForOrganization: API.PaginatedOperationMethod<
   ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest,
   ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponse,
   ListCopilotCodingAgentSelectedRepositoriesForOrganizationError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  MinimalRepository
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCopilotCodingAgentSelectedRepositoriesForOrganizationRequest,
   output: ListCopilotCodingAgentSelectedRepositoriesForOrganizationResponse,
   errors: [Forbidden, NotFound, Conflict],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "repositories",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCopilotSeatsError = Forbidden | NotFound | GithubOpError;
 /** List all Copilot seat assignments for an organization > [!NOTE] > This endpoint is in public preview and is subject to change. Lists all Copilot seats for which an organization with a Copilot Business or Copilot Enterprise subscription is currently being billed. Only organization owners can view assigned seats. Each seat object contains information about the assigned user's most recent Copilot activity. Users must have telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`. For more information about activity data, see [Metrics data properties for GitHub Copilot](https://docs.github.com/copilot/reference/metrics-data). OAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint. */
-export const listCopilotSeats: API.OperationMethod<
+export const listCopilotSeats: API.PaginatedOperationMethod<
   ListCopilotSeatsRequest,
   ListCopilotSeatsResponse,
   ListCopilotSeatsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CopilotSeatDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCopilotSeatsRequest,
   output: ListCopilotSeatsResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "seats",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveOrganizationsFromEnterpriseCodingAgentPolicyError =
   | BadRequest

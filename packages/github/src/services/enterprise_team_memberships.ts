@@ -416,33 +416,47 @@ export const get: API.OperationMethod<
 
 export type ListError = GithubOpError;
 /** List members in an enterprise team Lists all team members in an enterprise team. */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  SimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListTeamsForUserError = Forbidden | NotFound | GithubOpError;
 /** List enterprise teams for a user Lists all enterprise teams that a user is a member of. This endpoint is available only for enterprises using the new enterprise teams experience. The authenticated user must be an enterprise owner or have the `enterprise_teams:read` permission. */
-export const listTeamsForUser: API.OperationMethod<
+export const listTeamsForUser: API.PaginatedOperationMethod<
   ListTeamsForUserRequest,
   ListTeamsForUserResponse,
   ListTeamsForUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  EnterpriseTeam
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTeamsForUserRequest,
   output: ListTeamsForUserResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type RemoveError = Forbidden | GithubOpError;
 /** Remove team membership Remove membership of a specific user from a particular team in an enterprise. */

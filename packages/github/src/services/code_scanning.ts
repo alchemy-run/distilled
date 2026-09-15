@@ -3021,48 +3021,71 @@ export const getVariantAnalysisRepoTask: API.OperationMethod<
 
 export type ListAlertInstancesError = Forbidden | NotFound | GithubOpError;
 /** List instances of a code scanning alert Lists all instances of the specified code scanning alert. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
-export const listAlertInstances: API.OperationMethod<
+export const listAlertInstances: API.PaginatedOperationMethod<
   ListAlertInstancesRequest,
   ListAlertInstancesResponse,
   ListAlertInstancesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeScanningAlertInstanceList
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertInstancesRequest,
   output: ListAlertInstancesResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAlertsForOrgError = NotFound | GithubOpError;
 /** List code scanning alerts for an organization Lists code scanning alerts for the default branch for all eligible repositories in an organization. Eligible repositories are repositories that are owned by organizations that you own or for which you are a security manager. For more information, see "[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization)." The authenticated user must be an owner or security manager for the organization to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `security_events` or `repo`s cope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
-export const listAlertsForOrg: API.OperationMethod<
+export const listAlertsForOrg: API.PaginatedOperationMethod<
   ListAlertsForOrgRequest,
   ListAlertsForOrgResponse,
   ListAlertsForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeScanningOrganizationAlertItems
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForOrgRequest,
   output: ListAlertsForOrgResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    inputTokens: ["page", "after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAlertsForRepoError = Forbidden | NotFound | GithubOpError;
 /** List code scanning alerts for a repository Lists code scanning alerts. The response includes a `most_recent_instance` object. This provides details of the most recent instance of this alert for the default branch (or for the specified Git reference if you used `ref` in the request). OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
-export const listAlertsForRepo: API.OperationMethod<
+export const listAlertsForRepo: API.PaginatedOperationMethod<
   ListAlertsForRepoRequest,
   ListAlertsForRepoResponse,
   ListAlertsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeScanningAlertItems
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAlertsForRepoRequest,
   output: ListAlertsForRepoResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    inputTokens: ["page", "after", "before"],
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCodeqlDatabasesError = Forbidden | NotFound | GithubOpError;
 /** List CodeQL databases for a repository Lists the CodeQL databases that are available in a repository. OAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
@@ -3081,18 +3104,25 @@ export const listCodeqlDatabases: API.OperationMethod<
 
 export type ListRecentAnalysesError = Forbidden | NotFound | GithubOpError;
 /** List code scanning analyses for a repository Lists the details of all code scanning analyses for a repository, starting with the most recent. The response is paginated and you can use the `page` and `per_page` parameters to list the analyses you're interested in. By default 30 analyses are listed per page. The `rules_count` field in the response give the number of rules that were run in the analysis. For very old analyses this data is not available, and `0` is returned in this field. > [!WARNING] > **Closing down notice:** The `tool_name` field is closing down and will, in future, not be included in the response for this endpoint. The example response reflects this change. The tool name can now be found inside the `tool` field. OAuth app tokens and personal access tokens (classic) need the `security_events` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories. */
-export const listRecentAnalyses: API.OperationMethod<
+export const listRecentAnalyses: API.PaginatedOperationMethod<
   ListRecentAnalysesRequest,
   ListRecentAnalysesResponse,
   ListRecentAnalysesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  CodeScanningAnalysis
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRecentAnalysesRequest,
   output: ListRecentAnalysesResponse,
   errors: [Forbidden, NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type UpdateAlertError =
   | BadRequest

@@ -398,7 +398,14 @@
           "uri": "/repos/{owner}/{repo}/code-quality/findings",
           "code": 200
         },
-        "smithy.api#documentation": "List code quality findings for a repository\n\nLists code quality findings for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories."
+        "smithy.api#documentation": "List code quality findings for a repository\n\nLists code quality findings for a repository.\n\nOAuth app tokens and personal access tokens (classic) need the `repo` scope to use this endpoint with private or public repositories, or the `public_repo` scope to use this endpoint with only public repositories.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "after",
+          "inputTokens": ["after", "before"],
+          "items": "$",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.code_quality#GetFindingRequest": {

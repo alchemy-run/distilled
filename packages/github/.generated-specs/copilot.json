@@ -1769,7 +1769,13 @@
           "uri": "/orgs/{org}/copilot/billing/seats",
           "code": 200
         },
-        "smithy.api#documentation": "List all Copilot seat assignments for an organization\n\n> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nLists all Copilot seats for which an organization with a Copilot Business or Copilot Enterprise subscription is currently being billed.\nOnly organization owners can view assigned seats.\n\nEach seat object contains information about the assigned user's most recent Copilot activity. Users must have telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`.\nFor more information about activity data, see [Metrics data properties for GitHub Copilot](https://docs.github.com/copilot/reference/metrics-data).\n\nOAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint."
+        "smithy.api#documentation": "List all Copilot seat assignments for an organization\n\n> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nLists all Copilot seats for which an organization with a Copilot Business or Copilot Enterprise subscription is currently being billed.\nOnly organization owners can view assigned seats.\n\nEach seat object contains information about the assigned user's most recent Copilot activity. Users must have telemetry enabled in their IDE for Copilot in the IDE activity to be reflected in `last_activity_at`.\nFor more information about activity data, see [Metrics data properties for GitHub Copilot](https://docs.github.com/copilot/reference/metrics-data).\n\nOAuth app tokens and personal access tokens (classic) need either the `manage_billing:copilot` or `read:org` scopes to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "seats",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.copilot#AddCopilotSeatsForTeamsRequestSelectedTeamsList": {
@@ -3401,7 +3407,13 @@
           "uri": "/orgs/{org}/copilot/coding-agent/permissions/repositories",
           "code": 200
         },
-        "smithy.api#documentation": "List repositories enabled for Copilot cloud agent in an organization\n\n> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nLists the selected repositories that are enabled for Copilot cloud agent in an organization.\n\nOrganization owners can use this endpoint when the coding agent repository policy\nis set to `selected` to see which repositories have been enabled.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint."
+        "smithy.api#documentation": "List repositories enabled for Copilot cloud agent in an organization\n\n> [!NOTE]\n> This endpoint is in public preview and is subject to change.\n\nLists the selected repositories that are enabled for Copilot cloud agent in an organization.\n\nOrganization owners can use this endpoint when the coding agent repository policy\nis set to `selected` to see which repositories have been enabled.\n\nOAuth app tokens and personal access tokens (classic) need the `admin:org` scope to use this endpoint.",
+        "smithy.api#paginated": {
+          "mode": "link",
+          "inputToken": "page",
+          "items": "repositories",
+          "pageSize": "per_page"
+        }
       }
     },
     "com.github.copilot#SetCopilotCodingAgentSelectedRepositoriesForOrganizationRequestSelectedRepositoryIdsList": {

@@ -6579,7 +6579,7 @@ export const createMilestone: API.OperationMethod<
   retry: Retry.Retry,
 }));
 
-export type DeleteCommentError = GithubOpError;
+export type DeleteCommentError = NotFound | GithubOpError;
 /** Delete an issue comment You can use the REST API to delete comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request. */
 export const deleteComment: API.OperationMethod<
   DeleteCommentRequest,
@@ -6589,7 +6589,7 @@ export const deleteComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DeleteCommentRequest,
   output: DeleteCommentResponse,
-  errors: [],
+  errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
 }));
@@ -6754,126 +6754,182 @@ export const getParent: API.OperationMethod<
 
 export type ListError = NotFound | UnprocessableEntity | GithubOpError;
 /** List issues assigned to the authenticated user List issues assigned to the authenticated user across all visible repositories including owned repositories, member repositories, and organization repositories. You can use the `filter` query parameter to fetch issues that are not necessarily assigned to you. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const list: API.OperationMethod<
+export const list: API.PaginatedOperationMethod<
   ListRequest,
   ListResponse,
   ListError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListRequest,
   output: ListResponse,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListAssigneesError = NotFound | GithubOpError;
 /** List assignees Lists the [available assignees](https://docs.github.com/articles/assigning-issues-and-pull-requests-to-other-github-users/) for issues in a repository. */
-export const listAssignees: API.OperationMethod<
+export const listAssignees: API.PaginatedOperationMethod<
   ListAssigneesRequest,
   ListAssigneesResponse,
   ListAssigneesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  NullableSimpleUser
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListAssigneesRequest,
   output: ListAssigneesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommentsError = NotFound | Gone | GithubOpError;
 /** List issue comments You can use the REST API to list comments on issues and pull requests. Every pull request is an issue, but not every issue is a pull request. Issue comments are ordered by ascending ID. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listComments: API.OperationMethod<
+export const listComments: API.PaginatedOperationMethod<
   ListCommentsRequest,
   ListCommentsResponse,
   ListCommentsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueComment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommentsRequest,
   output: ListCommentsResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListCommentsForRepoError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
 /** List issue comments for a repository You can use the REST API to list comments on issues and pull requests for a repository. Every pull request is an issue, but not every issue is a pull request. By default, issue comments are ordered by ascending ID. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listCommentsForRepo: API.OperationMethod<
+export const listCommentsForRepo: API.PaginatedOperationMethod<
   ListCommentsForRepoRequest,
   ListCommentsForRepoResponse,
   ListCommentsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueComment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListCommentsForRepoRequest,
   output: ListCommentsForRepoResponse,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDependenciesBlockedByError = NotFound | Gone | GithubOpError;
 /** List dependencies an issue is blocked by You can use the REST API to list the dependencies an issue is blocked by. This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listDependenciesBlockedBy: API.OperationMethod<
+export const listDependenciesBlockedBy: API.PaginatedOperationMethod<
   ListDependenciesBlockedByRequest,
   ListDependenciesBlockedByResponse,
   ListDependenciesBlockedByError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDependenciesBlockedByRequest,
   output: ListDependenciesBlockedByResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListDependenciesBlockingError = NotFound | Gone | GithubOpError;
 /** List dependencies an issue is blocking You can use the REST API to list the dependencies an issue is blocking. This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listDependenciesBlocking: API.OperationMethod<
+export const listDependenciesBlocking: API.PaginatedOperationMethod<
   ListDependenciesBlockingRequest,
   ListDependenciesBlockingResponse,
   ListDependenciesBlockingError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListDependenciesBlockingRequest,
   output: ListDependenciesBlockingResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListEventsError = Gone | GithubOpError;
 /** List issue events Lists all events for an issue. */
-export const listEvents: API.OperationMethod<
+export const listEvents: API.PaginatedOperationMethod<
   ListEventsRequest,
   ListEventsResponse,
   ListEventsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueEventForIssue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEventsRequest,
   output: ListEventsResponse,
   errors: [Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListEventsForRepoError = UnprocessableEntity | GithubOpError;
 /** List issue events for a repository Lists events for a repository. */
-export const listEventsForRepo: API.OperationMethod<
+export const listEventsForRepo: API.PaginatedOperationMethod<
   ListEventsForRepoRequest,
   ListEventsForRepoResponse,
   ListEventsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueEvent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEventsForRepoRequest,
   output: ListEventsForRepoResponse,
   errors: [UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListEventsForTimelineError =
   | BadRequest
@@ -6881,171 +6937,248 @@ export type ListEventsForTimelineError =
   | Gone
   | GithubOpError;
 /** List timeline events for an issue List all timeline events for an issue. */
-export const listEventsForTimeline: API.OperationMethod<
+export const listEventsForTimeline: API.PaginatedOperationMethod<
   ListEventsForTimelineRequest,
   ListEventsForTimelineResponse,
   ListEventsForTimelineError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  TimelineIssueEvents
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListEventsForTimelineRequest,
   output: ListEventsForTimelineResponse,
   errors: [BadRequest, NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForAuthenticatedUserError = NotFound | GithubOpError;
 /** List user account issues assigned to the authenticated user List issues across owned and member repositories assigned to the authenticated user. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listForAuthenticatedUser: API.OperationMethod<
+export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   ListForAuthenticatedUserRequest,
   ListForAuthenticatedUserResponse,
   ListForAuthenticatedUserError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForAuthenticatedUserRequest,
   output: ListForAuthenticatedUserResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForOrgError = NotFound | GithubOpError;
 /** List organization issues assigned to the authenticated user List issues in an organization assigned to the authenticated user. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listForOrg: API.OperationMethod<
+export const listForOrg: API.PaginatedOperationMethod<
   ListForOrgRequest,
   ListForOrgResponse,
   ListForOrgError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForOrgRequest,
   output: ListForOrgResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListForRepoError = NotFound | UnprocessableEntity | GithubOpError;
 /** List repository issues List issues in a repository. Only open issues will be listed. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listForRepo: API.OperationMethod<
+export const listForRepo: API.PaginatedOperationMethod<
   ListForRepoRequest,
   ListForRepoResponse,
   ListForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListForRepoRequest,
   output: ListForRepoResponse,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListIssueFieldValuesForIssueError = NotFound | Gone | GithubOpError;
 /** List issue field values for an issue Lists all issue field values for an issue. */
-export const listIssueFieldValuesForIssue: API.OperationMethod<
+export const listIssueFieldValuesForIssue: API.PaginatedOperationMethod<
   ListIssueFieldValuesForIssueRequest,
   ListIssueFieldValuesForIssueResponse,
   ListIssueFieldValuesForIssueError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueFieldValue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListIssueFieldValuesForIssueRequest,
   output: ListIssueFieldValuesForIssueResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListLabelsForMilestoneError = GithubOpError;
 /** List labels for issues in a milestone Lists labels for issues in a milestone. */
-export const listLabelsForMilestone: API.OperationMethod<
+export const listLabelsForMilestone: API.PaginatedOperationMethod<
   ListLabelsForMilestoneRequest,
   ListLabelsForMilestoneResponse,
   ListLabelsForMilestoneError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Label
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLabelsForMilestoneRequest,
   output: ListLabelsForMilestoneResponse,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListLabelsForRepoError = NotFound | GithubOpError;
 /** List labels for a repository Lists all labels for a repository. */
-export const listLabelsForRepo: API.OperationMethod<
+export const listLabelsForRepo: API.PaginatedOperationMethod<
   ListLabelsForRepoRequest,
   ListLabelsForRepoResponse,
   ListLabelsForRepoError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Label
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLabelsForRepoRequest,
   output: ListLabelsForRepoResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListLabelsOnIssueError = NotFound | Gone | GithubOpError;
 /** List labels for an issue Lists all labels for an issue. */
-export const listLabelsOnIssue: API.OperationMethod<
+export const listLabelsOnIssue: API.PaginatedOperationMethod<
   ListLabelsOnIssueRequest,
   ListLabelsOnIssueResponse,
   ListLabelsOnIssueError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Label
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListLabelsOnIssueRequest,
   output: ListLabelsOnIssueResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListMilestonesError = NotFound | GithubOpError;
 /** List milestones Lists milestones for a repository. */
-export const listMilestones: API.OperationMethod<
+export const listMilestones: API.PaginatedOperationMethod<
   ListMilestonesRequest,
   ListMilestonesResponse,
   ListMilestonesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Milestone
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListMilestonesRequest,
   output: ListMilestonesResponse,
   errors: [NotFound],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSubIssuesError = NotFound | Gone | GithubOpError;
 /** List sub-issues You can use the REST API to list the sub-issues on an issue. This endpoint supports the following custom media types. For more information, see [Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types). - **`application/vnd.github.raw+json`**: Returns the raw Markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the Markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's Markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
-export const listSubIssues: API.OperationMethod<
+export const listSubIssues: API.PaginatedOperationMethod<
   ListSubIssuesRequest,
   ListSubIssuesResponse,
   ListSubIssuesError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  Issue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSubIssuesRequest,
   output: ListSubIssuesResponse,
   errors: [NotFound, Gone],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type ListSuggestionsError =
   | NotFound
   | UnprocessableEntity
   | GithubOpError;
 /** List issue suggestions Lists the suggestions on an issue. A suggestion is an agent-proposed change to an issue's type, labels, fields, assignees, or closed state that a maintainer can approve or dismiss. By default only pending suggestions are returned. Use `state=all` to return suggestions in every state, or `state=<state>` to filter to a single state. Use `action=<action>` to return only suggestions for a specific change. This endpoint is only available while the issue suggestions feature is enabled for the repository, and only supports issues, not pull requests. Requires triage access to the repository. */
-export const listSuggestions: API.OperationMethod<
+export const listSuggestions: API.PaginatedOperationMethod<
   ListSuggestionsRequest,
   ListSuggestionsResponse,
   ListSuggestionsError,
-  GithubOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  GithubOpContext,
+  IssueSuggestion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSuggestionsRequest,
   output: ListSuggestionsResponse,
   errors: [NotFound, UnprocessableEntity],
   protocol: GithubProtocol,
   retry: Retry.Retry,
-}));
+  pagination: {
+    mode: "link",
+    inputToken: "page",
+    items: "$",
+    pageSize: "per_page",
+  } as const,
+})) as any;
 
 export type LockError =
   | Forbidden

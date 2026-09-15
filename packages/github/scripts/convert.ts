@@ -38,6 +38,8 @@ import {
   type PatchFile,
 } from "@distilled.cloud/core/json-patch";
 import { convertOpenApiToSmithy } from "@distilled.cloud/core/codegen/openapi";
+import { convertWebhooks } from "./webhooks.ts";
+import { addPagination } from "./pagination.ts";
 import { finalizeConvert } from "@distilled.cloud/core/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/core/codegen/spec-path";
 
@@ -180,6 +182,7 @@ for (const slug of [...tagBuckets.keys()].sort()) {
     },
     // 401/429/500/503 ride the common GithubOpError union.
   });
+  addPagination(model);
   const opCount = Object.values(model.shapes).filter(
     (s: any) => s.type === "operation",
   ).length;
@@ -193,5 +196,10 @@ for (const slug of [...tagBuckets.keys()].sort()) {
 }
 
 console.log(`✅ ${written} Smithy models (${totalOps} operations) → ${outDir}`);
+
+fs.writeFileSync(
+  path.join(outDir, "webhooks.json"),
+  JSON.stringify(convertWebhooks(fullSpec), null, 2) + "\n",
+);
 
 await finalizeConvert({ root: rootDir });
